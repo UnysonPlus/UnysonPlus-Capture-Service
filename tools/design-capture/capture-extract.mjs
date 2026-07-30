@@ -419,6 +419,54 @@ export function extractDesign() {
     return r.width > 1 && r.height > 1;
   };
   const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'HEADER', 'FOOTER', 'NAV', 'SVG', 'PATH', 'IFRAME']);
+
+  // --- Tailwind class-name → design-token translation -------------------------
+  // Tailwind class names ARE the design-token source of truth (`shadow-lg` is the
+  // "large shadow" TOKEN, not an anonymous pixel value). getComputedStyle resolves
+  // them to final values, but the token name is what maps cleanly onto our preset
+  // SCALES (shadow / radius / spacing). We parse the SCALE utilities here — colours
+  // stay resolved-hex from getComputedStyle — so the mapper can pick a Button Size/
+  // Colour Preset deterministically instead of guessing. Default Tailwind config.
+  const TW_SP = { '0':'0px','0.5':'2px','1':'4px','1.5':'6px','2':'8px','2.5':'10px','3':'12px','3.5':'14px','4':'16px','5':'20px','6':'24px','7':'28px','8':'32px','9':'36px','10':'40px','11':'44px','12':'48px','14':'56px','16':'64px','20':'80px','24':'96px' };
+  const TW_SHADOW = { sm:'0 1px 2px 0 rgba(0,0,0,0.05)', DEFAULT:'0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)', md:'0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)', lg:'0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)', xl:'0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)', '2xl':'0 25px 50px -12px rgba(0,0,0,0.25)' };
+  const TW_RADIUS = { none:'0px', sm:'2px', DEFAULT:'4px', md:'6px', lg:'8px', xl:'12px', '2xl':'16px', '3xl':'24px', full:'9999px' };
+  const TW_FW = { thin:'100', extralight:'200', light:'300', normal:'400', medium:'500', semibold:'600', bold:'700', extrabold:'800', black:'900' };
+  const TW_FS = { xs:['12px','16px'], sm:['14px','20px'], base:['16px','24px'], lg:['18px','28px'], xl:['20px','28px'], '2xl':['24px','32px'], '3xl':['30px','36px'], '4xl':['36px','40px'], '5xl':['48px','1'], '6xl':['60px','1'], '7xl':['72px','1'] };
+  const twTokens = (cls) => {
+    cls = (cls || '').toString(); if (!cls) return null;
+    const c = ' ' + cls.replace(/\s+/g, ' ') + ' ';
+    const grab = (re) => { const m = c.match(re); return m ? m[1] : null; };
+    const t = {};
+    // shadow  (shadow-lg / bare shadow; ignore shadow-{color} & shadow-none/inner via the whitelist)
+    const sh = grab(/ shadow-(sm|md|lg|xl|2xl) /) || (/ shadow / .test(c) ? 'DEFAULT' : null);
+    if (sh) { t.shadow = sh; t.shadowCss = TW_SHADOW[sh]; }
+    // radius (arbitrary [40px] wins, then scale, then bare `rounded`)
+    const radArb = grab(/ rounded-\[([^\]]+)\] /);
+    const radScale = grab(/ rounded-(none|sm|md|lg|xl|2xl|3xl|full) /);
+    if (radArb) t.radius = radArb; else if (radScale) t.radius = TW_RADIUS[radScale]; else if (/ rounded /.test(c)) t.radius = TW_RADIUS.DEFAULT;
+    // border width
+    const bw = grab(/ border-(0|2|4|8) /); if (bw) t.borderWidth = bw + 'px'; else if (/ border /.test(c)) t.borderWidth = '1px';
+    // padding / gap (scale)
+    const px = grab(/ px-(\d+(?:\.5)?) /); if (px && TW_SP[px]) t.px = TW_SP[px];
+    const py = grab(/ py-(\d+(?:\.5)?) /); if (py && TW_SP[py]) t.py = TW_SP[py];
+    const gp = grab(/ gap-(\d+(?:\.5)?) /); if (gp && TW_SP[gp]) t.gap = TW_SP[gp];
+    // font weight + size(+lh)
+    const fw = grab(/ font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black) /); if (fw) t.fontWeight = TW_FW[fw];
+    const fs = grab(/ text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl) /); if (fs && TW_FS[fs]) { t.fontSize = TW_FS[fs][0]; t.lineHeight = TW_FS[fs][1]; }
+    return Object.keys(t).length ? t : null;
+  };
+  // Site-level: is this source built with Tailwind? (utility-class density + signatures)
+  const detectTailwind = () => {
+    let hits = 0, n = 0;
+    const sig = /(^| )(flex|grid|px-\d|py-\d|gap-\d|rounded-(full|lg|xl)|shadow-(sm|md|lg|xl)|text-(xs|sm|lg|xl|\dxl)|font-(bold|semibold|medium)|bg-\[|text-\[|w-\[|items-center|justify-center)( |$)/;
+    for (const el of document.querySelectorAll('div,a,button,section,span,p')) {
+      const cl = (el.className && el.className.toString) ? el.className.toString() : '';
+      if (!cl) continue; n++; if (sig.test(' ' + cl + ' ')) hits++;
+      if (n > 400) break;
+    }
+    return n > 0 && hits / n > 0.25;
+  };
+
   const styleOf = (el, role) => {
     const s = getComputedStyle(el);
     const o = {};
@@ -455,6 +503,11 @@ export function extractDesign() {
     if (s.transition && s.transition !== 'all 0s ease 0s' && s.transition !== 'none 0s ease 0s') o.transition = s.transition;
     const hv = hoverStyle(el); // {backgroundColor?,color?,borderColor?} from hover:* utilities
     if (hv) o.hover = hv;
+    // Tailwind token intent (shadow/radius/spacing SCALE names) so the mapper can pick
+    // a preset-scale value deterministically instead of guessing from raw px. Colours
+    // stay resolved-hex above. Only attaches when the class list carries scale tokens.
+    const tw = twTokens((el.className && el.className.toString) ? el.className.toString() : '');
+    if (tw) o.tw = tw;
     return o;
   };
   let mirrorCount = 0;
@@ -802,7 +855,15 @@ export function extractDesign() {
     }
     return { t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: child.tagName.toLowerCase(),
       cls: String(child.className || ''), align: (bcs.textAlign || 'left'), icon, iconPos,
-      bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle } };
+      bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle },
+      // Full skin + dimensions so the mapper can build a faithful Button Preset. `tw`
+      // carries the design-token intent (shadow-lg / rounded-full / border-2) that maps
+      // onto the preset SCALES; the raw computed values are the fallback when not Tailwind.
+      sh: (bcs.boxShadow && bcs.boxShadow !== 'none') ? bcs.boxShadow : '',
+      rad: bcs.borderRadius, bw: bcs.borderTopWidth, bwStyle: bcs.borderTopStyle,
+      pad: bcs.padding, fw: bcs.fontWeight, fs: bcs.fontSize, lh: bcs.lineHeight,
+      tw: twTokens(String(child.className || '')),
+      hover: hoverStyle(child) };
   };
   // A grid cell that is ONLY call-to-action buttons (no heading/prose) → an array of button blocks
   // (a CTA button group), so it maps to real button shortcodes instead of a verbatim code_block.
@@ -1508,6 +1569,7 @@ export function extractDesign() {
 
   return {
     title: document.title,
+    tailwind: detectTailwind(), // source built with Tailwind → mapper trusts the `styles.tw` token intent
     tokens: { vars, brandColor, brandHover, body: pick(bodyCS, ['fontFamily', 'color', 'backgroundColor', 'lineHeight', 'fontSize']) },
     layout: { container_max: containerMax },
     baseHeading,

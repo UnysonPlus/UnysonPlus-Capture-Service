@@ -54,6 +54,77 @@ function isDark(c) {
   return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 < 0.4;
 }
 
+// Tailwind shadow token → single-layer box_shadow {x,y,blur,spread,color,inset} (dominant layer).
+const TW_SHADOW_BOX = { sm: [0, 1, 2, 0, 0.05], DEFAULT: [0, 1, 3, 0, 0.1], md: [0, 4, 6, -1, 0.1], lg: [0, 10, 15, -3, 0.1], xl: [0, 20, 25, -5, 0.1], '2xl': [0, 25, 50, -12, 0.25] };
+const shadowBox = (name) => { const s = TW_SHADOW_BOX[name]; return s ? { x: s[0], y: s[1], blur: s[2], spread: s[3], color: `rgba(0,0,0,${s[4]})`, inset: false } : null; };
+const unitOf = (v) => { const m = String(v == null ? '' : v).match(/^(-?[0-9.]+)\s*(px|rem|em|%)?$/); return m ? { value: m[1], unit: m[2] || 'px' } : null; };
+const isFilled = (bg) => bg && bg !== 'rgba(0, 0, 0, 0)' && String(bg).toLowerCase() !== 'transparent';
+
+/**
+ * Derive Button Colour + Size Presets from the source's REAL button skin (deterministic, no AI).
+ * Reads the enriched button blocks/nodes (bs colours + `tw` token intent: shadow/radius/border/padding)
+ * captured by capture-extract, so the converted site's `.btn-primary/.btn-secondary/.btn-lg` match the
+ * source instead of falling back to Bootstrap defaults. Returns `{button_colors?, button_sizes?}` or null.
+ */
+function buildButtonPresets(home) {
+  const btns = [];
+  const walk = (n) => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) return n.forEach(walk);
+    if ((n.role === 'button' || n.t === 'button') && (n.label || n.text)) btns.push(n);
+    for (const k in n) if (n[k] && typeof n[k] === 'object') walk(n[k]);
+  };
+  walk(home && home.sections);
+  if (!btns.length) return null;
+  const skin = (n) => {
+    const s = n.styles || {}, tw = n.tw || s.tw || {};
+    return {
+      bg: (n.bs && n.bs.bg) || s.bg || '', fg: (n.bs && n.bs.fg) || s.color || '', bd: (n.bs && n.bs.bd) || '',
+      shadow: tw.shadow || '', radius: tw.radius || n.rad || s.borderRadius || '',
+      // '0px' computed border = NO border; only a real width (from a `border-*` token or non-zero computed) counts.
+      bw: tw.borderWidth || (n.bw && n.bw !== '0px' ? n.bw : ''),
+      px: tw.px || '', py: tw.py || '', fw: tw.fontWeight || n.fw || s.fontWeight || '',
+      fs: tw.fontSize || n.fs || s.fontSize || '', lh: tw.lineHeight || n.lh || s.lineHeight || '',
+      hoverBg: (n.hover && n.hover.backgroundColor) || (s.hover && s.hover.backgroundColor) || '',
+    };
+  };
+  const skins = btns.map(skin);
+  const isWhitish = (bg) => { const m = String(bg).match(/(\d+),\s*(\d+),\s*(\d+)/); return m ? (+m[1] > 240 && +m[2] > 240 && +m[3] > 240) : false; };
+  // PRIMARY = the saturated filled CTA (not white). SECONDARY = a bordered button (transparent OR white
+  // fill with a border — the "outline / on-white" style). White-with-border must NOT read as primary.
+  const filled = skins.find((k) => isFilled(k.bg) && !isWhitish(k.bg));
+  const outline = skins.find((k) => k !== filled && k.bw && k.bw !== '0px');
+  const colState = (fg, bg, bd, bw, bstyle, sh) => {
+    const st = { text_color: fg ? hex(fg) : { predefined: '', custom: '' }, bg_color: isFilled(bg) ? hex(bg) : { predefined: '', custom: '' } };
+    if (bd) st.border_color = hex(bd);
+    if (bstyle) st.border_style = bstyle;
+    if (bw) { const u = unitOf(bw); if (u) st.border_width = u; }
+    if (sh) { const b = shadowBox(sh); if (b) st.box_shadow = b; }
+    return st;
+  };
+  const colors = [];
+  if (filled) colors.push({ id: '0000000001', color_name: 'Primary', states: {
+    default: colState(filled.fg, filled.bg, filled.bw ? filled.bd : '', filled.bw, filled.bw ? 'solid' : 'none', filled.shadow),
+    hover: colState('', filled.hoverBg || filled.bg, '', '', '', filled.shadow === 'lg' ? 'xl' : filled.shadow), active: {}, focus: {}, disabled: {} } });
+  if (outline) colors.push({ id: '0000000002', color_name: 'Secondary', states: {
+    default: colState(outline.fg, outline.bg, outline.bd || outline.fg, outline.bw || '2px', 'solid', outline.shadow),
+    hover: colState('', outline.hoverBg, '', '', '', outline.shadow), active: {}, focus: {}, disabled: {} } });
+  const src = filled || outline, sizes = [];
+  if (src && (src.fs || src.px || src.radius)) {
+    const sz = { id: '0000010004', size_name: 'Large', slug: 'lg' };
+    if (src.fs) sz.font_size = unitOf(src.fs);
+    if (src.lh && src.lh !== 'normal') sz.line_height = /px|rem|em/.test(src.lh) ? src.lh : String(src.lh);
+    if (src.py) sz.padding_y = unitOf(src.py);
+    if (src.px) sz.padding_x = unitOf(src.px);
+    if (src.radius) sz.border_radius = unitOf(src.radius);
+    sizes.push(sz);
+  }
+  const out = {};
+  if (colors.length) out.button_colors = colors;
+  if (sizes.length) out.button_sizes = sizes;
+  return Object.keys(out).length ? out : null;
+}
+
 /**
  * @param {object} config the toDesignConfig() output (header/footer/colors)
  * @param {object} home   the home capture (home.header.logo.text/.icon, home.footer.copyright)
@@ -183,6 +254,19 @@ export function toThemeSettings(config, home) {
       },
     },
   };
+
+  /* --- button_colors / button_sizes: presets derived from the source's real button skin --- */
+  const btnPresets = buildButtonPresets(home);
+  if (btnPresets) {
+    Object.assign(values, btnPresets);
+    // A Large size preset exists → the header CTA should use it (matches the source's chunky CTA).
+    if (btnPresets.button_sizes && values.header_main && Array.isArray(values.header_main.main_right)) {
+      for (const node of values.header_main.main_right) {
+        const cta = node && node.element_type && node.element_type.cta_button;
+        if (cta && cta.cta_size === 'btn-md') cta.cta_size = 'btn-lg';
+      }
+    }
+  }
 
   return { values };
 }
