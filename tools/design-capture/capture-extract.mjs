@@ -965,6 +965,13 @@ export function extractDesign() {
       try { c.setAttribute('data-sc-col', colId); } catch { /* read-only DOM, skip */ }
       // `html` is the cell's INNER markup, so the data-sc-col tag on the cell never leaks into it.
       const cell = { width: colWidth(c, cols.length), cls: colClasses(c), colId, cw, html: rawHtmlOf(c, true, true) };
+      // The cell's OWN flex layout → so the column can replay it via native content_direction / gap
+      // (a flex-ROW cell lays its children side-by-side; a stacked column is the default). Captured
+      // for every flex cell; the mapper only acts on `row` (+ the gap).
+      const ccs = getComputedStyle(c);
+      if ((ccs.display === 'flex' || ccs.display === 'inline-flex') && [...c.children].filter((k) => visibleEl(k)).length >= 2) {
+        cell.flex = { dir: ccs.flexDirection, justify: ccs.justifyContent, align: ccs.alignItems, gap: ccs.columnGap || ccs.gap };
+      }
       // Order matters: a NESTED ROW of cards must be detected BEFORE single-card detection —
       // otherwise cardOf greedily matches the first icon+heading inside the nested row and the
       // cell collapses to one card (the bug where col-lg-7 became a single icon_box).

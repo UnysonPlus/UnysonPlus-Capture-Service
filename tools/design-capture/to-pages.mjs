@@ -115,6 +115,17 @@ export function toPages(capture, opts = {}) {
     c._items = items;
     return c;
   };
+  // A CSS gap length → the nearest UnysonPlus Gap-Scale slug (Bootstrap $spacers: 1=4px, 2=8px,
+  // 3=16px, 4=24px, 5=48px). '' when there's no meaningful gap. Used to replay a flex-row cell's
+  // spacing via the column's native content_gap instead of a CSS wrapper.
+  const gapSlug = (g) => {
+    const px = parseFloat(String(g || ''));
+    if (!px || px < 2) return '';
+    const scale = [[4, '1'], [8, '2'], [16, '3'], [24, '4'], [48, '5']];
+    let best = scale[0];
+    for (const s of scale) { if (Math.abs(s[0] - px) < Math.abs(best[0] - px)) best = s; }
+    return best[1];
+  };
   // The verbatim section HTML goes into a `code-block` (raw, un-processed output — the
   // universal fallback for anything we don't yet map to a dedicated shortcode). The section's
   // own CSS rides in the section's Advanced → Custom CSS (`custom_css`), so it travels with
@@ -337,13 +348,23 @@ export function toPages(capture, opts = {}) {
                 sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
                 fallback: sc === 'code_block', opportunity: false });
           const col = column(c.width, cellItems);
-          // Two+ buttons in one cell would STACK (a builder column is flex-column); wrap them in a
-          // flex-row `.btn-row` inner wrapper so the CTA group sits side-by-side (mirrors the PHP
-          // mapper's btn_row_class). The rule is appended to the section's Custom CSS below.
+          // Replay the cell's OWN flex layout via the column's NATIVE options (content_direction / gap)
+          // instead of a CSS wrapper — a flex-ROW cell lays its children side-by-side with the source gap.
+          const fx = c.flex;
+          if (fx && /^row/.test(fx.dir || '') && col.atts) {
+            col.atts.content_direction = 'row';
+            const g = gapSlug(fx.gap);
+            if (g) col.atts.content_gap = { base: g, md: '', lg: '' };
+            if (/^row-reverse/.test(fx.dir)) col.atts.content_order = 'reverse';
+          }
+          // A CTA button group with 2+ buttons sits side-by-side — via the native content_direction
+          // (not the old `.btn-row` CSS wrapper), even when the source cell's flex wasn't captured.
           if (detected === 'buttons' && cellItems.length > 1 && col.atts) {
-            col.atts.inner_class = 'btn-row';
+            col.atts.content_direction = 'row';
+            if (!(col.atts.content_gap && col.atts.content_gap.base)) {
+              col.atts.content_gap = { base: gapSlug((c.flex && c.flex.gap) || '') || '3', md: '', lg: '' };
+            }
             col.atts.content_h = 'center';
-            needBtnRowCss = true;
           }
           items.push(col);
         }
