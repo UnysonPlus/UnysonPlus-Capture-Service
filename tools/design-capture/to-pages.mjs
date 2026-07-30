@@ -309,7 +309,6 @@ export function toPages(capture, opts = {}) {
       if (sec.css && sec.css.trim()) s.atts.custom_css = flattenCss(sec.css);
     }
     const items = []; let buf = [];
-    let needBtnRowCss = false;
     const flush = () => { if (buf.length) { items.push(column('1_1', buf)); buf = []; } };
     for (const b of sec.blocks) {
       if (b.t === 'row') {
@@ -386,11 +385,6 @@ export function toPages(capture, opts = {}) {
       }
     }
     flush();
-    if (needBtnRowCss && s.atts) {
-      // Self-contained flex-row rule for the CTA button group (matches PHP btn_row_class()).
-      const btnRow = '.btn-row{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;}.btn-row>.btn,.btn-row>a{flex:0 0 auto;width:auto;}';
-      s.atts.custom_css = (s.atts.custom_css ? s.atts.custom_css + '\n' : '') + btnRow;
-    }
     s._items = items.length ? items : [column('1_1', [codeBlock(sec.rawHtml || '')])];
     return s;
   };
