@@ -62,6 +62,33 @@ export function extractDesign() {
     if (/\b(btn|button|cta)\b/.test(cls(el))) return true;
     return el.tagName === 'A' && hasBg(getComputedStyle(el).backgroundColor);
   };
+  // Interaction state (:hover) — the capture used to DROP hover, so a source's button/link
+  // hover color was never translated. Resolve it from the element's `hover:*` utilities:
+  // arbitrary values (`hover:bg-[#ff85a1]`) are parsed directly; named ones (`hover:bg-pink-400`)
+  // are resolved by probing the page's own compiled CSS. Returns {backgroundColor,color,borderColor}.
+  let _hoverProbe = null;
+  const hoverStyle = (el) => {
+    if (!el || !el.getAttribute) return null;
+    const hoverCls = (el.getAttribute('class') || '').split(/\s+/).filter((c) => c.startsWith('hover:'));
+    if (!hoverCls.length) return null;
+    if (!_hoverProbe) { _hoverProbe = document.createElement('div'); _hoverProbe.style.cssText = 'position:absolute;left:-99999px;top:-99999px;'; document.body.appendChild(_hoverProbe); }
+    const arb = /^(bg|text|border)-\[(.+)\]$/;
+    const out = {};
+    for (const hc of hoverCls) {
+      const base = hc.slice(6);
+      let prop;
+      if (base.startsWith('bg-')) prop = 'backgroundColor';
+      else if (base.startsWith('text-')) prop = 'color';
+      else if (base.startsWith('border-')) prop = 'borderColor';
+      else continue;
+      const m = arb.exec(base);
+      let val;
+      if (m) { val = m[2].replace(/_/g, ' '); }
+      else { _hoverProbe.className = base; const cs = getComputedStyle(_hoverProbe); val = prop === 'backgroundColor' ? cs.backgroundColor : prop === 'color' ? cs.color : (cs.borderTopColor || cs.borderColor); }
+      if (val && val !== 'rgba(0, 0, 0, 0)' && val !== 'transparent') out[prop] = val;
+    }
+    return Object.keys(out).length ? out : null;
+  };
   // A leading icon: a Material-symbol ligature span, an [class*=icon] glyph, or an <svg> aria-label.
   const iconOf = (el) => {
     const ic = el.querySelector('.material-symbols-outlined, .material-icons, [class*="icon"]');
@@ -286,7 +313,7 @@ export function extractDesign() {
       logo: logoImg ? { type: 'image', src: abs(logoImg.currentSrc || logoImg.src) }
         : (logoLink ? { type: 'text', text: logoLink.textContent.trim(), icon: logoIcon(logoLink), computed: pick(getComputedStyle(logoLink), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) } : null),
       nav: navLinks.map((a) => ({ label: a.textContent.trim(), href: abs(a.getAttribute('href') || ''), computed: pick(getComputedStyle(a), ['fontFamily', 'fontSize', 'fontWeight', 'color']) })),
-      cta: cta ? { label: cta.textContent.trim(), href: abs(cta.getAttribute('href') || ''), computed: pick(getComputedStyle(cta), ['backgroundColor', 'color', 'borderRadius', 'padding', 'fontFamily', 'fontWeight']) } : null,
+      cta: cta ? { label: cta.textContent.trim(), href: abs(cta.getAttribute('href') || ''), computed: pick(getComputedStyle(cta), ['backgroundColor', 'color', 'borderRadius', 'padding', 'fontFamily', 'fontWeight']), hover: hoverStyle(cta) } : null,
     };
   }
 
@@ -416,6 +443,18 @@ export function extractDesign() {
       set('lineHeight', s.lineHeight, 'normal');
       set('textTransform', s.textTransform, 'none');
     }
+    // Full design properties the curated capture used to DROP — so wavy underlines,
+    // keyframe animations, one-off transforms and interaction states are preserved.
+    if (s.textDecorationLine && s.textDecorationLine !== 'none') {
+      o.textDecoration = `${s.textDecorationLine} ${s.textDecorationStyle} ${s.textDecorationColor} ${s.textDecorationThickness}`.replace(/\s+/g, ' ').trim();
+    }
+    if (s.animationName && s.animationName !== 'none') {
+      o.animation = `${s.animationName} ${s.animationDuration} ${s.animationTimingFunction} ${s.animationIterationCount}`.replace(/\s+/g, ' ').trim();
+    }
+    if (s.transform && s.transform !== 'none') o.transform = s.transform;
+    if (s.transition && s.transition !== 'all 0s ease 0s' && s.transition !== 'none 0s ease 0s') o.transition = s.transition;
+    const hv = hoverStyle(el); // {backgroundColor?,color?,borderColor?} from hover:* utilities
+    if (hv) o.hover = hv;
     return o;
   };
   let mirrorCount = 0;
@@ -475,6 +514,7 @@ export function extractDesign() {
   };
   const isNeutralRGB = (rgb) => !rgb || rgb[3] < 0.1 || (Math.max(rgb[0], rgb[1], rgb[2]) - Math.min(rgb[0], rgb[1], rgb[2])) <= 24;
   const brandTally = {};
+  const brandHoverByKey = {}; // the :hover state of the brand-filled button (used to be dropped)
   document.querySelectorAll('a,button,[role="button"],input[type="submit"],input[type="button"]').forEach((el) => {
     if (!looksButton(el)) return;
     const bg = getComputedStyle(el).backgroundColor;
@@ -482,8 +522,10 @@ export function extractDesign() {
     if (isNeutralRGB(rgb)) return;
     const key = `rgb(${Math.round(rgb[0])}, ${Math.round(rgb[1])}, ${Math.round(rgb[2])})`;
     brandTally[key] = (brandTally[key] || 0) + 1;
+    if (!brandHoverByKey[key]) { const h = hoverStyle(el); if (h) brandHoverByKey[key] = h; }
   });
   const brandColor = Object.keys(brandTally).sort((a, b) => brandTally[b] - brandTally[a])[0] || '';
+  const brandHover = brandHoverByKey[brandColor] || null; // {backgroundColor?,color?,borderColor?}
 
   // --- raw mirror (literal HTML + CSS for header, footer AND body sections) ---
   // The "grab the static HTML + CSS" path. Clone subtrees verbatim (URLs absolutized,
@@ -1466,7 +1508,7 @@ export function extractDesign() {
 
   return {
     title: document.title,
-    tokens: { vars, brandColor, body: pick(bodyCS, ['fontFamily', 'color', 'backgroundColor', 'lineHeight', 'fontSize']) },
+    tokens: { vars, brandColor, brandHover, body: pick(bodyCS, ['fontFamily', 'color', 'backgroundColor', 'lineHeight', 'fontSize']) },
     layout: { container_max: containerMax },
     baseHeading,
     header, footer, sections, chrome,

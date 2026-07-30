@@ -36,7 +36,37 @@ function stylesToCss(st) {
   p('letter-spacing', st.letterSpacing);
   p('line-height', st.lineHeight);
   p('text-transform', st.textTransform);
+  // Full design properties (previously dropped): wavy underlines, keyframe animations,
+  // one-off transforms, transitions — so nothing captured is lost on the emit.
+  p('text-decoration', st.textDecoration);
+  p('transform', st.transform);
+  p('transition', st.transition);
+  if (st.animation) d.push(`animation:${st.animation}`);
   return d.join(';');
+}
+
+// The element's :hover state (from its hover:* utilities) → a CSS declaration string.
+function hoverToCss(h) {
+  if (!h) return '';
+  const d = [];
+  if (h.backgroundColor) d.push(`background-color:${h.backgroundColor}`);
+  if (h.color) d.push(`color:${h.color}`);
+  if (h.borderColor) d.push(`border-color:${h.borderColor}`);
+  return d.join(';');
+}
+
+// Ensure the @keyframes for a (known Tailwind) animation name is emitted once into ctx.css.
+const TW_KEYFRAMES = {
+  bounce: '@keyframes bounce{0%,100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,.2,1)}}',
+  pulse: '@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}',
+  spin: '@keyframes spin{to{transform:rotate(360deg)}}',
+  ping: '@keyframes ping{75%,100%{transform:scale(2);opacity:0}}',
+};
+function ensureKeyframes(animation, ctx) {
+  const name = (String(animation || '').trim().split(/\s+/)[0] || '');
+  if (!TW_KEYFRAMES[name]) return; // custom keyframes not captured — safe no-op
+  ctx._kf = ctx._kf || new Set();
+  if (!ctx._kf.has(name)) { ctx._kf.add(name); ctx.css.push(TW_KEYFRAMES[name]); }
 }
 
 /**
@@ -50,9 +80,12 @@ export function mirrorSection(secMirror, ctx) {
   // Register a style object → a unique class (layout-only objects emit nothing).
   const klass = (st) => {
     const css = stylesToCss(st);
-    if (!css) return '';
+    const hoverCss = st && st.hover ? hoverToCss(st.hover) : '';
+    if (!css && !hoverCss) return '';
     const c = 'scm-' + (ctx.seq.n++).toString(36);
-    ctx.css.push(`.${c}{${css}}`);
+    if (css) ctx.css.push(`.${c}{${css}}`);
+    if (hoverCss) ctx.css.push(`.${c}:hover{${hoverCss}}`);
+    if (st && st.animation) ensureKeyframes(st.animation, ctx); // emit the @keyframes once
     return c;
   };
 

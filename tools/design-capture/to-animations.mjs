@@ -192,6 +192,62 @@ function sampleTraceTargets() {
   return { y: window.pageYOffset, samples: out };
 }
 
+// Parse a computed CSS transform (`matrix(a,b,c,d,e,f)` / `matrix3d(...)`) into
+// the pieces a reveal cares about: translate (tx,ty) and uniform scale.
+function parseMatrix(tf) {
+  if (!tf) return null;
+  const m = tf.match(/matrix(3d)?\(([^)]+)\)/);
+  if (!m) return null;
+  const v = m[2].split(',').map((n) => parseFloat(n));
+  if (m[1]) return { tx: v[12] || 0, ty: v[13] || 0, sx: v[0] || 1, sy: v[5] || 1 };
+  return { tx: v[4] || 0, ty: v[5] || 0, sx: v[0] || 1, sy: v[3] || 1 };
+}
+
+// Given the sampled rows (opacity + transform over scroll), reconstruct what the
+// element DID: the direction/distance it travelled, whether it scaled, and the
+// ease implied by the shape of its opacity curve. This is the raw material the
+// converter turns into a tuned Reveal (or, when it's a multi-axis combo, a
+// data-driven Motion Snippet).
+function traceMotion(rows) {
+  // The "from" state = the earliest frame where the element is still hidden.
+  const startRow = rows.find((r) => r.op < 0.3) || rows[0];
+  const s = parseMatrix(startRow.tf) || { tx: 0, ty: 0, sx: 1, sy: 1 };
+  const tx = Math.round(s.tx), ty = Math.round(s.ty);
+  const scaled = Math.abs(s.sx - 1) > 0.03 || Math.abs(s.sy - 1) > 0.03;
+  let direction = 'up', distance = 60;
+  if (Math.abs(ty) >= Math.abs(tx) && Math.abs(ty) > 4) {
+    direction = ty > 0 ? 'up' : 'down';          // starts below → rises = 'up'
+    distance = Math.abs(ty);
+  } else if (Math.abs(tx) > 4) {
+    direction = tx > 0 ? 'left' : 'right';       // starts right → slides left = 'left'
+    distance = Math.abs(tx);
+  }
+  distance = Math.max(20, Math.min(200, Math.round(distance)));
+  // Ease from the opacity curve: where the rise crosses its midpoint in SCROLL
+  // terms vs where opacity is — opacity ahead of linear = ease-out (fast start).
+  const rise = rows.filter((r) => r.op > 0.02 && r.op < 0.98);
+  let ease = '';
+  if (rise.length >= 3) {
+    const y0 = rise[0].y, y1 = rise[rise.length - 1].y;
+    if (y1 > y0) {
+      const mid = rise.reduce((a, b) => (Math.abs((b.y - y0) / (y1 - y0) - 0.5) < Math.abs((a.y - y0) / (y1 - y0) - 0.5) ? b : a));
+      const opAtMid = mid.op;
+      if (opAtMid > 0.72) ease = 'expo.out';
+      else if (opAtMid > 0.58) ease = 'power2.out';
+      else if (opAtMid < 0.4) ease = 'power2.in';
+      // 0.4–0.58 ≈ linear → leave '' (use the Style preset's ease)
+    }
+  }
+  // Plausibility: a real entrance travels a modest distance and barely scales.
+  // Huge translate / odd scale = a smooth-scroll (ScrollSmoother/Lenis) wrapper
+  // transform bleeding into the element sample, not its own motion. Mark it noisy
+  // so the emitter uses a safe generic Reveal instead of a garbage snippet.
+  const noisy = Math.abs(ty) > 240 || Math.abs(tx) > 240 || s.sx < 0.5 || s.sx > 1.6;
+  // Multi-axis (scale + translate) that we trust → a Motion Snippet candidate.
+  const complex = !noisy && scaled && (Math.abs(tx) > 4 || Math.abs(ty) > 4);
+  return { direction, distance, ease, scaled, sx: +s.sx.toFixed(3), tx, ty, complex, noisy };
+}
+
 function classifyTraces(frames, targetCount) {
   // frames: [{y, samples:[{i, top, op, tf}]}] over the scroll pass.
   const perEl = new Map();
@@ -217,13 +273,23 @@ function classifyTraces(frames, targetCount) {
     const drift = docTops[docTops.length - 1] - docTops[0];
     const scrolled = rows[rows.length - 1].y - rows[0].y;
     const hadTransform = rows.some((r) => r.tf);
+    // scrub: opacity/position track scroll continuously (many in-between values)
+    // rather than snapping 0→1 across a short window = a scrubbed reveal.
+    const midOps = ops.filter((o) => o > 0.15 && o < 0.85).length;
+    const scrub = midOps >= Math.max(3, rows.length * 0.4);
     if (maxPinned > 700) { findings.push({ i, kind: 'pin', evidence: `pinned for ~${Math.round(maxPinned)}px of scroll` }); return; }
-    if (Math.abs(drift) > 60 && scrolled > 400 && hadTransform) {
-      findings.push({ i, kind: 'parallax', evidence: `document position drifts ${Math.round(drift)}px over ${Math.round(scrolled)}px of scroll`, ratio: +(drift / scrolled).toFixed(2) });
-      return;
+    // Reveal/fade take priority over drift: an element that rises 0→1 in opacity is
+    // an entrance, even if a smooth-scroll (ScrollSmoother/Lenis) wrapper makes its
+    // document position look like it "drifts". (Genuine parallax layers hold opacity.)
+    if (opRose && hadTransform) { findings.push({ i, kind: 'reveal', evidence: 'opacity 0→1 with a transform while entering the viewport', motion: { ...traceMotion(rows), scrub } }); return; }
+    if (opRose) { findings.push({ i, kind: 'fade_in', evidence: 'opacity 0→1 while entering the viewport', motion: { direction: 'up', distance: 24, ease: '', scaled: false, complex: false, scrub } }); return; }
+    // Parallax only when the element moves at a rate CLEARLY different from scroll.
+    // A near-1:1 ratio (≈ tracks scroll) is a fixed element or a smooth-scroll
+    // wrapper artifact — not a parallax layer — so require ratio off unity by ≥0.2.
+    const ratio = scrolled ? drift / scrolled : 0;
+    if (Math.abs(drift) > 60 && scrolled > 400 && hadTransform && Math.abs(Math.abs(ratio) - 1) > 0.2) {
+      findings.push({ i, kind: 'parallax', evidence: `document position drifts ${Math.round(drift)}px over ${Math.round(scrolled)}px of scroll`, ratio: +ratio.toFixed(2) });
     }
-    if (opRose && hadTransform) { findings.push({ i, kind: 'reveal', evidence: 'opacity 0→1 with a transform while entering the viewport' }); return; }
-    if (opRose) { findings.push({ i, kind: 'fade_in', evidence: 'opacity 0→1 while entering the viewport' }); }
   });
   return findings;
 }
@@ -871,12 +937,39 @@ export function stageSectionNode(scenes, seq, sceneLen = 1.5) {
  */
 export function buildMotionProfile(anim) {
   if (!anim) return null;
-  const p = { reveal: false, smooth: false, hoverButton: '', hoverCard: '' };
+  const p = { reveal: false, smooth: false, hoverButton: '', hoverCard: '', complexCount: 0 };
+  const revealTraces = (anim.traces || []).filter((t) => t.kind === 'reveal' || t.kind === 'fade_in');
   const reveals =
     (anim.scrollTriggers || []).filter((t) => !t.pin && t.scrub === false).length +
-    (anim.traces || []).filter((t) => t.kind === 'reveal' || t.kind === 'fade_in').length +
+    revealTraces.length +
     (anim.libs && anim.libs.aos ? 3 : 0);
-  p.reveal = reveals >= 2;
+  if (reveals >= 2) {
+    // Tune the reveal from the traces: dominant direction, median distance,
+    // most-common ease, and whether the reveals scrub with scroll. Falls back to
+    // the old up/60/standard when the traces don't carry motion detail.
+    // Drop noisy samples (smooth-scroll contamination) from the tuning — if that
+    // leaves nothing, the reveal stays generic (up / 60 / preset ease), which is
+    // the safe default. Noisy sites still get reveals, just not mis-tuned ones.
+    const motions = revealTraces.map((t) => t.motion).filter((m) => m && !m.noisy);
+    const tally = (key) => {
+      const c = {};
+      motions.forEach((m) => { const v = m[key]; if (v) c[v] = (c[v] || 0) + 1; });
+      const top = Object.entries(c).sort((a, b) => b[1] - a[1])[0];
+      return top ? top[0] : '';
+    };
+    const dists = motions.map((m) => m.distance).filter((n) => n > 0).sort((a, b) => a - b);
+    const median = dists.length ? dists[Math.floor(dists.length / 2)] : 60;
+    const scrubVotes = motions.filter((m) => m.scrub).length;
+    const complex = motions.filter((m) => m.complex);
+    p.complexCount = complex.length;
+    p.complexMotion = complex[0] || null;
+    p.reveal = {
+      direction: tally('direction') || 'up',
+      distance: median || 60,
+      ease: tally('ease') || '',
+      scrub: motions.length > 0 && scrubVotes > motions.length / 2,
+    };
+  }
   p.smooth = !!(anim.libs && anim.libs.lenis);
   for (const h of anim.hovers || []) {
     const sel = h.selector || '';
@@ -894,8 +987,41 @@ export function buildMotionProfile(anim) {
 }
 
 const FX = {
-  reveal: () => ({ effect: 'reveal', reveal: { direction: 'up', style: 'standard', distance: 60, delay: 0, start: 'top 85%', once: 'yes', run_on_mobile: 'yes' } }),
+  // Tier 1 (map) + Tier 2 (tune): a Reveal built from the traced direction/
+  // distance, with the Advanced tier carrying the traced ease/scrub so the
+  // conversion matches the source curve instead of the generic preset.
+  reveal: (m) => {
+    m = m || {};
+    const reveal = {
+      direction: m.direction || 'up', style: 'standard',
+      distance: m.distance || 60, delay: 0, start: 'top 85%',
+      once: m.scrub ? 'no' : 'yes', run_on_mobile: 'yes',
+    };
+    const custom = {};
+    if (m.ease) custom.ease = m.ease;
+    if (m.scrub) custom.scrub_smooth = 0.6;
+    if (Object.keys(custom).length) {
+      reveal.advanced = { mode: 'custom', custom: { ease: custom.ease || '', ease_custom: '', scrub_smooth: custom.scrub_smooth || 0, markers: 'no' } };
+    }
+    return { effect: 'reveal', reveal };
+  },
   hover: (fx) => (fx === 'scale' ? { effect: 'scale', scale: { style: 'in' } } : { effect: fx, [fx]: {} }),
+  // Tier 3 (fallback): motion that doesn't fit a preset (scale + translate combo)
+  // is reconstructed verbatim as a data-driven Motion Snippet — the same "put the
+  // un-mappable thing in the advanced escape hatch" move as Custom CSS for styling.
+  // The code only ever RUNS if the page author has `unfiltered_html`.
+  snippet: (m) => {
+    const from = [];
+    if (m.ty) from.push(`y: ${m.ty}`);
+    if (m.tx) from.push(`x: ${m.tx}`);
+    if (m.scaled) from.push(`scale: ${m.sx}`);
+    from.push('opacity: 0');
+    const ease = m.ease || 'power2.out';
+    const code =
+      `// Reconstructed from the captured motion (scale + move).\n` +
+      `gsap.from(el, {\n  ${from.join(',\n  ')},\n  ease: '${ease}',\n  scrollTrigger: { trigger: el, start: 'top 85%' }\n});`;
+    return { effect: 'custom', custom: { code } };
+  },
 };
 
 /**
@@ -905,12 +1031,23 @@ const FX = {
 export function applyMotionToPage(pg, anim, rec = () => {}) {
   const profile = buildMotionProfile(anim);
   if (!profile || !pg || !Array.isArray(pg.builder)) return;
-  let counts = { reveal: 0, button: 0, card: 0 };
+  let counts = { reveal: 0, tuned: 0, snippet: 0, button: 0, card: 0 };
+  // Tier 3: spend the ONE representative reconstructed snippet on the first
+  // reveal target, so the captured signature scale-in survives; everything else
+  // gets the tuned preset Reveal. `complexBudget` caps it at one auto-emitted
+  // snippet (auto-generated executable code stays deliberately scarce).
+  let complexBudget = profile.complexMotion ? 1 : 0;
+  const revealTarget = /^(special_heading|text_block|media_image|image_box|icon_box)$/;
   const walk = (nodes) => {
     for (const n of nodes || []) {
       if (n && n.type === 'simple' && n.atts) {
-        if (profile.reveal && n.shortcode === 'special_heading' && !n.atts.gsap_motion) {
-          n.atts.gsap_motion = FX.reveal(); counts.reveal++;
+        if (profile.reveal && revealTarget.test(n.shortcode) && !n.atts.gsap_motion) {
+          if (complexBudget > 0 && n.shortcode === 'special_heading') {
+            n.atts.gsap_motion = FX.snippet(profile.complexMotion); complexBudget--; counts.snippet++;
+          } else {
+            n.atts.gsap_motion = FX.reveal(profile.reveal); counts.reveal++;
+            if (profile.reveal.ease || profile.reveal.scrub) counts.tuned++;
+          }
         }
         if (profile.hoverButton && n.shortcode === 'button' && !n.atts.interaction) {
           n.atts.interaction = FX.hover(profile.hoverButton); counts.button++;

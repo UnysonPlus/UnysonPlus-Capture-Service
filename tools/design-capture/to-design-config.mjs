@@ -81,11 +81,17 @@ export function toDesignConfig(cap) {
   const logoStyle = (!head.logo || head.logo.type === 'text')
     ? prune({ font: firstFamily(lc.fontFamily), size: lc.fontSize || '', weight: (lc.fontWeight || '').toString(), color: nz(lc.color), letter_spacing: (lc.letterSpacing && lc.letterSpacing !== 'normal') ? lc.letterSpacing : '' })
     : {};
-  // Button styling — copied from the source CTA's computed style.
+  // Button styling — copied from the source CTA's computed style, incl. its :hover state
+  // (parsed from the button's hover:* utilities in capture-extract; used to be dropped).
   const cc = head.cta?.computed || {};
+  // Prefer the brand (primary body) button's :hover over the header CTA's — the header CTA
+  // is often a bag/search/icon button whose hover isn't the primary button's.
+  const bh = tokens.brandHover || {};
+  const ch = head.cta?.hover || {};
   const ctaStyle = prune({
     bg: nz(cc.backgroundColor), color: nz(cc.color), radius: clampRadius(cc.borderRadius),
     padding: (cc.padding || '').toString().trim(), font_weight: (cc.fontWeight || '').toString(),
+    hover_bg: nz(bh.backgroundColor || ch.backgroundColor), hover_color: nz(bh.color || ch.color), hover_border: nz(bh.borderColor || ch.borderColor),
   });
 
   const label = (head.cta?.label || '').trim();
