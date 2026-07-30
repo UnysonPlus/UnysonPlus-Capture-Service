@@ -1069,6 +1069,24 @@ export function extractDesign() {
       && !/\b(slick-cloned|swiper-slide-duplicate|splide__slide--clone|cloned)\b/i.test(String(e.className || ''))
       && e.querySelector('p,blockquote') && visibleEl(e));
     blocks = blocks.filter((b) => !blocks.some((o) => o !== b && o.contains(b))); // outermost only
+    // STRUCTURAL fallback for utility-class (Tailwind) sites with no `testimonial`/`review` class name:
+    // a grid whose ≥2 sibling cards each read like a quote — quote marks, a star rating, or a "— Name"
+    // attribution. Quote/rating signals keep it from matching plain feature/pricing card grids.
+    if (blocks.length < 2) {
+      const QUOTE_RE = /["“”«»‘’“”]/;
+      const looksQuote = (el) => {
+        if (!el.querySelector('p,blockquote')) return false;
+        const t = txt(el);
+        if (t.length < 30) return false;
+        return QUOTE_RE.test(t) || !!ratingOf(el) || /(^|\s)[—–-]\s*[A-Z][a-z]+/.test(t);
+      };
+      for (const cont of [scope, ...scope.querySelectorAll('*')]) {
+        const kids = [...cont.children].filter((k) => k.nodeType === 1 && visibleEl(k));
+        if (kids.length < 2) continue;
+        const cards = kids.filter(looksQuote);
+        if (cards.length >= 2 && cards.length >= kids.length - 1) { blocks = cards; break; }
+      }
+    }
     if (blocks.length < 2) return null;
     const items = blocks.map(testimonialItem).filter((it) => it && (it.quote || it.name));
     if (items.length < 2) return null;

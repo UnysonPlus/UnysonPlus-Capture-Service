@@ -305,8 +305,13 @@ export function toPages(capture, opts = {}) {
         flush();
         for (const c of b.cols) {
           // Map each grid cell to a dedicated, editable shortcode using the role the extractor
-          // already detected (parity with the PHP mapper). Only a nested grid or an unrecognized
-          // cell still falls back to a verbatim code_block.
+          // already detected (parity with the PHP mapper). A cell with plain text (but no media /
+          // structure) → editable text_block rather than an opaque code_block; a truly EMPTY /
+          // decorative cell is DROPPED (no column emitted). Only a media/structural blob stays verbatim.
+          const cInner = String(c.html || '');
+          const cPlain = cInner.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+          const cMedia = /<(img|svg|video|iframe|picture|canvas|input|button|select|textarea)\b/i.test(cInner);
+          if (!c.counter && !c.card && !(c.buttons && c.buttons.length) && !c.text && !c.grid && !cPlain && !cMedia) { continue; } // drop empty / decorative cell
           let detected, cellItems, why;
           if (c.counter) {
             detected = 'counter'; why = 'counter → counter shortcode';
@@ -322,6 +327,8 @@ export function toPages(capture, opts = {}) {
             detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
           } else if (c.grid) {
             detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
+          } else if (cPlain && !cMedia) {
+            detected = 'text'; why = 'unrecognized text cell → text_block'; cellItems = [textBlock(cInner)];
           } else {
             detected = 'html'; why = 'unrecognized cell → code_block'; cellItems = [codeBlock(c.html)];
           }
@@ -503,7 +510,9 @@ export function toPages(capture, opts = {}) {
     // --fidelity mode, EVERY raw-captured section — VERBATIM so the source markup + layout (which
     // carry at ~100% CSS coverage) survive intact, edge-to-edge under the `.sc-mirror` reset.
     const hasMedia = (sec.assets || []).length > 0;
-    const hasRow = (sec.blocks || []).some((b) => b.t === 'row');
+    // A `row` grid OR a `testimonials` collection is a CLEAN decomposition — don't force the whole
+    // (media-bearing) section to verbatim just because it also carries avatars/images.
+    const hasRow = (sec.blocks || []).some((b) => b.t === 'row' || b.t === 'testimonials');
     const preferVerbatim = hasRaw && (opts.fidelity === true || (hasMedia && !hasRow));
     if (sec.slider && sec.slider.slides && sec.slider.slides.length >= 2) {
       decision = 'carousel'; node = sliderSectionNode(sec, sIndex);     // editable carousel shortcode
