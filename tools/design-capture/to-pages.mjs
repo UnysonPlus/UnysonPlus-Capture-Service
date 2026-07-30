@@ -335,6 +335,10 @@ export function toPages(capture, opts = {}) {
             cellItems = c.buttons.map((bt) => buttonBlockNode(bt));
           } else if (c.text) {
             detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
+          } else if (c.blocks && c.blocks.length) {
+            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = c.blocks.map(blockToNode);
+          } else if (c.image) {
+            detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
           } else if (c.grid) {
             detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
           } else if (cPlain && !cMedia) {

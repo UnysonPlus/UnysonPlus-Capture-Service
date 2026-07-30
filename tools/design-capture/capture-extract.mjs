@@ -789,6 +789,10 @@ export function extractDesign() {
     const iconEl = wrap.querySelector('svg, iconify-icon, i[class], [class*="icon" i], .material-symbols-outlined, .material-icons');
     const h = wrap.querySelector('h1,h2,h3,h4,h5,h6');
     if (!iconEl || !h) return null;                          // needs at least an icon + a heading
+    // A rich CONTENT column (a hero body) is NOT a card: an <h1> means "decompose into real shortcodes",
+    // not collapse the whole column into one icon_box (the false-positive where a hero's overline sparkle
+    // read as a card icon). Product/feature cards use h2–h6, so they still map to icon_box as before.
+    if (cell.querySelector('h1')) return null;
     const p = wrap.querySelector('p');
     const link = wrap.querySelector('a[href]');
     let icon = '', customIcon = '', lucide = '';
@@ -991,7 +995,23 @@ export function extractDesign() {
           if (!cell.card) {
             const b = buttonsOf(c);                             // a CTA button group?
             if (b && b.length) { cell.buttons = b; }
-            else { const t = textBlockOf(c); if (t) cell.text = t; } // else a text cell
+            else {
+              const t = textBlockOf(c);
+              if (t) { cell.text = t; }                       // a plain text cell
+              else {
+                // A rich CONTENT column (hero body: heading + subtitle + buttons + stats) → RECURSIVELY
+                // decompose into its child shortcodes instead of one verbatim code_block. An image-
+                // dominant cell (no heading/paragraph) → a media_image.
+                const img = c.querySelector('img');
+                if (img && !c.querySelector('h1,h2,h3,h4,h5,h6,p')) {
+                  cell.image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '' };
+                } else if (c.querySelector('h1,h2,h3,h4,h5,h6')) {
+                  const inner = []; decompose(c, inner);
+                  const real = inner.filter((x) => x.t !== 'html');
+                  if (real.length >= 1 && inner.length >= 2) { cell.blocks = inner; }
+                }
+              }
+            }
           }
         }
       }
@@ -1319,7 +1339,18 @@ export function extractDesign() {
     // Heroes / h1 sections keep VERBATIM in the AUTO build: their text styling is usually scoped
     // to inner wrappers (e.g. `.banner .block h1`) that decomposition would drop. (The mapping
     // editor can still override this per-element.)
-    if (root.querySelector('h1')) return;
+    // Heroes / h1 sections: decompose IF the structure is CLEAN — a decomposition where every block is
+    // real (heading / text / buttons / testimonials / a row whose every cell is card / counter / buttons /
+    // text / blocks / image / grid). A cell that would still fall to verbatim `html` means the scoped
+    // inner-wrapper styling would be dropped, so keep the whole section VERBATIM. (Mapping editor can override.)
+    // A cell is CLEAN only if it maps entirely to real shortcodes — a decomposed content column counts
+    // only when NONE of its child blocks fell to verbatim `html` (an un-detected overline pill / stat row
+    // leaves a code_block, which means the section is design-dense and should stay verbatim for fidelity).
+    const MAPPABLE = ['heading', 'button', 'text', 'image', 'video', 'testimonials', 'pill'];
+    const cleanCell = (c) => c.card || c.counter || (c.buttons && c.buttons.length) || c.text || c.image || c.grid
+      || (c.blocks && c.blocks.length && c.blocks.every((b) => MAPPABLE.includes(b.t)));
+    const cleanHero = mapBlocks.length > 0 && mapBlocks.every((b) => b.t !== 'html' && (b.t !== 'row' || (b.cols || []).every(cleanCell)));
+    if (root.querySelector('h1') && !cleanHero) return;
     if (mapBlocks.some((b) => b.t !== 'html')) sections[i].blocks = mapBlocks;
   });
 
