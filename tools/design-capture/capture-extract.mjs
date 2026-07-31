@@ -897,9 +897,14 @@ export function extractDesign() {
   // Each part's own classes are captured separately so they land in the Overline/Title/Subtitle
   // Class fields (NOT inlined into the text). Subtitle = the paragraph's INNER content (no <p>).
   const textBlockOf = (cell) => {
-    const wrap = cell.firstElementChild || cell;
-    const h = wrap.querySelector('h1,h2,h3,h4,h5,h6');
+    // Anchor the wrap on the HEADING'S OWN GROUP (its parent), not cell.firstElementChild — the
+    // latter grabs the first child (e.g. an overline pill), finds no heading inside it, and returns
+    // null, so a `[pill, h, p]` heading group gets shattered into separate cells (pill→code_block,
+    // h→heading-only, subtitle dropped). Climbing to h.parentElement keeps the overline + subtitle
+    // that are SIBLINGS of the heading in view. (pinky-bites "Creative Lab" was the regression case.)
+    const h = cell.querySelector('h1,h2,h3,h4,h5,h6');
     if (!h) return null;
+    const wrap = (h.parentElement && cell.contains(h.parentElement)) ? h.parentElement : cell;
     if (wrap.querySelector('.icon i, .icon svg')) return null; // that's a card, not a text cell
     const sp = [...wrap.querySelectorAll('span,small,p,div')].find((e) =>
       e !== h && txt(e) && txt(e).length <= 50 && e.compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING
