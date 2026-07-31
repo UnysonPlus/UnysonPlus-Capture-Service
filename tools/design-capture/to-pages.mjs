@@ -227,6 +227,20 @@ export function toPages(capture, opts = {}) {
     fetchpriority: 'auto', link: '', target: '_self', unique_id: uid(),
   } });
 
+  // A source PRODUCT-CARD grid (each card = image + name + price [+ add-to-cart]) → the wc_products
+  // grid. WooCommerce owns the products, and the converter can't know the real product IDs from a
+  // static source, so it emits a placeholder grid (source: recent) to configure to your catalogue —
+  // NOT N static icon_boxes. Flagged in the report as an opportunity.
+  const wcProductsNode = (cols, count) => ({ type: 'simple', shortcode: 'wc_products', _items: [], atts: {
+    source: 'recent', category: '', posts_per_page: String(count || cols), orderby: 'menu_order', order: 'ASC',
+    layout: 'grid', columns: String(cols), gap: 'lg', image_ratio: 'square',
+    show_price: 'yes', show_add_to_cart: 'yes', add_to_cart_text: 'Add to Cart',
+    show_rating: 'no', show_excerpt: 'yes', show_ribbon: 'no', show_wishlist: 'no', show_sale_badge: 'no',
+    pagination: 'none', unique_id: uid(),
+  } });
+  // True when a grid cell looks like a product card: an image + a price token (+ usually a CTA).
+  const cellIsProduct = (c) => /<img/i.test(String(c.html || '')) && /(?:\$|€|£)\s?\d+[.,]\d{2}/.test(String(c.html || ''));
+
   const blockToNode = (b) => (b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html) : b.t === 'text' ? textBlock(b.html) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : codeBlock(b.html));
 
   // Fold a heading GROUP — an overline/eyebrow immediately BEFORE a heading + the paragraph right
@@ -377,6 +391,16 @@ export function toPages(capture, opts = {}) {
     for (const b of coalesceHeadingGroups(sec.blocks)) {
       if (b.t === 'row') {
         flush();
+        // A PRODUCT-CARD grid (≥60% of cells = image + price) → ONE wc_products grid, not N icon_boxes.
+        const prodCells = b.cols.filter(cellIsProduct).length;
+        if (b.cols.length >= 2 && prodCells >= Math.ceil(b.cols.length * 0.6)) {
+          const cols = Math.max(2, Math.min(4, b.cols.length));
+          items.push(column('1_1', [wcProductsNode(cols, b.cols.length)]));
+          rec({ kind: 'element', sIndex, role: 'products', detected: 'products', shortcode: 'wc_products',
+                why: 'product-card grid → wc_products (configure Source to your products)', width: '1_1',
+                text: snip(b.cols.map((c) => c.html).join(' ')), fallback: false, opportunity: true });
+          continue;
+        }
         for (const c of b.cols) {
           // Map each grid cell to a dedicated, editable shortcode using the role the extractor
           // already detected (parity with the PHP mapper). A cell with plain text (but no media /
