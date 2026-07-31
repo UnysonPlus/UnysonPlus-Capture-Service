@@ -141,6 +141,11 @@ export function toPages(capture, opts = {}) {
   // Tailwind max-w scale → rem, for block_max_width (arbitrary max-w-[Npx|rem|…] handled inline).
   const TW_MAXW = { sm: 24, md: 28, lg: 32, xl: 36, '2xl': 42, '3xl': 48, '4xl': 56, '5xl': 64, '6xl': 72, '7xl': 80 };
   const emptySpacing = () => ({ margin: { all: '', top: '', right: '', bottom: '', left: '' }, padding: { all: '', top: '', right: '', bottom: '', left: '' }, advanced: [] });
+  // UnysonPlus spacing scale (rem → slug). A `spacing` att margin value must be a scale-slug UTILITY
+  // CLASS (e.g. mb-7), NOT a raw length — a raw "4rem" lands as a dead class. Snap the Tailwind rem to
+  // the nearest slug: 0→0 .25→1 .5→2 1→3 1.5→4 3→5 3.5→6 4→7 4.5→8 5→9 6→10 7→11 8→12.
+  const SPACING_SCALE = [[0, '0'], [0.25, '1'], [0.5, '2'], [1, '3'], [1.5, '4'], [3, '5'], [3.5, '6'], [4, '7'], [4.5, '8'], [5, '9'], [6, '10'], [7, '11'], [8, '12']];
+  const remToSlug = (rem) => { let best = '0', bd = Infinity; for (const [r, s] of SPACING_SCALE) { const d = Math.abs(r - rem); if (d < bd) { bd = d; best = s; } } return best; };
 
   const headingNode = (b) => {
     const n = stamp(clone('special_heading'));
@@ -166,9 +171,10 @@ export function toPages(capture, opts = {}) {
         if (m[2] != null && TW_MAXW[m[2]] != null) { n.atts.block_max_width = { value: String(TW_MAXW[m[2]]), unit: 'rem' }; }
         else if (m[1]) { const u = m[1].match(/^(\d*\.?\d+)(px|rem|em|%|vw|ch)$/); if (u) { n.atts.block_max_width = { value: u[1], unit: u[2] }; } }
       }
-      else if ((m = c.match(/^mb-(\d+(?:\.\d+)?)$/))) {
+      else if ((m = c.match(/^(mb|mt)-(\d+(?:\.\d+)?)$/))) {
         if (!n.atts.spacing || typeof n.atts.spacing !== 'object') { n.atts.spacing = emptySpacing(); }
-        n.atts.spacing.margin.bottom = (parseFloat(m[1]) * 0.25) + 'rem';
+        // margin value = a scale-slug utility class (mb-7 = 4rem), NOT a raw length.
+        n.atts.spacing.margin[m[1] === 'mb' ? 'bottom' : 'top'] = m[1] + '-' + remToSlug(parseFloat(m[2]) * 0.25);
       }
       else { kept.push(c); }
     }
