@@ -1160,6 +1160,17 @@ export function extractDesign() {
       playsinline: el.hasAttribute('playsinline') ? 'yes' : 'no',
     };
   };
+  // An eyebrow / kicker / pill that sits above a heading (short text, uppercase-or-pill styling, with
+  // a heading later in the SAME parent) → a clean `overline` block, kept INTACT (not dived into) so
+  // the mapper can fold it into the heading's special_heading overline. Without this the pill is
+  // shattered into svg + text sub-blocks and the overline is lost (the pinky-bites "Creative Lab" bug).
+  const isOverline = (node, parent) => {
+    const t = txt(node); if (!t || t.length > 48) return false;
+    const c = String((node.className && node.className.toString) ? node.className.toString() : '');
+    const eyebrow = /rounded-full|uppercase|eyebrow|kicker|overline|tracking/i.test(c) || t === t.toUpperCase();
+    if (!eyebrow) return false;
+    return [...parent.children].some((k) => /^H[1-6]$/.test(k.tagName) && (node.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING));
+  };
   const decompose = (el, out) => {
     for (const child of [...el.children]) {
       const vblk = videoBlockOf(child);          // before SKIP: provider IFRAMEs are otherwise skipped
@@ -1204,6 +1215,8 @@ export function extractDesign() {
           iconPos = (child.lastElementChild === iconEl) ? 'after' : 'before';
         }
         if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconPos, bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle } });
+      } else if (isOverline(child, el)) {
+        out.push({ t: 'overline', html: richHeading(child) || escHtml(txt(child)), text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls) });
       } else if (isTextLeaf(child)) {
         if (txt(child)) out.push({ t: 'text', html: rawHtmlOf(child, true), text: clip(txt(child), 200), tag: tag.toLowerCase(), cls });
       } else if (isRow(child)) {

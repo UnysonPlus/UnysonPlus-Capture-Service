@@ -141,11 +141,12 @@ export function toPages(capture, opts = {}) {
   const headingNode = (b) => {
     const n = stamp(clone('special_heading'));
     n.atts.title = b.html;
-    n.atts.subtitle = '';
-    n.atts.overline = '';
+    n.atts.subtitle = b.subtitle || '';
+    n.atts.overline = b.overline || '';
+    n.atts.overline_container = b.overlinePill ? 'pill' : '';
     n.atts.heading = 'h' + (b.level >= 1 && b.level <= 6 ? b.level : 2);
     n.atts.alignment = /^(center|right)$/.test(b.align || '') ? b.align : 'left';
-    n.atts.css_class = '';
+    n.atts.css_class = b.wrapCls || '';
     if (n.atts.overline_color) n.atts.overline_color = { predefined: '', custom: '' };
     return n;
   };
@@ -193,7 +194,37 @@ export function toPages(capture, opts = {}) {
     fetchpriority: 'auto', link: '', target: '_self', unique_id: uid(),
   } });
 
-  const blockToNode = (b) => (b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'text' ? textBlock(b.html) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : codeBlock(b.html));
+  const blockToNode = (b) => (b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html) : b.t === 'text' ? textBlock(b.html) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : codeBlock(b.html));
+
+  // Fold a heading GROUP — an overline/eyebrow immediately BEFORE a heading + the paragraph right
+  // AFTER it — into the single heading block, so it maps to ONE special_heading (overline + title +
+  // subtitle) instead of three separate shortcodes. Parity with PHP Mapper::n_text_cell. A `row` or
+  // any non-text block between them breaks the group (pushed through untouched). The subtitle is only
+  // absorbed when we're clearly in a heading group (an overline was folded, or the heading carries a
+  // heading-group wrapCls) — so unrelated body paragraphs are never eaten.
+  const coalesceHeadingGroups = (blocks) => {
+    const out = [];
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i];
+      if (b.t !== 'heading') { out.push(b); continue; }
+      const h = { ...b };
+      const prev = out[out.length - 1];
+      if (prev && (prev.t === 'overline' || (prev.t === 'text' && prev.text && prev.text.length <= 48 && prev.text === prev.text.toUpperCase()))) {
+        h.overline = prev.html || prev.text || '';
+        h.overlinePill = !!prev.pill || /rounded-full|pill/i.test(prev.cls || '');
+        out.pop();
+      }
+      const next = blocks[i + 1];
+      const inGroup = !!h.overline || !!b.wrapCls;
+      if (inGroup && next && next.t === 'text') {
+        // Subtitle = the paragraph's INNER content (strip a single outer <p>), parity with textBlockOf.
+        h.subtitle = String(next.html || '').replace(/^\s*<p[^>]*>([\s\S]*)<\/p>\s*$/i, '$1');
+        i++;
+      }
+      out.push(h);
+    }
+    return out;
+  };
 
   // --- Grid-cell → editable shortcode builders (parity with the PHP mapper's n_icon_box /
   //     n_counter). The JS path previously code_blocked every cell even though the extractor
@@ -310,7 +341,7 @@ export function toPages(capture, opts = {}) {
     }
     const items = []; let buf = [];
     const flush = () => { if (buf.length) { items.push(column('1_1', buf)); buf = []; } };
-    for (const b of sec.blocks) {
+    for (const b of coalesceHeadingGroups(sec.blocks)) {
       if (b.t === 'row') {
         flush();
         for (const c of b.cols) {
@@ -336,7 +367,7 @@ export function toPages(capture, opts = {}) {
           } else if (c.text) {
             detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
           } else if (c.blocks && c.blocks.length) {
-            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = c.blocks.map(blockToNode);
+            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = coalesceHeadingGroups(c.blocks).map(blockToNode);
           } else if (c.image) {
             detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
           } else if (c.grid) {
