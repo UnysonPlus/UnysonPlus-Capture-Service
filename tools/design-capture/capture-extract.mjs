@@ -46,7 +46,15 @@ export function extractDesign() {
         else if (ital) { inner = `<em>${inner}</em>`; }
         if (accent) {
           const acls = ((n.getAttribute && n.getAttribute('class')) || '').replace(/["<>]/g, '').trim();
-          inner = acls ? `<span class="${acls}">${inner}</span>` : `<span style="color:${s.color}">${inner}</span>`;
+          // A Tailwind color class is DEAD in the builder (no Tailwind runtime) — an arbitrary
+          // `text-[#hex]` or a palette `text-pink-600`. Convert those to an inline color from the
+          // COMPUTED value so the accent survives. A semantic/theme class (`text-primary`,
+          // `text-color-primary`) is kept verbatim so the theme still paints (and can re-theme) it.
+          const deadColorClass = /(^|\s)text-\[/.test(acls)
+            || /(^|\s)text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}(\s|$)/.test(acls);
+          inner = (acls && !deadColorClass)
+            ? `<span class="${acls}">${inner}</span>`
+            : `<span style="color:${s.color}">${inner}</span>`;
         }
         if (bold || ital || accent) { sawTag = true; }
         html += inner;

@@ -138,6 +138,10 @@ export function toPages(capture, opts = {}) {
   // a paragraph → text_block, a CTA → button. Everything else stays a code-block (incl. each grid
   // cell). The source section class is carried onto the builder section so descendant CSS
   // (`.section h2`, `.section .speaker-item`) still styles the extracted/verbatim content.
+  // Tailwind max-w scale → rem, for block_max_width (arbitrary max-w-[Npx|rem|…] handled inline).
+  const TW_MAXW = { sm: 24, md: 28, lg: 32, xl: 36, '2xl': 42, '3xl': 48, '4xl': 56, '5xl': 64, '6xl': 72, '7xl': 80 };
+  const emptySpacing = () => ({ margin: { all: '', top: '', right: '', bottom: '', left: '' }, padding: { all: '', top: '', right: '', bottom: '', left: '' }, advanced: [] });
+
   const headingNode = (b) => {
     const n = stamp(clone('special_heading'));
     n.atts.title = b.html;
@@ -145,8 +149,31 @@ export function toPages(capture, opts = {}) {
     n.atts.overline = b.overline || '';
     n.atts.overline_container = b.overlinePill ? 'pill' : '';
     n.atts.heading = 'h' + (b.level >= 1 && b.level <= 6 ? b.level : 2);
-    n.atts.alignment = /^(center|right)$/.test(b.align || '') ? b.align : 'left';
-    n.atts.css_class = b.wrapCls || '';
+    // Translate the heading-group wrapper's Tailwind LAYOUT/SPACING classes into NATIVE special_heading
+    // options — otherwise they sit DEAD on css_class (no Tailwind runtime in the builder) and the heading
+    // renders with the wrong spacing: no inter-line rhythm (space-y), no max width (max-w), no bottom gap
+    // (mb). This is the recurring "spacing is off" miss. Unmapped classes stay on css_class.
+    let align = /^(center|right)$/.test(b.align || '') ? b.align : 'left';
+    const kept = [];
+    for (const c of String(b.wrapCls || '').split(/\s+/).filter(Boolean)) {
+      let m;
+      if (c === 'text-center') { align = 'center'; }
+      else if (c === 'text-right') { align = 'right'; }
+      else if (c === 'text-left') { align = 'left'; }
+      else if (c === 'mx-auto') { /* horizontal centring comes from block_max_width + centre align */ }
+      else if ((m = c.match(/^space-y-(\d+(?:\.\d+)?)$/))) { const px = parseFloat(m[1]) * 4; n.atts.element_spacing = px <= 8 ? 'tight' : (px >= 16 ? 'relaxed' : ''); }
+      else if ((m = c.match(/^max-w-(?:\[(.+)\]|(sm|md|lg|xl|[2-7]xl))$/))) {
+        if (m[2] != null && TW_MAXW[m[2]] != null) { n.atts.block_max_width = { value: String(TW_MAXW[m[2]]), unit: 'rem' }; }
+        else if (m[1]) { const u = m[1].match(/^(\d*\.?\d+)(px|rem|em|%|vw|ch)$/); if (u) { n.atts.block_max_width = { value: u[1], unit: u[2] }; } }
+      }
+      else if ((m = c.match(/^mb-(\d+(?:\.\d+)?)$/))) {
+        if (!n.atts.spacing || typeof n.atts.spacing !== 'object') { n.atts.spacing = emptySpacing(); }
+        n.atts.spacing.margin.bottom = (parseFloat(m[1]) * 0.25) + 'rem';
+      }
+      else { kept.push(c); }
+    }
+    n.atts.alignment = align;
+    n.atts.css_class = kept.join(' ');
     if (n.atts.overline_color) n.atts.overline_color = { predefined: '', custom: '' };
     return n;
   };
