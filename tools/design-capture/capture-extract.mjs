@@ -1224,7 +1224,8 @@ export function extractDesign() {
         }
         if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconPos, bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle } });
       } else if (isOverline(child, el)) {
-        out.push({ t: 'overline', html: richHeading(child) || escHtml(txt(child)), text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls) });
+        const ocs = getComputedStyle(child);
+        out.push({ t: 'overline', html: richHeading(child) || escHtml(txt(child)), text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor });
       } else if (isTextLeaf(child)) {
         if (txt(child)) out.push({ t: 'text', html: rawHtmlOf(child, true), text: clip(txt(child), 200), tag: tag.toLowerCase(), cls });
       } else if (isRow(child)) {

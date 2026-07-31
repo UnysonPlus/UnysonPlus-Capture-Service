@@ -180,7 +180,9 @@ export function toPages(capture, opts = {}) {
     }
     n.atts.alignment = align;
     n.atts.css_class = kept.join(' ');
-    if (n.atts.overline_color) n.atts.overline_color = { predefined: '', custom: '' };
+    // Overline pill colour: the source pill's text colour → native overline_color (drives the pill tint),
+    // instead of a dead `text-[#hex]` class or the theme's default auto-tint.
+    n.atts.overline_color = b.overlineColor ? { predefined: '', custom: rgbToCss(b.overlineColor) } : { predefined: '', custom: '' };
     return n;
   };
   const buttonBlockNode = (b) => ({ type: 'simple', shortcode: 'button', _items: [], atts: { label: b.label, link: localize(b.href), target: 'no', unique_id: uid() } });
@@ -259,6 +261,7 @@ export function toPages(capture, opts = {}) {
       if (prev && (prev.t === 'overline' || (prev.t === 'text' && prev.text && prev.text.length <= 48 && prev.text === prev.text.toUpperCase()))) {
         h.overline = prev.html || prev.text || '';
         h.overlinePill = !!prev.pill || /rounded-full|pill/i.test(prev.cls || '');
+        if (prev.color) h.overlineColor = prev.color; // the pill's text colour → native overline_color
         out.pop();
       }
       const next = blocks[i + 1];
@@ -374,16 +377,53 @@ export function toPages(capture, opts = {}) {
     return n;
   };
 
+  // rgb/rgba computed value → hex (opaque) or kept rgba (transparent), for a native color att.
+  const rgbToCss = (v) => {
+    const m = String(v || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (!m) return String(v || '');
+    if (m[4] !== undefined && parseFloat(m[4]) < 1) return String(v); // keep translucency (e.g. bg-pink-100/40)
+    const h = (n) => ('0' + (+n).toString(16)).slice(-2);
+    return '#' + h(m[1]) + h(m[2]) + h(m[3]);
+  };
+  const px2slug = (px) => remToSlug(parseFloat(px) / 16); // px → rem → nearest spacing slug
+
+  // Translate a section's Tailwind + captured COMPUTED style into NATIVE section options. bg + padding
+  // come from the exact computed values (beats parsing `bg-pink-100/40` / `py-20`); layout/bg utility
+  // classes are dropped from css_class (they're dead in the builder), unmapped classes are kept.
+  const sectionLayout = (cls, computed) => {
+    computed = computed || {};
+    const out = { bg_color: null, padding_top: null, padding_bottom: null, css_class: '' };
+    const kept = [];
+    for (const c of String(cls || '').split(/\s+/).filter(Boolean)) {
+      if (/^(bg-|max-w-|min-w-|mx-|px-|py-|pt-|pb-|pl-|pr-|p-|w-full|relative|overflow-)/.test(c)) continue; // now native / structural
+      if (/^(swiper|owl|slick|splide|carousel|aos|init|wow)/i.test(c)) continue;
+      kept.push(c);
+    }
+    out.css_class = kept.join(' ');
+    if (computed.background) out.bg_color = { predefined: '', custom: rgbToCss(computed.background) };
+    if (computed.padding) {
+      const p = String(computed.padding).split(/\s+/);
+      const top = p[0], bottom = p.length >= 3 ? p[2] : p[0];
+      if (top && parseFloat(top) > 0) out.padding_top = { base: 'pt-' + px2slug(top), md: '', lg: '' };
+      if (bottom && parseFloat(bottom) > 0) out.padding_bottom = { base: 'pb-' + px2slug(bottom), md: '', lg: '' };
+    }
+    return out;
+  };
+
   // Build a section from decomposed blocks: consecutive intro blocks stack in a full-width
   // column; a `row` block becomes a row of builder columns (one code-block per grid cell).
   const blocksSectionNode = (sec, sIndex) => {
     const s = stamp(clone('section'));
-    const srcCls = String(sec.sectionClass || '').split(/\s+/).filter((c) => c && !/^(swiper|owl|slick|splide|carousel|aos|init|wow)/i.test(c));
     if (s.atts) {
-      // Centered .fw-container (not full-width / sc-mirror) — the extracted content has no
-      // source .container of its own, so match the source's .container width.
-      s.atts.css_class = srcCls.join(' ');
-      s.atts.is_fullwidth = false;
+      // Translate the section's Tailwind + captured COMPUTED style into NATIVE section options
+      // (bg color, padding) instead of dead classes on css_class. The bg/padding come from the
+      // captured computed values (exact — beats parsing `bg-pink-100/40` + `py-20`).
+      const lay = sectionLayout(sec.sectionClass, sec.computed);
+      s.atts.css_class = lay.css_class;
+      s.atts.is_fullwidth = false; // centred content uses the theme container (source `max-w-* mx-auto`)
+      if (lay.bg_color) s.atts.bg_color = lay.bg_color;
+      if (lay.padding_top) s.atts.padding_top = lay.padding_top;
+      if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
       if (sec.css && sec.css.trim()) s.atts.custom_css = flattenCss(sec.css);
     }
     const items = []; let buf = [];
