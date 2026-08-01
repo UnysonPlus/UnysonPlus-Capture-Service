@@ -132,7 +132,14 @@ export function toPages(capture, opts = {}) {
   // the section, renders late (wins the cascade over the plugin's framework CSS) and stays
   // editable. Source selectors pass through the aggregator unchanged (only the literal token
   // `selector` is rewritten), so the rules target the verbatim markup's source classes.
-  const codeBlock = (html) => ({ type: 'simple', shortcode: 'code_block', _items: [], atts: { code: html, unique_id: uid() } });
+  const codeBlock = (html) => {
+    html = String(html == null ? '' : html);
+    // Preteach tables: wrap a verbatim <table> in the default Table Preset skin (.tbl-clean-lines,
+    // whose CSS targets `> table > thead/tbody…`) so raw source tables render styled instead of bare.
+    // Mirrors the PHP Mapper::n_code() wrap.
+    if (/<table[\s>]/i.test(html) && !html.includes('tbl-')) { html = `<div class="tbl-clean-lines">${html}</div>`; }
+    return { type: 'simple', shortcode: 'code_block', _items: [], atts: { code: html, unique_id: uid() } };
+  };
 
   // Decomposed leaves → dedicated, editable shortcodes (intro-only): a heading → special_heading,
   // a paragraph → text_block, a CTA → button. Everything else stays a code-block (incl. each grid
