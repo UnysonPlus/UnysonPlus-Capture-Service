@@ -842,8 +842,27 @@ export function extractDesign() {
       if (m) { const hx = (n) => ('0' + (+n).toString(16)).slice(-2); iconColor = '#' + hx(m[1]) + hx(m[2]) + hx(m[3]); }
       else if (/^#[0-9a-f]{3,8}$/i.test(rc.trim())) { iconColor = rc.trim(); }
     } catch { /* no color */ }
+    // The icon's BADGE/chip — a filled container around the icon (e.g. `bg-pink-100 rounded-lg`) →
+    // icon_box icon_badge (shape from its radius) + icon_badge_color (fill). Checks the icon element
+    // and its immediate wrapper; a transparent background = no badge.
+    let iconBadge = '', iconBadgeColor = '';
+    try {
+      for (const el of [iconEl, iconEl.parentElement].filter(Boolean)) {
+        const cs = getComputedStyle(el);
+        const m = (cs.backgroundColor || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
+        const alpha = m ? (m[4] === undefined ? 1 : parseFloat(m[4])) : 0;
+        if (m && alpha > 0.05) {
+          const hx = (n) => ('0' + (+n).toString(16)).slice(-2);
+          iconBadgeColor = '#' + hx(m[1]) + hx(m[2]) + hx(m[3]);
+          const r = parseFloat(cs.borderTopLeftRadius) || 0;
+          const w = el.getBoundingClientRect().width || 0;
+          iconBadge = (r > 12 && r >= w / 2 - 2) ? 'solid-circle' : (r > 0 ? 'solid-rounded' : 'solid-square');
+          break;
+        }
+      }
+    } catch { /* no badge */ }
     return {
-      icon, customIcon, lucide, iconLayout, iconColor,
+      icon, customIcon, lucide, iconLayout, iconColor, iconBadge, iconBadgeColor,
       title: clip(txt(h), 160),
       titleTag: h.tagName.toLowerCase(),
       text: p ? rawHtmlOf(p, true) : '',
@@ -988,6 +1007,36 @@ export function extractDesign() {
       const ccs = getComputedStyle(c);
       if ((ccs.display === 'flex' || ccs.display === 'inline-flex') && [...c.children].filter((k) => visibleEl(k)).length >= 2) {
         cell.flex = { dir: ccs.flexDirection, justify: ccs.justifyContent, align: ccs.alignItems, gap: ccs.columnGap || ccs.gap };
+      }
+      // PRODUCT-CARD wrapper skin + hover + ribbon (only on image-bearing cells → product cards). The
+      // wc_products mapper reproduces the card look via scoped section CSS (no shortcode-option bloat):
+      // the REST skin comes from the wrapper's computed style; the HOVER (shadow / lift) is read from
+      // its `hover:*` utility classes (getComputedStyle can't see a resting element's :hover). Was the
+      // gap that dropped the source card's `hover:shadow-xl hover:-translate-y-2` + its badge entirely.
+      if (c.querySelector && c.querySelector('img')) {
+        const wcls = (c.getAttribute && c.getAttribute('class')) || '';
+        if (/border|shadow|rounded/i.test(wcls) || parseFloat(ccs.borderTopLeftRadius) > 0 || (ccs.boxShadow && ccs.boxShadow !== 'none')) {
+          const hs = /(?:^|\s)hover:shadow-(2xl|xl|lg|md|sm)(?:\s|$)/.exec(wcls);
+          const hl = /(?:^|\s)hover:-translate-y-([0-9.]+)(?:\s|$)/.exec(wcls);
+          cell.wrap = {
+            bg: ccs.backgroundColor, radius: ccs.borderTopLeftRadius,
+            borderW: ccs.borderTopWidth, borderColor: ccs.borderTopColor, borderStyle: ccs.borderTopStyle,
+            shadow: (ccs.boxShadow && ccs.boxShadow !== 'none') ? ccs.boxShadow : '',
+            hoverShadow: hs ? hs[1] : '', hoverLift: hl ? hl[1] : '',
+          };
+        }
+        // A small uppercase pill inside the card → the product ribbon/badge (e.g. "Best Seller").
+        for (const sp of c.querySelectorAll('span, div')) {
+          const t = (sp.textContent || '').trim();
+          if (!t || t.length > 24) continue;
+          const scs = getComputedStyle(sp);
+          if (scs.textTransform === 'uppercase' && parseFloat(scs.borderTopLeftRadius) >= 8 && scs.display !== 'none' && sp.children.length === 0) {
+            cell.ribbon = { text: t, bg: scs.backgroundColor, color: scs.color, radius: scs.borderTopLeftRadius,
+              padding: scs.padding, fontSize: scs.fontSize, fontWeight: scs.fontWeight,
+              letterSpacing: scs.letterSpacing, borderW: scs.borderTopWidth, borderColor: scs.borderTopColor };
+            break;
+          }
+        }
       }
       // Order matters: a NESTED ROW of cards must be detected BEFORE single-card detection —
       // otherwise cardOf greedily matches the first icon+heading inside the nested row and the
@@ -1225,7 +1274,17 @@ export function extractDesign() {
         if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconPos, bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle } });
       } else if (isOverline(child, el)) {
         const ocs = getComputedStyle(child);
-        out.push({ t: 'overline', html: richHeading(child) || escHtml(txt(child)), text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor });
+        // A leading/trailing icon SVG in the overline → captured separately so it maps to the native
+        // overline_icon option (kept OUT of the overline text, or the icon would double up).
+        const ovSvg = child.querySelector('svg');
+        let ovIcon = '', ovIconPos = 'before', ovHtml = richHeading(child) || escHtml(txt(child));
+        if (ovSvg) {
+          ovIcon = ovSvg.outerHTML;
+          ovIconPos = (child.lastElementChild === ovSvg) ? 'after' : 'before';
+          const c2 = child.cloneNode(true); c2.querySelectorAll('svg').forEach((s) => s.remove());
+          ovHtml = escHtml((c2.textContent || '').replace(/\s+/g, ' ').trim());
+        }
+        out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, textTransform: ocs.textTransform, iconSvg: ovIcon, iconPos: ovIconPos });
       } else if (isTextLeaf(child)) {
         if (txt(child)) out.push({ t: 'text', html: rawHtmlOf(child, true), text: clip(txt(child), 200), tag: tag.toLowerCase(), cls });
       } else if (isRow(child)) {
@@ -1263,6 +1322,10 @@ export function extractDesign() {
     if (s.backgroundImage && s.backgroundImage !== 'none') o.backgroundImage = absUrlsIn(s.backgroundImage, location.href);
     set('color', s.color);
     set('padding', s.padding, '0px');
+    // Sections often express their vertical separation as MARGIN (mt-24 / mb-16), not padding.
+    // The section shortcode has no margin lever, so the converter folds this into padding_top/bottom
+    // — capture it here or that whole top/bottom gap is silently dropped (looks like "no padding").
+    set('margin', s.margin, '0px');
     set('fontFamily', s.fontFamily);
     set('fontSize', s.fontSize);
     set('textAlign', s.textAlign, 'start', 'left');

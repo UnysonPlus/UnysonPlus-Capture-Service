@@ -146,6 +146,15 @@ export function toPages(capture, opts = {}) {
   // the nearest slug: 0→0 .25→1 .5→2 1→3 1.5→4 3→5 3.5→6 4→7 4.5→8 5→9 6→10 7→11 8→12.
   const SPACING_SCALE = [[0, '0'], [0.25, '1'], [0.5, '2'], [1, '3'], [1.5, '4'], [3, '5'], [3.5, '6'], [4, '7'], [4.5, '8'], [5, '9'], [6, '10'], [7, '11'], [8, '12']];
   const remToSlug = (rem) => { let best = '0', bd = Infinity; for (const [r, s] of SPACING_SCALE) { const d = Math.abs(r - rem); if (d < bd) { bd = d; best = s; } } return best; };
+  // Exact scale match (within 1px) → clean preset slug; else a Tailwind-style ARBITRARY value
+  // (`pt-[40px]`) that the plugin's per-page dynamic CSS renders exactly. Keeps common values on
+  // the Bootstrap-aligned scale, captures off-scale values LOSSLESSLY (no snap, no ±12px error).
+  const SCALE_PX = SPACING_SCALE.map(([rem, slug]) => [rem * 16, slug]);
+  const spacingToken = (prefix, px) => {
+    px = Math.round(parseFloat(px) || 0);
+    const hit = SCALE_PX.find(([p]) => Math.abs(p - px) <= 1);
+    return hit ? `${prefix}-${hit[1]}` : `${prefix}-[${px}px]`;
+  };
 
   const headingNode = (b) => {
     const n = stamp(clone('special_heading'));
@@ -183,6 +192,17 @@ export function toPages(capture, opts = {}) {
     // Overline pill colour: the source pill's text colour → native overline_color (drives the pill tint),
     // instead of a dead `text-[#hex]` class or the theme's default auto-tint.
     n.atts.overline_color = b.overlineColor ? { predefined: '', custom: rgbToCss(b.overlineColor) } : { predefined: '', custom: '' };
+    // overline_uppercase: reproduce the source's kicker casing instead of blindly forcing uppercase.
+    // Yes when the source overline is rendered uppercase (via text-transform) OR its text is literally
+    // all-caps; otherwise No, so a normal-case overline ("New Arrivals") is not force-uppercased.
+    const olText = String(b.overlineText || b.overline || '').replace(/<[^>]*>/g, '').trim();
+    const isUpper = b.overlineTransform === 'uppercase' || ( /[a-z]/i.test(olText) && olText === olText.toUpperCase() );
+    n.atts.overline_uppercase = isUpper ? 'yes' : 'no';
+    // Overline icon: a source overline SVG → the native overline_icon (inline-svg), kept out of the text.
+    n.atts.overline_icon = b.overlineIcon
+      ? { type: 'svg', 'svg-source': 'inline', markup: b.overlineIcon }
+      : { type: 'none' };
+    n.atts.overline_icon_position = b.overlineIconPos === 'after' ? 'after' : 'before';
     return n;
   };
   const buttonBlockNode = (b) => ({ type: 'simple', shortcode: 'button', _items: [], atts: { label: b.label, link: localize(b.href), target: 'no', unique_id: uid() } });
@@ -233,11 +253,66 @@ export function toPages(capture, opts = {}) {
   // grid. WooCommerce owns the products, and the converter can't know the real product IDs from a
   // static source, so it emits a placeholder grid (source: recent) to configure to your catalogue —
   // NOT N static icon_boxes. Flagged in the report as an opportunity.
-  const wcProductsNode = (cols, count) => ({ type: 'simple', shortcode: 'wc_products', _items: [], atts: {
+  // Tailwind's default box-shadow scale (for hover:shadow-* → CSS). Rest shadow uses the captured
+  // computed value directly; only the hover state needs this (it isn't in the resting computed style).
+  const TW_SHADOW = {
+    sm: '0 1px 2px 0 rgba(0,0,0,.05)',
+    md: '0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)',
+    lg: '0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1)',
+    xl: '0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1)',
+    '2xl': '0 25px 50px -12px rgba(0,0,0,.25)',
+  };
+  // Translate a captured product-card wrapper skin + hover + ribbon into scoped section CSS for the
+  // wc_products grid (`.upwc-product` = card, `.upwc-product__badge.ribbon` = the badge). Editable
+  // Custom CSS with zero shortcode-option bloat — the card skin is CSS-only by design (see the Card
+  // Layout option). Returns '' when there's nothing to translate.
+  const wcCardCss = (wrap, ribbon) => {
+    let css = '';
+    if (wrap) {
+      const rest = [];
+      if (wrap.bg && !/rgba?\(0, 0, 0, 0\)|transparent/.test(wrap.bg)) rest.push(`background:${wrap.bg}`);
+      if (wrap.radius && parseFloat(wrap.radius) > 0) rest.push(`border-radius:${wrap.radius}`);
+      if (wrap.borderW && parseFloat(wrap.borderW) > 0) rest.push(`border:${wrap.borderW} ${wrap.borderStyle || 'solid'} ${wrap.borderColor}`);
+      if (wrap.shadow) rest.push(`box-shadow:${wrap.shadow}`);
+      const hasHover = wrap.hoverShadow || wrap.hoverLift;
+      if (hasHover) rest.push('transition:transform .3s ease, box-shadow .3s ease');
+      if (rest.length) css += `.upwc-products .upwc-product{${rest.join(';')}}\n`;
+      if (hasHover) {
+        const hv = [];
+        if (wrap.hoverShadow && TW_SHADOW[wrap.hoverShadow]) hv.push(`box-shadow:${TW_SHADOW[wrap.hoverShadow]}`);
+        if (wrap.hoverLift) hv.push(`transform:translateY(-${Math.round(parseFloat(wrap.hoverLift) * 4)}px)`);
+        if (hv.length) css += `.upwc-products .upwc-product:hover{${hv.join(';')}}\n`;
+      }
+    }
+    if (ribbon) {
+      const r = [];
+      if (ribbon.bg) r.push(`background:${ribbon.bg}`);
+      if (ribbon.color) r.push(`color:${ribbon.color}`);
+      if (ribbon.radius && parseFloat(ribbon.radius) > 0) r.push(`border-radius:${ribbon.radius}`);
+      if (ribbon.padding) r.push(`padding:${ribbon.padding}`);
+      if (ribbon.fontSize) r.push(`font-size:${ribbon.fontSize}`);
+      if (ribbon.fontWeight) r.push(`font-weight:${ribbon.fontWeight}`);
+      if (ribbon.letterSpacing && ribbon.letterSpacing !== 'normal') r.push(`letter-spacing:${ribbon.letterSpacing}`);
+      if (ribbon.borderW && parseFloat(ribbon.borderW) > 0) r.push(`border:${ribbon.borderW} solid ${ribbon.borderColor}`);
+      r.push('text-transform:uppercase');
+      if (r.length) css += `.upwc-products .upwc-product__badge.ribbon{${r.join(';')}}\n`;
+    }
+    return css;
+  };
+  const wcProductsNode = (cols, count, hasRibbon) => ({ type: 'simple', shortcode: 'wc_products', _items: [], atts: {
     source: 'recent', category: '', posts_per_page: String(count || cols), orderby: 'menu_order', order: 'ASC',
     layout: 'grid', columns: String(cols), gap: 'lg', image_ratio: 'square',
     show_price: 'yes', show_add_to_cart: 'yes', add_to_cart_text: 'Add to Cart',
-    show_rating: 'no', show_excerpt: 'yes', show_ribbon: 'no', show_wishlist: 'no', show_sale_badge: 'no',
+    show_rating: 'no', show_excerpt: 'yes', show_ribbon: hasRibbon ? 'yes' : 'no', show_wishlist: 'no', show_sale_badge: 'no',
+    // The card is always assembled from these rows (the row system is the single card model; the
+    // former card_layout Classic/Slot toggle was removed). The default four rows mirror the wc_products
+    // seed; empty slots/rows collapse (no rating → the rating row is skipped), so it degrades gracefully.
+    card_rows: [
+      { slots: ['badges', 'wishlist'],        direction: 'inline', justify: 'between', align: 'center' },
+      { slots: ['media', 'title', 'excerpt'], direction: 'stack',  justify: 'start',   align: 'center' },
+      { slots: ['rating', 'rating_count'],    direction: 'inline', justify: 'center',  align: 'center' },
+      { slots: ['price', 'cart'],             direction: 'inline', justify: 'between', align: 'center' },
+    ],
     pagination: 'none', unique_id: uid(),
   } });
   // True when a grid cell looks like a product card: an image + a price token (+ usually a CTA).
@@ -262,6 +337,9 @@ export function toPages(capture, opts = {}) {
         h.overline = prev.html || prev.text || '';
         h.overlinePill = !!prev.pill || /rounded-full|pill/i.test(prev.cls || '');
         if (prev.color) h.overlineColor = prev.color; // the pill's text colour → native overline_color
+        h.overlineTransform = prev.textTransform || '';   // css text-transform → overline_uppercase
+        h.overlineText = prev.text || '';                 // plain text, for the all-caps heuristic
+        if (prev.iconSvg) { h.overlineIcon = prev.iconSvg; h.overlineIconPos = prev.iconPos || 'before'; }
         out.pop();
       }
       const next = blocks[i + 1];
@@ -333,6 +411,10 @@ export function toPages(capture, opts = {}) {
     a.style = IB_STYLES.indexOf(card.iconLayout) !== -1 ? card.iconLayout : 'top-title';
     const ic = String(card.iconColor || '').trim();
     if (/^#[0-9a-f]{3,8}$/i.test(ic)) { a.icon_color = { predefined: '', custom: ic }; }
+    // Icon badge/chip: the source icon's filled container → icon_badge (shape) + icon_badge_color (fill).
+    if (card.iconBadge) { a.icon_badge = card.iconBadge; }
+    const ibc = String(card.iconBadgeColor || '').trim();
+    if (/^#[0-9a-f]{3,8}$/i.test(ibc)) { a.icon_badge_color = { predefined: '', custom: ibc }; }
     a.css_class = '';
     return n;
   };
@@ -401,12 +483,16 @@ export function toPages(capture, opts = {}) {
     }
     out.css_class = kept.join(' ');
     if (computed.background) out.bg_color = { predefined: '', custom: rgbToCss(computed.background) };
-    if (computed.padding) {
-      const p = String(computed.padding).split(/\s+/);
-      const top = p[0], bottom = p.length >= 3 ? p[2] : p[0];
-      if (top && parseFloat(top) > 0) out.padding_top = { base: 'pt-' + px2slug(top), md: '', lg: '' };
-      if (bottom && parseFloat(bottom) > 0) out.padding_bottom = { base: 'pb-' + px2slug(bottom), md: '', lg: '' };
-    }
+    // Vertical rhythm = padding + margin. The section shortcode expresses ALL of it as padding_top/bottom
+    // (it has no margin option), so fold the section's own MARGIN into padding — otherwise a section that
+    // separates itself with mt-24/mb-16 (margin, not padding) maps to padding_top:0 and the gap vanishes
+    // ("no padding"). css `padding`/`margin` shorthand = "T R B L" (or 1/2 values); take T and B.
+    const sides = (v) => { const p = String(v || '').split(/\s+/); return [ parseFloat(p[0]) || 0, parseFloat(p.length >= 3 ? p[2] : p[0]) || 0 ]; };
+    const [pt, pb] = sides(computed.padding);
+    const [mt, mb] = sides(computed.margin);
+    const top = pt + mt, bottom = pb + mb;
+    if (top > 0)    out.padding_top    = { base: spacingToken('pt', top),    md: '', lg: '' };
+    if (bottom > 0) out.padding_bottom = { base: spacingToken('pb', bottom), md: '', lg: '' };
     return out;
   };
 
@@ -424,8 +510,10 @@ export function toPages(capture, opts = {}) {
       if (lay.bg_color) s.atts.bg_color = lay.bg_color;
       if (lay.padding_top) s.atts.padding_top = lay.padding_top;
       if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
-      if (sec.css && sec.css.trim()) s.atts.custom_css = flattenCss(sec.css);
     }
+    // Extra section CSS the block loop generates (e.g. a wc_products card skin/hover/ribbon translated
+    // from the source cards). Folded into the section's custom_css AFTER the loop so it isn't lost.
+    let extraCss = '';
     const items = []; let buf = [];
     const flush = () => { if (buf.length) { items.push(column('1_1', buf)); buf = []; } };
     for (const b of coalesceHeadingGroups(sec.blocks)) {
@@ -435,7 +523,14 @@ export function toPages(capture, opts = {}) {
         const prodCells = b.cols.filter(cellIsProduct).length;
         if (b.cols.length >= 2 && prodCells >= Math.ceil(b.cols.length * 0.6)) {
           const cols = Math.max(2, Math.min(4, b.cols.length));
-          items.push(column('1_1', [wcProductsNode(cols, b.cols.length)]));
+          // Translate the source cards' skin/hover + ribbon (captured on each product cell) into scoped
+          // section CSS, and turn the Ribbon Badge slot ON when a badge was detected. A placeholder grid
+          // can't carry the real per-product ribbon TEXT (that's product meta), but show_ribbon:'yes' +
+          // the badge skin reproduce the look; the card hover-lift now renders instead of a flat card.
+          const skinCell = b.cols.find((c) => c && (c.wrap || c.ribbon)) || {};
+          const hasRibbon = b.cols.some((c) => c && c.ribbon);
+          extraCss += wcCardCss(skinCell.wrap, hasRibbon ? skinCell.ribbon : null);
+          items.push(column('1_1', [wcProductsNode(cols, b.cols.length, hasRibbon)]));
           rec({ kind: 'element', sIndex, role: 'products', detected: 'products', shortcode: 'wc_products',
                 why: 'product-card grid → wc_products (configure Source to your products)', width: '1_1',
                 text: snip(b.cols.map((c) => c.html).join(' ')), fallback: false, opportunity: true });
@@ -517,6 +612,10 @@ export function toPages(capture, opts = {}) {
       }
     }
     flush();
+    // Fold the section's carried CSS + any block-generated CSS (wc_products card skin/hover/ribbon)
+    // into Advanced → Custom CSS, so section-scoped skin travels with the section.
+    const allCss = ((sec.css && sec.css.trim()) ? sec.css : '') + (extraCss ? ('\n' + extraCss) : '');
+    if (s.atts && allCss.trim()) s.atts.custom_css = flattenCss(allCss);
     s._items = items.length ? items : [column('1_1', [codeBlock(sec.rawHtml || '')])];
     return s;
   };
