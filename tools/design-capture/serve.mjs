@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping } from './to-ai.mjs';
+import { ensureDashboard } from './dashboard/ensure-open.mjs';
 
 const PORT = Number(process.env.PORT) || 8787;
 const SELF_DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -30,6 +31,21 @@ const CAPTURE = fileURLToPath(new URL('./capture.mjs', import.meta.url));
 const IS_WIN = process.platform === 'win32';
 // Version = the single source of truth in package.json (no hard-coded duplicate to drift).
 const VERSION = (() => { try { return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version || '0.0.0'; } catch { return '0.0.0'; } })();
+
+// Shared capture-out dir the live dashboard (http://localhost:4600) watches. serve.mjs writes a
+// top-level _active.json here whenever a capture runs, so the dashboard reflects service-driven
+// conversions too (its own captures build in a throwaway temp dir). Matches the dashboard default.
+const CAPTURE_OUT = process.env.CAPTURE_OUT || 'D:/Web Dev/capture-out';
+function markActive(url, status) {
+  try {
+    mkdirSync(CAPTURE_OUT, { recursive: true });
+    writeFileSync(join(CAPTURE_OUT, '_active.json'), JSON.stringify({ tool: 'capture-service', url: String(url || ''), status, at: Date.now() }));
+  } catch { /* best-effort — never block a capture */ }
+}
+// AI activity for the dashboard: what Claude is doing during an /ai-convert refine (status + backend + elapsed).
+function markAi(obj) {
+  try { mkdirSync(CAPTURE_OUT, { recursive: true }); writeFileSync(join(CAPTURE_OUT, '_ai.json'), JSON.stringify({ ...obj, at: Date.now() })); } catch { /* best-effort */ }
+}
 
 /* ----------------------------------------------------------------------------
  * Update check — compare this copy against the package.json on GitHub.
@@ -157,10 +173,12 @@ createServer((req, res) => {
   if (u.pathname === '/ai-convert') {
     if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
     if (!aiReady()) { json(res, 503, { error: 'AI is off — set ANTHROPIC_API_KEY, or install Claude Code (claude) and sign in, then restart.' }); return; }
+    const _aiStart = Date.now();
+    markAi({ status: 'thinking', backend: aiBackend(), note: 'refining the section mapping…', startedAt: _aiStart });
     readJson(req)
       .then((body) => refineMapping({ html: body.html, mapping: body.mapping, source: body.source }))
-      .then((out) => { console.log('[ai-convert] refined via', out.model); json(res, 200, { ok: true, mapping: out.mapping, theme: out.theme, custom_css: out.custom_css, model: out.model }); })
-      .catch((e) => { console.error('[ai-convert]', e.message); json(res, 500, { error: e.message }); });
+      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000) }); console.log('[ai-convert] refined via', out.model); json(res, 200, { ok: true, mapping: out.mapping, theme: out.theme, custom_css: out.custom_css, model: out.model }); })
+      .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-convert]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 
@@ -197,10 +215,12 @@ createServer((req, res) => {
       const target = pathToFileURL(htmlPath).href;
       const out = mkdtempSync(join(tmpdir(), 'sc-capture-'));
       console.log('[capture-file]', isZip ? '(zip)' : '(html)', '→', htmlPath);
+      markActive('file: ' + (isZip ? 'Stitch .zip' : 'HTML'), 'running'); // surface on the dashboard
       const child = spawn(process.execPath, [CAPTURE, target, out], { stdio: 'inherit' });
       const cleanup = () => { rmSync(out, { recursive: true, force: true }); rmSync(srcDir, { recursive: true, force: true }); };
-      child.on('error', (e) => { json(res, 500, { error: e.message }); cleanup(); });
+      child.on('error', (e) => { markActive('file', 'error'); json(res, 500, { error: e.message }); cleanup(); });
       child.on('exit', () => {
+        markActive('file: ' + (isZip ? 'Stitch .zip' : 'HTML'), 'done');
         // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
         if (u.searchParams.get('html') === '1') {
           const htmlOut = join(out, 'rendered.html');
@@ -232,10 +252,12 @@ createServer((req, res) => {
 
     const out = mkdtempSync(join(tmpdir(), 'sc-capture-'));
     console.log('[capture]', target);
+    markActive(target, 'running'); // surface this service-driven run on the dashboard
     const child = spawn(process.execPath, [CAPTURE, target, out], { stdio: 'inherit' });
 
-    child.on('error', (e) => { json(res, 500, { error: e.message }); rmSync(out, { recursive: true, force: true }); });
+    child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); rmSync(out, { recursive: true, force: true }); });
     child.on('exit', () => {
+      markActive(target, 'done');
       // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
       if (u.searchParams.get('html') === '1') {
         const htmlOut = join(out, 'rendered.html');
@@ -266,6 +288,7 @@ createServer((req, res) => {
 
   json(res, 404, { error: 'not found' });
 }).listen(PORT, () => {
+  ensureDashboard(); // starting the capture service is "using the converter" → open the live dashboard (localhost:4600)
   console.log(`UnysonPlus capture service v${VERSION} → http://localhost:${PORT}`);
   console.log('  GET  /health');
   console.log('  GET  /capture?url=https://example.com  → convert-bundle.zip');

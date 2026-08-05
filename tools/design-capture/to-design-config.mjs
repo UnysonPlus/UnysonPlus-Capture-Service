@@ -20,11 +20,15 @@ export function toDesignConfig(cap) {
   const head = cap.header || {}, foot = cap.footer || {}, assets = cap.assets || {};
   const origin = originOf(cap.url || '');
 
-  const headingFace = head.logo?.computed?.fontFamily
-    || (cap.sections || []).find((s) => s.headingComputed?.fontFamily)?.headingComputed?.fontFamily
+  // The THEME heading font must come from an actual <h1>/<h2>, NOT the logo. A logo's <a> wrapper
+  // often computes to the BODY font (the brand text is a nested <span class="font-heading">), so
+  // sampling the logo first mis-detected the heading font as Inter when every real heading is Nunito.
+  // Priority: a section's heading → the brand-token heading sample → last resort the logo.
+  const headingFace = (cap.sections || []).find((s) => s.headingComputed?.fontFamily)?.headingComputed?.fontFamily
     // Fallback: the page-wide heading sample (set by the brand-token sampler) — the only source
     // on a scroll-hijacked page, where there are no in-flow sections to read a heading from.
-    || cap.baseHeading?.fontFamily || '';
+    || cap.baseHeading?.fontFamily
+    || head.logo?.computed?.fontFamily || '';
   const headingFont = firstFamily(headingFace);
   const bodyFont = firstFamily(body.fontFamily);
 
@@ -152,7 +156,13 @@ export function toDesignConfig(cap) {
     fonts: prune({ heading: headingFont, heading_weight: (cap.baseHeading && cap.baseHeading.weight) || '', body: bodyFont, google, icons }),
     colors: prune({
       ink: nz(body.color), accent, bg: nz(body.backgroundColor),
-      heading: nz(cap.baseHeading?.color),
+      // The theme's DEFAULT heading colour must be the DOMINANT heading tone (usually the ink used by
+      // the h1's base text), NOT an accent. The brand-token sampler can land on a coloured <span>
+      // inside a heading (FreshPaws: h1 = ink "Your Pet's" + green "Second Home"), which mis-set every
+      // heading to green — turning the ink hero title green AND the white-on-green CTA heading invisible
+      // (green on green). Prefer the first real section heading's own colour; per-heading overrides
+      // (e.g. a white CTA heading) are carried separately by headingNode's title_color.
+      heading: nz((cap.sections || []).find((s) => s.headingComputed?.color)?.headingComputed?.color || cap.baseHeading?.color),
       header_bg: nz(head.bar?.backgroundColor),
       footer_bg: nz(foot.computed?.backgroundColor), footer_text: nz(foot.computed?.color),
     }),

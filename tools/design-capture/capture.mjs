@@ -15,13 +15,14 @@
 //   parts you already accepted untouched.
 // • If a site fails (e.g. a flaky network), it writes <site>/error.txt and the queue CONTINUES.
 import { chromium } from 'playwright-core';
-import { writeFileSync, mkdirSync, readFileSync } from 'fs';
+import { writeFileSync, mkdirSync, readFileSync, appendFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { toDesignConfig } from './to-design-config.mjs';
 import { toPages } from './to-pages.mjs';
 import { toStyleGuide } from './to-styleguide.mjs';
 import { toPresets } from './to-presets.mjs';
 import { toThemeSettings } from './to-theme-settings.mjs';
+import { buildBorderPresets } from './box-presets.mjs';
 import { makeZip } from './minimal-zip.mjs';
 import { extractDesign } from './capture-extract.mjs';
 import { toReport } from './to-report.mjs';
@@ -29,12 +30,16 @@ import { contrastReview, contrastReviewCsv } from './contrast.mjs';
 import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
+import { ensureDashboard } from './dashboard/ensure-open.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
 const PKG_VERSION = (() => { try { return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version || ''; } catch { return ''; } })();
 
 // --- Args -------------------------------------------------------------------
 const _args = process.argv.slice(2);
+// Running a capture is "using the converter" → open the live dashboard (localhost:4600) if not already.
+// Fire-and-forget + lockfile-guarded, so a service-spawned capture won't spam browser tabs.
+ensureDashboard();
 const _flags = _args.filter((a) => a.startsWith('--'));
 const _pos = _args.filter((a) => !a.startsWith('--'));
 const isUrl = (s) => /^(https?|file):\/\//i.test(s); // accept local file:// sources too
@@ -47,6 +52,12 @@ const FIDELITY = _flags.includes('--fidelity') || process.env.FIDELITY === '1';
 // inbox), an explicit per-run consent. See docs/report-sharing.md. `--share` implies building the preview.
 const SHARE = _flags.includes('--share') || process.env.UPW_SHARE === '1';
 const SHARE_PREVIEW = SHARE || _flags.includes('--share-preview') || process.env.UPW_SHARE_PREVIEW === '1';
+// Optional AGENT diagnosis attached to the share report: a JSON array of { ref, got, expected, note,
+// systematic } (the got-vs-expected the converter's own trace can't carry). Read from --findings=<path>,
+// else `share-findings.json` in the site's out-dir / base-outdir / cwd. Sanitized (structural only) in
+// to-share.mjs; missing = no findings (fine). Collect the WHOLE site's misses into ONE file, share ONCE.
+const _findingsFlag = _flags.find((f) => f.startsWith('--findings='));
+const FINDINGS_PATH = _findingsFlag ? _findingsFlag.slice('--findings='.length) : '';
 // Preserve QA'd parts on a RE-RUN: skip the header/footer chrome, or keep/drop specific body sections
 // (by the s_index shown in the conversion report). e.g. `--skip-header --skip-sections=0,2` or
 // `--only-sections=1,3` — so a re-convert only touches the parts you still want reconverted.
@@ -55,6 +66,16 @@ const SKIP_FOOTER = _flags.includes('--skip-footer') || process.env.UPW_SKIP_FOO
 const _intList = (name) => { const f = _flags.find((x) => x.startsWith(name + '=')); return f ? f.slice(name.length + 1).split(',').map((n) => parseInt(n.trim(), 10)).filter((n) => !Number.isNaN(n)) : null; };
 const SKIP_SECTIONS = _intList('--skip-sections'); // drop these s_index sections
 const ONLY_SECTIONS = _intList('--only-sections'); // keep ONLY these s_index sections
+// EXCLUSIVE region targeting: run the converter for ONE region and leave the rest of the live site
+// untouched on re-import. --only-header / --only-footer reconvert just that chrome part; --only-sections
+// reconverts just those body sections (merged into the existing page by index). These set a
+// `convert_scope` on the bundle that the importer honours (gate phases + section-merge + chrome-preserve).
+const ONLY_HEADER = _flags.includes('--only-header') || process.env.UPW_ONLY_HEADER === '1';
+const ONLY_FOOTER = _flags.includes('--only-footer') || process.env.UPW_ONLY_FOOTER === '1';
+// The scope object: which regions are IN SCOPE for this run. null = full convert (back-compat).
+const CONVERT_SCOPE = ( ONLY_HEADER || ONLY_FOOTER || ONLY_SECTIONS )
+  ? { header: !!ONLY_HEADER, footer: !!ONLY_FOOTER, sections: ONLY_SECTIONS || [] }
+  : null;
 const baseOutdir = _pos.find((p) => !isUrl(p)) || 'capture-out';
 let urls = _pos.filter(isUrl);
 const listFlag = _flags.find((f) => f.startsWith('--list='));
@@ -67,7 +88,7 @@ if (listFlag) {
 // de-dupe, preserve order
 urls = [...new Set(urls)];
 if (!urls.length) {
-  console.error('usage: node capture.mjs <url> [url2 …] [base-outdir] [--report-only] [--fidelity] [--list=urls.txt] [--share-preview] [--share] [--skip-header] [--skip-footer] [--skip-sections=0,2] [--only-sections=1]');
+  console.error('usage: node capture.mjs <url> [url2 …] [base-outdir] [--report-only] [--fidelity] [--list=urls.txt] [--share-preview] [--share] [--skip-header] [--skip-footer] [--skip-sections=0,2] [--only-header] [--only-footer] [--only-sections=1]');
   process.exit(1);
 }
 
@@ -79,7 +100,43 @@ let origin = '';
 let outdir = '';
 let page = null;
 let _t0 = 0;
-const step = (m) => console.log(`  [${((Date.now() - _t0) / 1000).toFixed(1)}s] ${m}`);
+// --- Live progress log (drives the dashboard front-end) --------------------------------
+// Every step() appends to <outdir>/progress.jsonl and rewrites <outdir>/progress.json, and
+// a <baseDir>/_active.json pointer names the site currently converting. The dashboard polls
+// these so a human can watch each pipeline stage + the tool running it, in real time.
+let _progress = null; // { slug, url, status, startedAt, steps: [...] }
+let _baseDir = '';
+function progressInit(slug, url, baseDir) {
+  _baseDir = baseDir;
+  _progress = { slug, url, status: 'running', startedAt: Date.now(), updatedAt: Date.now(), steps: [], summary: null, error: '' };
+  progressFlush();
+  try { writeFileSync(`${baseDir}/_active.json`, JSON.stringify({ slug, url, status: 'running', startedAt: _progress.startedAt })); } catch { /* best-effort */ }
+}
+function progressFlush() {
+  if (!_progress || !outdir) return;
+  try {
+    _progress.updatedAt = Date.now();
+    writeFileSync(`${outdir}/progress.json`, JSON.stringify(_progress));
+  } catch { /* the dir may not exist yet on the very first step */ }
+}
+function progressDone(status, extra) {
+  if (!_progress) return;
+  _progress.status = status;
+  if (extra && extra.summary) _progress.summary = extra.summary;
+  if (extra && extra.error) _progress.error = extra.error;
+  progressFlush();
+  try { if (_baseDir) writeFileSync(`${_baseDir}/_active.json`, JSON.stringify({ slug: _progress.slug, url: _progress.url, status, startedAt: _progress.startedAt })); } catch { /* best-effort */ }
+}
+const step = (m) => {
+  const elapsed = (Date.now() - _t0) / 1000;
+  console.log(`  [${elapsed.toFixed(1)}s] ${m}`);
+  if (_progress) {
+    const entry = { t: Date.now(), elapsed: Math.round(elapsed * 10) / 10, msg: String(m) };
+    _progress.steps.push(entry);
+    try { if (outdir) appendFileSync(`${outdir}/progress.jsonl`, JSON.stringify(entry) + '\n'); } catch { /* dir race */ }
+    progressFlush();
+  }
+};
 
 // A report folder name from the site URL: host (minus leading "www."), dots/punct → "_".
 // e.g. https://www.mintlify.com → "mintlify_com", https://docs.stripe.com/x → "docs_stripe_com_x".
@@ -177,8 +234,50 @@ async function renderPage(p, target) {
   await p.waitForTimeout(900);
   await evalSafe(p, () => window.scrollTo(0, 0));
   await p.waitForTimeout(250);
+  // INLINE cross-origin stylesheets before extraction. A CDN-served bundle (e.g. an SPA that swaps
+  // its critical CSS for a hashed cdn.* bundle after hydration) is loaded WITHOUT a `crossorigin`
+  // attr, so `sheet.cssRules` throws SecurityError → the extractor can't read it and every rule it
+  // holds (crucially the RESPONSIVE `md:`/`lg:` utilities that un-hide the desktop nav) is dropped →
+  // the mirrored chrome renders as a permanent hamburger. Re-fetch each blocked/linked sheet (the CDN
+  // serves CORS headers, so `fetch` works) and inline it as a same-origin <style> so ALL rules become
+  // readable. matchesPage() still trims to used selectors, so the theme carries only what's needed.
+  await evalSafe(p, async () => {
+    const links = Array.from(document.querySelectorAll('link[rel="stylesheet"][href]'));
+    for (const link of links) {
+      const href = link.href || '';
+      if (/fonts\.googleapis\.com|fonts\.gstatic\.com/i.test(href)) continue; // keep webfonts linked
+      let readable = false;
+      try { readable = !!(link.sheet && link.sheet.cssRules); } catch { readable = false; }
+      if (readable) continue; // same-origin / CORS-readable already — leave it
+      try {
+        const res = await fetch(href, { mode: 'cors' });
+        if (!res.ok) continue;
+        const css = await res.text();
+        const style = document.createElement('style');
+        style.textContent = css;
+        style.setAttribute('data-inlined-from', href);
+        link.parentNode.insertBefore(style, link.nextSibling);
+        link.remove();
+      } catch { /* leave the link; it becomes linked_css */ }
+    }
+  });
+  await p.waitForTimeout(150);
   const data = await evalSafe(p, extractDesign);
   step(`extracted ${(data.sections || []).length} sections`);
+  // Per-section breakdown → the dashboard shows exactly WHICH parts were detected (header, each body
+  // section named by its heading, footer). The mapping itself is one fast pass, so this is the
+  // section-level record rather than a slow live ticker.
+  try {
+    const ch = data.chrome || {};
+    if (ch.header_html) { const n = (ch.nav_tree || []).length; step(`  chrome · header → nav (${n} menu item${n === 1 ? '' : 's'})`); }
+    (data.sections || []).forEach((s, i) => {
+      const h = String(s.heading || '').replace(/\s+/g, ' ').trim().slice(0, 46);
+      const n = (s.mirror && Array.isArray(s.mirror.children)) ? s.mirror.children.length : 0;
+      const kind = (i === 0 && h) ? 'hero' : 'section';
+      step(`  §${i + 1} ${kind}${h ? ` · “${h}”` : ''}${n ? ` (${n} element${n === 1 ? '' : 's'})` : ''}`);
+    });
+    if (ch.footer_html) { const n = (ch.footer_cols || []).length; step(`  chrome · footer → ${n} column${n === 1 ? '' : 's'}`); }
+  } catch { /* best-effort breakdown — never block the capture */ }
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
   await evalSafe(p, () => {
@@ -265,6 +364,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
   outdir = `${baseDir}/${siteSlug(srcUrl)}`;
   mkdirSync(outdir, { recursive: true });
   _t0 = Date.now();
+  progressInit(siteSlug(srcUrl), srcUrl, baseDir);
   page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   // Log image requests from the very first navigation — frame sequences often preload during
   // initial render, long before the animation tracer runs its own passes.
@@ -287,6 +387,34 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
   try {
     // 1) Home.
     const home = await renderPage(page, srcUrl);
+
+    // 1a) Sticky-header SCROLL STATE. A fixed header commonly swaps its look on scroll (transparent →
+    // a solid/blurred bar, often with a shadow + tighter padding) via a JS scroll listener toggling a
+    // class. The mirror captures only the TOP state, so capture the SCROLLED state too — the generated
+    // theme reproduces the transition with a tiny scroll toggle + a `.sc-scrolled` rule.
+    step('capturing sticky-header scroll state…');
+    try {
+      const readHdr = () => evalSafe(page, () => {
+        const h = document.querySelector('header'); if (!h) return null;
+        const s = getComputedStyle(h);
+        return { bg: s.backgroundColor, backdrop: (s.backdropFilter && s.backdropFilter !== 'none') ? s.backdropFilter : '',
+          shadow: (s.boxShadow && s.boxShadow !== 'none') ? s.boxShadow : '', padTop: s.paddingTop, padBottom: s.paddingBottom,
+          borderBottom: (s.borderBottomWidth !== '0px' && s.borderBottomStyle !== 'none') ? `${s.borderBottomWidth} ${s.borderBottomStyle} ${s.borderBottomColor}` : '',
+          position: s.position };
+      });
+      await evalSafe(page, () => window.scrollTo(0, 0)); await page.waitForTimeout(140);
+      const topState = await readHdr();
+      await evalSafe(page, () => window.scrollTo(0, Math.max(720, window.innerHeight))); await page.waitForTimeout(480);
+      const scrolledState = await readHdr();
+      await evalSafe(page, () => window.scrollTo(0, 0)); await page.waitForTimeout(200);
+      if (topState && scrolledState && /fixed|sticky/.test(topState.position || '')) {
+        const changed = ['bg', 'backdrop', 'shadow', 'padTop', 'padBottom', 'borderBottom'].some((k) => (topState[k] || '') !== (scrolledState[k] || ''));
+        if (changed && home.chrome) {
+          home.chrome.header_scroll = { top: topState, scrolled: scrolledState };
+          step(`  header changes on scroll → bg ${topState.bg} → ${scrolledState.bg}`);
+        }
+      }
+    } catch (e) { step('header scroll-state skipped: ' + e.message); }
 
     // 1b) Responsive column widths (tablet + phone).
     step('measuring responsive column widths (tablet + phone)…');
@@ -370,31 +498,55 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // 3b) SKIP FLAGS — preserve QA'd parts on a re-run. Drop skipped body sections (by s_index) and
     // blank skipped header/footer chrome, so the emitted bundle + report carry only what you asked to
     // reconvert. (Re-import then leaves the parts you already accepted untouched.)
-    if (SKIP_SECTIONS || ONLY_SECTIONS || SKIP_HEADER || SKIP_FOOTER) {
+    if (SKIP_SECTIONS || ONLY_SECTIONS || SKIP_HEADER || SKIP_FOOTER || CONVERT_SCOPE) {
       captures.forEach((c) => {
-        c.capture.sections = (c.capture.sections || []).filter((_, i) =>
-          ONLY_SECTIONS ? ONLY_SECTIONS.includes(i) : (SKIP_SECTIONS ? !SKIP_SECTIONS.includes(i) : true));
+        const orig = c.capture.sections || [];
+        // Original s_index of every SURVIVING section, so the importer can MERGE them back into the
+        // existing page by position (targeted re-import) rather than replacing the whole page.
+        const keepIdx = orig.map((_, i) => i).filter((i) =>
+          CONVERT_SCOPE ? CONVERT_SCOPE.sections.includes(i)                       // exclusive scope: only these
+          : ONLY_SECTIONS ? ONLY_SECTIONS.includes(i)
+          : SKIP_SECTIONS ? !SKIP_SECTIONS.includes(i)
+          : true);
+        c._scopeSections = keepIdx;
+        c.capture.sections = keepIdx.map((i) => orig[i]);
       });
+      // Legacy --skip-header/--skip-footer BLANK the chrome (drop it from the bundle). The new
+      // --only-* scope does NOT blank the chrome — the theme still needs the full chrome CSS for a
+      // correct style.css; the scope instead tells the importer which chrome part is in scope (so the
+      // OUT-of-scope part's template file is preserved, not overwritten).
       if (home.chrome && SKIP_HEADER) { home.chrome.header_html = ''; home.chrome.nav_tree = []; home.chrome.logo = null; home.chrome.header_skipped = true; }
       if (home.chrome && SKIP_FOOTER) { home.chrome.footer_html = ''; home.chrome.footer_cols = []; home.chrome.footer_copyright = ''; home.chrome.footer_skipped = true; }
       const parts = [];
-      if (ONLY_SECTIONS) parts.push('only sections ' + ONLY_SECTIONS.join(','));
+      if (CONVERT_SCOPE) { parts.push('scope: ' + [CONVERT_SCOPE.header && 'header', CONVERT_SCOPE.footer && 'footer', CONVERT_SCOPE.sections.length && ('sections ' + CONVERT_SCOPE.sections.join(','))].filter(Boolean).join(' + ')); }
+      else if (ONLY_SECTIONS) parts.push('only sections ' + ONLY_SECTIONS.join(','));
       else if (SKIP_SECTIONS) parts.push('skip sections ' + SKIP_SECTIONS.join(','));
       if (SKIP_HEADER) parts.push('skip header');
       if (SKIP_FOOTER) parts.push('skip footer');
-      step('skip flags → ' + parts.join(' · '));
+      step('region targeting → ' + parts.join(' · '));
     }
 
     // 4) Theme + style guide + builder pages.
     step('building theme, pages & conversion report…');
     const config = toDesignConfig(home);
     if (home.chrome) config.raw_chrome = home.chrome;
+    // Region-targeting scope → carried in the bundle so the importer gates its phases (chrome vs. body),
+    // merges the scoped sections into the existing page, and preserves the out-of-scope chrome part.
+    if (CONVERT_SCOPE) { config.convert_scope = CONVERT_SCOPE; }
     // CHROME → parent-theme Theme Settings (playbook: chrome = theme, not page content). Emit the
     // header/footer as native Header/Footer Theme-Settings values + flag the theme-generator to
     // ship a NEAR-EMPTY child theme (no header.php/footer.php) so the parent renders this chrome.
     // MIRROR of the PHP tokens_to_theme_settings_chrome() + chrome_via_settings flag.
     const themeSettings = toThemeSettings(config, home);
-    if (themeSettings && themeSettings.values && Object.keys(themeSettings.values).length) {
+    // FIDELITY FIRST (Rule 0.1 — header/footer MUST match the source). The Theme-Settings chrome path
+    // is editable but LOSSY — it can't reproduce a custom logo lockup (icon + multi-tone text), a
+    // multi-column footer, or social icons, so a rich source (e.g. FreshPaws) converts to a bare
+    // text-logo header with no nav + a one-column footer. When we captured the source's REAL chrome
+    // markup (raw_chrome header/footer HTML + its CSS), render THAT verbatim (the faithful mirror —
+    // theme-generator bakes header.php/footer.php) instead. Fall back to Theme-Settings chrome only
+    // when no faithful mirror is available (e.g. a partial HTML upload).
+    const hasFaithfulChrome = !!( home.chrome && ( home.chrome.header_html || home.chrome.footer_html ) );
+    if ( ! hasFaithfulChrome && themeSettings && themeSettings.values && Object.keys(themeSettings.values).length ) {
       config.chrome_via_settings = true;
     }
     const titleFor = (cap, slug) => {
@@ -407,6 +559,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       const pg = toPages(c.capture, { trace, fidelity: FIDELITY }).pages[0];
       pg.title = titleFor(c.capture, c.slug);
       pg.slug = c.slug; pg.status = 'publish'; pg.front_page = c.front;
+      // Targeted re-import: mark the page PARTIAL and list the original s_index of each builder section
+      // (same order), so the importer merges these into the existing page instead of replacing it.
+      if (CONVERT_SCOPE && Array.isArray(c._scopeSections)) { pg.partial = true; pg.scope_sections = c._scopeSections; }
       if (c.front && anim) {
         // Scroll-hijacked source: emit editable Scroll Story stage section(s). With a sampled
         // TIMELINE, each story stretch (scene run + its ride's backdrop + real pacing) becomes its
@@ -444,6 +599,37 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       return pg;
     });
     const pages = { pages: builderPages };
+
+    // BOX PRESETS (Theme Settings → Components → Box Presets). Every icon_box stashed its captured card
+    // SKIN on `_box` during mapping; cluster the DISTINCT skins across all pages into `border_presets`
+    // (defaults + derived), point each icon_box's `box_style` at its matching preset, then drop `_box`.
+    // This is the URL/JS counterpart of the PHP `build_box_presets()` (which only ran on file uploads).
+    {
+      const iconBoxes = [];
+      const collect = (n) => {
+        if (Array.isArray(n)) { n.forEach(collect); return; }
+        if (n && typeof n === 'object') {
+          if (n.shortcode === 'icon_box' && n.atts && n.atts._box) iconBoxes.push(n);
+          if (n._items) collect(n._items);
+        }
+      };
+      builderPages.forEach((pg) => collect(pg.builder));
+      if (iconBoxes.length) {
+        const { presets, boxpFor } = buildBorderPresets(iconBoxes.map((n) => n.atts._box));
+        let assigned = 0;
+        for (const n of iconBoxes) {
+          const boxp = boxpFor(n.atts._box);
+          if (boxp) { n.atts.box_style = boxp; assigned++; }
+          delete n.atts._box;
+        }
+        // Merge into the theme-settings values so the importer writes the `border_presets` option (the
+        // importer REPLACES the option, so this carries the plugin defaults + the derived presets).
+        if (themeSettings && themeSettings.values) { themeSettings.values.border_presets = presets; }
+        const derivedCount = presets.length - 4; // 4 built-in defaults
+        step(`box presets → ${derivedCount} derived skin(s) from ${iconBoxes.length} card(s); box_style set on ${assigned}`);
+      }
+    }
+
     const report = toReport({ url: srcUrl, generated: 'design-capture', pages: reportPages });
     // Style-coverage report (CSS-fidelity): which source styles the carried CSS reproduces vs drops.
     const styleReport = toStyleReport({
@@ -512,9 +698,15 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // Opt-in, anonymized report sharing (structural only — no URL/content/PII). Default OFF: nothing is
     // built or sent unless the developer explicitly passes --share-preview / --share.
     if (SHARE_PREVIEW) {
-      const sanitized = sanitizeReport({ input: { url: srcUrl, pages: reportPages }, stats: report.stats, converterVersion: PKG_VERSION });
+      const findings = (() => {
+        for (const p of [FINDINGS_PATH, `${outdir}/share-findings.json`, `${baseOutdir}/share-findings.json`, 'share-findings.json'].filter(Boolean)) {
+          try { const j = JSON.parse(readFileSync(p, 'utf8')); return Array.isArray(j) ? j : (j.findings || []); } catch { /* try next */ }
+        }
+        return [];
+      })();
+      const sanitized = sanitizeReport({ input: { url: srcUrl, pages: reportPages }, stats: report.stats, converterVersion: PKG_VERSION, findings });
       writeFileSync(`${outdir}/share-report.json`, JSON.stringify(sanitized, null, 2));
-      step('share: wrote anonymized share-report.json (structural only — no URLs/content) — inspect before sending');
+      step(`share: wrote anonymized share-report.json (structural only — no URLs/content${sanitized.findings.length ? `; ${sanitized.findings.length} agent-finding(s)` : ''}) — inspect before sending`);
       if (SHARE) {
         const cfg = loadShareConfig(SCRIPT_DIR);
         if (cfg.form && cfg.form.responseUrl) {
@@ -569,7 +761,21 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       writeFileSync(`${outdir}/media.json`, JSON.stringify(media, null, 2));
       writeFileSync(`${outdir}/presets.json`, JSON.stringify(presets, null, 2));
       writeFileSync(`${outdir}/theme-settings.json`, JSON.stringify(themeSettings, null, 2));
-      const bundleZip = makeZip([
+      // WordPress theme screenshot (1200×900, the WP-standard 4:3): the source's above-the-fold at the
+      // exact WP dimension, carried in the bundle so the generated child theme gets a REAL thumbnail in
+      // Appearance → Themes instead of a blank tile. Viewport-only screenshot at 1200×900 = no resize/crop.
+      let screenshotBuf = null;
+      try {
+        await page.setViewportSize({ width: 1200, height: 900 });
+        await page.goto(srcUrl, { waitUntil: 'networkidle', timeout: 30000 });
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForTimeout(400);
+        screenshotBuf = await page.screenshot({ type: 'png' }); // viewport-only → exactly 1200×900
+        writeFileSync(`${outdir}/screenshot.png`, screenshotBuf);
+        step('saved WordPress theme screenshot (1200×900) → screenshot.png');
+      } catch { screenshotBuf = null; }
+
+      const bundleFiles = [
         { name: 'bundle.json', data: JSON.stringify({ name: config.theme.name, source: srcUrl, generated: 'design-capture', pages: builderPages.length }, null, 2) },
         { name: 'media.json', data: JSON.stringify(media, null, 2) },
         { name: 'theme-design.json', data: JSON.stringify(config, null, 2) },
@@ -582,9 +788,12 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         { name: 'conversion-report.html', data: report.html },
         { name: 'style-coverage.csv', data: styleReport.csv },
         { name: 'style-coverage.html', data: styleReport.html },
-      ]);
+      ];
+      if (screenshotBuf) { bundleFiles.push({ name: 'screenshot.png', data: screenshotBuf }); }
+      const bundleZip = makeZip(bundleFiles);
       writeFileSync(`${outdir}/convert-bundle.zip`, bundleZip);
       step('saving full-page screenshot…');
+      await page.setViewportSize({ width: 1440, height: 900 });
       await page.goto(srcUrl, { waitUntil: 'networkidle', timeout: 30000 }).catch(() => {});
       await page.screenshot({ path: `${outdir}/full.png`, fullPage: true }).catch(() => {});
     }
@@ -593,6 +802,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     console.log('  ', `theme: heading=${config.fonts.heading || '?'} | body=${config.fonts.body || '?'} | accent=${config.colors.accent || '?'}`);
     console.log('  ', `report: ${report.stats.elements} elements | ${report.stats.fallbacks} code_block fallbacks | ${report.stats.opportunities} opportunities | ${report.stats.stylingDrops} styling-drops | ${report.stats.overLargeSections} over-large`);
     console.log('  ', `style-coverage: ${styleReport.stats.fidelityScore}% (carried/used across ${styleReport.stats.sections} sections)`);
+    progressDone('done', { summary: { ...report.stats, fidelityScore: styleReport.stats.fidelityScore, headingFont: config.fonts.heading, bodyFont: config.fonts.body } });
     return report.stats;
   } finally {
     await page.close().catch(() => {});
@@ -612,6 +822,7 @@ for (let i = 0; i < urls.length; i++) {
   } catch (e) {
     const od = `${baseOutdir}/${siteSlug(u)}`;
     try { mkdirSync(od, { recursive: true }); writeFileSync(`${od}/error.txt`, `Capture failed for ${u}\n\n${(e && e.stack) || e}\n`); } catch { /* ignore */ }
+    progressDone('error', { error: (e && e.message) || String(e) });
     console.error(`  ✖ FAILED: ${(e && e.message) || e}  → wrote ${od}/error.txt`);
     results.push({ url: u, ok: false, err: (e && e.message) || String(e) });
   }

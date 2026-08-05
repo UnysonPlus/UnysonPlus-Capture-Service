@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UnysonPlus Converter</title>
+<style>
+:root{
+  --bg:oklch(0.165 0.014 245); --surface:oklch(0.205 0.014 245); --surface-2:oklch(0.245 0.015 245);
+  --border:oklch(0.31 0.015 245); --border-soft:oklch(0.27 0.014 245);
+  --ink:oklch(0.965 0.004 245); --muted:oklch(0.71 0.012 245); --faint:oklch(0.55 0.012 245);
+  --accent:oklch(0.74 0.17 158); --accent-2:oklch(0.66 0.16 158); --accent-ink:oklch(0.19 0.03 158);
+  --amber:oklch(0.80 0.14 78); --red:oklch(0.66 0.19 27); --blue:oklch(0.72 0.12 240);
+  --mono:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --z-toast:60;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:radial-gradient(120% 90% at 50% -10%, oklch(0.22 0.03 158 / .35), transparent 55%);}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--accent-ink)}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:20px;padding:14px 24px;
+  background:oklch(0.165 0.014 245 / .82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--accent),var(--accent-2));color:var(--accent-ink);box-shadow:0 2px 12px oklch(0.74 0.17 158 / .35)}
+.brand .mark svg{width:17px;height:17px}
+.brand small{display:block;font-weight:500;color:var(--faint);font-size:11px;letter-spacing:.02em}
+.convert{flex:1;display:flex;gap:10px;max-width:680px}
+.convert input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:10px 14px;color:var(--ink);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+.convert input::placeholder{color:var(--faint)}
+.convert input:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;transition:transform .12s cubic-bezier(.2,.8,.2,1),background .15s,opacity .15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:oklch(0.78 0.17 158)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.watching{margin-left:auto;color:var(--faint);font-size:12px;font-family:var(--mono);white-space:nowrap;display:flex;align-items:center;gap:8px}
+.watching b{color:var(--muted);font-weight:500}
+
+/* ---------- layout ---------- */
+.wrap{display:grid;grid-template-columns:minmax(300px,340px) 1fr;gap:20px;padding:20px 24px 60px;max-width:1560px;margin:0 auto;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--border-soft);border-radius:16px;overflow:hidden}
+.panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-soft)}
+.panel-h h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.col-left{display:flex;flex-direction:column;gap:20px;position:sticky;top:78px}
+@media(max-width:900px){.col-left{position:static}}
+
+/* ---------- history ---------- */
+.history{max-height:220px;overflow:auto}
+.hist-item{display:flex;align-items:center;gap:10px;padding:11px 18px;cursor:pointer;border-bottom:1px solid var(--border-soft);transition:background .12s}
+.hist-item:last-child{border-bottom:0}
+.hist-item:hover{background:var(--surface-2)}
+.hist-item.active{background:oklch(0.74 0.17 158 / .1)}
+.hist-item .nm{flex:1;min-width:0}
+.hist-item .nm b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-item .nm span{display:block;color:var(--faint);font-size:11px;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- status dot ---------- */
+.dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--faint)}
+.dot.running{background:var(--amber);box-shadow:0 0 0 0 oklch(0.80 0.14 78 / .6);animation:pulse 1.4s infinite}
+.dot.done{background:var(--accent)}
+.dot.error{background:var(--red)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 oklch(0.80 0.14 78 / .5)}70%{box-shadow:0 0 0 7px oklch(0.80 0.14 78 / 0)}100%{box-shadow:0 0 0 0 oklch(0.80 0.14 78 / 0)}}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:999px;font-size:11px;font-weight:600;
+  letter-spacing:.03em;text-transform:uppercase;background:var(--surface-2);border:1px solid var(--border)}
+.pill.running{color:var(--amber)} .pill.done{color:var(--accent)} .pill.error{color:var(--red)}
+.panel-h h2{margin-right:auto}
+.follow-btn{background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--faint);font:inherit;font-size:11px;font-weight:600;padding:4px 11px;cursor:pointer;white-space:nowrap}
+.follow-btn.on{color:var(--accent);border-color:color-mix(in oklch,var(--accent) 45%,transparent)}
+.follow-btn:hover{color:var(--ink);border-color:var(--muted)}
+
+/* ---------- progress timeline ---------- */
+.timeline{padding:8px 0;max-height:60vh;overflow:auto}
+.tl-step{display:grid;grid-template-columns:20px 1fr auto;gap:12px;align-items:baseline;padding:7px 18px;position:relative}
+.tl-step .rail{position:relative;align-self:stretch;display:flex;justify-content:center}
+.tl-step .rail::before{content:"";position:absolute;top:11px;bottom:-7px;width:1.5px;background:var(--border)}
+.tl-step:last-child .rail::before{display:none}
+.tl-node{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;z-index:1;box-shadow:0 0 0 3px var(--surface)}
+.tl-step.cur .tl-node{background:var(--amber);animation:pulse 1.4s infinite}
+.tl-msg{font-size:13px;color:var(--ink);word-break:break-word}
+.tl-step:not(.cur) .tl-msg{color:var(--muted)}
+.tl-t{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+.tl-empty{padding:34px 18px;text-align:center;color:var(--faint);font-size:13px}
+
+/* ---------- main tabs ---------- */
+.tabs{display:flex;gap:4px;padding:0 8px;border-bottom:1px solid var(--border-soft);overflow:auto}
+.tab{padding:13px 15px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;
+  border-bottom:2px solid transparent;transition:color .12s,border-color .12s;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.tab-body{padding:22px}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:22px}
+.stat{background:var(--surface-2);border:1px solid var(--border-soft);border-radius:12px;padding:14px 16px}
+.stat .v{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.stat .v.good{color:var(--accent)} .stat .v.warn{color:var(--amber)}
+.stat .k{margin-top:6px;font-size:11px;color:var(--muted);letter-spacing:.03em}
+.stat .prov{margin-top:3px;font-size:10px;color:var(--faint);font-family:var(--mono)}
+
+/* ---------- shot ---------- */
+.shot{border-radius:12px;border:1px solid var(--border);overflow:hidden;background:var(--surface-2);max-height:520px;overflow-y:auto}
+.shot img{display:block;width:100%}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:680px){.compare{grid-template-columns:1fr}}
+.compare figure{margin:0;min-width:0}
+.compare figcaption{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+/* side-by-side compare panes — equal size, both scrollable, matched scale so they line up */
+.cmp-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-size:12px;color:var(--muted)}
+.cmp-bar label{display:flex;gap:6px;align-items:center}
+.cmp-bar input[type=url]{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:6px 10px;font:inherit;font-size:12px;min-width:280px}
+.cmp-bar .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.cmp-bar .seg button{background:var(--surface-2);border:0;color:var(--muted);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer}
+.cmp-bar .seg button.active{background:var(--accent);color:#04160e}
+.cmp-bar .mini{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer;text-decoration:none}
+.cmp-pane{border-radius:12px;border:1px solid var(--border);overflow:auto;background:#fff;height:min(74vh,760px);position:relative}
+.cmp-pane img{display:block;width:100%}
+.cmp-pane .cmp-fit{position:relative}
+.cmp-pane .cmp-scaler{transform-origin:top left}
+.cmp-pane .cmp-scaler iframe{border:0;display:block;background:#fff}
+.cmp-pane.is-empty{display:flex;align-items:center;justify-content:center;background:var(--surface-2)}
+
+/* ---------- tokens ---------- */
+.tok-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.swatch{background:var(--surface-2);border:1px solid var(--border-soft);border-radius:12px;overflow:hidden}
+.swatch .chip{height:56px}
+.swatch .meta{padding:10px 12px}
+.swatch .meta b{font-size:12px;text-transform:capitalize}
+.swatch .meta span{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;align-items:baseline;font-size:13px;margin-top:20px}
+.kv dt{color:var(--muted)}
+.kv dd{font-family:var(--mono);color:var(--ink)}
+.kv dd .note{font-family:var(--sans);color:var(--faint);font-size:11px;margin-left:8px}
+
+/* ---------- report ---------- */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:9px 12px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--border);font-weight:600}
+td{padding:10px 12px;border-bottom:1px solid var(--border-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;padding:2px 9px;border-radius:6px;font-size:11px;font-weight:600;font-family:var(--mono)}
+.tag.ok{background:oklch(0.74 0.17 158 / .16);color:var(--accent)}
+.tag.fb{background:oklch(0.80 0.14 78 / .16);color:var(--amber)}
+.tag.mirror{background:oklch(0.72 0.12 240 / .16);color:var(--blue)}
+td.txt{color:var(--muted);max-width:340px}
+.mono{font-family:var(--mono);font-size:12px}
+
+.empty{padding:60px 20px;text-align:center;color:var(--faint)}
+.empty svg{width:38px;height:38px;opacity:.5;margin-bottom:12px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:var(--z-toast);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:11px;padding:11px 18px;font-size:13px;box-shadow:0 8px 30px oklch(0 0 0 / .4);
+  opacity:0;transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.fade{animation:fade .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg></span>
+    <span>UnysonPlus Converter<small>deterministic site conversion</small></span>
+  </div>
+  <form class="convert" id="convertForm">
+    <input id="urlInput" type="url" placeholder="https://example.com  — paste a URL to convert" autocomplete="off" spellcheck="false">
+    <button class="btn btn-primary" id="convertBtn" type="submit">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      Convert
+    </button>
+  </form>
+  <div class="watching">watching <b id="watchDir">…</b></div>
+  <div id="upwStatus" class="watching" title="Converter tools — capture service + running conversions" style="display:flex;gap:.6em;align-items:center;white-space:nowrap"></div>
+</header>
+
+<div class="wrap">
+  <aside class="col-left">
+    <section class="panel">
+      <div class="panel-h"><h2>Live progress</h2><span class="pill" id="statusPill"><span class="dot" id="statusDot"></span><span id="statusText">idle</span></span><button class="follow-btn" id="followBtn" title="Auto-switch to the newest running conversion">● Following live</button></div>
+      <div class="timeline" id="timeline"><div class="tl-empty">Paste a URL above to start a conversion, or pick a past run.</div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-h"><h2>Recent conversions</h2></div>
+      <div class="history" id="history"></div>
+    </section>
+  </aside>
+
+  <main class="panel" id="main">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="overview">Overview</button>
+      <button class="tab" data-tab="tokens">Design tokens</button>
+      <button class="tab" data-tab="report">Conversion report</button>
+      <button class="tab" data-tab="compare">Compare</button>
+    </div>
+    <div class="tab-body" id="tabBody">
+      <div class="empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+        <div>Select or start a conversion to see its design tokens, section mapping, and a source-vs-result comparison.</div>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const api=(p)=>fetch(p,{cache:'no-store'}).then(r=>r.json());
+let state={slug:null,tab:'overview',config:null,report:null,progress:null,polling:null,follow:true};
+
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+function fmtTime(t){if(!t)return'';const d=new Date(t);return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+function ago(t){if(!t)return'';const s=(Date.now()-t)/1000;if(s<60)return Math.round(s)+'s ago';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago';}
+
+async function loadSites(){
+  const {out,sites}=await api('/api/sites');
+  $('#watchDir').textContent=out;
+  const h=$('#history');
+  if(!sites.length){h.innerHTML='<div class="tl-empty" style="padding:22px">No conversions yet.</div>';return;}
+  h.innerHTML=sites.map(s=>`<div class="hist-item ${s.slug===state.slug?'active':''}" data-slug="${s.slug}">
+    <span class="dot ${s.status}"></span>
+    <span class="nm"><b>${s.title||s.slug}</b><span>${s.url||s.slug} · ${ago(s.updatedAt)}</span></span>
+  </div>`).join('');
+  h.querySelectorAll('.hist-item').forEach(el=>el.onclick=()=>select(el.dataset.slug,true));
+  renderFollow();
+  // Follow the LIVE conversion: as soon as a conversion is running (the dev kit / capture service
+  // started one), switch to monitoring it — unless the user pinned a site by clicking it. `sites`
+  // is newest-first, so the first running one is the freshest.
+  const running=sites.find(s=>s.status==='running');
+  if(state.follow&&running){ if(running.slug!==state.slug)select(running.slug,false); }
+  else if(!state.slug&&sites[0]){ select(sites[0].slug,false); }
+}
+
+async function select(slug,manual){
+  if(manual)state.follow=false; // pin to this site; the Follow button (or a fresh run) re-enables live-follow
+  if(state.polling){clearInterval(state.polling);state.polling=null;}
+  state.slug=slug;
+  renderFollow();
+  loadSites();
+  await refresh();
+  // keep polling while running
+  state.polling=setInterval(async()=>{
+    const p=await api(`/api/site/${slug}/progress`);
+    renderProgress(p);
+    if(p.status!=='running'){clearInterval(state.polling);state.polling=null;await refresh();loadSites();}
+  },900);
+}
+
+async function refresh(){
+  const [progress,config,report]=await Promise.all([
+    api(`/api/site/${state.slug}/progress`),
+    api(`/api/site/${state.slug}/config`),
+    api(`/api/site/${state.slug}/report`),
+  ]);
+  state.progress=progress;state.config=config;state.report=report.rows||[];
+  renderProgress(progress);renderTab();
+}
+
+function renderProgress(p){
+  const pill=$('#statusPill'),dot=$('#statusDot'),txt=$('#statusText');
+  const st=p.status||'idle';
+  pill.className='pill '+st;dot.className='dot '+st;
+  txt.textContent=st==='running'?'converting':st;
+  const tl=$('#timeline');
+  const steps=p.steps||[];
+  if(!steps.length){tl.innerHTML='<div class="tl-empty">Waiting for the first pipeline step…</div>';return;}
+  // Newest step on top → the latest activity is always visible without scrolling. The current
+  // (running) step is the last in chronological order, so after reversing it's the FIRST rendered.
+  const rev=steps.slice().reverse();
+  tl.innerHTML=rev.map((s,i)=>`<div class="tl-step ${st==='running'&&i===0?'cur':''}">
+    <span class="rail"><span class="tl-node"></span></span>
+    <span class="tl-msg">${esc(s.msg)}</span>
+    <span class="tl-t" title="${s.elapsed!=null?'+'+s.elapsed+'s into the run':''}">${s.t?fmtTime(s.t):(s.elapsed!=null?s.elapsed+'s':'')}</span>
+  </div>`).join('');
+  if(st==='running')tl.scrollTop=0;
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function renderFollow(){const b=$('#followBtn');if(!b)return;b.textContent=state.follow?'● Following live':'▸ Follow live';b.classList.toggle('on',state.follow);}
+
+/* ---- tabs ---- */
+$('#tabs').querySelectorAll('.tab').forEach(t=>t.onclick=()=>{state.tab=t.dataset.tab;
+  $('#tabs').querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));renderTab();});
+
+function renderTab(){
+  const b=$('#tabBody');const c=state.config||{};const p=state.progress||{};
+  if(!state.slug){return;}
+  const A=(slug,f)=>`/artifact/${slug}/${f}`;
+  if(state.tab==='overview'){
+    const sm=p.summary||{};
+    const stat=(v,k,cls='',prov='')=>`<div class="stat"><div class="v ${cls}">${v}</div><div class="k">${k}</div>${prov?`<div class="prov">${prov}</div>`:''}</div>`;
+    const fb=sm.fallbacks;const fs=sm.fidelityScore;
+    b.innerHTML=`<div class="fade">
+      <div class="stats">
+        ${stat(sm.elements??'—','Elements mapped')}
+        ${stat(fb??'—','Code-block fallbacks',fb===0?'good':(fb>0?'warn':''))}
+        ${stat(fs!=null?fs+'%':'—','Style coverage',fs>=90?'good':'')}
+        ${stat((c.layout&&c.layout.container_max)||'—','Container width','','measured · max across breakpoints')}
+      </div>
+      <div class="shot"><img src="${A(state.slug,'full.png')}" alt="Source capture" onerror="this.parentElement.innerHTML='<div class=empty>No screenshot captured yet.</div>'"></div>
+    </div>`;
+  }else if(state.tab==='tokens'){
+    const col=c.colors||{};const fn=c.fonts||{};
+    const order=['heading','ink','accent','bg','header_bg','footer_bg','footer_text'];
+    const seen=new Set();
+    const items=order.filter(k=>col[k]).map(k=>({k,v:col[k]})).concat(Object.entries(col).filter(([k])=>!order.includes(k)&&!seen.has(k)).map(([k,v])=>({k,v})));
+    const toCss=(v)=>/^\d+\s+\d+%\s+\d+%$/.test(String(v))?`hsl(${v})`:v;
+    b.innerHTML=`<div class="fade">
+      <div class="tok-grid">${items.map(({k,v})=>`<div class="swatch"><div class="chip" style="background:${toCss(v)}"></div><div class="meta"><b>${k.replace(/_/g,' ')}</b><span>${v}</span></div></div>`).join('')||'<div class="empty">No color tokens captured.</div>'}</div>
+      <dl class="kv">
+        <dt>Heading font</dt><dd>${fn.heading||'—'} <span class="note">sampled from an &lt;h1&gt;/&lt;h2&gt;, not the logo</span></dd>
+        <dt>Body font</dt><dd>${fn.body||'—'}</dd>
+        <dt>Container width</dt><dd>${(c.layout&&c.layout.container_max)||'—'} <span class="note">largest max-width across breakpoints (the design max)</span></dd>
+      </dl>
+    </div>`;
+  }else if(state.tab==='report'){
+    const rows=state.report||[];
+    if(!rows.length){b.innerHTML='<div class="empty">No conversion report for this run.</div>';return;}
+    b.innerHTML=`<div class="fade"><table><thead><tr><th>#</th><th>Section</th><th>Role → shortcode</th><th>Result</th><th>Content</th></tr></thead><tbody>
+      ${rows.map(r=>{const res=r.fallback?'<span class="tag fb">fallback</span>':(r.decision==='verbatim'?'<span class="tag mirror">mirror</span>':'<span class="tag ok">mapped</span>');
+      return `<tr><td class="mono">${r.section??''}</td><td class="mono">${esc((r.s_class||'').slice(0,26))}</td><td>${esc(r.role||r.detected||'')} <span class="mono" style="color:var(--faint)">→ ${esc(r.mapped||'')}</span></td><td>${res}</td><td class="txt">${esc((r.text||'').slice(0,90))}</td></tr>`;}).join('')}
+    </tbody></table></div>`;
+  }else if(state.tab==='compare'){
+    const LOGICAL=1440, HEIGHT=5200; // source shots are captured at a 1440px viewport
+    const conv=(localStorage.getItem('upw-cmp-url-'+state.slug)||demoUrlFor(c)||'');
+    b.innerHTML=`<div class="fade">
+      <div class="cmp-bar">
+        <label>Converted site <input type="url" id="cmpUrl" value="${esc(conv)}" placeholder="http://localhost/your-site/" autocomplete="off"></label>
+        <button class="mini" id="cmpReload">Reload</button>
+        <label><input type="checkbox" id="cmpSync" checked> Sync scroll</label>
+        <a class="mini" id="cmpOpen" href="${esc(conv||'#')}" target="_blank" rel="noopener" style="${conv?'':'display:none'}">Open ↗</a>
+      </div>
+      <div class="compare">
+        <figure><figcaption><span class="dot done"></span>Source capture <span class="mono" style="color:var(--faint)">1440px</span></figcaption>
+          <div class="cmp-pane" id="cmpSrc"><img src="${A(state.slug,'full.png')}" onerror="this.closest('.cmp-pane').classList.add('is-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:'empty',textContent:'No source screenshot.'}))"></div>
+        </figure>
+        <figure><figcaption><span class="dot ${conv?'done':''}"></span>Converted result <span class="mono" style="color:var(--faint)" id="cmpScaleLbl"></span></figcaption>
+          ${conv
+            ? `<div class="cmp-pane" id="cmpConv"><div class="cmp-fit" id="cmpFit"><div class="cmp-scaler" id="cmpScaler" style="width:${LOGICAL}px;height:${HEIGHT}px"><iframe id="cmpFrame" src="${esc(conv)}" style="width:${LOGICAL}px;height:${HEIGHT}px"></iframe></div></div></div>`
+            : `<div class="cmp-pane is-empty"><div class="empty">Enter the converted site's URL above to compare it side by side.<br><span style="font-size:11px">(Import the bundle to a WordPress site first.)</span></div></div>`}
+        </figure>
+      </div>
+    </div>`;
+    setupCompare(LOGICAL, HEIGHT);
+  }
+}
+function demoUrlFor(c){/* best-effort default; the field is editable + remembered per site */const slug=(c.theme&&c.theme.slug);return slug?`http://localhost/demos/${slug}/`:'';}
+
+// Match the converted iframe's scale to the (1440px-captured) source shot so the two panes line up,
+// keep them scroll-synced, and let the converted URL be edited + remembered per site.
+function setupCompare(LOGICAL, HEIGHT){
+  const src=$('#cmpSrc'), conv=$('#cmpConv');
+  function fit(){
+    if(!conv) return;
+    const s=conv.clientWidth/LOGICAL;
+    const scaler=$('#cmpScaler'), fitEl=$('#cmpFit'), lbl=$('#cmpScaleLbl');
+    if(scaler) scaler.style.transform=`scale(${s})`;
+    if(fitEl){ fitEl.style.width=(LOGICAL*s)+'px'; fitEl.style.height=(HEIGHT*s)+'px'; }
+    if(lbl) lbl.textContent=Math.round(s*100)+'%';
+  }
+  fit(); requestAnimationFrame(fit);
+  if(conv){ if(window.ResizeObserver){ new ResizeObserver(fit).observe(conv); } else { window.addEventListener('resize',fit); } }
+  // proportional scroll-sync (the two panes have different total heights)
+  let lock=false;
+  const sync=(from,to)=>{
+    const on=$('#cmpSync'); if(lock||!from||!to||!on||!on.checked) return;
+    lock=true;
+    const fm=from.scrollHeight-from.clientHeight, tm=to.scrollHeight-to.clientHeight;
+    if(fm>0) to.scrollTop=(from.scrollTop/fm)*tm;
+    requestAnimationFrame(()=>{lock=false;});
+  };
+  if(src&&conv){ src.addEventListener('scroll',()=>sync(src,conv)); conv.addEventListener('scroll',()=>sync(conv,src)); }
+  const url=$('#cmpUrl'), reload=$('#cmpReload');
+  const apply=()=>{ const v=(url.value||'').trim(); localStorage.setItem('upw-cmp-url-'+state.slug,v); const f=$('#cmpFrame'), o=$('#cmpOpen'); if(o){o.href=v||'#';o.style.display=v?'':'none';} if(f&&v){f.src=v;} else { renderTab(); } };
+  if(url){ url.addEventListener('change',apply); url.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); apply(); } }); }
+  if(reload){ reload.addEventListener('click',()=>{ const f=$('#cmpFrame'); if(f) f.src=f.src; else apply(); }); }
+}
+
+/* ---- convert ---- */
+$('#convertForm').onsubmit=async(e)=>{e.preventDefault();
+  const url=$('#urlInput').value.trim();if(!url)return;
+  const btn=$('#convertBtn');btn.disabled=true;btn.textContent='Starting…';
+  try{const r=await fetch('/api/convert',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url})}).then(r=>r.json());
+    if(r.error){toast(r.error);}else{toast('Conversion started — watch it live.');
+      const slug=url.replace(/^https?:\/\//,'').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'').toLowerCase();
+      setTimeout(()=>select(slug),700);setTimeout(loadSites,900);}
+  }catch{toast('Could not reach the converter.');}
+  finally{setTimeout(()=>{btn.disabled=false;btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Convert';},900);}
+};
+
+$('#followBtn').onclick=()=>{state.follow=!state.follow;renderFollow();loadSites();};
+renderFollow();
+loadSites();
+setInterval(loadSites,2500); // always refresh the list + auto-follow a newly-started conversion
+
+// --- Live "converter tools in use" indicator: is the capture SERVICE up, and is a conversion running? ---
+async function pollStatus(){
+  const el=document.getElementById('upwStatus'); if(!el) return;
+  let svc={up:false}, act={};
+  try{svc=await api('/api/service-health');}catch(e){}
+  try{act=await api('/api/active');}catch(e){}
+  const dot=(c,t)=>`<span style="display:inline-flex;align-items:center;gap:.35em"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block;box-shadow:0 0 6px ${c}"></span>${t}</span>`;
+  const parts=[ svc.up ? dot('oklch(0.74 0.17 158)',`capture service${svc.aiReady?' + AI':''}`) : dot('#9aa3ad','service off') ];
+  const ts=act && (act.at||act.startedAt||0);
+  const fresh=ts && (Date.now()-ts) < 10*60*1000; // ignore a stuck _active.json from a crashed run
+  if(act && act.status==='running' && fresh){
+    const label=act.url?String(act.url).replace(/^https?:\/\//,'').slice(0,34):'a conversion';
+    parts.push(dot('oklch(0.80 0.16 85)',`converting: ${label}…`));
+  }
+  // What the AI is doing right now (an /ai-convert mapping refine is opaque + can run minutes).
+  let ai={};
+  try{ai=await api('/api/ai');}catch(e){}
+  const aiTs=ai&&(ai.at||ai.startedAt||0), aiFresh=aiTs&&(Date.now()-aiTs)<10*60*1000;
+  if(ai&&ai.status==='thinking'&&aiFresh){
+    const secs=ai.startedAt?Math.round((Date.now()-ai.startedAt)/1000):'';
+    parts.push(dot('oklch(0.62 0.19 300)',`AI thinking (${esc(ai.backend||'ai')}${secs!==''?', '+secs+'s':''})…`));
+  }
+  el.innerHTML=parts.join('&nbsp;&nbsp;');
+}
+pollStatus(); setInterval(pollStatus,3000);
+</script>
+</body>
+</html>

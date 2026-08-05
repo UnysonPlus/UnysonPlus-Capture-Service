@@ -24,7 +24,72 @@ It is **opt-in and per-run**: nothing is built or sent unless you pass a flag.
 node capture.mjs <url>                     # normal run — NOTHING shared
 node capture.mjs <url> --share-preview     # ALSO writes share-report.json so you can INSPECT it (no send)
 node capture.mjs <url> --share             # writes it AND submits it upstream (implies --share-preview)
+node capture.mjs <url> --share --findings=share-findings.json   # ALSO attach your got-vs-expected diagnosis
 ```
+
+## Attach your got-vs-expected diagnosis (`share-findings.json`)
+
+The auto report carries only what the converter **did**. Your judgment of what it **should** have done —
+and any **confident-but-wrong** mapping (one with no `fallback`/`opportunity` flag, so the row looks clean)
+— is the highest-value signal and has to be added by you. Write a **`share-findings.json`** next to the
+capture: a JSON **array** of
+
+```json
+[ { "ref": "s2:heading h2", "got": "code_block", "expected": "special_heading",
+    "note": "faq accordion mapped to plain columns", "systematic": true,
+    "solution": "recognizer: a <details>/<summary> or role=region list of Q/A → n_accordion(); each summary→item title, panel→content" } ]
+```
+
+`ref` = section/element, `got` = what it produced, `expected` = the correct shortcode/option/token, `note`
+≤120 chars **structural only** (auto-redacted of URLs/emails/quoted content).
+
+- **`solution` (optional) — a fix SKETCH for the maintainer to REVIEW, never auto-applied.** For a
+  **reusable** pattern only, attach the *approach* you'd take — a recognizer sketch, or the child-theme
+  shortcode you wrote — so the maintainer can promote it into the converter. It's your OWN code, not source
+  content; still capped at ~2000 chars + URL/email-redacted. Omit it for one-offs. **Outside agents never
+  edit the converter** — this is a suggestion the maintainer reviews, not a patch that lands.
+
+`--share` looks for the file at `--findings=<path>`, else `share-findings.json` in the site's out-dir /
+base-outdir / cwd, sanitizes it into the payload, and adds an `N agent-findings` count to the summary.
+`aggregate-reports.mjs` marks solution-bearing findings with **✎** and prints their sketches under
+*"Proposed solutions (REVIEW, never auto-apply)."*
+
+## Streaming mode — ask once, then send each bug immediately (`send-finding.mjs`)
+
+The default cadence is **ask once → auto-send each finding with a notification**. Each send is a **lean**
+`{ hostHash, converterVersion, one finding }` (a few hundred bytes — a bug-heavy site never nears the 50k
+Sheets-cell limit), throttled to ≥1s apart, and it prints a concise line so the user sees what went out:
+
+```
+node send-finding.mjs --url=<src> --finding='{"ref":"s2:heading h2","got":"code_block",
+                      "expected":"special_heading","note":"faq accordion mapped to plain cols","systematic":true}'
+node send-finding.mjs --url=<src> --summary --stats=capture-out/<site>/design-config.json   # once-per-site aggregate
+```
+
+- **`--summary`** sends a stats-only aggregate once per site, so the "what's commonly missed across sites"
+  signal survives without repeating the full report per bug.
+- Same sanitizer as `--share` (structural only; the `note` is auto-redacted). The Google Form is unchanged
+  — every payload rides the existing `payload` field; only the JSON's `kind` differs (`finding`/`summary`/
+  full report).
+
+## Consent cadence — ask ONCE; then stream + notify; a **no** is final
+
+**Frame it as an improvement, not a "bug".** What you found is a *place the converter could translate
+better*, not a defect — and it improves the **Site Converter** (the tool), not the Dev Kit (the docs).
+
+- **Ask exactly once, upfront** — warm but HONEST (positive framing must not drop *what is sent*):
+  > *"As I rebuild this site I'll sometimes spot places the **Site Converter** could translate better.
+  > Want me to send those upstream to help it improve? It's **anonymized and structural only — no page
+  > content, no URL**. I'll show you each one as it goes, and it's totally fine to say no."*
+
+  A **yes** authorizes streaming for the WHOLE site — never ask per item (consent-fatigue / a dark pattern).
+  A **no** is final for that site; never re-prompt.
+- **Notify concisely each time — an improvement, not a bug** —
+  `⚑ Converter improvement reported: heading → special_heading (it had fallen back to a code block)` — plus a
+  one-line tally at the end. Transparency is what makes the single upfront yes an *informed* one.
+- **Consent is the site owner's** → it does not carry to a *different* site; a new site = ask once again.
+- **Batch alternative:** collect findings into one `share-findings.json` and run `--share` to send it all at
+  the end instead. Same consent rules.
 
 Always get the **site owner's consent** before sharing a report for a site you built for a client.
 
@@ -83,22 +148,32 @@ POST).
 
 The Sheet is the **append-only source of truth** — never edit or delete rows to "clear" them. Instead,
 `aggregate-reports.mjs` reads the responses, **dedupes what it has already processed** (a local
-content-fingerprint watermark — deletion-safe, no Sheet writes), and **ranks the systematic failures**
-so you know what to fix next:
+content-fingerprint watermark — deletion-safe, no Sheet writes), and **ranks the systematic failures** so
+you know what to fix next.
+
+**LIVE PULL — no copy-paste (recommended).** Publish the responses Sheet once (File → Share → **Publish to
+web → Comma-separated values (.csv)**, keep **"Automatically republish when changes are made"** ON), then
+point the aggregator at that URL — it fetches the current CSV directly (a script `fetch` follows Google's
+307 redirect automatically):
 
 ```
-# Get the responses: in the Sheet, File → Download → Comma-separated values (.csv)
-node aggregate-reports.mjs --csv responses.csv          # ranks only NEW reports since last --commit (dry run)
-node aggregate-reports.mjs --csv responses.csv --all     # ignore the watermark; re-rank everything
-node aggregate-reports.mjs --csv responses.csv --commit  # AFTER you've acted on the list: mark these processed
-# (or --url "<published-csv-url>" if you File → Share → Publish to web → CSV instead of downloading)
+node aggregate-reports.mjs --url "<published-csv-url>"          # live pull; ranks only NEW reports (dry run)
+node aggregate-reports.mjs --url "<published-csv-url>" --all     # re-rank everything (ignore watermark)
+node aggregate-reports.mjs --url "<published-csv-url>" --commit  # AFTER acting on the list: mark processed
+node aggregate-reports.mjs --csv responses.csv                   # alt: a CSV you downloaded (File → Download → CSV)
 ```
 
-It writes **`reports-todo.md`**: a table of recurring `(role · detected · srcTag · class-token)`
-patterns that became a `fallback`/`opportunity`, ranked by **how many distinct sites** hit each one —
-that ranking IS the converter's to-do. Work top-down; each fix removes a whole class of misses.
+> **This project's form** (intake `unysonplus@gmail.com`) is already published as CSV:
+> `https://docs.google.com/spreadsheets/d/e/2PACX-1vT4LeyA2-kTnr2wi9c8u0czetG3JlBg5LmnRK9HAMBw3carIShkG-e7k51nZkzbL9XwoLe_wDCXh2CO/pub?output=csv`
+> The maintainer's agent can also just **WebFetch that URL** and analyze it inline — no export, no local file.
 
-The loop: download CSV → `aggregate-reports.mjs` → pick the top pattern(s) → improve the converter
+It writes **`reports-todo.md`** with two ranked tables: (1) recurring `(role · detected · srcTag ·
+class-token)` patterns that became a `fallback`/`opportunity`, ranked by **how many distinct sites** hit
+each; and (2) — leading in practice — the **agent findings** `got → expected` (from `share-findings.json`
+batches AND streamed `kind:'finding'` payloads), which carry the CORRECT target and are the only way a
+**confident-but-wrong** mapping surfaces. That ranking IS the converter's to-do.
+
+The loop: `aggregate-reports.mjs --url` → pick the top pattern(s)/finding(s) → improve the converter
 (mirror every change to **both** paths: JS `to-pages.mjs`/`capture-extract.mjs` AND PHP
 `class-fw-site-converter-mapper.php`/`-stitch.php`, per the workspace `CLAUDE.md`) → `--commit` to mark
 those reports processed so the next run only surfaces newer ones. No row is ever deleted; the watermark

@@ -50,6 +50,27 @@ const flattenSelectors = (sel) => sel.split(',').map((p) => {
   const toks = p.split(/\s*[>+~]\s*|\s+/).filter(Boolean);
   return toks.length <= 2 ? p : toks[0] + ' ' + toks[toks.length - 1];
 }).filter(Boolean).join(', ');
+// Standard Tailwind @keyframes (mirror of to-mirror.mjs TW_KEYFRAMES). The per-section CSS harvest keeps
+// only STYLE rules, so a decomposed section that uses `animate-bounce` (e.g. the hero's verbatim "24/7
+// Care" badge) gets the `.animate-bounce` rule — which sets `animation-name: bounce` — but NOT the
+// `@keyframes bounce`, so the browser names an animation that has no frames and NOTHING moves. Re-emit the
+// standard keyframes for any known Tailwind animation a section uses (its content HTML or carried CSS) and
+// hasn't already defined, so the animation actually runs.
+const TW_KEYFRAMES = {
+  bounce: '@keyframes bounce{0%,100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,.2,1)}}',
+  pulse: '@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}',
+  spin: '@keyframes spin{to{transform:rotate(360deg)}}',
+  ping: '@keyframes ping{75%,100%{transform:scale(2);opacity:0}}',
+};
+const missingKeyframes = (haystack) => {
+  haystack = String(haystack || '');
+  const used = new Set(); let m;
+  const re = /\banimate-(bounce|pulse|spin|ping)\b|animation(?:-name)?\s*:\s*(bounce|pulse|spin|ping)\b/gi;
+  while ((m = re.exec(haystack))) { used.add((m[1] || m[2]).toLowerCase()); }
+  let out = '';
+  for (const name of used) { if (TW_KEYFRAMES[name] && !new RegExp('@keyframes\\s+' + name + '\\b').test(haystack)) { out += '\n' + TW_KEYFRAMES[name]; } }
+  return out;
+};
 const flattenCss = (css) => {
   css = String(css || '');
   if (!css.trim()) return '';
@@ -102,10 +123,39 @@ export function toPages(capture, opts = {}) {
   const snipFull = (h) => String(h == null ? '' : h).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 600);
   const rawCap = (h) => String(h == null ? '' : h).slice(0, 1600);
 
-  const textBlock = (html) => {
+  // Strip NUMERIC/arbitrary spacing utilities (mb-10, p-8, px-[12px], gap-4, space-y-2) from the class
+  // attributes INSIDE a carried HTML string — they collide 1:1 BY NAME with the plugin's own spacing
+  // utilities on a DIFFERENT scale (`.mb-10` → 96px, not Tailwind's 40px), and content HTML isn't
+  // class-sanitized so they'd otherwise slip through. Keeps `-auto` (mx-auto centring) and non-spacing
+  // classes. The real margin/padding is reproduced from the computed value in custom_css.
+  const stripSpacingInHtml = (html) => String(html || '').replace(/\sclass="([^"]*)"/g, (m, cls) => {
+    const kept = cls.split(/\s+/).filter((c) => {
+      const base = c.replace(/^-/, '').replace(/^(?:[\w]+:)+/, '');
+      return !/^(?:[pm][xytrbl]?|gap(?:-[xy])?|space-[xy])-(?:\d|\[)/.test(base);
+    }).join(' ');
+    return ' class="' + kept + '"';
+  });
+
+  const textBlock = (html, s) => {
     const n = stamp(clone('text_block'));
-    n.atts.text = html;
+    n.atts.text = stripSpacingInHtml(html);
     n.atts.css_class = '';
+    // Reproduce the source text's computed style so NO class effect is dropped: colour → native
+    // text_color; font-size / line-height / letter-spacing / weight / alignment / bottom margin → the
+    // shortcode's Advanced Custom CSS (`selector` = the text block). Only non-default values are set.
+    if (s) {
+      const clean = (v) => String(v || '').trim();
+      if (/^rgb/i.test(clean(s.color))) { n.atts.text_color = { predefined: '', custom: rgbToCss(s.color) }; }
+      const d = [];
+      const ta = clean(s.textAlign); if (/^(center|right|justify)$/.test(ta)) d.push('text-align:' + ta);
+      const fs = clean(s.fontSize); if (fs && fs !== '16px') d.push('font-size:' + fs);
+      const lh = clean(s.lineHeight); if (lh && lh !== 'normal') d.push('line-height:' + lh);
+      const ls = clean(s.letterSpacing); if (ls && ls !== 'normal') d.push('letter-spacing:' + ls);
+      const fw = parseInt(s.fontWeight, 10) || 0; if (fw >= 600) d.push('font-weight:' + fw);
+      const tt = clean(s.textTransform); if (tt && tt !== 'none') d.push('text-transform:' + tt);
+      const mb = clean(s.marginBottom); if (mb && mb !== '0px') d.push('margin-bottom:' + mb + ' !important');
+      if (d.length) { n.atts.custom_css = 'selector{' + d.map((x) => x.replace(/[{}<>;]/g, '')).join(';') + ';}'; }
+    }
     return n;
   };
   const column = (width, items) => {
@@ -170,6 +220,97 @@ export function toPages(capture, opts = {}) {
     n.atts.overline = b.overline || '';
     n.atts.overline_container = b.overlinePill ? 'pill' : '';
     n.atts.heading = 'h' + (b.level >= 1 && b.level <= 6 ? b.level : 2);
+    // Title Display Size — the source heading's computed font-size → the nearest native Display preset
+    // (display-1 largest … display-6). Decomposed headings become native special_heading shortcodes
+    // WITHOUT the source's `text-5xl`/`text-6xl` class, so without this the hero H1 collapses to the
+    // tag's default size (the freshpaws "hero heading too small" bug). display presets are the theme's
+    // responsive Display Text Styles, so this keeps mobile scaling (unlike a hard px). Only promote
+    // genuinely large display headings (≥30px); smaller section headings keep the tag's own size.
+    const hpx = parseInt(b.fontSize, 10) || 0;
+    let exactHeadingSize = '';
+    if (hpx >= 30) {
+      // Snap to the NEAREST display-preset SIZE (not a coarse ≥60→display-1 threshold, which turned a
+      // 72px source hero into the theme's 96px display-1). The unysonplus-theme Display Text Styles are
+      // display-1=96 · 2=88 · 3=72 · 4=56 · 5=48 px, so a 72px source h1 lands on display-3 exactly.
+      const DISPLAY_PX = [[96, 'display-1'], [88, 'display-2'], [72, 'display-3'], [56, 'display-4'], [48, 'display-5']];
+      let best = DISPLAY_PX[0];
+      for (const d of DISPLAY_PX) { if (Math.abs(d[0] - hpx) < Math.abs(best[0] - hpx)) best = d; }
+      // Snap ONLY when the source size is genuinely CLOSE to a display preset (a hero/display heading).
+      // The smallest preset is 48px, so a 36px SECTION heading (text-3xl md:text-4xl) is 12px away and
+      // would balloon to display-5 (the "Why Pets Love FreshPaws" 36px→48px bug). Beyond the tolerance,
+      // reproduce the EXACT size instead of promoting it to a display preset.
+      if (Math.abs(best[0] - hpx) <= 7) { n.atts.display_size = best[1]; }
+      else { exactHeadingSize = hpx + 'px'; }
+    }
+    // Title color — carry the source heading's computed color into the native title_color pick.
+    // Decomposed headings otherwise inherit the theme's default heading color (brand green here), so a
+    // heading that was WHITE on a colored/dark source section renders green-on-green and vanishes (the
+    // freshpaws CTA heading). Pairs with the section-background fix so colored sections stay legible.
+    n.atts.title_color = b.color ? { predefined: '', custom: rgbToCss(b.color) } : { predefined: '', custom: '' };
+    // Per-heading COLOUR → title_color. A decomposed heading becomes a native special_heading that
+    // inherits the theme's DEFAULT heading colour; when the source heading departs from it, carry its
+    // own colour so it stays faithful — a WHITE heading on a dark CTA band (else it inherits the ink/
+    // accent heading colour and vanishes — green-on-green), or an ink hero title whose only accent is
+    // an inner <span> (the span's carried `.text-primary` still wins, so the two-tone survives).
+    if (b.color && /^rgb/i.test(String(b.color))) { n.atts.title_color = { predefined: '', custom: rgbToCss(b.color) }; }
+    // TRANSLATE THE SOURCE CLASSES VIA THE NATIVE PART-CLASS OPTIONS — not synthesized Custom CSS.
+    // The Special Heading shortcode exposes Overline Class / Title Class / Subtitle Class, applied to
+    // `.heading-overline` / `.heading-title` / `.heading-subtitle`. The title's own utility classes
+    // (font-heading, font-extrabold, leading-[1.1], tracking-*, …) resolve via the SECTION's carried CSS
+    // (which the capture bundles — incl. arbitrary values like `.leading-[1.1]`), so carrying them here
+    // reproduces the effect with the source's own class, no Custom CSS. Dropped from the class:
+    //   • text-{size|colour|align} — covered better by the native display_size / title_color / alignment
+    //     (display_size also carries the responsive `lg:text-7xl` step, which the carried CSS omits);
+    //   • SPACING utilities (m*/p*/gap/space) — they collide 1:1 BY NAME with the plugin's own
+    //     `!important` spacing utilities on a DIFFERENT scale (`.mb-6` → 56px, not 24px).
+    const _clean = (v) => String(v || '').trim();
+    // A class is SANITIZER-SAFE only if it has no `:` `/` `[` `]` — WP's class sanitizer strips those,
+    // so a responsive (`md:text-xl`), opacity (`text-foreground/70`) or arbitrary (`leading-[1.1]`) class
+    // survives only as a MANGLED dead token that no longer matches the carried CSS. Those effects are
+    // reproduced from the computed value in tier-3 custom_css below, not carried as a broken class.
+    const mangleProne = (c) => /[:/[\]]/.test(c);
+    const routeClass = (raw, dropText) => String(raw || '').split(/\s+/).filter(Boolean).filter((c) => {
+      if (mangleProne(c)) return false;                                        // : / [ ] → mangled → tier-3 custom_css
+      const base = c.replace(/^-/, '').replace(/^(?:[\w]+:)+/, '');            // strip '-' + variant prefixes
+      if (dropText && /^text-/.test(base)) return false;                       // size/colour/align → native
+      if (/^(?:[pm][xytrbl]?|gap(?:-[xy])?|space-[xy])-/.test(base)) return false; // spacing → collides (below)
+      return true;
+    }).join(' ');
+    n.atts.title_class    = routeClass(b.cls, true);
+    n.atts.overline_class = routeClass(b.overlineCls, true);  // colour/pill/uppercase are native overline_* opts
+    n.atts.subtitle_class = routeClass(b.subtitleCls, false); // no native subtitle colour/size option → keep text-*
+    // LAST-RESORT Custom CSS — ONLY effects a carried class can't deliver:
+    //   • the title's own vertical MARGINS (no native option AND the mb-*/mt-* class collides), and
+    //   • WEIGHT + LINE-HEIGHT when a display preset is set — the preset emits at `:root .display-N`
+    //     (0,2,0), which outranks a plain carried class like `.font-extrabold` / `.leading-[1.1]` (0,1,0),
+    //     so those two need the `!important` a class can't carry. Without a display preset the carried
+    //     classes win on their own and neither is emitted here.
+    // Uses the captured COMPUTED values. font-family + letter-spacing ride the class (no preset conflict).
+    const clsHasArbLeading = /leading-\[/.test(String(b.cls || ''));
+    const td = [];
+    // A heading whose size didn't match a display preset (e.g. a 36px section heading) → reproduce its
+    // exact font-size here rather than promoting it to the nearest (too-large) display preset.
+    if (exactHeadingSize) td.push('font-size:' + exactHeadingSize);
+    const hw = parseInt(b.fontWeight, 10) || 0;
+    if (hw >= 800 && n.atts.display_size) td.push('font-weight:' + hw);
+    // line-height needs custom_css when the display preset out-specificities the class OR the source used
+    // an arbitrary `leading-[…]` (dropped as mangle-prone above, so its effect must come from here).
+    const lh = _clean(b.lineHeight); if (lh && lh !== 'normal' && (n.atts.display_size || clsHasArbLeading)) td.push('line-height:' + lh);
+    const mb = _clean(b.marginBottom); if (mb && mb !== '0px') td.push('margin-bottom:' + mb);
+    const mt = _clean(b.marginTop); if (mt && mt !== '0px') td.push('margin-top:' + mt);
+    const rules = [];
+    if (td.length) { rules.push('selector .heading-title{' + td.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    // Subtitle tier-3: its size / colour classes are routinely mangle-prone (`md:text-xl`, `text-…/70`) and
+    // there's no native subtitle size/colour option, so reproduce the computed font-size / colour /
+    // line-height. Only emitted for non-default values; the sanitizer-safe subtitle classes still ride
+    // `subtitle_class` for editability.
+    const ss = b.subtitleStyle || {};
+    const sd = [];
+    const sfs = _clean(ss.fontSize); if (sfs && sfs !== '16px') sd.push('font-size:' + sfs);
+    const slh = _clean(ss.lineHeight); if (slh && slh !== 'normal') sd.push('line-height:' + slh);
+    if (/^rgb/i.test(_clean(ss.color))) sd.push('color:' + rgbToCss(ss.color));
+    if (sd.length) { rules.push('selector .heading-subtitle{' + sd.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    n.atts.custom_css = rules.join('');
     // Translate the heading-group wrapper's Tailwind LAYOUT/SPACING classes into NATIVE special_heading
     // options — otherwise they sit DEAD on css_class (no Tailwind runtime in the builder) and the heading
     // renders with the wrong spacing: no inter-line rhythm (space-y), no max width (max-w), no bottom gap
@@ -212,7 +353,80 @@ export function toPages(capture, opts = {}) {
     n.atts.overline_icon_position = b.overlineIconPos === 'after' ? 'after' : 'before';
     return n;
   };
-  const buttonBlockNode = (b) => ({ type: 'simple', shortcode: 'button', _items: [], atts: { label: b.label, link: localize(b.href), target: 'no', unique_id: uid() } });
+  // Classify a captured button by its RESOLVED look (parity with the PHP mapper's button_style_class):
+  // an opaque fill → primary; a transparent/white fill with a border → outline; else a bare fill.
+  const buttonKindClasses = (b) => {
+    const cls = ' ' + String(b.cls || '').toLowerCase() + ' ';
+    const bg = String((b.bs && b.bs.bg) || '');
+    const opaque = /rgba?\([^)]*(?:,\s*(?:0?\.[1-9]|1)\s*)?\)/.test(bg) && !/rgba?\([^)]*,\s*0\s*\)/.test(bg) && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)';
+    const white = /rgb\(255,\s*255,\s*255\)/.test(bg) || /\sbg-white\s/.test(cls);
+    const hasBorder = (b.bs && b.bs.bd && b.bs.bds && b.bs.bds !== 'none') || /\sborder\b/.test(cls);
+    if (opaque && !white) return 'primary';
+    if (white || hasBorder) return 'outline';
+    return opaque ? 'fill' : 'link';
+  };
+  // Drop Tailwind spacing/gap utilities (p*/m*/gap-*/space-*, incl. responsive/hover variants + negative
+  // + arbitrary `px-[12px]`) from a carried class list — they collide by name with the plugin's own
+  // identically-named `!important` utilities but map to the plugin's own spacer scale. Non-spacing
+  // utilities (bg-*, text-*, rounded-*, border, flex, min-h-*, place-*) are kept.
+  const stripSpacingUtils = (cls) => String(cls || '').trim().split(/\s+/).filter((t) => {
+    if (!t) return false;
+    const base = t.replace(/^-/, '').replace(/^(?:[\w]+:)+/, ''); // strip leading '-' and variant prefixes (sm:/hover:/2xl:)
+    return !/^(?:[pm][xytrbl]?|gap(?:-[xy])?|space-[xy])-/.test(base);
+  }).join(' ').trim();
+
+  const buttonBlockNode = (b) => {
+    const kind = buttonKindClasses(b);
+    // Carry the source button's OWN utility classes (bg-*, text-*, border, rounded-*, px-*, py-*): the
+    // section's carried CSS then paints each button with the SOURCE's exact fill — a green solid pill vs
+    // a white outline pill — instead of every decomposed button collapsing to the theme's one default
+    // style. style:'' = the bare .btn base (loaded before the section CSS) so the carried classes win.
+    // BUT strip the Tailwind SPACING utilities (p*/m*/gap-*/space-*): they collide 1:1 BY NAME with the
+    // plugin's own `!important` spacing utilities, which resolve to the plugin's DIFFERENT spacer scale
+    // (e.g. `.px-8` → var(--spacer-8) = 72px, not Tailwind's 32px) and, being equal-specificity but later
+    // in the cascade, beat even the custom_css `!important` below. The button's REAL padding is reproduced
+    // from its computed value in custom_css, so dropping the class loses nothing and kills the collision.
+    const cls = [stripSpacingUtils(b.cls), 'sc-btn-' + kind].filter(Boolean).join(' ').trim();
+    // Icon: an INLINE SVG (a lucide arrow etc.) → the button's svg icon, verbatim; else a font-icon class.
+    const icon = (b.iconSvg && String(b.iconSvg).trim())
+      ? { type: 'svg', source: 'inline', 'svg-source': 'inline', markup: String(b.iconSvg).trim() }
+      : (b.icon && String(b.icon).trim())
+        ? { type: 'icon-class', 'icon-class': String(b.icon).trim(), 'icon-class-without-root': false, 'pack-name': false, 'pack-css-uri': false }
+        : { type: 'none' };
+    // The source's px-8 py-4 collides with the plugin's own `.px-8`/`.py-4` `!important` utilities (24px
+    // vs 72px), which also stretch the button full-width. Re-assert the source's COMPUTED padding +
+    // inline-flex auto width on the button element via its Advanced Custom CSS (`selector` = the button),
+    // `!important` to beat the colliding utilities. Keeps the pill compact + content-sized, like the source.
+    const decl = [];
+    if (b.pad) { decl.push('padding:' + String(b.pad).replace(/[{}<>;]/g, '') + ' !important'); }
+    // Assert the source's FILL / TEXT / BORDER too — the plugin's `.btn` base + button preset otherwise
+    // win over the carried Tailwind classes (they collide + `hover:` classes get sanitizer-mangled), so a
+    // white "Take a Tour" rendered white-text-on-white with an orange preset border. `!important` + the
+    // captured computed values reproduce the exact source look. border:0 kills the plugin border on a
+    // borderless solid button; a real 1px source border is reproduced verbatim.
+    const okc = (v) => v && v !== 'rgba(0, 0, 0, 0)' && v !== 'transparent' && /^(rgb|#|hsl)/i.test(String(v).trim());
+    if (b.bs) {
+      if (okc(b.bs.bg)) { decl.push('background:' + b.bs.bg + ' !important'); }
+      if (okc(b.bs.fg)) { decl.push('color:' + b.bs.fg + ' !important'); }
+      if (b.bs.bw && b.bs.bw !== '0px' && b.bs.bds && b.bs.bds !== 'none' && okc(b.bs.bd)) {
+        decl.push('border:' + b.bs.bw + ' ' + b.bs.bds + ' ' + b.bs.bd + ' !important');
+      } else {
+        decl.push('border:0 !important');
+      }
+    }
+    decl.push('width:auto !important', 'display:inline-flex !important', 'align-items:center', 'gap:.5rem');
+    const custom_css = 'selector{' + decl.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}';
+    // A STANDALONE button carries its own horizontal alignment (a centred CTA button under a `text-center`
+    // block reads `text-align:center`). Grouped buttons (a hero flex-row) are positioned by their row
+    // column instead (content_direction/content_h), so leave those at default to avoid wrapping each in a
+    // centring div that would break the side-by-side layout.
+    const btnAlign = (!b.groupRow && /^(center|right)$/.test(String(b.align || ''))) ? b.align : '';
+    return { type: 'simple', shortcode: 'button', _items: [], atts: {
+      label: b.label, link: localize(b.href), target: 'no',
+      style: '', size: '', icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
+      alignment: btnAlign, state: '', hover_animation: '', css_class: cls, custom_css, unique_id: uid(),
+    } };
+  };
 
   // A provider embed iframe src → an oEmbed-friendly PAGE url (WP oEmbed needs the page URL, not
   // the /embed/ iframe src). Unknown hosts pass through. Mirrors PHP Mapper::embed_to_page_url().
@@ -250,11 +464,22 @@ export function toPages(capture, opts = {}) {
 
   // A standalone image → the native media_image element (NOT a gallery — that's for multiple
   // images — and NOT a code_block). Mirrors PHP Mapper::n_media_image(); the importer sideloads src.
-  const mediaImageNode = (b) => ({ type: 'simple', shortcode: 'media_image', _items: [], atts: {
-    image: { attachment_id: '', url: b.src || '', alt: b.alt || '' },
-    width: { value: '', unit: 'px' }, height: { value: '', unit: 'px' },
-    fetchpriority: 'auto', link: '', target: '_self', unique_id: uid(),
-  } });
+  const mediaImageNode = (b) => {
+    // Reproduce the source image's own SKIN (an ORGANIC blob border-radius, object-fit, a soft
+    // shadow) via the shortcode's Advanced Custom CSS — `selector` is replaced with the element's
+    // generated id, so `selector img` targets the rendered <img>. Without this a hero photo that the
+    // source rounds into a blob ships as a bare rectangle.
+    const decl = [];
+    if (b.radius) decl.push(`border-radius:${b.radius}`);
+    if (b.objectFit) decl.push(`object-fit:${b.objectFit}`);
+    if (b.shadow) decl.push(`box-shadow:${b.shadow}`);
+    const custom_css = decl.length ? `selector img{${decl.join(';')};}` : '';
+    return { type: 'simple', shortcode: 'media_image', _items: [], atts: {
+      image: { attachment_id: '', url: b.src || '', alt: b.alt || '' },
+      width: { value: '', unit: 'px' }, height: { value: '', unit: 'px' },
+      fetchpriority: 'auto', link: '', target: '_self', custom_css, unique_id: uid(),
+    } };
+  };
 
   // A source PRODUCT-CARD grid (each card = image + name + price [+ add-to-cart]) → the wc_products
   // grid. WooCommerce owns the products, and the converter can't know the real product IDs from a
@@ -325,7 +550,67 @@ export function toPages(capture, opts = {}) {
   // True when a grid cell looks like a product card: an image + a price token (+ usually a CTA).
   const cellIsProduct = (c) => /<img/i.test(String(c.html || '')) && /(?:\$|€|£)\s?\d+[.,]\d{2}/.test(String(c.html || ''));
 
-  const blockToNode = (b) => (b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html) : b.t === 'text' ? textBlock(b.html) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : codeBlock(b.html));
+  // A RATING / social-proof cluster → the native `star-rating` shortcode ("4.9/5" + count text +
+  // AggregateRating schema), with the overlapping face stack as an `avatar` GROUP — laid out in a row,
+  // like the source — instead of a verbatim code_block. (Partial atts; the builder merges option defaults.)
+  const ratingNode = (b) => ({ type: 'simple', shortcode: 'star_rating', _items: [], atts: {
+    rating: parseFloat(b.value) || 5, max: String(b.max || '5'), show_value: 'yes',
+    count_text: String(b.count || ''), rating_schema: 'yes', align: 'left', unique_id: uid(),
+  } });
+  const avatarGroupNode = (b) => ({ type: 'simple', shortcode: 'avatar', _items: [], atts: {
+    mode_settings: { mode: 'group', group: {
+      people: (b.avatars || []).slice(0, 8).map((url, i) => ({ image: { attachment_id: '', url: localize(url) }, name: 'Happy customer ' + (i + 1), initials: '', link: '', status: '' })),
+      max_visible: String(Math.max(4, (b.avatars || []).length)), extra_count: String(b.extraCount || ''), overlap: 35, stack_order: 'first-on-top',
+    } },
+    design: 'bordered', shape: 'circle', size: 40, unique_id: uid(),
+  } });
+  const ratingRowNode = (b) => {
+    const items = [];
+    if ((b.avatars || []).length) items.push(avatarGroupNode(b));
+    // The STARS + "4.9/5 from 500+ …" text → a verbatim code_block (the source's own star glyphs + exact
+    // wording), which is more faithful than re-drawing stars via the star-rating shortcode. The avatars
+    // above are the editable `avatar` group. (`ratingNode`/star_rating stays available for callers that
+    // prefer the native shortcode.)
+    if (b.html && String(b.html).trim()) items.push(codeBlock(b.html));
+    else items.push(ratingNode(b));
+    const c = column('1_1', items);
+    if (c.atts) { c.atts.content_direction = 'row'; c.atts.content_gap = { base: '3', md: '', lg: '' }; c.atts.content_h = 'start'; c.atts.content_v = 'center'; }
+    return c;
+  };
+  // A DECORATIVE full-bleed backdrop (an `absolute inset-0` bg / gradient / dot-pattern / blob layer).
+  // Wrapped so it (a) sits BEHIND the content — `z-index:-10`, mirroring the source's `-z-10` / content
+  // `relative z-10` layering; without it the POSITIONED backdrop paints OVER the non-positioned
+  // heading/text/button and hides them (the green CTA band went blank). (b) Clips its oversized blobs
+  // (`overflow:hidden`) so they can't cause a horizontal scrollbar. (c) Ignores pointer events. Its
+  // section is given `position:relative; isolation:isolate` (below) so `inset:0` anchors to it and the
+  // negative z-index stays within the section instead of sliding behind the page.
+  const decorNode = (html) => codeBlock('<div style="position:absolute;inset:0;z-index:-10;pointer-events:none;overflow:hidden">' + String(html || '') + '</div>');
+  const blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : codeBlock(b.html));
+
+  // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
+  // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
+  // top-level section loop does, factored out so a CONTENT COLUMN's blocks (a grid cell's `c.blocks`,
+  // where the hero's "Book a Stay / Take a Tour" pair lives) get it too — a plain `.map(blockToNode)`
+  // there was emitting the CTAs stacked.
+  const blocksToNodes = (blocks) => {
+    const out = []; let row = [];
+    for (const b of coalesceHeadingGroups(blocks)) {
+      const node = blockToNode(b);
+      if (b.t === 'button' && b.groupRow) {
+        if (b.groupFirst) row = [];
+        row.push(node);
+        if (b.groupLast) {
+          const rc = column('1_1', row);
+          if (rc.atts) { rc.atts.content_direction = 'row'; rc.atts.content_gap = { base: '3', md: '', lg: '' }; rc.atts.content_h = 'start'; }
+          out.push(rc); row = [];
+        }
+      } else {
+        out.push(node);
+      }
+    }
+    if (row.length) out.push(...row); // safety: an unterminated group (no groupLast) still emits its buttons
+    return out;
+  };
 
   // Fold a heading GROUP — an overline/eyebrow immediately BEFORE a heading + the paragraph right
   // AFTER it — into the single heading block, so it maps to ONE special_heading (overline + title +
@@ -347,6 +632,7 @@ export function toPages(capture, opts = {}) {
         h.overlineTransform = prev.textTransform || '';   // css text-transform → overline_uppercase
         h.overlineText = prev.text || '';                 // plain text, for the all-caps heuristic
         if (prev.iconSvg) { h.overlineIcon = prev.iconSvg; h.overlineIconPos = prev.iconPos || 'before'; }
+        h.overlineCls = prev.cls || '';                   // overline's own classes → native overline_class
         out.pop();
       }
       const next = blocks[i + 1];
@@ -354,6 +640,8 @@ export function toPages(capture, opts = {}) {
       if (inGroup && next && next.t === 'text') {
         // Subtitle = the paragraph's INNER content (strip a single outer <p>), parity with textBlockOf.
         h.subtitle = String(next.html || '').replace(/^\s*<p[^>]*>([\s\S]*)<\/p>\s*$/i, '$1');
+        h.subtitleCls = next.cls || '';                   // subtitle's own classes → native subtitle_class
+        h.subtitleStyle = { fontSize: next.fontSize || '', color: next.color || '', lineHeight: next.lineHeight || '' };
         i++;
       }
       out.push(h);
@@ -422,7 +710,27 @@ export function toPages(capture, opts = {}) {
     if (card.iconBadge) { a.icon_badge = card.iconBadge; }
     const ibc = String(card.iconBadgeColor || '').trim();
     if (/^#[0-9a-f]{3,8}$/i.test(ibc)) { a.icon_badge_color = { predefined: '', custom: ibc }; }
-    a.css_class = '';
+    // ALIGNMENT — source feature cards are frequently LEFT-aligned while the icon_box top-title layout
+    // CENTRES by default; carry the captured alignment so icon, title and content match the source column.
+    if (/^(left|center|right)$/.test(card.align || '')) {
+      a.icon_align = card.align; a.title_align = card.align; a.content_align = card.align;
+    }
+    // BOX SKIN → NATIVE options (not carried classes): the fill → bg_color; the border / corner radius /
+    // shadow / hover-lift → a Theme-Settings **Box Preset** (`box_style`), assigned in a post-pass once
+    // every card on the page is clustered — the raw skin is stashed on `_box` for that pass. So STRIP the
+    // skin utilities (bg-*, rounded-*, border*, shadow-*) AND the spacing utilities (`p-8` collides with
+    // the plugin's `.p-8` = 72px) from the carried class, leaving only non-skin layout classes. Padding is
+    // reproduced from the computed value in custom_css (the plugin spacing scale can't express 32px).
+    const bx = card.box || {};
+    if (/^rgb/i.test(String(bx.bg || ''))) { a.bg_color = { predefined: '', custom: rgbToCss(bx.bg) }; }
+    a._box = bx;
+    a.css_class = String(card.cls || '').split(/\s+/).filter(Boolean).filter((c) => {
+      const base = c.replace(/^-/, '').replace(/^(?:[\w]+:)+/, '');
+      return !/^(bg-|rounded|border|shadow|drop-shadow|ring)/.test(base)
+        && !/^(?:[pm][xytrbl]?|gap(?:-[xy])?|space-[xy])-/.test(base);
+    }).join(' ');
+    const pad = String(card.pad || '').trim();
+    if (pad && pad !== '0px') { a.custom_css = 'selector{padding:' + pad.replace(/[{}<>;]/g, '') + ' !important;}'; }
     return n;
   };
   // A testimonials collection → the editable `testimonials` shortcode (parity with PHP
@@ -481,7 +789,7 @@ export function toPages(capture, opts = {}) {
   // classes are dropped from css_class (they're dead in the builder), unmapped classes are kept.
   const sectionLayout = (cls, computed) => {
     computed = computed || {};
-    const out = { bg_color: null, padding_top: null, padding_bottom: null, css_class: '' };
+    const out = { bg: null, padding_top: null, padding_bottom: null, css_class: '' };
     const kept = [];
     for (const c of String(cls || '').split(/\s+/).filter(Boolean)) {
       if (/^(bg-|max-w-|min-w-|mx-|px-|py-|pt-|pb-|pl-|pr-|p-|w-full|relative|overflow-)/.test(c)) continue; // now native / structural
@@ -489,7 +797,12 @@ export function toPages(capture, opts = {}) {
       kept.push(c);
     }
     out.css_class = kept.join(' ');
-    if (computed.background) out.bg_color = { predefined: '', custom: rgbToCss(computed.background) };
+    // Section background — the Section shortcode has NO `bg_color` option; its control is the
+    // background-pro `background` att, which ALSO accepts the legacy `background_color` STRING and
+    // migrates it (`section_migrate_legacy_background`). The old `bg_color` object was a DEAD key, so
+    // a section/CTA with a solid background rendered with NO background — its light-on-dark text became
+    // invisible white-on-light (the freshpaws CTA + footer bug). Emit the legacy string; migration renders it.
+    if (computed.background) out.bg = rgbToCss(computed.background);
     // Vertical rhythm = padding + margin. The section shortcode expresses ALL of it as padding_top/bottom
     // (it has no margin option), so fold the section's own MARGIN into padding — otherwise a section that
     // separates itself with mt-24/mb-16 (margin, not padding) maps to padding_top:0 and the gap vanishes
@@ -498,8 +811,13 @@ export function toPages(capture, opts = {}) {
     const [pt, pb] = sides(computed.padding);
     const [mt, mb] = sides(computed.margin);
     const top = pt + mt, bottom = pb + mb;
-    if (top > 0)    out.padding_top    = { base: spacingToken('pt', top),    md: '', lg: '' };
-    if (bottom > 0) out.padding_bottom = { base: spacingToken('pb', bottom), md: '', lg: '' };
+    // Capture samples ONE (desktop) viewport, so a source's `lg:pt-48` (192px) would otherwise land in
+    // the BASE layer and apply that huge padding at EVERY breakpoint (gappy on phones/tablets). Keep the
+    // exact value on `lg` (desktop) and CLAMP the base layer so smaller screens aren't over-spaced.
+    const BASE_CAP = 112; // px (~7rem) — beyond this a base padding reads as an empty gap on mobile
+    const layer = (prefix, v) => { const b = Math.min(v, BASE_CAP); return { base: spacingToken(prefix, b), md: '', lg: b < v ? spacingToken(prefix, v) : '' }; };
+    if (top > 0)    out.padding_top    = layer('pt', top);
+    if (bottom > 0) out.padding_bottom = layer('pb', bottom);
     return out;
   };
 
@@ -514,14 +832,20 @@ export function toPages(capture, opts = {}) {
       const lay = sectionLayout(sec.sectionClass, sec.computed);
       s.atts.css_class = lay.css_class;
       s.atts.is_fullwidth = false; // centred content uses the theme container (source `max-w-* mx-auto`)
-      if (lay.bg_color) s.atts.bg_color = lay.bg_color;
+      // Set the REAL background-pro custom color. The cloned section's default `background` att is a
+      // non-empty bg-pro array, so view.php uses it and IGNORES the legacy `background_color` string
+      // (the migration only runs when `background` is empty) — that's why solid section backgrounds
+      // silently vanished (CTA/footer white-on-light invisible text). Write the nested custom hex.
+      if (lay.bg && s.atts.background && s.atts.background.color && s.atts.background.color.value) {
+        s.atts.background.color.value.custom = lay.bg;
+      }
       if (lay.padding_top) s.atts.padding_top = lay.padding_top;
       if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
     }
     // Extra section CSS the block loop generates (e.g. a wc_products card skin/hover/ribbon translated
     // from the source cards). Folded into the section's custom_css AFTER the loop so it isn't lost.
     let extraCss = '';
-    const items = []; let buf = [];
+    const items = []; let buf = []; let btnRow = [];
     const flush = () => { if (buf.length) { items.push(column('1_1', buf)); buf = []; } };
     for (const b of coalesceHeadingGroups(sec.blocks)) {
       if (b.t === 'row') {
@@ -566,9 +890,26 @@ export function toPages(capture, opts = {}) {
           } else if (c.text) {
             detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
           } else if (c.blocks && c.blocks.length) {
-            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = coalesceHeadingGroups(c.blocks).map(blockToNode);
+            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = blocksToNodes(c.blocks);
           } else if (c.image) {
             detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
+          } else if (c.imgComposite) {
+            // Image + a content-bearing overlay (a floating badge / decorative blob). Kept VERBATIM, but
+            // WRAPPED in a positioned container that carries the source cell's own classes (`relative
+            // lg:h-[600px] flex …`) + an inline `position:relative` — otherwise the absolute overlays
+            // (`inset-0` blob, `top-10 -left-6` badge) lose their anchor when the cell becomes a code_block
+            // inside a builder column and fly to the section corner / balloon full-bleed. code_block html
+            // is NOT class-sanitized, so the source classes (incl. `lg:h-[600px]`, `blob-shape`) survive.
+            detected = 'image-composite';
+            why = 'image + content overlay → verbatim in a positioned wrapper (overlays anchor to the image)';
+            // Rebuild the cell's OWN wrapper with its FULL class list (relative / flex / items-center /
+            // justify-center / lg:h-[600px] …) so the image centres and the `inset-0` blob fills the cell,
+            // exactly like the source — `c.cls` (col-* only) left it class-less. code_block html isn't
+            // class-sanitized, so responsive/arbitrary classes (`lg:h-[600px]`) survive. `width:100%`:
+            // the builder column is `d-flex flex-row`, so without it the wrapper is a flex item that
+            // SHRINKS to the image (512px) instead of filling the column — the image then can't centre and
+            // the blob can't span the column.
+            cellItems = [codeBlock('<div class="' + esc(c.fullCls || c.cls || '') + '" style="position:relative;width:100%">' + cInner + '</div>')];
           } else if (c.grid) {
             detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
           } else if (cPlain && !cMedia) {
@@ -615,13 +956,48 @@ export function toPages(capture, opts = {}) {
               textFull: snipFull(b.text || b.label || b.html), html: rawCap(b.html || ''),
               fallback: (node.shortcode || '') === 'code_block',
               opportunity: (node.shortcode || '') === 'code_block' && ['testimonials', 'card', 'counter'].indexOf(b.t) !== -1 });
-        buf.push(node);
+        // A source button GROUP that lays out as a flex-ROW (sm:flex-row) → collect the buttons into ONE
+        // row column (side-by-side, auto-width), instead of the default stacked full-width column.
+        if (b.t === 'button' && b.groupRow) {
+          if (b.groupFirst) { flush(); btnRow = []; }
+          btnRow.push(node);
+          if (b.groupLast) {
+            const rc = column('1_1', btnRow);
+            if (rc.atts) { rc.atts.content_direction = 'row'; rc.atts.content_gap = { base: '3', md: '', lg: '' }; rc.atts.content_h = 'start'; }
+            items.push(rc); btnRow = [];
+          }
+        } else {
+          buf.push(node);
+        }
       }
     }
     flush();
+    // A DECORATIVE full-bleed backdrop (an `absolute inset-0` layer with oversized `w-[800px]` blobs)
+    // overflows the viewport BY DESIGN — the source clips it with the section's own `overflow:hidden`.
+    // The decomposed section doesn't inherit that, so the blobs push the page width out and cause a
+    // horizontal scrollbar. Re-assert the source's clip: a section carrying a decor block is made
+    // `position:relative; overflow:hidden` so the backdrop clips at the section edges, like the source.
+    const decorIn = (blocks) => (blocks || []).some((b) => b.decor || (b.t === 'row' && (b.cols || []).some((c) => (c.blocks || []).some((x) => x.decor))));
+    const hasDecor = decorIn(coalesceHeadingGroups(sec.blocks || []));
     // Fold the section's carried CSS + any block-generated CSS (wc_products card skin/hover/ribbon)
     // into Advanced → Custom CSS, so section-scoped skin travels with the section.
-    const allCss = ((sec.css && sec.css.trim()) ? sec.css : '') + (extraCss ? ('\n' + extraCss) : '');
+    // A section with a decorative backdrop is made position:relative (so the backdrop's inset:0 anchors
+    // to it) + isolation:isolate (a stacking context so the backdrop's z-index:-10 stays BEHIND the
+    // content but IN FRONT of the section's own background, not sliding behind the whole page) +
+    // overflow:hidden (clip an oversized backdrop at the section edges, like the source).
+    const clipCss = hasDecor ? 'selector{position:relative !important;overflow:hidden !important;isolation:isolate !important;}' : '';
+    // Re-assert carried `max-width`/`max-height` with `!important` so a source sizing utility (`.max-w-lg`
+    // on the hero image, 0,1,0) beats the theme/plugin element resets it collides with — `img{max-width:
+    // 100%}` and especially `.woocommerce img{max-width:100%}` (0,1,1) — which otherwise render a
+    // decomposed image full-width instead of its source cap. The mirror path wins this via `.sc-tw`
+    // scoping; a decomposed section's carried CSS is global, so importantify (source intent; still
+    // responsive — `w-full` keeps it fluid below the cap). Skips declarations already `!important`.
+    const importantifyMaxSize = (css) => String(css || '').replace(/\b(?:max-width|max-height)\s*:\s*[^;}!]+(?![^;}]*!important)/gi, (m) => m.replace(/\s+$/, '') + ' !important');
+    const carried = importantifyMaxSize((sec.css && sec.css.trim()) ? sec.css : '');
+    // Re-emit @keyframes for any Tailwind animation the section USES (a verbatim badge's `animate-bounce`,
+    // etc.) but the per-section CSS harvest dropped — else `animation-name` is set with no frames to run.
+    const kf = missingKeyframes(String(sec.rawHtml || '') + ' ' + carried);
+    const allCss = carried + (extraCss ? ('\n' + extraCss) : '') + (clipCss ? ('\n' + clipCss) : '') + kf;
     if (s.atts && allCss.trim()) s.atts.custom_css = flattenCss(allCss);
     s._items = items.length ? items : [column('1_1', [codeBlock(sec.rawHtml || '')])];
     return s;
@@ -777,6 +1153,12 @@ export function toPages(capture, opts = {}) {
       decision = 'verbatim'; node = mirrorSectionNode(sec, sIndex);     // verbatim (hero / undecomposable) — no nested <section>
     } else {
       decision = 'plain'; node = buildPlain(sec, sIndex);
+    }
+    // Carry the source section's own id (`<section id="hero">`) onto the builder section's CSS ID, so
+    // the source's in-page anchor links (nav → #hero, smooth-scroll) still resolve. `stamp()` cleared it
+    // on the cloned atom; set it here after the node is built, for every section-decision path.
+    if (node && node.atts && sec.sectionId && /^[A-Za-z][\w-]*$/.test(String(sec.sectionId))) {
+      node.atts.css_id = String(sec.sectionId);
     }
     rec({ kind: 'section', sIndex, decision, sourceClass: sec.sectionClass || '',
           hasCss: !!(sec.css && sec.css.trim()), computed: sec.computed || {}, diag: sec.diag || {},

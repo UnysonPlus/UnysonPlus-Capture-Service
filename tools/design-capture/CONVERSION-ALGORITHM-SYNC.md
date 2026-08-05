@@ -70,6 +70,28 @@ so such pages converted to an EMPTY page with no error. The JS now mirrors the P
 `<section>` under `main` and keep only the outermost ones. **Lesson: when the two paths disagree,
 the more‑complete one is whichever is depth/structure‑agnostic — verify, don't assume it's the JS.**
 
+**Another real case (fixed in capture‑service v1.7.78 / site‑converter v1.3.36): global `util_css`
+completeness — the "10%‑done conversion" bug.** The JS categorizer (`capture-extract.mjs`, the
+`walkRules` site‑rule branch) split a first‑party sheet's rules into `base` / `util` / `header` /
+`footer`, but only promoted **global (`:root` / `html` / `body`) and header/footer‑scoped** selectors
+to the global buckets. Every **other** utility — a body‑section `.py-5`, `.feature-card`, a card
+`.shadow`, … — was deferred to per‑section CSS **only**. Meanwhile the global `util` bucket was fed
+almost exclusively by sheets whose **filename matched `VENDOR_RE`** (`tailwind`, `bootstrap`, …). A
+Tailwind/JIT source that ships its utilities from an **inline `<style>` (no href) or a hash‑named
+bundle** (e.g. `index-Cd4aA-AH.css`) is classified as first‑party, so its body‑section utilities never
+entered `util_css`; when the raw‑chrome mirror theme was generated and the per‑section CSS merge came
+through empty, **every below‑the‑header section shipped unstyled** — the hero looked right, the feature
+grid / CTA / footer were bare text (the `freshpaws` "~10% done" demo). **Fix:** in the site‑rule branch,
+ALSO push every page‑matching, non‑global, non‑chrome selector into the global `util` bucket, gated by
+`matchesPage()` so only utilities **actually used on the page** are carried — the same "wholesale,
+page‑matched" treatment vendor sheets already get, which makes vendor‑name detection **non‑load‑bearing
+for completeness**. The **PHP upload path needed no change** (it carries the whole reproduced CSS blob
+as `css` → the theme generator treats it as `util`, already complete), but the **invariant now holds on
+both sides: global `util_css` must carry ALL page‑matching utilities — not just header/footer‑scoped or
+vendor‑named ones.** Verified on the real freshpaws source (Wegic, hash‑named bundle): `util_css`
+**203 B → 2089 B**. **Lesson: never let CSS completeness depend on a source's stylesheet *filename* or on
+a later per‑section merge — a section that renders must carry its full CSS at theme‑generation time.**
+
 ## Checklist before finishing any conversion change
 
 - [ ] PHP file‑path engine updated (`class-fw-site-converter-*`).

@@ -26,6 +26,11 @@ export function extractDesign() {
         if (n.nodeType !== 1) continue;
         const tag = n.tagName.toLowerCase();
         if (tag === 'br') { html += '<br>'; sawTag = true; continue; }
+        // An inline <svg> in a heading is a DECORATIVE graphic — a hand-drawn underline / highlight
+        // squiggle (FreshPaws: a `<path d="M0 5 Q 50 10 100 5">` under "Second Home"). Keep it VERBATIM;
+        // the default accent-span reconstruction below only rebuilds TEXT, so it drops the <path> and the
+        // graphic vanishes. The svg's own classes (absolute / w-full / text-secondary) ride along.
+        if (tag === 'svg') { html += n.outerHTML.replace(/\s+/g, ' ').trim(); sawTag = true; continue; }
         const s = getComputedStyle(n);
         const w = parseInt(s.fontWeight, 10) || pWeight;
         // Bold only when this child is genuinely BOLDER than its surroundings (or a real <b>/<strong>),
@@ -782,6 +787,53 @@ export function extractDesign() {
     const w = cell.getBoundingClientRect().width;
     return ( rowW > 0 && w > 0 ) ? Math.max( 1, Math.min( 12, Math.round( ( w / rowW ) * 12 ) ) ) : 12;
   };
+  // A standalone image's own SKIN so a decomposed media_image reproduces it (a hero image often
+  // carries an ORGANIC blob `border-radius: 60% 40% 30% 70% / …`, or a plain rounded corner + a
+  // shadow) instead of shipping a bare rectangle. Captured off the rendered <img>; only non-trivial
+  // values are kept, so a square photo stays square.
+  const imgSkin = (el) => {
+    const cs = getComputedStyle(el);
+    const o = {};
+    const r = cs.borderRadius;
+    if ( r && !/^(0px)( 0px)*$/.test(r.trim()) ) o.radius = r;
+    if ( cs.objectFit && cs.objectFit !== 'fill' ) o.objectFit = cs.objectFit;
+    if ( cs.boxShadow && cs.boxShadow !== 'none' ) o.shadow = cs.boxShadow;
+    if ( cs.maxWidth && cs.maxWidth !== 'none' ) o.maxWidth = cs.maxWidth;
+    return o;
+  };
+  // A RATING / social-proof cluster — a star rating (+ optional overlapping avatar stack + a caption
+  // like "4.9/5 from 500+ happy pet parents"). Maps to a `star-rating` shortcode (+ an `avatar` group
+  // for the faces) instead of a verbatim code_block. Detected by a `4.9/5` / `4.9 out of 5` score OR
+  // ≥3 star icons in a SHORT cluster (not a long testimonial). Returns null when it isn't one.
+  const ratingClusterOf = (el) => {
+    const t = txt(el).replace(/\s+/g, ' ').trim();
+    if (t.length > 120) return null; // a rating summary is short; longer = prose/testimonial
+    const score = t.match(/(\d+(?:\.\d+)?)\s*(?:\/|out\s+of\s+)\s*(\d+(?:\.\d+)?)/i);
+    const stars = [...el.querySelectorAll('svg, i, span')].filter((e) => {
+      const c = ((e.className && (e.className.baseVal || e.className.toString())) || '');
+      return /(^|[\s-])star([\s-]|$)|fa-star|lucide-star/i.test(c);
+    });
+    if (!score && stars.length < 3) return null;
+    const value = score ? score[1] : String(Math.min(5, stars.length));
+    const max = score ? score[2] : '5';
+    // Caption = the text AFTER the score (e.g. "from 500+ happy pet parents"); else the whole short text.
+    let count = score ? t.slice(t.indexOf(score[0]) + score[0].length).replace(/^[\s,·–—-]+/, '').trim() : t;
+    // A "+N / 500+ / 2K+" social-proof counter for the avatar stack, pulled from the caption.
+    const cm = count.match(/(\d[\d,.]*\s*[kKmM]?\s*\+)/);
+    const extraCount = cm ? cm[1].replace(/\s+/g, '') : '';
+    const avatars = [...el.querySelectorAll('img')].map((i) => abs(i.currentSrc || i.src || '')).filter((u) => /^https?:/.test(u));
+    // The STARS + SCORE TEXT as verbatim HTML, with the avatar stack stripped out (those become the
+    // `avatar` shortcode). Kept verbatim so the source's own star glyphs + exact wording render as a
+    // small code_block (more faithful than re-drawing stars via the star-rating shortcode).
+    let html = '';
+    try {
+      const c2 = el.cloneNode(true);
+      c2.querySelectorAll('img').forEach((im) => { let n = im; while (n.parentElement && n.parentElement !== c2 && !txt(n.parentElement).trim()) n = n.parentElement; n.remove(); });
+      c2.querySelectorAll('script,style').forEach((s) => s.remove());
+      html = c2.outerHTML.replace(/\s+/g, ' ').trim();
+    } catch { html = ''; }
+    return { value, max, count, extraCount, avatars, html };
+  };
   // An "icon card" inside a grid cell (icon + heading + text [+ link]) → maps to an icon_box.
   // Returns null when the cell isn't a card, so the cell falls back to a verbatim code-block.
   const cardOf = (cell) => {
@@ -861,6 +913,13 @@ export function extractDesign() {
         }
       }
     } catch { /* no badge */ }
+    // The card BOX's own presentation → so the icon_box reproduces the source instead of its centred
+    // default: text alignment (source feature cards are often LEFT, the shortcode default is centred),
+    // the box padding (the `p-8` class collides with the plugin's own `.p-8` = 72px utility, so carry the
+    // COMPUTED value), and the box skin (bg / border / radius / shadow) for the native box options.
+    const boxCs = getComputedStyle(wrap);
+    const _al = (boxCs.textAlign || 'left').replace(/^(start|justify)$/, 'left').replace(/^end$/, 'right');
+    const okc = (v) => v && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
     return {
       icon, customIcon, lucide, iconLayout, iconColor, iconBadge, iconBadgeColor,
       title: clip(txt(h), 160),
@@ -868,6 +927,16 @@ export function extractDesign() {
       text: p ? rawHtmlOf(p, true) : '',
       link: link ? { label: clip(txt(link), 60), href: abs(link.getAttribute('href') || '') } : null,
       cls: String(wrap.className || ''),                      // the card wrapper class (.about-item …) → icon_box css_class
+      align: /^(left|center|right)$/.test(_al) ? _al : 'left',
+      pad: boxCs.padding,
+      box: {
+        bg: okc(boxCs.backgroundColor) ? boxCs.backgroundColor : '',
+        radius: (parseFloat(boxCs.borderTopLeftRadius) || 0) > 0 ? boxCs.borderTopLeftRadius : '',
+        borderWidth: (parseFloat(boxCs.borderTopWidth) || 0) > 0 ? boxCs.borderTopWidth : '',
+        borderStyle: boxCs.borderTopStyle, borderColor: okc(boxCs.borderTopColor) ? boxCs.borderTopColor : '',
+        shadow: (boxCs.boxShadow && boxCs.boxShadow !== 'none') ? boxCs.boxShadow : '',
+        hoverLift: /hover:-?translate-y-/.test(String(wrap.className || '')),
+      },
     };
   };
   // A single <a>/<button> styled as a button → the `button` block shape (same fields the block-level
@@ -1000,7 +1069,11 @@ export function extractDesign() {
       const cw = colFrac(c, rowW);              // desktop fraction (1–12) from the rendered width
       try { c.setAttribute('data-sc-col', colId); } catch { /* read-only DOM, skip */ }
       // `html` is the cell's INNER markup, so the data-sc-col tag on the cell never leaks into it.
-      const cell = { width: colWidth(c, cols.length), cls: colClasses(c), colId, cw, html: rawHtmlOf(c, true, true) };
+      // `cls` = only the Bootstrap col-* classes (for width mapping); `fullCls` = the cell's COMPLETE
+      // class list, so a verbatim composite (image + overlay) can rebuild the cell's own positioning /
+      // flex-centring wrapper (`relative flex items-center justify-center lg:h-[600px]`) — dropping it
+      // left the wrapper class-less, so the image wasn't centred and the `inset-0` blob wasn't full-size.
+      const cell = { width: colWidth(c, cols.length), cls: colClasses(c), fullCls: String(c.className || ''), colId, cw, html: rawHtmlOf(c, true, true) };
       // The cell's OWN flex layout → so the column can replay it via native content_direction / gap
       // (a flex-ROW cell lays its children side-by-side; a stacked column is the default). Captured
       // for every flex cell; the mapper only acts on `row` (+ the gap).
@@ -1058,16 +1131,46 @@ export function extractDesign() {
             const b = buttonsOf(c);                             // a CTA button group?
             if (b && b.length) { cell.buttons = b; }
             else {
-              const t = textBlockOf(c);
-              if (t) { cell.text = t; }                       // a plain text cell
-              else {
-                // A rich CONTENT column (hero body: heading + subtitle + buttons + stats) → RECURSIVELY
-                // decompose into its child shortcodes instead of one verbatim code_block. An image-
-                // dominant cell (no heading/paragraph) → a media_image.
-                const img = c.querySelector('img');
-                if (img && !c.querySelector('h1,h2,h3,h4,h5,h6,p')) {
-                  cell.image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '' };
-                } else if (c.querySelector('h1,h2,h3,h4,h5,h6')) {
+              // Content in an ABSOLUTELY-positioned overlay (a floating badge, a decorative blob) is out
+              // of flow: it must neither disqualify an image-dominant column nor pull a rich column into
+              // textBlockOf. Classify on FLOW content only.
+              const inFlow = (el) => { let x = el; while (x && x !== c) { const s = getComputedStyle(x); if (s.position === 'absolute' || s.position === 'fixed') return false; x = x.parentElement; } return true; };
+              const flowHeading = [...c.querySelectorAll('h1,h2,h3,h4,h5,h6')].some(inFlow);
+              const flowPara    = [...c.querySelectorAll('p')].some(inFlow);
+              const img = c.querySelector('img');
+              const hasBtn = [...c.querySelectorAll('a,button')].some((x) => looksButton(x) && txt(x).trim());
+              // A rich hero CONTENT column = heading + CTA button(s) (+ often a rating / social-proof row).
+              // textBlockOf would collapse it to overline/title/subtitle and DROP the buttons + rating, so
+              // decompose into real blocks. A pure heading group (no buttons) still uses textBlockOf → one
+              // clean special_heading (unchanged).
+              if (flowHeading && hasBtn) {
+                const inner = []; decompose(c, inner);
+                if (inner.filter((x) => x.t !== 'html').length >= 2) { cell.blocks = inner; }
+              }
+              if (!cell.blocks) {
+                const t = (flowHeading || flowPara) ? textBlockOf(c) : null;
+                if (t) { cell.text = t; }                       // a plain text cell
+                // An image-dominant cell whose only text sits in absolute overlays (a floating badge).
+                // NOTHING DROPPED: if such an overlay carries real content (text or an icon/image), keep
+                // the WHOLE cell VERBATIM (image + blob + badge, with their positioning) by NOT collapsing
+                // it to a bare media_image — the cell falls back to its verbatim html leaf. Only a clean
+                // image with no meaningful overlay becomes the native media_image.
+                else if (img && !flowHeading && !flowPara) {
+                  const hasOverlayContent = [...c.querySelectorAll('*')].some((el) => {
+                    const s = getComputedStyle(el);
+                    if (s.position !== 'absolute' && s.position !== 'fixed') return false;
+                    return txt(el).trim() !== '' || !!el.querySelector('img,svg');
+                  });
+                  if (!hasOverlayContent) {
+                    cell.image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '', ...imgSkin(img) };
+                  } else {
+                    // Image + a content-bearing overlay (a floating badge) → kept VERBATIM (its own html
+                    // leaf). Flag it a CONTAINED composite so the clean-hero gate still lets the REST of the
+                    // section (a clean text column) decompose — only this one cell stays verbatim.
+                    cell.imgComposite = true;
+                  }
+                } else if (flowHeading) {
+                  // A rich CONTENT column with no buttons but a non-heading-group body → decompose.
                   const inner = []; decompose(c, inner);
                   const real = inner.filter((x) => x.t !== 'html');
                   if (real.length >= 1 && inner.length >= 2) { cell.blocks = inner; }
@@ -1229,17 +1332,35 @@ export function extractDesign() {
     return [...parent.children].some((k) => /^H[1-6]$/.test(k.tagName) && (node.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING));
   };
   const decompose = (el, out) => {
+    let _rat;
     for (const child of [...el.children]) {
       const vblk = videoBlockOf(child);          // before SKIP: provider IFRAMEs are otherwise skipped
       if (vblk) { out.push(vblk); continue; }
-      if (SKIP_TAGS.has(child.tagName) || !visibleEl(child)) continue;
-      // Purely DECORATIVE chrome (a glow blob / gradient overlay): no text, no media/interactive
-      // descendants, AND it's out of flow (absolute/fixed) or non-interactive (pointer-events:none /
-      // aria-hidden). Drop it rather than emit an empty code_block — it's a background flourish, not
-      // content. (The section still captures its own background via sectionComputed.)
+      if (!visibleEl(child)) continue;
+      if (SKIP_TAGS.has(child.tagName)) {
+        // NOTHING DROPPED: a content-bearing tag that used to be skipped now falls back to a verbatim
+        // code block — a standalone <svg> illustration, or a non-provider <iframe> (maps / booking /
+        // form / social embeds; provider videos were already rescued above via videoBlockOf). Truly
+        // non-content tags (script/style/noscript/template/header/footer/nav) stay skipped.
+        if (child.tagName === 'SVG' || child.tagName === 'IFRAME') { out.push({ t: 'html', html: rawHtmlOf(child, true) }); }
+        continue;
+      }
+      // DECORATIVE chrome (a glow blob / gradient overlay): no text, no media/interactive descendants,
+      // and out of flow (absolute/fixed) or non-interactive (pointer-events:none / aria-hidden). It used
+      // to be DROPPED; NOTHING DROPPED now preserves it VERBATIM as a code block so its visual (bg /
+      // gradient / clip-path / border-radius) survives — unless it is genuinely styleless (no class and
+      // no inline style), which would render nothing.
       if (!txt(child).trim() && !child.querySelector('img,svg,video,iframe,picture,canvas,input,button,a[href]')) {
         const dcs = getComputedStyle(child);
-        if (dcs.position === 'absolute' || dcs.position === 'fixed' || dcs.pointerEvents === 'none' || child.getAttribute('aria-hidden') === 'true') continue;
+        if (dcs.position === 'absolute' || dcs.position === 'fixed' || dcs.pointerEvents === 'none' || child.getAttribute('aria-hidden') === 'true') {
+          const dcls = (child.className && child.className.toString) ? child.className.toString().trim() : '';
+          const dsty = (child.getAttribute('style') || '').trim();
+          // `decor:true` marks a full-bleed section DECORATION (an absolute bg / glow layer). It's kept
+          // verbatim (nothing dropped) but must NOT count against the clean-hero gate — a decorative
+          // backdrop shouldn't force an otherwise-decomposable section to stay wholly verbatim.
+          if (dcls !== '' || dsty !== '') { out.push({ t: 'html', html: rawHtmlOf(child, true), decor: true }); }
+          continue;
+        }
       }
       const tag = child.tagName;
       const cls = (child.className && child.className.toString) ? child.className.toString() : '';
@@ -1256,7 +1377,7 @@ export function extractDesign() {
       }
       if (/^H[1-6]$/.test(tag)) {
         const html = richHeading(child) || escHtml(txt(child));
-        if (html) out.push({ t: 'heading', level: +tag[1], html, text: clip(txt(child), 200), tag: tag.toLowerCase(), cls, wrapCls: headingWrapClass(child), align: (getComputedStyle(child).textAlign || 'left').replace(/^(start|justify)$/, 'left').replace('end', 'right') });
+        if (html) { const _hcs = getComputedStyle(child); out.push({ t: 'heading', level: +tag[1], html, text: clip(txt(child), 200), tag: tag.toLowerCase(), cls, wrapCls: headingWrapClass(child), fontSize: _hcs.fontSize, fontWeight: _hcs.fontWeight, color: _hcs.color, marginBottom: _hcs.marginBottom, marginTop: _hcs.marginTop, lineHeight: _hcs.lineHeight, letterSpacing: _hcs.letterSpacing, align: (_hcs.textAlign || 'left').replace(/^(start|justify)$/, 'left').replace('end', 'right') }); }
       } else if ((tag === 'A' || tag === 'BUTTON') && looksButton(child)) {
         const label = clip(txt(child), 80);
         const bcs = getComputedStyle(child);
@@ -1264,14 +1385,22 @@ export function extractDesign() {
         // the plugin can populate the button's icon field. Keep only icon-font tokens (drop
         // spacing utilities like ml-2); position = after when the icon is the last child.
         const iconEl = child.querySelector('i, svg, [class*="fa-"], [class*="icon-"]');
-        let icon = '', iconPos = 'after';
-        if (iconEl && iconEl.className && iconEl.className.toString) {
-          icon = iconEl.className.toString().split(/\s+/).filter(
-            (c) => /^(fa[bsrl]?$|fa-|bi$|bi-|icon$|icon-|ti$|ti-|ion$|ion-|dashicons|glyphicon|material-icons)/i.test(c)
-          ).join(' ');
+        let icon = '', iconSvg = '', iconPos = 'after';
+        if (iconEl) {
+          if ((iconEl.tagName || '').toLowerCase() === 'svg') { iconSvg = iconEl.outerHTML; }
+          else if (iconEl.className && iconEl.className.toString) {
+            icon = iconEl.className.toString().split(/\s+/).filter(
+              (c) => /^(fa[bsrl]?$|fa-|bi$|bi-|icon$|icon-|ti$|ti-|ion$|ion-|dashicons|glyphicon|material-icons)/i.test(c)
+            ).join(' ');
+          }
           iconPos = (child.lastElementChild === iconEl) ? 'after' : 'before';
         }
-        if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconPos, bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle } });
+        // Capture the SAME skin fields as the button-GROUP branch (pad / fontSize / fontWeight / inline
+        // SVG icon / border width) — otherwise a STANDALONE button (a CTA under a heading) loses its
+        // padding (px-10 py-4 → the shortcode's .btn default 10px/24px) and its inline arrow icon.
+        if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
+          pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+          bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
       } else if (isOverline(child, el)) {
         const ocs = getComputedStyle(child);
         // A leading/trailing icon SVG in the overline → captured separately so it maps to the native
@@ -1285,8 +1414,51 @@ export function extractDesign() {
           ovHtml = escHtml((c2.textContent || '').replace(/\s+/g, ' ').trim());
         }
         out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, textTransform: ocs.textTransform, iconSvg: ovIcon, iconPos: ovIconPos });
+      } else if ((_rat = ratingClusterOf(child))) {
+        // A star-rating / social-proof cluster (avatars + stars + "4.9/5 from 500+ …") → a `rating`
+        // block (→ star-rating shortcode + an avatar group), NOT a verbatim code_block.
+        out.push({ t: 'rating', value: _rat.value, max: _rat.max, count: _rat.count, extraCount: _rat.extraCount, avatars: _rat.avatars, html: _rat.html });
+      } else if ((() => { const vk = [...child.children].filter((k) => visibleEl(k)); return vk.length >= 1 && vk.every((k) => looksButton(k) || (k.children.length === 1 && looksButton(k.firstElementChild))); })()) {
+        // A button GROUP wrapper (`<div class="flex gap-4"><a class="btn">…</a><a>…</a></div>`): each
+        // <a> is INLINE, so isTextLeaf below would swallow the group into ONE text block and drop the
+        // CTAs (the hero "Book a Stay / Take a Tour" bug). Emit each child as its own button block.
+        const gcs = getComputedStyle(child);
+        // Row-vs-stack must reflect the DESKTOP layout regardless of which viewport the extractor
+        // happens to run at (the responsive re-measure pass can leave the page at a phone width, where
+        // `sm:flex-row` hasn't kicked in and the live flexDirection reads `column`). A `flex-row` class
+        // — including responsive `sm:/md:/lg:flex-row` — is the reliable desktop-intent signal; the live
+        // flexDirection is only a fallback when no flex-direction class is present.
+        const _gcls = (child.className || '').toString();
+        const groupRow = /(?:^|[\s:])flex-row\b/.test(_gcls)
+          || (!/(?:^|[\s:])flex-col\b/.test(_gcls) && /row/i.test(gcs.flexDirection || ''));
+        const kids = [...child.children].filter((k) => visibleEl(k));
+        kids.forEach((kid, ki) => {
+          const bel = looksButton(kid) ? kid : kid.firstElementChild;
+          const label = clip(txt(bel), 80);
+          if (!label) return;
+          const bcs = getComputedStyle(bel);
+          // Icon: prefer a captured INLINE SVG (lucide arrow etc.) — carried verbatim to the button's
+          // svg icon — else a font-icon class token. The SVG is the FreshPaws "Book a Stay →" arrow that
+          // was being dropped (the class filter kept only fa-/bi-/… tokens, not lucide/inline SVG).
+          const svgEl = bel.querySelector('svg');
+          const iel = bel.querySelector('i, [class*="fa-"], [class*="icon-"]');
+          let icon = '', iconSvg = '', iconPos = 'after';
+          if (svgEl) { iconSvg = svgEl.outerHTML; iconPos = (bel.lastElementChild === svgEl) ? 'after' : 'before'; }
+          else if (iel && iel.className && iel.className.toString) {
+            icon = iel.className.toString().split(/\s+/).filter((x) => /^(fa[bsrl]?$|fa-|bi$|bi-|icon$|icon-|ti$|ti-|ion$|ion-|dashicons|glyphicon|material-icons)/i.test(x)).join(' ');
+            iconPos = (bel.lastElementChild === iel) ? 'after' : 'before';
+          }
+          out.push({ t: 'button', label, href: abs(bel.getAttribute('href') || ''), tag: bel.tagName.toLowerCase(),
+            cls: (bel.className || '').toString(), align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
+            pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+            groupRow, groupFirst: ki === 0, groupLast: ki === kids.length - 1,
+            bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
+        });
       } else if (isTextLeaf(child)) {
-        if (txt(child)) out.push({ t: 'text', html: rawHtmlOf(child, true), text: clip(txt(child), 200), tag: tag.toLowerCase(), cls });
+        if (txt(child)) { const _tcs = getComputedStyle(child); out.push({ t: 'text', html: rawHtmlOf(child, true), text: clip(txt(child), 200), tag: tag.toLowerCase(), cls,
+          // Full computed style so the decomposed text_block reproduces EVERY class effect (font-size /
+          // colour / line-height / letter-spacing / alignment / bottom margin) — nothing dropped.
+          fontSize: _tcs.fontSize, color: _tcs.color, lineHeight: _tcs.lineHeight, letterSpacing: _tcs.letterSpacing, marginBottom: _tcs.marginBottom, textAlign: _tcs.textAlign, fontWeight: _tcs.fontWeight }); }
       } else if (isRow(child)) {
         const cols = rowCols(child);
         if (cols.length) {
@@ -1296,15 +1468,26 @@ export function extractDesign() {
           const valign = ai === 'center' ? 'center'
             : ( ( ai === 'flex-end' || ai === 'end' ) ? 'end'
             : ( ( ai === 'flex-start' || ai === 'start' ) ? 'start' : '' ) );
-          out.push({ t: 'row', cols, valign });
+          // Carry the raw HTML so a NESTED row that reaches blockToNode (e.g. a bespoke rating /
+          // social-proof cluster inside a decomposed hero column) renders verbatim as a CONTAINED
+          // code_block instead of an EMPTY one. (A top-level layout row is still built into columns.)
+          out.push({ t: 'row', cols, valign, html: rawHtmlOf(child, true) });
         }
       } else if (tag === 'IMG' || (/^(FIGURE|PICTURE)$/.test(tag) && child.querySelector('img') && !txt(child))) {
-        // A standalone <img> (or a figure/picture wrapping a lone image) → a `image` block →
-        // media_image (NOT a gallery, which is for multiple images; NOT a verbatim code_block).
+        // A standalone <img> (or a figure/picture wrapping a lone image) → a clean `image` block →
+        // media_image. NOTHING DROPPED: if the image carries a visual SKIN media_image can't express
+        // (a non-zero border-radius / blob, a box-shadow, or a border / ring / outline class or inline
+        // style), preserve it VERBATIM as a code block instead, so the skin + every class survive.
         const im = tag === 'IMG' ? child : child.querySelector('img');
         const src = abs(im.currentSrc || im.src || '');
-        if (/^https?:/.test(src)) { out.push({ t: 'image', src, alt: im.alt || '' }); }
-        else { out.push({ t: 'html', html: rawHtmlOf(child, true) }); }
+        const sk  = imgSkin(im);
+        const imCls = (im.className && im.className.toString) ? im.className.toString() : '';
+        const skinClass = /(^|\s)(border|shadow|drop-shadow|ring\b|ring-|rounded-(?!none)|rounded\b|outline\b|outline-|blob)/i.test(imCls)
+          || /(border|box-shadow|outline|border-radius|clip-path)/i.test(im.getAttribute('style') || '');
+        const hasSkin = !!sk.radius || !!sk.shadow || skinClass;
+        if (!/^https?:/.test(src)) { out.push({ t: 'html', html: rawHtmlOf(child, true) }); }
+        else if (hasSkin) { out.push({ t: 'html', html: rawHtmlOf(child, true) }); }
+        else { out.push({ t: 'image', src, alt: im.alt || '', ...sk }); }
       } else if (child.children.length && !child.matches('table,figure,ul,ol,dl')) {
         decompose(child, out); // single-column wrapper → dive to reach the intro / the grid row
       } else {
@@ -1319,6 +1502,20 @@ export function extractDesign() {
     const o = {};
     const set = (k, v, ...skip) => { v = (v || '').toString().trim(); if ( v && !skip.includes(v) ) o[k] = v; };
     set('background', s.backgroundColor, 'rgba(0, 0, 0, 0)', 'transparent');
+    // A full-bleed absolute bg layer (`<div class="absolute inset-0 bg-primary">`) paints the
+    // section even though the section's OWN bg is transparent — capture its colour as the section
+    // background, else a solid CTA band silently converts to no background (the FreshPaws CTA bug).
+    if (!o.background) {
+      const er = el.getBoundingClientRect();
+      const layer = [...el.querySelectorAll(':scope > div, :scope > span')].find((c) => {
+        const cs = getComputedStyle(c); const bg = cs.backgroundColor;
+        if (cs.position !== 'absolute' && cs.position !== 'fixed') return false;
+        if (!bg || bg === 'rgba(0, 0, 0, 0)' || bg === 'transparent') return false;
+        const r = c.getBoundingClientRect();
+        return r.width >= er.width * 0.9 && r.height >= er.height * 0.9; // covers the section
+      });
+      if (layer) set('background', getComputedStyle(layer).backgroundColor, 'rgba(0, 0, 0, 0)', 'transparent');
+    }
     if (s.backgroundImage && s.backgroundImage !== 'none') o.backgroundImage = absUrlsIn(s.backgroundImage, location.href);
     set('color', s.color);
     set('padding', s.padding, '0px');
@@ -1396,6 +1593,14 @@ export function extractDesign() {
     sections[i].rawHtml = rawHtmlOf(root, true);
     sections[i].rawInner = rawHtmlOf(root, true, true); // inner HTML — the verbatim path hoists the root's class onto the builder section (no nested <section>)
     sections[i].sectionClass = (root.getAttribute && root.getAttribute('class')) || '';
+    // The section's own id (`<section id="hero">`) → carried onto the builder section's CSS ID, so the
+    // source's in-page anchor links (nav "Home" → #hero, smooth-scroll targets) still resolve. Read the
+    // real <section> element, not a bg-wrapper root. Skip a generic/utility id (a class echoed as id).
+    {
+      const secEl = sectionEls[i] || root;
+      const sid = (secEl.getAttribute && secEl.getAttribute('id')) || '';
+      if (sid && /^[A-Za-z][\w-]*$/.test(sid)) sections[i].sectionId = sid;
+    }
     // The section's content-column classes (e.g. col-lg-10 col-md-12 col-xl-8) — carried onto the
     // builder's intro column (fw-prefixed) so the content width matches the source.
     const contentCol = root.querySelector('[class*="col-"]');
@@ -1436,15 +1641,40 @@ export function extractDesign() {
     // A cell is CLEAN only if it maps entirely to real shortcodes — a decomposed content column counts
     // only when NONE of its child blocks fell to verbatim `html` (an un-detected overline pill / stat row
     // leaves a code_block, which means the section is design-dense and should stay verbatim for fidelity).
-    const MAPPABLE = ['heading', 'button', 'text', 'image', 'video', 'testimonials', 'pill'];
+    const MAPPABLE = ['heading', 'button', 'text', 'image', 'video', 'testimonials', 'pill', 'rating'];
+    // Residual block kinds a decomposed hero column may carry that to-pages emits as a CONTAINED
+    // code_block leaf (a small bespoke bit — a rating / social-proof row, an inline list) — these do
+    // NOT force the WHOLE section verbatim. A column stays clean if it has ≥1 real block and every
+    // other block is either mappable or one of these contained-verbatim kinds.
+    const CONTAINED_OK = ['overline', 'row', 'html', 'image', 'list'];
     const cleanCell = (c) => c.card || c.counter || (c.buttons && c.buttons.length) || c.text || c.image || c.grid
-      || (c.blocks && c.blocks.length && c.blocks.every((b) => MAPPABLE.includes(b.t)));
-    const cleanHero = mapBlocks.length > 0 && mapBlocks.every((b) => b.t !== 'html' && (b.t !== 'row' || (b.cols || []).every(cleanCell)));
+      || c.imgComposite // an image + content-overlay cell kept verbatim is a CONTAINED code_block, not a section-verbatim trigger
+      || (c.blocks && c.blocks.length
+        && c.blocks.some((b) => MAPPABLE.includes(b.t))
+        && c.blocks.every((b) => MAPPABLE.includes(b.t) || CONTAINED_OK.includes(b.t)));
+    // A section decomposes as long as every top-level block is mappable OR a contained-verbatim leaf (a
+    // decorative backdrop, or a row whose every cell is clean/contained). A decorative bg layer or one
+    // image+badge composite no longer drags the whole (otherwise-clean) hero to a single code_block.
+    const cleanHero = mapBlocks.length > 0 && mapBlocks.every((b) => (b.t !== 'html' || b.decor) && (b.t !== 'row' || (b.cols || []).every(cleanCell)));
     if (root.querySelector('h1') && !cleanHero) return;
     if (mapBlocks.some((b) => b.t !== 'html')) sections[i].blocks = mapBlocks;
   });
 
-  const stripPseudo = (sel) => sel.replace(/::?[\w-]+(\([^)]*\))?/g, '').trim() || '*';
+  // Strip pseudo-classes/elements so the bare selector can be test-matched — but NOT an ESCAPED
+  // colon (`\:`), which is a Tailwind VARIANT separator inside the class name (`.md\:flex`,
+  // `.lg\:hidden`, `.hover\:bg-x`). Without the lookbehind, `:flex` reads as a pseudo and gets
+  // stripped → `.md\` matches nothing → every responsive/variant utility is silently dropped from
+  // the carried CSS (the source's `hidden md:flex` nav then never un-hides → hamburger at desktop).
+  // Strip only STATE pseudo-classes (:hover/:focus/… never active at capture time, so they'd make a
+  // real rule fail `querySelector`) and pseudo-ELEMENTS (::before/…). KEEP structural pseudo-classes
+  // (:not/:is/:where/:has/:nth-*/:first-child/…) — dropping those mangles the selector and loses the
+  // rule: Tailwind's `space-y-*` (`.space-y-3 > :not([hidden]) ~ :not([hidden])`, the inter-item
+  // margin-top) was becoming an invalid `.space-y-3 > ~` and getting dropped, so carried lists/columns
+  // lost all their vertical spacing. `(?<!\\)` leaves escaped `\:` (Tailwind variant classes) intact.
+  const stripPseudo = (sel) => sel
+    .replace(/(?<!\\)::[\w-]+(\([^)]*\))?/g, '') // pseudo-elements (::before, ::after, ::placeholder, …)
+    .replace(/(?<!\\):(?:hover|focus|focus-visible|focus-within|active|visited|target|checked|disabled|enabled|required|optional|valid|invalid|in-range|out-of-range|link|default|read-only|read-write|placeholder-shown|autofill|indeterminate|user-invalid|user-valid)\b(\([^)]*\))?/gi, '')
+    .trim() || '*';
   const isGlobalSel = (test) => /^(:root|html|body|\*)$/i.test(test);
   const matchesPage = (test) => { if (isGlobalSel(test)) return true; try { return !!document.querySelector(test); } catch { return false; } };
   // A selector matches "within" a root if the root itself matches (ancestor-qualified
@@ -1501,6 +1731,20 @@ export function extractDesign() {
             // rule is also kept for per-section matching (a rule may serve both — duplication is inert).
             const gp = parts.filter((p) => { const t = stripPseudo(p); return isGlobalSel(t) || chromeRoots.some((r) => matchesIn(r, t)); });
             if (gp.length) pushParts(gp, media, body);
+            // COMPLETENESS: every remaining page-matching utility (a class/id/attr selector that is
+            // neither global nor chrome-scoped, e.g. body-section `.py-5`, `.feature-card`) ALSO goes
+            // to the global `util` bucket. Previously these lived ONLY in per-section `siteRules`, so
+            // when the source's utilities came from an inline <style> or a hash-named bundle (not
+            // matched by VENDOR_RE) AND the per-section CSS merge was empty, every below-the-header
+            // section shipped unstyled (the freshpaws "10% done" bug). This mirrors the "wholesale,
+            // page-matched" treatment vendor sheets already get, making vendor-name detection
+            // non-load-bearing for completeness. matchesPage() keeps it to selectors actually used on
+            // the page, so we carry the used utilities — not the whole (possibly huge) framework.
+            const up = parts.filter((p) => {
+              const t = stripPseudo(p);
+              return !isGlobalSel(t) && !chromeRoots.some((r) => matchesIn(r, t)) && matchesPage(t);
+            });
+            if (up.length) pushCat('util', media, `${up.join(', ')}{${body}}`);
             siteRules.push({ media: media || '', parts, body });
           }
           break;
@@ -1672,10 +1916,32 @@ export function extractDesign() {
   // ~24px side padding, so the value transfers directly; see the demo-conversion playbook).
   const containerMax = (() => {
     const vw = window.innerWidth;
+    // A RESPONSIVE container (Tailwind `.container`: max-width steps up per breakpoint — 640/768/1024/
+    // 1280 and a 1536px cap at 2xl) must be captured at its DESIGN MAX, NOT the value at this one
+    // capture viewport. Reading only the computed max-width at 1440px reports 1280 (the xl step) and
+    // ships a too-narrow site that mismatches the source on any ≥1536px screen. So collect every
+    // max-width declaration + its selector across ALL sheets (incl. inside @media) once, then a
+    // candidate's design max = the LARGEST matching rule (or its computed value, whichever is bigger).
+    const mwRules = [];
+    for (const sheet of document.styleSheets) {
+      let rules; try { rules = sheet.cssRules; } catch { continue; }
+      const walk = (rs) => { for (const r of rs) {
+        if (r.type === 4 || r.type === 12) { try { walk(r.cssRules); } catch { /* */ } }
+        else if (r.type === 1 && r.style && r.style.maxWidth) {
+          const mw = parseFloat(r.style.maxWidth);
+          if (mw >= 600 && mw <= 2400 && r.selectorText) mwRules.push({ sel: r.selectorText, mw });
+        }
+      } };
+      try { walk(rules); } catch { /* */ }
+    }
+    const designMax = (el) => {
+      let best = parseFloat(getComputedStyle(el).maxWidth) || 0;
+      for (const rr of mwRules) { if (rr.mw > best) { try { if (el.matches(rr.sel)) best = rr.mw; } catch { /* bad selector */ } } }
+      return best;
+    };
     const buckets = new Map(); // rounded max-width px -> summed content area
     for (const el of document.querySelectorAll('div,section,header,footer,main,article,nav')) {
-      const s = getComputedStyle(el);
-      const mw = parseFloat(s.maxWidth);
+      const mw = designMax(el);
       if (!mw || mw < 600 || mw > 2400) continue;
       const r = el.getBoundingClientRect();
       if (r.width < 480) continue;

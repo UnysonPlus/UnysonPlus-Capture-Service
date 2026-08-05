@@ -90,6 +90,7 @@ const patternKey = (e) => [e.role || '?', e.detected || '?', e.srcTag || '?',
   const sites = new Set(); let elements = 0, fallbacks = 0, opportunities = 0, overLarge = 0;
   const shortcodes = {}, roles = {}, drops = {};
   const patterns = new Map(); // key → { count, sites:Set, example }
+  const findings = new Map(); // "got → expected" → { count, sites:Set, systematic, notes:Set }
   for (const rep of fresh) {
     if (rep.site && rep.site.hostHash) sites.add(rep.site.hostHash);
     for (const [k, v] of Object.entries((rep.stats && rep.stats.shortcodes) || {})) shortcodes[k] = (shortcodes[k] || 0) + v;
@@ -104,6 +105,18 @@ const patternKey = (e) => [e.role || '?', e.detected || '?', e.srcTag || '?',
       rec.count++; if (rep.site && rep.site.hostHash) rec.sites.add(rep.site.hostHash);
       patterns.set(key, rec);
     }
+    // AGENT got-vs-expected findings — the high-value signal. From a full report's `findings[]` (batch
+    // --share) OR a lean streaming payload (`kind:'finding'`, one `finding`). Rank by got→expected pair.
+    for (const f of (rep.kind === 'finding' && rep.finding ? [rep.finding] : (rep.findings || []))) {
+      if (!f || (!f.got && !f.expected)) continue;
+      const key = (f.got || '?') + ' → ' + (f.expected || '?');
+      const rec = findings.get(key) || { count: 0, sites: new Set(), systematic: 0, notes: new Set(), solutions: new Set() };
+      rec.count++; if (f.systematic) rec.systematic++;
+      if (rep.site && rep.site.hostHash) rec.sites.add(rep.site.hostHash);
+      if (f.note) rec.notes.add(f.note);
+      if (f.solution) rec.solutions.add(f.solution);   // agent's fix sketch — surfaced below for maintainer review
+      findings.set(key, rec);
+    }
   }
 
   const ranked = [...patterns.entries()]
@@ -111,9 +124,10 @@ const patternKey = (e) => [e.role || '?', e.detected || '?', e.srcTag || '?',
     .sort((a, b) => b.sites - a.sites || b.count - a.count);
 
   const histo = (o) => Object.entries(o).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}×${v}`).join(', ') || '—';
+  const nFindings = [...findings.values()].reduce((n, r) => n + r.count, 0);
   let md = `# Converter to-do — from shared reports\n\n`;
   md += `_${fresh.length} new reports · ${sites.size} distinct sites · ${elements} elements · `;
-  md += `${fallbacks} fallbacks · ${opportunities} opportunities · ${overLarge} over-large sections_\n\n`;
+  md += `${fallbacks} fallbacks · ${opportunities} opportunities · ${nFindings} agent-findings · ${overLarge} over-large sections_\n\n`;
   md += `**Mapped shortcodes:** ${histo(shortcodes)}\n\n**Detected roles:** ${histo(roles)}\n\n`;
   if (Object.keys(drops).length) md += `**Styling dropped (property → count):** ${histo(drops)}\n\n`;
   md += `## Ranked systematic failures (fix highest first — most sites affected)\n\n`;
@@ -124,6 +138,26 @@ const patternKey = (e) => [e.role || '?', e.detected || '?', e.srcTag || '?',
     md += `| ${i + 1} | ${r.sites} | ${r.count} | ${r.kind} | ${role} | ${detected} | ${tag || '—'} | \`${tokens || '—'}\` | ${(r.why || '').replace(/\|/g, '/')} → ${r.mapped || '?'} |\n`;
   });
   if (!ranked.length) md += `_No fallbacks or opportunities in the new reports — the converter handled them all._\n`;
+
+  // Agent got-vs-expected findings — ranked. These carry the CORRECT target (expected) and are the only
+  // way a confident-but-WRONG mapping (no fallback flag) surfaces, so they lead the to-do list in practice.
+  const rankedFindings = [...findings.entries()]
+    .map(([key, r]) => ({ key, count: r.count, sites: r.sites.size, systematic: r.systematic, note: [...r.notes][0] || '', solutions: [...r.solutions] }))
+    .sort((a, b) => b.systematic - a.systematic || b.sites - a.sites || b.count - a.count);
+  if (rankedFindings.length) {
+    md += `\n## Agent findings — got → expected (the fix target; catches confident-but-wrong maps)\n\n`;
+    md += `| # | sites | hits | systematic | fix? | got → expected | example note |\n`;
+    md += `|---|------:|-----:|:----------:|:----:|----------------|--------------|\n`;
+    rankedFindings.forEach((r, i) => {
+      md += `| ${i + 1} | ${r.sites} | ${r.count} | ${r.systematic ? '✔ ×' + r.systematic : '—'} | ${r.solutions.length ? '✎' : '—'} | ${r.key} | ${(r.note || '').replace(/\|/g, '/')} |\n`;
+    });
+    // Agent-supplied fix SKETCHES — REVIEW before promoting; never auto-apply. Reusable patterns only.
+    const withSolutions = rankedFindings.filter((r) => r.solutions.length);
+    if (withSolutions.length) {
+      md += `\n### Proposed solutions (agent sketches — ✎ REVIEW, never auto-apply)\n\n`;
+      withSolutions.forEach((r) => { md += `**${r.key}**\n\n\`\`\`\n${r.solutions[0]}\n\`\`\`\n\n`; });
+    }
+  }
 
   writeFileSync(join(DIR, 'reports-todo.md'), md);
   console.log('\n' + md);
