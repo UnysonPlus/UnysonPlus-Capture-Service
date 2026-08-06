@@ -441,10 +441,10 @@ async function loadLocalAi(){
   const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
   let h='<div style="margin:0 0 .6em;color:#9aa3ad">A small model runs locally (via <b>Ollama</b>) to refine conversions — no key, 100% on your machine. Optional: the deterministic engine works without it, and Claude (if configured) is used before this.</div>';
   if(!s.installed){
-    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px"><code>assemble.ps1</code> fetches Ollama automatically — re-run it (or install from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>), then the launcher starts it. Local AI is optional; conversions work without it.</div>';
-    el.innerHTML=h; return;
+    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px;margin-bottom:.5em"><b>To enable these:</b> <code>assemble.ps1</code> fetches Ollama automatically — re-run it (or install from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>), then restart the launcher. Pick + Pull a model below. Local AI is optional; conversions work without it.</div>';
+  } else {
+    h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
   }
-  h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
   const pulled=new Set(s.pulled||[]);
   const isPulled=(t)=>pulled.has(t)||[...pulled].some(p=>p===t||p.split(':')[0]===t.split(':')[0]&&p.startsWith(t.split(':')[0]));
   h+='<div>';
@@ -455,7 +455,9 @@ async function loadLocalAi(){
       ? '<small style="color:oklch(0.74 0.17 158)">✓ pulled</small>'
       : (s.up
           ? `<button class="lai-pull" data-tag="${esc(m.tag)}" style="font-size:.8em;padding:.15em .6em;border-radius:5px;border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;cursor:pointer">⤓ Pull ~${esc(m.ram.replace(/[~\s]/g,''))}</button>`
-          : `<small style="color:#9aa3ad">start Ollama to pull</small>`);
+          : (s.installed
+              ? `<small style="color:#9aa3ad">start Ollama to pull</small>`
+              : `<small style="color:#9aa3ad">needs Ollama (see above)</small>`));
     h+=`<label style="${rowCss};cursor:pointer"><input type="radio" name="lai" value="${esc(m.tag)}"${on?' checked':''}>`+
        `<span><b>${esc(m.label)}</b> ${m.recommended?tag('recommended','#a78bfa'):''} ${m.vision?tag('vision','#38bdf8'):''}`+
        `<br><small style="color:#9aa3ad">${esc(m.params)} · ${esc(m.ram)} · ${esc(m.note)}</small><br>`+foot+
