@@ -14,7 +14,9 @@ import { tmpdir } from 'node:os';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.DASHBOARD_PORT || 4600);
 const DASH_URL = `http://localhost:${PORT}`;
-const LOCK = join(tmpdir(), 'upw-dashboard-opened.json');
+// Keep the lockfile inside the kit's output dir (CAPTURE_OUT) when set, so deleting the kit leaves
+// nothing behind; fall back to the system temp dir only when it isn't configured.
+const LOCK = join(process.env.CAPTURE_OUT || tmpdir(), 'upw-dashboard-opened.json');
 const REOPEN_MS = 30 * 60 * 1000; // don't spam a new tab within 30 minutes of the last open
 
 async function isUp(url, ms = 900) {
