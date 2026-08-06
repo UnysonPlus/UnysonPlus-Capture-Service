@@ -452,7 +452,7 @@ async function loadLocalAi(){
   (s.shortlist||[]).forEach(m=>{
     const on=s.selected===m.tag, has=isPulled(m.tag);
     const foot = has
-      ? '<small style="color:oklch(0.74 0.17 158)">✓ pulled</small>'
+      ? `<small style="color:oklch(0.74 0.17 158)">✓ pulled</small> <button class="lai-del" data-tag="${esc(m.tag)}" style="font-size:.78em;padding:.1em .5em;border-radius:5px;border:1px solid #ef444455;background:#ef444418;color:#f87171;cursor:pointer">🗑 Delete</button>`
       : (s.up
           ? `<button class="lai-pull" data-tag="${esc(m.tag)}" style="font-size:.8em;padding:.15em .6em;border-radius:5px;border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;cursor:pointer">⤓ Pull ~${esc(m.ram.replace(/[~\s]/g,''))}</button>`
           : (s.installed
@@ -471,6 +471,13 @@ async function loadLocalAi(){
     catch(e){ toast('Could not set local AI'); }
   }));
   el.querySelectorAll('.lai-pull').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); pullModel(b.getAttribute('data-tag')); }));
+  el.querySelectorAll('.lai-del').forEach(b=>b.addEventListener('click',async e=>{
+    e.preventDefault(); const tag=b.getAttribute('data-tag');
+    if(!confirm('Delete '+tag+'? This removes the model and frees its disk space (you can re-pull it anytime).')) return;
+    b.textContent='deleting…'; b.disabled=true;
+    try{ await fetch('/api/local-ai/delete',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:tag})}); toast('Deleted '+tag); loadLocalAi(); }
+    catch(_){ toast('Could not delete '+tag); loadLocalAi(); }
+  }));
 }
 async function pullModel(tag){
   _laiPulling=true;

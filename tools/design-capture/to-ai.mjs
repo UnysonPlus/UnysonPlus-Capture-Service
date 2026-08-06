@@ -79,6 +79,19 @@ export function setLocalModel(model) {
   return m;
 }
 
+/** Delete a pulled model from Ollama (frees the disk under assembled/ollama/models). Clears the selection
+ *  if it pointed at the deleted model. */
+export async function deleteModel(model) {
+  const m = String(model || '').trim();
+  if (!m) throw new Error('No model to delete.');
+  const resp = await fetch(`${OLLAMA_HOST}/api/delete`, {
+    method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: m }),
+  }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}).`); });
+  if (!resp.ok && resp.status !== 404) { throw new Error('Ollama ' + resp.status + ': ' + (await resp.text().catch(() => '')).slice(0, 200)); }
+  if (selectedLocalModel() === m) { setLocalModel(''); } // don't leave a deleted model selected
+  return { deleted: m };
+}
+
 /** Ollama is a usable backend when it's installed AND the user has picked a model. */
 function ollamaReady() {
   return ollamaBinaryAvailable() && selectedLocalModel() !== '';

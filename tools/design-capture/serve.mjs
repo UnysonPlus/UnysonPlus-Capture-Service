@@ -22,7 +22,7 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel } from './to-ai.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
 import { refineVisual } from './refine-visual.mjs';
@@ -243,6 +243,15 @@ createServer((req, res) => {
   }
   if (u.pathname === '/local-ai/pull-status' && req.method === 'GET') {
     json(res, 200, pullStatus());
+    return;
+  }
+  // POST /local-ai/delete — remove a pulled model (frees disk).
+  if (u.pathname === '/local-ai/delete' && req.method === 'POST') {
+    readJson(req)
+      .then((b) => deleteModel(b.model))
+      .then(() => localAiStatus())
+      .then((s) => json(res, 200, s))
+      .catch((e) => { console.error('[local-ai/delete]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 
