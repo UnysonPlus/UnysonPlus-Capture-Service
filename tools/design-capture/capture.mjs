@@ -296,7 +296,19 @@ async function renderPage(p, target) {
       if (add.length) el.setAttribute('data-sc-cs', add.join(';'));
     }
   });
-  const renderedHtml = await p.content().catch(() => '');
+  // Grab the fully-rendered HTML robustly. `p.content()` can reject with "Execution context was
+  // destroyed…" on SPA / preview routes (e.g. an /api/preview endpoint that re-navigates), which used
+  // to leave renderedHtml empty → no rendered.html written → the ?html=1 URL path 500'd even though the
+  // bundle wrote fine. Retry, and fall back to serializing the live DOM via evaluate (survives cases
+  // content() doesn't). The data-sc-cs / data-sc-col tags set just above are included either way.
+  let renderedHtml = '';
+  for (let attempt = 0; attempt < 3 && (!renderedHtml || renderedHtml.length < 200); attempt++) {
+    renderedHtml = await p.content().catch(() => '');
+    if (renderedHtml && renderedHtml.length >= 200) break;
+    renderedHtml = await p.evaluate(() => (document.documentElement ? '<!doctype html>\n' + document.documentElement.outerHTML : '')).catch(() => '');
+    if (renderedHtml && renderedHtml.length >= 200) break;
+    await p.waitForTimeout(400);
+  }
   return { url: target, renderedHtml, ...data };
 }
 

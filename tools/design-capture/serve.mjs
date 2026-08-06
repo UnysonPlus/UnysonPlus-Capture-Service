@@ -17,7 +17,7 @@
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
 import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
@@ -103,6 +103,37 @@ const setCors = (res) => {
 const json = (res, code, obj) => {
   res.writeHead(code, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify(obj));
+};
+
+/**
+ * Resolve an output file inside a capture's out dir. capture.mjs writes everything into a per-site
+ * SUBFOLDER (`<out>/<siteSlug>/…`, see its `outdir = baseDir/siteSlug`), so a flat join(out, name)
+ * misses it. Check the base first (legacy / --report-only), then one level of subdirectories.
+ */
+const findFile = (out, name) => {
+  const direct = join(out, name);
+  if (existsSync(direct)) return direct;
+  try {
+    for (const e of readdirSync(out, { withFileTypes: true })) {
+      if (e.isDirectory()) { const p = join(out, e.name, name); if (existsSync(p)) return p; }
+    }
+  } catch { /* unreadable dir — no match */ }
+  return '';
+};
+
+/**
+ * Read the rendered HTML from a finished capture dir. Prefers the loose rendered.html; if that's
+ * missing (older builds, or an edge where the page's context died before content() was grabbed),
+ * recovers it from design-capture.json's embedded renderedHtml. Returns '' when neither has usable HTML.
+ */
+const readRenderedHtml = (out) => {
+  const htmlOut = findFile(out, 'rendered.html');
+  if (htmlOut) { const b = readFileSync(htmlOut); if (b && b.length >= 100) return b; }
+  const jsonOut = findFile(out, 'design-capture.json');
+  if (jsonOut) {
+    try { const h = JSON.parse(readFileSync(jsonOut, 'utf8')).renderedHtml; if (h && h.length >= 100) return Buffer.from(h); } catch { /* unparsable — fall through */ }
+  }
+  return '';
 };
 
 /** Read + JSON-parse a request body (capped). */
@@ -223,17 +254,16 @@ createServer((req, res) => {
         markActive('file: ' + (isZip ? 'Stitch .zip' : 'HTML'), 'done');
         // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
         if (u.searchParams.get('html') === '1') {
-          const htmlOut = join(out, 'rendered.html');
-          if (existsSync(htmlOut)) {
-            const html = readFileSync(htmlOut);
+          const html = readRenderedHtml(out);
+          if (html) {
             res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': html.length });
             res.end(html);
           } else { json(res, 500, { error: 'Render produced no HTML.' }); }
           cleanup();
           return;
         }
-        const zipPath = join(out, 'convert-bundle.zip');
-        if (existsSync(zipPath)) {
+        const zipPath = findFile(out, 'convert-bundle.zip');
+        if (zipPath) {
           const zip = readFileSync(zipPath);
           res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename="convert-bundle.zip"', 'Content-Length': zip.length });
           res.end(zip);
@@ -260,17 +290,16 @@ createServer((req, res) => {
       markActive(target, 'done');
       // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
       if (u.searchParams.get('html') === '1') {
-        const htmlOut = join(out, 'rendered.html');
-        if (existsSync(htmlOut)) {
-          const html = readFileSync(htmlOut);
+        const html = readRenderedHtml(out);
+        if (html) {
           res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': html.length });
           res.end(html);
         } else { json(res, 500, { error: 'Render produced no HTML.' }); }
         rmSync(out, { recursive: true, force: true });
         return;
       }
-      const zipPath = join(out, 'convert-bundle.zip');
-      if (existsSync(zipPath)) {
+      const zipPath = findFile(out, 'convert-bundle.zip');
+      if (zipPath) {
         const zip = readFileSync(zipPath);
         res.writeHead(200, {
           'Content-Type': 'application/zip',
