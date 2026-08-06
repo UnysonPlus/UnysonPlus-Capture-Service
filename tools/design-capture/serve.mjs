@@ -25,6 +25,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus } from './to-ai.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
+import { refineVisual } from './refine-visual.mjs';
 
 const PORT = Number(process.env.PORT) || 8787;
 const SELF_DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -242,6 +243,18 @@ createServer((req, res) => {
   }
   if (u.pathname === '/local-ai/pull-status' && req.method === 'GET') {
     json(res, 200, pullStatus());
+    return;
+  }
+
+  // POST /refine-visual — self-verify → AI-fix loop. Measures source-vs-converted drift, asks the AI for
+  // CSS to close the gap, re-measures with the CSS injected, and returns it ONLY if drift dropped.
+  if (u.pathname === '/refine-visual') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    if (!aiReady()) { json(res, 503, { error: 'AI is off — configure Claude Code / an API key, or pick a local model.' }); return; }
+    readJson(req)
+      .then((b) => { if (!b.source_url || !b.converted_url) { throw new Error('Provide source_url and converted_url.'); } console.log('[refine-visual]', b.source_url, 'vs', b.converted_url); return refineVisual({ sourceUrl: b.source_url, convertedUrl: b.converted_url, width: b.width || 1440 }); })
+      .then((out) => { console.log('[refine-visual] drift', out.before_drift_pct + '% ->', out.after_drift_pct + '%', out.improved ? '(kept)' : '(rejected)'); json(res, 200, out); })
+      .catch((e) => { console.error('[refine-visual]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 

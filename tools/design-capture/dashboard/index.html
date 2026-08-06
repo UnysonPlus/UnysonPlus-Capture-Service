@@ -439,7 +439,7 @@ async function loadLocalAi(){
   if(s.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure local AI.</div>'; return; }
   const rowCss='display:flex;gap:.5em;align-items:flex-start;padding:.4em .3em;border-radius:6px';
   const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
-  let h='<div style="margin:0 0 .6em;color:#9aa3ad">A small model runs locally (via <b>Ollama</b>) to refine conversions — no key, 100% on your machine. Optional: the deterministic engine works without it, and Claude (if configured) is used before this.</div>';
+  let h='<div style="margin:0 0 .6em;color:#9aa3ad">For the <b>best</b> conversion, use <b>Claude</b> (Enable AI in wp-admin). These local models are a free, 100%-private <b>fallback</b> for when Claude isn’t available — all below Claude in quality, and bigger = better. Optional; conversions work without any AI.</div>';
   if(!s.installed){
     h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px;margin-bottom:.5em"><b>To enable these:</b> <code>assemble.ps1</code> fetches Ollama automatically — re-run it (or install from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>), then restart the launcher. Pick + Pull a model below. Local AI is optional; conversions work without it.</div>';
   } else {

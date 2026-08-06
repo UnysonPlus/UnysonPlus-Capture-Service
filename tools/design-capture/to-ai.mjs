@@ -36,13 +36,16 @@ const LOCAL_AI_CONFIG = join(dirname(fileURLToPath(import.meta.url)), 'local-ai.
 
 // Curated shortlist shown in the dashboard picker (the user chooses by hardware). `tag` is the Ollama
 // model to `ollama pull`. Not exhaustive — the picker also accepts a custom tag.
+// NOTE on quality: these LOCAL models are the free/private tier and are all well below Claude. For the
+// BEST output, use Claude (Enable AI in wp-admin). Among these, bigger = better; the small ones are for
+// modest hardware, not for best results. "recommended" here means "best QUALITY that most PCs can run".
 export const LOCAL_AI_MODELS = [
-  { tag: 'phi4-mini',     label: 'Phi-4-mini',    params: '3.8B', ram: '~3 GB',    recommended: true, note: 'Best small reasoning + JSON. Great default for most PCs.' },
-  { tag: 'qwen2.5:3b',    label: 'Qwen2.5 3B',    params: '3B',   ram: '~2–3 GB',                     note: 'Fast, low memory — good on light hardware.' },
-  { tag: 'llama3.2:3b',   label: 'Llama 3.2 3B',  params: '3B',   ram: '~2–3 GB',                     note: 'Solid general-purpose small model.' },
-  { tag: 'gemma3:4b',     label: 'Gemma 3 4B',    params: '4B',   ram: '~4 GB',                       note: 'Strong all-rounder; also handles images.' },
-  { tag: 'qwen2.5:7b',    label: 'Qwen2.5 7B',    params: '7B',   ram: '~5–6 GB',                     note: 'Stronger structured output — needs more RAM/VRAM.' },
-  { tag: 'qwen2.5vl:7b',  label: 'Qwen2.5-VL 7B', params: '7B',   ram: '~6 GB',   vision: true,       note: 'Vision — can judge screenshots. Heaviest.' },
+  { tag: 'qwen2.5:7b',    label: 'Qwen2.5 7B',    params: '7B',   ram: '~5–6 GB', recommended: true,  note: 'Best QUALITY of the local options. Pick this if your PC can spare ~6 GB. (Still below Claude.)' },
+  { tag: 'qwen2.5vl:7b',  label: 'Qwen2.5-VL 7B', params: '7B',   ram: '~6 GB',   vision: true,       note: 'Vision — can look at screenshots. Best local choice for the visual-fix pass. Heaviest.' },
+  { tag: 'gemma3:4b',     label: 'Gemma 3 4B',    params: '4B',   ram: '~4 GB',                       note: 'Good mid-size all-rounder; also handles images.' },
+  { tag: 'phi4-mini',     label: 'Phi-4-mini',    params: '3.8B', ram: '~3 GB',                       note: 'Smallest/fastest — runs on modest PCs, but lowest quality here.' },
+  { tag: 'qwen2.5:3b',    label: 'Qwen2.5 3B',    params: '3B',   ram: '~2–3 GB',                     note: 'Fast, very low memory — light hardware only.' },
+  { tag: 'llama3.2:3b',   label: 'Llama 3.2 3B',  params: '3B',   ram: '~2–3 GB',                     note: 'General-purpose small model; light hardware.' },
 ];
 
 let _ollamaBin; // cache
@@ -280,6 +283,73 @@ async function refineViaOllama({ html, mapping, source }) {
   const data = await resp.json();
   const text = String((data.message && data.message.content) || '').trim();
   return finishParse(text, model, 'ollama');
+}
+
+/* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *
+ * A raw text→text call to whichever backend is active (used to generate CSS that closes the source-vs-
+ * converted visual gap). Unlike refineMapping, this returns the model's raw text (not a parsed mapping). */
+async function askText({ system, user, maxTokens = 8000 }) {
+  const backend = aiBackend();
+  if (backend === 'api') {
+    const key = (process.env.ANTHROPIC_API_KEY || '').trim();
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: DEFAULT_MODEL, max_tokens: maxTokens, system, messages: [{ role: 'user', content: user }] }),
+    });
+    if (!resp.ok) throw new Error('Anthropic API ' + resp.status + ': ' + (await resp.text().catch(() => '')).slice(0, 300));
+    const data = await resp.json();
+    return (data.content || []).map((c) => c.text || '').join('').trim();
+  }
+  if (backend === 'claude-code') {
+    const cmd = process.env.CLAUDE_CLI || 'claude';
+    const args = ['-p', '--output-format', 'json', '--max-turns', '1'];
+    const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, ''); if (model) { args.push('--model', model); }
+    const stdout = await runClaude(cmd, args, system + '\n\n' + user);
+    let text = stdout.trim();
+    try { const j = JSON.parse(stdout); if (j && j.is_error) { throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 200)); } if (j && typeof j.result === 'string') { text = j.result; } }
+    catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
+    return text;
+  }
+  if (backend === 'ollama') {
+    const model = selectedLocalModel();
+    const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model, stream: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      signal: AbortSignal.timeout(parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000),
+    });
+    if (!resp.ok) throw new Error('Ollama ' + resp.status + ' — is the model pulled?');
+    const data = await resp.json();
+    return String((data.message && data.message.content) || '').trim();
+  }
+  throw new Error('AI is off — configure a backend (Claude Code, API key, or a local model).');
+}
+
+const VISUAL_CSS_SYSTEM = `You improve a WordPress site conversion by writing CSS. You are given the SOURCE page HTML (the look to match) and the CONVERTED WordPress page HTML (a page-builder rebuild that should look like the source but has visual gaps — most often MISSING section background colours/gradients, wrong text colours, or wrong spacing).
+
+Output ONLY CSS that, when added to the CONVERTED page, makes it look closer to the SOURCE.
+RULES:
+- Use ONLY selectors that exist in the CONVERTED HTML (its real ids/classes — e.g. #section-3, #hero, .fw-container). NEVER invent selectors and NEVER target the source's classes.
+- Prefer full-width section band fills: e.g. #section-3 { background: <the source's colour/gradient> !important; }. Take colours/gradients from the SOURCE.
+- Also correct obviously-wrong text colours and clearly-missing band backgrounds. Keep every change small, additive and safe. Do NOT restructure layout, change fonts, or set widths.
+- Return ONLY a CSS block. No prose, no markdown fences.`;
+
+/**
+ * Generate CSS that closes the source-vs-converted visual gap, scoped to the CONVERTED page's real selectors.
+ * The caller injects this into a fresh render and re-measures drift, keeping it only if drift drops.
+ * @param {{ sourceHtml:string, convertedHtml:string, drift:number }} o
+ * @returns {Promise<string>} css (empty string if no AI backend)
+ */
+export async function refineVisualCss({ sourceHtml, convertedHtml, drift }) {
+  if (!aiBackend()) return '';
+  const user =
+    `Overall visual drift (source vs converted): ${drift}%.\n\n` +
+    `=== SOURCE HTML (the look to match) ===\n${String(sourceHtml || '').slice(0, 45000)}\n\n` +
+    `=== CONVERTED HTML (target THESE real selectors) ===\n${String(convertedHtml || '').slice(0, 45000)}\n\n` +
+    `Return CSS (scoped to the converted page's real selectors) that closes the gap.`;
+  const text = await askText({ system: VISUAL_CSS_SYSTEM, user });
+  // Strip code fences / any stray prose before the first rule.
+  return String(text || '').replace(/```(?:css)?/gi, '').trim();
 }
 
 /** Backend 1: the Anthropic API (pay-per-use). */
