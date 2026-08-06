@@ -441,7 +441,7 @@ async function loadLocalAi(){
   const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
   let h='<div style="margin:0 0 .6em;color:#9aa3ad">A small model runs locally (via <b>Ollama</b>) to refine conversions — no key, 100% on your machine. Optional: the deterministic engine works without it, and Claude (if configured) is used before this.</div>';
   if(!s.installed){
-    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px">Ollama not detected. Install it from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a> (or run <code>assemble.ps1 -WithOllama</code>), then it starts automatically with the launcher.</div>';
+    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px"><code>assemble.ps1</code> fetches Ollama automatically — re-run it (or install from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>), then the launcher starts it. Local AI is optional; conversions work without it.</div>';
     el.innerHTML=h; return;
   }
   h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
