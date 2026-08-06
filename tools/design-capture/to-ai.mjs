@@ -83,14 +83,14 @@ function ollamaReady() {
 
 /** Async status for the dashboard: is the server up + which models are pulled. */
 export async function localAiStatus() {
-  const installed = ollamaBinaryAvailable();
+  // Probe the server FIRST — a reachable API means Ollama is present even if the binary isn't on PATH
+  // (e.g. a portable/bundled ollama.exe started by the launcher). Fall back to the binary check otherwise.
   let up = false, models = [];
-  if (installed) {
-    try {
-      const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(2500) });
-      if (r.ok) { up = true; models = ((await r.json()).models || []).map((m) => m.name); }
-    } catch { /* server not running */ }
-  }
+  try {
+    const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(2500) });
+    if (r.ok) { up = true; models = ((await r.json()).models || []).map((m) => m.name); }
+  } catch { /* server not running */ }
+  const installed = up || ollamaBinaryAvailable();
   return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, shortlist: LOCAL_AI_MODELS };
 }
 
