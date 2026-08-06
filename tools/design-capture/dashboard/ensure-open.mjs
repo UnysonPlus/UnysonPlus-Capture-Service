@@ -55,6 +55,10 @@ export async function ensureDashboard({ open = true } = {}) {
       try { spawn(process.execPath, [join(HERE, 'server.mjs'), '--port', String(PORT)], { detached: true, stdio: 'ignore', cwd: join(HERE, '..'), env: { ...process.env, PORT: String(PORT) } }).unref(); } catch { /* */ }
       await new Promise((r) => setTimeout(r, 800)); // let it bind
     }
-    if (open && !recentlyOpened()) { openBrowser(DASH_URL); markOpened(); }
+    // The one-click launcher sets DASHBOARD_FORCE_OPEN=1 — an EXPLICIT user launch should always pop the
+    // tab, ignoring the anti-spam lockfile (which only exists to stop rapid *automated* tool starts from
+    // opening a fresh tab each time). Without this, testing/restarts within 30 min silently suppress it.
+    const force = /^(1|true|yes)$/i.test(process.env.DASHBOARD_FORCE_OPEN || '');
+    if (open && (force || !recentlyOpened())) { openBrowser(DASH_URL); markOpened(); }
   } catch { /* never let dashboard auto-open break a conversion */ }
 }

@@ -32,4 +32,6 @@ echo "  Starting the UnysonPlus capture service..."
 echo "  The dashboard opens automatically at  http://localhost:4600"
 echo "  Keep this terminal open while you convert.  Press Ctrl+C to stop."
 echo
+# Explicit launch → always pop the dashboard tab (bypass the anti-spam lockfile).
+export DASHBOARD_FORCE_OPEN=1
 node serve.mjs
