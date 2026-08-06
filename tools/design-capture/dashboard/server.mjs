@@ -83,6 +83,25 @@ const server = createServer((req, res) => {
     return;
   }
 
+  // Experimental local-AI (Ollama) picker — proxied to the capture service.
+  if (path === '/api/local-ai' && req.method === 'GET') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    fetch(`http://localhost:${svcPort}/local-ai`, { signal: AbortSignal.timeout(3500) })
+      .then((r) => r.json()).then((s) => json(res, s))
+      .catch(() => json(res, { installed: false, up: false, selected: '', pulled: [], shortlist: [], serviceDown: true }));
+    return;
+  }
+  if (path === '/api/local-ai/select' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e4) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}/local-ai/select`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(3500) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+
   let m;
   if ((m = path.match(/^\/api\/site\/([^/]+)\/progress$/))) return json(res, readJson(join(OUT, m[1], 'progress.json')) || { status: 'unknown', steps: [] });
   if ((m = path.match(/^\/api\/site\/([^/]+)\/config$/)))   return json(res, readJson(join(OUT, m[1], 'design-config.json')) || {});

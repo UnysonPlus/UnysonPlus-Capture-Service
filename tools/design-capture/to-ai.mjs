@@ -18,11 +18,81 @@
 // Pick order: AI_BACKEND env override → ANTHROPIC_API_KEY (api) → `claude` on PATH (claude-code) → off.
 
 import { spawn, spawnSync } from 'node:child_process';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const DEFAULT_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
 const MAX_HTML = 90000; // cap the markup we send
 const IS_WIN = process.platform === 'win32';
+
+/* ---- Experimental local-AI tier (Ollama) ------------------------------ *
+ * A THIRD backend between "deterministic (no AI)" and "cloud Claude": a small model the user runs locally
+ * via Ollama. 100% local, no key. Opt-in — used only when the user PICKS a model (dashboard → Local AI),
+ * and only as a fallback after the Claude backends (Claude is stronger). Same narrow job: refine the mapping. */
+const OLLAMA_HOST = (process.env.OLLAMA_HOST || 'http://localhost:11434').replace(/\/+$/, '');
+const LOCAL_AI_CONFIG = join(dirname(fileURLToPath(import.meta.url)), 'local-ai.json');
+
+// Curated shortlist shown in the dashboard picker (the user chooses by hardware). `tag` is the Ollama
+// model to `ollama pull`. Not exhaustive — the picker also accepts a custom tag.
+export const LOCAL_AI_MODELS = [
+  { tag: 'phi4-mini',     label: 'Phi-4-mini',    params: '3.8B', ram: '~3 GB',    recommended: true, note: 'Best small reasoning + JSON. Great default for most PCs.' },
+  { tag: 'qwen2.5:3b',    label: 'Qwen2.5 3B',    params: '3B',   ram: '~2–3 GB',                     note: 'Fast, low memory — good on light hardware.' },
+  { tag: 'llama3.2:3b',   label: 'Llama 3.2 3B',  params: '3B',   ram: '~2–3 GB',                     note: 'Solid general-purpose small model.' },
+  { tag: 'gemma3:4b',     label: 'Gemma 3 4B',    params: '4B',   ram: '~4 GB',                       note: 'Strong all-rounder; also handles images.' },
+  { tag: 'qwen2.5:7b',    label: 'Qwen2.5 7B',    params: '7B',   ram: '~5–6 GB',                     note: 'Stronger structured output — needs more RAM/VRAM.' },
+  { tag: 'qwen2.5vl:7b',  label: 'Qwen2.5-VL 7B', params: '7B',   ram: '~6 GB',   vision: true,       note: 'Vision — can judge screenshots. Heaviest.' },
+];
+
+let _ollamaBin; // cache
+/** Is the `ollama` binary installed? (sync, cached — mirrors claudeCliAvailable). */
+function ollamaBinaryAvailable() {
+  if (typeof _ollamaBin === 'boolean') return _ollamaBin;
+  try {
+    const cmd = process.env.OLLAMA_CLI || 'ollama';
+    const r = IS_WIN
+      ? spawnSync(`"${cmd}" --version`, { shell: true, timeout: 8000, encoding: 'utf8' })
+      : spawnSync(cmd, ['--version'], { timeout: 8000, encoding: 'utf8' });
+    // Require a SUCCESSFUL run — a "'ollama' is not recognized" shell error also contains the word
+    // "ollama", so matching the output alone gives a false positive when it isn't installed.
+    _ollamaBin = r.status === 0 && /ollama|version/i.test(String(r.stdout || ''));
+  } catch { _ollamaBin = false; }
+  return _ollamaBin;
+}
+
+/** The model the user picked (OLLAMA_MODEL env wins, else local-ai.json), or '' if none. */
+export function selectedLocalModel() {
+  const env = (process.env.OLLAMA_MODEL || '').trim();
+  if (env) return env;
+  try { if (existsSync(LOCAL_AI_CONFIG)) return String(JSON.parse(readFileSync(LOCAL_AI_CONFIG, 'utf8')).model || '').trim(); } catch { /* no/blank config */ }
+  return '';
+}
+
+/** Persist the picked model (dashboard writes this). Empty string clears the selection. */
+export function setLocalModel(model) {
+  const m = String(model || '').trim();
+  writeFileSync(LOCAL_AI_CONFIG, JSON.stringify({ model: m }, null, 2) + '\n');
+  return m;
+}
+
+/** Ollama is a usable backend when it's installed AND the user has picked a model. */
+function ollamaReady() {
+  return ollamaBinaryAvailable() && selectedLocalModel() !== '';
+}
+
+/** Async status for the dashboard: is the server up + which models are pulled. */
+export async function localAiStatus() {
+  const installed = ollamaBinaryAvailable();
+  let up = false, models = [];
+  if (installed) {
+    try {
+      const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(2500) });
+      if (r.ok) { up = true; models = ((await r.json()).models || []).map((m) => m.name); }
+    } catch { /* server not running */ }
+  }
+  return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, shortlist: LOCAL_AI_MODELS };
+}
 
 const ROLES = ['overline', 'title', 'subtitle', 'heading', 'text', 'button', 'image', 'columns', 'code', 'skip'];
 
@@ -92,8 +162,10 @@ export function aiBackend() {
   const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
   if (forced === 'api') return (process.env.ANTHROPIC_API_KEY || '').trim() ? 'api' : null;
   if (forced === 'claude-code' || forced === 'cli') return claudeCliAvailable() ? 'claude-code' : null;
+  if (forced === 'ollama' || forced === 'local') return ollamaBinaryAvailable() && selectedLocalModel() ? 'ollama' : null;
   if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
   if (claudeCliAvailable()) return 'claude-code';
+  if (ollamaReady()) return 'ollama'; // Experimental local fallback — only when a model is picked
   return null;
 }
 
@@ -129,7 +201,41 @@ export async function refineMapping(input) {
   const backend = aiBackend();
   if (backend === 'api') return refineViaApi(input);
   if (backend === 'claude-code') return refineViaClaudeCode(input);
-  throw new Error('AI is off — set ANTHROPIC_API_KEY, or install Claude Code (`claude`) and sign in.');
+  if (backend === 'ollama') return refineViaOllama(input);
+  throw new Error('AI is off — set ANTHROPIC_API_KEY, install Claude Code (`claude`), or pick a local model (Ollama).');
+}
+
+/**
+ * Backend 3 (Experimental): a local model via Ollama. Same refine-only job. Uses Ollama's structured-output
+ * (`format: 'json'`) so even a small model returns valid JSON. Falls through to the deterministic result if
+ * the model errors (the WordPress flow already treats AI as best-effort).
+ */
+async function refineViaOllama({ html, mapping, source }) {
+  const model = selectedLocalModel();
+  if (!model) throw new Error('No local model selected — pick one in the dashboard (Local AI).');
+  const timeout = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000;
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      stream: false,
+      format: 'json',
+      options: { temperature: 0 },
+      messages: [
+        { role: 'system', content: SYSTEM },
+        { role: 'user', content: buildUser({ html, mapping, source }) },
+      ],
+    }),
+    signal: AbortSignal.timeout(timeout),
+  }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}) — is \`ollama serve\` running?`); });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    throw new Error(`Ollama ${resp.status}: ${t.slice(0, 300)} — is the model \`${model}\` pulled? (\`ollama pull ${model}\`)`);
+  }
+  const data = await resp.json();
+  const text = String((data.message && data.message.content) || '').trim();
+  return finishParse(text, model, 'ollama');
 }
 
 /** Backend 1: the Anthropic API (pay-per-use). */

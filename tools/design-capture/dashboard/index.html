@@ -192,6 +192,10 @@ td.txt{color:var(--muted);max-width:340px}
       <div class="panel-h"><h2>Recent conversions</h2></div>
       <div class="history" id="history"></div>
     </section>
+    <section class="panel" id="localAiPanel">
+      <div class="panel-h"><h2>Local AI <span class="pill" style="background:#7c3aed22;color:#a78bfa;border-color:#7c3aed66">Experimental</span></h2></div>
+      <div id="localAiBody" style="padding:.5em .3em;font-size:.86em;line-height:1.4">Loading…</div>
+    </section>
   </aside>
 
   <main class="panel" id="main">
@@ -425,6 +429,41 @@ async function pollStatus(){
   el.innerHTML=parts.join('&nbsp;&nbsp;');
 }
 pollStatus(); setInterval(pollStatus,3000);
+
+// --- Experimental local-AI (Ollama) picker ---
+async function loadLocalAi(){
+  const el=document.getElementById('localAiBody'); if(!el) return;
+  let s; try{ s=await api('/api/local-ai'); }catch(e){ el.innerHTML='<div style="color:#9aa3ad">Unavailable.</div>'; return; }
+  if(s.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure local AI.</div>'; return; }
+  const rowCss='display:flex;gap:.5em;align-items:flex-start;padding:.4em .3em;border-radius:6px;cursor:pointer';
+  const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
+  let h='<div style="margin:0 0 .6em;color:#9aa3ad">A small model runs locally (via <b>Ollama</b>) to refine conversions — no key, 100% on your machine. Optional: the deterministic engine works without it, and Claude (if configured) is used before this.</div>';
+  if(!s.installed){
+    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px">Ollama not detected. Install it from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>, then it starts automatically with the launcher.</div>';
+    el.innerHTML=h; return;
+  }
+  h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
+  const pulled=new Set(s.pulled||[]);
+  const isPulled=(t)=>pulled.has(t)||[...pulled].some(p=>p===t||p.split(':')[0]===t.split(':')[0]&&p.startsWith(t.split(':')[0]));
+  h+='<div>';
+  h+=`<label style="${rowCss}"><input type="radio" name="lai" value=""${!s.selected?' checked':''}><span><b>Off</b> — Claude if available, else deterministic only</span></label>`;
+  (s.shortlist||[]).forEach(m=>{
+    const on=s.selected===m.tag, has=isPulled(m.tag);
+    h+=`<label style="${rowCss}"><input type="radio" name="lai" value="${esc(m.tag)}"${on?' checked':''}>`+
+       `<span><b>${esc(m.label)}</b> ${m.recommended?tag('recommended','#a78bfa'):''} ${m.vision?tag('vision','#38bdf8'):''}`+
+       `<br><small style="color:#9aa3ad">${esc(m.params)} · ${esc(m.ram)} · ${esc(m.note)}</small><br>`+
+       (has?'<small style="color:oklch(0.74 0.17 158)">✓ pulled</small>':`<small style="color:#9aa3ad">not pulled — <code>ollama pull ${esc(m.tag)}</code></small>`)+
+       `</span></label>`;
+  });
+  h+='</div>';
+  if(s.selected) h+=`<div style="margin-top:.5em;color:oklch(0.74 0.17 158)">Active: <b>${esc(s.selected)}</b>${isPulled(s.selected)?'':' <span style="color:#f59e0b">(pull it first)</span>'}</div>`;
+  el.innerHTML=h;
+  el.querySelectorAll('input[name=lai]').forEach(r=>r.addEventListener('change',async()=>{
+    try{ await fetch('/api/local-ai/select',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:r.value})}); toast(r.value?('Local AI → '+r.value):'Local AI off'); loadLocalAi(); }
+    catch(e){ toast('Could not set local AI'); }
+  }));
+}
+loadLocalAi(); setInterval(loadLocalAi,8000);
 </script>
 </body>
 </html>

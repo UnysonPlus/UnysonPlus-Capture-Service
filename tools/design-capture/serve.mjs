@@ -22,7 +22,7 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel } from './to-ai.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
 
@@ -211,6 +211,23 @@ createServer((req, res) => {
       .then((body) => refineMapping({ html: body.html, mapping: body.mapping, source: body.source }))
       .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000) }); console.log('[ai-convert] refined via', out.model); json(res, 200, { ok: true, mapping: out.mapping, theme: out.theme, custom_css: out.custom_css, model: out.model }); })
       .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-convert]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
+  // GET /local-ai — Experimental local-AI (Ollama) status for the dashboard picker: installed? server up?
+  // which models are pulled, the curated shortlist, and the current selection.
+  if (u.pathname === '/local-ai' && req.method === 'GET') {
+    localAiStatus().then((s) => json(res, 200, s)).catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+
+  // POST /local-ai/select — pick the local model ({ model }). Empty string clears it (back to Claude/off).
+  if (u.pathname === '/local-ai/select') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    readJson(req)
+      .then((b) => { const m = setLocalModel(b.model); console.log('[local-ai] selected', m || '(none)'); return localAiStatus(); })
+      .then((s) => json(res, 200, s))
+      .catch((e) => { console.error('[local-ai]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 
