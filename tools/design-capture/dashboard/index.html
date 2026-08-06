@@ -218,6 +218,7 @@ td.txt{color:var(--muted);max-width:340px}
 <script>
 const $=(s,r=document)=>r.querySelector(s);
 const api=(p)=>fetch(p,{cache:'no-store'}).then(r=>r.json());
+const api2=(p,b)=>fetch(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json());
 let state={slug:null,tab:'overview',config:null,report:null,progress:null,polling:null,follow:true};
 
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
@@ -227,6 +228,7 @@ function ago(t){if(!t)return'';const s=(Date.now()-t)/1000;if(s<60)return Math.r
 async function loadSites(){
   const {out,sites}=await api('/api/sites');
   $('#watchDir').textContent=out;
+  window._siteUrls=window._siteUrls||{}; (sites||[]).forEach(s=>{ if(s.url) window._siteUrls[s.slug]=s.url; }); // source URL per site (for drift measure/refine)
   const h=$('#history');
   if(!sites.length){h.innerHTML='<div class="tl-empty" style="padding:22px">No conversions yet.</div>';return;}
   h.innerHTML=sites.map(s=>`<div class="hist-item ${s.slug===state.slug?'active':''}" data-slug="${s.slug}">
@@ -340,7 +342,10 @@ function renderTab(){
         <button class="mini" id="cmpReload">Reload</button>
         <label><input type="checkbox" id="cmpSync" checked> Sync scroll</label>
         <a class="mini" id="cmpOpen" href="${esc(conv||'#')}" target="_blank" rel="noopener" style="${conv?'':'display:none'}">Open ↗</a>
+        <button class="mini" id="cmpMeasure" title="Render source vs converted and measure pixel drift">📏 Measure drift</button>
+        <button class="mini" id="cmpImprove" title="Have the AI write CSS to close the visual gap — verified, kept only if drift drops" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent)">✨ Improve with AI</button>
       </div>
+      <div id="cmpDrift" style="margin:0 0 12px;font-size:12px;color:var(--muted);line-height:1.6"></div>
       <div class="compare">
         <figure><figcaption><span class="dot done"></span>Source capture <span class="mono" style="color:var(--faint)">1440px</span></figcaption>
           <div class="cmp-pane" id="cmpSrc"><img src="${A(state.slug,'full.png')}" onerror="this.closest('.cmp-pane').classList.add('is-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:'empty',textContent:'No source screenshot.'}))"></div>
@@ -385,6 +390,36 @@ function setupCompare(LOGICAL, HEIGHT){
   const apply=()=>{ const v=(url.value||'').trim(); localStorage.setItem('upw-cmp-url-'+state.slug,v); const f=$('#cmpFrame'), o=$('#cmpOpen'); if(o){o.href=v||'#';o.style.display=v?'':'none';} if(f&&v){f.src=v;} else { renderTab(); } };
   if(url){ url.addEventListener('change',apply); url.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); apply(); } }); }
   if(reload){ reload.addEventListener('click',()=>{ const f=$('#cmpFrame'); if(f) f.src=f.src; else apply(); }); }
+  const mBtn=$('#cmpMeasure'), iBtn=$('#cmpImprove');
+  if(mBtn) mBtn.onclick=()=>cmpMeasure();
+  if(iBtn) iBtn.onclick=()=>cmpImprove();
+}
+function driftColor(p){ return p<=15?'var(--accent)':(p<=40?'var(--amber)':'var(--red)'); }
+function cmpEndpoints(){ const src=(window._siteUrls&&window._siteUrls[state.slug])||''; const conv=(($('#cmpUrl')&&$('#cmpUrl').value)||'').trim(); return {src,conv,out:$('#cmpDrift')}; }
+async function cmpMeasure(){
+  const {src,conv,out}=cmpEndpoints(); if(!out) return;
+  if(!src){ out.innerHTML='<span style="color:var(--amber)">No source URL recorded for this run.</span>'; return; }
+  if(!conv){ out.innerHTML='<span style="color:var(--amber)">Enter the converted site URL above first.</span>'; return; }
+  out.innerHTML='Measuring… <span style="color:var(--faint)">(rendering source + converted)</span>';
+  try{ const r=await api2('/api/verify',{source_url:src,converted_url:conv});
+    if(r.error){ out.innerHTML='<span style="color:var(--red)">'+esc(r.error)+'</span>'; return; }
+    const bands=(r.bands||[]).map(b=>`<span title="band ${b.band}: ${b.drift_pct}%" style="display:inline-block;width:15px;height:15px;border-radius:3px;background:${driftColor(b.drift_pct)}"></span>`).join(' ');
+    out.innerHTML=`Overall drift: <b style="color:${driftColor(r.overall_drift_pct)}">${r.overall_drift_pct}%</b> <span style="color:var(--faint)">(lower = closer to source · height Δ ${r.height_delta_pct}%)</span><br><span style="color:var(--faint)">top→bottom:</span> ${bands}`;
+  }catch(_){ out.innerHTML='<span style="color:var(--red)">Measure failed — is the capture service running?</span>'; }
+}
+async function cmpImprove(){
+  const {src,conv,out}=cmpEndpoints(); if(!out) return;
+  if(!src||!conv){ out.innerHTML='<span style="color:var(--amber)">Need the source run + a converted URL.</span>'; return; }
+  out.innerHTML='✨ Improving with AI… <span style="color:var(--faint)">(renders, asks the AI for CSS, re-measures — up to ~1 min)</span>';
+  try{ const r=await api2('/api/refine-visual',{source_url:src,converted_url:conv});
+    if(r.error){ out.innerHTML='<span style="color:var(--red)">'+esc(r.error)+'</span>'; return; }
+    const arrow=r.improved?'↓':'→';
+    let h=`Drift: <b style="color:${driftColor(r.before_drift_pct)}">${r.before_drift_pct}%</b> ${arrow} <b style="color:${driftColor(r.after_drift_pct)}">${r.after_drift_pct}%</b> `;
+    h+= r.improved?`<span style="color:var(--accent)">✓ improved (${r.rounds_run} round${r.rounds_run===1?'':'s'})</span>`:'<span style="color:var(--faint)">no measurable gain this time</span>';
+    if(r.css){ h+=`<div style="margin-top:8px"><b>CSS to apply</b> <span style="color:var(--faint)">(paste into the converted theme’s stylesheet, or Customizer → Additional CSS):</span><textarea readonly style="width:100%;height:130px;margin-top:5px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:12px;padding:8px">${esc(r.css)}</textarea><button class="mini" id="cmpCopyCss" style="margin-top:5px">Copy CSS</button></div>`; }
+    out.innerHTML=h;
+    const cp=$('#cmpCopyCss'); if(cp) cp.onclick=()=>{ navigator.clipboard.writeText(r.css||'').then(()=>toast('CSS copied — paste it into the converted site.')); };
+  }catch(_){ out.innerHTML='<span style="color:var(--red)">Refine failed — check that AI is configured (Enable AI / a pulled model).</span>'; }
 }
 
 /* ---- convert ---- */
@@ -411,7 +446,8 @@ async function pollStatus(){
   try{svc=await api('/api/service-health');}catch(e){}
   try{act=await api('/api/active');}catch(e){}
   const dot=(c,t)=>`<span style="display:inline-flex;align-items:center;gap:.35em"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block;box-shadow:0 0 6px ${c}"></span>${t}</span>`;
-  const parts=[ svc.up ? dot('oklch(0.74 0.17 158)',`capture service${svc.aiReady?' + AI':''}`) : dot('#9aa3ad','service off') ];
+  const aiLbl={'claude-code':'Claude','api':'Claude API','ollama':'Local model'}[svc.aiBackend]||'AI';
+  const parts=[ svc.up ? dot('oklch(0.74 0.17 158)',`capture service${svc.aiReady?' · AI: '+aiLbl:' · AI off'}`) : dot('#9aa3ad','service off') ];
   const ts=act && (act.at||act.startedAt||0);
   const fresh=ts && (Date.now()-ts) < 10*60*1000; // ignore a stuck _active.json from a crashed run
   if(act && act.status==='running' && fresh){

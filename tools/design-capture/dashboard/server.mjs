@@ -128,6 +128,19 @@ const server = createServer((req, res) => {
     });
     return;
   }
+  // Self-verify (drift %) + AI-fix loop — proxied to the capture service (these can take a while).
+  if ((path === '/api/verify' || path === '/api/refine-visual') && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    const upstream = path === '/api/verify' ? '/verify' : '/refine-visual';
+    const ms = path === '/api/verify' ? 90000 : 360000; // refine iterates + calls the model
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e5) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}${upstream}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(ms) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch((e) => json(res, { error: 'Capture service: ' + e.message }, 502));
+    });
+    return;
+  }
 
   let m;
   if ((m = path.match(/^\/api\/site\/([^/]+)\/progress$/))) return json(res, readJson(join(OUT, m[1], 'progress.json')) || { status: 'unknown', steps: [] });
