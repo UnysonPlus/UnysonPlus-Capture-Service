@@ -17,7 +17,7 @@
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
@@ -114,12 +114,16 @@ const json = (res, code, obj) => {
 const findFile = (out, name) => {
   const direct = join(out, name);
   if (existsSync(direct)) return direct;
+  // Newest matching subfolder — since captures now share CAPTURE_OUT, pick the most-recently-written run.
+  let best = '', bestT = -1;
   try {
     for (const e of readdirSync(out, { withFileTypes: true })) {
-      if (e.isDirectory()) { const p = join(out, e.name, name); if (existsSync(p)) return p; }
+      if (!e.isDirectory()) continue;
+      const p = join(out, e.name, name);
+      if (existsSync(p)) { const t = statSync(p).mtimeMs; if (t > bestT) { bestT = t; best = p; } }
     }
   } catch { /* unreadable dir — no match */ }
-  return '';
+  return best;
 };
 
 /**
@@ -287,11 +291,13 @@ createServer((req, res) => {
       if (!htmlPath) { rmSync(srcDir, { recursive: true, force: true }); throw new Error('No HTML file found in the upload.'); }
 
       const target = pathToFileURL(htmlPath).href;
-      const out = mkdtempSync(join(tmpdir(), 'sc-capture-'));
+      // Capture output into CAPTURE_OUT so it shows LIVE in the dashboard; only the uploaded-file temp is cleaned.
+      mkdirSync(CAPTURE_OUT, { recursive: true });
+      const out = CAPTURE_OUT;
       console.log('[capture-file]', isZip ? '(zip)' : '(html)', '→', htmlPath);
       markActive('file: ' + (isZip ? 'Stitch .zip' : 'HTML'), 'running'); // surface on the dashboard
       const child = spawn(process.execPath, [CAPTURE, target, out], { stdio: 'inherit' });
-      const cleanup = () => { rmSync(out, { recursive: true, force: true }); rmSync(srcDir, { recursive: true, force: true }); };
+      const cleanup = () => { rmSync(srcDir, { recursive: true, force: true }); };
       child.on('error', (e) => { markActive('file', 'error'); json(res, 500, { error: e.message }); cleanup(); });
       child.on('exit', () => {
         markActive('file: ' + (isZip ? 'Stitch .zip' : 'HTML'), 'done');
@@ -323,12 +329,15 @@ createServer((req, res) => {
     const target = (u.searchParams.get('url') || '').trim();
     if (!/^https?:\/\//i.test(target)) { json(res, 400, { error: 'Provide a valid http(s) URL.' }); return; }
 
-    const out = mkdtempSync(join(tmpdir(), 'sc-capture-'));
+    // Write into CAPTURE_OUT (not a throwaway temp dir) so the run shows up LIVE in the dashboard
+    // (progress + history). capture.mjs makes its own per-site subfolder under here.
+    mkdirSync(CAPTURE_OUT, { recursive: true });
+    const out = CAPTURE_OUT;
     console.log('[capture]', target);
     markActive(target, 'running'); // surface this service-driven run on the dashboard
     const child = spawn(process.execPath, [CAPTURE, target, out], { stdio: 'inherit' });
 
-    child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); rmSync(out, { recursive: true, force: true }); });
+    child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); });
     child.on('exit', () => {
       markActive(target, 'done');
       // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
@@ -338,7 +347,6 @@ createServer((req, res) => {
           res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': html.length });
           res.end(html);
         } else { json(res, 500, { error: 'Render produced no HTML.' }); }
-        rmSync(out, { recursive: true, force: true });
         return;
       }
       const zipPath = findFile(out, 'convert-bundle.zip');
@@ -353,7 +361,6 @@ createServer((req, res) => {
       } else {
         json(res, 500, { error: 'Capture produced no bundle (the page may have failed to render).' });
       }
-      rmSync(out, { recursive: true, force: true });
     });
     return;
   }
