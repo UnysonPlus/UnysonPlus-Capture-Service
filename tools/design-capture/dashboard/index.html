@@ -431,37 +431,61 @@ async function pollStatus(){
 pollStatus(); setInterval(pollStatus,3000);
 
 // --- Experimental local-AI (Ollama) picker ---
+let _laiPulling=false;
 async function loadLocalAi(){
+  if(_laiPulling) return; // don't wipe the live pull progress on the periodic refresh
   const el=document.getElementById('localAiBody'); if(!el) return;
   let s; try{ s=await api('/api/local-ai'); }catch(e){ el.innerHTML='<div style="color:#9aa3ad">Unavailable.</div>'; return; }
   if(s.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure local AI.</div>'; return; }
-  const rowCss='display:flex;gap:.5em;align-items:flex-start;padding:.4em .3em;border-radius:6px;cursor:pointer';
+  const rowCss='display:flex;gap:.5em;align-items:flex-start;padding:.4em .3em;border-radius:6px';
   const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
   let h='<div style="margin:0 0 .6em;color:#9aa3ad">A small model runs locally (via <b>Ollama</b>) to refine conversions — no key, 100% on your machine. Optional: the deterministic engine works without it, and Claude (if configured) is used before this.</div>';
   if(!s.installed){
-    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px">Ollama not detected. Install it from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a>, then it starts automatically with the launcher.</div>';
+    h+='<div style="padding:.55em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px">Ollama not detected. Install it from <a href="https://ollama.com" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com</a> (or run <code>assemble.ps1 -WithOllama</code>), then it starts automatically with the launcher.</div>';
     el.innerHTML=h; return;
   }
   h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
   const pulled=new Set(s.pulled||[]);
   const isPulled=(t)=>pulled.has(t)||[...pulled].some(p=>p===t||p.split(':')[0]===t.split(':')[0]&&p.startsWith(t.split(':')[0]));
   h+='<div>';
-  h+=`<label style="${rowCss}"><input type="radio" name="lai" value=""${!s.selected?' checked':''}><span><b>Off</b> — Claude if available, else deterministic only</span></label>`;
+  h+=`<label style="${rowCss};cursor:pointer"><input type="radio" name="lai" value=""${!s.selected?' checked':''}><span><b>Off</b> — Claude if available, else deterministic only</span></label>`;
   (s.shortlist||[]).forEach(m=>{
     const on=s.selected===m.tag, has=isPulled(m.tag);
-    h+=`<label style="${rowCss}"><input type="radio" name="lai" value="${esc(m.tag)}"${on?' checked':''}>`+
+    const foot = has
+      ? '<small style="color:oklch(0.74 0.17 158)">✓ pulled</small>'
+      : (s.up
+          ? `<button class="lai-pull" data-tag="${esc(m.tag)}" style="font-size:.8em;padding:.15em .6em;border-radius:5px;border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;cursor:pointer">⤓ Pull ~${esc(m.ram.replace(/[~\s]/g,''))}</button>`
+          : `<small style="color:#9aa3ad">start Ollama to pull</small>`);
+    h+=`<label style="${rowCss};cursor:pointer"><input type="radio" name="lai" value="${esc(m.tag)}"${on?' checked':''}>`+
        `<span><b>${esc(m.label)}</b> ${m.recommended?tag('recommended','#a78bfa'):''} ${m.vision?tag('vision','#38bdf8'):''}`+
-       `<br><small style="color:#9aa3ad">${esc(m.params)} · ${esc(m.ram)} · ${esc(m.note)}</small><br>`+
-       (has?'<small style="color:oklch(0.74 0.17 158)">✓ pulled</small>':`<small style="color:#9aa3ad">not pulled — <code>ollama pull ${esc(m.tag)}</code></small>`)+
+       `<br><small style="color:#9aa3ad">${esc(m.params)} · ${esc(m.ram)} · ${esc(m.note)}</small><br>`+foot+
        `</span></label>`;
   });
-  h+='</div>';
+  h+='</div><div id="laiPull" style="margin-top:.5em"></div>';
   if(s.selected) h+=`<div style="margin-top:.5em;color:oklch(0.74 0.17 158)">Active: <b>${esc(s.selected)}</b>${isPulled(s.selected)?'':' <span style="color:#f59e0b">(pull it first)</span>'}</div>`;
   el.innerHTML=h;
   el.querySelectorAll('input[name=lai]').forEach(r=>r.addEventListener('change',async()=>{
     try{ await fetch('/api/local-ai/select',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:r.value})}); toast(r.value?('Local AI → '+r.value):'Local AI off'); loadLocalAi(); }
     catch(e){ toast('Could not set local AI'); }
   }));
+  el.querySelectorAll('.lai-pull').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); pullModel(b.getAttribute('data-tag')); }));
+}
+async function pullModel(tag){
+  _laiPulling=true;
+  try{ await fetch('/api/local-ai/pull',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:tag})}); toast('Pulling '+tag+'…'); }
+  catch(e){ _laiPulling=false; toast('Could not start pull'); return; }
+  pollPull();
+}
+async function pollPull(){
+  let s; try{ s=await api('/api/local-ai/pull-status'); }catch(e){ _laiPulling=false; return; }
+  const el=document.getElementById('laiPull');
+  if(el){
+    if(s.error){ el.innerHTML=`<span style="color:#f59e0b">Pull failed: ${esc(s.error)}</span>`; }
+    else if(!s.done){ el.innerHTML=`Pulling <b>${esc(s.model)}</b> — ${esc(s.status)} ${s.percent||0}%<div style="height:7px;background:#0004;border-radius:4px;margin-top:.35em;overflow:hidden"><div style="height:100%;width:${s.percent||0}%;background:#a78bfa;border-radius:4px;transition:width .4s"></div></div>`; }
+    else{ el.innerHTML=`<span style="color:oklch(0.74 0.17 158)">✓ ${esc(s.model)} pulled</span>`; }
+  }
+  if(!s.done){ setTimeout(pollPull,1000); }
+  else{ _laiPulling=false; setTimeout(loadLocalAi,600); }
 }
 loadLocalAi(); setInterval(loadLocalAi,8000);
 </script>

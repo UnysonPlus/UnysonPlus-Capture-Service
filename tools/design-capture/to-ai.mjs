@@ -94,6 +94,48 @@ export async function localAiStatus() {
   return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, shortlist: LOCAL_AI_MODELS };
 }
 
+/* ---- Model download (dashboard "Pull" button) ------------------------- *
+ * Ollama's /api/pull streams NDJSON progress. We drive it in the background and expose the latest state
+ * via pullStatus() so the dashboard can poll + show a progress bar (no terminal needed). One pull at a time. */
+let _pull = { model: '', status: 'idle', percent: 0, done: true, error: '' };
+export function pullStatus() { return _pull; }
+export async function startPull(model) {
+  const m = String(model || '').trim();
+  if (!m) throw new Error('No model to pull.');
+  if (_pull.model === m && !_pull.done) return _pull; // already pulling this one
+  _pull = { model: m, status: 'starting', percent: 0, done: false, error: '', at: Date.now() };
+  (async () => {
+    try {
+      const r = await fetch(`${OLLAMA_HOST}/api/pull`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ model: m, stream: true }),
+      });
+      if (!r.ok || !r.body) { _pull = { ..._pull, status: 'error', error: `Ollama ${r.status} — is \`ollama serve\` running?`, done: true }; return; }
+      const reader = r.body.getReader(); const dec = new TextDecoder(); let buf = '';
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let nl;
+        while ((nl = buf.indexOf('\n')) >= 0) {
+          const line = buf.slice(0, nl).trim(); buf = buf.slice(nl + 1);
+          if (!line) continue;
+          let o; try { o = JSON.parse(line); } catch { continue; }
+          if (o.error) { _pull = { ..._pull, status: 'error', error: String(o.error), done: true }; return; }
+          const pct = (o.total && o.completed) ? Math.round((o.completed / o.total) * 100) : _pull.percent;
+          _pull = { ..._pull, status: o.status || _pull.status, percent: pct };
+          if (o.status === 'success') { _pull = { ..._pull, status: 'success', percent: 100, done: true }; }
+        }
+      }
+      if (!_pull.done) _pull = { ..._pull, status: 'success', percent: 100, done: true };
+    } catch (e) {
+      const msg = /fetch failed|ECONNREFUSED|network/i.test(e.message) ? `Could not reach Ollama at ${OLLAMA_HOST} — is it running? (the launcher starts it)` : e.message;
+      _pull = { ..._pull, status: 'error', error: msg, done: true };
+    }
+  })();
+  return _pull;
+}
+
 const ROLES = ['overline', 'title', 'subtitle', 'heading', 'text', 'button', 'image', 'columns', 'code', 'skip'];
 
 const SYSTEM = `You IMPROVE a draft element mapping for a website-to-WordPress converter. You do NOT write CSS or HTML.

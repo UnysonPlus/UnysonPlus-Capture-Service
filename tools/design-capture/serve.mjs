@@ -22,7 +22,7 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus } from './to-ai.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
 
@@ -228,6 +228,16 @@ createServer((req, res) => {
       .then((b) => { const m = setLocalModel(b.model); console.log('[local-ai] selected', m || '(none)'); return localAiStatus(); })
       .then((s) => json(res, 200, s))
       .catch((e) => { console.error('[local-ai]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
+  // POST /local-ai/pull — download a model via Ollama (streamed in the background). GET .../pull-status polls it.
+  if (u.pathname === '/local-ai/pull' && req.method === 'POST') {
+    readJson(req).then((b) => startPull(b.model)).then((s) => json(res, 200, s)).catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+  if (u.pathname === '/local-ai/pull-status' && req.method === 'GET') {
+    json(res, 200, pullStatus());
     return;
   }
 

@@ -101,6 +101,23 @@ const server = createServer((req, res) => {
     });
     return;
   }
+  if (path === '/api/local-ai/pull' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e4) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}/local-ai/pull`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(4000) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  if (path === '/api/local-ai/pull-status' && req.method === 'GET') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    fetch(`http://localhost:${svcPort}/local-ai/pull-status`, { signal: AbortSignal.timeout(3000) })
+      .then((r) => r.json()).then((s) => json(res, s))
+      .catch(() => json(res, { model: '', status: 'idle', percent: 0, done: true }));
+    return;
+  }
 
   let m;
   if ((m = path.match(/^\/api\/site\/([^/]+)\/progress$/))) return json(res, readJson(join(OUT, m[1], 'progress.json')) || { status: 'unknown', steps: [] });
