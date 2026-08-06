@@ -205,9 +205,11 @@ export function aiBackend() {
   if (forced === 'api') return (process.env.ANTHROPIC_API_KEY || '').trim() ? 'api' : null;
   if (forced === 'claude-code' || forced === 'cli') return claudeCliAvailable() ? 'claude-code' : null;
   if (forced === 'ollama' || forced === 'local') return ollamaBinaryAvailable() && selectedLocalModel() ? 'ollama' : null;
+  // An EXPLICIT local-model pick in the dashboard wins over auto-detected Claude — otherwise the picker
+  // does nothing whenever Claude Code / an API key happens to be present. Select "Off" to use Claude.
+  if (ollamaReady()) return 'ollama';
   if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
   if (claudeCliAvailable()) return 'claude-code';
-  if (ollamaReady()) return 'ollama'; // Experimental local fallback — only when a model is picked
   return null;
 }
 
