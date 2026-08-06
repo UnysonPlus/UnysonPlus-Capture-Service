@@ -24,6 +24,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping } from './to-ai.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
+import { verifyUrls } from './verify.mjs';
 
 const PORT = Number(process.env.PORT) || 8787;
 const SELF_DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -210,6 +211,21 @@ createServer((req, res) => {
       .then((body) => refineMapping({ html: body.html, mapping: body.mapping, source: body.source }))
       .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000) }); console.log('[ai-convert] refined via', out.model); json(res, 200, { ok: true, mapping: out.mapping, theme: out.theme, custom_css: out.custom_css, model: out.model }); })
       .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-convert]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
+  // POST /verify — self-verification. Renders source_url + converted_url and pixel-diffs them,
+  // returning overall + per-band drift %. The measurement the eventual auto-fallback builds on.
+  if (u.pathname === '/verify') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    readJson(req)
+      .then((body) => {
+        if (!body.source_url || !body.converted_url) { throw new Error('Provide source_url and converted_url.'); }
+        console.log('[verify]', body.source_url, 'vs', body.converted_url);
+        return verifyUrls({ sourceUrl: body.source_url, convertedUrl: body.converted_url, width: body.width || 1440, bands: body.bands || 8 });
+      })
+      .then((out) => { console.log('[verify] overall drift', out.overall_drift_pct + '%'); json(res, 200, out); })
+      .catch((e) => { console.error('[verify]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 

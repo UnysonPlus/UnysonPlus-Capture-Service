@@ -1,6 +1,6 @@
 {
   "name": "unysonplus-site-capture",
-  "version": "1.8.17",
+  "version": "1.8.18",
   "description": "Local capture service + AI companion + CLI for the Unyson+ Site Converter: render a (JS) website in headless Chrome and produce a Convert bundle .zip, and (with ANTHROPIC_API_KEY set) refine a conversion mapping + write matching CSS via Claude. Run `npx unysonplus-site-capture` to start the service the WordPress admin's Site Converter talks to.",
   "type": "commonjs",
   "bin": {
@@ -35,6 +35,8 @@
     "node": ">=20"
   },
   "dependencies": {
-    "playwright-core": "^1.60.0"
+    "pixelmatch": "^7.2.0",
+    "playwright-core": "^1.60.0",
+    "pngjs": "^7.0.0"
   }
 }
