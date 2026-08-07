@@ -14,18 +14,37 @@
 // can fetch from http://localhost):
 //   GET  /health             → { ok, service, version, aiReady }
 //   GET  /capture?url=<url>   → convert-bundle.zip (application/zip)
+//   GET  /capture-screenshot?url=<url>  → screenshot.png (image/png) for the newest matching capture
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync, statSync, appendFileSync } from 'node:fs';
 import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel } from './to-ai.mjs';
+import { translateHeader } from './header-translate.mjs';
+import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
 import { refineVisual } from './refine-visual.mjs';
+import { refineChrome } from './refine-chrome.mjs';
+
+// Run log — the Dev Kit launcher sets UPWK_LOG to one file per launch (kept: 5 newest). Mirror every
+// console line into it so a whole run (capture service + conversions + AI + errors) lands in ONE file
+// you can open and analyze after the fact. No-op when UPWK_LOG is unset (e.g. run standalone).
+const UPWK_LOG = process.env.UPWK_LOG || '';
+if (UPWK_LOG) {
+  const fmt = (a) => (typeof a === 'string' ? a : (() => { try { return JSON.stringify(a); } catch { return String(a); } })());
+  const tee = (tag, orig) => (...args) => {
+    orig(...args);
+    try { appendFileSync(UPWK_LOG, `[${new Date().toISOString()}] [capture]${tag} ${args.map(fmt).join(' ')}\n`); } catch { /* logging must never break the service */ }
+  };
+  console.log = tee('', console.log.bind(console));
+  console.error = tee(' ERROR', console.error.bind(console));
+  console.warn = tee(' WARN', console.warn.bind(console));
+}
 
 const PORT = Number(process.env.PORT) || 8787;
 const SELF_DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -38,15 +57,75 @@ const VERSION = (() => { try { return JSON.parse(readFileSync(new URL('./package
 // top-level _active.json here whenever a capture runs, so the dashboard reflects service-driven
 // conversions too (its own captures build in a throwaway temp dir). Matches the dashboard default.
 const CAPTURE_OUT = process.env.CAPTURE_OUT || 'D:/Web Dev/capture-out';
+// Durable chat history for the dashboard Chat view — one JSON file under CAPTURE_OUT so a multi-turn
+// conversation survives service restarts. Capped so it can't grow unbounded (last CHAT_HISTORY_CAP msgs).
+const CHAT_HISTORY_FILE = join(CAPTURE_OUT, 'chat-history.json');
+const CHAT_HISTORY_CAP = 200;
+function readChatHistory() {
+  try { const d = JSON.parse(readFileSync(CHAT_HISTORY_FILE, 'utf8')); return Array.isArray(d.messages) ? d.messages : []; } catch { return []; }
+}
+function writeChatHistory(messages) {
+  const arr = (Array.isArray(messages) ? messages : []).slice(-CHAT_HISTORY_CAP);
+  try { mkdirSync(CAPTURE_OUT, { recursive: true }); writeFileSync(CHAT_HISTORY_FILE, JSON.stringify({ version: 1, messages: arr }, null, 2)); } catch { /* best-effort */ }
+  return arr;
+}
 function markActive(url, status) {
   try {
     mkdirSync(CAPTURE_OUT, { recursive: true });
     writeFileSync(join(CAPTURE_OUT, '_active.json'), JSON.stringify({ tool: 'capture-service', url: String(url || ''), status, at: Date.now() }));
   } catch { /* best-effort — never block a capture */ }
 }
-// AI activity for the dashboard: what Claude is doing during an /ai-convert refine (status + backend + elapsed).
+// AI activity for the dashboard: what the AI is doing during an /ai-convert or /refine-visual pass
+// (status + backend + model + elapsed). The dashboard renders this as a live, prominent indicator so
+// the user actually SEES the local model working. A friendly label maps the backend to a name.
+function aiModelLabel() {
+  const be = aiBackend();
+  if (be === 'ollama') { return selectedLocalModel() || 'local model'; }
+  if (be === 'api') { return process.env.ANTHROPIC_MODEL || 'Claude (API)'; }
+  if (be === 'claude-code') { return process.env.ANTHROPIC_MODEL || 'Claude Code'; }
+  return 'AI';
+}
 function markAi(obj) {
-  try { mkdirSync(CAPTURE_OUT, { recursive: true }); writeFileSync(join(CAPTURE_OUT, '_ai.json'), JSON.stringify({ ...obj, at: Date.now() })); } catch { /* best-effort */ }
+  const rec = { backend: aiBackend(), model: aiModelLabel(), ...obj, at: Date.now() };
+  // Single source of truth for the TERMINAL activity line too: every AI pass prints thinking → done/error
+  // here, so the command window visibly shows the (local) model working. Concise — one line each.
+  try {
+    const be = rec.backend || 'ai';
+    const mdl = rec.model || 'AI';
+    if (rec.status === 'thinking') { console.log(`[ai] thinking… (${be}/${mdl})${rec.note ? ' — ' + rec.note : ''}`); }
+    else if (rec.status === 'done') { console.log(`[ai] done via ${mdl}${rec.elapsed != null ? ' (' + rec.elapsed + 's)' : ''}${rec.note ? ' — ' + rec.note : ''}`); }
+    else if (rec.status === 'error') { console.error(`[ai] error (${be}/${mdl}): ${rec.error || 'unknown'}`); }
+  } catch { /* logging must never break the service */ }
+  try {
+    mkdirSync(CAPTURE_OUT, { recursive: true });
+    writeFileSync(join(CAPTURE_OUT, '_ai.json'), JSON.stringify(rec));
+  } catch { /* best-effort */ }
+}
+
+/**
+ * Slice the outermost <header>…</header> (first) or <footer>…</footer> (last) region out of a rendered
+ * page, matching balanced open/close tags of the same name so a nested <header> inside doesn't cut it
+ * short. Returns '' when the tag isn't present. Used by /translate-chrome to feed each region to its
+ * translator, so the model sees only the chrome markup (+ its data-sc-cs computed styles), not the body.
+ */
+function sliceChromeRegion(html, tag, last) {
+  const src = String(html || '');
+  const openRe = new RegExp(`<${tag}(?:\\s[^>]*)?>`, 'gi');
+  const closeRe = new RegExp(`</${tag}\\s*>`, 'gi');
+  // Collect every open + close position, then walk them as a balanced stack to find full regions.
+  const events = [];
+  let m;
+  while ((m = openRe.exec(src))) events.push({ i: m.index, end: openRe.lastIndex, open: true });
+  while ((m = closeRe.exec(src))) events.push({ i: m.index, end: closeRe.lastIndex, open: false });
+  events.sort((a, b) => a.i - b.i);
+  const regions = [];
+  let depth = 0, start = -1;
+  for (const e of events) {
+    if (e.open) { if (depth === 0) start = e.i; depth++; }
+    else if (depth > 0) { depth--; if (depth === 0 && start >= 0) { regions.push(src.slice(start, e.end)); start = -1; } }
+  }
+  if (!regions.length) return '';
+  return last ? regions[regions.length - 1] : regions[0];
 }
 
 /* ----------------------------------------------------------------------------
@@ -112,6 +191,20 @@ const json = (res, code, obj) => {
  * SUBFOLDER (`<out>/<siteSlug>/…`, see its `outdir = baseDir/siteSlug`), so a flat join(out, name)
  * misses it. Check the base first (legacy / --report-only), then one level of subdirectories.
  */
+/**
+ * Slug for a URL's capture subfolder — MUST match capture.mjs's siteSlug() so /capture-screenshot
+ * finds the dir that /capture wrote. hostname (sans www) + path, non-alphanumerics → '_'.
+ */
+const siteSlug = (u) => {
+  try {
+    const url = new URL(u);
+    let s = url.hostname.replace(/^www\./i, '').replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
+    const path = url.pathname.replace(/^\/+|\/+$/g, '');
+    if (path) s += '_' + path.replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
+    return s || 'site';
+  } catch { return 'site'; }
+};
+
 const findFile = (out, name) => {
   const direct = join(out, name);
   if (existsSync(direct)) return direct;
@@ -219,6 +312,53 @@ createServer((req, res) => {
     return;
   }
 
+  // POST /ai-instruct — USER-DIRECTED tweak. The user types an instruction ("make the hero darker",
+  // "bigger rounder buttons", "turn this into a real pricing table"); the model classifies it and returns
+  // { kind:'css'|'structural'|'both', css, structural_note, explanation, model }. CSS is sanitized in
+  // to-ai.mjs (the trust boundary) before it leaves. Structural changes are NEVER auto-applied — only
+  // described. Body: { prompt (required), page_html?, custom_css?, source_html? }.
+  if (u.pathname === '/ai-instruct') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    if (!aiReady()) { json(res, 503, { error: 'AI is off — pick a local model, or enable Claude (Claude Code / an API key).' }); return; }
+    const _aiStart = Date.now();
+    readJson(req)
+      .then((body) => {
+        if (!String(body.prompt || '').trim()) { const e = new Error('Provide a prompt.'); e.code = 400; throw e; }
+        markAi({ status: 'thinking', backend: aiBackend(), note: 'working on your request…', startedAt: _aiStart });
+        return instructTweak({ prompt: body.prompt, pageHtml: body.page_html, customCss: body.custom_css, sourceHtml: body.source_html });
+      })
+      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: `instruct → ${out.kind}` }); console.log('[ai-instruct]', out.kind, 'via', out.model); json(res, 200, { ok: true, kind: out.kind, css: out.css, structural_note: out.structural_note, explanation: out.explanation, model: out.model }); })
+      .catch((e) => { const code = e.code === 400 ? 400 : (e.code === 503 ? 503 : 500); if (code === 500) markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-instruct]', e.message); json(res, code, { error: e.message }); });
+    return;
+  }
+
+  // POST /translate-chrome — the NATIVE-chrome path. Given the rendered page HTML, slice out the
+  // <header> + <footer> regions and translate EACH into UnysonPlus Header/Footer Theme-Settings JSON
+  // (translateHeader / translateFooter). The WordPress Site Converter's applier turns this into native,
+  // editable Theme Settings (no baked header.php/footer.php). Header is primary; footer is best-effort.
+  // Returns { ok, header:{ok,json,ms}, footer:{ok,json,ms}, model }.
+  if (u.pathname === '/translate-chrome') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    if (!aiReady()) { json(res, 503, { error: 'AI is off — configure Claude Code / an API key, or pick a local model.' }); return; }
+    const model = selectedLocalModel() || 'claude-code'; // Ollama tag if picked, else the Claude Code CLI
+    const _tcStart = Date.now();
+    markAi({ status: 'thinking', backend: aiBackend(), note: 'mapping header & footer into native Theme Settings…', startedAt: _tcStart });
+    readJson(req)
+      .then(async (body) => {
+        const html = String(body.html || '');
+        if (html.trim() === '') { throw new Error('Provide the rendered page `html`.'); }
+        const headerHtml = sliceChromeRegion(html, 'header', false);
+        const footerHtml = sliceChromeRegion(html, 'footer', true);
+        // Header first (primary), then footer (best-effort). Both share the one AI model.
+        const header = headerHtml ? await translateHeader({ headerHtml, model }) : { ok: false, json: null, ms: 0, error: 'No <header> found.' };
+        const footer = footerHtml ? await translateFooter({ footerHtml, model }) : { ok: false, json: null, ms: 0, error: 'No <footer> found.' };
+        return { header, footer, model };
+      })
+      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _tcStart, elapsed: Math.round((Date.now() - _tcStart) / 1000), note: `chrome mapped — header ${out.header.ok ? 'ok' : 'skip'}, footer ${out.footer.ok ? 'ok' : 'skip'}` }); console.log('[translate-chrome] header', out.header.ok ? 'ok' : 'skip', '| footer', out.footer.ok ? 'ok' : 'skip', 'via', out.model); json(res, 200, { ok: true, ...out }); })
+      .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _tcStart, error: e.message }); console.error('[translate-chrome]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
   // GET /local-ai — Experimental local-AI (Ollama) status for the dashboard picker: installed? server up?
   // which models are pulled, the curated shortlist, and the current selection.
   if (u.pathname === '/local-ai' && req.method === 'GET') {
@@ -255,15 +395,76 @@ createServer((req, res) => {
     return;
   }
 
+  // POST /local-ai/test — run the SELECTED local model on a short prompt (prove it's alive + a command
+  // surface). { prompt } → { ok, model, reply, ms }. 503 when no model / Ollama down.
+  if (u.pathname === '/local-ai/test' && req.method === 'POST') {
+    readJson(req)
+      .then((b) => testLocalModel(b.prompt))
+      .then((o) => json(res, 200, o))
+      .catch((e) => { console.error('[local-ai/test]', e.message); json(res, e.code === 503 ? 503 : 500, { error: e.message }); });
+    return;
+  }
+
+  // GET /local-ai/chat-history — the persisted multi-turn chat (survives restarts). { messages }.
+  if (u.pathname === '/local-ai/chat-history' && req.method === 'GET') {
+    json(res, 200, { ok: true, messages: readChatHistory() });
+    return;
+  }
+  // POST /local-ai/chat-clear — wipe the persisted chat. { ok, messages:[] }.
+  if (u.pathname === '/local-ai/chat-clear' && req.method === 'POST') {
+    writeChatHistory([]);
+    json(res, 200, { ok: true, messages: [] });
+    return;
+  }
+  // POST /local-ai/chat — multi-turn chat on the active AI backend. Body: { messages:[{role,content}] }.
+  // Runs the model, persists the sent turns + the reply, returns { ok, model, reply, ms }. 503 when AI off.
+  if (u.pathname === '/local-ai/chat' && req.method === 'POST') {
+    if (!aiReady()) { json(res, 503, { error: 'AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).' }); return; }
+    const _aiStart = Date.now();
+    readJson(req)
+      .then((body) => {
+        const msgs = (Array.isArray(body.messages) ? body.messages : [])
+          .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
+          .map((m) => ({ role: m.role, content: String(m.content) }));
+        markAi({ status: 'thinking', backend: aiBackend(), note: 'chatting…', startedAt: _aiStart });
+        return chatLocalModel({ messages: msgs }).then((out) => ({ out, msgs }));
+      })
+      .then(({ out, msgs }) => {
+        writeChatHistory(msgs.concat([{ role: 'assistant', content: out.reply, model: out.model, at: Date.now() }]));
+        markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'chat reply' });
+        console.log('[local-ai/chat] reply via', out.model);
+        json(res, 200, { ok: true, model: out.model, reply: out.reply, ms: out.ms });
+      })
+      .catch((e) => { const code = e.code === 503 ? 503 : (e.code === 400 ? 400 : 500); if (code === 500) markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[local-ai/chat]', e.message); json(res, code, { error: e.message }); });
+    return;
+  }
+
   // POST /refine-visual — self-verify → AI-fix loop. Measures source-vs-converted drift, asks the AI for
   // CSS to close the gap, re-measures with the CSS injected, and returns it ONLY if drift dropped.
   if (u.pathname === '/refine-visual') {
     if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
     if (!aiReady()) { json(res, 503, { error: 'AI is off — configure Claude Code / an API key, or pick a local model.' }); return; }
+    const _rvStart = Date.now();
+    markAi({ status: 'thinking', note: 'improving the look — writing CSS to close the visual gap…', startedAt: _rvStart });
     readJson(req)
       .then((b) => { if (!b.source_url || !b.converted_url) { throw new Error('Provide source_url and converted_url.'); } console.log('[refine-visual]', b.source_url, 'vs', b.converted_url); return refineVisual({ sourceUrl: b.source_url, convertedUrl: b.converted_url, width: b.width || 1440 }); })
-      .then((out) => { console.log('[refine-visual] drift', out.before_drift_pct + '% ->', out.after_drift_pct + '%', out.improved ? '(kept)' : '(rejected)'); json(res, 200, out); })
-      .catch((e) => { console.error('[refine-visual]', e.message); json(res, 500, { error: e.message }); });
+      .then((out) => { markAi({ status: 'done', startedAt: _rvStart, elapsed: Math.round((Date.now() - _rvStart) / 1000), note: `visual fix ${out.improved ? 'kept' : 'no gain'} — drift ${out.before_drift_pct}% → ${out.after_drift_pct}%` }); console.log('[refine-visual] drift', out.before_drift_pct + '% ->', out.after_drift_pct + '%', out.improved ? '(kept)' : '(rejected)'); json(res, 200, out); })
+      .catch((e) => { markAi({ status: 'error', startedAt: _rvStart, error: e.message }); console.error('[refine-visual]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
+  // POST /refine-chrome — the HEADER-FIRST (footer secondary) chrome fidelity pass. Measures header/footer
+  // drift between source + converted, asks the AI for CSS scoped to the converted page's REAL chrome
+  // selectors, re-measures with it injected, and returns it ONLY if chrome drift dropped.
+  if (u.pathname === '/refine-chrome') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    if (!aiReady()) { json(res, 503, { error: 'AI is off — configure Claude Code / an API key, or pick a local model.' }); return; }
+    const _rcStart = Date.now();
+    markAi({ status: 'thinking', note: 'refining header & footer…', startedAt: _rcStart });
+    readJson(req)
+      .then((b) => { if (!b.source_url || !b.converted_url) { throw new Error('Provide source_url and converted_url.'); } console.log('[refine-chrome]', b.source_url, 'vs', b.converted_url); return refineChrome({ sourceUrl: b.source_url, convertedUrl: b.converted_url, width: b.width || 1440 }); })
+      .then((out) => { markAi({ status: 'done', startedAt: _rcStart, elapsed: Math.round((Date.now() - _rcStart) / 1000), note: `chrome fix ${out.improved ? 'kept' : 'no gain'} — drift ${out.before_chrome_drift_pct}% → ${out.after_chrome_drift_pct}%` }); console.log('[refine-chrome] chrome drift', out.before_chrome_drift_pct + '% ->', out.after_chrome_drift_pct + '%', out.improved ? '(kept)' : '(rejected)'); json(res, 200, out); })
+      .catch((e) => { markAi({ status: 'error', startedAt: _rcStart, error: e.message }); console.error('[refine-chrome]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
 
@@ -347,6 +548,29 @@ createServer((req, res) => {
     return;
   }
 
+  // GET /capture-screenshot?url=<url> — return the PNG thumbnail (1200×900) the newest matching capture
+  // saved, so the WordPress admin (URL flow) can attach it to the generated child theme as its
+  // Appearance → Themes screenshot. Prefers <CAPTURE_OUT>/<slug>/screenshot.png (falls back to full.png);
+  // if the exact slug dir has none, falls back to the newest screenshot.png anywhere under CAPTURE_OUT.
+  if (u.pathname === '/capture-screenshot') {
+    const target = (u.searchParams.get('url') || '').trim();
+    if (!/^https?:\/\//i.test(target)) { json(res, 400, { error: 'Provide a valid http(s) URL.' }); return; }
+    const slug = siteSlug(target);
+    let shot = '';
+    for (const name of ['screenshot.png', 'full.png']) {
+      const p = join(CAPTURE_OUT, slug, name);
+      if (existsSync(p)) { shot = p; break; }
+    }
+    if (!shot) { shot = findFile(CAPTURE_OUT, 'screenshot.png') || findFile(CAPTURE_OUT, 'full.png'); }
+    if (!shot || !existsSync(shot)) { json(res, 404, { error: 'No screenshot found for that URL. Run a capture first.' }); return; }
+    try {
+      const png = readFileSync(shot);
+      res.writeHead(200, { 'Content-Type': 'image/png', 'Content-Length': png.length, 'Cache-Control': 'no-store' });
+      res.end(png);
+    } catch (e) { json(res, 500, { error: e.message }); }
+    return;
+  }
+
   if (u.pathname === '/capture') {
     const target = (u.searchParams.get('url') || '').trim();
     if (!/^https?:\/\//i.test(target)) { json(res, 400, { error: 'Provide a valid http(s) URL.' }); return; }
@@ -393,9 +617,20 @@ createServer((req, res) => {
   console.log(`UnysonPlus capture service v${VERSION} → http://localhost:${PORT}`);
   console.log('  GET  /health');
   console.log('  GET  /capture?url=https://example.com  → convert-bundle.zip');
+  console.log('  GET  /capture-screenshot?url=https://example.com  → screenshot.png');
   console.log('  POST /capture-file  (Stitch .zip / HTML body)  → convert-bundle.zip');
-  const be = aiBackend();
-  console.log('  POST /ai-convert  → AI refine  (' + ( be === 'api' ? 'AI ON — Anthropic API key' : be === 'claude-code' ? 'AI ON — Claude Code subscription' : 'AI OFF — set ANTHROPIC_API_KEY, or install + sign in to Claude Code' ) + ')');
+  // Resolved-AI line — prints the backend + model actually in play. Runs AFTER the local-AI auto-setup
+  // (auto-select a pulled model / kick off a first-run pull) so it reflects the post-setup state.
+  const printAiLine = () => {
+    const be = aiBackend();
+    const line = be === 'ollama' ? `AI: local (${selectedLocalModel()})`
+      : be === 'api' ? 'AI: Anthropic API'
+      : be === 'claude-code' ? 'AI: Claude Code'
+      : 'AI: OFF — open the dashboard → Local AI to enable';
+    console.log('  ' + line);
+  };
+  const autoOff = /^(0|false|no|off)$/i.test(process.env.LOCAL_AI_AUTOSETUP || '');
+  (autoOff ? Promise.resolve() : ensureLocalModelReady().catch(() => {})).then(printAiLine).catch(() => {});
   // One-time update check on startup (offline-safe); print a hint if a newer version is on GitHub.
   checkLatest(true).then(() => {
     if (updateAvailable()) { console.log(`  ⬆ Update available: v${latestVersion} (you have v${VERSION}). Run:  git pull && npm install`); }

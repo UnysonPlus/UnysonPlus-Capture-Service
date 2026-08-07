@@ -1,0 +1,2 @@
+# Runtime-only: destination WordPress target for the install feature. Contains a token — never commit.
+wp-target.json

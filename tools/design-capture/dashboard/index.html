@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UnysonPlus Converter</title>
+<title>Unyson+ Site Converter</title>
 <style>
 :root{
   --bg:oklch(0.165 0.014 245); --surface:oklch(0.205 0.014 245); --surface-2:oklch(0.245 0.015 245);
@@ -30,8 +30,44 @@ button,input{font:inherit;color:inherit}
 .brand{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
 .brand .mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
   background:linear-gradient(150deg,var(--accent),var(--accent-2));color:var(--accent-ink);box-shadow:0 2px 12px oklch(0.74 0.17 158 / .35)}
-.brand .mark svg{width:17px;height:17px}
+.brand .mark svg{width:20px;height:20px}
 .brand small{display:block;font-weight:500;color:var(--faint);font-size:11px;letter-spacing:.02em}
+.beta-tag{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:999px;font-size:10px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;vertical-align:middle;background:oklch(0.80 0.14 78 / .18);
+  color:var(--amber);border:1px solid oklch(0.80 0.14 78 / .42)}
+.logbtn{background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--faint);font:inherit;
+  font-size:11px;font-weight:600;padding:4px 11px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.logbtn:hover{color:var(--ink);border-color:var(--muted)}
+.logbtn.err{color:var(--red);border-color:color-mix(in oklch,var(--red) 50%,transparent)}
+.panel-foot{padding:10px 18px;border-top:1px solid var(--border-soft);display:flex;justify-content:flex-end}
+/* merged live-state chip: shows status (Following live / Done / Error); hover reveals Clear */
+.livechip{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:999px;font-size:11px;font-weight:600;
+  letter-spacing:.03em;text-transform:uppercase;background:var(--surface-2);border:1px solid var(--border);color:var(--muted);
+  cursor:pointer;font-family:inherit;transition:color .12s,border-color .12s,background .12s}
+.livechip .ls-clear{display:none;color:var(--red)}
+.livechip:hover .dot,.livechip:hover .ls-label{display:none}
+.livechip:hover .ls-clear{display:inline}
+.livechip:hover{border-color:color-mix(in oklch,var(--red) 45%,transparent);background:oklch(0.66 0.19 27 / .1)}
+.livechip.running .ls-label{color:var(--amber)}
+.livechip.done .ls-label{color:var(--accent)}
+.livechip.error .ls-label{color:var(--red)}
+.toplink{color:var(--faint);font-size:12px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.toplink:hover{color:var(--ink)}
+/* log modal */
+.modal-backdrop{position:fixed;inset:0;z-index:70;background:oklch(0 0 0 / .55);backdrop-filter:blur(3px);
+  display:grid;place-items:center;padding:24px;animation:fade .18s ease-out both}
+.modal-backdrop[hidden]{display:none}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:min(920px,94vw);max-height:84vh;
+  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 70px oklch(0 0 0 / .5)}
+.modal-h{display:flex;align-items:center;gap:9px;padding:12px 16px;border-bottom:1px solid var(--border-soft)}
+.modal-h b{font-size:13px;letter-spacing:.02em}
+.modal-h .mono{color:var(--accent)}
+.log-body{flex:1;overflow:auto;margin:0;padding:14px 16px;font:12px/1.55 var(--mono);color:var(--muted);
+  white-space:pre-wrap;word-break:break-word;background:var(--bg)}
+.modal-f{padding:8px 16px;border-top:1px solid var(--border-soft);font:11px var(--mono);color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-sel{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);
+  font:inherit;font-size:11px;padding:4px 8px;max-width:230px}
 .convert{flex:1;display:flex;gap:10px;max-width:680px}
 .convert input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;
   padding:10px 14px;color:var(--ink);font-family:var(--mono);font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
@@ -43,13 +79,36 @@ button,input{font:inherit;color:inherit}
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-primary:hover{background:oklch(0.78 0.17 158)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+/* form fields — install + destination-WP settings */
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld-l{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.fld-i{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--ink);font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.fld-i.mono{font-family:var(--mono)}
+.fld-i::placeholder{color:var(--faint)}
+.fld-i:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
+.dry{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);cursor:pointer}
+.dry input{accent-color:var(--accent);width:15px;height:15px}
+.install-status{margin-top:11px;font-size:13px;line-height:1.5;border:1px solid var(--border-soft);border-radius:10px;padding:11px 13px;background:var(--surface)}
+.install-status.busy{color:var(--amber)} .install-status.ok{border-color:color-mix(in oklch,var(--accent) 40%,transparent)}
+.install-status.ok b{color:var(--accent)} .install-status.err{border-color:color-mix(in oklch,var(--red) 45%,transparent);color:var(--red)}
+.install-status a{color:var(--accent)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid color-mix(in oklch,var(--amber) 40%,transparent);border-top-color:var(--amber);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-1px;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
 .watching{margin-left:auto;color:var(--faint);font-size:12px;font-family:var(--mono);white-space:nowrap;display:flex;align-items:center;gap:8px}
 .watching b{color:var(--muted);font-weight:500}
 
 /* ---------- layout ---------- */
-.wrap{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:20px;padding:20px 28px 60px;align-items:start}
+.wrap{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:20px;padding:20px 28px 60px;align-items:stretch}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
 .panel{background:var(--surface);border:1px solid var(--border-soft);border-radius:16px;overflow:hidden}
+/* Main panel fills the row height AND at least the viewport, so it occupies the empty space beside/
+   below the left column (history + Local AI) instead of stopping at its content height. */
+.ai-pulse{width:10px;height:10px;border-radius:50%;background:oklch(0.70 0.19 300);box-shadow:0 0 0 0 oklch(0.70 0.19 300 / .6);animation:aiPulse 1.1s infinite;flex:none}
+@keyframes aiPulse{0%{box-shadow:0 0 0 0 oklch(0.70 0.19 300 / .55)}70%{box-shadow:0 0 0 8px oklch(0.70 0.19 300 / 0)}100%{box-shadow:0 0 0 0 oklch(0.70 0.19 300 / 0)}}
+#main{align-self:stretch;min-height:calc(100vh - 118px);display:flex;flex-direction:column}
+#main > .tab-body,#main .tab-content{flex:1}
+@media(max-width:900px){#main{min-height:0}}
 .panel-h{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-soft)}
 .panel-h h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .col-left{display:flex;flex-direction:column;gap:20px;position:sticky;top:78px}
@@ -109,12 +168,16 @@ button,input{font:inherit;color:inherit}
 .stat .prov{margin-top:3px;font-size:10px;color:var(--faint);font-family:var(--mono)}
 
 /* ---------- shot ---------- */
-.shot{border-radius:12px;border:1px solid var(--border);overflow:hidden;background:var(--surface-2);max-height:520px;overflow-y:auto}
+.shot{border-radius:12px;border:1px solid var(--border);overflow:hidden;background:var(--surface-2);overflow-y:auto}
 .shot img{display:block;width:100%}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
 @media(max-width:680px){.compare{grid-template-columns:1fr}}
 .compare figure{margin:0;min-width:0}
-.compare figcaption{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.compare figcaption{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+.cmp-url{font:11px/1.4 var(--mono);color:var(--faint);margin:0 0 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmp-url a{color:var(--muted);text-decoration:none}
+.cmp-url a:hover{color:var(--accent);text-decoration:underline}
+.cmp-url-empty{opacity:.6}
 /* side-by-side compare panes — equal size, both scrollable, matched scale so they line up */
 .cmp-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-size:12px;color:var(--muted)}
 .cmp-bar label{display:flex;gap:6px;align-items:center}
@@ -123,7 +186,7 @@ button,input{font:inherit;color:inherit}
 .cmp-bar .seg button{background:var(--surface-2);border:0;color:var(--muted);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer}
 .cmp-bar .seg button.active{background:var(--accent);color:#04160e}
 .cmp-bar .mini{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer;text-decoration:none}
-.cmp-pane{border-radius:12px;border:1px solid var(--border);overflow:auto;background:#fff;height:min(74vh,760px);position:relative}
+.cmp-pane{border-radius:12px;border:1px solid var(--border);overflow:auto;background:#fff;min-height:420px;position:relative}
 .cmp-pane img{display:block;width:100%}
 .cmp-pane .cmp-fit{position:relative}
 .cmp-pane .cmp-scaler{transform-origin:top left}
@@ -163,63 +226,268 @@ td.txt{color:var(--muted);max-width:340px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .fade{animation:fade .35s cubic-bezier(.2,.8,.2,1) both}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ---------- app shell + left nav rail ---------- */
+.shell{display:block}
+/* Horizontal top nav (sticks below the header) — frees the whole width for content. */
+.nav{position:sticky;top:59px;z-index:15;display:flex;flex-direction:row;align-items:center;gap:4px;
+  padding:7px 24px;border-bottom:1px solid var(--border-soft);background:oklch(0.165 0.014 245 / .82);
+  backdrop-filter:blur(12px);overflow-x:auto}
+.nav-toggle{display:none}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;border-radius:10px;border:1px solid transparent;
+  background:none;color:var(--muted);cursor:pointer;font:inherit;font-weight:500;font-size:13px;white-space:nowrap;
+  transition:background .12s,color .12s,border-color .12s;position:relative}
+.nav-item:hover{color:var(--ink);background:var(--surface)}
+.nav-item.active{color:var(--ink);background:oklch(0.74 0.17 158 / .12);border-color:color-mix(in oklch,var(--accent) 38%,transparent)}
+.nav-item:focus-visible{outline:2px solid var(--accent-2);outline-offset:1px}
+.nav-item .ico{width:18px;height:18px;flex:none;display:grid;place-items:center}
+.nav-item .ico svg{width:18px;height:18px}
+.nav-item .lbl{white-space:nowrap;overflow:hidden}
+.nav-status{margin-left:auto;padding:6px 11px;border-radius:9px;background:oklch(0.62 0.19 300 / .12);
+  border:1px solid oklch(0.62 0.19 300 / .35);color:oklch(0.80 0.14 300);font-size:11px;font-weight:600;
+  display:none;align-items:center;gap:8px;white-space:nowrap;flex:none}
+.nav-status.on{display:flex}
+.content{padding:20px 28px 60px;min-width:0}
+.view{display:none}
+.view.active{display:block;animation:viewIn .28s cubic-bezier(.2,.8,.2,1) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---------- convert empty-state form ---------- */
+.convert-hero{max-width:560px;margin:6vh auto 0;text-align:center}
+.convert-hero .ch-mark{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;margin:0 auto 18px;
+  background:linear-gradient(150deg,var(--accent),var(--accent-2));color:var(--accent-ink);box-shadow:0 4px 20px oklch(0.74 0.17 158 / .35)}
+.convert-hero .ch-mark svg{width:28px;height:28px}
+.convert-hero h1{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.convert-hero p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:22px}
+.convert-hero .convert{max-width:none;flex-direction:column;gap:10px}
+.convert-hero .convert .row{display:flex;gap:10px}
+.convert-hero .convert input{flex:1}
+.convert-hero .ch-help{color:var(--faint);font-size:12px;line-height:1.5;margin-top:4px}
+.convert-err{color:var(--red);font-size:13px;margin-top:10px;min-height:1.2em}
+
+/* ---------- chat view ---------- */
+.chat-panel{display:flex;flex-direction:column;height:calc(100vh - 100px);min-height:460px}
+.chat-panel .panel-h h2{display:flex;align-items:center;gap:9px}
+.chat-model{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:none;letter-spacing:0;font-weight:600}
+.chat-scroll{flex:1;overflow:auto;padding:22px;display:flex;flex-direction:column;gap:13px}
+.chat-msg{max-width:70ch;padding:11px 15px;border-radius:14px;line-height:1.55;font-size:14px;word-break:break-word;
+  animation:msgIn .22s cubic-bezier(.2,.8,.2,1) both}
+.chat-msg.user{align-self:flex-end;background:var(--surface-2);border:1px solid var(--border);border-bottom-right-radius:5px}
+.chat-msg.assistant{align-self:flex-start;background:var(--surface);border:1px solid var(--border-soft);border-bottom-left-radius:5px}
+.chat-msg.thinking{color:var(--muted);display:flex;align-items:center;gap:9px}
+.chat-code{font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px solid var(--border);border-radius:9px;
+  padding:11px 13px;margin:8px 0;overflow-x:auto;white-space:pre;line-height:1.5}
+@keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.chat-empty{margin:auto;text-align:center;color:var(--faint);max-width:46ch}
+.chat-empty svg{width:40px;height:40px;opacity:.5;margin-bottom:14px}
+.chat-empty h3{color:var(--muted);font-size:16px;font-weight:600;margin-bottom:8px}
+.chat-empty p{font-size:13px;line-height:1.6}
+.chat-err{align-self:center;color:var(--amber);font-size:13px;text-align:center;line-height:1.6}
+.chat-composer{display:flex;gap:10px;padding:14px 18px;border-top:1px solid var(--border-soft);align-items:flex-end}
+.chat-composer textarea{flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;color:var(--ink);
+  padding:11px 14px;font:inherit;font-size:14px;resize:none;max-height:160px;min-height:44px;outline:none;
+  transition:border-color .15s,box-shadow .15s}
+.chat-composer textarea:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
+.chat-composer .btn{align-self:stretch}
+
+/* ---------- settings view ---------- */
+.settings-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:20px;align-items:start}
+@media(max-width:900px){.settings-grid{grid-template-columns:1fr}}
+#serviceBody{padding:16px 18px}
+#serviceBody .kv{margin-top:0}
+
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .nav{flex-direction:row;position:static;width:auto!important;min-height:0;border-right:0;
+    border-bottom:1px solid var(--border-soft);overflow-x:auto;padding:10px 12px;gap:6px}
+  .nav .nav-item{width:auto}
+  .nav .nav-item .lbl{display:inline!important}
+  .nav-toggle,.nav-status{display:none!important}
+  .content{padding:16px 16px 50px}
+  .top{flex-wrap:wrap;gap:8px 14px;padding:12px 16px}
+  .top .watching{margin-left:0!important}
+  #upwStatus{white-space:normal!important;flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="brand">
-    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg></span>
-    <span>UnysonPlus Converter<small>deterministic site conversion</small></span>
+    <span class="mark"><svg viewBox="0 0 34 32" fill="#ffffff" aria-hidden="true"><path d="M23.375 0c5.875 0 10.625 4.688 10.625 10.438v19.563l-4.969 2-5.031-2v-21.063c-0.031-1.188-0.281-1.563-1.188-2.188-0.906 0.594-0.75 1.063-0.813 2.188v13.063c-0.25 5.531-3.656 10-11.375 10-5.875 0-10.625-2.75-10.625-10v-20.031l4.969-1.969 5.031 2v19.469s-0.281 3.938 1.188 3.938c1.094-1.125 0.813-3.938 0.813-3.938v-11.469c0.25-5.531 5.688-10 11.375-10zM2.469 3.188l2.5 1.5 2.219-1.313-2.219-1.219zM9.281 30.031c6.688 0 6.5-8.156 6.5-8.156-0.031-0.281 0.219-11.563 0.219-11.875 0-3.781 1.688-6.094 3.75-7.719-2.875 1.438-5.594 4.375-5.75 7.719v13.75c-0.219 2.563-2.156 4.25-4.781 4.25-2.875 0-5.063-2.531-5.219-5.5v-15.875l-2-1.375v16.75s-0.188 6.813 5.75 7.875c0.5 0.094 1.031 0.156 1.531 0.156zM32 28.625v-18.625c0-4-2.125-6.063-5.781-7.281-0.469-0.094-1-0.156-1.5-0.156-4.219 0-6.719 3.281-6.719 7.438v12.219c0 3.094-1.344 6.969-4 7.781 4.531-1.344 6-4.938 6-8v-13.375c0.219-2.563 2.125-4.25 4.781-4.25s5 1.688 5.219 4.25v20.875zM8.938 26l0.375-0.031c-0.75-0.406-1.281-1.188-1.313-2.75v-17.969l-2 1.375v14.844s0.313 4.531 2.938 4.531zM28 29.5v-20.563c-0.125-1.813-1.313-2.781-3.219-2.781l-0.375 0.031c0.875 0.875 1.563 1.438 1.594 2.75v19.688z"></path></svg></span>
+    <span>Unyson+ Site Converter <span class="beta-tag">Beta</span><small>Deterministic + AI conversion · Beta — still in testing</small></span>
   </div>
-  <form class="convert" id="convertForm">
-    <input id="urlInput" type="url" placeholder="https://example.com  — paste a URL to convert" autocomplete="off" spellcheck="false">
-    <button class="btn btn-primary" id="convertBtn" type="submit">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      Convert
-    </button>
-  </form>
-  <div class="watching">watching <b id="watchDir">…</b></div>
+  <div class="watching" style="margin-left:auto">watching <b id="watchDir">…</b></div>
+  <a class="toplink" id="logsLink" title="Open the run log (what the tools printed this session)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Logs</a>
   <div id="upwStatus" class="watching" title="Converter tools — capture service + running conversions" style="display:flex;gap:.6em;align-items:center;white-space:nowrap"></div>
 </header>
 
-<div class="wrap">
-  <aside class="col-left">
-    <section class="panel">
-      <div class="panel-h"><h2>Live progress</h2><span class="pill" id="statusPill"><span class="dot" id="statusDot"></span><span id="statusText">idle</span></span><button class="follow-btn" id="followBtn" title="Auto-switch to the newest running conversion">● Following live</button></div>
-      <div class="timeline" id="timeline"><div class="tl-empty">Paste a URL above to start a conversion, or pick a past run.</div></div>
-    </section>
-    <section class="panel">
-      <div class="panel-h"><h2>Recent conversions</h2></div>
-      <div class="history" id="history"></div>
-    </section>
-    <section class="panel" id="localAiPanel">
-      <div class="panel-h"><h2>Local AI <span class="pill" style="background:#7c3aed22;color:#a78bfa;border-color:#7c3aed66">Experimental</span></h2></div>
-      <div id="localAiBody" style="padding:.5em .3em;font-size:.86em;line-height:1.4">Loading…</div>
-    </section>
-  </aside>
+<div class="shell">
+  <nav class="nav" id="nav" aria-label="Primary">
+    <button class="nav-toggle" id="navToggle" title="Collapse menu" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <button class="nav-item active" data-view="convert" aria-current="page" title="Convert">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="lbl">Convert</span>
+    </button>
+    <button class="nav-item" data-view="chat" title="Chat">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="lbl">Chat</span>
+    </button>
+    <button class="nav-item" data-view="benchmarks" title="Benchmarks">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span><span class="lbl">Benchmarks</span>
+    </button>
+    <button class="nav-item" data-view="settings" title="Settings">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span class="lbl">Settings</span>
+    </button>
+    <div class="nav-status" id="navStatus"><span class="ai-pulse"></span><span class="lbl" id="navStatusLbl">AI working…</span></div>
+  </nav>
 
-  <main class="panel" id="main">
-    <div class="tabs" id="tabs">
-      <button class="tab active" data-tab="overview">Overview</button>
-      <button class="tab" data-tab="tokens">Design tokens</button>
-      <button class="tab" data-tab="report">Conversion report</button>
-      <button class="tab" data-tab="compare">Compare</button>
-    </div>
-    <div class="tab-body" id="tabBody">
-      <div class="empty">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
-        <div>Select or start a conversion to see its design tokens, section mapping, and a source-vs-result comparison.</div>
+  <div class="content">
+    <!-- ===== CONVERT VIEW ===== -->
+    <section class="view active" id="view-convert">
+      <div class="wrap">
+        <aside class="col-left">
+          <!-- Convert a source URL and install it onto a destination WordPress (child theme). The old
+               hidden capture-convert form (#convertForm/#urlInput → /api/convert) is removed; this
+               #installForm → /api/install-to-wp panel is what's visible. -->
+          <section class="panel" id="installPanel" style="padding:16px 18px">
+            <form id="installForm" style="display:flex;flex-direction:column;gap:11px">
+              <label class="fld">
+                <span class="fld-l">Source URL</span>
+                <input id="srcUrl" class="fld-i mono" type="url" placeholder="https://example.com" autocomplete="off" spellcheck="false">
+              </label>
+              <label class="fld">
+                <span class="fld-l">Destination WordPress</span>
+                <input id="destUrl" class="fld-i mono" type="url" placeholder="http://localhost/" autocomplete="off" spellcheck="false">
+              </label>
+              <label class="dry"><input type="checkbox" id="dryRun"><span>Dry run — generate the theme without activating (safe test)</span></label>
+              <button class="btn btn-primary" id="installBtn" type="submit" title="Convert the source and install it" style="justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                Convert &amp; install
+              </button>
+              <div class="ch-help">Converts the source and installs it as a child theme on the destination WordPress.</div>
+              <div class="ch-help" id="tokenHint" style="display:none">No token set. <a href="#settings" onclick="showView('settings');return false" style="color:var(--accent)">Set the destination + token in Settings ↗</a></div>
+            </form>
+            <div class="install-status" id="installStatus" style="display:none"></div>
+            <div class="convert-err" id="installErr"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-h"><h2>Live progress</h2><button class="livechip idle" id="liveState" title="Hover to clear the progress list"><span class="dot" id="statusDot"></span><span class="ls-label" id="statusText">idle</span><span class="ls-clear">✕ Clear</span></button></div>
+            <div class="timeline" id="timeline"><div class="tl-empty">Run a conversion in WordPress to watch it here, or pick a past run.</div></div>
+            <div class="panel-foot"><button class="logbtn" id="viewLogBtn" title="Open the run log (useful when a conversion errors)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>View log</button></div>
+          </section>
+          <section class="panel">
+            <div class="panel-h"><h2>Recent conversions</h2></div>
+            <div class="history" id="history"></div>
+          </section>
+        </aside>
+
+        <main class="panel" id="main">
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="compare">Compare</button>
+            <button class="tab" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="tokens">Design tokens</button>
+            <button class="tab" data-tab="report">Conversion report</button>
+          </div>
+          <div class="tab-body" id="tabBody">
+            <div class="convert-hero">
+              <div class="ch-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div>
+              <h1>Conversion monitor</h1>
+              <p>Run a conversion from WordPress → Site Converter. It appears here live — watch every pipeline stage, then inspect its design tokens, section mapping, and a source-vs-result comparison.</p>
+            </div>
+          </div>
+        </main>
       </div>
-    </div>
-  </main>
+    </section>
+
+    <!-- ===== CHAT VIEW ===== -->
+    <section class="view" id="view-chat">
+      <div class="panel chat-panel">
+        <div class="panel-h">
+          <h2>Chat <span class="chat-model" id="chatModel">…</span></h2>
+          <button class="follow-btn" id="chatClear" title="Start a new conversation">＋ New chat</button>
+        </div>
+        <div class="chat-scroll" id="chatScroll"></div>
+        <form class="chat-composer" id="chatForm">
+          <textarea id="chatInput" rows="1" placeholder="Message the model…  (Enter to send · Shift+Enter for a newline)"></textarea>
+          <button class="btn btn-primary" id="chatSend" type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== BENCHMARKS VIEW ===== -->
+    <section class="view" id="view-benchmarks">
+      <div class="panel">
+        <div class="panel-h"><h2>Benchmarks</h2></div>
+        <div class="tab-body" id="benchBody"><div class="empty">Loading benchmarks…</div></div>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS VIEW ===== -->
+    <section class="view" id="view-settings">
+      <div class="settings-grid">
+        <section class="panel" id="localAiPanel">
+          <div class="panel-h"><h2>Local AI models <span class="pill" style="background:#7c3aed22;color:#a78bfa;border-color:#7c3aed66">Experimental</span></h2></div>
+          <div id="aiActivity" style="display:none;padding:.5em .8em 0"></div>
+          <div id="localAiBody" style="padding:14px 18px;font-size:.9em;line-height:1.45">Loading…</div>
+        </section>
+        <section class="panel" id="wpTargetPanel">
+          <div class="panel-h"><h2>Destination WordPress</h2></div>
+          <div style="padding:14px 18px;display:flex;flex-direction:column;gap:11px">
+            <label class="fld">
+              <span class="fld-l">WordPress URL</span>
+              <input id="wpUrl" class="fld-i mono" type="url" placeholder="http://localhost/" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="fld">
+              <span class="fld-l">Token <span id="wpTokenState" style="color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0"></span></span>
+              <input id="wpToken" class="fld-i mono" type="password" placeholder="Paste the token" autocomplete="off" spellcheck="false">
+            </label>
+            <div style="display:flex;gap:9px;flex-wrap:wrap">
+              <button class="btn btn-primary" id="wpSaveBtn" type="button">Save</button>
+              <button class="logbtn" id="wpTestBtn" type="button" style="padding:9px 16px">Test connection</button>
+            </div>
+            <div class="install-status" id="wpTestResult" style="display:none"></div>
+            <div class="ch-help">Get the token from <b>wp-admin → Site Converter → “AI Dev Kit dashboard token”</b>. The dashboard and WordPress must be on the same machine (localhost). The token stays on the server — it is never sent back to this page.</div>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-h"><h2>Service</h2></div>
+          <div id="serviceBody"><div class="empty" style="padding:30px 18px">Loading…</div></div>
+        </section>
+      </div>
+    </section>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
+<div class="modal-backdrop" id="logModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Run log">
+    <div class="modal-h">
+      <b>Run log</b>
+      <select id="logFile" class="mini-sel" title="Choose a run log"></select>
+      <span style="flex:1"></span>
+      <button class="logbtn" id="logRefresh">↻ Refresh</button>
+      <button class="logbtn" id="logCopy">Copy</button>
+      <button class="logbtn" id="logClose">✕ Close</button>
+    </div>
+    <pre id="logBody" class="log-body">Loading…</pre>
+    <div class="modal-f" id="logPath"></div>
+  </div>
+</div>
 
 <script>
 const $=(s,r=document)=>r.querySelector(s);
 const api=(p)=>fetch(p,{cache:'no-store'}).then(r=>r.json());
 const api2=(p,b)=>fetch(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json());
-let state={slug:null,tab:'overview',config:null,report:null,progress:null,polling:null,follow:true};
+let state={slug:null,view:'convert',tab:'compare',config:null,report:null,progress:null,polling:null,follow:true,
+  cleared:(()=>{try{return localStorage.getItem('upw_pcleared')==='1';}catch(e){return false;}})()}; // Clear persists across refresh
+
+/* ---- Community benchmark sharing (Google Form) ----
+   Paste your Google Form's /viewform URL and the entry.XXXX IDs for each prefilled field.
+   To get them: create the form, open ⋮ → "Get pre-filled link", fill placeholders, copy the link,
+   and read off each entry.NNNN. Leave `url` empty to keep sharing disabled (the Share button then
+   shows a "set up the form" note). See guides/community-benchmarks-setup.md. Only model/score/
+   version/hardware/seconds are shared — never any site data. */
+const BENCHMARK_FORM = { url: 'https://docs.google.com/forms/d/e/1FAIpQLScmktvVNO8rZ2wUc5-GSzjRsR-70hyrB1ECz6X-fl3_oViIOg/viewform', fields: { model:'entry.1397895515', score:'entry.1429780911', version:'entry.183504626', hardware:'entry.713783289', seconds:'entry.788511733' } };
 
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
 function fmtTime(t){if(!t)return'';const d=new Date(t);return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});}
@@ -236,20 +504,22 @@ async function loadSites(){
     <span class="nm"><b>${s.title||s.slug}</b><span>${s.url||s.slug} · ${ago(s.updatedAt)}</span></span>
   </div>`).join('');
   h.querySelectorAll('.hist-item').forEach(el=>el.onclick=()=>select(el.dataset.slug,true));
-  renderFollow();
   // Follow the LIVE conversion: as soon as a conversion is running (the dev kit / capture service
   // started one), switch to monitoring it — unless the user pinned a site by clicking it. `sites`
   // is newest-first, so the first running one is the freshest.
   const running=sites.find(s=>s.status==='running');
-  if(state.follow&&running){ if(running.slug!==state.slug)select(running.slug,false); }
-  else if(!state.slug&&sites[0]){ select(sites[0].slug,false); }
+  // A conversion that is ACTIVELY RUNNING is always surfaced live — it also lifts any persisted Clear
+  // (Clear only suppresses FINISHED runs; you can't "clear" a conversion that's still happening).
+  if(running){ if(running.slug!==state.slug){ state.cleared=false;try{localStorage.removeItem('upw_pcleared');}catch(e){} select(running.slug,false); } }
+  // No live run: auto-pick the newest finished run for convenience — unless the user explicitly Cleared.
+  else if(!state.slug&&!state.cleared&&sites[0]){ select(sites[0].slug,false); }
 }
 
 async function select(slug,manual){
-  if(manual)state.follow=false; // pin to this site; the Follow button (or a fresh run) re-enables live-follow
+  state.cleared=false;try{localStorage.removeItem('upw_pcleared');}catch(e){} // picking a run lifts the persisted Clear
+  if(manual)state.follow=false; // pin to this site; a fresh run re-enables live-follow
   if(state.polling){clearInterval(state.polling);state.polling=null;}
   state.slug=slug;
-  renderFollow();
   loadSites();
   await refresh();
   // keep polling while running
@@ -271,10 +541,11 @@ async function refresh(){
 }
 
 function renderProgress(p){
-  const pill=$('#statusPill'),dot=$('#statusDot'),txt=$('#statusText');
+  const chip=$('#liveState'),dot=$('#statusDot'),txt=$('#statusText');
   const st=p.status||'idle';
-  pill.className='pill '+st;dot.className='dot '+st;
-  txt.textContent=st==='running'?'converting':st;
+  if(chip)chip.className='livechip '+st;if(dot)dot.className='dot '+st;
+  if(txt)txt.textContent=st==='running'?'Following live':st==='done'?'Done':st==='error'?'Error':'idle';
+  const vlb=$('#viewLogBtn');if(vlb)vlb.classList.toggle('err',st==='error'); // draw the eye to the log on failure
   const tl=$('#timeline');
   const steps=p.steps||[];
   if(!steps.length){tl.innerHTML='<div class="tl-empty">Waiting for the first pipeline step…</div>';return;}
@@ -289,7 +560,19 @@ function renderProgress(p){
   if(st==='running')tl.scrollTop=0;
 }
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
-function renderFollow(){const b=$('#followBtn');if(!b)return;b.textContent=state.follow?'● Following live':'▸ Follow live';b.classList.toggle('on',state.follow);}
+// Clear the live-progress list: stop polling, drop the selected run, reset the chip + timeline. Stops
+// auto-following so the cleared state sticks (a fresh conversion re-enables follow, below).
+function clearProgress(){
+  if(state.polling){clearInterval(state.polling);state.polling=null;}
+  state.slug=null;state.follow=false;state.cleared=true;state.progress=null;
+  try{localStorage.setItem('upw_pcleared','1');}catch(e){} // persist so Clear survives a page refresh
+  const tl=$('#timeline');if(tl)tl.innerHTML='<div class="tl-empty">Cleared. Pick a past run, or run a conversion in WordPress.</div>';
+  const chip=$('#liveState');if(chip)chip.className='livechip idle';
+  const dot=$('#statusDot');if(dot)dot.className='dot';
+  const txt=$('#statusText');if(txt)txt.textContent='idle';
+  const vlb=$('#viewLogBtn');if(vlb)vlb.classList.remove('err');
+  toast('Live progress cleared');
+}
 
 /* ---- tabs ---- */
 $('#tabs').querySelectorAll('.tab').forEach(t=>t.onclick=()=>{state.tab=t.dataset.tab;
@@ -336,6 +619,7 @@ function renderTab(){
   }else if(state.tab==='compare'){
     const LOGICAL=1440, HEIGHT=5200; // source shots are captured at a 1440px viewport
     const conv=(localStorage.getItem('upw-cmp-url-'+state.slug)||demoUrlFor(c)||'');
+    const src=(state.progress&&state.progress.url)||'';
     b.innerHTML=`<div class="fade">
       <div class="cmp-bar">
         <label>Converted site <input type="url" id="cmpUrl" value="${esc(conv)}" placeholder="http://localhost/your-site/" autocomplete="off"></label>
@@ -343,24 +627,170 @@ function renderTab(){
         <label><input type="checkbox" id="cmpSync" checked> Sync scroll</label>
         <a class="mini" id="cmpOpen" href="${esc(conv||'#')}" target="_blank" rel="noopener" style="${conv?'':'display:none'}">Open ↗</a>
         <button class="mini" id="cmpMeasure" title="Render source vs converted and measure pixel drift">📏 Measure drift</button>
-        <button class="mini" id="cmpImprove" title="Have the AI write CSS to close the visual gap — verified, kept only if drift drops" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent)">✨ Improve with AI</button>
+        <button class="mini" id="cmpImprove" title="Have ${improveAiName()} write CSS to close the visual gap — verified, kept only if drift drops" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent)">${improveLabel()}</button>
       </div>
       <div id="cmpDrift" style="margin:0 0 12px;font-size:12px;color:var(--muted);line-height:1.6"></div>
       <div class="compare">
         <figure><figcaption><span class="dot done"></span>Source capture <span class="mono" style="color:var(--faint)">1440px</span></figcaption>
+          <div class="cmp-url">${src?`<a href="${esc(src)}" target="_blank" rel="noopener" title="${esc(src)}">${esc(src)}</a>`:'<span class="cmp-url-empty">(no source URL)</span>'}</div>
           <div class="cmp-pane" id="cmpSrc"><img src="${A(state.slug,'full.png')}" onerror="this.closest('.cmp-pane').classList.add('is-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:'empty',textContent:'No source screenshot.'}))"></div>
         </figure>
         <figure><figcaption><span class="dot ${conv?'done':''}"></span>Converted result <span class="mono" style="color:var(--faint)" id="cmpScaleLbl"></span></figcaption>
+          <div class="cmp-url">${conv?`<a href="${esc(conv)}" target="_blank" rel="noopener" title="${esc(conv)}">${esc(conv)}</a>`:'<span class="cmp-url-empty">(set the destination above)</span>'}</div>
           ${conv
             ? `<div class="cmp-pane" id="cmpConv"><div class="cmp-fit" id="cmpFit"><div class="cmp-scaler" id="cmpScaler" style="width:${LOGICAL}px;height:${HEIGHT}px"><iframe id="cmpFrame" src="${esc(conv)}" style="width:${LOGICAL}px;height:${HEIGHT}px"></iframe></div></div></div>`
             : `<div class="cmp-pane is-empty"><div class="empty">Enter the converted site's URL above to compare it side by side.<br><span style="font-size:11px">(Import the bundle to a WordPress site first.)</span></div></div>`}
         </figure>
+      </div>
+      <div id="aiAsk" style="margin-top:18px;border-top:1px solid var(--border-soft);padding-top:16px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <h3 style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0">Ask the AI to change something</h3>
+          <span class="pill" style="background:#7c3aed22;color:#a78bfa;border-color:#7c3aed66">Experimental</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:9px;line-height:1.5">Type an instruction — e.g. “make the hero background darker”, “bigger rounder buttons”, “more spacing between sections”. Visual changes are applied to the preview (Keep / Discard); structural changes are described for the builder, never auto-applied.</div>
+        <div style="display:flex;gap:8px;align-items:stretch">
+          <textarea id="aiAskInput" rows="2" placeholder="Describe the change you want…  (⌘/Ctrl+Enter to send)" style="flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:.5em .6em;font:inherit;font-size:13px;resize:vertical"></textarea>
+          <button class="mini" id="aiAskBtn" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent);align-self:stretch;padding:0 16px">Ask</button>
+        </div>
+        <div id="aiAskOut" style="margin-top:10px;font-size:12px;line-height:1.6"></div>
+        <div id="aiAskActions" style="margin-top:8px;display:none;align-items:center;gap:8px">
+          <button class="mini" id="aiAskKeep" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent)">Keep</button>
+          <button class="mini" id="aiAskDiscard">Discard</button>
+          <span id="aiAskKept" style="font-size:11px;color:var(--faint)"></span>
+        </div>
       </div>
     </div>`;
     setupCompare(LOGICAL, HEIGHT);
   }
 }
 function demoUrlFor(c){/* best-effort default; the field is editable + remembered per site */const slug=(c.theme&&c.theme.slug);return slug?`http://localhost/demos/${slug}/`:'';}
+
+/* ---- Benchmarks: run control + accumulated leaderboard + share + community results ---- */
+function scoreColor(s){ return s>=70?'var(--accent)':(s>=40?'var(--amber)':'var(--red)'); }
+let _benchPoll=null, _benchHardware='';
+const H3=(t,mt='margin-bottom:12px')=>`<h3 style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);${mt}">${t}</h3>`;
+
+// Build a pre-filled Google Form URL for a leaderboard row (if BENCHMARK_FORM is configured).
+function shareUrlFor(model,score,version,seconds){
+  if(!BENCHMARK_FORM.url) return '';
+  const f=BENCHMARK_FORM.fields||{}; const p=new URLSearchParams(); p.set('usp','pp_url');
+  const add=(id,val)=>{ if(id&&val!=null&&val!=='') p.set(id,String(val)); };
+  add(f.model,model); add(f.score,score); add(f.version,version); add(f.hardware,_benchHardware); add(f.seconds,seconds);
+  return BENCHMARK_FORM.url+'?'+p.toString();
+}
+function onShare(model,score,version,seconds){
+  const u=shareUrlFor(model,score,version,seconds);
+  if(!u){ toast('Set up the Google Form in index.html to enable sharing (see guides/community-benchmarks-setup.md).'); return; }
+  window.open(u,'_blank','noopener');
+}
+window._onShare=onShare;
+
+async function renderBenchmarks(b){
+  b.innerHTML='<div class="empty">Loading benchmarks…</div>';
+  let d,lai,comm;
+  try{ [d,lai,comm]=await Promise.all([ api('/api/benchmarks'), api('/api/local-ai').catch(()=>({})), api('/api/community-benchmarks').catch(()=>({results:[]})) ]); }
+  catch(_){ b.innerHTML='<div class="empty">Could not load benchmarks.</div>'; return; }
+  const lb=(d&&d.leaderboard)||[], recent=(d&&d.recent)||[];
+  const reportLink=`<a class="mini" href="/report/model-research" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--accent);padding:7px 13px;text-decoration:none;font-size:12px;font-weight:600">📄 Read the full model research report ↗</a>`;
+
+  // --- Run control: model checkboxes (pulled ollama tags + claude-code) + Run button ---
+  const pulled=(lai&&Array.isArray(lai.pulled))?lai.pulled:[];
+  const opts=[{tag:'claude-code',label:'Claude (best)'}].concat(pulled.map(t=>({tag:t,label:t})));
+  const checks=opts.map(o=>`<label style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);cursor:pointer;font-size:12px"><input type="checkbox" class="bench-model" value="${esc(o.tag)}"${o.tag==='claude-code'?' checked':''}> ${esc(o.label)}</label>`).join(' ');
+  const runCtl=`<div style="background:var(--surface-2);border:1px solid var(--border-soft);border-radius:12px;padding:14px 16px;margin-bottom:22px">
+    ${H3('Run a benchmark','margin-bottom:10px')}
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px">${checks||'<span style="color:var(--faint);font-size:12px">No local models pulled yet.</span>'}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+      <button class="btn btn-primary" id="benchRunBtn" style="padding:8px 16px">▶ Run benchmark</button>
+      <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px">Hardware <input id="benchHw" type="text" value="${esc(_benchHardware)}" placeholder="16GB / RTX 3060" style="background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:6px 10px;font:inherit;font-size:12px;width:150px"></label>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--faint)">Claude needs Claude Code configured; local models must be <a href="#settings" onclick="showView('settings');return false" style="color:var(--accent)">pulled first</a>. Only model / score / version / hardware are shared — never site data.</div>
+    <div id="benchRunLog" style="margin-top:10px"></div>
+  </div>`;
+
+  if(!lb.length){
+    b.innerHTML=`<div class="fade">${reportLink}${runCtl}<div class="empty">No benchmarks yet — pick models above and press ▶ Run benchmark (or run <span class="mono">node benchmark-models.mjs</span>).</div>${communityHtml(comm)}</div>`;
+    wireBenchControls(); return;
+  }
+  const sc=(v)=>`<b style="color:${scoreColor(v)}">${v}</b>`;
+  const shareBtn=(m,s,v,secs)=>`<button class="mini bench-share" title="Share this result to the community Google Form" data-m="${esc(m)}" data-s="${s}" data-v="${esc(v||'')}" data-secs="${secs}" style="padding:3px 8px">📤 Share</button>`;
+  const lbRows=lb.map(r=>`<tr>
+    <td><b>${esc(r.model)}</b>${r.ever_valid?'':' <span class="tag fb">never valid</span>'}</td>
+    <td class="mono">${sc(r.best_score)}</td><td class="mono">${sc(r.latest_score)}</td><td class="mono">${sc(r.avg_score)}</td>
+    <td class="mono">${r.runs}</td><td class="mono">${r.avg_seconds}s</td>
+    <td class="mono" style="color:var(--faint)">${r.last_iso?esc(String(r.last_iso).replace('T',' ').slice(0,16)):'—'}</td>
+    <td>${shareBtn(r.model,r.best_score,r.service_version,r.avg_seconds)}</td></tr>`).join('');
+  const recRows=recent.map(r=>`<tr>
+    <td class="mono" style="color:var(--faint)">${r.iso?esc(String(r.iso).replace('T',' ').slice(0,16)):'—'}</td>
+    <td><b>${esc(r.model)}</b></td><td class="mono">${sc(r.score)}</td>
+    <td class="mono">${r.valid?'<span class="tag ok">valid</span>':'<span class="tag fb">invalid</span>'}</td>
+    <td class="mono">${r.seconds}s</td></tr>`).join('');
+  b.innerHTML=`<div class="fade">${reportLink}${runCtl}
+    ${H3('Leaderboard (all-time) — your machine')}
+    <table><thead><tr><th>Model</th><th>Best</th><th>Latest</th><th>Avg</th><th>Runs</th><th>Avg secs</th><th>Last run</th><th></th></tr></thead><tbody>${lbRows}</tbody></table>
+    ${H3('Recent runs','margin:28px 0 12px')}
+    <table><thead><tr><th>When</th><th>Model</th><th>Score</th><th>Valid</th><th>Secs</th></tr></thead><tbody>${recRows}</tbody></table>
+    ${communityHtml(comm)}
+  </div>`;
+  wireBenchControls();
+}
+
+// The Community results subsection — visually distinct (dashed border card) from the local leaderboard.
+function communityHtml(comm){
+  const results=(comm&&Array.isArray(comm.results))?comm.results:[];
+  const rows=results.map(r=>`<tr>
+    <td><b>${esc(r.model||'')}</b></td>
+    <td class="mono"><b style="color:${scoreColor(r.avg_score||r.best_score||0)}">${r.avg_score!=null?r.avg_score:'—'}</b></td>
+    <td class="mono">${r.best_score!=null?r.best_score:'—'}</td>
+    <td>${esc(r.hardware||'—')}</td>
+    <td class="mono">${r.submissions!=null?r.submissions:'—'}</td>
+    <td class="mono" style="color:var(--faint)">${esc(r.version||'—')}</td></tr>`).join('');
+  const inner=results.length
+    ? `<table><thead><tr><th>Model</th><th>Avg</th><th>Best</th><th>Hardware</th><th>Subs</th><th>Version</th></tr></thead><tbody>${rows}</tbody></table>`
+    : `<div class="empty" style="padding:34px 20px">No community data yet — be the first to <span style="color:var(--accent)">share</span>!</div>`;
+  return `${H3('Community results','margin:30px 0 12px')}
+    <div style="border:1px dashed var(--border);border-radius:12px;padding:14px 16px;background:oklch(0.72 0.12 240 / .05)">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:${results.length?'12px':'0'}">${esc((comm&&comm.note)||'Community-submitted benchmark scores.')}${comm&&comm.updated?` <span style="color:var(--faint)">· updated ${esc(comm.updated)}</span>`:''}</div>
+      ${inner}
+    </div>`;
+}
+
+function wireBenchControls(){
+  const hw=$('#benchHw'); if(hw) hw.addEventListener('input',()=>{ _benchHardware=hw.value; });
+  document.querySelectorAll('.bench-share').forEach(btn=>btn.onclick=()=>onShare(btn.dataset.m,btn.dataset.s,btn.dataset.v,btn.dataset.secs));
+  const run=$('#benchRunBtn'); if(run) run.onclick=startBenchRun;
+  // If a run is already in progress (e.g. after a tab switch), resume polling.
+  api('/api/benchmark/run-status').then(s=>{ if(s&&s.running){ if(run)run.disabled=true; renderBenchLog(s,true); if(!_benchPoll) _benchPoll=setInterval(pollBenchRun,1500); } }).catch(()=>{});
+}
+async function startBenchRun(){
+  const models=[...document.querySelectorAll('.bench-model:checked')].map(c=>c.value);
+  const run=$('#benchRunBtn'); if(run){ run.disabled=true; }
+  const log=$('#benchRunLog'); if(log) log.innerHTML='<div style="color:var(--muted);font-size:12px">Starting…</div>';
+  try{ const r=await api2('/api/benchmark/run',{models});
+    if(r.error){ toast(r.error); if(run)run.disabled=false; if(log)log.innerHTML=`<div style="color:var(--amber);font-size:12px">${esc(r.error)}</div>`; if(r.error.includes('already')){ if(!_benchPoll)_benchPoll=setInterval(pollBenchRun,1500); } return; }
+    toast('Benchmark started.');
+    if(_benchPoll) clearInterval(_benchPoll);
+    _benchPoll=setInterval(pollBenchRun,1500); pollBenchRun();
+  }catch(_){ toast('Could not start benchmark.'); if(run)run.disabled=false; }
+}
+function renderBenchLog(s,running){
+  const log=$('#benchRunLog'); if(!log) return;
+  const spinner=running?'<span class="ai-pulse" style="background:var(--amber);box-shadow:none"></span> ':'✓ ';
+  const head=running?`${spinner}<b style="color:var(--amber)">Running…</b>`:`${spinner}<b style="color:var(--accent)">Done${s.code!=null?` (exit ${s.code})`:''}</b>`;
+  const lines=(s.log||[]).slice(-40).map(esc).join('\n');
+  log.innerHTML=`<div style="font-size:12px;margin-bottom:6px">${head}${s.models&&s.models.length?` <span style="color:var(--faint)">· ${s.models.map(esc).join(', ')}</span>`:''}</div>
+    <pre style="max-height:180px;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font:12px/1.5 var(--mono);color:var(--muted);white-space:pre-wrap;word-break:break-word">${lines||'(waiting for output…)'}</pre>`;
+}
+async function pollBenchRun(){
+  let s; try{ s=await api('/api/benchmark/run-status'); }catch(_){ return; }
+  renderBenchLog(s,s.running);
+  if(!s.running){
+    if(_benchPoll){ clearInterval(_benchPoll); _benchPoll=null; }
+    const run=$('#benchRunBtn'); if(run) run.disabled=false;
+    // Refresh the leaderboard with the new run (only if still on the Benchmarks tab).
+    if(state.view==='benchmarks'){ setTimeout(()=>{ renderBenchmarks($('#benchBody')); },400); }
+  }
+}
 
 // Match the converted iframe's scale to the (1440px-captured) source shot so the two panes line up,
 // keep them scroll-synced, and let the converted URL be edited + remembered per site.
@@ -393,6 +823,88 @@ function setupCompare(LOGICAL, HEIGHT){
   const mBtn=$('#cmpMeasure'), iBtn=$('#cmpImprove');
   if(mBtn) mBtn.onclick=()=>cmpMeasure();
   if(iBtn) iBtn.onclick=()=>cmpImprove();
+  setupAiAsk();
+}
+
+/* ---- "Ask the AI to change something" — user-directed tweaks (POST /api/ai-instruct) ----
+ * Per-conversion, session-accumulated CSS is applied live to the compare preview and can be
+ * Kept (persisted to <capture-out>/<slug>/ai-tweak.css) or Discarded. Structural changes are
+ * only DESCRIBED (never auto-applied). CSS is sanitized server-side (the trust boundary). */
+const AI_TWEAK_TA='width:100%;height:110px;margin-top:6px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:12px;padding:8px';
+function aiTweakState(){ window._aiTweak=window._aiTweak||{}; const s=state.slug; window._aiTweak[s]=window._aiTweak[s]||{applied:'',kept:'',loaded:false}; return window._aiTweak[s]; }
+// Inject the accumulated tweak CSS into the preview iframe. Returns false when the iframe is a
+// DIFFERENT ORIGIN (the usual case for a live WP site) — we then fall back to showing the CSS.
+function aiInjectPreview(css){
+  const f=$('#cmpFrame'); if(!f) return false;
+  try{
+    const doc=f.contentDocument||(f.contentWindow&&f.contentWindow.document); if(!doc||!doc.head) return false;
+    let el=doc.getElementById('ai-tweak-css');
+    if(!el){ el=doc.createElement('style'); el.id='ai-tweak-css'; doc.head.appendChild(el); }
+    el.textContent=String(css||''); return true;
+  }catch(_){ return false; } // cross-origin — can't reach into the iframe
+}
+function updateAiActions(){
+  const st=aiTweakState(); const act=$('#aiAskActions'), kept=$('#aiAskKept'); if(!act) return;
+  act.style.display=(st.applied||st.kept)?'flex':'none';
+  if(kept){ const dirty=st.applied!==st.kept; kept.textContent=dirty?'· unsaved tweaks (Keep to persist)':(st.kept?'· saved for this conversion':''); }
+}
+async function setupAiAsk(){
+  if(!$('#aiAsk')) return;
+  const st=aiTweakState();
+  if(!st.loaded){ st.loaded=true; // one-time: load any previously-kept CSS for this conversion
+    try{ const r=await fetch(`/artifact/${state.slug}/ai-tweak.css`,{cache:'no-store'}); if(r.ok){ const css=await r.text(); if(css.trim()){ st.applied=css; st.kept=css; } } }catch(_){}
+  }
+  if(st.applied) aiInjectPreview(st.applied);
+  updateAiActions();
+  const btn=$('#aiAskBtn'), input=$('#aiAskInput');
+  if(btn) btn.onclick=()=>aiAsk();
+  if(input) input.addEventListener('keydown',e=>{ if((e.metaKey||e.ctrlKey)&&e.key==='Enter'){ e.preventDefault(); aiAsk(); } });
+  const keep=$('#aiAskKeep'), disc=$('#aiAskDiscard');
+  if(keep) keep.onclick=()=>aiAskKeep();
+  if(disc) disc.onclick=()=>aiAskDiscard();
+}
+async function aiAsk(){
+  const input=$('#aiAskInput'), out=$('#aiAskOut'); if(!out) return;
+  const prompt=((input&&input.value)||'').trim();
+  if(!prompt){ out.innerHTML='<span style="color:var(--amber)">Type an instruction first.</span>'; return; }
+  const st=aiTweakState();
+  // Context: the converted page HTML (from the preview iframe when same-origin), the CSS already applied
+  // this session, and the source page HTML for reference.
+  let pageHtml=''; try{ const f=$('#cmpFrame'); const doc=f&&(f.contentDocument||(f.contentWindow&&f.contentWindow.document)); if(doc) pageHtml=doc.documentElement.outerHTML; }catch(_){}
+  let sourceHtml=''; try{ const r=await fetch(`/artifact/${state.slug}/rendered.html`,{cache:'no-store'}); if(r.ok) sourceHtml=await r.text(); }catch(_){}
+  out.innerHTML='Thinking… <span style="color:var(--faint)">(classifying your request + writing the change)</span>';
+  let r; try{ r=await api2('/api/ai-instruct',{prompt,page_html:pageHtml,custom_css:st.applied,source_html:sourceHtml}); }
+  catch(_){ out.innerHTML='<span style="color:var(--red)">Request failed — is the capture service running?</span>'; return; }
+  if(!r||r.error){ out.innerHTML='<span style="color:var(--amber)">'+esc((r&&r.error)||'AI is off — pick a local model or enable Claude.')+'</span>'; return; }
+  aiRenderResult(r);
+}
+function aiRenderResult(r){
+  const out=$('#aiAskOut'); const st=aiTweakState(); if(!out) return;
+  const kindTag=r.kind==='structural'?'fb':(r.kind==='both'?'mirror':'ok');
+  let h=`<div style="margin-bottom:6px"><span class="tag ${kindTag}">${esc(r.kind||'')}</span> <span style="color:var(--muted)">${esc(r.explanation||'')}</span>${r.model?` <span style="color:var(--faint)">· ${esc(r.model)}</span>`:''}</div>`;
+  if((r.kind==='css'||r.kind==='both')&&r.css){
+    st.applied=(st.applied?st.applied+'\n\n':'')+r.css;
+    const ok=aiInjectPreview(st.applied);
+    h+=`<div style="color:${ok?'var(--accent)':'var(--amber)'}">${ok?'✓ Applied to the preview.':'Preview is a different origin — can’t inject into the live iframe. Copy the CSS below to apply it on the WordPress site (Customizer → Additional CSS), or Keep it and re-import.'}</div>`;
+    h+=`<textarea readonly style="${AI_TWEAK_TA}">${esc(r.css)}</textarea><button class="mini" id="aiAskCopy" style="margin-top:5px">Copy CSS</button>`;
+  }
+  if((r.kind==='structural'||r.kind==='both')&&r.structural_note){
+    h+=`<div style="margin-top:8px;padding:8px 10px;border:1px solid var(--amber);border-radius:8px;background:color-mix(in oklch,var(--amber) 10%,transparent)"><b>The AI suggests a structural change:</b> ${esc(r.structural_note)}<br><span style="color:var(--faint)">Apply this in the builder — it isn’t auto-applied. It will also guide the next re-convert.</span></div>`;
+  }
+  out.innerHTML=h;
+  const cp=$('#aiAskCopy'); if(cp) cp.onclick=()=>navigator.clipboard.writeText(r.css||'').then(()=>toast('CSS copied — paste it into the converted site.'));
+  updateAiActions();
+}
+async function aiAskKeep(){
+  const st=aiTweakState();
+  if(!st.applied&&!st.kept){ toast('Nothing to keep yet.'); return; }
+  try{ const r=await api2('/api/ai-tweak-css',{slug:state.slug,css:st.applied}); if(r&&r.error){ toast(r.error); return; } st.kept=st.applied; toast('Tweak CSS kept for this conversion.'); updateAiActions(); }
+  catch(_){ toast('Could not save the tweak CSS.'); }
+}
+function aiAskDiscard(){
+  const st=aiTweakState(); st.applied=st.kept; aiInjectPreview(st.applied);
+  const out=$('#aiAskOut'); if(out) out.innerHTML='<span style="color:var(--faint)">'+(st.kept?'Reverted to the last kept CSS.':'Discarded — preview reverted.')+'</span>';
+  updateAiActions();
 }
 function driftColor(p){ return p<=15?'var(--accent)':(p<=40?'var(--amber)':'var(--red)'); }
 function cmpEndpoints(){ const src=(window._siteUrls&&window._siteUrls[state.slug])||''; const conv=(($('#cmpUrl')&&$('#cmpUrl').value)||'').trim(); return {src,conv,out:$('#cmpDrift')}; }
@@ -407,6 +919,11 @@ async function cmpMeasure(){
     out.innerHTML=`Overall drift: <b style="color:${driftColor(r.overall_drift_pct)}">${r.overall_drift_pct}%</b> <span style="color:var(--faint)">(lower = closer to source · height Δ ${r.height_delta_pct}%)</span><br><span style="color:var(--faint)">top→bottom:</span> ${bands}`;
   }catch(_){ out.innerHTML='<span style="color:var(--red)">Measure failed — is the capture service running?</span>'; }
 }
+// The "Improve with …" button reflects the ACTIVE backend (svc.aiBackend), so it's honest about which
+// AI it'll use: a selected local model → "Local AI"; Claude Code / API → "Claude"; none → generic "AI".
+function improveAiName(){ const s=window._svc||{}; if(!s.up||!s.aiReady) return 'AI'; return {ollama:'Local AI',api:'Claude','claude-code':'Claude'}[s.aiBackend]||'AI'; }
+function improveLabel(){ return '✨ Improve with '+improveAiName(); }
+function updateImproveLabel(){ const btn=document.getElementById('cmpImprove'); if(!btn) return; btn.textContent=improveLabel(); btn.title='Have '+improveAiName()+' write CSS to close the visual gap — verified, kept only if drift drops'; }
 async function cmpImprove(){
   const {src,conv,out}=cmpEndpoints(); if(!out) return;
   if(!src||!conv){ out.innerHTML='<span style="color:var(--amber)">Need the source run + a converted URL.</span>'; return; }
@@ -422,20 +939,74 @@ async function cmpImprove(){
   }catch(_){ out.innerHTML='<span style="color:var(--red)">Refine failed — check that AI is configured (Enable AI / a pulled model).</span>'; }
 }
 
-/* ---- convert ---- */
-$('#convertForm').onsubmit=async(e)=>{e.preventDefault();
-  const url=$('#urlInput').value.trim();if(!url)return;
-  const btn=$('#convertBtn');btn.disabled=true;btn.textContent='Starting…';
-  try{const r=await fetch('/api/convert',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url})}).then(r=>r.json());
-    if(r.error){toast(r.error);}else{toast('Conversion started — watch it live.');
-      const slug=url.replace(/^https?:\/\//,'').replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'').toLowerCase();
-      setTimeout(()=>select(slug),700);setTimeout(loadSites,900);}
-  }catch{toast('Could not reach the converter.');}
-  finally{setTimeout(()=>{btn.disabled=false;btn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Convert';},900);}
+/* ---- convert & install (source URL → destination WordPress) ---- */
+const INSTALL_BTN_HTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Convert &amp; install';
+function installErr(msg){ const e=$('#installErr'); if(e) e.textContent=msg||''; }
+function installStatus(html,cls){ const el=$('#installStatus'); if(!el) return; if(!html){el.style.display='none';el.innerHTML='';return;} el.style.display='block'; el.className='install-status'+(cls?(' '+cls):''); el.innerHTML=html; }
+// Prefill the destination field + token hint from the saved server target.
+let _wpTarget={url:'',token_set:false};
+async function loadWpTargetInto(){
+  try{ _wpTarget=await api('/api/wp-target'); }catch(_){ _wpTarget={url:'',token_set:false}; }
+  const d=$('#destUrl'); if(d && !d.value) d.value=_wpTarget.url||'http://localhost/';
+  const hint=$('#tokenHint'); if(hint) hint.style.display=_wpTarget.token_set?'none':'block';
+}
+$('#installForm').onsubmit=async(e)=>{e.preventDefault();
+  installErr(''); installStatus('');
+  const src=$('#srcUrl').value.trim();
+  const dest=$('#destUrl').value.trim();
+  const dry=$('#dryRun').checked;
+  if(!/^https?:\/\//i.test(src)){ installErr('Enter a valid http(s) source URL.'); return; }
+  if(!/^https?:\/\//i.test(dest)){ installErr('Enter a valid http(s) destination WordPress URL.'); return; }
+  // Persist the destination URL (token unchanged) so the server relay uses it.
+  try{ const sv=await api2('/api/wp-target',{url:dest,token:''}); if(sv&&sv.error){ installErr(sv.error); return; } if(sv&&!sv.token_set){ installErr('No token set — add it in Settings → Destination WordPress first.'); const hint=$('#tokenHint'); if(hint) hint.style.display='block'; return; } }
+  catch(_){ installErr('Could not reach the dashboard server.'); return; }
+  const btn=$('#installBtn'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> '+(dry?'Testing…':'Converting…');
+  installStatus('<span class="spin"></span> '+(dry?'Dry run — generating on ':'Converting &amp; installing on ')+esc(dest)+'…  <span style="color:var(--faint)">this can take up to ~3 min</span>','busy');
+  try{
+    const r=await api2('/api/install-to-wp',{source_url:src,dry_run:dry});
+    if(!r||r.error||r.ok===false){ const m=(r&&r.error)||'Install failed.'; installStatus(esc(m),'err'); toast(m); }
+    else{
+      const name=esc(r.theme_name||r.theme_slug||'theme');
+      const pages=(r.pages_created!=null)?(r.pages_created+' page'+(r.pages_created===1?'':'s')):'';
+      if(dry||r.activated===false){
+        installStatus('✓ <b>Dry run OK</b> — generated <b>'+name+'</b>'+(r.theme_slug?(' <span style="color:var(--faint)">('+esc(r.theme_slug)+')</span>'):'')+'. Not activated.'+(pages?(' '+pages+'.'):''),'ok');
+      }else{
+        const link=r.home_url?(' <a href="'+esc(r.home_url)+'" target="_blank" rel="noopener">Open site ↗</a>'):'';
+        installStatus('✓ <b>Installed &amp; activated: '+name+'</b>'+(pages?(' — '+pages):'')+'.'+link,'ok');
+      }
+      toast(dry?'Dry run complete.':'Installed & activated.');
+    }
+  }catch(_){ installStatus('Could not reach the dashboard server.','err'); toast('Request failed.'); }
+  finally{ btn.disabled=false; btn.innerHTML=INSTALL_BTN_HTML; }
 };
 
-$('#followBtn').onclick=()=>{state.follow=!state.follow;renderFollow();loadSites();};
-renderFollow();
+/* ---- Settings → Destination WordPress ---- */
+async function renderWpTarget(){
+  let t={url:'',token_set:false}; try{ t=await api('/api/wp-target'); }catch(_){}
+  _wpTarget=t;
+  const u=$('#wpUrl'); if(u && document.activeElement!==u) u.value=t.url||'http://localhost/';
+  const st=$('#wpTokenState'); if(st) st.textContent=t.token_set?'· a token is set':'· no token yet';
+  const tk=$('#wpToken'); if(tk) tk.placeholder=t.token_set?'Token is set — leave blank to keep it':'Paste the token';
+  const hint=$('#tokenHint'); if(hint) hint.style.display=t.token_set?'none':'block';
+}
+function wpTestResult(html,cls){ const el=$('#wpTestResult'); if(!el) return; if(!html){el.style.display='none';return;} el.style.display='block'; el.className='install-status'+(cls?(' '+cls):''); el.innerHTML=html; }
+$('#wpSaveBtn')&&($('#wpSaveBtn').onclick=async()=>{
+  const url=$('#wpUrl').value.trim(); const token=$('#wpToken').value;
+  if(!/^https?:\/\//i.test(url)){ wpTestResult('Enter a valid http(s) WordPress URL.','err'); return; }
+  const r=await api2('/api/wp-target',{url,token}).catch(()=>null);
+  if(!r||r.error){ wpTestResult(esc((r&&r.error)||'Could not save.'),'err'); return; }
+  $('#wpToken').value=''; toast('Destination saved.'); wpTestResult('✓ Saved.'+(r.token_set?' Token is set.':' <b style="color:var(--amber)">No token set yet.</b>'),'ok'); renderWpTarget();
+});
+$('#wpTestBtn')&&($('#wpTestBtn').onclick=async()=>{
+  const url=$('#wpUrl').value.trim(); const token=$('#wpToken').value;
+  wpTestResult('<span class="spin"></span> Testing connection…','busy');
+  const r=await api2('/api/wp-ping',{url,token}).catch(()=>null);
+  if(!r||r.ok===false){ wpTestResult(esc((r&&r.error)||'Connection failed.'),'err'); return; }
+  wpTestResult('✓ <b>Connected</b> — '+esc(r.site||'(site)')+' · active theme: <b>'+esc(r.theme||'?')+'</b>'+(r.version?' · plugin '+esc(r.version):''),'ok');
+});
+
+$('#liveState')&&($('#liveState').onclick=clearProgress);
+loadWpTargetInto();
 loadSites();
 setInterval(loadSites,2500); // always refresh the list + auto-follow a newly-started conversion
 
@@ -444,6 +1015,7 @@ async function pollStatus(){
   const el=document.getElementById('upwStatus'); if(!el) return;
   let svc={up:false}, act={};
   try{svc=await api('/api/service-health');}catch(e){}
+  window._svc=svc; updateImproveLabel(); if($('#chatModel')&&state.view==='chat') chatRefreshModel();
   try{act=await api('/api/active');}catch(e){}
   const dot=(c,t)=>`<span style="display:inline-flex;align-items:center;gap:.35em"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block;box-shadow:0 0 6px ${c}"></span>${t}</span>`;
   const aiLbl={'claude-code':'Claude','api':'Claude API','ollama':'Local model'}[svc.aiBackend]||'AI';
@@ -454,15 +1026,41 @@ async function pollStatus(){
     const label=act.url?String(act.url).replace(/^https?:\/\//,'').slice(0,34):'a conversion';
     parts.push(dot('oklch(0.80 0.16 85)',`converting: ${label}…`));
   }
-  // What the AI is doing right now (an /ai-convert mapping refine is opaque + can run minutes).
+  // What the AI is doing right now — shown BOTH in the top banner and as a big live card in the
+  // Local AI panel (renderAiActivity), so the local model is unmistakably visible while it works.
   let ai={};
   try{ai=await api('/api/ai');}catch(e){}
   const aiTs=ai&&(ai.at||ai.startedAt||0), aiFresh=aiTs&&(Date.now()-aiTs)<10*60*1000;
+  const aiSecs=ai&&ai.startedAt?Math.round((Date.now()-ai.startedAt)/1000):'';
+  const aiModel=ai&&(ai.model||ai.backend)?esc(ai.model||ai.backend):'AI';
   if(ai&&ai.status==='thinking'&&aiFresh){
-    const secs=ai.startedAt?Math.round((Date.now()-ai.startedAt)/1000):'';
-    parts.push(dot('oklch(0.62 0.19 300)',`AI thinking (${esc(ai.backend||'ai')}${secs!==''?', '+secs+'s':''})…`));
+    parts.push(`<span style="display:inline-flex;align-items:center;gap:.4em;background:oklch(0.62 0.19 300 / .16);color:oklch(0.78 0.15 300);border:1px solid oklch(0.62 0.19 300 / .4);border-radius:999px;padding:2px 11px;font-weight:600"><span class="ai-pulse"></span>🤖 ${aiModel} working${aiSecs!==''?' · '+aiSecs+'s':''}…</span>`);
   }
   el.innerHTML=parts.join('&nbsp;&nbsp;');
+  renderAiActivity(ai,aiFresh,aiSecs,aiModel);
+}
+// A prominent, persistent AI-activity card at the top of the Local AI panel: live while thinking,
+// then a "last run" summary for a while after, so the user always sees the model DID something.
+let _aiLastDone=null;
+function renderAiActivity(ai,aiFresh,aiSecs,aiModel){
+  // Nav-rail AI indicator — visible from ANY view while the model is thinking.
+  const ns=document.getElementById('navStatus'), nsl=document.getElementById('navStatusLbl');
+  const thinking=ai&&ai.status==='thinking'&&aiFresh;
+  if(ns){ ns.classList.toggle('on',!!thinking); if(thinking&&nsl) nsl.textContent=`${aiModel} working…`; }
+  const box=document.getElementById('aiActivity'); if(!box) return;
+  const st=ai&&ai.status;
+  if(st==='thinking'&&aiFresh){
+    box.style.display='block';
+    box.innerHTML=`<div style="display:flex;align-items:center;gap:.55em;padding:.6em .8em;border:1px solid oklch(0.62 0.19 300 / .45);background:oklch(0.62 0.19 300 / .12);border-radius:10px">
+      <span class="ai-pulse"></span><div><b style="color:oklch(0.80 0.14 300)">🤖 ${aiModel}</b> ${esc(ai.note||'working…')} <span style="color:#9aa3ad">${aiSecs!==''?'· '+aiSecs+'s':''}</span></div></div>`;
+    _aiLastDone=null;
+  } else if(st==='done'&&aiFresh){
+    _aiLastDone=ai; box.style.display='block';
+    box.innerHTML=`<div style="padding:.6em .8em;border:1px solid oklch(0.74 0.17 158 / .4);background:oklch(0.74 0.17 158 / .1);border-radius:10px;color:oklch(0.82 0.13 158)">✓ <b>${aiModel}</b> finished ${ai.note?('— '+esc(ai.note)):''} ${ai.elapsed?('· '+ai.elapsed+'s'):''}</div>`;
+  } else if(st==='error'&&aiFresh){
+    box.style.display='block';
+    box.innerHTML=`<div style="padding:.6em .8em;border:1px solid #ef444455;background:#ef444414;border-radius:10px;color:#f87171">⚠ AI error: ${esc(ai.error||'unknown')}</div>`;
+  } else { box.style.display='none'; }
 }
 pollStatus(); setInterval(pollStatus,3000);
 
@@ -472,6 +1070,7 @@ async function loadLocalAi(){
   if(_laiPulling) return; // don't wipe the live pull progress on the periodic refresh
   const el=document.getElementById('localAiBody'); if(!el) return;
   let s; try{ s=await api('/api/local-ai'); }catch(e){ el.innerHTML='<div style="color:#9aa3ad">Unavailable.</div>'; return; }
+  window._laiSelected=s.selected||''; if($('#chatModel')&&state.view==='chat') chatRefreshModel();
   if(s.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure local AI.</div>'; return; }
   const rowCss='display:flex;gap:.5em;align-items:flex-start;padding:.4em .3em;border-radius:6px';
   const tag=(t,c)=>`<span style="background:${c}22;color:${c};border-radius:4px;padding:0 .45em;font-size:.82em;white-space:nowrap">${t}</span>`;
@@ -482,7 +1081,11 @@ async function loadLocalAi(){
     h+='<div style="margin:0 0 .5em">Ollama: '+(s.up?'<b style="color:oklch(0.74 0.17 158)">running</b>':'<b style="color:#f59e0b">installed (start it — the launcher does this)</b>')+'</div>';
   }
   const pulled=new Set(s.pulled||[]);
-  const isPulled=(t)=>pulled.has(t)||[...pulled].some(p=>p===t||p.split(':')[0]===t.split(':')[0]&&p.startsWith(t.split(':')[0]));
+  // A model is "pulled" only when its EXACT tag is present. Ollama omits an implicit ":latest", so a bare
+  // family name is normalised to "<name>:latest" before comparing — but qwen3:4b must NEVER count as
+  // qwen3:8b/14b/30b (that family-prefix match was the bug that showed un-downloaded sizes as pulled).
+  const normTag=(x)=>{ x=String(x||''); return x.includes(':')?x:x+':latest'; };
+  const isPulled=(t)=>pulled.has(t)||pulled.has(normTag(t))||[...pulled].some(p=>normTag(p)===normTag(t));
   h+='<div>';
   h+=`<label style="${rowCss};cursor:pointer"><input type="radio" name="lai" value=""${!s.selected?' checked':''}><span><b>Off</b> — Claude if available, else deterministic only</span></label>`;
   (s.shortlist||[]).forEach(m=>{
@@ -501,6 +1104,17 @@ async function loadLocalAi(){
   });
   h+='</div><div id="laiPull" style="margin-top:.5em"></div>';
   if(s.selected) h+=`<div style="margin-top:.5em;color:oklch(0.74 0.17 158)">Active: <b>${esc(s.selected)}</b>${isPulled(s.selected)?'':' <span style="color:#f59e0b">(pull it first)</span>'}</div>`;
+  // "Test the model" — prove the selected local model is alive + command it directly.
+  if(s.selected && isPulled(s.selected)){
+    h+=`<div style="margin-top:.7em;padding-top:.6em;border-top:1px solid var(--border-soft)">
+      <div style="color:#9aa3ad;margin-bottom:.35em">Test the model — send it a prompt to prove it’s alive:</div>
+      <div style="display:flex;gap:.4em">
+        <input id="laiTestPrompt" type="text" placeholder="Say hello in one sentence." style="flex:1;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--ink);padding:.4em .55em;font:inherit;font-size:.92em">
+        <button id="laiTestBtn" style="border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;border-radius:6px;padding:.4em .8em;cursor:pointer;font:inherit;font-weight:600">Test</button>
+      </div>
+      <div id="laiTestOut" style="margin-top:.45em"></div>
+    </div>`;
+  }
   el.innerHTML=h;
   el.querySelectorAll('input[name=lai]').forEach(r=>r.addEventListener('change',async()=>{
     try{ await fetch('/api/local-ai/select',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:r.value})}); toast(r.value?('Local AI → '+r.value):'Local AI off'); loadLocalAi(); }
@@ -511,9 +1125,32 @@ async function loadLocalAi(){
     e.preventDefault(); const tag=b.getAttribute('data-tag');
     if(!confirm('Delete '+tag+'? This removes the model and frees its disk space (you can re-pull it anytime).')) return;
     b.textContent='deleting…'; b.disabled=true;
-    try{ await fetch('/api/local-ai/delete',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:tag})}); toast('Deleted '+tag); loadLocalAi(); }
+    try{
+      const r=await fetch('/api/local-ai/delete',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:tag})});
+      const d=await r.json().catch(()=>({}));
+      if(!r.ok||d.error){ toast(d.error||('Could not delete '+tag)); } else { toast('Deleted '+tag); }
+      loadLocalAi();
+    }
     catch(_){ toast('Could not delete '+tag); loadLocalAi(); }
   }));
+  const tBtn=document.getElementById('laiTestBtn'), tIn=document.getElementById('laiTestPrompt'), tOut=document.getElementById('laiTestOut');
+  if(tBtn){
+    const runTest=async()=>{
+      const prompt=(tIn&&tIn.value||'').trim();
+      _laiPulling=true; // pause the periodic refresh so it doesn't wipe the result
+      tBtn.disabled=true; const old=tBtn.textContent; tBtn.textContent='…';
+      if(tOut) tOut.innerHTML='<span style="color:#9aa3ad">Running the model…</span>';
+      try{
+        const r=await fetch('/api/local-ai/test',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt})});
+        const d=await r.json().catch(()=>({}));
+        if(!r.ok||d.error){ if(tOut) tOut.innerHTML=`<span style="color:#f87171">⚠ ${esc(d.error||('HTTP '+r.status))}</span>`; }
+        else{ if(tOut) tOut.innerHTML=`<div style="border:1px solid oklch(0.74 0.17 158 / .4);background:oklch(0.74 0.17 158 / .08);border-radius:8px;padding:.5em .6em"><div style="color:oklch(0.82 0.13 158);margin-bottom:.25em">✓ <b>${esc(d.model||'')}</b> replied <span style="color:#9aa3ad">· ${d.ms}ms</span></div><div style="white-space:pre-wrap;word-break:break-word">${esc(d.reply||'(empty reply)')}</div></div>`; }
+      }catch(_){ if(tOut) tOut.innerHTML='<span style="color:#f87171">Test failed — is the capture service running?</span>'; }
+      finally{ tBtn.disabled=false; tBtn.textContent=old; _laiPulling=false; }
+    };
+    tBtn.addEventListener('click',e=>{ e.preventDefault(); runTest(); });
+    if(tIn) tIn.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); runTest(); } });
+  }
 }
 async function pullModel(tag){
   _laiPulling=true;
@@ -533,6 +1170,132 @@ async function pollPull(){
   else{ _laiPulling=false; setTimeout(loadLocalAi,600); }
 }
 loadLocalAi(); setInterval(loadLocalAi,8000);
+
+/* ================= App-shell view routing ================= */
+function showView(name){
+  const valid=['convert','chat','benchmarks','settings'];
+  if(!valid.includes(name)) name='convert';
+  state.view=name;
+  document.querySelectorAll('.nav-item[data-view]').forEach(b=>{const on=b.dataset.view===name;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
+  try{localStorage.setItem('upw-view',name);}catch(_){}
+  if(location.hash.slice(1)!==name){ try{history.replaceState(null,'',location.pathname+location.search+'#'+name);}catch(_){location.hash=name;} }
+  if(name==='benchmarks') renderBenchmarks($('#benchBody'));
+  if(name==='chat') chatOpen();
+  if(name==='settings'){ loadLocalAi(); renderService(); renderWpTarget(); }
+}
+document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1); if(h&&h!==state.view) showView(h);});
+// Nav collapse (persisted).
+(function(){ const t=$('#navToggle'), n=$('#nav'); if(!t||!n) return;
+  if(localStorage.getItem('upw-nav-collapsed')==='1') n.classList.add('collapsed');
+  t.onclick=()=>{ n.classList.toggle('collapsed'); localStorage.setItem('upw-nav-collapsed',n.classList.contains('collapsed')?'1':'0'); };
+})();
+
+/* ================= Settings → Service panel ================= */
+async function renderService(){
+  const el=$('#serviceBody'); if(!el) return;
+  let svc={up:false}, sites={out:''};
+  try{svc=await api('/api/service-health');}catch(_){}
+  try{sites=await api('/api/sites');}catch(_){}
+  const aiLbl={'claude-code':'Claude Code','api':'Claude API','ollama':'Local model'}[svc.aiBackend]||'—';
+  el.innerHTML=`<dl class="kv">
+    <dt>Capture service</dt><dd>${svc.up?`<span style="color:var(--accent)">running</span> · port ${svc.port||''}`:'<span style="color:var(--amber)">not running</span> <span class="note">start it to enable AI + conversions</span>'}</dd>
+    <dt>Service version</dt><dd>${esc(svc.version||'—')}</dd>
+    <dt>AI backend</dt><dd>${svc.up?(svc.aiReady?esc(aiLbl):'<span style="color:var(--faint)">off — pick a model above</span>'):'—'}</dd>
+    <dt>Watching</dt><dd style="word-break:break-all">${esc(sites.out||'—')}</dd>
+  </dl>`;
+}
+
+/* ================= Chat view ================= */
+let chatState={messages:[],sending:false,loaded:false,error:''};
+function chatModelLabel(){
+  const svc=window._svc||{};
+  if(!svc.up) return 'no service';
+  if(svc.aiBackend==='ollama') return window._laiSelected||'local model';
+  if(svc.aiBackend==='api') return 'Claude API';
+  if(svc.aiBackend==='claude-code') return 'Claude';
+  return svc.aiReady?'AI':'no model';
+}
+function chatRefreshModel(){ const el=$('#chatModel'); if(el) el.textContent=chatModelLabel(); }
+function chatContentHtml(text){
+  const parts=String(text||'').split(/```/);
+  return parts.map((p,i)=> i%2 ? `<pre class="chat-code">${esc(p.replace(/^[a-z0-9]*\n/i,''))}</pre>` : esc(p).replace(/\n/g,'<br>')).join('');
+}
+function renderChat(){
+  const sc=$('#chatScroll'); if(!sc) return;
+  let h='';
+  if(!chatState.messages.length && !chatState.sending){
+    h=`<div class="chat-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <h3>Start a conversation</h3>
+      <p>Ask anything — it runs on <b>${esc(chatModelLabel())}</b> and stays on this machine. Pick or change the model in <a href="#settings" onclick="showView('settings');return false" style="color:var(--accent)">Settings</a>.</p>
+    </div>`;
+  } else {
+    h=chatState.messages.map(m=>`<div class="chat-msg ${m.role==='user'?'user':'assistant'}">${chatContentHtml(m.content)}</div>`).join('');
+    if(chatState.sending) h+=`<div class="chat-msg assistant thinking"><span class="ai-pulse"></span> thinking…</div>`;
+  }
+  if(chatState.error){
+    const off=/off|pick a local|no model|not reachable|service/i.test(chatState.error);
+    h+=`<div class="chat-err">${esc(chatState.error)}${off?' <a href="#settings" onclick="showView(\'settings\');return false" style="color:var(--accent)">Open Settings ↗</a>':''}</div>`;
+  }
+  sc.innerHTML=h;
+  sc.scrollTop=sc.scrollHeight;
+}
+async function chatLoadHistory(){
+  try{ const r=await api('/api/local-ai/chat-history'); chatState.messages=(r&&Array.isArray(r.messages))?r.messages:[]; }
+  catch(_){ chatState.messages=[]; }
+  chatState.loaded=true; renderChat();
+}
+function chatOpen(){ chatRefreshModel(); if(!chatState.loaded) chatLoadHistory(); else renderChat(); setTimeout(()=>{const i=$('#chatInput'); if(i) i.focus();},60); }
+function chatAutoGrow(t){ if(!t) return; t.style.height='auto'; t.style.height=Math.min(t.scrollHeight,160)+'px'; }
+async function chatSend(){
+  const input=$('#chatInput'); if(!input) return;
+  const text=(input.value||'').trim();
+  if(!text||chatState.sending) return;
+  chatState.error='';
+  chatState.messages.push({role:'user',content:text,at:Date.now()});
+  input.value=''; chatAutoGrow(input);
+  chatState.sending=true; renderChat();
+  try{
+    const r=await api2('/api/local-ai/chat',{messages:chatState.messages.map(m=>({role:m.role,content:m.content}))});
+    chatState.sending=false;
+    if(!r||r.error){ chatState.error=(r&&r.error)||'AI is off — pick a local model in Settings.'; renderChat(); return; }
+    chatState.messages.push({role:'assistant',content:r.reply||'(empty reply)',model:r.model,at:Date.now()});
+    renderChat();
+  }catch(_){ chatState.sending=false; chatState.error='Request failed — is the capture service running?'; renderChat(); }
+}
+async function chatClear(){
+  try{ await api2('/api/local-ai/chat-clear',{}); }catch(_){}
+  chatState.messages=[]; chatState.error=''; renderChat();
+  const i=$('#chatInput'); if(i) i.focus();
+}
+(function(){ const f=$('#chatForm'); if(f){ f.onsubmit=e=>{e.preventDefault();chatSend();}; }
+  const ci=$('#chatInput'); if(ci){ ci.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); chatSend(); } }); ci.addEventListener('input',()=>chatAutoGrow(ci)); }
+  const cc=$('#chatClear'); if(cc) cc.onclick=chatClear;
+})();
+
+// Land on the deep-linked / remembered view.
+showView((location.hash.slice(1))||(function(){try{return localStorage.getItem('upw-view');}catch(_){return '';}})()||'convert');
+// --- Run-log viewer ---
+async function loadLog(file){
+  const body=$('#logBody');body.textContent='Loading…';
+  let d;try{d=await api('/api/logs'+(file?('?file='+encodeURIComponent(file)):''));}catch(e){body.textContent='Could not reach the dashboard server.';return;}
+  if(!d||!d.ok){body.textContent=(d&&d.error)||'No logs available. Launch via start-converter so runs are recorded.';$('#logFile').innerHTML='';$('#logPath').textContent='';return;}
+  const sel=$('#logFile');sel.innerHTML=(d.files||[]).map(f=>`<option value="${f}"${f===d.active?' selected':''}>${f}</option>`).join('');
+  body.textContent=d.content||'(the log is empty)';body.scrollTop=body.scrollHeight;
+  $('#logPath').textContent=d.dir?(d.dir+'  ·  '+(d.active||'')):'';
+}
+function openLogs(){$('#logModal').hidden=false;loadLog();}
+function closeLogs(){$('#logModal').hidden=true;}
+$('#viewLogBtn')&&$('#viewLogBtn').addEventListener('click',openLogs);
+$('#logsLink')&&$('#logsLink').addEventListener('click',e=>{e.preventDefault();openLogs();});
+$('#logClose')&&$('#logClose').addEventListener('click',closeLogs);
+$('#logModal')&&$('#logModal').addEventListener('click',e=>{if(e.target.id==='logModal')closeLogs();});
+$('#logRefresh')&&$('#logRefresh').addEventListener('click',()=>loadLog($('#logFile').value));
+$('#logFile')&&$('#logFile').addEventListener('change',()=>loadLog($('#logFile').value));
+$('#logCopy')&&$('#logCopy').addEventListener('click',()=>{navigator.clipboard.writeText($('#logBody').textContent).then(()=>toast('Log copied')).catch(()=>toast('Copy failed'));});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#logModal').hidden)closeLogs();});
 </script>
 </body>
 </html>

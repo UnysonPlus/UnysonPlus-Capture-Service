@@ -568,7 +568,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     const reportPages = [];
     const builderPages = captures.map((c) => {
       const trace = [];
-      const pg = toPages(c.capture, { trace, fidelity: FIDELITY }).pages[0];
+      const pg = toPages(c.capture, { trace, fidelity: FIDELITY, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } }).pages[0];
       pg.title = titleFor(c.capture, c.slug);
       pg.slug = c.slug; pg.status = 'publish'; pg.front_page = c.front;
       // Targeted re-import: mark the page PARTIAL and list the original s_index of each builder section
@@ -616,12 +616,17 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // SKIN on `_box` during mapping; cluster the DISTINCT skins across all pages into `border_presets`
     // (defaults + derived), point each icon_box's `box_style` at its matching preset, then drop `_box`.
     // This is the URL/JS counterpart of the PHP `build_box_presets()` (which only ran on file uploads).
+    const iconBadgeSkins = [];
     {
       const iconBoxes = [];
       const collect = (n) => {
         if (Array.isArray(n)) { n.forEach(collect); return; }
         if (n && typeof n === 'object') {
           if (n.shortcode === 'icon_box' && n.atts && n.atts._box) iconBoxes.push(n);
+          // Harvest every icon_box's badge skin (stashed on `_badge`) for the icon_badge_presets
+          // clustering below — collect it independently of `_box` so a badge on a card with no box
+          // skin is still counted, then drop it.
+          if (n.shortcode === 'icon_box' && n.atts && n.atts._badge) { iconBadgeSkins.push(n.atts._badge); delete n.atts._badge; }
           if (n._items) collect(n._items);
         }
       };
@@ -670,7 +675,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     builderPages.forEach((pg) => harvestUrls(pg.builder));
     const media = { urls: [...mediaSet] };
     const styleguide = { pages: [toStyleGuide(home, config)] };
-    const presets = toPresets(config, home);
+    const presets = toPresets(config, home, iconBadgeSkins);
     const mapping = {
       pages: captures.map((c) => ({
         slug: c.slug, front_page: c.front,

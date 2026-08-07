@@ -11,6 +11,8 @@
 // The plugin's FW_Site_Converter_Presets::import() writes the whole `theme_colors` array to the
 // preset store, so emitting the full list (defaults + overrides) keeps every swatch intact.
 
+import { buildIconBadgePresets } from './box-presets.mjs';
+
 // The plugin's default palette — keep names/order in sync with
 // framework/includes/presets/color-presets.php unysonplus_default_color_presets().
 const DEFAULTS = [
@@ -173,7 +175,7 @@ export function backgroundPatterns(capture) {
   });
 }
 
-export function toPresets(designConfig, capture) {
+export function toPresets(designConfig, capture, iconBadgeSkins) {
   const cfg = designConfig || {};
   const cap = capture || {};
   const colors = cfg.colors || {};
@@ -207,11 +209,18 @@ export function toPresets(designConfig, capture) {
   const section_style_presets = sectionStyles(cap);
   const background_patterns = backgroundPatterns(cap);
 
+  // Icon Badge presets — cluster the captured icon-tile skins into `icon_badge_presets` (the JS
+  // counterpart of PHP build_icon_badge_presets). Emitted only when the source actually has icon
+  // tiles, so a plain site keeps the plugin's default Icon Badge library (the importer skips
+  // absent keys). Rides the SAME presets bundle as theme_colors → same importer, same store.
+  const icon_badge_presets = buildIconBadgePresets(iconBadgeSkins || []);
+
   return {
     values: {
       theme_colors,
       ...(section_style_presets && section_style_presets.length ? { section_style_presets } : {}),
       ...(background_patterns && background_patterns.length ? { background_patterns } : {}),
+      ...(icon_badge_presets && icon_badge_presets.length ? { icon_badge_presets } : {}),
     },
   };
 }

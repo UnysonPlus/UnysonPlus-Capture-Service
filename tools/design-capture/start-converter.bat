@@ -23,19 +23,38 @@ if not exist "node_modules\playwright-core" (
   call npm install
 )
 
-REM Optional: start Ollama for the Experimental local-AI tier, if it's installed. Non-fatal.
-where ollama >nul 2>nul && (
-  echo Starting Ollama ^(local AI - Experimental^)...
-  start "" /min ollama serve
+REM Optional: start Ollama for the local-AI tier. Prefer a PATH install; else fall back to the BUNDLED
+REM portable ollama.exe shipped in the assembled kit (probe a few candidate relative paths). Non-fatal —
+REM never blocks the service. Only when using the BUNDLED exe do we point OLLAMA_MODELS at the kit's
+REM models dir beside it (matching the top-level kit launcher); a system install keeps its own default.
+set "OLLAMA_EXE="
+where ollama >nul 2>nul && set "OLLAMA_EXE=ollama"
+if not defined OLLAMA_EXE if exist "%~dp0..\..\ollama\ollama.exe" set "OLLAMA_EXE=%~dp0..\..\ollama\ollama.exe"
+if not defined OLLAMA_EXE if exist "%~dp0..\..\..\ollama\ollama.exe" set "OLLAMA_EXE=%~dp0..\..\..\ollama\ollama.exe"
+if not defined OLLAMA_EXE if exist "%~dp0..\..\..\..\ollama\ollama.exe" set "OLLAMA_EXE=%~dp0..\..\..\..\ollama\ollama.exe"
+if defined OLLAMA_EXE (
+  echo Starting Ollama ^(local AI^)...
+  if not "%OLLAMA_EXE%"=="ollama" for %%I in ("%OLLAMA_EXE%") do (
+    if not exist "%%~dpImodels" mkdir "%%~dpImodels" >nul 2>nul
+    set "OLLAMA_MODELS=%%~dpImodels"
+  )
+  start "" /min "%OLLAMA_EXE%" serve
 )
+
+REM Free port 8787 (capture service) from any PREVIOUS run, so THIS launch rebinds it. We do NOT kill
+REM 4600 (dashboard): ensure-open.mjs reuses a current dashboard SERVER (no needless restart) and only
+REM restarts it when its code is stale — but it always opens a fresh browser tab on launch (below).
+for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":8787 " ^| findstr LISTENING') do taskkill /F /PID %%P >nul 2>nul
+
+REM Always pop the dashboard open when the converter is STARTED — a fresh tab every launch (even a
+REM duplicate) beats silently none when the previous tab was closed. Mid-conversion auto-opens stay quiet.
+set DASHBOARD_FORCE_OPEN=1
 
 echo.
 echo   Starting the UnysonPlus capture service...
-echo   The dashboard opens automatically at  http://localhost:4600
+echo   The dashboard is at  http://localhost:4600  ^(a browser tab opens automatically^)
 echo   Keep this window open while you convert.  Press Ctrl+C to stop.
 echo.
-REM Explicit launch → always pop the dashboard tab (bypass the anti-spam lockfile).
-set "DASHBOARD_FORCE_OPEN=1"
 node serve.mjs
 
 echo.

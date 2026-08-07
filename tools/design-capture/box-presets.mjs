@@ -30,6 +30,108 @@ export const DEFAULT_BORDER_PRESETS = [
     states: { default: { border_style: 'solid', border_width: _u(1), border_color: _col('light-gray') }, hover: { border_color: _col('primary'), box_shadow: _sh(10, 24, '0.14') } } },
 ];
 
+// The plugin's built-in Icon Badge presets — mirror of unysonplus_default_icon_badge_presets()
+// (framework/includes/presets/icon-badge-presets.php). The presets importer REPLACES the
+// `icon_badge_presets` option, so the emitted value must be defaults + derived or the built-in
+// library (Circle / Soft Tile / Outline Ring / Hexagon) is lost.
+const _fill   = (hex) => ({ color: { value: { predefined: '', custom: String(hex) } } });
+const _nofill = { color: { value: { predefined: '', custom: '' } } };
+
+export const DEFAULT_ICON_BADGE_PRESETS = [
+  { id: 'i000000001', preset_name: 'Circle', badge_shape: 'circle', badge_size: _u(48), icon_size: _u(24), border_radius: _u(''), transition: '200', hover_fx: ['lift', 'glow'], custom_css: '',
+    states: { default: { background: _fill('#0d6efd'), icon_color: _col('white'), border_style: '', border_color: _empty, box_shadow: _sh(4, 12, '0.15') }, hover: { box_shadow: _sh(8, 20, '0.22') } } },
+  { id: 'i000000002', preset_name: 'Soft Tile', badge_shape: 'rounded', badge_size: _u(52), icon_size: _u(26), border_radius: _u(14), transition: '200', hover_fx: ['pop'], custom_css: '',
+    states: { default: { background: _fill('#eef2ff'), icon_color: _col('primary'), border_style: '', border_color: _empty }, hover: { background: _fill('#e0e7ff') } } },
+  { id: 'i000000003', preset_name: 'Outline Ring', badge_shape: 'circle', badge_size: _u(48), icon_size: _u(22), border_radius: _u(''), transition: '200', hover_fx: [], custom_css: '',
+    states: { default: { background: _nofill, icon_color: _col('primary'), border_style: 'solid', border_width: _u(2), border_color: _col('primary') }, hover: { background: _fill('#0d6efd'), icon_color: _col('white') } } },
+  { id: 'i000000004', preset_name: 'Hexagon', badge_shape: 'hexagon', badge_size: _u(54), icon_size: _u(26), border_radius: _u(''), transition: '200', hover_fx: ['glow'], custom_css: '',
+    states: { default: { background: _fill('#6610f2'), icon_color: _col('white'), border_style: '', border_color: _empty }, hover: {} } },
+];
+
+// capture-extract stamps badge shape as 'solid-circle' / 'solid-rounded' / 'solid-square'; the
+// store wants the plugin token 'circle' / 'rounded' / 'square'. Mirror PHP's shape derivation.
+const badgeShape = (s) => {
+  s = String(s || '').toLowerCase();
+  if (s.includes('circle')) return 'circle';
+  if (s.includes('square')) return 'square';
+  if (s.includes('round')) return 'rounded';
+  return 'rounded';
+};
+
+/**
+ * Derive Icon Badge presets (Theme Settings → Components → Icon Badges = `icon_badge_presets`) from
+ * the captured icon-tile SKINS — the JS counterpart of PHP
+ * `FW_Site_Converter_Stitch::build_icon_badge_presets()`. Where the PHP path walks the DOM and
+ * compiles Tailwind, the JS path already has each badge's RESOLVED values (from capture-extract's
+ * badge probe), so it clusters those directly. Clusters the DISTINCT tile designs (shape · fill ·
+ * radius · border — NOT glyph colour, matching PHP), keeps the top few, and appends them (named by
+ * shape) to the plugin defaults, yielding the same shape PHP emits. Only returns presets when the
+ * source actually HAS icon tiles; otherwise [] (so the importer keeps the default library).
+ *
+ * @param {Array<{shape,fill,iconColor,size,radius,borderWidth,borderColor}>} skins
+ * @returns {Array}  defaults + derived, or [] when no real icon tiles were found.
+ */
+export function buildIconBadgePresets(skins) {
+  const tiles = [];
+  for (const s of skins || []) {
+    if (!s) continue;
+    const bg = normColor(s.fill);
+    const bwStr = String(s.borderWidth || '').trim();
+    const bw = (unitOf(bwStr) && !['0', '0px', ''].includes(bwStr)) ? bwStr : '';
+    // A badge tile needs a visible surface — a fill or a ring; a bare radius is not one.
+    if (!bg && !bw) continue;
+    const size = (s.size != null && isFinite(+s.size) && +s.size > 0) ? Math.round(+s.size) : 0;
+    // Badge tiles are small squares — skip anything clearly a full card / section.
+    if (size && (size < 24 || size > 120)) continue;
+    const shape = badgeShape(s.shape);
+    const radius = (shape === 'rounded' && unitOf(s.radius)) ? String(s.radius).trim() : '';
+    tiles.push({ shape, size, radius, bg, bw, bdcol: normColor(s.borderColor), icol: normColor(s.iconColor) });
+  }
+  if (!tiles.length) return [];
+
+  // Cluster the distinct tile designs; keep the most common few (PHP slices 4).
+  const groups = new Map();
+  for (const t of tiles) {
+    const key = t.shape + '|' + t.bg + '|' + t.radius.replace(/\s+/g, '') + '|' + t.bw + t.bdcol;
+    if (!groups.has(key)) groups.set(key, { ...t, count: 0 });
+    groups.get(key).count++;
+  }
+  const ordered = [...groups.values()].sort((a, b) => b.count - a.count).slice(0, 4);
+
+  const used = {}; const derived = []; let n = 0;
+  for (const g of ordered) {
+    let base = g.shape === 'circle' ? 'Circle' : (g.shape === 'rounded' ? 'Rounded Tile' : 'Square');
+    if (!g.bg && g.bw) base = g.shape === 'circle' ? 'Outline Ring' : 'Outline Tile';
+    used[base] = (used[base] || 0) + 1;
+    const name = used[base] > 1 ? base + ' ' + used[base] : base;
+
+    const size = g.size > 0 ? g.size : 48;
+    const iconSize = Math.round(size * 0.5);
+    const def = {
+      background:   g.bg ? _fill(g.bg) : _nofill,
+      icon_color:   g.icol ? { predefined: '', custom: g.icol } : _empty,
+      border_style: g.bw ? 'solid' : '',
+      border_color: (g.bw && g.bdcol) ? { predefined: '', custom: g.bdcol } : _empty,
+    };
+    if (g.bw) { const bwu = unitOf(g.bw); if (bwu) def.border_width = bwu; }
+
+    derived.push({
+      id: 'i' + String(100 + (++n)).padStart(9, '0'),
+      preset_name: name,
+      badge_shape: g.shape,
+      badge_size: _u(size),
+      icon_size: _u(iconSize),
+      border_radius: (g.shape === 'rounded' && unitOf(g.radius)) ? unitOf(g.radius) : _u('', 'px'),
+      transition: '200',
+      hover_fx: [],
+      custom_css: '',
+      states: { default: def, hover: {} },
+    });
+  }
+  if (!derived.length) return [];
+  return DEFAULT_ICON_BADGE_PRESETS.concat(derived);
+}
+
 // "32px" → { value:'32', unit:'px' }; '' → null.
 const unitOf = (v) => {
   const m = String(v || '').trim().match(/^(-?[0-9.]+)\s*(px|rem|em|%)?$/);

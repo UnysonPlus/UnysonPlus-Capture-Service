@@ -336,10 +336,28 @@ export function extractDesign() {
   if (footerEl) {
     const allText = txt(footerEl);
     const footerLinks = [...footerEl.querySelectorAll('a')];
-    // Social = icon-only links (no text but an svg/img/aria-label).
+    // Social = icon links (an svg/img/aria-label, usually text-less). The NETWORK is sniffed from the icon
+    // class (`lucide-facebook`, `fab fa-instagram`), the aria-label/title, then the href host — so a
+    // placeholder `href="#"` rounded-full circle still maps. Mirror of PHP social_network_of().
+    const NET = ['facebook', 'instagram', 'twitter', 'x-twitter', 'youtube', 'linkedin', 'github', 'tiktok', 'dribbble', 'twitch', 'pinterest', 'discord', 'telegram', 'whatsapp', 'slack', 'mastodon'];
+    const netOf = (a) => {
+      // Self-contained className reader — `_clsOf` (below) is in the temporal dead zone here, since netOf
+      // is CALLED during extraction before that const initializes. Inlining avoids the TDZ ReferenceError.
+      const _cls = (el) => (el && el.className && el.className.toString ? el.className.toString() : '');
+      let hay = ' ' + _cls(a).toLowerCase() + ' ' + (a.getAttribute('aria-label') || '').toLowerCase() + ' ' + (a.getAttribute('title') || '').toLowerCase() + ' ';
+      a.querySelectorAll('svg,i,span,use').forEach((n) => { hay += ' ' + _cls(n).toLowerCase() + ' '; });
+      for (const key of NET) {
+        const w = key.replace(/[-]/g, '\\-');
+        if (new RegExp('(?:lucide-|fa-|fab-|bi-|icon-|ion-|social-)' + w + '\\b').test(hay) || (key.length >= 4 && new RegExp('\\b' + w + '\\b').test(hay))) {
+          return key === 'x-twitter' ? 'twitter' : key;
+        }
+      }
+      return '';
+    };
     const social = footerLinks
-      .filter((a) => !txt(a) && (a.querySelector('svg,img') || a.getAttribute('aria-label')))
-      .map((a) => ({ label: a.getAttribute('aria-label') || '', href: abs(a.getAttribute('href') || '') }))
+      .filter((a) => (a.querySelector('svg,img') || a.getAttribute('aria-label')) && (!txt(a) || netOf(a)))
+      .map((a) => ({ label: a.getAttribute('aria-label') || '', href: abs(a.getAttribute('href') || ''), net: netOf(a) }))
+      .filter((s) => s.net || s.label || /^https?:/i.test(s.href))
       .slice(0, 12);
     const textLinks = footerLinks.filter((a) => txt(a)).map((a) => ({ label: txt(a), href: abs(a.getAttribute('href') || '') }));
     // Column groups — a <ul>/<nav> of ≥2 links, with its heading if any. Deduped by link-set.
@@ -358,10 +376,46 @@ export function extractDesign() {
     });
     const brandEl = footerEl.querySelector('.logo, [class*="brand"], h1, h2, h3, strong');
     const ci = allText.search(/©|\(c\)\s|copyright/i);
+    // CONTACT column: a heading followed by <li> rows that are each a leading icon (svg) + text (address /
+    // phone / email). Captured as structured rows (icon markup + tint + value with line breaks preserved) so
+    // the emit reproduces the leading-icon list instead of a flat text blob. Mirror of PHP footer_contact_row.
+    const contact = (() => {
+      const heads = [...footerEl.querySelectorAll('h2,h3,h4,h5,h6')];
+      for (const h of heads) {
+        const wrap = h.parentElement; if (!wrap) continue;
+        const lis = [...wrap.querySelectorAll('li')];
+        if (lis.length < 2) continue;
+        const rows = []; let withIcon = 0; let tint = '';
+        lis.slice(0, 10).forEach((li) => {
+          const sv = li.querySelector('svg');
+          let icon = '', color = '';
+          if (sv) {
+            const mk = sv.outerHTML; if (mk && mk.length < 8000) icon = mk.replace(/\s+/g, ' ').trim();
+            color = getComputedStyle(sv).color || '';
+            if (!color) { const ch = sv.querySelector('*'); if (ch) color = getComputedStyle(ch).color || ''; }
+          }
+          const valEl = li.querySelector('span, p, a') || li;
+          const clone = valEl.cloneNode(true);
+          clone.querySelectorAll('svg').forEach((s) => s.remove());
+          let inner = (clone.innerHTML || clone.textContent || '').replace(/<br\s*\/?>/gi, '\n');
+          inner = inner.replace(/<[^>]+>/g, '').replace(/[ \t]+/g, ' ').replace(/[ \t]*\n[ \t]*/g, '\n').trim();
+          if (!inner) return;
+          if (icon) withIcon++;
+          if (color && !tint) tint = color;
+          rows.push({ icon, color, text: inner });
+        });
+        if (rows.length >= 2 && withIcon >= 2 && withIcon >= Math.ceil(rows.length / 2)) {
+          rows.forEach((r) => { if (r.icon && !r.color && tint) r.color = tint; });
+          return { title: clip(txt(h), 60), rows };
+        }
+      }
+      return null;
+    })();
     footer = {
       computed: pick(getComputedStyle(footerEl), ['backgroundColor', 'color', 'padding']),
       brand: brandEl ? clip(txt(brandEl), 60) : '',
       groups: groups.slice(0, 6),
+      contact,
       social,
       copyright: ci >= 0 ? clip(allText.slice(ci), 200) : '',
       links: textLinks.slice(0, 40), // flat fallback
@@ -753,8 +807,14 @@ export function extractDesign() {
     const kids = rowKids(el);
     if (kids.length < 2) return false;
     const s = getComputedStyle(el);
+    // HARDENING (layout_row parity): a vertical flex-col stack is NOT a row; and a single-track grid
+    // (`grid-cols-1`) is a STACK, not a multi-column band — require >=2 real column tracks so a
+    // single-column heading/content band isn't split into a bogus 2-column row.
     if (s.display === 'flex' || s.display === 'inline-flex') return !(s.flexDirection || '').startsWith('column');
-    if (s.display === 'grid') return true;
+    if (s.display === 'grid') {
+      const tracks = String(s.gridTemplateColumns || '').trim().split(/\s+/).filter((t) => t && t !== 'none');
+      return tracks.length >= 2;
+    }
     return kids.filter((c) => /\bcol(-\w|s?\b)/i.test(c.className || '')).length >= 2;
   };
   // A column's builder width from its Bootstrap col-* span (prefer the largest breakpoint),
@@ -898,6 +958,10 @@ export function extractDesign() {
     // icon_box icon_badge (shape from its radius) + icon_badge_color (fill). Checks the icon element
     // and its immediate wrapper; a transparent background = no badge.
     let iconBadge = '', iconBadgeColor = '';
+    // Full badge SKIN (size / corner radius / border) so the JS Icon-Badge-Presets clustering
+    // (buildIconBadgePresets, the JS counterpart of PHP build_icon_badge_presets) can derive the
+    // Theme Settings → Components → Icon Badges library the same way box skins feed Box Presets.
+    let iconBadgeSize = 0, iconBadgeRadius = '', iconBadgeBorderWidth = '', iconBadgeBorderColor = '';
     try {
       for (const el of [iconEl, iconEl.parentElement].filter(Boolean)) {
         const cs = getComputedStyle(el);
@@ -907,8 +971,20 @@ export function extractDesign() {
           const hx = (n) => ('0' + (+n).toString(16)).slice(-2);
           iconBadgeColor = '#' + hx(m[1]) + hx(m[2]) + hx(m[3]);
           const r = parseFloat(cs.borderTopLeftRadius) || 0;
-          const w = el.getBoundingClientRect().width || 0;
+          const box = el.getBoundingClientRect();
+          const w = box.width || 0, h = box.height || 0;
           iconBadge = (r > 12 && r >= w / 2 - 2) ? 'solid-circle' : (r > 0 ? 'solid-rounded' : 'solid-square');
+          // Roughly-square tiles only carry a meaningful "size"; skip an oblong wrapper.
+          if (w && h && Math.abs(w - h) <= Math.max(6, 0.35 * Math.max(w, h))) { iconBadgeSize = Math.round((w + h) / 2); }
+          else if (w) { iconBadgeSize = Math.round(w); }
+          if (iconBadge === 'solid-rounded' && r > 0) { iconBadgeRadius = cs.borderTopLeftRadius; }
+          const bw = parseFloat(cs.borderTopWidth) || 0;
+          if (bw > 0) {
+            iconBadgeBorderWidth = cs.borderTopWidth;
+            const bm = (cs.borderTopColor || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
+            const ba = bm ? (bm[4] === undefined ? 1 : parseFloat(bm[4])) : 0;
+            if (bm && ba > 0.05) { iconBadgeBorderColor = '#' + hx(bm[1]) + hx(bm[2]) + hx(bm[3]); }
+          }
           break;
         }
       }
@@ -922,6 +998,7 @@ export function extractDesign() {
     const okc = (v) => v && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
     return {
       icon, customIcon, lucide, iconLayout, iconColor, iconBadge, iconBadgeColor,
+      iconBadgeSize, iconBadgeRadius, iconBadgeBorderWidth, iconBadgeBorderColor,
       title: clip(txt(h), 160),
       titleTag: h.tagName.toLowerCase(),
       text: p ? rawHtmlOf(p, true) : '',
@@ -938,6 +1015,77 @@ export function extractDesign() {
         hoverLift: /hover:-?translate-y-/.test(String(wrap.className || '')),
       },
     };
+  };
+
+  // --- IMAGE-COMPOSITE DECOMPOSITION (P0 fidelity fix) — parity with the PHP Stitch path. -----------
+  // A hero's "photo in an organic frame + floating badge + blob backdrop" is torn into NATIVE parts:
+  // { image, cards[], blob } so to-pages emits a media_image (skin + blob via scoped CSS) + icon_box(es)
+  // instead of one verbatim code_block. Returns null when the cell isn't a clean composite.
+  const isTransparent = (v) => !v || /rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
+  const compositeOverlays = (cell) => {
+    const cards = [], blobs = [];
+    for (const d of cell.querySelectorAll('div')) {
+      const cs = getComputedStyle(d);
+      if (cs.position !== 'absolute' && cs.position !== 'fixed') continue;
+      if (d.querySelector('img')) continue;                       // a wrapper AROUND the image is the frame
+      const t = txt(d).trim();
+      const hasIcon = !!d.querySelector('svg, i');
+      if (!t && !hasIcon) {
+        const rounded = (cs.borderRadius && !/^(0px)( 0px)*$/.test(cs.borderRadius.trim()));
+        if (rounded || !isTransparent(cs.backgroundColor)) blobs.push(d);   // decorative blob layer
+        continue;
+      }
+      const rounded = (parseFloat(cs.borderTopLeftRadius) || 0) > 0;
+      const shadow = cs.boxShadow && cs.boxShadow !== 'none';
+      if ((t || hasIcon) && (rounded || shadow || !isTransparent(cs.backgroundColor))) cards.push(d);
+    }
+    return { cards, blobs };
+  };
+  // A floating badge/card overlay (icon chip + bold title + muted subtitle) → the icon_box card shape.
+  const floatingCardOf = (card) => {
+    const ps = [...card.querySelectorAll('p')].map((p) => txt(p).trim()).filter(Boolean);
+    const title = ps[0] || txt(card).trim();
+    const subtitle = ps[1] || '';
+    const svg = card.querySelector('svg');
+    const hx = (n) => ('0' + (+n).toString(16)).slice(-2);
+    const toHex = (v) => { const m = String(v || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m ? '#' + hx(m[1]) + hx(m[2]) + hx(m[3]) : ''; };
+    const o = { title, titleTag: 'h4', subtitle, iconLayout: 'inline-left', center: false };
+    if (svg) {
+      o.customIcon = svg.outerHTML;
+      o.iconCls = String(svg.getAttribute('class') || '');
+      const ic = toHex(getComputedStyle(svg).color);
+      if (ic) o.iconColor = ic;                                  // hex → icon_box Icon Color (hex-only guard)
+      const chip = (svg.parentElement && svg.parentElement !== card) ? svg.parentElement : null;
+      if (chip) {
+        const cs = getComputedStyle(chip);
+        if (!isTransparent(cs.backgroundColor)) {
+          o.iconBadgeColor = toHex(cs.backgroundColor);
+          const r = parseFloat(cs.borderTopLeftRadius) || 0;
+          o.iconBadge = (r >= 9999 || /50%/.test(cs.borderRadius)) ? 'solid-circle' : (r > 0 ? 'solid-rounded' : 'solid-square');
+        }
+      }
+    }
+    // Position + skin (from the source Tailwind classes + computed styles) for the scoped posCss.
+    const cs = getComputedStyle(card);
+    o.pos = { cls: String(card.className || ''), bg: cs.backgroundColor, radius: cs.borderRadius, shadow: cs.boxShadow, padding: cs.padding };
+    return o;
+  };
+  const imgCompositeOf = (cell) => {
+    const img = cell.querySelector('img');
+    if (!img) return null;
+    const ov = compositeOverlays(cell);
+    if (!ov.cards.length && !ov.blobs.length) return null;         // not a decomposable composite
+    const ics = getComputedStyle(img);
+    const image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '', ...imgSkin(img) };
+    const bw = parseFloat(ics.borderTopWidth) || 0;
+    if (bw > 0 && !isTransparent(ics.borderTopColor)) { image.borderWidth = ics.borderTopWidth; image.borderColor = ics.borderTopColor; }
+    let blob = null;
+    if (ov.blobs.length) {
+      const bcs = getComputedStyle(ov.blobs[0]);
+      const sm = String(ov.blobs[0].className || '').match(/\bscale-(\d{1,3})\b/);
+      blob = { bg: bcs.backgroundColor, radius: bcs.borderRadius, scale: sm ? (parseInt(sm[1], 10) / 100) : 0 };
+    }
+    return { image, cards: ov.cards.map(floatingCardOf), blob };
   };
   // A single <a>/<button> styled as a button → the `button` block shape (same fields the block-level
   // scan emits at line ~976), so the button-group cell detector and the block scan stay consistent.
@@ -1164,10 +1312,12 @@ export function extractDesign() {
                   if (!hasOverlayContent) {
                     cell.image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '', ...imgSkin(img) };
                   } else {
-                    // Image + a content-bearing overlay (a floating badge) → kept VERBATIM (its own html
-                    // leaf). Flag it a CONTAINED composite so the clean-hero gate still lets the REST of the
-                    // section (a clean text column) decompose — only this one cell stays verbatim.
-                    cell.imgComposite = true;
+                    // Image + a content-bearing overlay (a floating badge / blob) → DECOMPOSE into native
+                    // parts { image, cards[], blob } (P0 fidelity fix) so to-pages emits a media_image +
+                    // icon_box(es) instead of one verbatim code_block. `imgComposite` stays truthy either
+                    // way, so the clean-hero gate still lets the REST of the section decompose; a shape we
+                    // can't cleanly tear apart (imgCompositeOf → null) falls back to verbatim (=== true).
+                    cell.imgComposite = imgCompositeOf(c) || true;
                   }
                 } else if (flowHeading) {
                   // A rich CONTENT column with no buttons but a non-heading-group body → decompose.
@@ -1331,12 +1481,425 @@ export function extractDesign() {
     if (!eyebrow) return false;
     return [...parent.children].some((k) => /^H[1-6]$/.test(k.tagName) && (node.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING));
   };
-  const decompose = (el, out) => {
+  // ============================================================================================
+  // Structured / interactive native-widget detectors — parity with the PHP Stitch `is_*` recognizers
+  // (class-fw-site-converter-stitch.php: is_pricing_table / is_steps_flow / is_timeline /
+  // is_progress_bars / is_tabs_widget / is_lottie_embed / is_svg_draw / is_accordion_group /
+  // is_text_list, + table_block). Each is a TIGHT structural match (mirrors the PHP guard faithfully)
+  // so it can never swallow a generic feature/card grid; the dispatcher offers them BEFORE the
+  // SKIP/decor/row/text/dive branches, matching the PHP priorities that sit above card_grid.
+  // ============================================================================================
+  const cn = (el) => (el && el.getAttribute && el.getAttribute('class')) || ''; // robust for HTML + SVG
+  const stripCs = (h) => String(h == null ? '' : h).replace(/\s+data-sc-[a-z-]+="[^"]*"/gi, '').trim();
+  // Substantial (non-empty, non-decorative) direct element children (PHP widget_children).
+  const wChildren = (el) => [...el.children].filter((k) => {
+    const t = k.tagName.toLowerCase();
+    if (['script', 'style', 'br', 'hr', 'template'].includes(t)) return false;
+    return txt(k) !== '' || k.querySelector('img,svg');
+  });
+  // The item's title text (first heading / .title-ish / strong), PHP item_title_text.
+  const wTitle = (el) => {
+    for (const h of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) { const n = el.querySelector(h); if (n && txt(n)) return txt(n); }
+    const c = [...el.querySelectorAll('*')].find((x) => /\b(title|name|heading|plan-?name|step-?title)\b/.test(cn(x).toLowerCase()) && txt(x));
+    if (c) return txt(c);
+    const s = el.querySelector('strong'); if (s && txt(s)) return txt(s);
+    return '';
+  };
+  // The item's body text = first <p>, else full text minus a leading title (PHP item_body_text).
+  const wBody = (el, title) => {
+    const p = el.querySelector('p'); if (p && txt(p)) return txt(p);
+    let all = txt(el);
+    if (title && all.indexOf(title) === 0) all = all.slice(title.length).trim();
+    return all;
+  };
+
+  // --- table (PHP table_block): a <table> with >=1 row → { rows:[[{html,header}…]…], caption, style } ---
+  const tableBlockOf = (el) => {
+    const rows = [];
+    for (const tr of el.querySelectorAll('tr')) {
+      const cells = [];
+      for (const c of [...tr.children]) {
+        const ct = c.tagName.toLowerCase();
+        if (ct !== 'td' && ct !== 'th') continue;
+        cells.push({ html: stripCs(c.innerHTML), header: ct === 'th' });
+      }
+      if (cells.length) rows.push(cells);
+    }
+    if (!rows.length) return null;
+    const capEl = el.querySelector('caption');
+    // Styling evidence (parity with PHP table_block $style) for the mapper's table-preset pick. NOTE:
+    // the actual Table Preset SLUG is chosen PHP-side (Mapper::table_preset_for reads the WP Theme
+    // Settings preset library), which the capture service can't see — we carry the evidence only.
+    const th = el.querySelector('th');
+    const hcs = th ? getComputedStyle(th) : null;
+    const tcs = getComputedStyle(el);
+    const bgs = new Set();
+    for (const tr of el.querySelectorAll('tr')) {
+      const b = getComputedStyle(tr).backgroundColor;
+      if (b && b !== 'transparent' && !/,\s*0\)\s*$/.test(b)) bgs.add(b);
+    }
+    return { t: 'table', rows, caption: capEl ? txt(capEl) : '',
+      style: { header_cs: hcs ? ('background-color:' + hcs.backgroundColor) : '', table_cs: 'border-color:' + tcs.borderTopColor, striped: bgs.size >= 2 } };
+  };
+
+  // --- accordion (PHP is_accordion_group): >=2 <details><summary> OR >=2 [aria-expanded] toggles ---
+  const isAccordionGroup = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'details' || tag === 'summary') return false;
+    let details = 0;
+    for (const d of el.querySelectorAll('details')) if (d.querySelector('summary')) details++;
+    if (details >= 2) return true;
+    let toggles = 0;
+    for (const t of el.querySelectorAll('[aria-expanded]')) if (txt(t)) toggles++;
+    return toggles >= 2;
+  };
+  const accordionBlockOf = (el) => {
+    const items = [];
+    const dets = el.querySelectorAll('details');
+    if (dets.length) {
+      for (const d of dets) {
+        const sum = d.querySelector('summary'); if (!sum) continue;
+        const title = txt(sum);
+        const clone = d.cloneNode(true);
+        clone.querySelectorAll('summary').forEach((s) => s.remove());
+        if (title) items.push({ title, content: stripCs(clone.innerHTML) });
+      }
+    } else {
+      const doc = el.ownerDocument;
+      for (const tgl of el.querySelectorAll('[aria-expanded]')) {
+        const title = txt(tgl); if (!title) continue;
+        let panelHtml = '';
+        const ctrl = (tgl.getAttribute('aria-controls') || '').trim();
+        if (ctrl && doc) { const p = doc.getElementById(ctrl); if (p) panelHtml = stripCs(p.innerHTML); }
+        if (!panelHtml) { const sib = tgl.nextElementSibling; if (sib) panelHtml = stripCs(sib.innerHTML); }
+        items.push({ title, content: panelHtml });
+      }
+    }
+    return items.length >= 2 ? { t: 'accordion', items } : null;
+  };
+
+  // --- feature_list (PHP is_text_list): real <ul>/<ol>, >=2 non-empty <li>, NOT a nav/menu/tab list ---
+  const isTextList = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (tag !== 'ul' && tag !== 'ol') return false;
+    const cls = cn(el).toLowerCase();
+    const role = (el.getAttribute('role') || '').toLowerCase();
+    if (/\b(menu|nav|navbar|pagination|breadcrumb|tabs?|tab-list|tablist|social|slider|carousel|steps|dropdown)\b/.test(cls)) return false;
+    if (['menu', 'menubar', 'tablist', 'navigation'].includes(role)) return false;
+    if (el.closest && el.closest('nav')) return false;
+    let lis = 0;
+    for (const li of [...el.children]) if (li.tagName.toLowerCase() === 'li' && txt(li)) lis++;
+    return lis >= 2;
+  };
+  const textListBlockOf = (el) => {
+    const ordered = el.tagName.toLowerCase() === 'ol';
+    const items = [];
+    for (const li of [...el.children]) {
+      if (li.tagName.toLowerCase() !== 'li') continue;
+      const t = txt(li); if (!t) continue;
+      items.push({ text: t, html: stripCs(li.innerHTML) });
+    }
+    return items.length >= 2 ? { t: 'feature_list', ordered, items } : null;
+  };
+
+  // --- tabs (PHP is_tabs_widget): a tablist (role or .tabs/.nav-tabs) with >=2 tabs each → a panel ---
+  const elsWithRole = (el, role) => [...el.querySelectorAll('*')].filter((c) => (c.getAttribute('role') || '').toLowerCase() === role);
+  const isTabsWidget = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['table', 'nav', 'details', 'summary'].includes(tag)) return false;
+    let dets = 0; for (const d of el.querySelectorAll('details')) if (d.querySelector('summary')) dets++;
+    if (dets >= 2) return false;
+    const tabs = elsWithRole(el, 'tab'), panels = elsWithRole(el, 'tabpanel');
+    if (tabs.length >= 2) {
+      if (panels.length >= 2) return true;
+      let resolved = 0; const doc = el.ownerDocument;
+      for (const t of tabs) { const id = (t.getAttribute('aria-controls') || '').trim(); if (id && doc && doc.getElementById(id)) resolved++; }
+      if (resolved >= 2) return true;
+    }
+    const cls = cn(el).toLowerCase();
+    if (/\b(tabs|nav-tabs|tab-group|tabbed|tabset)\b/.test(cls)) {
+      let labels = 0;
+      for (const c of el.querySelectorAll('*')) {
+        const ct = c.tagName.toLowerCase(); if (!['a', 'button', 'li', 'span'].includes(ct)) continue;
+        const cc = cn(c).toLowerCase();
+        if (c.hasAttribute('data-tab') || c.hasAttribute('aria-controls') || /\b(tab-link|nav-link|tab-title|tab-btn)\b/.test(cc)) labels++;
+      }
+      let panels2 = 0;
+      for (const c of el.querySelectorAll('*')) {
+        const cc = cn(c).toLowerCase();
+        if (c.hasAttribute('data-tab-content') || /\b(tab-pane|tab-panel|tab-content-item)\b/.test(cc)) panels2++;
+      }
+      if (labels >= 2 && panels2 >= 2) return true;
+    }
+    return false;
+  };
+  const tabsBlockOf = (el) => {
+    const doc = el.ownerDocument;
+    let labels = elsWithRole(el, 'tab'), panels = elsWithRole(el, 'tabpanel');
+    if (labels.length < 2) {
+      labels = []; panels = [];
+      for (const c of el.querySelectorAll('*')) {
+        const ct = c.tagName.toLowerCase(); const cc = cn(c).toLowerCase();
+        if (['a', 'button', 'li', 'span'].includes(ct) && (c.hasAttribute('data-tab') || c.hasAttribute('aria-controls') || /\b(tab-link|nav-link|tab-title|tab-btn)\b/.test(cc))) labels.push(c);
+        if (c.hasAttribute('data-tab-content') || /\b(tab-pane|tab-panel|tab-content-item)\b/.test(cc)) panels.push(c);
+      }
+    }
+    const items = [];
+    labels.forEach((lab, i) => {
+      const title = txt(lab); if (!title) return;
+      let panel = null;
+      let ctrl = (lab.getAttribute('aria-controls') || '').trim(); if (!ctrl) ctrl = (lab.getAttribute('data-tab') || '').trim();
+      if (ctrl && doc) {
+        let p = doc.getElementById(ctrl);
+        if (!p) p = panels.find((pp) => (pp.getAttribute('data-tab-content') || '').trim() === ctrl || (pp.getAttribute('id') || '').trim() === ctrl) || null;
+        panel = p;
+      }
+      if (!panel && panels[i]) panel = panels[i];
+      const content = panel ? stripCs(panel.innerHTML) : '';
+      const active = ((lab.getAttribute('aria-selected') || '').toLowerCase() === 'true' || /\bactive\b/.test(cn(lab).toLowerCase())) ? 'yes' : 'no';
+      items.push({ title, content, active });
+    });
+    return items.length >= 2 ? { t: 'tabs', items } : null;
+  };
+
+  // --- steps (PHP is_steps_flow): .steps/.process OR every child numbered, each with a title ---
+  const stepMarker = (el) => {
+    if (/^\s*(?:step\s*)?(\d{1,2})\b/i.test(txt(el))) return true;
+    for (const c of el.querySelectorAll('*')) {
+      const cc = cn(c).toLowerCase();
+      if (/step-?(number|index|num|count)|\b(number|circle|marker|count)\b/.test(cc) && /\d/.test(txt(c))) return true;
+    }
+    return false;
+  };
+  const isStepsFlow = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['table', 'thead', 'tbody', 'tr', 'nav', 'dl', 'details', 'summary'].includes(tag)) return false;
+    if (el.querySelector('details')) return false;
+    const kids = wChildren(el); const n = kids.length; if (n < 2) return false;
+    let cls = cn(el).toLowerCase(); for (const k of kids) cls += ' ' + cn(k).toLowerCase();
+    const classSignal = /\b(steps?|process|how-?it-?works|process-?flow)\b/.test(cls);
+    let titled = 0, numbered = 0;
+    for (const k of kids) { if (wTitle(k)) titled++; if (stepMarker(k)) numbered++; }
+    if (titled < 2) return false;
+    return classSignal ? true : (numbered >= n);
+  };
+  const stepsBlockOf = (el) => {
+    const items = [];
+    for (const k of wChildren(el)) {
+      const title = wTitle(k); if (!title) continue;
+      let num = ''; const m = txt(k).match(/^\s*(?:step\s*)?(\d{1,2})\b/i); if (m) num = m[1];
+      items.push({ title, content: wBody(k, title), number: num });
+    }
+    return items.length >= 2 ? { t: 'steps', items } : null;
+  };
+
+  // --- timeline (PHP is_timeline): .timeline OR every child dated, each with a title ---
+  const timelineDate = (el) => {
+    const time = el.querySelector('time'); if (time && txt(time)) return txt(time);
+    const t = txt(el); let m;
+    if ((m = t.match(/\b((?:19|20)\d{2})\b/))) return m[1];
+    if ((m = t.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{4}\b/i))) return m[0];
+    if ((m = t.match(/\b\d{1,2}\/\d{4}\b/))) return m[0];
+    return '';
+  };
+  const isTimeline = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['table', 'thead', 'tbody', 'tr', 'nav', 'dl', 'details', 'summary'].includes(tag)) return false;
+    if (el.querySelector('details')) return false;
+    const kids = wChildren(el); const n = kids.length; if (n < 2) return false;
+    let cls = cn(el).toLowerCase(); for (const k of kids) cls += ' ' + cn(k).toLowerCase();
+    const classSignal = /\btimeline\b/.test(cls);
+    let dated = 0, titled = 0;
+    for (const k of kids) { if (timelineDate(k)) dated++; if (wTitle(k)) titled++; }
+    if (titled < 2) return false;
+    return classSignal ? (dated >= 1) : (dated >= n);
+  };
+  const timelineBlockOf = (el) => {
+    const items = [];
+    for (const k of wChildren(el)) {
+      const title = wTitle(k), date = timelineDate(k);
+      if (!title && !date) continue;
+      let body = wBody(k, title);
+      if (date && body.indexOf(date) === 0) body = body.slice(date.length).trim();
+      items.push({ date, title, text: body });
+    }
+    return items.length >= 2 ? { t: 'timeline', items } : null;
+  };
+
+  // --- progress (PHP is_progress_bars): >=2 items, EVERY one a STRUCTURAL bar (role=progressbar or
+  //     an inner width:NN%). Text-only "NN%" is excluded (a stat grid stays counters). ---
+  const barPercent = (el) => {
+    const cands = [];
+    if ((el.getAttribute('role') || '').toLowerCase() === 'progressbar') cands.push(el);
+    for (const c of el.querySelectorAll('[role="progressbar"]')) cands.push(c);
+    for (const c of cands) { const v = c.getAttribute('aria-valuenow'); if (v != null && v !== '' && !isNaN(v)) return Math.max(0, Math.min(100, Math.round(+v))); }
+    const nodes = [el, ...el.querySelectorAll('*')];
+    for (const c of nodes) {
+      const st = c.getAttribute('style') || ''; const m = st.match(/width\s*:\s*([\d.]+)\s*%/i);
+      if (m) { const cc = cn(c).toLowerCase(); if (/\b(bar|fill|progress|meter|value|inner)\b/.test(cc) || c !== el) return Math.max(0, Math.min(100, Math.round(+m[1]))); }
+    }
+    return null;
+  };
+  const isProgressBars = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['table', 'thead', 'tbody', 'tr', 'nav', 'dl', 'details', 'summary'].includes(tag)) return false;
+    if (el.querySelector('details')) return false;
+    const kids = wChildren(el); const n = kids.length; if (n < 2) return false;
+    let bars = 0; for (const k of kids) if (barPercent(k) != null) bars++;
+    return bars >= 2 && bars === n;
+  };
+  const progressBlockOf = (el) => {
+    const bars = [];
+    for (const k of wChildren(el)) {
+      const pct = barPercent(k); if (pct == null) continue;
+      let label = '';
+      for (const c of k.querySelectorAll('*')) { const cc = cn(c).toLowerCase(); if (/\b(label|skill-?name|title|name)\b/.test(cc) && txt(c)) { label = txt(c); break; } }
+      if (!label) label = txt(k).replace(/\b\d{1,3}\s*%/g, '').trim();
+      bars.push({ label, percent: pct });
+    }
+    return bars.length >= 2 ? { t: 'progress', bars } : null;
+  };
+
+  // --- pricing_table (PHP is_pricing_table): >=2 plan columns and a currency+number price token in
+  //     MOST columns (>=ceil(0.6n)) — a plain feature grid (no currency) is NOT claimed. ---
+  const cellPriceParts = (el) => {
+    const t = txt(el); if (!t) return null;
+    const m = t.match(/([$€£¥₹])\s?(\d[\d.,]*)/); if (!m) return null;
+    let period = ''; const pm = t.match(/\/\s*(mo|month|yr|year|wk|week|day|user|seat)s?\b/i); if (pm) period = '/' + pm[1].toLowerCase();
+    return { currency: m[1], price: m[2].replace(/,/g, ''), period };
+  };
+  const isPricingTable = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['table', 'thead', 'tbody', 'tr', 'ul', 'ol', 'nav', 'dl', 'details', 'summary'].includes(tag)) return false;
+    if (el.querySelector('details') || el.querySelector('table')) return false;
+    const kids = wChildren(el); const n = kids.length; if (n < 2) return false;
+    let priced = 0; for (const k of kids) if (cellPriceParts(k)) priced++;
+    return priced >= Math.max(2, Math.ceil(n * 0.6));
+  };
+  const pricingBlockOf = (el) => {
+    const plans = [];
+    for (const k of wChildren(el)) {
+      const price = cellPriceParts(k); const title = wTitle(k);
+      if (!title && !price) continue;
+      const features = [];
+      const ul = k.querySelector('ul') || k.querySelector('ol');
+      if (ul) for (const li of ul.querySelectorAll('li')) { const t = txt(li); if (t) features.push(t); }
+      let btnLabel = '', btnUrl = '';
+      for (const bt of ['a', 'button']) { const b = k.querySelector(bt); if (b && txt(b)) { btnLabel = txt(b); btnUrl = abs(b.getAttribute('href') || ''); break; } }
+      const kcls = cn(k).toLowerCase();
+      const featured = /\b(featured|popular|recommended|highlight(ed)?|best|pro)\b/.test(kcls) ? 'yes' : 'no';
+      let ribbon = '';
+      if (featured === 'yes') {
+        for (const c of k.querySelectorAll('*')) { const cc = cn(c).toLowerCase(); if (/\b(ribbon|badge|popular|tag|label)\b/.test(cc) && txt(c) && txt(c).length <= 24) { ribbon = txt(c); break; } }
+      }
+      plans.push({ title: title || '', currency: price ? price.currency : '$', price: price ? price.price : '', period: price ? price.period : '', features: features.join('\n'), featured, ribbon, btn_label: btnLabel, btn_url: btnUrl });
+    }
+    return plans.length >= 2 ? { t: 'pricing', plans } : null;
+  };
+
+  // --- lottie (PHP is_lottie_embed): <lottie-player>/<dotlottie-player>, or a container carrying a
+  //     .json/.lottie src + a lottie/bodymovin class or data-animation-path/data-lottie flag ---
+  const lottieSrcOf = (el) => {
+    for (const a of ['src', 'data-src', 'data-animation-path', 'data-lottie', 'data-json', 'href']) {
+      const v = (el.getAttribute(a) || '').trim(); if (v && /\.(json|lottie)(\?|#|$)/i.test(v)) return v;
+    }
+    return '';
+  };
+  const isLottieEmbed = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'lottie-player' || tag === 'dotlottie-player') return true;
+    if (el.querySelector('lottie-player,dotlottie-player')) return true;
+    if (lottieSrcOf(el)) { const cls = cn(el).toLowerCase(); if (/\b(lottie|bodymovin|dotlottie)\b/.test(cls) || el.hasAttribute('data-animation-path') || el.hasAttribute('data-lottie')) return true; }
+    return false;
+  };
+  const lottieBlockOf = (el) => {
+    let src = lottieSrcOf(el);
+    if (!src) { const p = el.querySelector('lottie-player,dotlottie-player'); if (p) src = lottieSrcOf(p); }
+    return src ? { t: 'lottie', src: abs(src) } : null;
+  };
+
+  // --- svg_draw (PHP is_svg_draw): inline <svg> with a draw class/data-draw flag, or stroke-dash
+  //     animated paths — NOT a plain decorative icon <svg> ---
+  const isSvgDraw = (el) => {
+    if (el.tagName.toLowerCase() !== 'svg') return false;
+    const cls = cn(el).toLowerCase();
+    if (/\b(svg-?draw|line-?draw|draw-?svg|animate-?draw|self-?draw)\b/.test(cls)) return true;
+    if (el.hasAttribute('data-draw') || el.hasAttribute('data-svg-draw')) return true;
+    for (const st of ['path', 'line', 'polyline', 'circle', 'rect']) {
+      for (const p of el.querySelectorAll(st)) {
+        if (p.hasAttribute('stroke-dasharray') || p.hasAttribute('stroke-dashoffset')) return true;
+        const style = (p.getAttribute('style') || '').toLowerCase();
+        if (style.includes('stroke-dasharray') || style.includes('stroke-dashoffset')) return true;
+      }
+    }
+    return false;
+  };
+  const svgDrawBlockOf = (el) => {
+    let markup = el.outerHTML || '';
+    markup = markup.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+    markup = stripCs(markup);
+    return markup ? { t: 'svg_draw', code: markup } : null;
+  };
+
+  // Dispatcher — TIGHT structural match, highest PHP priority first. Tag-scoped fast paths (svg /
+  // lottie / table / ul-ol) can't overlap the container widgets. Returns a typed block or null.
+  const structuredWidgetOf = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'svg') return isSvgDraw(el) ? svgDrawBlockOf(el) : null; // svg is otherwise SKIP → verbatim
+    if (isLottieEmbed(el)) return lottieBlockOf(el);
+    if (tag === 'table') return el.querySelector('tr') ? tableBlockOf(el) : null;
+    if (isTextList(el)) return textListBlockOf(el);
+    if (isPricingTable(el)) return pricingBlockOf(el);   // 99
+    if (isStepsFlow(el)) return stepsBlockOf(el);        // 98
+    if (isTimeline(el)) return timelineBlockOf(el);      // 97
+    if (isProgressBars(el)) return progressBlockOf(el);  // 96
+    if (isTabsWidget(el)) return tabsBlockOf(el);        // 95
+    if (isAccordionGroup(el)) return accordionBlockOf(el); // 89
+    return null;
+  };
+
+  // Source-animation INTENT → an animate.css effect string (parity with PHP Stitch::anim_intent):
+  // AOS (data-aos), animate.css v4 (animate__*), WOW v3 (wow fadeInUp), or a directional generic reveal
+  // hook (data-animate/scroll/reveal/motion). '' when there's no signal (no false motion). Stamped onto
+  // decomposed blocks; to-pages enables it on the node's Animations tab for the standard {enable,yes}
+  // shape only (interactive widgets are left at their default, matching apply_block_anim).
+  const ANIM_DIR = { up: 'animate__fadeInUp', down: 'animate__fadeInDown', left: 'animate__fadeInLeft', right: 'animate__fadeInRight' };
+  const animOf = (el) => {
+    if (!el || !el.getAttribute) return '';
+    const aos = (el.getAttribute('data-aos') || '').trim().toLowerCase();
+    if (aos) {
+      let m;
+      if ((m = aos.match(/(up|down|left|right)/)) && !aos.includes('zoom')) return ANIM_DIR[m[1]];
+      if (aos.indexOf('zoom-out') === 0) return 'animate__zoomOut';
+      if (aos.indexOf('zoom') === 0) return 'animate__zoomIn';
+      if (aos.indexOf('flip') === 0) return 'animate__flipInX';
+      return 'animate__fadeIn';
+    }
+    const cls = cn(el); let m;
+    if ((m = cls.match(/\banimate__([A-Za-z]+)\b/))) return 'animate__' + m[1];
+    if (/\bwow\b/i.test(cls) && (m = cls.match(/\b(fadeIn[A-Za-z]*|zoomIn|zoomOut|slideIn[A-Za-z]*|bounceIn[A-Za-z]*|flipIn[A-Za-z]*)\b/))) return 'animate__' + m[1];
+    for (const at of ['data-animate', 'data-scroll', 'data-reveal', 'data-motion']) {
+      if (el.hasAttribute(at)) {
+        const v = (el.getAttribute(at) || '').toLowerCase();
+        for (const k of Object.keys(ANIM_DIR)) if (v.includes(k)) return ANIM_DIR[k];
+        return 'animate__fadeInUp';
+      }
+    }
+    return '';
+  };
+
+  const decompose = (el, out, inheritAnim = '') => {
     let _rat;
     for (const child of [...el.children]) {
       const vblk = videoBlockOf(child);          // before SKIP: provider IFRAMEs are otherwise skipped
       if (vblk) { out.push(vblk); continue; }
       if (!visibleEl(child)) continue;
+      // Structured / interactive native widgets (pricing / steps / timeline / progress / tabs / lottie /
+      // svg_draw / accordion / table / feature_list) — TIGHT structural matches offered BEFORE the
+      // SKIP/decor/row/text/dive branches, so a real widget maps to its native shortcode instead of
+      // verbatim markup. Parity with the PHP Stitch is_* recognizers (which sit above card_grid). svg is
+      // handled here first so a draw-SVG isn't lost to the SKIP_TAGS verbatim path just below.
+      { const _wblk = structuredWidgetOf(child); if (_wblk) { out.push(_wblk); continue; } }
       if (SKIP_TAGS.has(child.tagName)) {
         // NOTHING DROPPED: a content-bearing tag that used to be skipped now falls back to a verbatim
         // code block — a standalone <svg> illustration, or a non-provider <iframe> (maps / booking /
@@ -1364,10 +1927,15 @@ export function extractDesign() {
       }
       const tag = child.tagName;
       const cls = (child.className && child.className.toString) ? child.className.toString() : '';
+      // Source-animation intent for this child (falls back to an inherited wrapper intent). Stamped onto
+      // the leaf blocks this iteration pushes (post-chain, below) so a decomposed heading/text/button/
+      // image/testimonials carries the same reveal the source had. Parity with PHP anim_intent.
+      const cAnim = animOf(child) || inheritAnim;
+      const _animStart = out.length;
       // A testimonials collection → one `testimonials` block (content only; design not preserved).
       // Checked before the gallery/slider branch because a testimonial carousel also has images.
       const tst = testimonialsOf(child);
-      if (tst) { out.push({ t: 'testimonials', items: tst.items }); continue; }
+      if (tst) { out.push({ t: 'testimonials', items: tst.items, anim: cAnim }); continue; }
       // A gallery carousel (image-card slider) → one clean static grid code-block (real slides
       // only, slider chrome + loop clones stripped). Checked first so we never dive into the
       // slick/swiper track (which would emit the loop clones as extra columns).
@@ -1489,10 +2057,14 @@ export function extractDesign() {
         else if (hasSkin) { out.push({ t: 'html', html: rawHtmlOf(child, true) }); }
         else { out.push({ t: 'image', src, alt: im.alt || '', ...sk }); }
       } else if (child.children.length && !child.matches('table,figure,ul,ol,dl')) {
-        decompose(child, out); // single-column wrapper → dive to reach the intro / the grid row
+        decompose(child, out, cAnim); // single-column wrapper → dive (carry its reveal intent to children)
       } else {
         out.push({ t: 'html', html: rawHtmlOf(child, true) }); // media / list / table leaf → verbatim
       }
+      // Stamp this iteration's freshly-pushed LEAF blocks with the source reveal intent (parity with
+      // apply_block_anim — to-pages enables it only on the standard {enable,yes} shape). Skip verbatim
+      // html (decor/undecomposed) so a decorative backdrop doesn't get false motion.
+      if (cAnim) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && _b.t !== 'html' && !_b.anim) _b.anim = cAnim; } }
     }
   };
 
@@ -1599,7 +2171,11 @@ export function extractDesign() {
     {
       const secEl = sectionEls[i] || root;
       const sid = (secEl.getAttribute && secEl.getAttribute('id')) || '';
-      if (sid && /^[A-Za-z][\w-]*$/.test(sid)) sections[i].sectionId = sid;
+      // Carry the RAW id — the to-pages layer slugifies it (slug_from_id parity: lowercase →
+      // [a-z0-9-] → trim dashes) so an anchor id like "Our Services" / "sec:pricing" still
+      // survives as a clean css_id, matching the PHP section_id() P0 fix. (Was gated to a
+      // strict identifier here, which dropped ids the PHP path would have slugged & kept.)
+      if (sid && sid.trim()) sections[i].sectionId = sid.trim();
     }
     // The section's content-column classes (e.g. col-lg-10 col-md-12 col-xl-8) — carried onto the
     // builder's intro column (fw-prefixed) so the content width matches the source.
@@ -1979,13 +2555,253 @@ export function extractDesign() {
     return acc;
   })();
 
+  // --- deterministic chrome / preset probes (in-browser mirrors of the PHP Stitch builders) ---
+  // These read RESOLVED computed styles + semantic classes here (where a live DOM exists) so the
+  // node-side consumers (to-theme-settings.mjs / to-presets.mjs) can emit the SAME native Theme-
+  // Settings values + presets the PHP FW_Site_Converter_Stitch path produces. KEEP IN SYNC with:
+  //   build_button_presets()  →  buttonSkins        (role + computed skin per a/button)
+  //   detect_logo()/infer_frame_shape()  →  logoDetail (icon frame shape/bg, wordmark size/weight)
+  //   detect_header_chrome_styles()  →  mobileBreakpoint (+ header.bar.maxWidth = container width)
+  //   build_spacing_scale()  →  spacingTokens       (arbitrary off-scale spacing lengths)
+
+  const _clsOf = (el) => (el && el.className && el.className.toString ? el.className.toString() : '');
+  const _isWhitish = (bg) => { const m = String(bg).match(/(\d+)[,\s]+(\d+)[,\s]+(\d+)/); return m ? (+m[1] > 240 && +m[2] > 240 && +m[3] > 240) : /^(#fff|#ffffff|white)$/i.test(String(bg).trim()); };
+
+  // Button skins — every short-text a/button, ROLE from the semantic fill class (bg-primary → Primary,
+  // bg-secondary/accent/cta → Secondary, whitish+border → Outline, else Fill/Outline), computed skin
+  // (fill/text/border/radius/padding/font). Mirror of build_button_presets()'s skin loop.
+  const buttonSkins = (() => {
+    const out = [];
+    document.querySelectorAll('a, button').forEach((el) => {
+      const t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!t || t.length > 40) return;
+      const s = getComputedStyle(el);
+      const bg = s.backgroundColor;
+      const filled = hasBg(bg);
+      let bw = s.borderTopWidth; if (bw === '0px' || bw === '0') bw = '';
+      const c = ' ' + _clsOf(el).toLowerCase() + ' ';
+      if (!filled && !bw && !/\b(btn|button|cta)\b/.test(c)) return;
+      let role;
+      if (/\sbg-(primary|brand)\b/.test(c)) role = 'Primary';
+      else if (/\sbg-(secondary|accent|cta)\b/.test(c)) role = 'Secondary';
+      else if ((!filled || _isWhitish(bg)) && bw) role = 'Outline';
+      else if (filled && !_isWhitish(bg)) role = 'Fill';
+      else role = 'Outline';
+      out.push({
+        role,
+        bg: filled ? bg : '',
+        fg: s.color || '',
+        bd: bw ? (s.borderTopColor || '') : '',
+        bw: bw || '',
+        shadow: (s.boxShadow && s.boxShadow !== 'none') ? s.boxShadow : '',
+        radius: s.borderRadius || '',
+        px: s.paddingLeft || '', py: s.paddingTop || '',
+        fs: s.fontSize || '', lh: s.lineHeight || '',
+        hoverBg: (hoverStyle(el) || {}).backgroundColor || '',
+      });
+    });
+    return out;
+  })();
+
+  // Logo detail — the icon tile (frame shape/bg from its radius vs box) + the wordmark's own span
+  // (color/size/weight, and a 2nd-tone accent). Mirror of detect_logo() + infer_frame_shape().
+  const inferFrameShape = (radius, boxPx) => {
+    radius = String(radius || '').trim();
+    if (radius === '' || /^0(px|rem|em)?(\s+0(px|rem|em)?)*$/.test(radius)) return 'square';
+    if (radius.indexOf('%') !== -1 || /(?:^|\s)(?:99\d\d|[1-9]\d{4,})px/.test(radius)) return 'circle';
+    const rm = radius.match(/([0-9.]+)px/); const r = rm ? parseFloat(rm[1]) : 0;
+    const bm = String(boxPx || '').match(/([0-9.]+)px/); const b = bm ? parseFloat(bm[1]) : 0;
+    if (r > 0 && b > 0) { const ratio = r / b; if (ratio >= 0.90) return 'circle'; if (ratio >= 0.22) return 'squircle'; return 'rounded'; }
+    if (r >= 10) return 'squircle';
+    return r > 0 ? 'rounded' : 'square';
+  };
+  const logoDetail = (() => {
+    const d = { text: '', icon: '', image: '', svg: '', icon_color: '', frame: 'none', frame_bg: '', title_color: '', title_size: '', title_weight: '', icon_size: '', title_accent_color: '', title_accent_text: '' };
+    if (!headerEl) return d;
+    // Brand = the first non-button link whose href is home ('/', '#', or the origin).
+    let brand = [...headerEl.querySelectorAll('a')].find((a) => {
+      const href = (a.getAttribute('href') || '').trim();
+      const home = href === '' || href === '#' || href === '/' || /^https?:\/\/[^/]+\/?$/.test(href);
+      return home && !looksButton(a);
+    }) || headerEl;
+    const img = brand.querySelector('img');
+    if (img && !String(img.getAttribute('src') || '').startsWith('data:')) d.image = abs(img.currentSrc || img.src);
+    // Wordmark span: the first span whose text is part of the brand's short label; base tone + size/weight,
+    // a later differently-coloured span = the accent tone (two-tone wordmark residual).
+    const brandTxt = (brand.textContent || '').replace(/\s+/g, ' ').trim();
+    if (brandTxt && brandTxt.split(/\s+/).length <= 4) d.text = brandTxt;
+    let sawBase = false;
+    brand.querySelectorAll('span').forEach((sp) => {
+      const st = (sp.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!st || !d.text || d.text.indexOf(st) === -1) return;
+      const cs = getComputedStyle(sp);
+      if (!sawBase) {
+        if (cs.color) d.title_color = cs.color;
+        if (cs.fontSize) d.title_size = cs.fontSize;
+        if (/^(300|400|500|600|700|800|900)$/.test(String(parseInt(cs.fontWeight, 10)))) d.title_weight = String(parseInt(cs.fontWeight, 10));
+        sawBase = true;
+      } else if (cs.color && d.title_color && cs.color !== d.title_color && d.title_accent_color === '') {
+        d.title_accent_color = cs.color;
+        // The accent RUN text ("Paws" of "FreshPaws") — a real sub-run of the wordmark, so the emit can
+        // SPLIT it into ink + <span class="accent">. Mirror of PHP detect_logo's title_accent_text.
+        if (st && st !== d.text && d.text.indexOf(st) !== -1) d.title_accent_text = st;
+      }
+    });
+    if (!d.title_color) { const bc = getComputedStyle(brand); d.title_color = bc.color || ''; }
+    // Icon mark: inline <svg> (verbatim) + its color + an optional colored frame tile ancestor.
+    const svg = brand.querySelector('svg');
+    if (svg) {
+      const mk = svg.outerHTML; if (mk && mk.length < 12000) d.svg = mk.replace(/\s+/g, ' ').trim();
+      const scls = _clsOf(svg).toLowerCase();
+      d.icon_color = scls.indexOf('text-white') !== -1 ? '#ffffff' : (getComputedStyle(svg).color || '');
+      const iw = getComputedStyle(svg).width; if (iw && /^[0-9.]+px$/.test(iw)) d.icon_size = iw;
+      let anc = svg.parentNode;
+      while (anc && anc !== brand && anc.nodeType === 1) {
+        const acs = getComputedStyle(anc);
+        const bg = acs.backgroundColor;
+        if (hasBg(bg)) {
+          d.frame_bg = bg;
+          d.frame = inferFrameShape(acs.borderRadius, acs.width);
+          if (!d.icon_color) d.icon_color = '#ffffff';
+          break;
+        }
+        anc = anc.parentNode;
+      }
+    }
+    // (No inline svg → a library icon id is already captured on header.logo.icon.)
+    return d;
+  })();
+  if (header && header.logo) header.logo.detail = logoDetail;
+
+  // Header CTA style class (btn-primary / btn-secondary / btn-outline) from its semantic fill class.
+  if (header && header.cta && headerEl) {
+    const ctaEl = [...headerEl.querySelectorAll('a, button')].reverse().find((a) => (a.textContent || '').trim() === header.cta.label);
+    if (ctaEl) {
+      const cc = ' ' + _clsOf(ctaEl).toLowerCase() + ' ';
+      if (/\sbg-(primary|brand)\b/.test(cc)) header.cta.style = 'btn-primary';
+      else if (/\sbg-(secondary|accent|cta)\b/.test(cc)) header.cta.style = 'btn-secondary';
+      else if (cc.indexOf(' border') !== -1 && (cc.indexOf(' bg-white') !== -1 || !/\sbg-(?!transparent)/.test(cc))) header.cta.style = 'btn-outline';
+    }
+  }
+
+  // Mobile breakpoint — the width at which the inline nav collapses (hidden md:flex / md:hidden → 'md',
+  // the lg: variants → 'lg'). Mirror of detect_header_chrome_styles()'s $bp sniff.
+  let mobileBreakpoint = '';
+  if (headerEl) {
+    for (const el of headerEl.querySelectorAll('*')) {
+      const c = ' ' + _clsOf(el) + ' ';
+      let m = c.match(/\shidden\s+(md|lg):flex\b/) || c.match(/\s(md|lg):hidden\b/);
+      if (m) { mobileBreakpoint = m[1]; break; }
+    }
+  }
+
+  // Footer inner content wrapper max-width (container width parity for the footer, like the header bar).
+  let footerContainerMax = '';
+  if (footerEl) {
+    let best = 0, fluid = false, sawWrap = false;
+    for (const el of footerEl.querySelectorAll('*')) {
+      const c = ' ' + _clsOf(el).toLowerCase() + ' ';
+      const isWrap = c.indexOf(' container ') !== -1 || c.indexOf(' container-fluid ') !== -1 || c.indexOf(' mx-auto ') !== -1 || /\smax-w-/.test(c);
+      if (!isWrap) continue;
+      sawWrap = true;
+      if (c.indexOf(' container-fluid ') !== -1 || /\smax-w-(full|none)\b/.test(c)) fluid = true;
+      const mw = getComputedStyle(el).maxWidth;
+      const pm = String(mw).match(/^([0-9.]+)px$/);
+      if (pm) { const px = parseFloat(pm[1]); if (px >= 320 && px <= 2200 && px > best) best = px; }
+    }
+    footerContainerMax = best > 0 ? String(Math.round(best)) : (sawWrap && fluid ? 'fluid' : '');
+  }
+
+  // Arbitrary off-scale SPACING tokens actually present in the markup (pt-[192px], mb-[3.5rem], …),
+  // ≥ 40px, not already on the Tailwind base scale. Mirror of build_spacing_scale()'s harvest.
+  const spacingTokens = (() => {
+    const html = document.documentElement.outerHTML;
+    const re = /\b(?:p[trblxy]?|m[trblxy]?|gap(?:-[xy])?|space-[xy])-\[([0-9.]+(?:px|rem|em))\]/g;
+    const seen = new Set(); const out = []; let m;
+    while ((m = re.exec(html))) {
+      const v = m[1].toLowerCase(); if (seen.has(v)) continue; seen.add(v);
+      const pm = v.match(/^([0-9.]+)px$/); const rm = v.match(/^([0-9.]+)(rem|em)$/);
+      const px = pm ? parseFloat(pm[1]) : (rm ? parseFloat(rm[1]) * 16 : 0);
+      if (px >= 40) out.push({ value: v, px });
+    }
+    return out;
+  })();
+
+  // Typography — the source's base body run (densest <p>) + each heading level h1–h6's first real
+  // occurrence, measured from live computed styles. MIRROR of PHP detect_typography(); the node
+  // consumer (to-theme-settings.mjs) assembles these under the `typography` Theme-Settings key.
+  // size = px int; line-height = unitless ratio (computed px ÷ font-size, rounded); letter-spacing =
+  // px number ('normal'/0 dropped); family = the first non-generic family in the computed stack.
+  const typography = (() => {
+    const firstFam = (stack) => {
+      const one = String(stack || '').split(',')[0].trim().replace(/^["']|["']$/g, '');
+      const generic = ['inherit', 'initial', 'sans-serif', 'serif', 'monospace', 'system-ui', '-apple-system', 'ui-sans-serif', 'ui-serif'];
+      return (one === '' || generic.includes(one.toLowerCase())) ? '' : one;
+    };
+    const lhRatio = (lh, size) => {
+      lh = String(lh || '').trim(); size = parseFloat(size) || 0;
+      if (lh === '' || lh.toLowerCase() === 'normal' || size <= 0) return '';
+      let m = lh.match(/^([0-9.]+)px$/); if (m) return String(Math.round((parseFloat(m[1]) / size) * 100) / 100);
+      m = lh.match(/^([0-9.]+)$/); if (m) return String(Math.round(parseFloat(m[1]) * 100) / 100);
+      return '';
+    };
+    const lsPx = (ls) => {
+      ls = String(ls || '').trim();
+      if (ls === '' || ls.toLowerCase() === 'normal') return '';
+      const m = ls.match(/^(-?[0-9.]+)px$/); if (!m) return '';
+      const v = Math.round(parseFloat(m[1]) * 100) / 100; return Math.abs(v) < 0.01 ? '' : String(v);
+    };
+    const out = {};
+    // BODY — the densest paragraph (a real content run, not a caption).
+    let bestP = null, bestLen = 0;
+    document.querySelectorAll('p').forEach((p) => { const l = txt(p).length; if (l > bestLen) { bestLen = l; bestP = p; } });
+    if (bestP) {
+      const cs = getComputedStyle(bestP); const b = {};
+      const sm = String(cs.fontSize).match(/^([0-9.]+)px$/); if (sm) b.size = Math.round(parseFloat(sm[1]));
+      const fam = firstFam(cs.fontFamily); if (fam) b.family = fam;
+      const lh = lhRatio(cs.lineHeight, b.size || 0); if (lh !== '') b['line-height'] = lh;
+      const ls = lsPx(cs.letterSpacing); if (ls !== '') b['letter-spacing'] = ls;
+      if (Object.keys(b).length) out.body = b;
+    }
+    // HEADINGS h1–h6 — the FIRST occurrence of each level with real text.
+    for (const lvl of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) {
+      const h = [...document.getElementsByTagName(lvl)].find((e) => txt(e) !== '');
+      if (!h) continue;
+      const cs = getComputedStyle(h); const rec = {};
+      const sm = String(cs.fontSize).match(/^([0-9.]+)px$/); if (sm) rec.size = Math.round(parseFloat(sm[1]));
+      const w = String(parseInt(cs.fontWeight, 10) || ''); if (/^[1-9]00$/.test(w)) rec.weight = w;
+      const fam = firstFam(cs.fontFamily); if (fam) rec.family = fam;
+      const lh = lhRatio(cs.lineHeight, rec.size || 0); if (lh !== '') rec['line-height'] = lh;
+      const ls = lsPx(cs.letterSpacing); if (ls !== '') rec['letter-spacing'] = ls;
+      if (Object.keys(rec).length) out[lvl] = rec;
+    }
+    return out;
+  })();
+
+  // Does the source use the literal Tailwind `.container` class inside a header/footer/section/main?
+  // Signals a RESPONSIVE breakpoint ladder (sm/md/lg/xl/2xl) rather than a single fixed max-width, so
+  // to-theme-settings.mjs emits the upper container tiers as scoped @media CSS. Mirror of
+  // site_uses_tw_container().
+  const usesTwContainer = (() => {
+    for (const tag of ['header', 'footer', 'section', 'main']) {
+      for (const root of document.getElementsByTagName(tag)) {
+        for (const el of root.getElementsByTagName('*')) {
+          if ((' ' + _clsOf(el).toLowerCase() + ' ').indexOf(' container ') !== -1) return true; // exact token, not container-fluid
+        }
+      }
+    }
+    return false;
+  })();
+
   return {
     title: document.title,
     tailwind: detectTailwind(), // source built with Tailwind → mapper trusts the `styles.tw` token intent
+    typography, usesTwContainer,
     tokens: { vars, brandColor, brandHover, body: pick(bodyCS, ['fontFamily', 'color', 'backgroundColor', 'lineHeight', 'fontSize']) },
     layout: { container_max: containerMax },
     baseHeading,
     header, footer, sections, chrome,
+    buttonSkins, mobileBreakpoint, spacingTokens, footerContainerMax,
     assets: { images: [...imgs].filter((u) => /^https?:/.test(u)), fonts },
   };
 }

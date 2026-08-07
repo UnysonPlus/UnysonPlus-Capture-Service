@@ -135,8 +135,13 @@ export function toDesignConfig(cap) {
   } else if (foot.links) {
     footerMenu = foot.links.map((l) => ({ label: l.label || '', url: localizeHref(l.href) }));
   }
-  const footerSocial = (foot.social || []).filter((s) => (s.label || '').trim())
-    .map((s) => ({ label: s.label.trim(), url: localizeHref(s.href) }));
+  // Keep socials that carry a NETWORK (from the icon class) OR a label OR a real URL — so icon-only
+  // `href="#"` circles (network sniffed by icon) survive, matching the PHP detect_footer_social path.
+  const footerSocial = (foot.social || []).filter((s) => (s.net || '').trim() || (s.label || '').trim() || /^https?:/i.test(s.href || ''))
+    .map((s) => ({ label: (s.label || '').trim(), url: localizeHref(s.href), net: (s.net || '').trim() }));
+  // Structured CONTACT column (icon+text rows) — passed through verbatim for the native leading-icon list.
+  const footerContact = foot.contact && Array.isArray(foot.contact.rows) && foot.contact.rows.length
+    ? { title: foot.contact.title || '', rows: foot.contact.rows } : null;
   // Keep only the editable tail after the "© year brand." sentence as a starter tagline.
   const taglineFromCopyright = (copy) => {
     copy = (copy || '').trim();
@@ -177,7 +182,7 @@ export function toDesignConfig(cap) {
         style: ctaStyle,
       },
     },
-    footer: { widget_area: true, brand: true, copyright: taglineFromCopyright(foot.copyright), menu: footerMenu, social: footerSocial },
+    footer: { widget_area: true, brand: true, copyright: taglineFromCopyright(foot.copyright), menu: footerMenu, social: footerSocial, contact: footerContact },
     background: { dotted: false },
   };
 }

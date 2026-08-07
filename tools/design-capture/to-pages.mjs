@@ -20,6 +20,8 @@
 // export); only the CONTENT is swapped, per "clone shapes from a real export, only swap content."
 
 import { readFileSync } from 'node:fs';
+import { sectionStyles } from './to-presets.mjs';
+import { buildButtonPresets } from './to-theme-settings.mjs';
 
 // 32-hex unique id for each builder node (matches the export's unique_id shape).
 // Web Crypto works in both Node (19+) and Cloudflare Workers, so the mapper is
@@ -111,6 +113,144 @@ export function toPages(capture, opts = {}) {
   // carries a stale id="hero" from the export it was traced from — without this every
   // section would render id="hero").
   const stamp = (n) => { if (n.atts) { n.atts.unique_id = uid(); n.atts.css_id = ''; } return n; };
+
+  // SECTION BAND FILL → the section's NATIVE background. Parity with the PHP mapper's n_section:
+  // a detected full-bleed band fill LINKS to an existing Section Style preset when the colour matches
+  // one within tolerance (set `variant` = its slug — the CTA green → the built "Alt" preset), else it
+  // stays a direct background.color.custom. Linking avoids hardcoding the same colour twice.
+  const _rgb = (c) => {
+    c = String(c == null ? '' : c).trim().toLowerCase();
+    if (!c || c === 'transparent' || c.includes('gradient')) return null;
+    let m = c.match(/rgba?\(\s*(\d{1,3})[,\s]+(\d{1,3})[,\s]+(\d{1,3})(?:[,\s/]+([\d.]+))?/);
+    if (m) { if (m[4] != null && m[4] !== '' && parseFloat(m[4]) < 0.85) return null; return [+m[1], +m[2], +m[3]]; }
+    m = c.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/);
+    if (m) { let h = m[1]; if (h.length === 3) h = h.split('').map((x) => x + x).join(''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+    return null;
+  };
+  // Build the SAME Section Style presets theme-settings carries → { slug, rgb } for colour-matching. The
+  // slug is derived from style_name exactly like PHP's unysonplus_section_style_preset_slug_map().
+  const _secPresets = (() => {
+    const out = []; const seen = {};
+    for (const sp of (sectionStyles(capture) || [])) {
+      const bg = sp && sp.background && sp.background.color && sp.background.color.value ? sp.background.color.value.custom : '';
+      const rgb = _rgb(bg);
+      if (!rgb) continue;
+      let slug = String(sp.style_name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      if (!slug) slug = String(sp.id || '').toLowerCase();
+      if (!slug) continue;
+      const base = slug; let n = 1;
+      while (seen[slug]) { n++; slug = base + '-' + n; }
+      seen[slug] = true;
+      out.push({ slug, rgb });
+    }
+    return out;
+  })();
+  const _matchPreset = (rgb) => {
+    if (!rgb || !_secPresets.length) return '';
+    let best = '', bestd = Infinity;
+    for (const p of _secPresets) {
+      const d = Math.abs(p.rgb[0] - rgb[0]) + Math.abs(p.rgb[1] - rgb[1]) + Math.abs(p.rgb[2] - rgb[2]);
+      if (d < bestd) { bestd = d; best = p.slug; }
+    }
+    return bestd <= 18 ? best : ''; // tight tolerance so distinct bands don't collapse
+  };
+  // Apply a detected band-fill colour onto a built section node: link a preset (variant) when it matches,
+  // else keep the direct custom bg. Returns true when it linked a preset (caller must NOT also set custom).
+  const applyBandFill = (sNode, bgColor) => {
+    const rgb = _rgb(bgColor);
+    if (!rgb || !sNode || !sNode.atts) return false;
+    const slug = _matchPreset(rgb);
+    if (slug) {
+      sNode.atts.variant = slug;
+      if (sNode.atts.background && sNode.atts.background.color && sNode.atts.background.color.value) {
+        sNode.atts.background.color.value.custom = ''; // preset paints it — no double-apply
+      }
+      return true;
+    }
+    return false;
+  };
+
+  // BUTTON preset linking — parity with the PHP mapper's set_button_presets()/button_preset_for(): the
+  // SAME button_colors / button_sizes presets theme-settings carries → a converted BODY button attaches
+  // the matching color-preset slug (style=btn-{slug}) + size-preset slug (size=btn-{slug}), exactly like
+  // the header CTA. Built from capture.home.buttonSkins (or opts.buttonPresets when the caller precomputed
+  // them). The per-node custom_css (exact fill/padding) stays as the ADDITIVE safety net.
+  const _btnPresets = (() => {
+    let bp = opts.buttonPresets || null;
+    if (!bp) { try { bp = buildButtonPresets(capture.home || capture); } catch { bp = null; } }
+    const colors = []; const sizes = [];
+    const seen = {};
+    for (const c of ((bp && bp.button_colors) || [])) {
+      let slug = String(c.color_name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      if (!slug) slug = String(c.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+      if (!slug) continue;
+      const base = slug; let n = 1; while (seen[slug]) { n++; slug = base + '-' + n; } seen[slug] = true;
+      const def = (c.states && c.states.default) || {};
+      const pick = (f) => (def[f] && (def[f].custom || def[f].predefined)) || '';
+      const bg = _rgb(pick('bg_color')); const fg = _rgb(pick('text_color')); const bd = _rgb(pick('border_color'));
+      colors.push({ slug, role: String(c.color_name || '').toLowerCase(), bg, fg, bd });
+    }
+    for (const s of ((bp && bp.button_sizes) || [])) {
+      if (!s || !s.slug) continue;
+      const num = (f) => (s[f] && s[f].value !== '' && s[f].value != null ? parseFloat(s[f].value) : null);
+      sizes.push({ slug: String(s.slug).toLowerCase().replace(/[^a-z0-9_-]/g, ''), fs: num('font_size'), py: num('padding_y'), px: num('padding_x') });
+    }
+    return { colors, sizes };
+  })();
+  const _pxNum = (v) => { const m = String(v == null ? '' : v).trim().match(/^(-?[0-9.]+)\s*px?$/i); return m ? parseFloat(m[1]) : null; };
+  const _matchBtnColor = (bg, fg, bd) => {
+    if (!_btnPresets.colors.length) return '';
+    const dist = (a, b) => (a && b ? Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]) : null);
+    let best = '', bestd = Infinity;
+    for (const p of _btnPresets.colors) {
+      let d;
+      if (bg && p.bg) { d = dist(bg, p.bg); const dt = dist(fg, p.fg); if (dt != null) d += Math.round(dt / 3); }
+      else if (!bg && !p.bg) { if (!bd) continue; d = dist(bd, p.bd); if (d == null) continue; }
+      else continue;
+      if (d < bestd) { bestd = d; best = p.slug; }
+    }
+    return bestd <= 40 ? best : '';
+  };
+  const _buttonPresetFor = (b) => {
+    const out = { style: '', size: '' };
+    if (!_btnPresets.colors.length && !_btnPresets.sizes.length) return out;
+    const lc = ' ' + String(b.cls || '').toLowerCase() + ' ';
+    const bs = b.bs || {};
+    // COLOR — semantic fill class → the role's preset; else match computed colours.
+    let role = '';
+    if (/\s(?:btn-primary|bg-primary|bg-brand)\b/.test(lc)) role = 'primary';
+    else if (/\s(?:btn-secondary|bg-secondary|bg-accent|bg-cta)\b/.test(lc)) role = 'secondary';
+    else if ((/\sbg-white\b/.test(lc) || /\sbg-surface\b/.test(lc)) && /\sborder\b/.test(lc)) role = 'outline';
+    let style = '';
+    if (role) { const p = _btnPresets.colors.find((x) => x.role === role); if (p) style = 'btn-' + p.slug; }
+    if (!style) {
+      const bg = _rgb(bs.bg); const fg = _rgb(bs.fg);
+      // a border only counts with a real width
+      const bd = (bs.bw && bs.bw !== '0px' && bs.bw !== '0' && bs.bds && bs.bds !== 'none') ? _rgb(bs.bd) : null;
+      if (bg || bd) { const slug = _matchBtnColor(bg, fg, bd); if (slug) style = 'btn-' + slug; }
+    }
+    out.style = style;
+    // SIZE — explicit btn-lg/md/sm, else match computed font-size + padding.
+    let size = '';
+    const m = lc.match(/\sbtn-(lg|md|sm|xl|xs)\b/);
+    if (m && _btnPresets.sizes.some((s) => s.slug === m[1])) size = m[1];
+    if (!size) {
+      const fs = _pxNum(b.fontSize || b.fs);
+      let py = null, px = null;
+      const pp = String(b.pad || '').trim().split(/\s+/).map(_pxNum);
+      if (pp.length) { py = pp[0]; px = pp.length >= 2 ? pp[1] : pp[0]; }
+      if (fs != null) {
+        for (const s of _btnPresets.sizes) {
+          if (s.fs == null || Math.abs(s.fs - fs) > 1) continue;
+          if (py != null && s.py != null && Math.abs(s.py - py) > 3) continue;
+          if (px != null && s.px != null && Math.abs(s.px - px) > 4) continue;
+          size = s.slug; break;
+        }
+      }
+    }
+    out.size = size ? 'btn-' + size : '';
+    return out;
+  };
 
   // Optional conversion-report trace (no-op unless opts.trace is an array). Records the
   // per-section decision and per-element source→shortcode mapping so the deterministic
@@ -421,9 +561,12 @@ export function toPages(capture, opts = {}) {
     // column instead (content_direction/content_h), so leave those at default to avoid wrapping each in a
     // centring div that would break the side-by-side layout.
     const btnAlign = (!b.groupRow && /^(center|right)$/.test(String(b.align || ''))) ? b.align : '';
+    // Attach the matching button_colors / button_sizes preset slug (the header CTA does the same);
+    // the custom_css above stays the exact per-node safety net. Parity with PHP Mapper::n_button().
+    const preset = _buttonPresetFor(b);
     return { type: 'simple', shortcode: 'button', _items: [], atts: {
       label: b.label, link: localize(b.href), target: 'no',
-      style: '', size: '', icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
+      style: preset.style, size: preset.size, icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
       alignment: btnAlign, state: '', hover_animation: '', css_class: cls, custom_css, unique_id: uid(),
     } };
   };
@@ -470,10 +613,21 @@ export function toPages(capture, opts = {}) {
     // generated id, so `selector img` targets the rendered <img>. Without this a hero photo that the
     // source rounds into a blob ships as a bare rectangle.
     const decl = [];
+    if (b.blob) { decl.push('position:relative'); decl.push('z-index:1'); }
     if (b.radius) decl.push(`border-radius:${b.radius}`);
     if (b.objectFit) decl.push(`object-fit:${b.objectFit}`);
+    if (b.borderWidth && b.borderColor) decl.push(`border:${b.borderWidth} solid ${b.borderColor}`);
     if (b.shadow) decl.push(`box-shadow:${b.shadow}`);
-    const custom_css = decl.length ? `selector img{${decl.join(';')};}` : '';
+    let custom_css = decl.length ? `selector img{${decl.join(';')};}` : '';
+    // A decorative BLOB backdrop behind the photo → a scoped `selector::before` (no extra element /
+    // code_block), mirroring the PHP img_composite_skin_css. `selector` needs position:relative.
+    if (b.blob) {
+      const bd = ['content:""', 'position:absolute', 'inset:0', 'z-index:0', 'pointer-events:none'];
+      if (b.blob.bg && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(b.blob.bg)) bd.push(`background:${b.blob.bg}`);
+      if (b.blob.radius) bd.push(`border-radius:${b.blob.radius}`);
+      if (b.blob.scale) bd.push(`transform:scale(${b.blob.scale})`);
+      custom_css = `selector{position:relative;}` + custom_css + `selector::before{${bd.join(';')};}`;
+    }
     return { type: 'simple', shortcode: 'media_image', _items: [], atts: {
       image: { attachment_id: '', url: b.src || '', alt: b.alt || '' },
       width: { value: '', unit: 'px' }, height: { value: '', unit: 'px' },
@@ -585,7 +739,19 @@ export function toPages(capture, opts = {}) {
   // section is given `position:relative; isolation:isolate` (below) so `inset:0` anchors to it and the
   // negative z-index stays within the section instead of sliding behind the page.
   const decorNode = (html) => codeBlock('<div style="position:absolute;inset:0;z-index:-10;pointer-events:none;overflow:hidden">' + String(html || '') + '</div>');
-  const blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : codeBlock(b.html));
+  // Enable the source reveal animation on a node's Animations tab — ONLY for the standard
+  // { enable, yes:{effect} } shape (heading/text/button/image/counter/testimonials/icon_box). A node
+  // without that shape (the interactive widgets built inline) is left at its default, mirroring the PHP
+  // apply_block_anim (whose interactive-widget multi-picker effect vocabulary is the animation-engine
+  // registry, not animate.css). No `b.anim` → untouched (no false motion).
+  const applyAnim = (node, b) => {
+    if (node && b && b.anim && node.atts && node.atts.animation && typeof node.atts.animation === 'object' && 'enable' in node.atts.animation) {
+      node.atts.animation = { ...node.atts.animation, enable: 'yes', yes: { ...(node.atts.animation.yes || {}), effect: b.anim } };
+    }
+    return node;
+  };
+  const blockToNode = (b) => applyAnim(_blockToNode(b), b);
+  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -710,6 +876,20 @@ export function toPages(capture, opts = {}) {
     if (card.iconBadge) { a.icon_badge = card.iconBadge; }
     const ibc = String(card.iconBadgeColor || '').trim();
     if (/^#[0-9a-f]{3,8}$/i.test(ibc)) { a.icon_badge_color = { predefined: '', custom: ibc }; }
+    // Stash the full badge SKIN (shape / fill / glyph colour / size / radius / border) so the
+    // post-pass in capture.mjs can cluster the DISTINCT badge designs into `icon_badge_presets`
+    // (buildIconBadgePresets — the JS counterpart of PHP build_icon_badge_presets). Dropped after.
+    if (card.iconBadge) {
+      a._badge = {
+        shape: card.iconBadge,
+        fill: card.iconBadgeColor || '',
+        iconColor: card.iconColor || '',
+        size: card.iconBadgeSize || 0,
+        radius: card.iconBadgeRadius || '',
+        borderWidth: card.iconBadgeBorderWidth || '',
+        borderColor: card.iconBadgeBorderColor || '',
+      };
+    }
     // ALIGNMENT — source feature cards are frequently LEFT-aligned while the icon_box top-title layout
     // CENTRES by default; carry the captured alignment so icon, title and content match the source column.
     if (/^(left|center|right)$/.test(card.align || '')) {
@@ -731,6 +911,36 @@ export function toPages(capture, opts = {}) {
     }).join(' ');
     const pad = String(card.pad || '').trim();
     if (pad && pad !== '0px') { a.custom_css = 'selector{padding:' + pad.replace(/[{}<>;]/g, '') + ' !important;}'; }
+    return n;
+  };
+  // A FLOATING badge/card overlaid on a hero image → an editable icon_box, POSITIONED + skinned over
+  // the image via scoped Custom CSS (absolute top/left, bg, radius, shadow, padding). Parity with the
+  // PHP floating_card_block + floating_card_pos_css. `fc` comes from capture-extract's floatingCardOf.
+  const floatingCardPosCss = (pos) => {
+    if (!pos) return '';
+    const decl = ['position:absolute', 'z-index:20', 'max-width:16rem'];
+    const cls = ' ' + String(pos.cls || '') + ' ';
+    for (const side of ['top', 'left', 'right', 'bottom']) {
+      const m = cls.match(new RegExp('(^|\\s)(-?)' + side + '-(\\d{1,3})(\\s|$)'));
+      if (m) { const v = (m[2] === '-' ? -1 : 1) * (parseInt(m[3], 10) * 0.25); decl.push(side + ':' + String(+v.toFixed(3)) + 'rem'); }
+    }
+    if (pos.bg && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(pos.bg)) decl.push(`background:${pos.bg}`);
+    if (pos.radius && !/^(0px)( 0px)*$/.test(String(pos.radius).trim())) decl.push(`border-radius:${pos.radius}`);
+    if (pos.shadow && pos.shadow !== 'none') decl.push(`box-shadow:${pos.shadow}`);
+    if (pos.padding && !/^(0px)( 0px)*$/.test(String(pos.padding).trim())) decl.push(`padding:${pos.padding}`);
+    return `selector{${decl.join(';')};}`;
+  };
+  const floatingCardNode = (fc) => {
+    const card = {
+      title: fc.title || '', titleTag: fc.titleTag || 'h4',
+      text: fc.subtitle ? '<p>' + esc(fc.subtitle) + '</p>' : '',
+      customIcon: fc.customIcon || '', iconCls: fc.iconCls || '', iconColor: fc.iconColor || '',
+      iconBadge: fc.iconBadge || '', iconBadgeColor: fc.iconBadgeColor || '',
+      iconLayout: fc.iconLayout || 'inline-left', align: 'left',
+    };
+    const n = iconBoxNode(card);
+    const pos = floatingCardPosCss(fc.pos);
+    if (n.atts && pos) { n.atts.custom_css = (n.atts.custom_css ? n.atts.custom_css + '\n' : '') + pos; }
     return n;
   };
   // A testimonials collection → the editable `testimonials` shortcode (parity with PHP
@@ -773,6 +983,122 @@ export function toPages(capture, opts = {}) {
     a.suffix_color = counterColor(c.suffixColor);
     return n;
   };
+
+  // === Structured / interactive native-widget node builders — parity with the PHP Mapper n_* builders
+  //     (class-fw-site-converter-mapper.php: n_table / n_accordion / n_feature_list / n_tabs / n_steps /
+  //     n_timeline / n_progress / n_pricing / n_lottie / n_svg_draw). No default-att atom exists for these
+  //     shortcodes, so the atts tree is built inline with the SAME overlay keys the PHP finalize_widget
+  //     writes; a below-min payload falls back to a code_block, exactly like PHP. ===
+  const iconNone = () => ({ type: 'none', 'icon-class': '', 'icon-class-without-root': false, 'pack-name': false, 'pack-css-uri': false });
+  const widgetNode = (shortcode, atts) => ({ type: 'simple', shortcode, _items: [], atts: { css_id: '', css_class: '', ...atts, unique_id: uid() } });
+
+  // A <table> → native `table` (tabular render). Leading all-<th> rows → header_rows (<thead>). Parity
+  // with n_table. NOTE: the Table Preset slug is chosen PHP-side (reads the WP preset library), which the
+  // capture service can't see, so `table_preset` is left unset here (the style evidence rides on the block).
+  const tableNode = (b) => {
+    const rows = Array.isArray(b.rows) ? b.rows : [];
+    let ncol = 0; for (const r of rows) if (Array.isArray(r)) ncol = Math.max(ncol, r.length);
+    if (ncol < 1 || !rows.length) return codeBlock('');
+    const cols = []; for (let c = 0; c < ncol; c++) cols.push({ name: 'default-col', align: '', width: '' });
+    let headerRows = 0, seenBody = false;
+    for (const r of rows) {
+      let allTh = Array.isArray(r) && r.length > 0;
+      for (const cell of (r || [])) if (!cell || !cell.header) { allTh = false; break; }
+      if (allTh && !seenBody) headerRows++; else seenBody = true;
+    }
+    const content = [], rowmeta = [];
+    rows.forEach((r, ri) => {
+      r = Array.isArray(r) ? r : [];
+      const line = [];
+      for (let c = 0; c < ncol; c++) { const cell = (r[c] && typeof r[c] === 'object') ? r[c] : {}; line[c] = { textarea: String(cell.html || ''), colspan: 1, rowspan: 1, merged: false }; }
+      content.push(line); rowmeta.push({ name: ri < headerRows ? 'heading-row' : 'default-row' });
+    });
+    const atts = { table: { header_options: { table_purpose: 'tabular', header_rows: headerRows, footer_rows: 0 }, cols, rows: rowmeta, content } };
+    if (b.caption && String(b.caption).trim()) atts.caption = String(b.caption).trim();
+    return widgetNode('table', atts);
+  };
+
+  // An accordion/FAQ toggle group → native `accordion`; each item → one `tabs` row. Parity n_accordion.
+  const accordionNode = (b) => {
+    const src = Array.isArray(b.items) ? b.items : [];
+    const tabs = [];
+    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; tabs.push({ tab_title: title, tab_content: String(it.content || ''), is_open: 'no' }); }
+    if (!tabs.length) return codeBlock('');
+    return widgetNode('accordion', { tabs });
+  };
+
+  // A <ul>/<ol> → native `feature_list` (<ul> check, <ol> numbered). Parity n_feature_list.
+  const featureListNode = (b) => {
+    const src = Array.isArray(b.items) ? b.items : [];
+    const items = [];
+    for (const r of src) { const text = String(r.text || '').trim(); if (!text) continue; items.push({ text, subtext: '', value_text: '', icon: iconNone(), marker_color: { predefined: '', custom: '' }, state: 'on', link_url: '', link_target: '_self' }); }
+    if (!items.length) return codeBlock('');
+    return widgetNode('feature_list', { items, design: b.ordered ? 'numbered' : 'check' });
+  };
+
+  // A tab widget → native `tabs`; each tab → one entry. Parity n_tabs (needs >=2, first active fallback).
+  const tabsNode = (b) => {
+    const src = Array.isArray(b.items) ? b.items : [];
+    const tabs = []; let haveActive = false;
+    for (const it of src) {
+      const title = String(it.title || '').trim(); if (!title) continue;
+      const active = (!haveActive && it.active === 'yes') ? 'yes' : 'no'; if (active === 'yes') haveActive = true;
+      tabs.push({ tab_title: title, tab_content: String(it.content || ''), tab_image: '', badge: '', icon: iconNone(), disabled: 'no', is_active: active });
+    }
+    if (tabs.length < 2) return codeBlock('');
+    if (!haveActive) tabs[0].is_active = 'yes';
+    return widgetNode('tabs', { tabs });
+  };
+
+  // A numbered process flow → native `steps`. Parity n_steps.
+  const stepsNode = (b) => {
+    const src = Array.isArray(b.items) ? b.items : [];
+    const steps = [];
+    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; steps.push({ title, content: String(it.content || ''), icon: iconNone(), number: String(it.number || '') }); }
+    if (steps.length < 2) return codeBlock('');
+    return widgetNode('steps', { steps });
+  };
+
+  // A dated timeline → native `timeline`; each entry → one milestone. Parity n_timeline.
+  const timelineNode = (b) => {
+    const src = Array.isArray(b.items) ? b.items : [];
+    const items = [];
+    for (const it of src) { const title = String(it.title || '').trim(); const date = String(it.date || '').trim(); if (!title && !date) continue; items.push({ date, title: title || date, text: String(it.text || ''), icon: iconNone(), image: '', link_label: '', link_url: '', link_target: '_self' }); }
+    if (items.length < 2) return codeBlock('');
+    return widgetNode('timeline', { items });
+  };
+
+  // Skill/progress bars → native `progress` (bar layout). Parity n_progress.
+  const progressNode = (b) => {
+    const src = Array.isArray(b.bars) ? b.bars : [];
+    const bars = [];
+    for (const it of src) { const pct = parseInt(it.percent, 10) || 0; bars.push({ label: String(it.label || ''), percent: Math.max(0, Math.min(100, pct)), icon: iconNone(), color: { predefined: '', custom: '' } }); }
+    if (bars.length < 2) return codeBlock('');
+    return widgetNode('progress', { layout: { type: 'bar' }, bars });
+  };
+
+  // A pricing grid → native `pricing_table`; each column → a plan (multi-inline monthly/yearly). Parity n_pricing.
+  const pricingNode = (b) => {
+    const src = Array.isArray(b.plans) ? b.plans : [];
+    const plans = [];
+    for (const p of src) {
+      const title = String(p.title || '').trim(); const price = String(p.price || '').trim();
+      if (!title && !price) continue;
+      const period = String(p.period || '').trim();
+      plans.push({ plan_title: title || 'Plan', icon: iconNone(), subtitle: '', currency: String(p.currency || '$'),
+        price: { monthly: price, yearly: '' }, period: { monthly: period || '/mo', yearly: '/yr' }, original_price: { monthly: '', yearly: '' },
+        features: String(p.features || ''), featured: (p.featured === 'yes') ? 'yes' : 'no', ribbon: String(p.ribbon || ''),
+        button_label: String(p.btn_label || ''), button_url: localize(p.btn_url || ''), button_target: '_self' });
+    }
+    if (plans.length < 2) return codeBlock('');
+    return widgetNode('pricing_table', { plans, columns: String(Math.max(2, Math.min(5, plans.length))) });
+  };
+
+  // A Lottie/Bodymovin embed → native `lottie` (URL source, viewport trigger). Parity n_lottie.
+  const lottieNode = (b) => { const src = String(b.src || '').trim(); if (!src) return codeBlock(''); return widgetNode('lottie', { source: 'url', lottie_url: src, trigger: 'viewport' }); };
+
+  // A self-drawing SVG → native `svg_draw` (pasted-code source, view trigger). Parity n_svg_draw.
+  const svgDrawNode = (b) => { const code = String(b.code || ''); if (!code.trim()) return codeBlock(''); return widgetNode('svg_draw', { svg: { source: 'code', preset: { preset: 'signature' }, code: { code }, upload: { file: '' } }, trigger: 'view' }); };
 
   // rgb/rgba computed value → hex (opaque) or kept rgba (transparent), for a native color att.
   const rgbToCss = (v) => {
@@ -837,7 +1163,8 @@ export function toPages(capture, opts = {}) {
       // (the migration only runs when `background` is empty) — that's why solid section backgrounds
       // silently vanished (CTA/footer white-on-light invisible text). Write the nested custom hex.
       if (lay.bg && s.atts.background && s.atts.background.color && s.atts.background.color.value) {
-        s.atts.background.color.value.custom = lay.bg;
+        // Prefer LINKING a matching Section Style preset (variant); else set the native custom colour.
+        if (!applyBandFill(s, lay.bg)) { s.atts.background.color.value.custom = lay.bg; }
       }
       if (lay.padding_top) s.atts.padding_top = lay.padding_top;
       if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
@@ -893,22 +1220,22 @@ export function toPages(capture, opts = {}) {
             detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = blocksToNodes(c.blocks);
           } else if (c.image) {
             detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
+          } else if (c.imgComposite && c.imgComposite.image) {
+            // Image + content overlay → DECOMPOSE into native, editable elements (P0 fidelity fix):
+            // a media_image (organic radius / white border / shadow + the blob backdrop, all via scoped
+            // Custom CSS) + one icon_box per floating badge (icon + title + subtitle, positioned via
+            // scoped CSS). Parity with the PHP Stitch image_composite_decompose path.
+            detected = 'image-composite';
+            why = 'image + content overlay → native media_image + icon_box (decomposed, editable)';
+            const comp = c.imgComposite;
+            cellItems = [mediaImageNode({ ...comp.image, blob: comp.blob || null })];
+            for (const fc of (comp.cards || [])) cellItems.push(floatingCardNode(fc));
           } else if (c.imgComposite) {
-            // Image + a content-bearing overlay (a floating badge / decorative blob). Kept VERBATIM, but
-            // WRAPPED in a positioned container that carries the source cell's own classes (`relative
-            // lg:h-[600px] flex …`) + an inline `position:relative` — otherwise the absolute overlays
-            // (`inset-0` blob, `top-10 -left-6` badge) lose their anchor when the cell becomes a code_block
-            // inside a builder column and fly to the section corner / balloon full-bleed. code_block html
-            // is NOT class-sanitized, so the source classes (incl. `lg:h-[600px]`, `blob-shape`) survive.
+            // Un-decomposable composite (imgCompositeOf → null): keep VERBATIM, WRAPPED in a positioned
+            // container that carries the source cell's own classes (`relative lg:h-[600px] flex …`) + an
+            // inline `position:relative` so the absolute overlays keep their anchor inside the code_block.
             detected = 'image-composite';
             why = 'image + content overlay → verbatim in a positioned wrapper (overlays anchor to the image)';
-            // Rebuild the cell's OWN wrapper with its FULL class list (relative / flex / items-center /
-            // justify-center / lg:h-[600px] …) so the image centres and the `inset-0` blob fills the cell,
-            // exactly like the source — `c.cls` (col-* only) left it class-less. code_block html isn't
-            // class-sanitized, so responsive/arbitrary classes (`lg:h-[600px]`) survive. `width:100%`:
-            // the builder column is `d-flex flex-row`, so without it the wrapper is a flex item that
-            // SHRINKS to the image (512px) instead of filling the column — the image then can't centre and
-            // the blob can't span the column.
             cellItems = [codeBlock('<div class="' + esc(c.fullCls || c.cls || '') + '" style="position:relative;width:100%">' + cInner + '</div>')];
           } else if (c.grid) {
             detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
@@ -1157,8 +1484,12 @@ export function toPages(capture, opts = {}) {
     // Carry the source section's own id (`<section id="hero">`) onto the builder section's CSS ID, so
     // the source's in-page anchor links (nav → #hero, smooth-scroll) still resolve. `stamp()` cleared it
     // on the cloned atom; set it here after the node is built, for every section-decision path.
-    if (node && node.atts && sec.sectionId && /^[A-Za-z][\w-]*$/.test(String(sec.sectionId))) {
-      node.atts.css_id = String(sec.sectionId);
+    if (node && node.atts && sec.sectionId) {
+      // slug_from_id parity (PHP Stitch::slug_from_id): lowercase → [a-z0-9-] → collapse/trim dashes, so
+      // an anchor id like "Our Services" / "sec:pricing" still yields a clean css_id the source's in-page
+      // links resolve to (was gated to a strict identifier, which dropped ids the PHP path keeps).
+      const cid = String(sec.sectionId).toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '');
+      if (cid) node.atts.css_id = cid;
     }
     rec({ kind: 'section', sIndex, decision, sourceClass: sec.sectionClass || '',
           hasCss: !!(sec.css && sec.css.trim()), computed: sec.computed || {}, diag: sec.diag || {},

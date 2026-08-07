@@ -40,12 +40,15 @@ const LOCAL_AI_CONFIG = join(dirname(fileURLToPath(import.meta.url)), 'local-ai.
 // BEST output, use Claude (Enable AI in wp-admin). Among these, bigger = better; the small ones are for
 // modest hardware, not for best results. "recommended" here means "best QUALITY that most PCs can run".
 export const LOCAL_AI_MODELS = [
-  { tag: 'qwen2.5:7b',    label: 'Qwen2.5 7B',    params: '7B',   ram: '~5–6 GB', recommended: true,  note: 'Best QUALITY of the local options. Pick this if your PC can spare ~6 GB. (Still below Claude.)' },
-  { tag: 'qwen2.5vl:7b',  label: 'Qwen2.5-VL 7B', params: '7B',   ram: '~6 GB',   vision: true,       note: 'Vision — can look at screenshots. Best local choice for the visual-fix pass. Heaviest.' },
-  { tag: 'gemma3:4b',     label: 'Gemma 3 4B',    params: '4B',   ram: '~4 GB',                       note: 'Good mid-size all-rounder; also handles images.' },
-  { tag: 'phi4-mini',     label: 'Phi-4-mini',    params: '3.8B', ram: '~3 GB',                       note: 'Smallest/fastest — runs on modest PCs, but lowest quality here.' },
-  { tag: 'qwen2.5:3b',    label: 'Qwen2.5 3B',    params: '3B',   ram: '~2–3 GB',                     note: 'Fast, very low memory — light hardware only.' },
-  { tag: 'llama3.2:3b',   label: 'Llama 3.2 3B',  params: '3B',   ram: '~2–3 GB',                     note: 'General-purpose small model; light hardware.' },
+  { tag: 'qwen3:4b',            label: 'Qwen3 4B',            params: '4B',            ram: '~3–4 GB',  recommended: true,               note: 'Best value: tiny (2.5 GB) yet 256K context + strong instruction-following. Great default for modest PCs. Apache-2.0. Thinking is auto-disabled for terse JSON.' },
+  { tag: 'qwen3:8b',            label: 'Qwen3 8B',            params: '8B',            ram: '~6–7 GB',  recommended: true,               note: 'Best QUALITY that fits a typical PC. Strongest local HTML/CSS reasoning + clean JSON at this size. Apache-2.0.' },
+  { tag: 'granite4:3b',         label: 'IBM Granite 4 3B',    params: '3B',            ram: '~2–3 GB',                                   note: 'Light structured-output specialist: tuned for instruction-following + function calling, so JSON stays tidy for its size. Apache-2.0.' },
+  { tag: 'qwen3:14b',           label: 'Qwen3 14B',           params: '14B',           ram: '~11–13 GB',                                 note: 'Enthusiast top quality — the closest local model to "just works" on the mapping task. Needs a 12–16 GB GPU or big RAM. Apache-2.0.' },
+  { tag: 'qwen3:30b',           label: 'Qwen3 30B (MoE A3B)', params: '30B/3B active', ram: '~20 GB',                                    note: 'MoE: ~14B-class quality at ~4B inference speed if you have the RAM. 256K context. Big rigs only. Apache-2.0.' },
+  { tag: 'mistral-small3.2:24b', label: 'Mistral Small 3.2 24B', params: '24B',        ram: '~16 GB',                     vision: true, note: 'Best instruction-follower for big PCs AND multimodal — one model for text + visual passes. Apache-2.0.' },
+  { tag: 'qwen3-vl:8b',         label: 'Qwen3-VL 8B',         params: '8B',            ram: '~7 GB',    recommended: true, vision: true, note: 'Best local VISION pick for the screenshot fix pass — built for "design mockup → code" + spatial grounding. Apache-2.0.' },
+  { tag: 'qwen3-vl:4b',         label: 'Qwen3-VL 4B',         params: '4B',            ram: '~4 GB',                      vision: true, note: 'Lighter vision option for mainstream PCs — same capability family, smaller footprint. Apache-2.0.' },
+  { tag: 'gemma3:4b',           label: 'Gemma 3 4B',          params: '4B',            ram: '~4 GB',                      vision: true, note: 'Multimodal all-rounder; one small model for text + images. Custom Gemma Terms (permissive, not OSI).' },
 ];
 
 let _ollamaBin; // cache
@@ -64,18 +67,30 @@ function ollamaBinaryAvailable() {
   return _ollamaBin;
 }
 
+/** Read the whole local-ai.json config object (merged persistence — model + auto-setup markers). */
+function readLocalAiConfig() {
+  try { if (existsSync(LOCAL_AI_CONFIG)) return JSON.parse(readFileSync(LOCAL_AI_CONFIG, 'utf8')) || {}; } catch { /* no/blank config */ }
+  return {};
+}
+/** Write the whole local-ai.json config object. */
+function writeLocalAiConfig(obj) {
+  writeFileSync(LOCAL_AI_CONFIG, JSON.stringify(obj || {}, null, 2) + '\n');
+}
+
 /** The model the user picked (OLLAMA_MODEL env wins, else local-ai.json), or '' if none. */
 export function selectedLocalModel() {
   const env = (process.env.OLLAMA_MODEL || '').trim();
   if (env) return env;
-  try { if (existsSync(LOCAL_AI_CONFIG)) return String(JSON.parse(readFileSync(LOCAL_AI_CONFIG, 'utf8')).model || '').trim(); } catch { /* no/blank config */ }
-  return '';
+  return String(readLocalAiConfig().model || '').trim();
 }
 
-/** Persist the picked model (dashboard writes this). Empty string clears the selection. */
+/** Persist the picked model (dashboard writes this). Empty string clears the selection.
+ *  MERGES into the existing config so auto-setup markers (e.g. autoPullTried) survive. */
 export function setLocalModel(model) {
   const m = String(model || '').trim();
-  writeFileSync(LOCAL_AI_CONFIG, JSON.stringify({ model: m }, null, 2) + '\n');
+  const cfg = readLocalAiConfig();
+  cfg.model = m;
+  writeLocalAiConfig(cfg);
   return m;
 }
 
@@ -84,17 +99,30 @@ export function setLocalModel(model) {
 export async function deleteModel(model) {
   const m = String(model || '').trim();
   if (!m) throw new Error('No model to delete.');
+  // Ollama renamed the field `name` -> `model` across its API; older builds accept only `name`,
+  // newer ones only `model` (and silently 200 on the other, deleting nothing — the "clicked OK but
+  // nothing happened" bug). Send BOTH so it works on every version.
   const resp = await fetch(`${OLLAMA_HOST}/api/delete`, {
-    method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: m }),
+    method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: m, model: m }),
   }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}).`); });
   if (!resp.ok && resp.status !== 404) { throw new Error('Ollama ' + resp.status + ': ' + (await resp.text().catch(() => '')).slice(0, 200)); }
+  // Verify it's actually gone — if Ollama accepted the request but the model still lists, surface an
+  // error instead of a false "Deleted" (so the dashboard doesn't claim success while the model remains).
+  const still = await fetch(`${OLLAMA_HOST}/api/tags`).then((r) => r.json()).then((d) => (d.models || []).some((x) => x.name === m || x.model === m)).catch(() => false);
+  if (still) { throw new Error(`Ollama reported success but "${m}" is still installed — your Ollama build may not support delete via API. Remove it with:  ollama rm ${m}`); }
   if (selectedLocalModel() === m) { setLocalModel(''); } // don't leave a deleted model selected
   return { deleted: m };
 }
 
-/** Ollama is a usable backend when it's installed AND the user has picked a model. */
+// Cached "the Ollama server answered a probe" flag. The bundled/portable ollama.exe the launcher starts
+// is often NOT on PATH, so the sync binary check misses it — but the server being reachable is equally
+// valid proof it's usable. localAiStatus() (run at boot + on every dashboard poll) keeps this fresh, so
+// ollamaReady()/aiBackend() agree with the dashboard's "running" state instead of silently falling back.
+let _ollamaUp = false;
+
+/** Ollama is a usable backend when it's reachable (binary on PATH OR server answered) AND a model is picked. */
 function ollamaReady() {
-  return ollamaBinaryAvailable() && selectedLocalModel() !== '';
+  return (ollamaBinaryAvailable() || _ollamaUp) && selectedLocalModel() !== '';
 }
 
 /** Async status for the dashboard: is the server up + which models are pulled. */
@@ -106,8 +134,154 @@ export async function localAiStatus() {
     const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(2500) });
     if (r.ok) { up = true; models = ((await r.json()).models || []).map((m) => m.name); }
   } catch { /* server not running */ }
+  _ollamaUp = up; // remember for the sync ollamaReady()/aiBackend() path
   const installed = up || ollamaBinaryAvailable();
   return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, shortlist: LOCAL_AI_MODELS };
+}
+
+/** The recommended default the auto-setup pulls/prefers (the shortlist's first `recommended` tag). */
+const RECOMMENDED_TAG = (LOCAL_AI_MODELS.find((m) => m.recommended) || { tag: 'qwen3:4b' }).tag;
+
+/** Does a pulled tag list contain `tag` (exact, or same base name before the ':')? */
+function pulledHas(pulled, tag) {
+  const base = String(tag).split(':')[0];
+  return (pulled || []).some((p) => p === tag || String(p).split(':')[0] === base);
+}
+
+/* ---- Boot auto-enable ------------------------------------------------- *
+ * Turn the local AI ON out of the box so the WP AI-Assist endpoints don't silently 503. Called once on
+ * service boot. Best-effort + non-blocking: never throws, never hangs the service. Opt out with
+ * LOCAL_AI_AUTOSETUP=0. Returns a small status object describing what it did (for the boot log). */
+export async function ensureLocalModelReady() {
+  if (/^(0|false|no|off)$/i.test(process.env.LOCAL_AI_AUTOSETUP || '')) return { skipped: true };
+  // Probe FIRST (even when a model is already selected) so the sync ollamaReady()/aiBackend() path knows the
+  // server is up — otherwise, with a bundled ollama not on PATH, an already-selected model would still route
+  // to Claude because _ollamaUp was never warmed.
+  let status;
+  try { status = await localAiStatus(); } catch { status = null; }
+
+  // (a) already selected → nothing to do (the probe above already warmed _ollamaUp).
+  const already = selectedLocalModel();
+  if (already) return { selected: already, already: true };
+
+  if (!status || !status.up) return { up: false }; // Ollama server not running — the launcher starts it; picker still works.
+
+  const pulled = status.pulled || [];
+  if (pulled.length) {
+    // (b) auto-select what the RUNNING server actually reports: the recommended tag if pulled, else the first.
+    const pick = pulled.find((p) => pulledHas([p], RECOMMENDED_TAG)) || pulled[0];
+    setLocalModel(pick);
+    console.log(`[local-ai] selected ${pick} (auto)`);
+    return { selected: pick, auto: true };
+  }
+
+  // (c) no model pulled. Surface the store hint (the OLLAMA_MODELS mismatch bites here: a model pulled into
+  //     the DEFAULT ~/.ollama store won't show when the active store is the kit's assembled/ollama/models).
+  console.log(`[local-ai] no models in the active store (OLLAMA_MODELS=${process.env.OLLAMA_MODELS || 'default ~/.ollama/models'}). If you pulled one earlier it may be in the default ~/.ollama/models — set OLLAMA_MODELS or re-pull here.`);
+
+  // First-run auto-pull, guarded so it fires at most once ever (marker in local-ai.json).
+  const cfg = readLocalAiConfig();
+  if (cfg.autoPullTried) return { up: true, pulled: [], autoPullTried: true };
+  cfg.autoPullTried = true; writeLocalAiConfig(cfg);
+  console.log(`[local-ai] first run: downloading ${RECOMMENDED_TAG} (~2.5 GB) in the background — AI turns on when it finishes; convert now, it stays deterministic until then.`);
+  try { await startPull(RECOMMENDED_TAG); } catch { /* non-fatal */ }
+  // Watch the background pull; auto-select on success. unref so it never keeps the process alive.
+  const watch = setInterval(() => {
+    const p = pullStatus();
+    if (!p || !p.done) return;
+    clearInterval(watch);
+    if (p.status === 'success' && p.model && !selectedLocalModel()) {
+      setLocalModel(p.model);
+      console.log(`[local-ai] ${p.model} downloaded — local AI is now ON.`);
+    }
+  }, 4000);
+  if (watch.unref) watch.unref();
+  return { pulling: RECOMMENDED_TAG };
+}
+
+/* ---- "Test the model" surface (dashboard + /api/local-ai/test) --------- *
+ * Run the SELECTED local model on an arbitrary short prompt so the user can PROVE it's alive and command
+ * it directly. Minimal /api/chat call (think:false, temp 0). Errors carry `.code` (503 when off/unreachable). */
+/** Strip a hybrid-reasoning model's chain-of-thought. Qwen3 etc. (even with think:false) may emit the
+ * reasoning as plain text terminated by a stray `</think>` with NO opening tag — so keep only what follows
+ * the LAST `</think>`, then remove any well-formed <think>…</think> blocks and stray tags, then trim. */
+function stripReasoning(content) {
+  let s = String(content || '');
+  const ci = s.lastIndexOf('</think>');
+  if (ci !== -1) s = s.slice(ci + '</think>'.length);
+  return s.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/<\/?think>/gi, '').trim();
+}
+
+export async function testLocalModel(prompt) {
+  const model = selectedLocalModel();
+  if (!model) { const e = new Error('No local model selected — pick one in the dashboard (Local AI).'); e.code = 503; throw e; }
+  const p = String(prompt || '').trim() || 'Reply with a short, friendly hello in one sentence.';
+  const t0 = Date.now();
+  const to = parseInt(process.env.AI_TEST_TIMEOUT_MS || '', 10) || 60000;
+  // Keep the "is it alive?" reply CLEAN: a terse system rule + Qwen3's `/no_think` soft-switch suppress the
+  // out-loud reasoning that `think:false` alone doesn't fully silence for hybrid-reasoning models.
+  const sys = 'You are a concise assistant. Answer directly in one or two short sentences. Do NOT show your reasoning or any preamble.';
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: sys }, { role: 'user', content: p }] }),
+    signal: AbortSignal.timeout(to),
+  }).catch((err) => { const e = new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${err.message}) — is it running?`); e.code = 503; throw e; });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
+    e.code = resp.status === 404 ? 503 : 500; throw e;
+  }
+  const data = await resp.json();
+  return { ok: true, model, reply: stripReasoning((data.message && data.message.content) || ''), ms: Date.now() - t0 };
+}
+
+/* ---- Multi-turn chat (dashboard Chat view + /local-ai/chat) ------------ *
+ * A general chat surface that runs on whichever AI backend is active (a picked local Ollama model, or
+ * Claude via the API / Claude Code CLI). Takes a messages array [{role:'user'|'assistant', content}] and
+ * returns { ok, model, reply, ms }. Context is capped to the last ~12 turns so it stays fast; the caller
+ * (serve.mjs) owns durable persistence. Throws with `.code = 503` when no AI backend is available. */
+const CHAT_SYSTEM = 'You are a helpful, concise assistant embedded in the Unyson+ Site Converter dashboard. Answer directly and clearly. Use fenced ``` code blocks for code. Do not show hidden reasoning or preambles.';
+const CHAT_CONTEXT_TURNS = 12;
+
+export async function chatLocalModel({ messages } = {}) {
+  const backend = aiBackend();
+  if (!backend) { const e = new Error('AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).'); e.code = 503; throw e; }
+  // Keep only well-formed, non-empty user/assistant turns, then cap the context we send to the model.
+  const all = (Array.isArray(messages) ? messages : [])
+    .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
+    .map((m) => ({ role: m.role, content: String(m.content) }));
+  if (!all.length) { const e = new Error('No message to send.'); e.code = 400; throw e; }
+  const ctx = all.slice(-CHAT_CONTEXT_TURNS);
+  const t0 = Date.now();
+
+  if (backend === 'ollama') {
+    const model = selectedLocalModel();
+    const to = parseInt(process.env.AI_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+    const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: CHAT_SYSTEM }, ...ctx] }),
+      signal: AbortSignal.timeout(to),
+    }).catch((err) => { const e = new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${err.message}) — is it running?`); e.code = 503; throw e; });
+    if (!resp.ok) {
+      const t = await resp.text().catch(() => '');
+      const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
+      e.code = resp.status === 404 ? 503 : 500; throw e;
+    }
+    const data = await resp.json();
+    return { ok: true, model, reply: stripReasoning((data.message && data.message.content) || ''), ms: Date.now() - t0 };
+  }
+
+  // api / claude-code are single-shot text backends → fold the prior turns into one user prompt.
+  const model = backend === 'api' ? DEFAULT_MODEL : (process.env.ANTHROPIC_MODEL || 'claude-code');
+  let user;
+  if (ctx.length > 1) {
+    const convo = ctx.map((m) => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`).join('\n\n');
+    user = `Continue this conversation. Reply ONLY as the assistant to the LAST user message.\n\n${convo}\n\nAssistant:`;
+  } else {
+    user = ctx[ctx.length - 1].content;
+  }
+  const reply = stripReasoning(await askText({ system: CHAT_SYSTEM, user, maxTokens: 4000 }));
+  return { ok: true, model, reply, ms: Date.now() - t0 };
 }
 
 /* ---- Model download (dashboard "Pull" button) ------------------------- *
@@ -220,7 +394,7 @@ export function aiBackend() {
   const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
   if (forced === 'api') return (process.env.ANTHROPIC_API_KEY || '').trim() ? 'api' : null;
   if (forced === 'claude-code' || forced === 'cli') return claudeCliAvailable() ? 'claude-code' : null;
-  if (forced === 'ollama' || forced === 'local') return ollamaBinaryAvailable() && selectedLocalModel() ? 'ollama' : null;
+  if (forced === 'ollama' || forced === 'local') return ollamaReady() ? 'ollama' : null;
   // An EXPLICIT local-model pick in the dashboard wins over auto-detected Claude — otherwise the picker
   // does nothing whenever Claude Code / an API key happens to be present. Select "Off" to use Claude.
   if (ollamaReady()) return 'ollama';
@@ -261,41 +435,117 @@ export async function refineMapping(input) {
   const backend = aiBackend();
   if (backend === 'api') return refineViaApi(input);
   if (backend === 'claude-code') return refineViaClaudeCode(input);
-  if (backend === 'ollama') return refineViaOllama(input);
+  if (backend === 'ollama') return refineViaOllamaLight(input);
   throw new Error('AI is off — set ANTHROPIC_API_KEY, install Claude Code (`claude`), or pick a local model (Ollama).');
 }
 
+/* ---- Scoped local job — a task a small model can WIN ------------------- *
+ * Whole-page mapping is too hard for a 7B model (benchmarked ~15/100). So the LOCAL (Ollama) backend runs a
+ * SMALL, schema-constrained job instead: given a COMPACT summary of each section, return only a short
+ * semantic css_id slug + a decorative flag. Bounded output a small model handles reliably. The result is
+ * applied NON-DESTRUCTIVELY (only valid slugs; only omit truly-empty decorative sections) — the model can
+ * ONLY improve names + flag decoration, never rewrite or drop content. Claude/API keep the full refine. */
+const SLUG_RE = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/;
+const SECTIONS_LIGHT_SYSTEM = `You label the sections of a web page for a website→WordPress converter.
+For each section you get: its index, a short heading, the kinds of content blocks it has, and how much text it has.
+Return ONE JSON object, no prose: { "sections": [ { "index": <int>, "css_id": "<slug>", "decorative": <bool> } ] }.
+- css_id: a short semantic slug describing the section. Prefer this vocabulary when it fits: hero, features, pricing, faq, cta, about, testimonials, gallery, contact, stats, team, clients, services, content, header, footer. Lowercase, letters/digits/hyphens only ([a-z0-9-]).
+- decorative: true ONLY for a section that is pure visual chrome with NO real content (a spacer, a divider, a decorative gradient band). If it has ANY heading or text, it is NOT decorative (false).
+- Keep the SAME number of sections and the SAME index values you were given. Output only the JSON.`;
+const SECTIONS_LIGHT_SCHEMA = {
+  type: 'object',
+  properties: { sections: { type: 'array', items: {
+    type: 'object',
+    properties: { index: { type: 'integer' }, css_id: { type: 'string' }, decorative: { type: 'boolean' } },
+    required: ['index', 'css_id', 'decorative'],
+  } } },
+  required: ['sections'],
+};
+
+/** Does a section/block hold real (non-empty) content? */
+function blockHasContent(b) {
+  return !!(String((b && (b.text || b.html || b.label)) || '').trim() || (b && Array.isArray(b.cols) && b.cols.length));
+}
+
 /**
- * Backend 3 (Experimental): a local model via Ollama. Same refine-only job. Uses Ollama's structured-output
- * (`format: 'json'`) so even a small model returns valid JSON. Falls through to the deterministic result if
- * the model errors (the WordPress flow already treats AI as best-effort).
+ * Flatten a draft mapping into COMPACT per-section summaries (index across all pages, in order), the input
+ * to the scoped local job. Each: { index, css_id, heading, blockKinds, textLen }.
  */
-async function refineViaOllama({ html, mapping, source }) {
+export function summarizeSections(mapping) {
+  const out = [];
+  let i = 0;
+  for (const page of ((mapping && mapping.pages) || [])) {
+    for (const sec of ((page && page.sections) || [])) {
+      const blocks = (sec && sec.blocks) || [];
+      const head = blocks.find((b) => /^(title|heading|overline|subtitle)$/.test(b && b.role)) || {};
+      const heading = String(head.text || head.label || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+      const blockKinds = [...new Set(blocks.map((b) => (b && (b.role || b.t)) || '').filter(Boolean))];
+      const textLen = blocks.reduce((n, b) => n + String((b && (b.text || b.html)) || '').length, 0);
+      out.push({ index: i, css_id: (sec && sec.css_id) || '', heading, blockKinds, textLen });
+      i++;
+    }
+  }
+  return out;
+}
+
+/**
+ * Apply the local model's section labels back onto the draft mapping — NON-DESTRUCTIVELY (mutates in place).
+ * Only overwrites a section css_id with a VALID [a-z0-9-] slug, and only sets omit when the model flagged the
+ * section decorative AND it has no real content block. Never drops content. Pure/deterministic (unit-tested).
+ * @returns {{renamed:number, decorative:number}}
+ */
+export function applySectionsLight(mapping, result) {
+  const changes = { renamed: 0, decorative: 0 };
+  const byIndex = new Map();
+  for (const r of ((result && result.sections) || [])) { if (r && Number.isInteger(r.index)) byIndex.set(r.index, r); }
+  let i = 0;
+  for (const page of ((mapping && mapping.pages) || [])) {
+    for (const sec of ((page && page.sections) || [])) {
+      const r = byIndex.get(i); i++;
+      if (!r) continue;
+      if (typeof r.css_id === 'string') {
+        const slug = r.css_id.trim().toLowerCase();
+        if (SLUG_RE.test(slug) && slug !== sec.css_id) { sec.css_id = slug; changes.renamed++; }
+      }
+      if (r.decorative === true && !sec.omit) {
+        const hasContent = ((sec.blocks) || []).some(blockHasContent);
+        if (!hasContent) { sec.omit = true; changes.decorative++; }
+      }
+    }
+  }
+  return changes;
+}
+
+/**
+ * Run the scoped local job: compact section summaries in → { sections:[{index,css_id,decorative}] } out.
+ * Uses Ollama structured output (a strict JSON schema) so even a small model returns the exact shape.
+ */
+export async function refineSectionsLight({ sections }) {
   const model = selectedLocalModel();
   if (!model) throw new Error('No local model selected — pick one in the dashboard (Local AI).');
-  const timeout = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000;
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      model,
-      stream: false,
-      format: 'json',
-      options: { temperature: 0 },
-      messages: [
-        { role: 'system', content: SYSTEM },
-        { role: 'user', content: buildUser({ html, mapping, source }) },
-      ],
-    }),
-    signal: AbortSignal.timeout(timeout),
-  }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}) — is \`ollama serve\` running?`); });
-  if (!resp.ok) {
-    const t = await resp.text().catch(() => '');
-    throw new Error(`Ollama ${resp.status}: ${t.slice(0, 300)} — is the model \`${model}\` pulled? (\`ollama pull ${model}\`)`);
+  const compact = (sections || []).map((s) => ({ index: s.index, css_id: s.css_id, heading: s.heading, blockKinds: s.blockKinds, textLen: s.textLen }));
+  const user = `Sections (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "sections": [...] } JSON now.`;
+  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const text = await askModel({ system: SECTIONS_LIGHT_SYSTEM, user, model, format: SECTIONS_LIGHT_SCHEMA, timeoutMs: to });
+  const parsed = extractJson(text);
+  if (!parsed || !Array.isArray(parsed.sections)) throw new Error('The local model returned no sections.');
+  return parsed;
+}
+
+/**
+ * Backend 3 (Experimental): a local model via Ollama, running the SCOPED light job (not the full-page
+ * rewrite). Best-effort: any model error falls through to the deterministic mapping unchanged.
+ */
+async function refineViaOllamaLight({ mapping }) {
+  const model = selectedLocalModel();
+  if (!model) throw new Error('No local model selected — pick one in the dashboard (Local AI).');
+  const result = await refineSectionsLight({ sections: summarizeSections(mapping) })
+    .catch((e) => { console.error('[ai-convert] local light refine failed:', e.message); return null; });
+  if (result) {
+    const changes = applySectionsLight(mapping, result);
+    console.log(`[ai-convert] local model renamed ${changes.renamed} sections, flagged ${changes.decorative} decorative`);
   }
-  const data = await resp.json();
-  const text = String((data.message && data.message.content) || '').trim();
-  return finishParse(text, model, 'ollama');
+  return { mapping, theme: { style_css: '', header_html: '', footer_html: '' }, custom_css: '', model, backend: 'ollama' };
 }
 
 /* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *
@@ -328,12 +578,13 @@ async function askText({ system, user, maxTokens = 8000 }) {
     const model = selectedLocalModel();
     const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model, stream: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
+      body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
       signal: AbortSignal.timeout(parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000),
     });
     if (!resp.ok) throw new Error('Ollama ' + resp.status + ' — is the model pulled?');
     const data = await resp.json();
-    return String((data.message && data.message.content) || '').trim();
+    // Strip any stray <think>…</think> (belt-and-suspenders for hybrid-reasoning models).
+    return String((data.message && data.message.content) || '').replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
   }
   throw new Error('AI is off — configure a backend (Claude Code, API key, or a local model).');
 }
@@ -363,6 +614,192 @@ export async function refineVisualCss({ sourceHtml, convertedHtml, drift }) {
   const text = await askText({ system: VISUAL_CSS_SYSTEM, user });
   // Strip code fences / any stray prose before the first rule.
   return String(text || '').replace(/```(?:css)?/gi, '').trim();
+}
+
+/* ---- Chrome (header/footer) refinement ------------------------------- *
+ * A narrower sibling of refineVisualCss: it fixes ONLY the header/footer, scoped to the converted page's
+ * real chrome selectors. HEADER-FIRST — the caller runs the header region first (primary) and the footer
+ * second (secondary). Local 7B models have small context, so the caller trims the HTML to the header/footer
+ * regions before calling. NOTE: Claude gives noticeably better results than the local models here. */
+const CHROME_CSS_SYSTEM = `You are improving ONLY the header/footer CSS of a converted WordPress site to match a source design.
+Output ONLY a CSS block (no prose, no markdown fences), scoped to the GIVEN selectors.
+Fix background color, text/link color, layout (flex/grid columns), spacing (padding/margins/gap), height, alignment, and CONTENT WIDTH of the header/footer.
+RULES:
+- Use ONLY the selectors you are given (the converted page's real header/footer ids/classes). You MAY use descendant selectors under them (e.g. ".sc-header a", "#masthead .menu"). NEVER invent unrelated selectors and NEVER target the source's classes.
+- CONTAINER WIDTH: if the source's header/footer content is capped at a max-width and horizontally centered (a content container / inner wrapper — often \`.container\` or a \`max-w-*\` wrapper in the source markup, with a computed max-width in its style), reproduce that: set the matching converted inner wrapper to \`max-width: <the source's px value>; margin-left:auto; margin-right:auto; width:100%\` so the columns don't span full-bleed. Read the target width from the source markup's computed styles — do not guess.
+- Do NOT touch the page body or content sections — only the header/footer chrome.
+- Prefer the SOURCE's colors, spacing, and layout. Keep every rule small, additive and safe; use !important sparingly where the base theme would otherwise win.
+- Return ONLY a CSS block.`;
+
+/**
+ * Generate CSS that closes the header/footer visual gap, scoped to the converted page's real chrome selectors.
+ * The caller injects this into a fresh render and re-measures chrome drift, keeping it ONLY if drift drops.
+ * @param {{ sourceHtml:string, convertedHtml:string, selectors:string[], region:string }} o
+ * @returns {Promise<string>} css (empty string if no AI backend)
+ */
+export async function refineChromeCss({ sourceHtml, convertedHtml, selectors, region }) {
+  if (!aiBackend()) return '';
+  const allowed = (Array.isArray(selectors) ? selectors : []).filter(Boolean);
+  const user =
+    `Region to fix: ${region || 'header'} (this is the PRIMARY target).\n\n` +
+    `Allowed selectors (scope ALL rules to these): ${allowed.length ? allowed.join(', ') : region}\n\n` +
+    `=== SOURCE ${String(region || 'header').toUpperCase()} HTML (the look to match) ===\n${String(sourceHtml || '').slice(0, 18000)}\n\n` +
+    `=== CONVERTED ${String(region || 'header').toUpperCase()} HTML (target THESE real selectors) ===\n${String(convertedHtml || '').slice(0, 18000)}\n\n` +
+    `Return CSS (scoped to the allowed selectors) that makes the converted ${region || 'header'} match the source.`;
+  const text = await askText({ system: CHROME_CSS_SYSTEM, user, maxTokens: 4000 });
+  // Strip code fences / any stray prose before the first rule (same as refineVisualCss).
+  return String(text || '').replace(/```(?:css)?/gi, '').trim();
+}
+
+/* ---------------------------------------------------------------------- *
+ * User-directed "prompt the AI to change my site" (POST /ai-instruct).
+ *
+ * Unlike the automatic conversion refiners above, this is DRIVEN BY THE USER: they type an
+ * instruction ("make the hero darker", "bigger rounder buttons", "turn this into a real pricing
+ * table") and the model CLASSIFIES the intent per prompt:
+ *   • Visual/style change → it writes SCOPED CSS overrides (applied + shown, keep/discard).
+ *   • Structural change (re-map / add / remove / convert a section) → a small local model is NOT
+ *     trusted to auto-rewrite the page, so it only DESCRIBES the change in a note. Never auto-applied.
+ * Returns strict JSON { kind:'css'|'structural'|'both', css, structural_note, explanation }.
+ * The returned CSS is run through sanitizeTweakCss() (the trust boundary) before it ever leaves here.
+ * ---------------------------------------------------------------------- */
+
+const INSTRUCT_SYSTEM = `You improve an already-converted WordPress page. You are given the CONVERTED page's rendered HTML (with its real classes/ids), the CSS already applied to it, and optionally the ORIGINAL source page for reference. A user gives you ONE instruction. Your job is to DECIDE whether the instruction is a CSS/visual change or a STRUCTURAL change, and return ONE JSON object — no prose, no markdown fences:
+{ "kind": "css" | "structural" | "both", "css": "<css rules>", "structural_note": "<plain English>", "explanation": "<one sentence>" }
+
+Classify:
+- "css" — a visual/style change achievable with CSS overrides (colors, backgrounds, spacing, sizes, borders, radius, typography, alignment, shadows). MOST requests are this.
+- "structural" — the request needs the page's structure/markup changed: re-mapping a section to a different component, converting a block into a real table/accordion/pricing table, adding or removing a section, reordering content. You CANNOT do this with CSS.
+- "both" — only when a request clearly needs a structural change AND a helpful CSS tweak.
+
+Rules for CSS (kind "css" or "both"):
+- Output ONLY valid CSS rules (selector { prop: value; } ...). No <style> tags, no @import, no external url(), no javascript.
+- Target ONLY selectors that actually appear in the CONVERTED page HTML (its real ids/classes — e.g. #section-3, .fw-container, .sc-button). NEVER invent selectors and NEVER target the source page's classes.
+- Prefer minimal, reversible overrides. Use !important sparingly, only where the base theme would otherwise win. Do not rewrite page content.
+
+Rules for STRUCTURAL (kind "structural" or "both"):
+- DO NOT write CSS or markup for the structural part — only DESCRIBE the change in structural_note (what to change and where), in plain English. Leave "css" empty when kind is "structural".
+
+Keep "explanation" to ONE short sentence summarizing what you did/decided. Never rewrite the page's text content.`;
+
+const INSTRUCT_SCHEMA = {
+  type: 'object',
+  properties: {
+    kind: { type: 'string', enum: ['css', 'structural', 'both'] },
+    css: { type: 'string' },
+    structural_note: { type: 'string' },
+    explanation: { type: 'string' },
+  },
+  required: ['kind', 'css', 'structural_note', 'explanation'],
+};
+
+/**
+ * Sanitize model-authored CSS before it is applied to a live page. THE TRUST BOUNDARY — never inject
+ * unsanitized model output. Rules:
+ *   - drop code fences and any HTML tags (esp. <script>/<style>, whose contents are removed too),
+ *   - drop @import rules,
+ *   - drop `javascript:` and neutralize `expression(` (legacy IE CSS-JS),
+ *   - neutralize url(...) that points OFF-ORIGIN: allow only `data:` and same-origin relative/root-
+ *     relative/hash refs; any scheme (http:, https:, //, file:, etc.) → the url() becomes `none`,
+ *   - cap the result length (20 KB).
+ * Pure + deterministic (unit-tested).
+ * @param {string} input
+ * @returns {string} sanitized CSS (may be '')
+ */
+export function sanitizeTweakCss(input) {
+  let css = String(input == null ? '' : input);
+  // 1) code fences a model might wrap the block in.
+  css = css.replace(/```(?:css)?/gi, '');
+  // 2) <script>/<style> blocks (with their contents), then any remaining HTML tags.
+  css = css.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, '');
+  css = css.replace(/<\/?[a-z][\s\S]*?>/gi, '');
+  // 3) @import (can pull remote stylesheets).
+  css = css.replace(/@import[^;]*;?/gi, '');
+  // 4) javascript: URLs and IE expression().
+  css = css.replace(/javascript\s*:/gi, '');
+  css = css.replace(/expression\s*\(/gi, '(');
+  // 5) neutralize off-origin url(...). Allow data: and same-origin relative/root-relative/hash refs.
+  css = css.replace(/url\(\s*(['"]?)\s*([^)'"]*?)\s*\1\s*\)/gi, (_m, q, ref) => {
+    const r = String(ref || '').trim();
+    if (!r) return 'none';
+    if (/^data:/i.test(r)) return `url(${q}${r}${q})`;            // inline data URIs are safe
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(r)) return 'none';   // any scheme or protocol-relative → off-origin, drop
+    return `url(${q}${r}${q})`;                                    // relative / root-relative / #frag → same-origin, keep
+  });
+  // 6) cap length.
+  if (css.length > 20000) css = css.slice(0, 20000);
+  return css.trim();
+}
+
+/**
+ * Normalize + validate a model's raw instruct result into the strict response shape. Pure + testable.
+ * Enforces the contract: css-kind clears the note; structural-kind clears (and never emits) css; an
+ * unknown/missing kind is INFERRED from what's present. Always returns a well-formed object.
+ * @param {any} parsed
+ * @returns {{ kind:'css'|'structural'|'both', css:string, structural_note:string, explanation:string }}
+ */
+export function normalizeInstructResult(parsed) {
+  const p = parsed && typeof parsed === 'object' ? parsed : {};
+  let kind = String(p.kind || '').trim().toLowerCase();
+  let css = sanitizeTweakCss(p.css);
+  let note = String(p.structural_note || '').replace(/\s+/g, ' ').trim();
+  let explanation = String(p.explanation || '').replace(/\s+/g, ' ').trim().slice(0, 400);
+  if (!['css', 'structural', 'both'].includes(kind)) {
+    // Infer from what the model actually produced.
+    if (css && note) kind = 'both';
+    else if (note && !css) kind = 'structural';
+    else kind = 'css';
+  }
+  if (kind === 'css') note = '';           // CSS change carries no structural note
+  if (kind === 'structural') css = '';     // structural change is NEVER auto-CSS'd
+  if (!explanation) {
+    explanation = kind === 'structural'
+      ? 'Described a structural change to make in the builder.'
+      : (css ? 'Wrote CSS overrides for your request.' : 'No change was produced for that request.');
+  }
+  return { kind, css, structural_note: note, explanation };
+}
+
+/** Build the user-turn for an instruct request (shared by every backend). */
+function buildInstructUser({ prompt, pageHtml, customCss, sourceHtml }) {
+  const page = String(pageHtml || '').slice(0, MAX_HTML);
+  const cur = String(customCss || '').slice(0, 20000);
+  const src = String(sourceHtml || '').slice(0, 30000);
+  let u = `USER INSTRUCTION:\n${String(prompt || '').trim()}\n\n`;
+  u += `=== CONVERTED PAGE HTML (target THESE real selectors) ===\n${page || '(none provided)'}\n\n`;
+  if (cur) u += `=== CSS ALREADY APPLIED ===\n${cur}\n\n`;
+  if (src) u += `=== ORIGINAL SOURCE HTML (reference only — do NOT target its classes) ===\n${src}\n\n`;
+  u += `Return the { "kind", "css", "structural_note", "explanation" } JSON object now.`;
+  return u;
+}
+
+/**
+ * User-directed tweak: classify a typed instruction and return scoped CSS overrides and/or a structural
+ * note. Routes by the active backend (api / claude-code / ollama), just like refineMapping. The returned
+ * css is ALWAYS run through sanitizeTweakCss() before it leaves this function.
+ * @param {{ prompt:string, pageHtml?:string, customCss?:string, sourceHtml?:string }} o
+ * @returns {Promise<{ ok:true, kind, css, structural_note, explanation, model, backend }>}
+ */
+export async function instructTweak({ prompt, pageHtml, customCss, sourceHtml } = {}) {
+  const p = String(prompt || '').trim();
+  if (!p) { const e = new Error('Provide a prompt (what should the AI change?).'); e.code = 400; throw e; }
+  const backend = aiBackend();
+  if (!backend) { const e = new Error('AI is off — pick a local model, or enable Claude (Claude Code / an API key).'); e.code = 503; throw e; }
+  const user = buildInstructUser({ prompt: p, pageHtml, customCss, sourceHtml });
+
+  let raw, model;
+  if (backend === 'ollama') {
+    model = selectedLocalModel();
+    // Direct Ollama /api/chat with a strict JSON schema (format) + think:false + temp 0 — via askModel.
+    raw = await askModel({ system: INSTRUCT_SYSTEM, user, model, format: INSTRUCT_SCHEMA });
+  } else {
+    model = backend === 'api' ? DEFAULT_MODEL : (process.env.ANTHROPIC_MODEL || 'claude-code');
+    raw = await askText({ system: INSTRUCT_SYSTEM, user, maxTokens: 4000 });
+  }
+  const parsed = extractJson(stripReasoning(raw));
+  if (!parsed || typeof parsed !== 'object') throw new Error('The AI did not return a usable answer. Try rephrasing.');
+  const norm = normalizeInstructResult(parsed);
+  return { ok: true, ...norm, model, backend };
 }
 
 /** Backend 1: the Anthropic API (pay-per-use). */
@@ -462,10 +899,75 @@ function finishParse(text, model, backend) {
   };
 }
 
+/* ---------------------------------------------------------------------- *
+ * Per-model call helper (used by the benchmark + the header translator).
+ * Runs an arbitrary named model — an Ollama tag OR Claude Code — with the
+ * SAME prompt, independent of the user's selected backend. This is the
+ * building block that lets header-translate.mjs / benchmark-models.mjs run
+ * one prompt across many models to compare them.
+ * ---------------------------------------------------------------------- */
+
+/** True if a model id means "Claude via the Claude Code CLI". */
+export function isClaudeModel(model) {
+  const m = String(model || '').trim().toLowerCase();
+  return m === 'claude' || m === 'claude-code' || m === 'cli';
+}
+
+/** List the Ollama tags currently PULLED on this machine (never pulls). Empty array if unreachable. */
+export async function listPulledModels() {
+  try {
+    const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(2500) });
+    if (!r.ok) return [];
+    return ((await r.json()).models || []).map((m) => m.name || m.model).filter(Boolean);
+  } catch { return []; }
+}
+
+/** Is the `claude` CLI available on PATH? (public wrapper around the cached check). */
+export function claudeAvailable() { return claudeCliAvailable(); }
+
+/**
+ * Run ONE prompt against a SPECIFIC named model, independent of the selected backend.
+ * @param {{ system:string, user:string, model:string, json?:boolean, format?:(string|object), timeoutMs?:number }} o
+ *   model  = an Ollama tag (e.g. "qwen3:8b") OR "claude"/"claude-code" for Claude Code.
+ *   json   = ask for JSON output (Ollama `format`); default true.
+ *   format = Ollama structured-output constraint: a JSON-schema OBJECT (grammar-constrains the
+ *            output to that exact shape) or the string "json" (any valid JSON). When omitted and
+ *            `json` is true, defaults to "json". Ignored for the Claude Code backend.
+ * @returns {Promise<string>} the model's raw text.
+ */
+export async function askModel({ system, user, model, json = true, format, timeoutMs }) {
+  const to = timeoutMs || parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000;
+  if (isClaudeModel(model)) {
+    const cmd = process.env.CLAUDE_CLI || 'claude';
+    const args = ['-p', '--output-format', 'json', '--max-turns', '1'];
+    const stdout = await runClaude(cmd, args, system + '\n\n' + user);
+    let text = stdout.trim();
+    try { const j = JSON.parse(stdout); if (j && j.is_error) { throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 200)); } if (j && typeof j.result === 'string') { text = j.result; } }
+    catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
+    return text;
+  }
+  // Otherwise: a specific Ollama model via /api/chat.
+  // `think: false` suppresses hybrid-reasoning `<think>` blocks on Qwen3 (harmless/ignored on
+  // non-thinking models like qwen2.5) so the response is terse JSON, not a chain-of-thought.
+  const body = { model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] };
+  // Grammar-constrain the output: a JSON-schema object forces the exact shape; "json" forces any
+  // valid JSON. `format` (a schema, ideally) wins; else fall back to plain "json" when json is wanted.
+  if (format) body.format = format;
+  else if (json) body.format = 'json';
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
+    signal: AbortSignal.timeout(to),
+  }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}) — is \`ollama serve\` running?`); });
+  if (!resp.ok) { const t = await resp.text().catch(() => ''); throw new Error(`Ollama ${resp.status}: ${t.slice(0, 300)} — is \`${model}\` pulled?`); }
+  const data = await resp.json();
+  return String((data.message && data.message.content) || '').trim();
+}
+
 /** Pull the first balanced JSON object out of a model response (tolerates stray prose / fences). */
-function extractJson(text) {
+export function extractJson(text) {
   if (!text) return null;
-  let s = String(text).replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
+  // Strip hybrid-reasoning <think>…</think> blocks first (Qwen3 etc.), then code fences.
+  let s = String(text).replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
   const start = s.indexOf('{');
   if (start < 0) return null;
   let depth = 0, inStr = false, esc = false;

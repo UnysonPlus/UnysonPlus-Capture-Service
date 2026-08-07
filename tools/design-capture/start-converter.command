@@ -21,10 +21,24 @@ if [ ! -d node_modules/playwright-core ]; then
   npm install
 fi
 
-# Optional: start Ollama for the Experimental local-AI tier, if installed. Non-fatal.
+# Optional: start Ollama for the local-AI tier. Prefer a PATH install; else fall back to the BUNDLED
+# portable ollama shipped in the assembled kit (probe a few candidate relative paths). Non-fatal — never
+# blocks the service. Only when using the BUNDLED exe do we point OLLAMA_MODELS at the kit's models dir
+# beside it (matching the top-level kit launcher); a system install keeps its own default store.
+OLLAMA_BIN=""
 if command -v ollama >/dev/null 2>&1; then
-  echo "Starting Ollama (local AI - Experimental)..."
-  (ollama serve >/dev/null 2>&1 &)
+  OLLAMA_BIN="ollama"
+else
+  for c in "../../ollama/ollama" "../../../ollama/ollama" "../../../../ollama/ollama"; do
+    if [ -x "$c" ]; then OLLAMA_BIN="$c"; break; fi
+  done
+fi
+if [ -n "$OLLAMA_BIN" ]; then
+  echo "Starting Ollama (local AI)..."
+  if [ "$OLLAMA_BIN" != "ollama" ]; then
+    d=$(dirname "$OLLAMA_BIN"); mkdir -p "$d/models" 2>/dev/null || true; export OLLAMA_MODELS="$d/models"
+  fi
+  ("$OLLAMA_BIN" serve >/dev/null 2>&1 &)
 fi
 
 echo
