@@ -49,6 +49,7 @@
         }
       },
       "content_valign": "top",
+      "text_align": "",
       "background": {
         "color": {
           "value": {
@@ -146,6 +147,7 @@
       "align_self": "default",
       "content_v": "default",
       "content_h": "default",
+      "text_align": "",
       "position": "",
       "z_index": "",
       "border_preset": "",

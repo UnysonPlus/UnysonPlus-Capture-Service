@@ -59,7 +59,7 @@ function killPort(port) {
 
 // Read the version of the CODE the running dashboard is serving. Returns null on 404/error (an older
 // build without the endpoint) → the caller treats that as STALE so old dashboards self-heal on relaunch.
-async function runningVersion(url, ms = 900) {
+async function runningInfo(url, ms = 900) {
   try {
     const c = new AbortController();
     const t = setTimeout(() => c.abort(), ms);
@@ -67,9 +67,12 @@ async function runningVersion(url, ms = 900) {
     clearTimeout(t);
     if (!r.ok) return null;
     const j = await r.json();
-    return (j && j.version) || null;
+    return { version: (j && j.version) || null, out: (j && j.out) || '' };
   } catch { return null; }
 }
+
+// Normalize a filesystem path for comparison (slashes + trailing slash + case, Windows-friendly).
+function normOut(p) { return String(p || '').replace(/\\/g, '/').replace(/\/+$/, '').toLowerCase(); }
 
 /**
  * Ensure the dashboard is running + open it in the browser (best-effort, non-blocking).
@@ -87,11 +90,16 @@ export async function ensureDashboard({ open = true } = {}) {
     let started = false;
 
     if (up) {
-      // A dashboard is already running. Compare the CODE it serves against what we ship: same version →
-      // REUSE the server (don't restart it). Different/older/no-endpoint (null) → it's STALE, so kill it
-      // here and fall through to restart it below with the current code.
-      const remote = await runningVersion(DASH_URL);
-      if (remote !== null && remote === local) {
+      // A dashboard is already running. Reuse it ONLY when BOTH match: (a) the CODE version it serves ==
+      // what we ship, AND (b) the capture-out it reads == the one THIS launch writes to (CAPTURE_OUT).
+      // A version match with a MISMATCHED out is the recurring "live progress never updates" bug: the
+      // launcher restarts serve.mjs with the kit's CAPTURE_OUT but reused a dashboard bound to the old
+      // default dir, so it polls a directory nothing is written to. Different version / different out /
+      // no-endpoint (null) → STALE → kill here and restart below with the current code + env.
+      const remote = await runningInfo(DASH_URL);
+      const wantOut = normOut(process.env.CAPTURE_OUT || '');
+      const outOk = wantOut === '' || remote === null || normOut(remote.out) === wantOut;
+      if (remote !== null && remote.version === local && outOk) {
         // Server is current — don't restart it. But still open a tab when forced (launch), so the user
         // always lands on the dashboard; only a non-forced auto-open (e.g. mid-capture) stays quiet.
         if (open && force) { openBrowser(DASH_URL); markOpened(); }

@@ -142,6 +142,10 @@ export function toDesignConfig(cap) {
   // Structured CONTACT column (icon+text rows) — passed through verbatim for the native leading-icon list.
   const footerContact = foot.contact && Array.isArray(foot.contact.rows) && foot.contact.rows.length
     ? { title: foot.contact.title || '', rows: foot.contact.rows } : null;
+  // A newsletter / signup column (heading + email input + button) → carried through so the emit keeps the
+  // 4th footer column instead of dropping it. Mirror of PHP detect_footer_columns' newsletter branch.
+  const footerNewsletter = foot.newsletter && foot.newsletter.title
+    ? { title: foot.newsletter.title, tagline: foot.newsletter.tagline || '', placeholder: foot.newsletter.placeholder || '', button: foot.newsletter.button || 'Subscribe' } : null;
   // Keep only the editable tail after the "© year brand." sentence as a starter tagline.
   const taglineFromCopyright = (copy) => {
     copy = (copy || '').trim();
@@ -156,6 +160,9 @@ export function toDesignConfig(cap) {
 
   return {
     theme: { name, slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''), mode: 'child' },
+    // Source favicon (absolute URL) — bundled into the child theme + used as the Site Icon / <head> link
+    // by the PHP theme generator. Same field name the PHP path emits, so the generator consumes either.
+    ...(cap.favicon ? { favicon: cap.favicon } : {}),
     hero: heroPattern ? { pattern: heroPattern } : {},
     layout: prune({ container_max: (cap.layout && cap.layout.container_max) || '' }),
     fonts: prune({ heading: headingFont, heading_weight: (cap.baseHeading && cap.baseHeading.weight) || '', body: bodyFont, google, icons }),
@@ -182,7 +189,7 @@ export function toDesignConfig(cap) {
         style: ctaStyle,
       },
     },
-    footer: { widget_area: true, brand: true, copyright: taglineFromCopyright(foot.copyright), menu: footerMenu, social: footerSocial, contact: footerContact },
+    footer: { widget_area: true, brand: true, copyright: taglineFromCopyright(foot.copyright), menu: footerMenu, social: footerSocial, contact: footerContact, newsletter: footerNewsletter },
     background: { dotted: false },
   };
 }

@@ -30,7 +30,21 @@ export function extractDesign() {
         // squiggle (FreshPaws: a `<path d="M0 5 Q 50 10 100 5">` under "Second Home"). Keep it VERBATIM;
         // the default accent-span reconstruction below only rebuilds TEXT, so it drops the <path> and the
         // graphic vanishes. The svg's own classes (absolute / w-full / text-secondary) ride along.
-        if (tag === 'svg') { html += n.outerHTML.replace(/\s+/g, ' ').trim(); sawTag = true; continue; }
+        if (tag === 'svg') {
+          let svg = n.outerHTML.replace(/\s+/g, ' ').trim();
+          // Inline the svg's COMPUTED colour so its `stroke="currentColor"` / `fill="currentColor"`
+          // resolves to the source accent (FreshPaws underline = amber `text-secondary`) on the PAGE
+          // BODY — the `.text-secondary{color:…}` rule the source relies on lives under the `.sc-tw`
+          // chrome scope, not the body, so without this the underline inherits BLACK. Parity with the
+          // PHP mapper's resolve_color_classes(); merge additively into any existing root style="".
+          const sc = getComputedStyle(n).color;
+          if (sc && !/^rgba?\(0,\s*0,\s*0,\s*0\)$/.test(sc.replace(/\s+/g, ''))) {
+            const open = svg.slice(0, (svg.indexOf('>') + 1) || svg.length);
+            if (/\bstyle\s*=\s*"/.test(open)) { svg = svg.replace(/\bstyle\s*=\s*"([^"]*)"/, (_m, ex) => `style="${ex.replace(/;?\s*$/, ';')}color:${sc}"`); }
+            else { svg = svg.replace(/^<svg\b/i, `<svg style="color:${sc}"`); }
+          }
+          html += svg; sawTag = true; continue;
+        }
         const s = getComputedStyle(n);
         const w = parseInt(s.fontWeight, 10) || pWeight;
         // Bold only when this child is genuinely BOLDER than its surroundings (or a real <b>/<strong>),
@@ -57,8 +71,12 @@ export function extractDesign() {
           // `text-color-primary`) is kept verbatim so the theme still paints (and can re-theme) it.
           const deadColorClass = /(^|\s)text-\[/.test(acls)
             || /(^|\s)text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}(\s|$)/.test(acls);
+          // Keep the source semantic class (the child theme can re-theme it) AND inline the computed
+          // colour, so the two-tone span paints on the page BODY without depending on the `.sc-tw`-scoped
+          // `.text-primary{color:…}` rule (which never lands on the body → black). Parity with the PHP
+          // mapper's resolve_color_classes().
           inner = (acls && !deadColorClass)
-            ? `<span class="${acls}">${inner}</span>`
+            ? `<span class="${acls}" style="color:${s.color}">${inner}</span>`
             : `<span style="color:${s.color}">${inner}</span>`;
         }
         if (bold || ital || accent) { sawTag = true; }
@@ -411,11 +429,36 @@ export function extractDesign() {
       }
       return null;
     })();
+    // NEWSLETTER / signup column: a heading whose column carries an email/text <input> (an email capture)
+    // but NO link group and NO contact rows — the 4th "Sprinkles Club"-style column that would otherwise be
+    // dropped. Captured as { title, tagline, placeholder, button } so the emit reproduces it with the native
+    // newsletter element. Mirror of PHP detect_footer_columns' newsletter branch.
+    const newsletter = (() => {
+      const heads = [...footerEl.querySelectorAll('h2,h3,h4,h5,h6')];
+      const linkHeads = new Set(groups.map((g) => g.title));
+      const contactHead = contact ? contact.title : '';
+      for (const h of heads) {
+        const t = clip(txt(h), 60);
+        if (!t || t === contactHead || linkHeads.has(t)) continue;
+        const wrap = h.parentElement; if (!wrap) continue;
+        if ([...wrap.querySelectorAll('a')].filter((a) => txt(a)).length >= 2) continue;
+        const inp = [...wrap.querySelectorAll('input')].find((i) => {
+          const it = (i.getAttribute('type') || '').toLowerCase().trim();
+          return it === '' || it === 'email' || it === 'text' || it === 'search';
+        });
+        if (!inp) continue;
+        const p = [...wrap.querySelectorAll('p')].map((x) => txt(x)).find((x) => x);
+        const b = [...wrap.querySelectorAll('button, a')].map((x) => txt(x)).find((x) => x);
+        return { title: t, tagline: clip(p || '', 200), placeholder: clip(inp.getAttribute('placeholder') || '', 80), button: clip(b || 'Subscribe', 40) };
+      }
+      return null;
+    })();
     footer = {
       computed: pick(getComputedStyle(footerEl), ['backgroundColor', 'color', 'padding']),
       brand: brandEl ? clip(txt(brandEl), 60) : '',
       groups: groups.slice(0, 6),
       contact,
+      newsletter,
       social,
       copyright: ci >= 0 ? clip(allText.slice(ci), 200) : '',
       links: textLinks.slice(0, 40), // flat fallback
@@ -803,6 +846,41 @@ export function extractDesign() {
     return txt(el).length > 0;
   };
   const rowKids = (el) => [...el.children].filter((c) => c.nodeType === 1 && !SKIP_TAGS.has(c.tagName) && visibleEl(c));
+  // A CALL-TO-ACTION band → { title, message(html), button_*, button skin } or null. Parity PHP
+  // is_cta_band + cta_build: a CENTERED div/section with exactly ONE non-h1 heading, optional subtext,
+  // and exactly ONE button, and NO other media/list/table/form/column content (so a hero or feature grid
+  // never qualifies; a 2-button CTA stays assembled so nothing is dropped).
+  const ctaBandOf = (elx) => {
+    if (!elx || !elx.tagName) return null;
+    if (elx.tagName !== 'DIV' && elx.tagName !== 'SECTION') return null;
+    const cs = getComputedStyle(elx);
+    const centered = /(?:^|\s)text-center\b/.test(elx.className || '') || cs.textAlign === 'center';
+    if (!centered) return null;
+    if (elx.querySelector('h1')) return null;
+    const heads = elx.querySelectorAll('h2,h3,h4,h5,h6');
+    if (heads.length !== 1) return null;
+    if (elx.querySelector('img,picture,video,iframe,ul,ol,table,form,input,select,textarea')) return null;
+    const btns = [...elx.querySelectorAll('a,button')].filter((b) => looksButton(b));
+    if (btns.length !== 1) return null;
+    for (const sv of elx.querySelectorAll('svg')) { if (!btns[0].contains(sv)) return null; }
+    // A genuine multi-column / card-grid child means it isn't a simple CTA.
+    for (const k of [...elx.children]) { if (isRow(k)) return null; }
+    const h = heads[0];
+    const title = (h.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!title) return null;
+    const btn = btns[0];
+    const bcs = getComputedStyle(btn);
+    const parts = [...elx.querySelectorAll('p')].filter((p) => txt(p)).map((p) => rawHtmlOf(p, true));
+    return {
+      title,
+      message: parts.join('\n'),
+      button_label: (btn.textContent || '').replace(/\s+/g, ' ').trim(),
+      button_link: abs(btn.getAttribute('href') || '#') || '#',
+      button_target: (btn.getAttribute('target') === '_blank') ? '_blank' : '_self',
+      buttonBg: bcs.backgroundColor, buttonColor: bcs.color, buttonRadius: bcs.borderRadius, buttonPad: bcs.padding,
+    };
+  };
+
   const isRow = (el) => {
     const kids = rowKids(el);
     if (kids.length < 2) return false;
@@ -1075,6 +1153,22 @@ export function extractDesign() {
     if (!img) return null;
     const ov = compositeOverlays(cell);
     if (!ov.cards.length && !ov.blobs.length) return null;         // not a decomposable composite
+    // IMAGE-DOMINANT guard (parity with PHP is_decomposable_image_composite): a composite is a photo FRAME,
+    // not one cell of a wider `image | text` band. Heading/body/button content OUTSIDE the absolute overlays
+    // means a band — bail so it stays split into real columns instead of dropping the text side.
+    const withinAbsolute = (node) => {
+      for (let p = node.parentElement; p && p !== cell; p = p.parentElement) {
+        if (/\b(?:absolute|fixed)\b/.test(String(p.className || ''))) return true;
+        const pos = getComputedStyle(p).position;
+        if (pos === 'absolute' || pos === 'fixed') return true;
+      }
+      return false;
+    };
+    for (const n of cell.querySelectorAll('h1,h2,h3,h4,h5,h6,p,a,button')) {
+      const hasText = (n.textContent || '').trim() !== '';
+      if (!hasText && !n.querySelector('svg,img')) continue;
+      if (!withinAbsolute(n)) return null;                         // sibling content outside overlays → a band
+    }
     const ics = getComputedStyle(img);
     const image = { src: abs(img.currentSrc || img.src || ''), alt: img.alt || '', ...imgSkin(img) };
     const bw = parseFloat(ics.borderTopWidth) || 0;
@@ -1228,6 +1322,18 @@ export function extractDesign() {
       const ccs = getComputedStyle(c);
       if ((ccs.display === 'flex' || ccs.display === 'inline-flex') && [...c.children].filter((k) => visibleEl(k)).length >= 2) {
         cell.flex = { dir: ccs.flexDirection, justify: ccs.justifyContent, align: ccs.alignItems, gap: ccs.columnGap || ccs.gap };
+      }
+      // The cell's OWN capped max-width (source `max-w-2xl` / `max-w-[620px]` / inline) → the column's
+      // content measure. Without it a hero TEXT column fills the full 50% grid track and its paragraph
+      // wraps in fewer lines than the source (which clamps the text to e.g. 42rem), shifting content
+      // below. Only when a max-w-* utility (or inline max-width) is present; computed → a clean px cap.
+      // Parity with the PHP Stitch element_max_width carry. (Fidelity fix.)
+      {
+        const ccls = String(c.className || '');
+        const inlineMw = (c.getAttribute && (c.getAttribute('style') || '')) || '';
+        if ((/(?:^|\s)max-w-(?:\[[^\]]+\]|[a-z0-9]+)/.test(ccls) || /max-width\s*:/.test(inlineMw)) && ccs.maxWidth && ccs.maxWidth !== 'none' && /^[0-9.]+px$/.test(ccs.maxWidth)) {
+          cell.maxw = ccs.maxWidth;
+        }
       }
       // PRODUCT-CARD wrapper skin + hover + ribbon (only on image-bearing cells → product cards). The
       // wc_products mapper reproduces the card look via scoped section CSS (no shortcode-option bloat):
@@ -1773,8 +1879,22 @@ export function extractDesign() {
     if (['table', 'thead', 'tbody', 'tr', 'ul', 'ol', 'nav', 'dl', 'details', 'summary'].includes(tag)) return false;
     if (el.querySelector('details') || el.querySelector('table')) return false;
     const kids = wChildren(el); const n = kids.length; if (n < 2) return false;
-    let priced = 0; for (const k of kids) if (cellPriceParts(k)) priced++;
-    return priced >= Math.max(2, Math.ceil(n * 0.6));
+    let priced = 0, withList = 0, withImg = 0, withShop = 0;
+    for (const k of kids) {
+      if (cellPriceParts(k)) priced++;
+      if (k.querySelector('ul,ol')) withList++;
+      if (k.querySelector('img')) withImg++;
+      const cta = [...k.querySelectorAll('a,button')].map((b) => txt(b)).join(' ');
+      if (/\b(add to (cart|basket|bag)|buy now|shop now|order now)\b/i.test(cta)) withShop++;
+    }
+    if (priced < Math.max(2, Math.ceil(n * 0.6))) return false;
+    // A PRODUCT-card grid (a shop) also has prices but is NOT a pricing table: pricing plans have a FEATURE
+    // LIST per column, while product cards have a product IMAGE and/or an "Add to cart/basket" CTA and no
+    // feature list. Reject those so they fall through to card -> icon_box (keeps image/title/desc/button)
+    // instead of a pricing_table with a bogus "/mo". Parity with PHP is_pricing_table.
+    const maj = Math.ceil(n * 0.6);
+    if (withList < maj && (withImg >= maj || withShop >= maj)) return false;
+    return true;
   };
   const pricingBlockOf = (el) => {
     const plans = [];
@@ -1943,6 +2063,24 @@ export function extractDesign() {
         const gh = galleryGridHtml(child);
         if (gh) { out.push({ t: 'html', html: gh, gallery: true }); continue; }
       }
+      // A logo / "trusted by" strip (>=2 <img>, no headings, NOT an avatar/rating cluster) → native
+      // logo_grid (each <img> → one editable logo). Parity PHP is_logo_strip / logo_strip_items.
+      if (tag !== 'IMG' && child.querySelectorAll('img').length >= 2
+          && !child.querySelector('h1,h2,h3,h4,h5,h6') && !ratingClusterOf(child)) {
+        const logos = [...child.querySelectorAll('img')].map((im) => {
+          const src = abs(im.currentSrc || im.src || im.getAttribute('data-src') || '');
+          if (!src) return null;
+          const a = im.closest('a');
+          return { url: src, name: im.alt || '', link_url: a ? abs(a.getAttribute('href') || '') : '',
+            link_target: (a && a.getAttribute('target') === '_self') ? '_self' : '_blank', svg: '' };
+        }).filter(Boolean);
+        if (logos.length >= 2) { out.push({ t: 'logo_grid', logos, html: rawHtmlOf(child, true), anim: cAnim }); continue; }
+      }
+      // CALL-TO-ACTION band → native call_to_action: DISABLED (parity with PHP). The native shortcode
+      // is a horizontal title-left/button-right bordered box, the wrong shape for a centered CTA, so a
+      // CTA band falls through to the faithful assembled path (centered heading + text + button).
+      // ctaBandOf stays defined for a future variant-aware node.
+      // { const cta = ctaBandOf(child); if (cta) { out.push({ t: 'cta', ...cta, anim: cAnim }); continue; } }
       if (/^H[1-6]$/.test(tag)) {
         const html = richHeading(child) || escHtml(txt(child));
         if (html) { const _hcs = getComputedStyle(child); out.push({ t: 'heading', level: +tag[1], html, text: clip(txt(child), 200), tag: tag.toLowerCase(), cls, wrapCls: headingWrapClass(child), fontSize: _hcs.fontSize, fontWeight: _hcs.fontWeight, color: _hcs.color, marginBottom: _hcs.marginBottom, marginTop: _hcs.marginTop, lineHeight: _hcs.lineHeight, letterSpacing: _hcs.letterSpacing, align: (_hcs.textAlign || 'left').replace(/^(start|justify)$/, 'left').replace('end', 'right') }); }
@@ -2032,14 +2170,21 @@ export function extractDesign() {
         if (cols.length) {
           // The row's vertical alignment of its columns (source `.row.align-items-center` etc.) →
           // the builder columns' Content Vertical Align. Read computed (works for classes or CSS).
-          const ai = (getComputedStyle(child).alignItems || '').toLowerCase();
+          const _rcs = getComputedStyle(child);
+          const ai = (_rcs.alignItems || '').toLowerCase();
           const valign = ai === 'center' ? 'center'
             : ( ( ai === 'flex-end' || ai === 'end' ) ? 'end'
             : ( ( ai === 'flex-start' || ai === 'start' ) ? 'start' : '' ) );
+          // Pass #5 — the row's inter-column GAP (px) → spacing-scale distillation onto the section's
+          // native Gap option (to-pages sectionGapSlug). column-gap wins; else the `gap` shorthand's
+          // last value (row-gap col-gap). Parity with PHP grid_gap_px().
+          const _gapRaw = (_rcs.columnGap && _rcs.columnGap !== 'normal') ? _rcs.columnGap
+            : ((_rcs.gap && _rcs.gap !== 'normal') ? _rcs.gap.split(' ').pop() : '');
+          const gap = parseFloat(_gapRaw) || 0;
           // Carry the raw HTML so a NESTED row that reaches blockToNode (e.g. a bespoke rating /
           // social-proof cluster inside a decomposed hero column) renders verbatim as a CONTAINED
           // code_block instead of an EMPTY one. (A top-level layout row is still built into columns.)
-          out.push({ t: 'row', cols, valign, html: rawHtmlOf(child, true) });
+          out.push({ t: 'row', cols, valign, gap, html: rawHtmlOf(child, true) });
         }
       } else if (tag === 'IMG' || (/^(FIGURE|PICTURE)$/.test(tag) && child.querySelector('img') && !txt(child))) {
         // A standalone <img> (or a figure/picture wrapping a lone image) → a clean `image` block →
@@ -2466,6 +2611,47 @@ export function extractDesign() {
     footer_html: footerHtml,
     footer_cols: footerInfo ? footerInfo.colsHtml : [],
     footer_copyright: footerInfo ? footerInfo.copyHtml : '',
+    // NEVER-DROP footer COLUMN-HEADING typography (uppercase / tracking / weight / size / colour) from the
+    // first column heading — the footer builder has no native heading option, so it's carried as scoped CSS.
+    footer_heading_style: (() => {
+      if (!footerInfo || !Array.isArray(footerInfo.cols)) return null;
+      for (const col of footerInfo.cols) {
+        const h = col.querySelector('h2,h3,h4,h5,h6');
+        if (h && (h.textContent || '').trim()) {
+          const cs = getComputedStyle(h);
+          return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, color: cs.color };
+        }
+      }
+      return null;
+    })(),
+    // First footer nav LINK's distinctive typography (transform/tracking/weight/size) + hover token — carried
+    // as scoped `.footer-menu a` CSS (never-drop). Parity with PHP footer_link_css().
+    footer_link_style: (() => {
+      if (!footerEl) return null;
+      for (const li of footerEl.querySelectorAll('li')) {
+        const a = li.querySelector('a');
+        if (!a) continue;
+        const t = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!t || t.split(/\s+/).length > 4) continue;
+        const cs = getComputedStyle(a);
+        const hm = String(a.className || '').match(/hover:text-([a-z][a-z0-9-]*)/);
+        return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, hover: hm ? hm[1] : '' };
+      }
+      return null;
+    })(),
+    // Footer TAGLINE typography (first long non-copyright <p>): size / line-height / colour → scoped
+    // `.footer-tagline` CSS (never-drop). Parity with PHP footer_tagline_css().
+    footer_tagline_style: (() => {
+      if (!footerEl) return null;
+      for (const p of footerEl.querySelectorAll('p')) {
+        const t = (p.textContent || '').replace(/\s+/g, ' ').trim();
+        if (t.length >= 40 && !/©|rights reserved|copyright/i.test(t)) {
+          const cs = getComputedStyle(p);
+          return { fontSize: cs.fontSize, lineHeight: cs.lineHeight, color: cs.color };
+        }
+      }
+      return null;
+    })(),
     // Categorized, unlabeled CSS groups — the plugin cleans each and writes them in a clean,
     // labeled order (base → utilities → header → [sections] → footer).
     base_css:   [fontFaces.join('\n'), assemble(buckets.base)].filter(Boolean).join('\n'),
@@ -2611,12 +2797,14 @@ export function extractDesign() {
     if (radius.indexOf('%') !== -1 || /(?:^|\s)(?:99\d\d|[1-9]\d{4,})px/.test(radius)) return 'circle';
     const rm = radius.match(/([0-9.]+)px/); const r = rm ? parseFloat(rm[1]) : 0;
     const bm = String(boxPx || '').match(/([0-9.]+)px/); const b = bm ? parseFloat(bm[1]) : 0;
-    if (r > 0 && b > 0) { const ratio = r / b; if (ratio >= 0.90) return 'circle'; if (ratio >= 0.22) return 'squircle'; return 'rounded'; }
+    // CSS clamps radius to box/2, so ratio ≥ ~0.5 is a fully-rounded CIRCLE (e.g. rounded-2xl 24px on a
+    // 40px tile → circle, not squircle). 0.22–0.5 is the app-icon squircle look. Parity with PHP infer_frame_shape.
+    if (r > 0 && b > 0) { const ratio = r / b; if (ratio >= 0.5) return 'circle'; if (ratio >= 0.22) return 'squircle'; return 'rounded'; }
     if (r >= 10) return 'squircle';
     return r > 0 ? 'rounded' : 'square';
   };
   const logoDetail = (() => {
-    const d = { text: '', icon: '', image: '', svg: '', icon_color: '', frame: 'none', frame_bg: '', title_color: '', title_size: '', title_weight: '', icon_size: '', title_accent_color: '', title_accent_text: '' };
+    const d = { text: '', icon: '', image: '', svg: '', icon_color: '', frame: 'none', frame_bg: '', title_color: '', title_size: '', title_weight: '', title_font: '', title_ls: '', title_hover: '', icon_size: '', title_accent_color: '', title_accent_text: '' };
     if (!headerEl) return d;
     // Brand = the first non-button link whose href is home ('/', '#', or the origin).
     let brand = [...headerEl.querySelectorAll('a')].find((a) => {
@@ -2639,6 +2827,8 @@ export function extractDesign() {
         if (cs.color) d.title_color = cs.color;
         if (cs.fontSize) d.title_size = cs.fontSize;
         if (/^(300|400|500|600|700|800|900)$/.test(String(parseInt(cs.fontWeight, 10)))) d.title_weight = String(parseInt(cs.fontWeight, 10));
+        if (cs.fontFamily) d.title_font = cs.fontFamily;
+        if (cs.letterSpacing && cs.letterSpacing !== 'normal' && cs.letterSpacing !== '0px') d.title_ls = cs.letterSpacing;
         sawBase = true;
       } else if (cs.color && d.title_color && cs.color !== d.title_color && d.title_accent_color === '') {
         d.title_accent_color = cs.color;
@@ -2648,6 +2838,13 @@ export function extractDesign() {
       }
     });
     if (!d.title_color) { const bc = getComputedStyle(brand); d.title_color = bc.color || ''; }
+    // Wordmark FONT-FAMILY + LETTER-SPACING fallback (text sat directly on the <a>, no measured span) + the
+    // hover colour token (`hover:text-primary`, unreadable from computed :hover) → mapped to a preset var. Mirror of PHP.
+    { const bc2 = getComputedStyle(brand);
+      if (!d.title_font && bc2.fontFamily) d.title_font = bc2.fontFamily;
+      if (!d.title_ls && bc2.letterSpacing && bc2.letterSpacing !== 'normal' && bc2.letterSpacing !== '0px') d.title_ls = bc2.letterSpacing;
+      const hm = _clsOf(brand).match(/hover:text-([a-z][a-z0-9-]*)/); if (hm) d.title_hover = hm[1];
+    }
     // Icon mark: inline <svg> (verbatim) + its color + an optional colored frame tile ancestor.
     const svg = brand.querySelector('svg');
     if (svg) {
@@ -2724,6 +2921,28 @@ export function extractDesign() {
       const px = pm ? parseFloat(pm[1]) : (rm ? parseFloat(rm[1]) * 16 : 0);
       if (px >= 40) out.push({ value: v, px });
     }
+    // Pass #5 MEASURED FOLD — a source whose off-scale rhythm lives only in COMPUTED style (a
+    // non-Tailwind / visual builder: no `pt-[…]` class to scan) still contributes its real spacing
+    // to the editable scale. Sample every element's computed vertical padding/margin and keep the
+    // OFF-scale values (≥40px, not within 1px of a base-scale step) as exact px tokens — the SAME
+    // values the section distillation emits as `pt-[NNpx]`. Mirror of PHP build_spacing_scale()'s
+    // data-sc-cs harvest (same `body *` set, ≥40px threshold, 1px on-scale tolerance, dedupe-by-px).
+    const BASE_PX = [0, 4, 8, 16, 24, 48, 56, 64, 72, 80, 96, 112, 128];
+    const onScale = (px) => BASE_PX.some((b) => Math.abs(b - px) <= 1);
+    const seenPx = new Set(out.map((t) => Math.round(t.px)));
+    const measured = [];
+    document.querySelectorAll('body *').forEach((el) => {
+      const s = getComputedStyle(el);
+      for (const prop of ['paddingTop', 'paddingBottom', 'marginTop', 'marginBottom']) {
+        const mm = String(s[prop] || '').match(/^([0-9.]+)px$/);
+        if (!mm) continue;
+        const px = Math.round(parseFloat(mm[1]));
+        if (px < 40 || onScale(px) || seenPx.has(px)) continue;
+        seenPx.add(px); measured.push({ value: px + 'px', px });
+      }
+    });
+    measured.sort((a, b) => a.px - b.px);
+    out.push(...measured);
     return out;
   })();
 
@@ -2775,6 +2994,87 @@ export function extractDesign() {
       const ls = lsPx(cs.letterSpacing); if (ls !== '') rec['letter-spacing'] = ls;
       if (Object.keys(rec).length) out[lvl] = rec;
     }
+
+    // TEXT STYLES (font_sizes) — MIRROR of PHP Stitch::build_text_styles(): a Display scale from the
+    // headings (>=20px, largest-first, deduped → display-1..N) + a BODY scale distilled length-weighted
+    // from the paragraphs (the DOMINANT paragraph size = the body base → NO preset; each distinct non-base
+    // size carrying meaningful text → a stable-classed role: Lead 20/lead · Subtitle 18/font-subtitle ·
+    // Small 14/font-small · Caption 12/font-caption) + an Eyebrow (uppercase + tracking). Byte-identical
+    // entry shape + classes to PHP so the downstream `font_sizes` consumer + to-pages assignment match.
+    out.textStyles = (() => {
+      const wtNorm = (w) => { w = String(w || '').trim().toLowerCase(); if (/^[1-9]00$/.test(w)) return w; if (w === 'bold') return '700'; if (w === 'normal') return '400'; return ''; };
+      const mk = (name, size, weight, lh, ls, transform, cls) => ({ name, size: String(size), weight: String(weight || ''), line_height: String(lh || ''), letter_spacing: String(ls || ''), transform: String(transform || ''), class: String(cls || '') });
+      // --- Display scale from headings (largest rendered size per heading, >=20px). ---
+      const disp = {};
+      for (const lvl of ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) {
+        for (const hn of document.getElementsByTagName(lvl)) {
+          const cs = getComputedStyle(hn);
+          const sm = String(cs.fontSize).match(/^([0-9.]+)px$/); if (!sm) continue;
+          const px = Math.round(parseFloat(sm[1])); if (px < 20) continue;
+          if (!disp[px]) { const w = String(parseInt(cs.fontWeight, 10) || ''); disp[px] = { size: px, weight: (/^[1-9]00$/.test(w) ? w : ''), lh: lhRatio(cs.lineHeight, px) }; }
+        }
+      }
+      const dv = Object.values(disp).sort((a, b) => b.size - a.size);
+      const dispSizes = {}; dv.forEach((d) => { dispSizes[d.size] = true; });
+      // --- Eyebrow / overline: uppercase + tracking, smallest-sized instance. ---
+      let eye = null, eyeBest = -1;
+      for (const node of document.body.getElementsByTagName('*')) {
+        const cs = getComputedStyle(node);
+        if (cs.textTransform !== 'uppercase') continue;
+        const ls = lsPx(cs.letterSpacing); if (ls === '') continue;
+        const sm = String(cs.fontSize).match(/^([0-9.]+)px$/); const sz = sm ? Math.round(parseFloat(sm[1])) : null;
+        const score = (sz !== null) ? (1000 - sz) : 0;
+        if (score > eyeBest) { eyeBest = score; eye = { size: sz !== null ? String(sz) : '', weight: wtNorm(cs.fontWeight), ls }; }
+      }
+      // --- Body scale from paragraphs (length-weighted per rounded px). ---
+      const blen = {}, brep = {}, breplen = {};
+      document.querySelectorAll('p').forEach((p) => {
+        const cs = getComputedStyle(p);
+        const sm = String(cs.fontSize).match(/^([0-9.]+)px$/); if (!sm) return;
+        const px = Math.round(parseFloat(sm[1]));
+        const len = txt(p).trim().length; if (len <= 0) return;
+        blen[px] = (blen[px] || 0) + len;
+        if (len > (breplen[px] || 0)) { breplen[px] = len; brep[px] = p; }
+      });
+      const bodyPresets = [];
+      const sizes = Object.keys(blen).map(Number);
+      if (sizes.length) {
+        sizes.sort((a, b) => blen[b] - blen[a]);       // most total body text first
+        const basePx = sizes[0]; delete blen[basePx];   // dominant = base = no preset
+        const MIN_TEXT = 24;
+        // Lead: non-base size >= 19 with the most text (fallback 20).
+        let leadPx = null, leadLen = -1;
+        for (const px of Object.keys(blen).map(Number)) { if (px >= 19 && blen[px] > leadLen) { leadPx = px; leadLen = blen[px]; } }
+        const leadSize = leadPx !== null ? leadPx : 20;
+        const repMeta = (px) => { const r = brep[px]; if (!r) return { w: '', lh: '', ls: '' }; const cs = getComputedStyle(r); return { w: wtNorm(cs.fontWeight), lh: lhRatio(cs.lineHeight, px), ls: lsPx(cs.letterSpacing) }; };
+        const lm = repMeta(leadPx !== null ? leadPx : -1);
+        bodyPresets.push({ order: leadSize, name: 'Lead', size: leadSize, weight: (lm.w === '400' ? '' : lm.w), lh: lm.lh, ls: lm.ls, cls: 'lead' });
+        const buckets = {}; // class => { name, size, len }
+        for (const px of Object.keys(blen).map(Number)) {
+          const len = blen[px];
+          if (len < MIN_TEXT) continue;
+          if (px === leadPx) continue;
+          if (px >= 19) continue;
+          if (dispSizes[px]) continue;                  // de-dupe vs a heading Display
+          let name, cls;
+          if (px >= 17) { name = 'Subtitle'; cls = 'font-subtitle'; }
+          else if (px >= 13) { name = 'Small'; cls = 'font-small'; }
+          else if (px >= 11) { name = 'Caption'; cls = 'font-caption'; }
+          else continue;
+          if (!buckets[cls] || len > buckets[cls].len) buckets[cls] = { name, size: px, len };
+        }
+        for (const cls of Object.keys(buckets)) { const bk = buckets[cls]; const m2 = repMeta(bk.size); bodyPresets.push({ order: bk.size, name: bk.name, size: bk.size, weight: (m2.w === '400' ? '' : m2.w), lh: m2.lh, ls: m2.ls, cls }); }
+        bodyPresets.sort((a, b) => b.order - a.order);
+      }
+      // Assemble in the SAME order as PHP: Display 1..N, then body roles (Lead/Subtitle/Small/Caption), then Eyebrow.
+      const presets = [];
+      const n = Math.min(6, dv.length);
+      for (let i = 0; i < n; i++) presets.push(mk('Display ' + (i + 1), dv[i].size, dv[i].weight, dv[i].lh, '', '', 'display-' + (i + 1)));
+      if (bodyPresets.length) { for (const bp of bodyPresets) presets.push(mk(bp.name, bp.size, bp.weight, bp.lh, bp.ls, '', bp.cls)); }
+      else presets.push(mk('Lead', 20, '', '', '', '', 'lead'));
+      if (eye) presets.push(mk('Eyebrow', eye.size, eye.weight, '', eye.ls, 'uppercase', ''));
+      return presets;
+    })();
     return out;
   })();
 
@@ -2793,8 +3093,38 @@ export function extractDesign() {
     return false;
   })();
 
+  // FAVICON — the best <link rel="icon"|"apple-touch-icon"|"shortcut icon"> href, resolved absolute.
+  // Priority mirrors the PHP detect_favicon(): apple-touch-icon > largest icon (sizes=NxN) > any raster
+  // (png/webp/jpg/…) > .ico > /favicon.ico. Consumed by to-design-config.mjs as `favicon`.
+  const favicon = (() => {
+    const links = [...document.querySelectorAll('link[rel][href]')].filter((l) => {
+      const r = (l.getAttribute('rel') || '').toLowerCase();
+      return r.includes('icon'); // covers "icon", "shortcut icon", "apple-touch-icon"
+    }).map((l) => {
+      const r = (l.getAttribute('rel') || '').toLowerCase();
+      const href = abs(l.getAttribute('href') || '');
+      const sz = (l.getAttribute('sizes') || '').match(/(\d+)\s*[x×]\s*(\d+)/i);
+      const path = href.replace(/[?#].*$/, '');
+      return {
+        href, apple: r.includes('apple-touch-icon'), size: sz ? +sz[1] : 0,
+        raster: /\.(png|jpe?g|webp|gif|avif)$/i.test(path) || (r.includes('apple-touch-icon') && !/\.(ico|svg)$/i.test(path)),
+        ico: /\.ico$/i.test(path),
+      };
+    }).filter((c) => c.href && !/^data:/i.test(c.href));
+    const apples = links.filter((c) => c.apple).sort((a, b) => b.size - a.size);
+    if (apples.length) return apples[0].href;
+    const sized = links.filter((c) => c.size > 0).sort((a, b) => b.size - a.size);
+    if (sized.length) return sized[0].href;
+    const raster = links.find((c) => c.raster);
+    if (raster) return raster.href;
+    const ico = links.find((c) => c.ico);
+    if (ico) return ico.href;
+    try { return new URL('/favicon.ico', location.href).href; } catch { return ''; }
+  })();
+
   return {
     title: document.title,
+    favicon,
     tailwind: detectTailwind(), // source built with Tailwind → mapper trusts the `styles.tw` token intent
     typography, usesTwContainer,
     tokens: { vars, brandColor, brandHover, body: pick(bodyCS, ['fontFamily', 'color', 'backgroundColor', 'lineHeight', 'fontSize']) },

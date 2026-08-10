@@ -129,6 +129,32 @@ console.log('\n=== svg_draw ===');
   ok(neg.node && neg.node.shortcode === 'code_block', 'NEG: blank code → code_block');
 }
 
+console.log('\n=== logo_grid ===');
+{
+  const { node } = nodeFor({ t: 'logo_grid', logos: [
+    { url: 'http://cdn/acme.svg', name: 'Acme', link_url: 'http://a/', link_target: '_blank' },
+    { url: 'http://cdn/globex.svg', name: 'Globex' },
+    { url: 'http://cdn/initech.svg', name: 'Initech' },
+  ] });
+  ok(node && node.shortcode === 'logo_grid' && node.atts.design === 'grid', 'logo_grid block → logo_grid shortcode');
+  ok(node && node.atts.logos.length === 3, 'each <img> → a logo (3)');
+  ok(node && node.atts.logos[0].image.url === 'http://cdn/acme.svg' && node.atts.logos[0].name === 'Acme' && node.atts.logos[0].link_url === 'http://a/', 'logo[0] carries url/name/link');
+  const neg = nodeFor({ t: 'logo_grid', logos: [] });
+  ok(neg.node && neg.node.shortcode === 'code_block', 'NEG: no logos → code_block');
+}
+
+console.log('\n=== call_to_action ===');
+{
+  const { node } = nodeFor({ t: 'cta', title: 'Ready to get started?', message: '<p>Join us today.</p>',
+    button_label: 'Sign Up', button_link: '/signup', button_target: '_self',
+    buttonBg: 'rgb(251, 189, 35)', buttonColor: 'rgb(255, 255, 255)' });
+  ok(node && node.shortcode === 'call_to_action', 'cta block → call_to_action shortcode');
+  ok(node && node.atts.title === 'Ready to get started?' && node.atts.button_label === 'Sign Up' && node.atts.button_link === '/signup', 'carries title/button_label/button_link');
+  ok(node && /rgb\(251, 189, 35\)/.test(node.atts.custom_css || ''), 'source button fill reproduced in custom_css (.btn.btn-1)');
+  const plain = nodeFor({ t: 'cta', title: 'Plain', message: '', button_label: 'Go', button_link: '/g' });
+  ok(plain.node && plain.node.shortcode === 'call_to_action' && !plain.node.atts.custom_css, 'no button fill → no custom_css');
+}
+
 console.log('\n=== section CSS ID (slug_from_id parity) ===');
 {
   const out = toPages({ url: 'http://x/', sections: [{ sectionClass: '', computed: {}, sectionId: 'Our Services', blocks: [{ t: 'heading', level: 2, html: 'Hi' }] }] });

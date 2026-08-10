@@ -166,6 +166,10 @@ button,input{font:inherit;color:inherit}
 .stat .v.good{color:var(--accent)} .stat .v.warn{color:var(--amber)}
 .stat .k{margin-top:6px;font-size:11px;color:var(--muted);letter-spacing:.03em}
 .stat .prov{margin-top:3px;font-size:10px;color:var(--faint);font-family:var(--mono)}
+.stat-link{cursor:pointer;transition:border-color .12s,background .12s}
+.stat-link:hover,.stat-link:focus-visible{border-color:var(--accent);background:var(--surface);outline:none}
+.stat-link .stat-arrow{opacity:0;margin-left:3px;font-weight:600;transition:opacity .12s}
+.stat-link:hover .stat-arrow,.stat-link:focus-visible .stat-arrow{opacity:.55}
 
 /* ---------- shot ---------- */
 .shot{border-radius:12px;border:1px solid var(--border);overflow:hidden;background:var(--surface-2);overflow-y:auto}
@@ -319,6 +323,7 @@ td.txt{color:var(--muted);max-width:340px}
   <div class="watching" style="margin-left:auto">watching <b id="watchDir">…</b></div>
   <a class="toplink" id="logsLink" title="Open the run log (what the tools printed this session)">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Logs</a>
+  <a class="toplink" id="diagLink" title="Run a one-click health check">🩺 Diagnostics</a>
   <div id="upwStatus" class="watching" title="Converter tools — capture service + running conversions" style="display:flex;gap:.6em;align-items:center;white-space:nowrap"></div>
 </header>
 
@@ -360,6 +365,7 @@ td.txt{color:var(--muted);max-width:340px}
                 <span class="fld-l">Destination WordPress</span>
                 <input id="destUrl" class="fld-i mono" type="url" placeholder="http://localhost/" autocomplete="off" spellcheck="false">
               </label>
+              <label class="dry"><input type="checkbox" id="hifiCss" checked><span>High-fidelity CSS — reproduce the source's exact look as an editable, low-priority base (theme settings/presets still override)</span></label>
               <label class="dry"><input type="checkbox" id="dryRun"><span>Dry run — generate the theme without activating (safe test)</span></label>
               <button class="btn btn-primary" id="installBtn" type="submit" title="Convert the source and install it" style="justify-content:center">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -384,8 +390,8 @@ td.txt{color:var(--muted);max-width:340px}
 
         <main class="panel" id="main">
           <div class="tabs" id="tabs">
-            <button class="tab active" data-tab="compare">Compare</button>
-            <button class="tab" data-tab="overview">Overview</button>
+            <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="compare">Compare</button>
             <button class="tab" data-tab="tokens">Design tokens</button>
             <button class="tab" data-tab="report">Conversion report</button>
           </div>
@@ -473,12 +479,39 @@ td.txt{color:var(--muted);max-width:340px}
     <div class="modal-f" id="logPath"></div>
   </div>
 </div>
+<div class="modal-backdrop" id="diagModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Diagnostics">
+    <div class="modal-h">
+      <b>🩺 Diagnostics</b>
+      <span style="flex:1"></span>
+      <button class="logbtn" id="diagRerun">↻ Re-run</button>
+      <button class="logbtn" id="diagCopy">Copy report</button>
+      <button class="logbtn" id="diagClose">✕ Close</button>
+    </div>
+    <div id="diagBody" class="log-body" style="white-space:normal">Running checks…</div>
+    <div class="modal-f" id="diagFoot"></div>
+  </div>
+</div>
+<style>
+.diag-row{display:flex;gap:11px;padding:11px 2px;border-bottom:1px solid var(--border-soft)}
+.diag-row:last-child{border-bottom:none}
+.diag-pill{flex:none;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+.diag-pill.ok{background:oklch(0.74 0.17 158 / .16);color:var(--accent)}
+.diag-pill.warn{background:oklch(0.8 0.15 80 / .16);color:var(--amber)}
+.diag-pill.fail{background:oklch(0.66 0.19 27 / .16);color:var(--red)}
+.diag-pill.info{background:var(--surface-2);color:var(--faint)}
+.diag-main{flex:1;min-width:0}
+.diag-label{font-weight:700;font-size:13px;color:var(--ink)}
+.diag-detail{font-size:12px;color:var(--muted);margin-top:2px;word-break:break-word}
+.diag-hint{font-size:11px;color:var(--faint);margin-top:3px;word-break:break-word}
+</style>
 
 <script>
 const $=(s,r=document)=>r.querySelector(s);
 const api=(p)=>fetch(p,{cache:'no-store'}).then(r=>r.json());
 const api2=(p,b)=>fetch(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}).then(r=>r.json());
-let state={slug:null,view:'convert',tab:'compare',config:null,report:null,progress:null,polling:null,follow:true,
+let state={slug:null,view:'convert',tab:'overview',config:null,report:null,progress:null,polling:null,follow:true,convMap:null,
+  inspSide:(()=>{try{return localStorage.getItem('upw-insp-side')||'converted';}catch(e){return 'converted';}})(), // Overview inspector side
   cleared:(()=>{try{return localStorage.getItem('upw_pcleared')==='1';}catch(e){return false;}})()}; // Clear persists across refresh
 
 /* ---- Community benchmark sharing (Google Form) ----
@@ -577,6 +610,8 @@ function clearProgress(){
 /* ---- tabs ---- */
 $('#tabs').querySelectorAll('.tab').forEach(t=>t.onclick=()=>{state.tab=t.dataset.tab;
   $('#tabs').querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));renderTab();});
+// Jump to a tab from anywhere (e.g. a clickable Overview stat card).
+window._goTab=function(t){ const btn=document.querySelector('#tabs .tab[data-tab="'+t+'"]'); if(btn) btn.click(); };
 
 function renderTab(){
   const b=$('#tabBody');const c=state.config||{};const p=state.progress||{};
@@ -584,17 +619,65 @@ function renderTab(){
   const A=(slug,f)=>`/artifact/${slug}/${f}`;
   if(state.tab==='overview'){
     const sm=p.summary||{};
-    const stat=(v,k,cls='',prov='')=>`<div class="stat"><div class="v ${cls}">${v}</div><div class="k">${k}</div>${prov?`<div class="prov">${prov}</div>`:''}</div>`;
+    const tabName={report:'Conversion report',tokens:'Design tokens',compare:'Compare'};
+    const stat=(v,k,cls='',prov='',tab='')=>`<div class="stat${tab?' stat-link':''}"${tab?` role="button" tabindex="0" onclick="_goTab('${tab}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();_goTab('${tab}')}" title="Open ${tabName[tab]||tab}"`:''}><div class="v ${cls}">${v}</div><div class="k">${k}${tab?` <span class="stat-arrow" aria-hidden="true">→</span>`:''}</div>${prov?`<div class="prov">${prov}</div>`:''}</div>`;
     const fb=sm.fallbacks;const fs=sm.fidelityScore;
-    b.innerHTML=`<div class="fade">
-      <div class="stats">
-        ${stat(sm.elements??'—','Elements mapped')}
-        ${stat(fb??'—','Code-block fallbacks',fb===0?'good':(fb>0?'warn':''))}
-        ${stat(fs!=null?fs+'%':'—','Style coverage',fs>=90?'good':'')}
-        ${stat((c.layout&&c.layout.container_max)||'—','Container width','','measured · max across breakpoints')}
+    // Converted URL = the INSTALL DESTINATION (same derivation as Compare's converted pane): the
+    // Destination WordPress target (_wpTarget.url) → demo-network fallback. TDZ-safe read.
+    try{localStorage.removeItem('upw-cmp-url-'+state.slug);}catch(e){}
+    const wpTargetUrl=(function(){try{return (_wpTarget&&_wpTarget.url)||'';}catch(e){return '';}})();
+    const conv=wpTargetUrl||demoUrlFor(c)||'';
+    window._cmpConv=conv;
+    const statsRow=`<div class="stats" style="margin-bottom:16px">
+        ${stat(sm.elements??'—','Elements mapped','','native shortcodes emitted','report')}
+        ${stat(fb??'—','Code-block fallbacks',fb===0?'good':(fb>0?'warn':''),fb>0?'unmapped → verbatim (see report)':'nothing dropped to code',fb>0?'report':'')}
+        ${stat(fs!=null?fs+'%':'—','Style coverage',fs>=90?'good':'',fs!=null?'source styles carried':'','report')}
+        ${stat((c.layout&&c.layout.container_max)||'—','Container width','','design max across breakpoints','tokens')}
+      </div>`;
+    // Source-side needs a captured rendered.html; Converted needs a destination URL. A SELECTED
+    // conversion (state.slug) has a capture dir — don't gate on state.progress, which is only set during
+    // a LIVE run (so a completed conversion wrongly read as "no source"). /source-view 404s gracefully
+    // if rendered.html happens to be missing.
+    const srcUrl=(state.progress&&state.progress.url)||(state.config&&(state.config.source_url||state.config.url))||'';
+    const hasSource=!!state.slug;
+    const side=state.inspSide==='source'?'source':'converted';
+    const seg=`<div class="seg" role="tablist" aria-label="Inspect side" style="display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <button type="button" class="insp-side-btn${side==='source'?' active':''}" data-side="source" style="background:${side==='source'?'var(--accent)':'var(--surface-2)'};color:${side==='source'?'#04160e':'var(--muted)'};border:0;padding:5px 12px;font:inherit;font-size:11px;font-weight:600;cursor:pointer">Source</button>
+        <button type="button" class="insp-side-btn${side==='converted'?' active':''}" data-side="converted" style="background:${side==='converted'?'var(--accent)':'var(--surface-2)'};color:${side==='converted'?'#04160e':'var(--muted)'};border:0;padding:5px 12px;font:inherit;font-size:11px;font-weight:600;cursor:pointer">Converted</button>
+      </div>`;
+    const label=side==='source'
+      ? `<b style="color:var(--ink)">Source</b> — hover to see classes + captured styles`
+      : `<b style="color:var(--ink)">Converted</b> — hover to see the mapping`;
+    // Compute this side's iframe src + whether it's available.
+    let frameSrc='', unavailable='';
+    if(side==='source'){
+      if(hasSource) frameSrc='/source-view?slug='+encodeURIComponent(state.slug);
+      else unavailable=`No captured source DOM for this run. The source inspector needs a <span class="mono">rendered.html</span> capture (run Convert &amp; install, which captures the source).`;
+    }else{
+      if(conv) frameSrc=conv+(conv.includes('?')?'&':'?')+'upw-inspect=1';
+      else unavailable=`Set the <b>Destination WordPress</b> in <a href="#settings" onclick="showView('settings');return false" style="color:var(--accent)">Settings ↗</a> (or run Convert &amp; install) to load the converted site here.`;
+    }
+    const openLink=side==='source'
+      ? (srcUrl?`<a class="mini" href="${esc(srcUrl)}" target="_blank" rel="noopener" style="margin-left:auto">Open source ↗</a>`:'<span style="margin-left:auto"></span>')
+      : (conv?`<a class="mini" href="${esc(conv)}" target="_blank" rel="noopener" style="margin-left:auto">Open ↗</a>`:'<span style="margin-left:auto"></span>');
+    const header=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+        ${seg}
+        <div style="font-size:13px;color:var(--muted)">${label} <span id="inspMapState" class="mono" style="color:var(--faint);font-size:11px"></span></div>
+        ${openLink}
+      </div>`;
+    if(!frameSrc){
+      b.innerHTML=`<div class="fade">${statsRow}${header}
+        <div class="empty">${unavailable} Then hover any element to inspect it.</div>
+      </div>`;
+      wireInspSide();
+      return;
+    }
+    b.innerHTML=`<div class="fade">${statsRow}${header}
+      <div id="inspWrap" style="position:relative;border-radius:12px;border:1px solid var(--border);overflow:hidden;background:#fff;height:72vh;min-height:460px">
+        <iframe id="inspFrame" src="${esc(frameSrc)}" style="border:0;display:block;width:100%;height:100%;background:#fff"></iframe>
       </div>
-      <div class="shot"><img src="${A(state.slug,'full.png')}" alt="Source capture" onerror="this.parentElement.innerHTML='<div class=empty>No screenshot captured yet.</div>'"></div>
     </div>`;
+    wireInspSide();
   }else if(state.tab==='tokens'){
     const col=c.colors||{};const fn=c.fonts||{};
     const order=['heading','ink','accent','bg','header_bg','footer_bg','footer_text'];
@@ -618,11 +701,20 @@ function renderTab(){
     </tbody></table></div>`;
   }else if(state.tab==='compare'){
     const LOGICAL=1440, HEIGHT=5200; // source shots are captured at a 1440px viewport
-    const conv=(localStorage.getItem('upw-cmp-url-'+state.slug)||demoUrlFor(c)||'');
+    // Default the Compare "Converted site" to WHERE THE SITE WAS ACTUALLY INSTALLED — the destination
+    // WP target used by Convert & install (_wpTarget.url) — so Compare and Install never disagree. Order:
+    // an explicit per-site saved value → the install target → the demos-network fallback. TDZ-safe read.
+    // Converted URL = the INSTALL DESTINATION (Destination WordPress target). There is no editable field
+    // and no remembered value: Compare always follows where Convert & install actually builds, so it can
+    // never go stale. (The old free-text box kept a `/demos/…` value that outlived the real target.) Clear
+    // any legacy saved value so it can't resurface, and fall back to the demo URL only if no target is set.
+    try{localStorage.removeItem('upw-cmp-url-'+state.slug);}catch(e){}
+    const wpTargetUrl=(function(){try{return (_wpTarget&&_wpTarget.url)||'';}catch(e){return '';}})();
+    const conv=wpTargetUrl||demoUrlFor(c)||'';
+    window._cmpConv=conv;
     const src=(state.progress&&state.progress.url)||'';
     b.innerHTML=`<div class="fade">
       <div class="cmp-bar">
-        <label>Converted site <input type="url" id="cmpUrl" value="${esc(conv)}" placeholder="http://localhost/your-site/" autocomplete="off"></label>
         <button class="mini" id="cmpReload">Reload</button>
         <label><input type="checkbox" id="cmpSync" checked> Sync scroll</label>
         <a class="mini" id="cmpOpen" href="${esc(conv||'#')}" target="_blank" rel="noopener" style="${conv?'':'display:none'}">Open ↗</a>
@@ -638,7 +730,7 @@ function renderTab(){
         <figure><figcaption><span class="dot ${conv?'done':''}"></span>Converted result <span class="mono" style="color:var(--faint)" id="cmpScaleLbl"></span></figcaption>
           <div class="cmp-url">${conv?`<a href="${esc(conv)}" target="_blank" rel="noopener" title="${esc(conv)}">${esc(conv)}</a>`:'<span class="cmp-url-empty">(set the destination above)</span>'}</div>
           ${conv
-            ? `<div class="cmp-pane" id="cmpConv"><div class="cmp-fit" id="cmpFit"><div class="cmp-scaler" id="cmpScaler" style="width:${LOGICAL}px;height:${HEIGHT}px"><iframe id="cmpFrame" src="${esc(conv)}" style="width:${LOGICAL}px;height:${HEIGHT}px"></iframe></div></div></div>`
+            ? `<div class="cmp-pane" id="cmpConv"><div class="cmp-fit" id="cmpFit"><div class="cmp-scaler" id="cmpScaler" style="width:${LOGICAL}px;height:${HEIGHT}px"><iframe id="cmpFrame" src="${esc(conv + (conv.includes('?')?'&':'?') + 'upw-inspect=1')}" style="width:${LOGICAL}px;height:${HEIGHT}px"></iframe></div></div></div>`
             : `<div class="cmp-pane is-empty"><div class="empty">Enter the converted site's URL above to compare it side by side.<br><span style="font-size:11px">(Import the bundle to a WordPress site first.)</span></div></div>`}
         </figure>
       </div>
@@ -664,6 +756,37 @@ function renderTab(){
   }
 }
 function demoUrlFor(c){/* best-effort default; the field is editable + remembered per site */const slug=(c.theme&&c.theme.slug);return slug?`http://localhost/demos/${slug}/`:'';}
+// Wire the Overview Source|Converted segmented switch — persist the choice + re-render the tab.
+function wireInspSide(){
+  document.querySelectorAll('.insp-side-btn').forEach(btn=>{ btn.onclick=()=>{
+    const s=btn.dataset.side==='source'?'source':'converted';
+    if(s===state.inspSide) return;
+    state.inspSide=s; try{localStorage.setItem('upw-insp-side',s);}catch(e){}
+    renderTab();
+  };});
+}
+
+/* ---- Cross-origin-safe inspector + iframe height sizing ----
+ * The hover-inspector + footer-gap fix now run INSIDE the converted page (assets/inspector.js,
+ * activated by the ?upw-inspect=1 the iframes carry) — the dashboard is a DIFFERENT ORIGIN from the
+ * WP site (localhost:4600 vs localhost:80) so it cannot reach into the iframe DOM. The in-page script
+ * postMessages { type:'upw-inspect', height } up to us; we size whichever converted iframe is on screen
+ * (Overview #inspFrame/#inspWrap or Compare #cmpFrame/#cmpScaler), fixing the sticky-footer gap. */
+if(!window.__upwInspectMsgWired){
+  window.__upwInspectMsgWired=true;
+  window.addEventListener('message',(e)=>{
+    if(!e||!e.data||e.data.type!=='upw-inspect'||typeof e.data.height!=='number') return;
+    // Origin safety: only accept messages from a localhost http(s) origin (the embedded WP site).
+    if(!/^https?:\/\/localhost(?::\d+)?$/i.test(e.origin||'')) return;
+    const h=Math.max(400,Math.min(e.data.height,30000));
+    // Compare pane (scaled): update convH + re-fit so the scaler + fit box track the real height.
+    if(document.getElementById('cmpFrame') && typeof window._cmpApplyHeight==='function'){ window._cmpApplyHeight(h); }
+    // Overview pane (unscaled): grow the iframe + its wrapper to the content height (kills the gap).
+    const inf=document.getElementById('inspFrame'), iw=document.getElementById('inspWrap');
+    if(inf) inf.style.height=h+'px';
+    if(iw){ iw.style.height=h+'px'; }
+  });
+}
 
 /* ---- Benchmarks: run control + accumulated leaderboard + share + community results ---- */
 function scoreColor(s){ return s>=70?'var(--accent)':(s>=40?'var(--amber)':'var(--red)'); }
@@ -796,14 +919,28 @@ async function pollBenchRun(){
 // keep them scroll-synced, and let the converted URL be edited + remembered per site.
 function setupCompare(LOGICAL, HEIGHT){
   const src=$('#cmpSrc'), conv=$('#cmpConv');
+  let convH=HEIGHT; // actual converted-page content height (measured on load); HEIGHT is just the fallback
   function fit(){
     if(!conv) return;
     const s=conv.clientWidth/LOGICAL;
     const scaler=$('#cmpScaler'), fitEl=$('#cmpFit'), lbl=$('#cmpScaleLbl');
     if(scaler) scaler.style.transform=`scale(${s})`;
-    if(fitEl){ fitEl.style.width=(LOGICAL*s)+'px'; fitEl.style.height=(HEIGHT*s)+'px'; }
+    if(fitEl){ fitEl.style.width=(LOGICAL*s)+'px'; fitEl.style.height=(convH*s)+'px'; }
     if(lbl) lbl.textContent=Math.round(s*100)+'%';
   }
+  // The converted theme uses a sticky-footer (min-height:100vh / flex column) that FILLS the iframe's
+  // viewport, so in a tall iframe the footer is pushed to the bottom → a huge white gap before it. We
+  // CANNOT reach into the iframe to fix this — it's a different origin (localhost:4600 vs the WP site).
+  // Instead the in-page inspector (assets/inspector.js, activated by ?upw-inspect=1) injects the no-fill
+  // CSS itself and postMessages its real content height up here; applyHeight() sizes the scaled box to it.
+  function applyHeight(h){
+    const f=$('#cmpFrame'), scaler=$('#cmpScaler'); if(!f) return;
+    convH=Math.max(400, Math.min(h||HEIGHT, 30000));
+    f.style.height=convH+'px';
+    if(scaler) scaler.style.height=convH+'px';
+    fit();
+  }
+  window._cmpApplyHeight=applyHeight; // the global message listener calls this with the posted height
   fit(); requestAnimationFrame(fit);
   if(conv){ if(window.ResizeObserver){ new ResizeObserver(fit).observe(conv); } else { window.addEventListener('resize',fit); } }
   // proportional scroll-sync (the two panes have different total heights)
@@ -816,10 +953,9 @@ function setupCompare(LOGICAL, HEIGHT){
     requestAnimationFrame(()=>{lock=false;});
   };
   if(src&&conv){ src.addEventListener('scroll',()=>sync(src,conv)); conv.addEventListener('scroll',()=>sync(conv,src)); }
-  const url=$('#cmpUrl'), reload=$('#cmpReload');
-  const apply=()=>{ const v=(url.value||'').trim(); localStorage.setItem('upw-cmp-url-'+state.slug,v); const f=$('#cmpFrame'), o=$('#cmpOpen'); if(o){o.href=v||'#';o.style.display=v?'':'none';} if(f&&v){f.src=v;} else { renderTab(); } };
-  if(url){ url.addEventListener('change',apply); url.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); apply(); } }); }
-  if(reload){ reload.addEventListener('click',()=>{ const f=$('#cmpFrame'); if(f) f.src=f.src; else apply(); }); }
+  const reload=$('#cmpReload');
+  // The Converted URL is derived from the install target (no editable field). Reload just re-loads the iframe.
+  if(reload){ reload.addEventListener('click',()=>{ const f=$('#cmpFrame'); if(f) f.src=f.src; else renderTab(); }); }
   const mBtn=$('#cmpMeasure'), iBtn=$('#cmpImprove');
   if(mBtn) mBtn.onclick=()=>cmpMeasure();
   if(iBtn) iBtn.onclick=()=>cmpImprove();
@@ -907,7 +1043,7 @@ function aiAskDiscard(){
   updateAiActions();
 }
 function driftColor(p){ return p<=15?'var(--accent)':(p<=40?'var(--amber)':'var(--red)'); }
-function cmpEndpoints(){ const src=(window._siteUrls&&window._siteUrls[state.slug])||''; const conv=(($('#cmpUrl')&&$('#cmpUrl').value)||'').trim(); return {src,conv,out:$('#cmpDrift')}; }
+function cmpEndpoints(){ const src=(window._siteUrls&&window._siteUrls[state.slug])||''; const conv=(window._cmpConv||'').trim(); return {src,conv,out:$('#cmpDrift')}; }
 async function cmpMeasure(){
   const {src,conv,out}=cmpEndpoints(); if(!out) return;
   if(!src){ out.innerHTML='<span style="color:var(--amber)">No source URL recorded for this run.</span>'; return; }
@@ -949,30 +1085,39 @@ async function loadWpTargetInto(){
   try{ _wpTarget=await api('/api/wp-target'); }catch(_){ _wpTarget={url:'',token_set:false}; }
   const d=$('#destUrl'); if(d && !d.value) d.value=_wpTarget.url||'http://localhost/';
   const hint=$('#tokenHint'); if(hint) hint.style.display=_wpTarget.token_set?'none':'block';
+  // The Compare "Converted result" URL is derived from _wpTarget.url, which loads async here. If the
+  // Compare tab already rendered before the target was known, re-render it now so the iframe + link
+  // pick up the real install destination.
+  try{ if(state && (state.tab==='compare' || state.tab==='overview')){ renderTab(); } }catch(e){}
 }
 $('#installForm').onsubmit=async(e)=>{e.preventDefault();
   installErr(''); installStatus('');
   const src=$('#srcUrl').value.trim();
   const dest=$('#destUrl').value.trim();
   const dry=$('#dryRun').checked;
+  const hifi=(function(){ const el=$('#hifiCss'); return el?el.checked:true; })();
   if(!/^https?:\/\//i.test(src)){ installErr('Enter a valid http(s) source URL.'); return; }
   if(!/^https?:\/\//i.test(dest)){ installErr('Enter a valid http(s) destination WordPress URL.'); return; }
   // Persist the destination URL (token unchanged) so the server relay uses it.
   try{ const sv=await api2('/api/wp-target',{url:dest,token:''}); if(sv&&sv.error){ installErr(sv.error); return; } if(sv&&!sv.token_set){ installErr('No token set — add it in Settings → Destination WordPress first.'); const hint=$('#tokenHint'); if(hint) hint.style.display='block'; return; } }
   catch(_){ installErr('Could not reach the dashboard server.'); return; }
   const btn=$('#installBtn'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> '+(dry?'Testing…':'Converting…');
-  installStatus('<span class="spin"></span> '+(dry?'Dry run — generating on ':'Converting &amp; installing on ')+esc(dest)+'…  <span style="color:var(--faint)">this can take up to ~3 min</span>','busy');
+  installStatus('<span class="spin"></span> '+(dry?'Dry run — ':'')+'Rendering the source in a browser, then installing on '+esc(dest)+'…  <span style="color:var(--faint)">the render (SPA-safe) then install can take up to ~3 min</span>','busy');
   try{
-    const r=await api2('/api/install-to-wp',{source_url:src,dry_run:dry});
+    const r=await api2('/api/install-to-wp',{source_url:src,dry_run:dry,hifi_css:hifi});
     if(!r||r.error||r.ok===false){ const m=(r&&r.error)||'Install failed.'; installStatus(esc(m),'err'); toast(m); }
     else{
       const name=esc(r.theme_name||r.theme_slug||'theme');
       const pages=(r.pages_created!=null)?(r.pages_created+' page'+(r.pages_created===1?'':'s')):'';
+      // Reflect whether the source was rendered in a browser first, or fell back to a raw fetch.
+      const renderBit = r.rendered
+        ? ' <span style="color:var(--faint)">· rendered '+Math.round((r.rendered_bytes||0)/1024)+' KB in a browser first</span>'
+        : (r.render_note ? ' <br><span style="color:var(--amber)">⚠ '+esc(r.render_note)+'</span>' : '');
       if(dry||r.activated===false){
-        installStatus('✓ <b>Dry run OK</b> — generated <b>'+name+'</b>'+(r.theme_slug?(' <span style="color:var(--faint)">('+esc(r.theme_slug)+')</span>'):'')+'. Not activated.'+(pages?(' '+pages+'.'):''),'ok');
+        installStatus('✓ <b>Dry run OK</b> — generated <b>'+name+'</b>'+(r.theme_slug?(' <span style="color:var(--faint)">('+esc(r.theme_slug)+')</span>'):'')+'. Not activated.'+(pages?(' '+pages+'.'):'')+renderBit,'ok');
       }else{
         const link=r.home_url?(' <a href="'+esc(r.home_url)+'" target="_blank" rel="noopener">Open site ↗</a>'):'';
-        installStatus('✓ <b>Installed &amp; activated: '+name+'</b>'+(pages?(' — '+pages):'')+'.'+link,'ok');
+        installStatus('✓ <b>Installed &amp; activated: '+name+'</b>'+(pages?(' — '+pages):'')+'.'+link+renderBit,'ok');
       }
       toast(dry?'Dry run complete.':'Installed & activated.');
     }
@@ -1296,6 +1441,41 @@ $('#logRefresh')&&$('#logRefresh').addEventListener('click',()=>loadLog($('#logF
 $('#logFile')&&$('#logFile').addEventListener('change',()=>loadLog($('#logFile').value));
 $('#logCopy')&&$('#logCopy').addEventListener('click',()=>{navigator.clipboard.writeText($('#logBody').textContent).then(()=>toast('Log copied')).catch(()=>toast('Copy failed'));});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#logModal').hidden)closeLogs();});
+
+// --- Diagnostics ---
+let _diagChecks=[];
+const DIAG_ICON={ok:'✓',warn:'⚠',fail:'✗',info:'ℹ'};
+async function loadDiag(){
+  const body=$('#diagBody');body.textContent='Running checks…';_diagChecks=[];
+  let d;
+  try{ d=await api('/api/diagnostics?slug='+encodeURIComponent((state&&state.slug)||'')); }
+  catch(e){ body.textContent='Could not reach the dashboard server to run diagnostics.';$('#diagFoot').textContent='';return; }
+  if(!d||!Array.isArray(d.checks)){ body.textContent='Diagnostics returned no checks.';$('#diagFoot').textContent='';return; }
+  _diagChecks=d.checks;
+  body.innerHTML=d.checks.map(c=>{
+    const st=(c.status||'info');
+    return '<div class="diag-row"><div class="diag-pill '+st+'">'+(DIAG_ICON[st]||'ℹ')+'</div>'
+      +'<div class="diag-main"><div class="diag-label">'+esc(c.label||c.id||'')+'</div>'
+      +(c.detail?'<div class="diag-detail">'+esc(c.detail)+'</div>':'')
+      +(c.hint?'<div class="diag-hint">'+esc(c.hint)+'</div>':'')
+      +'</div></div>';
+  }).join('');
+  $('#diagFoot').textContent='Generated '+(d.generated||'')+'  ·  '+d.checks.length+' checks';
+}
+function diagReportText(){
+  return _diagChecks.map(c=>{
+    const st=(c.status||'info').toUpperCase();
+    return '['+st+'] '+(c.label||c.id||'')+'\n  '+(c.detail||'')+(c.hint?('\n  → '+c.hint):'');
+  }).join('\n\n');
+}
+function openDiag(){$('#diagModal').hidden=false;loadDiag();}
+function closeDiag(){$('#diagModal').hidden=true;}
+$('#diagLink')&&$('#diagLink').addEventListener('click',e=>{e.preventDefault();openDiag();});
+$('#diagClose')&&$('#diagClose').addEventListener('click',closeDiag);
+$('#diagModal')&&$('#diagModal').addEventListener('click',e=>{if(e.target.id==='diagModal')closeDiag();});
+$('#diagRerun')&&$('#diagRerun').addEventListener('click',()=>loadDiag());
+$('#diagCopy')&&$('#diagCopy').addEventListener('click',()=>{navigator.clipboard.writeText(diagReportText()).then(()=>toast('Diagnostics copied')).catch(()=>toast('Copy failed'));});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#diagModal').hidden)closeDiag();});
 </script>
 </body>
 </html>

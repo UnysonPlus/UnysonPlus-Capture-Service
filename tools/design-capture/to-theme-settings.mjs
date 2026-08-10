@@ -254,6 +254,27 @@ export function toThemeSettings(config, home) {
       logoCustom.site_title = escHtml(siteTitle.slice(0, pos)) + '<span class="accent">' + escHtml(acc) + '</span>' + escHtml(siteTitle.slice(pos + acc.length));
     }
   }
+  // NEVER-DROP wordmark skin — font-family (`font-serif`), letter-spacing (`tracking-tight`) and the hover
+  // colour (`hover:text-primary`) have no native logo option → scoped logo_custom_css. Mirror of PHP detect_logo.
+  {
+    let logoCss = logoCustom.logo_custom_css || '';
+    let baseDecls = '';
+    const fam = String(det.title_font || '').trim();
+    if (fam) {
+      const parts = fam.split(',').map((s) => s.trim());
+      const generic = (parts[parts.length - 1] || '').toLowerCase();
+      // Carry only a DISTINCTIVE family (serif / mono / display, or a named font); skip a plain system-sans stack.
+      if (['serif', 'monospace', 'cursive', 'fantasy'].includes(generic) || /["']/.test(fam)) baseDecls += 'font-family:' + fam + ';';
+    }
+    const ls = String(det.title_ls || '').trim();
+    if (ls && ls !== 'normal' && ls !== '0px') baseDecls += 'letter-spacing:' + ls + ';';
+    if (baseDecls) logoCss += '.site-title-text{' + baseDecls + '}';
+    if (det.title_hover) {
+      const htok = String(det.title_hover).toLowerCase().replace(/[^a-z0-9-]/g, '');
+      if (htok) logoCss += '.site-title a:hover .site-title-text,.site-title a:hover{color:var(--color-' + htok + ')}';
+    }
+    if (logoCss) logoCustom.logo_custom_css = logoCss;
+  }
   const logoType = (!det.text && det.image) ? 'simple' : 'custom';
   const logoSimple = {};
   if (det.image) { logoSimple.image = { url: det.image, attachment_id: 0 }; logoSimple.alt = siteTitle; }
@@ -277,11 +298,20 @@ export function toThemeSettings(config, home) {
   };
 
   /* --- header_menu --- */
-  const navColor = (home && home.chrome && home.chrome.nav_style && home.chrome.nav_style.color) || '';
+  const navStyle = (home && home.chrome && home.chrome.nav_style) || {};
+  const navColor = navStyle.color || '';
   values.header_menu = {
     menu_link_color: hex(navColor || (headerDark ? '#cbd5e1' : ink)),
     menu_link_hover_color: hex(headerDark ? '#ffffff' : (accent || ink)),
   };
+  // NEVER-DROP menu typography — size / weight / letter-spacing (`tracking-*`) / uppercase from the first
+  // nav link (already on nav_style). Parity with PHP detect_menu_styles + the native menu_link_* options.
+  const nfs = unitOf(navStyle.fontSize); if (nfs) values.header_menu.menu_link_font_size = nfs;
+  const nfw = String(parseInt(navStyle.fontWeight, 10) || '');
+  if (/^(300|400|500|600|700|800)$/.test(nfw)) values.header_menu.menu_link_font_weight = nfw;
+  const nls = (navStyle.letterSpacing && navStyle.letterSpacing !== 'normal' && navStyle.letterSpacing !== '0px') ? unitOf(navStyle.letterSpacing) : null;
+  if (nls) values.header_menu.menu_link_letter_spacing = nls;
+  if (navStyle.textTransform && /uppercase/i.test(navStyle.textTransform)) values.header_menu.menu_link_uppercase = 'yes';
 
   /* --- header_layout --- */
   values.header_layout = {
@@ -315,6 +345,40 @@ export function toThemeSettings(config, home) {
   values.footer_background = { color: { value: { predefined: '', custom: footerBg } } };
   values.footer_text_color = hex(footerText);
   values.footer_link_color = hex(footerText);
+  // NEVER-DROP footer COLUMN-HEADING typography — uppercase / tracking / weight / size / colour → a scoped
+  // `.footer-links-title` rule (no native footer-heading option). Parity with PHP footer_heading_css().
+  const fhs = (home && home.chrome && home.chrome.footer_heading_style) || null;
+  if (fhs) {
+    let d = '';
+    if (fhs.transform && /uppercase/i.test(fhs.transform)) d += 'text-transform:uppercase;';
+    if (fhs.letterSpacing && fhs.letterSpacing !== 'normal' && fhs.letterSpacing !== '0px') d += 'letter-spacing:' + fhs.letterSpacing + ';';
+    const fw = String(parseInt(fhs.fontWeight, 10) || '');
+    if (/^(300|400|500|600|700|800|900)$/.test(fw)) d += 'font-weight:' + fw + ';';
+    if (/^[0-9.]+px$/.test(String(fhs.fontSize || '').trim())) d += 'font-size:' + String(fhs.fontSize).trim() + ';';
+    if (fhs.color) d += 'color:' + fhs.color + ';';
+    if (d) miscCssParts.push('.footer-links-title{' + d + '}');
+  }
+  // NEVER-DROP footer LINK typography (transform/tracking/weight/size + hover token). Parity with PHP footer_link_css().
+  const fls = (home && home.chrome && home.chrome.footer_link_style) || null;
+  if (fls) {
+    let d = '';
+    if (fls.transform && /uppercase/i.test(fls.transform)) d += 'text-transform:uppercase;';
+    if (fls.letterSpacing && fls.letterSpacing !== 'normal' && fls.letterSpacing !== '0px') d += 'letter-spacing:' + fls.letterSpacing + ';';
+    const fw = String(parseInt(fls.fontWeight, 10) || '');
+    if (/^(300|400|500|600|700|800|900)$/.test(fw)) d += 'font-weight:' + fw + ';';
+    if (/^[0-9.]+px$/.test(String(fls.fontSize || '').trim())) d += 'font-size:' + String(fls.fontSize).trim() + ';';
+    if (d) miscCssParts.push('.footer-menu a{' + d + '}');
+    if (fls.hover) { const t = String(fls.hover).toLowerCase().replace(/[^a-z0-9-]/g, ''); if (t) miscCssParts.push('.footer-menu a:hover{color:var(--color-' + t + ')}'); }
+  }
+  // NEVER-DROP footer TAGLINE typography (size / line-height / colour). Parity with PHP footer_tagline_css().
+  const fts = (home && home.chrome && home.chrome.footer_tagline_style) || null;
+  if (fts) {
+    let d = '';
+    if (/^[0-9.]+px$/.test(String(fts.fontSize || '').trim())) d += 'font-size:' + String(fts.fontSize).trim() + ';';
+    if (/^[0-9.]+px$/.test(String(fts.lineHeight || '').trim())) d += 'line-height:' + String(fts.lineHeight).trim() + ';';
+    if (fts.color) d += 'color:' + fts.color + ';';
+    if (d) miscCssParts.push('.footer-tagline{' + d + '}');
+  }
 
   /* --- footer container width — per-bar Fixed/Full Width (+ a scoped px cap residual), mirror of the
      footer branch of PHP tokens_to_theme_settings_chrome(). --- */
@@ -444,7 +508,7 @@ export function toThemeSettings(config, home) {
   if (groups.length) {
     const brandCol = [el('logo')];
     const fdesc = (footer.copyright || '').trim();
-    if (fdesc) brandCol.push({ element_type: { element: 'text', text: { text_content: `<p>${escHtml(fdesc)}</p>` } } });
+    if (fdesc) brandCol.push({ element_type: { element: 'text', text: { text_content: `<p class="footer-tagline">${escHtml(fdesc)}</p>` } } });
     if (social.length) brandCol.push(el('social_icons'));
 
     const cols = [brandCol];
@@ -454,19 +518,42 @@ export function toThemeSettings(config, home) {
       h += '</ul>';
       cols.push([{ element_type: { element: 'text', text: { text_content: h } } }]);
     });
-    // CONTACT column → a native leading-icon list (map-pin/phone/mail), each tinted its source colour and
-    // with address line-breaks preserved. Richer than the hand-built demo (which dropped these). Mirror of PHP.
+    // CONTACT column → heading + NATIVE `icon_text` rows (leading icon-v2 svg tinted its source colour, value,
+    // tel/mailto/url link) — real editable elements, byte-parity with PHP footer_group_to_column(). Previously
+    // an HTML blob inside one Text element (the JS↔PHP drift the audit flagged); now a true mirror.
     const fc = footer.contact;
     if (fc && Array.isArray(fc.rows) && fc.rows.length) {
-      let h = `<h4>${escHtml(fc.title || 'Contact')}</h4><ul class="fw-footer-contact">`;
+      const contactCol = [{ element_type: { element: 'text', text: { text_content: `<h4>${escHtml(fc.title || 'Contact')}</h4>` } } }];
       fc.rows.forEach((r) => {
-        let mark = '';
-        if (r.icon) { const style = r.color ? ` style="color:${escHtml(r.color)}"` : ''; mark = `<span class="fw-ci-icon"${style}>${r.icon}</span> `; }
-        const val = escHtml(String(r.text || '')).replace(/\n/g, '<br>');
-        h += `<li class="fw-ci-row">${mark}<span class="fw-ci-text">${val}</span></li>`;
+        const txt = String(r.text || '').trim();
+        if (!txt) return;
+        const it = { icontext_text: txt };
+        const svg = String(r.icon || '').trim();
+        if (/^<svg\b/i.test(svg)) {
+          const markup = (r.color && /currentcolor/i.test(svg)) ? svg.replace(/currentColor/gi, r.color) : svg;
+          it.icontext_icon = { type: 'svg', 'svg-source': 'inline', markup, 'svg-id': '' };
+        }
+        const lnk = String(r.link || '').trim();
+        if (lnk) {
+          it.icontext_link = lnk;
+          it.icontext_link_type = /^tel:/i.test(lnk) ? 'phone' : (/^mailto:/i.test(lnk) ? 'email' : 'url');
+        }
+        contactCol.push({ element_type: { element: 'icon_text', icon_text: it } });
       });
-      h += '</ul>';
-      cols.push([{ element_type: { element: 'text', text: { text_content: h } } }]);
+      cols.push(contactCol);
+    }
+    // NEWSLETTER / signup column → the native `newsletter` element (heading + description + email + button),
+    // so a 4-col footer keeps its 4th column instead of dropping it. Mirror of PHP.
+    const fn = footer.newsletter;
+    if (fn && fn.title) {
+      cols.push([{ element_type: { element: 'newsletter', newsletter: {
+        title: fn.title,
+        description: fn.tagline || '',
+        email_placeholder: fn.placeholder || 'Your email address',
+        button_label: fn.button || 'Subscribe',
+        show_name: 'no',
+        design: 'inline',
+      } } }]);
     }
     const trimmed = cols.slice(0, 5);
     const n = trimmed.length;
@@ -504,6 +591,13 @@ export function toThemeSettings(config, home) {
       }
     }
   }
+
+  /* --- font_sizes (Text Styles): the Display scale + BODY roles (Lead/Subtitle/Small/Caption) + Eyebrow
+     distilled from the source in capture-extract (typography.textStyles). MIRROR of PHP
+     Stitch::build_text_styles(); the same {name,size,weight,line_height,letter_spacing,transform,class}
+     entry shape so a converted text block's `font_size_preset` (its preset CLASS) resolves. --- */
+  const textStyles = (home && home.typography && Array.isArray(home.typography.textStyles)) ? home.typography.textStyles : [];
+  if (textStyles.length) values.font_sizes = textStyles;
 
   /* --- spacing_scale (Components → Spacing): the source's spacing steps → editable scale. --- */
   values.spacing_scale = buildSpacingScale(home);

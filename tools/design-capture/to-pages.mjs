@@ -94,9 +94,205 @@ const flattenCss = (css) => {
   return out;
 };
 
+/* ---------------------------------------------------------------------- *
+ * HI-FI FAITHFUL BASE (Pass-2) — JS twin of PHP FW_Site_Converter_Mapper.
+ *
+ * For every APPEARANCE property the native shortcode/preset mapping does NOT already reproduce, emit a
+ * specificity-0 `:where(selector){…}` rule so the element looks EXACTLY like the source, while theme
+ * settings / presets / builder edits still override. Byte-shape identical to the PHP output: the property
+ * ORDER is CS_APPEARANCE (== PHP $cs_appearance), values as-captured, wrapped in `:where(selector){…}`.
+ * ---------------------------------------------------------------------- */
+
+// APPEARANCE properties the faithful base reproduces (SAME order as PHP $cs_appearance → byte-shape parity).
+// Layout/structure + spacing are intentionally EXCLUDED (handled natively / by Pass-1 spacing→native).
+const CS_APPEARANCE = [
+  'background-color', 'background-image', 'color', 'font-family', 'font-size', 'font-weight',
+  'line-height', 'letter-spacing', 'text-align', 'text-transform', 'text-decoration-line',
+  'border', 'border-radius', 'box-shadow', 'opacity', 'transform',
+  // Gradient TEXT (background-clip:text) — the clip + transparent fill that make a gradient
+  // background paint the TEXT instead of a block. Captured only when the source paints gradient
+  // text; csValueInert drops any non-`text` clip / non-transparent fill (parity with PHP $cs_appearance).
+  '-webkit-background-clip', 'background-clip', '-webkit-text-fill-color',
+];
+
+// Is a computed appearance value visually INERT (a browser initial that carries no look)? Twin of PHP
+// Mapper::cs_value_inert — keeps the base lean (an element at the CSS default for a prop gets no rule).
+const csValueInert = (prop, v) => {
+  v = String(v == null ? '' : v).trim().toLowerCase();
+  if (v === '') return true;
+  switch (prop) {
+    case 'background-color':     return v === 'transparent' || v === 'rgba(0, 0, 0, 0)';
+    case 'background-image':     return v === 'none';
+    case 'box-shadow':           return v === 'none';
+    case 'transform':            return v === 'none';
+    case 'opacity':              return v === '1';
+    case 'border':               return v.indexOf('0px') === 0 || v.indexOf(' none ') !== -1 || /^0(px)?\s/.test(v);
+    case 'border-radius':        return v === '0px' || v === '0';
+    case 'text-transform':       return v === 'none';
+    case 'text-decoration-line': return v === 'none';
+    case 'letter-spacing':       return v === 'normal';
+    case 'line-height':          return v === 'normal';
+    case 'font-weight':          return v === '400' || v === 'normal';
+    case 'text-align':           return v === 'start' || v === 'left';
+    // Gradient-text clip: only `text` carries a look; default `border-box` is inert.
+    case '-webkit-background-clip':
+    case 'background-clip':       return v !== 'text';
+    // The transparent fill reveals the gradient through glyphs; any solid fill is just `color` → inert.
+    case '-webkit-text-fill-color': return v !== 'transparent' && v !== 'rgba(0, 0, 0, 0)';
+  }
+  return false;
+};
+
+/**
+ * Pass-2 FAITHFUL BASE — the specificity-0 `:where(selector){…}` rule of every appearance property in the
+ * element's computed style (`cs`, a { cssProp: value } map == PHP's parsed data-sc-cs) that the native
+ * mapping (`already`) did NOT cover, minus visually-inert defaults. '' when nothing remains (hi-fi off /
+ * no cs / everything already covered). Byte-shape identical to PHP Mapper::hifi_base_css.
+ *
+ * @param {Object} cs      { cssProp: value } computed appearance map
+ * @param {string[]} already property names the node already reproduces natively (skip → lean base)
+ * @param {boolean} on     hi-fi master switch (default ON; false → '')
+ * @returns {string} a `:where(selector){…}` rule, or ''
+ */
+const hifiBaseCss = (cs, already = [], on = true) => {
+  if (!on || !cs || typeof cs !== 'object') return '';
+  const flip = {};
+  for (const p of already) flip[p] = true;
+  let body = '';
+  for (const pr of CS_APPEARANCE) {
+    if (flip[pr]) continue;
+    const v = cs[pr];
+    if (v == null || String(v).trim() === '') continue;
+    if (csValueInert(pr, v)) continue;
+    body += pr + ':' + String(v).trim() + ';';
+  }
+  return body === '' ? '' : ':where(selector){' + body + '}';
+};
+
+// Append a faithful base (built from `cs` minus `already`) to a node's Custom CSS (additive). Twin of PHP
+// Mapper::apply_hifi_base — the node's `selector` token is substituted for the element selector at render.
+const applyHifiBase = (node, cs, already = [], on = true) => {
+  if (!node || !node.atts || typeof node.atts !== 'object') return node;
+  const base = hifiBaseCss(cs, already, on);
+  if (base === '') return node;
+  const cur = node.atts.custom_css ? String(node.atts.custom_css) : '';
+  node.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + base).trim();
+  return node;
+};
+
+// UnysonPlus spacing scale (rem → slug); px = rem × 16. Twin of PHP Mapper::rem_to_spacing_slug.
+const _SPACING_SCALE_HIFI = [[0, '0'], [0.25, '1'], [0.5, '2'], [1, '3'], [1.5, '4'], [3, '5'], [3.5, '6'], [4, '7'], [4.5, '8'], [5, '9'], [6, '10'], [7, '11'], [8, '12']];
+const spacingPxToSlug = (px) => {
+  const rem = parseFloat(px) / 16;
+  let best = '0', bd = Infinity;
+  for (const [r, s] of _SPACING_SCALE_HIFI) { const d = Math.abs(r - rem); if (d < bd) { bd = d; best = s; } }
+  return best;
+};
+const _pxOfHifi = (v) => { const m = String(v == null ? '' : v).match(/(-?[0-9.]+)\s*px/); return m ? parseFloat(m[1]) : 0; };
+
+/**
+ * Pass-1 SPACING → NATIVE — read the element's computed vertical MARGIN from `cs` and map each side to the
+ * nearest spacing-scale token, merged into a native `spacing` box (only sides not already set). Horizontal
+ * margin / padding stay structural. Twin of PHP Mapper::apply_native_margin.
+ */
+const applyNativeMargin = (spacing, cs, on = true) => {
+  if (!on || !cs || typeof cs !== 'object' || !spacing || !spacing.margin) return spacing;
+  const pairs = { 'margin-top': ['top', 'mt'], 'margin-bottom': ['bottom', 'mb'] };
+  for (const prop of Object.keys(pairs)) {
+    const [side, pref] = pairs[prop];
+    const v = cs[prop];
+    if (v == null || String(v).trim() === '') continue;
+    if (spacing.margin[side] && spacing.margin[side] !== '') continue;         // don't overwrite a class-mapped side
+    if (String(v).indexOf('var(') !== -1 || String(v).indexOf('auto') !== -1) continue;
+    const px = _pxOfHifi(v);
+    if (px < 6) continue;                                                        // ignore hairline/zero margins
+    const slug = spacingPxToSlug(px);
+    if (slug === '0') continue;
+    spacing.margin[side] = pref + '-' + slug;
+  }
+  return spacing;
+};
+
+/**
+ * Pass #6 — PER-BREAKPOINT RESPONSIVE CARRY (visibility). PHP twin: Mapper::responsive_hide_from_classes().
+ * Map a source element's Tailwind responsive VISIBILITY utilities (already in the carried markup) → the
+ * native `responsive_hide` selection (hide-xs <768 / hide-sm 768–991 / hide-md ≥992, rendered by
+ * sc_build_wrapper_attr + frontend-grid.css). Class-derived only — no extra capture pass, no body-wide CSS.
+ * Two unambiguous single-toggle families; anything else → {} (no guess). A bare `hidden` (no responsive
+ * un-hide) is ignored — that's a removed element, not a per-breakpoint change.
+ */
+const responsiveHideFromClasses = (cls) => {
+  const c = ' ' + String(cls == null ? '' : cls).toLowerCase().replace(/\s+/g, ' ').trim() + ' ';
+  if (c.trim() === '') return {};
+  const disp = 'block|flex|grid|inline|inline-block|inline-flex|table|inline-table|flow-root|contents';
+  const baseHidden = / hidden /.test(c);
+  const showM = c.match(new RegExp(' (sm|md|lg|xl|2xl):(' + disp + ') '));
+  const hideM = c.match(/ (sm|md|lg|xl|2xl):hidden /);
+  // Family A — base hidden, re-shown from {bp} up → hide BELOW {bp}. Skip if it also re-hides (ambiguous).
+  if (baseHidden && showM && !hideM) {
+    return (showM[1] === 'sm' || showM[1] === 'md') ? { 'hide-xs': true } : { 'hide-xs': true, 'hide-sm': true };
+  }
+  // Family B — base visible, hidden from {bp} up. Skip if it also re-shows at a larger bp (ambiguous).
+  if (!baseHidden && hideM && !showM) {
+    return (hideM[1] === 'sm' || hideM[1] === 'md') ? { 'hide-sm': true, 'hide-md': true } : { 'hide-md': true };
+  }
+  return {};
+};
+
+/**
+ * Assemble a data-sc-cs-equivalent { cssProp: value } map from a block's flat computed fields (+ an optional
+ * nested `styles` object, the shape capture-extract's styleOf() emits). Matches PHP's data-sc-cs prop set so
+ * hifiBaseCss / applyNativeMargin see the SAME appearance properties the PHP path reads.
+ */
+const csFromFields = (f) => {
+  f = f || {};
+  const st = f.styles || {};
+  const cs = {};
+  const put = (k, ...cands) => { for (const c of cands) { if (c != null && String(c).trim() !== '') { cs[k] = String(c).trim(); return; } } };
+  put('background-color', f.bg, st.bg, f.backgroundColor);
+  put('background-image', f.bgImage, st.bgImage, f.backgroundImage);
+  put('color', f.color, st.color);
+  put('font-family', f.fontFamily, st.fontFamily);
+  put('font-size', f.fontSize, st.fontSize);
+  put('font-weight', f.fontWeight, st.fontWeight);
+  put('line-height', f.lineHeight, st.lineHeight);
+  put('letter-spacing', f.letterSpacing, st.letterSpacing);
+  put('text-align', f.textAlign, f.align, st.textAlign);
+  put('text-transform', f.textTransform, st.textTransform);
+  // styleOf stores the full text-decoration shorthand; PHP's prop is text-decoration-line (first token).
+  const td = f.textDecoration != null ? f.textDecoration : st.textDecoration;
+  if (td && String(td).trim() !== '') cs['text-decoration-line'] = String(td).trim().split(/\s+/)[0];
+  put('border', f.border, st.border);
+  put('border-radius', f.borderRadius, st.borderRadius);
+  put('box-shadow', f.boxShadow, st.boxShadow);
+  put('opacity', f.opacity, st.opacity);
+  put('transform', f.transform, st.transform);
+  put('margin-top', f.marginTop, st.marginTop);
+  put('margin-bottom', f.marginBottom, st.marginBottom);
+  return cs;
+};
+
+// Named exports for parity tests (node --test). The pure Pass-1/Pass-2 twins + the spacing mapping.
+export { CS_APPEARANCE, csValueInert, hifiBaseCss, applyHifiBase, applyNativeMargin, spacingPxToSlug, csFromFields };
+
 export function toPages(capture, opts = {}) {
   const atoms = opts.atoms || defaultAtoms();
+  // Hi-fi faithful base master switch — DEFAULT ON (parity with PHP build_bundle's `hifi_css` default).
+  const hifiCss = opts.hifiCss !== false;
   const clone = (k) => structuredClone(atoms[k]);
+  // TEXT STYLE presets for THIS conversion (capture-extract typography.textStyles) — BODY roles only
+  // (non-`display-*`, non-empty class), so a text block's computed font-size maps to Lead/Subtitle/Small/…
+  // rather than to a Display or the style-only Eyebrow. MIRROR of PHP Mapper::set_text_presets/text_preset_for.
+  const textPresets = (((capture && capture.typography && capture.typography.textStyles) || []))
+    .filter((e) => e && e.class && !String(e.class).startsWith('display-') && parseFloat(e.size) > 0)
+    .map((e) => ({ class: String(e.class), size: parseFloat(e.size) }));
+  // A computed font-size (px) → the nearest BODY size-preset CLASS within ±1.5px, or '' (Default/base).
+  const textPresetFor = (px) => {
+    if (px === null || !textPresets.length) return '';
+    let best = '', bestd = Infinity;
+    for (const p of textPresets) { const d = Math.abs(p.size - px); if (d < bestd) { bestd = d; best = p.class; } }
+    return bestd <= 1.5 ? best : '';
+  };
   const origin = (() => { try { return new URL(capture.url || '').origin; } catch { return ''; } })();
   // De-brand absolute links back to the source origin → site-relative (used for carousel buttons).
   const localize = (href) => {
@@ -283,18 +479,44 @@ export function toPages(capture, opts = {}) {
     // Reproduce the source text's computed style so NO class effect is dropped: colour → native
     // text_color; font-size / line-height / letter-spacing / weight / alignment / bottom margin → the
     // shortcode's Advanced Custom CSS (`selector` = the text block). Only non-default values are set.
+    let fontSizePreset = '';
     if (s) {
       const clean = (v) => String(v || '').trim();
       if (/^rgb/i.test(clean(s.color))) { n.atts.text_color = { predefined: '', custom: rgbToCss(s.color) }; }
+      // TEXT STYLE preset — match the block's OWN computed font-size to the nearest BODY preset (Lead/
+      // Subtitle/Small/Caption) so the text references an editable preset CLASS instead of a frozen px.
+      // Base (16) / no match within tolerance → '' (Default). MIRROR of PHP n_text. When a preset IS
+      // assigned, the redundant `font-size` decl below is dropped so the editable preset owns the size.
+      const fsm = clean(s.fontSize).match(/^([0-9.]+)px$/);
+      fontSizePreset = fsm ? textPresetFor(parseFloat(fsm[1])) : '';
+      n.atts.font_size_preset = fontSizePreset;
       const d = [];
-      const ta = clean(s.textAlign); if (/^(center|right|justify)$/.test(ta)) d.push('text-align:' + ta);
-      const fs = clean(s.fontSize); if (fs && fs !== '16px') d.push('font-size:' + fs);
+      // PASS #2 NATIVE STRUCTURE PROMOTION — horizontal alignment → the text_block's NATIVE, editable
+      // `text_align` option (a Bootstrap `text-*` class on the wrapper — node-scoped, never body-wide)
+      // instead of a scoped `selector{text-align}` rule. Parity with the PHP n_text promotion. `justify`
+      // has no native alignment option, so it stays on the scoped custom CSS.
+      const ta = clean(s.textAlign);
+      if (/^(center|right)$/.test(ta)) { n.atts.text_align = ta; }
+      else if (ta === 'justify') { d.push('text-align:justify'); }
+      const fs = clean(s.fontSize); if (fs && fs !== '16px' && !fontSizePreset) d.push('font-size:' + fs);
       const lh = clean(s.lineHeight); if (lh && lh !== 'normal') d.push('line-height:' + lh);
       const ls = clean(s.letterSpacing); if (ls && ls !== 'normal') d.push('letter-spacing:' + ls);
       const fw = parseInt(s.fontWeight, 10) || 0; if (fw >= 600) d.push('font-weight:' + fw);
       const tt = clean(s.textTransform); if (tt && tt !== 'none') d.push('text-transform:' + tt);
       const mb = clean(s.marginBottom); if (mb && mb !== '0px') d.push('margin-bottom:' + mb + ' !important');
       if (d.length) { n.atts.custom_css = 'selector{' + d.map((x) => x.replace(/[{}<>;]/g, '')).join(';') + ';}'; }
+    }
+    // HI-FI Pass-2 faithful base — text_block has no native spacing slot, so its vertical margins + the
+    // font/color/line-height the unified styler re-asserts are `already`; the base fills the rest (font-weight,
+    // letter-spacing, text-transform, background, border, …). Parity with PHP text builder.
+    if (hifiCss && s) {
+      // FONT-SIZE single source of truth (parity with PHP text builder): the faithful base NEVER emits
+      // font-size — when a Text Style preset is assigned the preset owns the size, and when none is
+      // assigned the `selector{font-size:…}` custom_css above already carries the faithful px fallback.
+      // (Previously the `fontSizePreset ? filter-out : keep` was INVERTED, re-emitting font-size in the
+      // base exactly when a preset already owned it → a double-applied size.)
+      const props = ['font-family', 'font-size', 'line-height', 'color', 'text-align', 'margin-top', 'margin-bottom'];
+      applyHifiBase(n, csFromFields(s), props, hifiCss);
     }
     return n;
   };
@@ -304,6 +526,29 @@ export function toPages(capture, opts = {}) {
     if (c.atts) c.atts.css_class = '';
     c._items = items;
     return c;
+  };
+  // CONTAINER-LEVEL text_align (parity with the PHP mapper). text-align is an INHERITED property,
+  // so setting it on the section/column centers the whole band's heading + paragraph + buttons as
+  // one — a different axis from content_h (the flexbox positioning of the column's children).
+  //  - sectionCentered(): a centered source band (root `text-center`, a `flex … items-center`, or a
+  //    computed text-align:center) → the section's native `text_align='center'`. Twin of
+  //    Stitch::section_center / the class+computed portion of the analyze path.
+  //  - clsTextAlign(): a wrapper/cell's OWN `text-center`/`text-right` class → 'center'/'right'
+  //    ('' for text-left / none = the inherited default). Twin of Mapper::cls_text_align /
+  //    Stitch::wrapper_align.
+  const sectionCentered = (sec) => {
+    const cls = ' ' + String((sec && sec.sectionClass) || '') + ' ';
+    if (/\stext-center\s/.test(cls)) return true;
+    if (/\sitems-center\s/.test(cls) && /\sflex(-col)?\s/.test(cls)) return true;
+    const ta = sec && sec.computed && sec.computed.textAlign;
+    if (ta === 'center') return true;
+    return false;
+  };
+  const clsTextAlign = (cls) => {
+    const c = ' ' + String(cls || '') + ' ';
+    if (/\stext-center\s/.test(c)) return 'center';
+    if (/\stext-right\s/.test(c)) return 'right';
+    return ''; // text-left / none = inherited default.
   };
   // A CSS gap length → the nearest UnysonPlus Gap-Scale slug (Bootstrap $spacers: 1=4px, 2=8px,
   // 3=16px, 4=24px, 5=48px). '' when there's no meaningful gap. Used to replay a flex-row cell's
@@ -353,10 +598,47 @@ export function toPages(capture, opts = {}) {
     return hit ? `${prefix}-${hit[1]}` : `${prefix}-[${px}px]`;
   };
 
+  // Clean carried inline HTML — parity with PHP map_accent_classes: (1) strip capture-only `data-sc-*`
+  // attributes (the computed-style blob capture stamps on every element must never render), and (2) fold
+  // presentational-only utilities (italic / font-weight name / decoration / transform) into an inline
+  // style so a `<span class="italic font-normal">` keeps its look without the (absent) Tailwind runtime.
+  const cleanInlineHtml = (html) => {
+    let s = String(html || '');
+    if (!s) return s;
+    s = s.replace(/\s+data-sc-[a-z0-9-]+="[^"]*"/gi, '').replace(/\s+data-sc-[a-z0-9-]+='[^']*'/gi, '');
+    if (!/class="/i.test(s)) return s;
+    const WMAP = { thin: '100', extralight: '200', light: '300', normal: '400', medium: '500', semibold: '600', bold: '700', extrabold: '800', black: '900' };
+    return s.replace(/<[a-zA-Z][a-zA-Z0-9]*\b[^>]*\bclass="[^"]*"[^>]*>/g, (tag) => {
+      const cm = tag.match(/\bclass="([^"]*)"/);
+      if (!cm) return tag;
+      const keep = []; const decls = {};
+      for (const c of cm[1].trim().split(/\s+/)) {
+        if (!c) continue;
+        const l = c.toLowerCase(); let w;
+        if (l === 'italic') decls['font-style'] = 'italic';
+        else if (l === 'not-italic') decls['font-style'] = 'normal';
+        else if (l === 'underline') decls['text-decoration'] = 'underline';
+        else if (l === 'line-through') decls['text-decoration'] = 'line-through';
+        else if (l === 'no-underline') decls['text-decoration'] = 'none';
+        else if (l === 'uppercase') decls['text-transform'] = 'uppercase';
+        else if (l === 'lowercase') decls['text-transform'] = 'lowercase';
+        else if (l === 'capitalize') decls['text-transform'] = 'capitalize';
+        else if ((w = l.match(/^font-(thin|extralight|light|normal|medium|semibold|bold|extrabold|black)$/))) decls['font-weight'] = WMAP[w[1]];
+        else keep.push(c);
+      }
+      if (!Object.keys(decls).length) return tag;
+      const declStr = Object.entries(decls).map(([k, v]) => `${k}:${v}`).join(';');
+      const newClass = keep.join(' ').trim();
+      let t = tag.replace(/\s*\bclass="[^"]*"/, newClass ? ` class="${newClass}"` : '');
+      if (/\bstyle="[^"]*"/.test(t)) return t.replace(/\bstyle="([^"]*)"/, (_m, ex) => `style="${ex.replace(/;\s*$/, '')}${ex.trim() ? ';' : ''}${declStr}"`);
+      return t.slice(0, -1) + ` style="${declStr}">`;
+    });
+  };
+
   const headingNode = (b) => {
     const n = stamp(clone('special_heading'));
-    n.atts.title = b.html;
-    n.atts.subtitle = b.subtitle || '';
+    n.atts.title = cleanInlineHtml(b.html);
+    n.atts.subtitle = cleanInlineHtml(b.subtitle || '');
     n.atts.overline = b.overline || '';
     n.atts.overline_container = b.overlinePill ? 'pill' : '';
     n.atts.heading = 'h' + (b.level >= 1 && b.level <= 6 ? b.level : 2);
@@ -418,7 +700,12 @@ export function toPages(capture, opts = {}) {
     }).join(' ');
     n.atts.title_class    = routeClass(b.cls, true);
     n.atts.overline_class = routeClass(b.overlineCls, true);  // colour/pill/uppercase are native overline_* opts
-    n.atts.subtitle_class = routeClass(b.subtitleCls, false); // no native subtitle colour/size option → keep text-*
+    // #2 — assign the subtitle's Text Style preset from its captured size (e.g. 18px → font-subtitle),
+    // so the subtitle keeps its scale via the editable `subtitle_size` preset. Parity with PHP n_heading.
+    const subFsM = String((b.subtitleStyle && b.subtitleStyle.fontSize) || '').match(/^([0-9.]+)px$/);
+    n.atts.subtitle_size = subFsM ? textPresetFor(parseFloat(subFsM[1])) : '';
+    // Size now rides the preset → strip text-* from subtitle_class too (parity: dropText=true).
+    n.atts.subtitle_class = routeClass(b.subtitleCls, true);
     // LAST-RESORT Custom CSS — ONLY effects a carried class can't deliver:
     //   • the title's own vertical MARGINS (no native option AND the mb-*/mt-* class collides), and
     //   • WEIGHT + LINE-HEIGHT when a display preset is set — the preset emits at `:root .display-N`
@@ -427,6 +714,24 @@ export function toPages(capture, opts = {}) {
     //     classes win on their own and neither is emitted here.
     // Uses the captured COMPUTED values. font-family + letter-spacing ride the class (no preset conflict).
     const clsHasArbLeading = /leading-\[/.test(String(b.cls || ''));
+    // NEVER-DROP: a heading PART's own constrained measure (`max-w-* mx-auto`) — LAYOUT the tier-3
+    // appearance carry deliberately excludes — reproduced as scoped max-width so it isn't silently
+    // dropped (the Tailwind class compiler emits no max-width). Parity with PHP heading_measures().
+    const partMaxW = (cls) => {
+      for (const c of String(cls || '').split(/\s+/).filter(Boolean)) {
+        const m = c.match(/^max-w-(?:\[(.+)\]|(sm|md|lg|xl|[2-7]xl))$/);
+        if (m) {
+          if (m[2] != null && TW_MAXW[m[2]] != null) return TW_MAXW[m[2]] + 'rem';
+          if (m[1]) { const u = m[1].match(/^(\d*\.?\d+)(px|rem|em|%|vw|ch)$/); if (u) return u[1] + u[2]; }
+        }
+      }
+      return '';
+    };
+    const measureDecls = (cls, sink) => {
+      const mw = partMaxW(cls); if (!mw) return;
+      sink.push('max-width:' + mw);
+      if (/(?:^|\s)mx-auto(?:\s|$)/.test(' ' + String(cls || '') + ' ')) { sink.push('margin-left:auto'); sink.push('margin-right:auto'); }
+    };
     const td = [];
     // A heading whose size didn't match a display preset (e.g. a 36px section heading) → reproduce its
     // exact font-size here rather than promoting it to the nearest (too-large) display preset.
@@ -438,6 +743,7 @@ export function toPages(capture, opts = {}) {
     const lh = _clean(b.lineHeight); if (lh && lh !== 'normal' && (n.atts.display_size || clsHasArbLeading)) td.push('line-height:' + lh);
     const mb = _clean(b.marginBottom); if (mb && mb !== '0px') td.push('margin-bottom:' + mb);
     const mt = _clean(b.marginTop); if (mt && mt !== '0px') td.push('margin-top:' + mt);
+    measureDecls(b.cls, td); // title's own max-w-* mx-auto (never-drop)
     const rules = [];
     if (td.length) { rules.push('selector .heading-title{' + td.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
     // Subtitle tier-3: its size / colour classes are routinely mangle-prone (`md:text-xl`, `text-…/70`) and
@@ -449,7 +755,12 @@ export function toPages(capture, opts = {}) {
     const sfs = _clean(ss.fontSize); if (sfs && sfs !== '16px') sd.push('font-size:' + sfs);
     const slh = _clean(ss.lineHeight); if (slh && slh !== 'normal') sd.push('line-height:' + slh);
     if (/^rgb/i.test(_clean(ss.color))) sd.push('color:' + rgbToCss(ss.color));
+    measureDecls(b.subtitleCls, sd); // subtitle's own max-w-* mx-auto (never-drop) — the max-w-2xl case
     if (sd.length) { rules.push('selector .heading-subtitle{' + sd.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    // NO subtitle: reset the theme's default hN bottom margin (never reset by the shortcode) so it doesn't
+    // leak as the block's below-gap and dominate the source-derived outer Margin & Padding (e.g. a 48px h1
+    // default over a 24px source). The outer `spacing` option then IS the faithful gap. Parity with PHP n_heading.
+    if (!(b.subtitle && String(b.subtitle).trim() !== '')) { rules.push('selector .heading-title{margin-bottom:0 !important;}'); }
     n.atts.custom_css = rules.join('');
     // Translate the heading-group wrapper's Tailwind LAYOUT/SPACING classes into NATIVE special_heading
     // options — otherwise they sit DEAD on css_class (no Tailwind runtime in the builder) and the heading
@@ -477,6 +788,18 @@ export function toPages(capture, opts = {}) {
     }
     n.atts.alignment = align;
     n.atts.css_class = kept.join(' ');
+    // WITH a subtitle, the title's OWN bottom margin (`<h2 class="… mb-4">`) is the TITLE→SUBTITLE gap, so
+    // it drives `element_spacing` (coarse: tight ≤6px, relaxed 7–20px, else Normal) — NOT the outer margin.
+    // Left at Normal it uses the theme's font-size-relative default (much larger than a 16px source). Parity
+    // with the PHP n_heading routing. `_gapToElementSpacing` then stops applyNativeMargin double-counting it
+    // onto the outer bottom below.
+    let _gapToElementSpacing = false;
+    const _titleMb = String(b.cls || '').match(/\bmb-(\d+(?:\.\d+)?)\b/);
+    if (b.subtitle && String(b.subtitle).trim() !== '' && _titleMb && !n.atts.element_spacing) {
+      const gpx = parseFloat(_titleMb[1]) * 4;
+      n.atts.element_spacing = gpx <= 6 ? 'tight' : (gpx <= 20 ? 'relaxed' : '');
+      _gapToElementSpacing = n.atts.element_spacing !== '';
+    }
     // Overline pill colour: the source pill's text colour → native overline_color (drives the pill tint),
     // instead of a dead `text-[#hex]` class or the theme's default auto-tint.
     n.atts.overline_color = b.overlineColor ? { predefined: '', custom: rgbToCss(b.overlineColor) } : { predefined: '', custom: '' };
@@ -491,6 +814,17 @@ export function toPages(capture, opts = {}) {
       ? { type: 'svg', 'svg-source': 'inline', markup: b.overlineIcon }
       : { type: 'none' };
     n.atts.overline_icon_position = b.overlineIconPos === 'after' ? 'after' : 'before';
+    // HI-FI: Pass-1 source vertical margin → the special_heading's NATIVE spacing option (fills only the
+    // sides the class mapping left empty); Pass-2 the faithful base of the heading's REMAINING appearance
+    // (the typography/color/align/weight it reproduces natively are `already`). Parity with PHP heading builder.
+    if (hifiCss) {
+      const hcs = csFromFields(b);
+      if (n.atts.spacing) applyNativeMargin(n.atts.spacing, hcs, hifiCss);
+      applyHifiBase(n, hcs, ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing', 'color', 'text-transform', 'text-align'], hifiCss);
+    }
+    // The title→subtitle gap already went to element_spacing above; don't let it ALSO sit on the outer
+    // bottom margin (applyNativeMargin would re-read the heading's own mb). Keep the two from double-counting.
+    if (_gapToElementSpacing && n.atts.spacing && n.atts.spacing.margin) n.atts.spacing.margin.bottom = '';
     return n;
   };
   // Classify a captured button by its RESOLVED look (parity with the PHP mapper's button_style_class):
@@ -564,11 +898,23 @@ export function toPages(capture, opts = {}) {
     // Attach the matching button_colors / button_sizes preset slug (the header CTA does the same);
     // the custom_css above stays the exact per-node safety net. Parity with PHP Mapper::n_button().
     const preset = _buttonPresetFor(b);
-    return { type: 'simple', shortcode: 'button', _items: [], atts: {
+    const node = { type: 'simple', shortcode: 'button', _items: [], atts: {
       label: b.label, link: localize(b.href), target: 'no',
       style: preset.style, size: preset.size, icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
       alignment: btnAlign, state: '', hover_animation: '', css_class: cls, custom_css, unique_id: uid(),
     } };
+    // HI-FI Pass-2 faithful base — the color/size preset + the sc-btn class + the per-node safety-net CSS
+    // already reproduce the fill / text / border / radius / typography (`already`); the base only fills
+    // leftover appearance (a gradient background-image, opacity, transform, …). Parity with PHP button builder.
+    if (hifiCss) {
+      const bs = b.bs || {};
+      const bcs = csFromFields(Object.assign({}, b, {
+        bg: bs.bg, color: bs.fg,
+        border: (bs.bw && bs.bw !== '0px' && bs.bds && bs.bds !== 'none') ? (bs.bw + ' ' + bs.bds + ' ' + bs.bd) : undefined,
+      }));
+      applyHifiBase(node, bcs, ['background-color', 'color', 'border', 'border-radius', 'box-shadow', 'font-family', 'font-size', 'font-weight', 'letter-spacing', 'text-transform'], hifiCss);
+    }
+    return node;
   };
 
   // A provider embed iframe src → an oEmbed-friendly PAGE url (WP oEmbed needs the page URL, not
@@ -751,7 +1097,7 @@ export function toPages(capture, opts = {}) {
     return node;
   };
   const blockToNode = (b) => applyAnim(_blockToNode(b), b);
-  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : codeBlock(b.html));
+  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -784,6 +1130,16 @@ export function toPages(capture, opts = {}) {
   // any non-text block between them breaks the group (pushed through untouched). The subtitle is only
   // absorbed when we're clearly in a heading group (an overline was folded, or the heading carries a
   // heading-group wrapCls) — so unrelated body paragraphs are never eaten.
+  // Is a text block a heading SUBTITLE (short intro line) vs body copy? Single short paragraph, no
+  // block-level structure, under a two-sentence cap. Parity with PHP Mapper::is_heading_subtitle.
+  const isHeadingSubtitle = (b) => {
+    const html = String((b && (b.html || b.text)) || '');
+    if (/<(ul|ol|h[1-6]|table|blockquote|figure|hr|div)\b/i.test(html)) return false;
+    if ((html.match(/<p\b/gi) || []).length > 1) return false;               // >1 paragraph = body copy
+    const plain = html.replace(/<[^>]*>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+    if (!plain) return false;
+    return plain.length <= 220;                                              // a sentence or two
+  };
   const coalesceHeadingGroups = (blocks) => {
     const out = [];
     for (let i = 0; i < blocks.length; i++) {
@@ -802,8 +1158,10 @@ export function toPages(capture, opts = {}) {
         out.pop();
       }
       const next = blocks[i + 1];
-      const inGroup = !!h.overline || !!b.wrapCls;
-      if (inGroup && next && next.t === 'text') {
+      // A SHORT intro paragraph right after the title → the heading's subtitle (brevity-guarded so real body
+      // copy stays a Text Block). Replaces the old overline/wrapCls-only gate, so a plain title+intro folds
+      // too — the reason the subtitle used to be "almost never used". Parity with the PHP section loop.
+      if (next && next.t === 'text' && isHeadingSubtitle(next)) {
         // Subtitle = the paragraph's INNER content (strip a single outer <p>), parity with textBlockOf.
         h.subtitle = String(next.html || '').replace(/^\s*<p[^>]*>([\s\S]*)<\/p>\s*$/i, '$1');
         h.subtitleCls = next.cls || '';                   // subtitle's own classes → native subtitle_class
@@ -911,6 +1269,15 @@ export function toPages(capture, opts = {}) {
     }).join(' ');
     const pad = String(card.pad || '').trim();
     if (pad && pad !== '0px') { a.custom_css = 'selector{padding:' + pad.replace(/[{}<>;]/g, '') + ' !important;}'; }
+    // HI-FI: Pass-1 source vertical margin → the icon_box NATIVE spacing option; Pass-2 the faithful base of
+    // the card's REMAINING appearance — the box (fill/border/radius/shadow via bg_color + Box Preset), the icon
+    // colour + title typography are `already`, so the base only fills the rest (a decorative background-image,
+    // letter-spacing, transform, …) and never double-draws the card border. Parity with PHP icon_box builder.
+    if (hifiCss) {
+      const ics = csFromFields(Object.assign({}, card, card.box || {}));
+      if (a.spacing) applyNativeMargin(a.spacing, ics, hifiCss);
+      applyHifiBase(n, ics, ['background-color', 'border', 'border-radius', 'box-shadow', 'color', 'font-family', 'font-size', 'font-weight', 'line-height'], hifiCss);
+    }
     return n;
   };
   // A FLOATING badge/card overlaid on a hero image → an editable icon_box, POSITIONED + skinned over
@@ -1100,6 +1467,45 @@ export function toPages(capture, opts = {}) {
   // A self-drawing SVG → native `svg_draw` (pasted-code source, view trigger). Parity n_svg_draw.
   const svgDrawNode = (b) => { const code = String(b.code || ''); if (!code.trim()) return codeBlock(''); return widgetNode('svg_draw', { svg: { source: 'code', preset: { preset: 'signature' }, code: { code }, upload: { file: '' } }, trigger: 'view' }); };
 
+  // A logo / "trusted by" strip → native `logo_grid` (each <img> → one editable logo). Parity n_logo_grid.
+  const logoGridNode = (b) => {
+    const logos = (b.logos || []).map((l) => ({
+      image: { attachment_id: '', url: String(l.url || '') },
+      svg: String(l.svg || ''),
+      name: String(l.name || ''),
+      no_label: 'no',
+      link_url: String(l.link_url || ''),
+      link_target: (l.link_target === '_self' ? '_self' : '_blank'),
+    })).filter((l) => l.image.url || l.svg);
+    if (!logos.length) return codeBlock(String(b.html || ''));
+    return widgetNode('logo_grid', { logos, design: 'grid', columns: String(Math.min(6, Math.max(2, logos.length))), grayscale: 'yes', show_labels: 'no' });
+  };
+
+  // A CTA band (centered heading + subtext + one button) → native `call_to_action`. Parity n_cta. The
+  // source button's distinctive fill is reproduced on `.btn.btn-1` via the node's scoped custom_css.
+  const ctaButtonCss = (b) => {
+    const bg = String(b.buttonBg || '').trim();
+    const fg = String(b.buttonColor || '').trim();
+    let body = '';
+    if (bg) body += `background-color:${bg} !important;border-color:${bg} !important;`;
+    if (fg) body += `color:${fg} !important;`;
+    if (b.buttonRadius) body += `border-radius:${b.buttonRadius};`;
+    if (b.buttonPad) body += `padding:${b.buttonPad};`;
+    return body ? `selector .btn.btn-1{${body}}` : '';
+  };
+  const ctaNode = (b) => {
+    const atts = {
+      title: String(b.title || '').trim(),
+      message: String(b.message || ''),
+      button_label: String(b.button_label || '').trim(),
+      button_link: String(b.button_link || '#'),
+      button_target: (b.button_target === '_blank' ? '_blank' : '_self'),
+    };
+    const css = ctaButtonCss(b);
+    if (css) atts.custom_css = css;
+    return widgetNode('call_to_action', atts);
+  };
+
   // rgb/rgba computed value → hex (opaque) or kept rgba (transparent), for a native color att.
   const rgbToCss = (v) => {
     const m = String(v || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
@@ -1151,12 +1557,17 @@ export function toPages(capture, opts = {}) {
   // column; a `row` block becomes a row of builder columns (one code-block per grid cell).
   const blocksSectionNode = (sec, sIndex) => {
     const s = stamp(clone('section'));
+    const centered = sectionCentered(sec);
     if (s.atts) {
       // Translate the section's Tailwind + captured COMPUTED style into NATIVE section options
       // (bg color, padding) instead of dead classes on css_class. The bg/padding come from the
       // captured computed values (exact — beats parsing `bg-pink-100/40` + `py-20`).
       const lay = sectionLayout(sec.sectionClass, sec.computed);
       s.atts.css_class = lay.css_class;
+      // Pass #6 — carry a source band's responsive VISIBILITY onto the native responsive_hide option
+      // (class-derived; {} for the common case). Parity with PHP Mapper::responsive_hide_from_classes.
+      const rhide = responsiveHideFromClasses(sec.sectionClass);
+      if (Object.keys(rhide).length) s.atts.responsive_hide = rhide;
       s.atts.is_fullwidth = false; // centred content uses the theme container (source `max-w-* mx-auto`)
       // Set the REAL background-pro custom color. The cloned section's default `background` att is a
       // non-empty bg-pro array, so view.php uses it and IGNORES the legacy `background_color` string
@@ -1168,15 +1579,41 @@ export function toPages(capture, opts = {}) {
       }
       if (lay.padding_top) s.atts.padding_top = lay.padding_top;
       if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
+      // A CENTERED source band → the section's native `text_align='center'` so the whole band's
+      // heading + paragraph + buttons inherit text-align:center together (parity with PHP n_section).
+      if (centered) s.atts.text_align = 'center';
     }
     // Extra section CSS the block loop generates (e.g. a wc_products card skin/hover/ribbon translated
     // from the source cards). Folded into the section's custom_css AFTER the loop so it isn't lost.
     let extraCss = '';
     const items = []; let buf = []; let btnRow = [];
-    const flush = () => { if (buf.length) { items.push(column('1_1', buf)); buf = []; } };
+    const flush = () => {
+      if (buf.length) {
+        const col = column('1_1', buf);
+        // The centered source wrapper that decomposes into this intro column holds MIXED children
+        // (heading + paragraph + buttons) → set the column's native `text_align='center'` too, so
+        // text-align cascades to all of them (parity with the PHP flush_buf). Idempotent with the
+        // section text_align (both are the inherited property).
+        if (centered && col.atts) col.atts.text_align = 'center';
+        // A buffered FLOATING CARD (image-composite icon_box positioned `absolute` via its scoped posCss)
+        // needs a POSITIONED ANCESTOR, or it anchors to the section/page and lands top-left. Make this
+        // column the containing block. (P0-C fidelity fix; parity with the row-cell path + PHP mapper.)
+        if (col.atts && buf.some((n) => n && n.shortcode === 'icon_box' && /position:absolute/.test(String((n.atts && n.atts.custom_css) || '')))) {
+          const cur = col.atts.custom_css ? String(col.atts.custom_css) : '';
+          col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{position:relative;}').trim();
+        }
+        items.push(col); buf = [];
+      }
+    };
     for (const b of coalesceHeadingGroups(sec.blocks)) {
       if (b.t === 'row') {
         flush();
+        // Pass #5 — distill the row's inter-column GAP onto the section's NATIVE Gap option (first grid
+        // wins; empty = inherit the Theme Settings Default Gap). Parity with the PHP mapper build_section.
+        if (s.atts && b.gap > 0 && (!s.atts.gap || !s.atts.gap.base)) {
+          const gs = gapSlug(b.gap);
+          if (gs) s.atts.gap = { base: gs, md: '', lg: '' };
+        }
         // A PRODUCT-CARD grid (≥60% of cells = image + price) → ONE wc_products grid, not N icon_boxes.
         const prodCells = b.cols.filter(cellIsProduct).length;
         if (b.cols.length >= 2 && prodCells >= Math.ceil(b.cols.length * 0.6)) {
@@ -1249,6 +1686,25 @@ export function toPages(capture, opts = {}) {
                 sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
                 fallback: sc === 'code_block', opportunity: false });
           const col = column(c.width, cellItems);
+          // Fidelity fixes on the column's scoped custom_css:
+          //  (1) an image-composite cell with FLOATING CARD(s) needs the column to be the POSITIONED
+          //      ancestor, or each card's `position:absolute; top/left` resolves against the section/page
+          //      and lands at the page top-left (overlapping the logo). Marking the column position:relative
+          //      anchors the card to the image area.
+          //  (2) the source cell's own max-width (`max-w-2xl` on a hero text column) constrains the
+          //      column content so its paragraph wraps like the source (a full 50% track wraps too few lines).
+          // Parity with the PHP mapper.
+          {
+            const decl = [];
+            const hasFloating = detected === 'image-composite' && c.imgComposite && c.imgComposite.image
+              && Array.isArray(c.imgComposite.cards) && c.imgComposite.cards.length;
+            if (hasFloating) decl.push('position:relative');
+            if (c.maxw && /^[0-9.]+(?:px|rem|em|%|ch|vw)$/.test(String(c.maxw))) decl.push('max-width:' + c.maxw);
+            if (decl.length && col.atts) {
+              const cur = col.atts.custom_css ? String(col.atts.custom_css) : '';
+              col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{' + decl.join(';') + ';}').trim();
+            }
+          }
           // Replay the cell's OWN flex layout via the column's NATIVE options (content_direction / gap)
           // instead of a CSS wrapper — a flex-ROW cell lays its children side-by-side with the source gap.
           const fx = c.flex;
@@ -1257,6 +1713,13 @@ export function toPages(capture, opts = {}) {
             const g = gapSlug(fx.gap);
             if (g) col.atts.content_gap = { base: g, md: '', lg: '' };
             if (/^row-reverse/.test(fx.dir)) col.atts.content_order = 'reverse';
+          }
+          // A grid CELL that centers/right-aligns its own text (source `text-center` / `text-right`
+          // on the cell wrapper) → the column's native `text_align`, so the cell's mixed content
+          // (heading + prose + buttons) inherits that alignment as one. Parity with the PHP mapper.
+          {
+            const cellTa = clsTextAlign(c.fullCls || c.cls || '');
+            if (cellTa && col.atts) col.atts.text_align = cellTa;
           }
           // A CTA button group with 2+ buttons sits side-by-side — via the native content_direction
           // (not the old `.btn-row` CSS wrapper), even when the source cell's flex wasn't captured.

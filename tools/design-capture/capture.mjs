@@ -63,6 +63,9 @@ const FINDINGS_PATH = _findingsFlag ? _findingsFlag.slice('--findings='.length) 
 // `--only-sections=1,3` — so a re-convert only touches the parts you still want reconverted.
 const SKIP_HEADER = _flags.includes('--skip-header') || process.env.UPW_SKIP_HEADER === '1';
 const SKIP_FOOTER = _flags.includes('--skip-footer') || process.env.UPW_SKIP_FOOTER === '1';
+// High-fidelity CSS faithful base — DEFAULT ON (parity with the PHP converter). Turn off with --no-hifi
+// or UPW_HIFI_CSS=0 for leaner, purely-native output.
+const HIFI_CSS = !( _flags.includes('--no-hifi') || process.env.UPW_HIFI_CSS === '0' );
 const _intList = (name) => { const f = _flags.find((x) => x.startsWith(name + '=')); return f ? f.slice(name.length + 1).split(',').map((n) => parseInt(n.trim(), 10)).filter((n) => !Number.isNaN(n)) : null; };
 const SKIP_SECTIONS = _intList('--skip-sections'); // drop these s_index sections
 const ONLY_SECTIONS = _intList('--only-sections'); // keep ONLY these s_index sections
@@ -106,11 +109,17 @@ let _t0 = 0;
 // these so a human can watch each pipeline stage + the tool running it, in real time.
 let _progress = null; // { slug, url, status, startedAt, steps: [...] }
 let _baseDir = '';
+let _heartbeat = null; // keeps updatedAt fresh during a LONG single stage, so the dashboard's stale-detector
+                       // (which flags a `running` capture whose updatedAt went cold as a dead process) never
+                       // false-positives on a slow-but-alive step. Cleared on done/error.
 function progressInit(slug, url, baseDir) {
   _baseDir = baseDir;
   _progress = { slug, url, status: 'running', startedAt: Date.now(), updatedAt: Date.now(), steps: [], summary: null, error: '' };
   progressFlush();
   try { writeFileSync(`${baseDir}/_active.json`, JSON.stringify({ slug, url, status: 'running', startedAt: _progress.startedAt })); } catch { /* best-effort */ }
+  if (_heartbeat) { clearInterval(_heartbeat); }
+  _heartbeat = setInterval(() => { if (_progress && _progress.status === 'running') progressFlush(); }, 3000);
+  if (_heartbeat && _heartbeat.unref) { _heartbeat.unref(); } // never keep the process alive just for the beat
 }
 function progressFlush() {
   if (!_progress || !outdir) return;
@@ -120,6 +129,7 @@ function progressFlush() {
   } catch { /* the dir may not exist yet on the very first step */ }
 }
 function progressDone(status, extra) {
+  if (_heartbeat) { clearInterval(_heartbeat); _heartbeat = null; }
   if (!_progress) return;
   _progress.status = status;
   if (extra && extra.summary) _progress.summary = extra.summary;
@@ -234,6 +244,87 @@ async function renderPage(p, target) {
   await p.waitForTimeout(900);
   await evalSafe(p, () => window.scrollTo(0, 0));
   await p.waitForTimeout(250);
+  // MEGA-MENU / dropdown EXPANSION. Nav dropdown panels are JS-mounted on open (Radix/shadcn: a <button>
+  // with aria-controls + data-state="open", panel often portaled to <body>), so a static snapshot misses
+  // the whole panel. Open each header nav trigger, let its panel mount, grab its HTML, then serialize all
+  // panels into a <script id="sc-mega-menus"> the deterministic converter reads to detect + rebuild a mega
+  // menu. Best-effort and self-closing; never blocks the capture.
+  let megaMenus = []; // structured { trigger, cols, columns:[[{label,url,desc}]] } for the bundle's mega-menus.json (JS-path parity with PHP detect_mega_menus)
+  try {
+    const triggers = await p.$$('header button[aria-controls], header button[aria-expanded], header [aria-haspopup="menu"], nav button[aria-controls]');
+    // Read the currently-open panel for a trigger (by its aria-controls id, else any open Radix/menu
+    // content) — once it has mounted ≥3 links, return BOTH its outerHTML (for the sc-mega-menus stamp the
+    // PHP path reads) AND the STRUCTURED items (label/url/desc) + column count, parsed in-page with the real
+    // DOM. Colons in Radix ids (`radix-:r0:-content…`) are fine for getElementById.
+    const readPanel = (id) => p.evaluate((cid) => {
+      let panel = cid ? document.getElementById(cid) : null;
+      if (!panel || panel.querySelectorAll('a').length < 3) {
+        const open = document.querySelectorAll('[data-radix-menu-content],[data-radix-navigation-menu-viewport],[data-state="open"] [role="menu"],[role="menu"],[data-state="open"]');
+        for (const el of open) { if (el.querySelectorAll('a').length >= 3) { panel = el; break; } }
+      }
+      if (!panel || panel.querySelectorAll('a').length < 3) return null;
+      const outer = panel.outerHTML.slice(0, 24000);
+      let cols = 1; const gm = outer.match(/grid-cols-(\d+)/); if (gm) cols = Math.max(1, Math.min(6, parseInt(gm[1], 10)));
+      const items = [];
+      for (const a of panel.querySelectorAll('a')) {
+        const href = (a.getAttribute('href') || '').trim();
+        let label = '';
+        for (const lt of ['h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'span', 'div']) { const el = a.querySelector(lt); if (el && el.textContent.trim()) { label = el.textContent.replace(/\s+/g, ' ').trim(); break; } }
+        const ps = a.querySelectorAll('p'); let desc = ps.length ? ps[ps.length - 1].textContent.replace(/\s+/g, ' ').trim() : '';
+        if (!label) label = a.textContent.replace(/\s+/g, ' ').trim();
+        if (desc && desc === label) desc = '';
+        if (!label) continue;
+        items.push({ label, url: href || '#', desc });
+      }
+      return { html: outer, cols, items };
+    }, id).catch(() => null);
+    const megaData = [];
+    for (const t of triggers) {
+      try {
+        const label = ((await t.evaluate((el) => (el.textContent || '').trim()).catch(() => '')) || '').slice(0, 40);
+        if (!label) continue;
+        const cid = await t.getAttribute('aria-controls').catch(() => null);
+        // Radix menus open on a pointer sequence with a delay, then React MOUNTS the panel — so a single
+        // fixed wait is flaky. Try three OPEN strategies (real hover · synthetic pointer events · click),
+        // and after each POLL up to ~1.6s for the panel to actually mount. Robust across the timing jitter
+        // that made the panel intermittently miss (→ no sc-mega-menus → mega menu silently not converted).
+        let panel = null;
+        for (let attempt = 0; attempt < 3 && !panel; attempt++) {
+          if (attempt === 0) {
+            await t.scrollIntoViewIfNeeded().catch(() => {});
+            await t.hover({ timeout: 1500 }).catch(() => {});
+          } else if (attempt === 1) {
+            await t.evaluate((el) => { for (const type of ['pointerover', 'pointerenter', 'pointermove', 'mouseover', 'mouseenter']) { try { el.dispatchEvent(new MouseEvent(type, { bubbles: true })); } catch {} } }).catch(() => {});
+          } else {
+            await t.click({ timeout: 1500 }).catch(() => {});
+          }
+          for (let w = 0; w < 6 && !panel; w++) {
+            await p.waitForTimeout(260);
+            panel = await readPanel(cid);
+          }
+        }
+        if (panel && Array.isArray(panel.items) && panel.items.length >= 2) {
+          megaData.push({ label, html: panel.html }); // raw stamp (PHP path)
+          // Distribute items row-major into columns (column j = items j, j+cols, …) — mirrors PHP detect_mega_menus.
+          const columns = Array.from({ length: panel.cols }, () => []);
+          panel.items.forEach((it, i) => columns[i % panel.cols].push(it));
+          megaMenus.push({ trigger: label, cols: panel.cols, columns });
+        }
+        // Close before the next one so panels don't overlap in the final snapshot.
+        await p.keyboard.press('Escape').catch(() => {});
+        await p.mouse.move(3, 3).catch(() => {});
+        await p.waitForTimeout(160);
+      } catch { /* per-trigger best-effort */ }
+    }
+    if (megaData.length) {
+      await p.evaluate((data) => {
+        const s = document.createElement('script');
+        s.type = 'application/json'; s.id = 'sc-mega-menus';
+        s.textContent = JSON.stringify(data);
+        document.body.appendChild(s);
+      }, megaData).catch(() => {});
+    }
+  } catch { /* dropdown expansion is best-effort */ }
   // INLINE cross-origin stylesheets before extraction. A CDN-served bundle (e.g. an SPA that swaps
   // its critical CSS for a hashed cdn.* bundle after hydration) is loaded WITHOUT a `crossorigin`
   // attr, so `sheet.cssRules` throws SecurityError → the extractor can't read it and every rule it
@@ -281,8 +372,10 @@ async function renderPage(p, target) {
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
   await evalSafe(p, () => {
-    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','max-width','display','gap','justify-content','align-items','flex-direction'];
-    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal' };
+    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','max-width','display','gap','justify-content','align-items','flex-direction','transition','transform'];
+    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal',
+      // Drop the CSS initial values so only elements that actually declare a transition/transform carry one.
+      'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none' };
     const els = document.querySelectorAll('body *');
     for (let i = 0; i < els.length; i++) {
       const el = els[i], tag = el.tagName.toLowerCase();
@@ -293,7 +386,93 @@ async function renderPage(p, target) {
         if (!v || (skip[pr] && skip[pr](v))) continue;
         add.push(pr + ':' + v);
       }
+      // Gradient TEXT (background-clip:text) — harvest the clip + transparent fill ONLY when the
+      // element actually paints gradient text (a gradient background-image + clip:text), so the
+      // faithful base can reproduce it. Otherwise the gradient would fill a block behind un-clipped
+      // text (the "two-tone-heading-black" bug). Guarded so a normal element carries none of these.
+      if (/gradient/i.test(cs.getPropertyValue('background-image') || '')) {
+        const clip = String(cs.getPropertyValue('-webkit-background-clip') || cs.getPropertyValue('background-clip') || '').trim();
+        if (clip === 'text') {
+          add.push('-webkit-background-clip:text');
+          add.push('background-clip:text');
+          const fill = String(cs.getPropertyValue('-webkit-text-fill-color') || '').trim();
+          if (fill === 'transparent' || fill === 'rgba(0, 0, 0, 0)') add.push('-webkit-text-fill-color:transparent');
+        }
+      }
       if (add.length) el.setAttribute('data-sc-cs', add.join(';'));
+    }
+    // SITE CONTENT WIDTH — the rendered width the MAIN content column occupies, stamped on <html> so the
+    // deterministic PHP engine can set the theme's Container Width correctly. Robust across frameworks:
+    // a Bootstrap `.container` / Tailwind `max-w-*` capped container AND a FULL-WIDTH layout (sections span
+    // the viewport, content inset only by px gutters — which carries NO max-width, so the old max-width-only
+    // detection collapsed it to the theme's narrow default). Method: bucket every horizontally-CENTERED,
+    // INSET (narrower than the viewport = not a full-bleed band) wide block by rounded width, weight by the
+    // content AREA it wraps, and take the heaviest bucket = the shared main-content width.
+    try {
+      const vw = window.innerWidth;
+      const buckets = new Map();
+      for (const el of document.querySelectorAll('div,section,header,footer,main,article,nav,ul')) {
+        const r = el.getBoundingClientRect();
+        if (r.width < 600 || r.width > vw - 24) continue; // ≥600 = a real container; < vw-24 = inset, not full-bleed
+        const leftGap = r.left, rightGap = vw - r.right;
+        if (Math.abs(leftGap - rightGap) > Math.max(8, r.width * 0.06)) continue; // horizontally centered
+        const key = Math.round(r.width / 8) * 8;
+        buckets.set(key, (buckets.get(key) || 0) + r.width * Math.max(1, r.height));
+      }
+      let best = 0, bestW = 0;
+      for (const [px, w] of buckets) { if (w > bestW) { bestW = w; best = px; } }
+      if (best >= 600) document.documentElement.setAttribute('data-sc-content-width', String(best));
+    } catch (e) { /* best-effort */ }
+  });
+  // HOVER / PSEUDO-ELEMENT rule harvest for BUTTONS. Hover animations live on `:hover` and
+  // `::before`/`::after` rules that getComputedStyle(el) can NEVER see, so the deterministic converter's
+  // hover-animation classifier (→ a `.btnfx-*` preset like fill-up / grow / lift / sweep) needs the raw
+  // source rules. For each button-ish element we collect the declarations of stylesheet rules whose
+  // selector matches it AND targets a state/pseudo, stamped as `data-sc-hover` (bounded). Best-effort:
+  // cross-origin sheets throw on cssRules and are skipped.
+  await evalSafe(p, () => {
+    const rules = [];
+    for (const sheet of Array.from(document.styleSheets)) {
+      let cr; try { cr = sheet.cssRules; } catch { continue; }
+      if (!cr) continue;
+      for (const rule of Array.from(cr)) { if (rule.type === 1 && rule.selectorText) rules.push(rule); }
+    }
+    const PSEUDO = /::?(hover|before|after|focus-visible)\b/i;
+    const KEEP = ['content','position','top','right','bottom','left','inset','transform','transform-origin',
+      '--tw-translate-x','--tw-translate-y','--tw-scale-x','--tw-scale-y','--tw-rotate','transition','transition-property',
+      'transition-duration','transition-timing-function','background-color','background-image','opacity','box-shadow',
+      'filter','width','height','clip-path','animation','animation-name','letter-spacing','color','border-color','text-decoration'];
+    const strip = (s) => s.replace(/::?(hover|before|after|focus-visible|focus|active)\b(\([^)]*\))?/gi, '').trim() || '*';
+    const btns = document.querySelectorAll('a,button,[role="button"]');
+    for (const el of btns) {
+      const txt = (el.textContent || '').trim();
+      if (!txt || txt.length > 40) continue;
+      const found = [];
+      for (const rule of rules) {
+        const sel = rule.selectorText;
+        if (!PSEUDO.test(sel)) continue;
+        for (let part of sel.split(',')) {
+          part = part.trim();
+          if (!PSEUDO.test(part)) continue;
+          const base = strip(part);
+          // Skip the framework PREFLIGHT reset (`*`, `::before`, `:where(*)`) — it sets --tw-* vars on every
+          // pseudo and is pure noise, not the element's own animation. Require a SPECIFIC base selector.
+          if (base === '*' || base === '' || /^:where\(\s*\*?\s*\)$/.test(base) || base === ':root') continue;
+          let m = false; try { m = el.matches(base); } catch { m = false; }
+          if (!m) continue;
+          const decls = [];
+          for (const pr of KEEP) { const v = rule.style.getPropertyValue(pr); if (v) decls.push(pr + ':' + v.trim()); }
+          if (decls.length) {
+            const hov = /:hover/i.test(part), ps = /::?(before|after)/i.test(part);
+            const which = ps ? (/::?after/i.test(part) ? 'after' : 'before') : 'self';
+            const state = hov ? (ps ? 'hover-' + which : 'hover-self') : (ps ? which : 'self');
+            found.push(state + '{' + decls.join(';') + '}');
+          }
+          break;
+        }
+        if (found.join('|').length > 1600) break;
+      }
+      if (found.length) el.setAttribute('data-sc-hover', found.join('|').slice(0, 1600));
     }
   });
   // Grab the fully-rendered HTML robustly. `p.content()` can reject with "Execution context was
@@ -309,7 +488,7 @@ async function renderPage(p, target) {
     if (renderedHtml && renderedHtml.length >= 200) break;
     await p.waitForTimeout(400);
   }
-  return { url: target, renderedHtml, ...data };
+  return { url: target, renderedHtml, megaMenus, ...data };
 }
 
 // Responsive column widths — re-measure each tagged grid cell at tablet + phone viewports.
@@ -568,7 +747,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     const reportPages = [];
     const builderPages = captures.map((c) => {
       const trace = [];
-      const pg = toPages(c.capture, { trace, fidelity: FIDELITY, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } }).pages[0];
+      const pg = toPages(c.capture, { trace, fidelity: FIDELITY, hifiCss: HIFI_CSS, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } }).pages[0];
       pg.title = titleFor(c.capture, c.slug);
       pg.slug = c.slug; pg.status = 'publish'; pg.front_page = c.front;
       // Targeted re-import: mark the page PARTIAL and list the original s_index of each builder section
@@ -792,6 +971,13 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         step('saved WordPress theme screenshot (1200×900) → screenshot.png');
       } catch { screenshotBuf = null; }
 
+      // MEGA MENUS (JS-path parity) — carry the detected mega structure in the bundle so the importer
+      // creates the WP menu hierarchy + activates the Mega Menu extension. Previously only the PHP converter
+      // emitted mega-menus.json, so capture-service conversions silently dropped the mega menu on import.
+      if (Array.isArray(home.megaMenus) && home.megaMenus.length) {
+        config.mega_menus = home.megaMenus; // theme-design.json (theme-download bootstrap reads this)
+        writeFileSync(`${outdir}/mega-menus.json`, JSON.stringify({ menus: home.megaMenus }, null, 2));
+      }
       const bundleFiles = [
         { name: 'bundle.json', data: JSON.stringify({ name: config.theme.name, source: srcUrl, generated: 'design-capture', pages: builderPages.length }, null, 2) },
         { name: 'media.json', data: JSON.stringify(media, null, 2) },
@@ -807,6 +993,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         { name: 'style-coverage.html', data: styleReport.html },
       ];
       if (screenshotBuf) { bundleFiles.push({ name: 'screenshot.png', data: screenshotBuf }); }
+      if (Array.isArray(home.megaMenus) && home.megaMenus.length) { bundleFiles.push({ name: 'mega-menus.json', data: JSON.stringify({ menus: home.megaMenus }, null, 2) }); }
       const bundleZip = makeZip(bundleFiles);
       writeFileSync(`${outdir}/convert-bundle.zip`, bundleZip);
       step('saving full-page screenshot…');
@@ -830,15 +1017,29 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
 console.log(`▶ capturing ${urls.length} site(s) → ${baseOutdir}/${REPORT_ONLY ? '  (--report-only)' : ''}`);
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const results = [];
+// HARD CAP per capture. The queue's catch handles a stage that THROWS, but not one that HANGS (an await
+// that never resolves) — that would freeze `await captureOne` and leave the live progress stuck on its last
+// step forever. This watchdog guarantees every capture terminates: on timeout the race rejects, the catch
+// marks progress `error`, and the queue moves on. Generous so a legitimately slow real site still finishes;
+// overridable via CAPTURE_TIMEOUT_MS. As rules are added this is the single guarantee that a new stage can
+// never permanently break the live progress.
+const CAPTURE_TIMEOUT_MS = Math.max(60000, Number(process.env.CAPTURE_TIMEOUT_MS) || 300000);
 for (let i = 0; i < urls.length; i++) {
   const u = urls[i];
   console.log(`\n========== [${i + 1}/${urls.length}] ${u} ==========`);
   try {
-    const stats = await captureOne(browser, u, baseOutdir, REPORT_ONLY);
+    let watchdog;
+    const timeout = new Promise((_, rej) => { watchdog = setTimeout(() => rej(new Error(`capture exceeded ${Math.round(CAPTURE_TIMEOUT_MS / 1000)}s watchdog — aborted so the live progress never hangs`)), CAPTURE_TIMEOUT_MS); if (watchdog && watchdog.unref) watchdog.unref(); });
+    let stats;
+    try { stats = await Promise.race([captureOne(browser, u, baseOutdir, REPORT_ONLY), timeout]); }
+    finally { clearTimeout(watchdog); }
     results.push({ url: u, ok: true, stats });
   } catch (e) {
     const od = `${baseOutdir}/${siteSlug(u)}`;
     try { mkdirSync(od, { recursive: true }); writeFileSync(`${od}/error.txt`, `Capture failed for ${u}\n\n${(e && e.stack) || e}\n`); } catch { /* ignore */ }
+    // Ensure a progress object exists even if the failure happened before progressInit, so the dashboard
+    // always transitions off `running` (never polls a stale state) rather than being left with no update.
+    if (!_progress) { try { progressInit(siteSlug(u), u, baseOutdir); } catch { /* best-effort */ } }
     progressDone('error', { error: (e && e.message) || String(e) });
     console.error(`  ✖ FAILED: ${(e && e.message) || e}  → wrote ${od}/error.txt`);
     results.push({ url: u, ok: false, err: (e && e.message) || String(e) });

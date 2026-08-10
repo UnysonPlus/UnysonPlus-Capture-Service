@@ -34,6 +34,27 @@ const MIME = { '.html': 'text/html; charset=utf-8', '.json': 'application/json',
 const json = (res, obj, code = 200) => { res.writeHead(code, { 'content-type': 'application/json', 'cache-control': 'no-store' }); res.end(JSON.stringify(obj)); };
 const readJson = (p) => { try { return JSON.parse(readFileSync(p, 'utf8')); } catch { return null; } };
 
+// STALE-RUNNING GUARD. capture.mjs heartbeats `updatedAt` every ~3s while a capture runs, so a `running`
+// progress whose updatedAt has gone cold means the capture PROCESS died (crash / kill / power loss) without
+// writing a terminal state. Without this the dashboard would poll `running` forever. If updatedAt is older
+// than the threshold, report `stalled` so the UI stops polling and shows the failure instead of hanging.
+const PROGRESS_STALE_MS = Math.max(15000, Number(process.env.PROGRESS_STALE_MS) || 30000);
+function progressWithStaleGuard(prog) {
+  if (!prog || typeof prog !== 'object') return { status: 'unknown', steps: [] };
+  if (prog.status === 'running') {
+    const last = Number(prog.updatedAt || prog.startedAt || 0);
+    if (last && (Date.now() - last) > PROGRESS_STALE_MS) {
+      return { ...prog, status: 'stalled', error: prog.error || 'The capture stopped responding (process ended without finishing).' };
+    }
+  }
+  return prog;
+}
+// Version of the CODE THIS PROCESS is running — captured ONCE at startup (NOT re-read per request), so a
+// stale running server reports the version it started with. ensure-open compares this against the shipped
+// package.json to decide reuse-vs-restart; re-reading per request made a stale server always look current,
+// so its old code (missing new routes like /source-view) never got restarted.
+const DASH_CODE_VERSION = (() => { try { return JSON.parse(readFileSync(join(HERE, '..', 'package.json'), 'utf8')).version || ''; } catch { return ''; } })();
+
 // ── Destination WordPress target (install-into-WP feature) ─────────────────────────────
 // The server OWNS the {url, token} for the destination WP the converted site is installed onto.
 // Stored next to the dashboard as wp-target.json. The token is NEVER returned to the browser —
@@ -44,7 +65,10 @@ function readWpTarget() { const t = readJson(WP_TARGET_FILE); return { url: (t &
 function saveWpTarget(t) { try { writeFileSync(WP_TARGET_FILE, JSON.stringify({ url: t.url || '', token: t.token || '' }, null, 2)); return true; } catch { return false; } }
 // Build the destination REST URL — trim trailing slashes, then append the ?rest_route= form (works on
 // any install, pretty-permalinks or not).
-function wpRestUrl(base, route) { return String(base || '').replace(/\/+$/, '') + '?rest_route=' + route; }
+// Keep the trailing slash before `?rest_route=` — a bare `…/scdrift?rest_route=…` 301-redirects to the
+// slashed form, and fetch() downgrades a followed 301 POST to GET (dropping the body), so the POST-only
+// convert route 404s ("no route matching URL and request method"). The slash avoids the redirect.
+function wpRestUrl(base, route) { return String(base || '').replace(/\/+$/, '') + '/?rest_route=' + route; }
 
 // A capture-out subdir is a "site" if it has any of our artifacts.
 function listSites() {
@@ -184,8 +208,9 @@ const server = createServer((req, res) => {
   // Version of the dashboard CODE currently running — ensure-open.mjs compares this against the local
   // shipped package.json to decide reuse (same) vs. kill+restart (older/stale) vs. start (absent).
   if (path === '/api/dashboard-version') {
-    let version = ''; try { version = (readJson(join(HERE, '..', 'package.json')) || {}).version || ''; } catch { /* */ }
-    return json(res, { version });
+    // Expose OUT too: a running dashboard bound to a DIFFERENT capture-out than the current launcher must be
+    // restarted (else it reads a dir nothing is written to → live progress never updates). ensure-open compares.
+    return json(res, { version: DASH_CODE_VERSION, out: OUT }); // startup-captured, so a stale server is detectable
   }
   // Accumulated model-benchmark leaderboard + recent runs (from benchmark-history.json).
   if (path === '/api/benchmarks') return json(res, { leaderboard: benchmarkLeaderboard(), recent: benchmarkHistory().slice(-20).reverse() });
@@ -369,7 +394,7 @@ const server = createServer((req, res) => {
   }
 
   let m;
-  if ((m = path.match(/^\/api\/site\/([^/]+)\/progress$/))) return json(res, readJson(join(OUT, m[1], 'progress.json')) || { status: 'unknown', steps: [] });
+  if ((m = path.match(/^\/api\/site\/([^/]+)\/progress$/))) return json(res, progressWithStaleGuard(readJson(join(OUT, m[1], 'progress.json'))));
   if ((m = path.match(/^\/api\/site\/([^/]+)\/config$/)))   return json(res, readJson(join(OUT, m[1], 'design-config.json')) || {});
   if ((m = path.match(/^\/api\/site\/([^/]+)\/report$/)))   return json(res, { rows: parseReport(join(OUT, m[1])) || [] });
   if ((m = path.match(/^\/artifact\/([^/]+)\/(.+)$/))) {
@@ -424,23 +449,45 @@ const server = createServer((req, res) => {
   if (path === '/api/install-to-wp' && req.method === 'POST') {
     let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e5) req.destroy(); });
     req.on('end', () => {
-      let source_url = '', dry_run = false;
-      try { const b = JSON.parse(body || '{}'); source_url = String(b.source_url || '').trim(); dry_run = !!b.dry_run; } catch { /* */ }
+      let source_url = '', dry_run = false, hifi_css = true;
+      try { const b = JSON.parse(body || '{}'); source_url = String(b.source_url || '').trim(); dry_run = !!b.dry_run; hifi_css = (b.hifi_css === undefined) ? true : !!b.hifi_css; } catch { /* */ }
       if (!/^https?:\/\//i.test(source_url)) return json(res, { error: 'Enter a valid http(s) source URL.' }, 400);
       const t = readWpTarget();
       if (!/^https?:\/\//i.test(t.url) || !t.token) return json(res, { error: 'Set the destination WordPress + token in Settings first.' }, 400);
-      fetch(wpRestUrl(t.url, '/fw-sc/v1/convert'), {
-        method: 'POST',
-        headers: { 'X-FW-SC-Token': t.token, 'content-type': 'application/json' },
-        body: JSON.stringify({ source_url, dry_run }),
-        signal: AbortSignal.timeout(180000),
-      })
-        .then(async (r) => {
-          const j = await r.json().catch(() => ({}));
-          if (r.status === 401) return json(res, { error: 'Wrong or missing token — copy it from wp-admin → Site Converter.' }, 401);
-          return json(res, j, r.status);
+
+      // RENDER FIRST: ask the local capture service to render the source in headless Chrome and hand
+      // back the FULLY RENDERED HTML, so client-rendered / SPA sites (wegic, etc.) convert from their
+      // real DOM instead of the empty SPA shell a raw wp_remote_get would return. If the render fails
+      // or comes back too small, fall back to letting WordPress raw-fetch the URL (current behavior).
+      const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+      const captureUrl = `http://localhost:${svcPort}/capture?url=${encodeURIComponent(source_url)}&html=1`;
+      const postToWp = (rendered_html, render_note) => {
+        fetch(wpRestUrl(t.url, '/fw-sc/v1/convert'), {
+          method: 'POST',
+          headers: { 'X-FW-SC-Token': t.token, 'content-type': 'application/json' },
+          body: JSON.stringify({ source_url, dry_run, hifi_css, rendered_html: rendered_html || '' }),
+          signal: AbortSignal.timeout(180000),
         })
-        .catch((e) => json(res, { error: 'Could not reach ' + t.url + ' — is that WordPress running? (' + e.message + ')' }, 502));
+          .then(async (r) => {
+            const j = await r.json().catch(() => ({}));
+            if (r.status === 401) return json(res, { error: 'Wrong or missing token — copy it from wp-admin → Site Converter.' }, 401);
+            if (j && typeof j === 'object') {
+              j.rendered = !!(rendered_html && rendered_html.length);
+              j.rendered_bytes = rendered_html ? rendered_html.length : 0;
+              if (render_note) j.render_note = render_note;
+            }
+            return json(res, j, r.status);
+          })
+          .catch((e) => json(res, { error: 'Could not reach ' + t.url + ' — is that WordPress running? (' + e.message + ')' }, 502));
+      };
+      // SPA render can take ~30–60s; give it 90s.
+      fetch(captureUrl, { signal: AbortSignal.timeout(90000) })
+        .then(async (r) => {
+          const html = r.ok ? await r.text() : '';
+          if (html && html.length >= 500) return postToWp(html, null);
+          return postToWp('', 'Capture render returned too little HTML — used a raw fetch (may be incomplete for JavaScript sites).');
+        })
+        .catch((e) => postToWp('', 'Could not reach the capture renderer (' + e.message + ') — used a raw fetch (may be incomplete for JavaScript sites).'));
     });
     return;
   }
@@ -457,6 +504,174 @@ const server = createServer((req, res) => {
       child.on('exit', () => running.delete(slug));
       return json(res, { started: true, url });
     });
+    return;
+  }
+
+  // Serve the source-side inspector script (injected into /source-view pages).
+  if (path === '/source-inspector.js') {
+    try {
+      res.writeHead(200, { 'content-type': MIME['.js'], 'cache-control': 'no-store' });
+      return res.end(readFileSync(join(HERE, 'source-inspector.js')));
+    } catch { res.writeHead(404); return res.end('source-inspector.js missing'); }
+  }
+
+  // ── SOURCE inspector view ────────────────────────────────────────────────────────────
+  // Serve the captured SOURCE DOM (<OUT>/<slug>/rendered.html) same-origin so the injected
+  // inspector can read it. Inject a <base> (source origin) so relative asset URLs still load,
+  // a charset meta, and the source-inspector.js tag. Path-traversal-guarded: slug must be a
+  // bare direct child dir name (alphanumerics / _ / - only).
+  if (path === '/source-view') {
+    const slug = (u.searchParams.get('slug') || '').trim();
+    if (!slug || !/^[A-Za-z0-9_-]+$/.test(slug)) { res.writeHead(400, { 'content-type': 'text/plain; charset=utf-8' }); return res.end('Invalid slug.'); }
+    const dir = join(OUT, slug);
+    const file = join(dir, 'rendered.html');
+    if (!existsSync(file)) { res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' }); return res.end('No rendered.html captured for this slug.'); }
+    let html = '';
+    try { html = readFileSync(file, 'utf8'); } catch (e) { res.writeHead(500, { 'content-type': 'text/plain; charset=utf-8' }); return res.end('Could not read rendered.html: ' + e.message); }
+    // Strip the source's OWN <script> tags. rendered.html is a POST-RENDER snapshot (the content is
+    // already baked into the DOM), but re-running the source's JS makes its SPA/client router re-hydrate
+    // against the dashboard URL, not find a matching route, and REPLACE the content with the source's own
+    // 404 page (header/footer stay, middle becomes "404"). We only want the static snapshot (+ its CSS +
+    // data-sc-cs) plus our inspector — so remove all source scripts. Stylesheets/links/styles are kept.
+    html = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<script\b[^>]*\/>/gi, '');
+    // Determine the source base URL (for the <base href>). Prefer progress.json .url, then the
+    // design config .url — so the source's relative images/fonts resolve against its real origin.
+    const srcUrl = (readJson(join(dir, 'progress.json')) || {}).url
+      || (readJson(join(dir, 'design-capture.json')) || {}).url
+      || (readJson(join(dir, 'design-config.json')) || {}).url || '';
+    let baseOrigin = '';
+    try { if (srcUrl) baseOrigin = new URL(srcUrl).origin; } catch { /* */ }
+    // Only add a charset meta if the doc lacks one (avoid double-declaring, harmless but tidy).
+    // IMPORTANT: the inspector <script> is injected BEFORE the <base> so its root-relative
+    // src="/source-inspector.js" resolves against the DASHBOARD origin (localhost:4600), not the
+    // source origin the <base> points at — otherwise it 404s cross-origin and never runs.
+    const injectHead = (/<meta[^>]+charset/i.test(html) ? '' : '<meta charset="utf-8">')
+      + `<script src="/source-inspector.js"></script>`
+      + (baseOrigin ? `<base href="${baseOrigin}/">` : '');
+    if (/<head[^>]*>/i.test(html)) {
+      html = html.replace(/<head([^>]*)>/i, (m) => m + injectHead);
+    } else if (/<\/head>/i.test(html)) {
+      html = html.replace(/<\/head>/i, injectHead + '</head>');
+    } else if (/<html[^>]*>/i.test(html)) {
+      html = html.replace(/<html([^>]*)>/i, (m) => m + '<head>' + injectHead + '</head>');
+    } else {
+      html = '<head>' + injectHead + '</head>' + html;
+    }
+    res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' });
+    return res.end(html);
+  }
+
+  // ── DIAGNOSTICS ──────────────────────────────────────────────────────────────────────
+  // One-click health check: surfaces the exact problems that silently bite conversions —
+  // a stale dashboard server, a down capture service, missing capture artifacts, an
+  // unreachable/misconfigured destination WordPress, a missing conversion-map. Best-effort:
+  // every check is guarded so one failure never throws the whole route.
+  if (path === '/api/diagnostics' && req.method === 'GET') {
+    const slug = (u.searchParams.get('slug') || '').trim();
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    const checks = [];
+    const push = (id, label, status, detail, hint) => checks.push({ id, label, status, detail: detail || '', hint: hint || '' });
+    const fmtBytes = (n) => (n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB');
+
+    // a. dashboard_code — THE HEADLINE CHECK. Startup-captured version vs. the CURRENT shipped package.json.
+    try {
+      const shipped = (readJson(join(HERE, '..', 'package.json')) || {}).version || '';
+      if (DASH_CODE_VERSION && shipped && DASH_CODE_VERSION === shipped) {
+        push('dashboard_code', 'Dashboard server', 'ok', `Running latest: v${DASH_CODE_VERSION}.`);
+      } else if (DASH_CODE_VERSION && shipped && DASH_CODE_VERSION !== shipped) {
+        push('dashboard_code', 'Dashboard server', 'fail',
+          `Dashboard server is STALE (running v${DASH_CODE_VERSION}, shipped v${shipped}).`,
+          'Restart it: kill the process on port 4600 and re-run start-converter.bat.');
+      } else {
+        push('dashboard_code', 'Dashboard server', 'warn',
+          `Could not compare versions (running v${DASH_CODE_VERSION || '?'}, shipped v${shipped || '?'}).`,
+          'If features look missing, restart the dashboard (kill port 4600, re-run start-converter.bat).');
+      }
+    } catch (e) { push('dashboard_code', 'Dashboard server', 'warn', 'Version check failed: ' + e.message); }
+
+    // b. capture_service — is the converter tool WordPress talks to up on 8787?
+    let svcCheck;
+    try {
+      svcCheck = fetch(`http://localhost:${svcPort}/health`, { signal: AbortSignal.timeout(1200) })
+        .then((r) => { if (r.status === 200) { return r.json().catch(() => ({})).then((h) => push('capture_service', 'Capture service', 'ok', `Responding on :${svcPort}${h && h.version ? ' (v' + h.version + ')' : ''}.`)); }
+          return push('capture_service', 'Capture service', 'warn', `Capture service returned HTTP ${r.status} on :${svcPort}.`, 'Restart start-converter.bat — new captures need it.'); })
+        .catch(() => push('capture_service', 'Capture service', 'warn', `Capture service not responding on :${svcPort} — needed for new captures.`, 'Re-run start-converter.bat to bring it up.'));
+    } catch (e) { push('capture_service', 'Capture service', 'warn', 'Health check failed: ' + e.message); svcCheck = Promise.resolve(); }
+
+    // c. out_dir — the capture-out directory exists and is readable.
+    try {
+      if (existsSync(OUT)) push('out_dir', 'Capture-out directory', 'ok', OUT);
+      else push('out_dir', 'Capture-out directory', 'fail', `Not found: ${OUT}`, 'Run a capture first, or pass --out <dir> when launching the dashboard.');
+    } catch (e) { push('out_dir', 'Capture-out directory', 'fail', 'Check failed: ' + e.message); }
+
+    // d. capture_artifacts — the per-slug files the inspectors depend on.
+    try {
+      const dir = slug ? join(OUT, slug) : '';
+      if (!slug || !dir || !existsSync(dir)) {
+        push('capture_artifacts', 'Capture artifacts', 'info', slug ? `No captured folder for "${slug}".` : 'No conversion selected.', slug ? 'Run Convert & install for this URL.' : 'Pick a conversion to check its artifacts.');
+      } else {
+        const stat = (name) => { try { const p = join(dir, name); if (!existsSync(p)) return null; return statSync(p).size; } catch { return null; } };
+        const rh = stat('rendered.html'), pj = stat('pages.json'), cm = stat('conversion-map.json'), dc = stat('design-config.json');
+        const parts = [];
+        parts.push('rendered.html ' + (rh !== null ? fmtBytes(rh) : 'MISSING'));
+        parts.push('pages.json ' + (pj !== null ? fmtBytes(pj) : 'MISSING'));
+        let mapEntries = null;
+        if (cm !== null) { const map = readJson(join(dir, 'conversion-map.json')); if (map) { mapEntries = Array.isArray(map) ? map.length : (Array.isArray(map.entries) ? map.entries.length : (map.map && Array.isArray(map.map) ? map.map.length : Object.keys(map).length)); } }
+        parts.push('conversion-map.json ' + (cm !== null ? fmtBytes(cm) + (mapEntries !== null ? ` (${mapEntries} entries)` : '') : 'MISSING'));
+        parts.push('design-config.json ' + (dc !== null ? fmtBytes(dc) : 'MISSING'));
+        let status = 'ok', hint = '';
+        if (rh === null) { status = 'warn'; hint = 'Source inspector unavailable — no rendered.html for this run. Re-run Convert & install.'; }
+        if (cm === null) { status = 'warn'; hint = (hint ? hint + ' ' : '') + 'Converted inspector has no map — re-run Convert & install.'; }
+        push('capture_artifacts', 'Capture artifacts', status,
+          `${slug}: ` + parts.join(' · ') + (rh === null ? ' — Source inspector unavailable (no rendered.html).' : '') + (cm === null ? ' — Converted inspector has no map.' : ''),
+          hint);
+      }
+    } catch (e) { push('capture_artifacts', 'Capture artifacts', 'warn', 'Check failed: ' + e.message); }
+
+    // e. wp_target — destination WordPress reachability + conversion-map link presence.
+    let wpCheck;
+    try {
+      const t = readWpTarget();
+      if (!t.url) {
+        push('wp_target', 'Destination WordPress', 'warn', 'Destination WordPress not set.', 'Set it in Settings (URL + token from wp-admin → Site Converter).');
+        wpCheck = Promise.resolve();
+      } else {
+        const tokenNote = t.token ? '' : ' Token not set.';
+        wpCheck = fetch(t.url, { redirect: 'follow', signal: AbortSignal.timeout(2500) })
+          .then(async (r) => {
+            const reach = `HTTP ${r.status}`;
+            let html = ''; try { html = await r.text(); } catch { /* */ }
+            const hasMap = /rel=["']unysonplus-conversion-map["']/i.test(html);
+            let status = r.ok ? 'ok' : 'warn', hint = '';
+            let detail = `${t.url} — reachable (${reach}).`;
+            if (hasMap) detail += ' Conversion-map link present (inspector map ok).';
+            else { status = (status === 'ok') ? 'warn' : status; detail += ' No conversion-map link found in the page.'; hint = 'Converted site has no conversion-map link — do a fresh Convert & install so the inspector works.'; }
+            if (!t.token) { if (status === 'ok') status = 'warn'; detail += tokenNote; hint = (hint ? hint + ' ' : '') + 'Paste the token from wp-admin → Site Converter in Settings.'; }
+            push('wp_target', 'Destination WordPress', status, detail, hint);
+          })
+          .catch((e) => push('wp_target', 'Destination WordPress', 'warn', `${t.url} — not reachable (${e.message}).${tokenNote}`, 'Is that WordPress running? Check the URL in Settings.'));
+      }
+    } catch (e) { push('wp_target', 'Destination WordPress', 'warn', 'Check failed: ' + e.message); wpCheck = Promise.resolve(); }
+
+    // f. ports_note — informational: dashboard vs. WP-target origin (cross-origin iframe is expected).
+    try {
+      const t = readWpTarget();
+      let wpOrigin = ''; try { if (t.url) wpOrigin = new URL(t.url).origin; } catch { /* */ }
+      const dashOrigin = `http://localhost:${PORT}`;
+      if (wpOrigin && wpOrigin !== dashOrigin) {
+        push('ports_note', 'Ports / origins', 'info', `Dashboard on :${PORT}; WP target origin ${wpOrigin}.`, 'iframe is cross-origin; the inspector runs in-page via ?upw-inspect (this is expected).');
+      } else {
+        push('ports_note', 'Ports / origins', 'info', `Dashboard on :${PORT}. Capture service on :${svcPort}.`);
+      }
+    } catch (e) { push('ports_note', 'Ports / origins', 'info', 'note failed: ' + e.message); }
+
+    // Wait on the two async network checks, then respond (best-effort — never throws).
+    Promise.all([svcCheck, wpCheck]).then(() => {
+      // Keep a stable order (checks may resolve out of order).
+      const order = ['dashboard_code', 'capture_service', 'out_dir', 'capture_artifacts', 'wp_target', 'ports_note'];
+      checks.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+      json(res, { generated: new Date().toISOString(), checks });
+    }).catch(() => json(res, { generated: new Date().toISOString(), checks }));
     return;
   }
 

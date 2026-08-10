@@ -42,6 +42,16 @@ The deterministic (**no‑AI**) converter — the logic that turns a source desi
     (that's for multiple images) and never a `code_block`. A `gallery` is only for a set of images.
   - **`scroll_indicator`** — a bottom-of-hero `animate-bounce` label + chevron that anchors to the next
     section → the **`scroll_indicator`** shortcode (text, icon, target `#anchor`, layout, animation).
+  - **`logo_grid`** — a logo / "trusted by" strip (a row of ≥2 `<img>`, no headings) → the native
+    **`logo_grid`** shortcode (each `<img>` → one logo: image URL + alt name + enclosing-`<a>` link),
+    **never** a verbatim code_block. PHP: `stitch` `logo_strip` recognizer (pri 25) + `Mapper::n_logo_grid()`.
+    JS: `logoStripOf`/decompose `t:'logo_grid'` + `logoGridNode()`.
+  - **`call_to_action`** — a CENTERED band with exactly ONE heading (h2–h6, not a hero h1), optional
+    subtext, and exactly ONE button → the native **`call_to_action`** shortcode (title=plain text,
+    message=HTML, one button). TIGHT so a hero (h1 + media + 2 buttons) or a feature grid never qualifies;
+    a 2-button CTA stays assembled (one button slot) so nothing is dropped. The source button's fill is
+    reproduced on `.btn.btn-1` via the node's scoped custom_css. PHP: `stitch` `call_to_action` recognizer
+    (pri 81) + `Mapper::n_cta()`. JS: `ctaBandOf` + `ctaNode()`.
 - **Per-section container width** — read each section's `mx-auto max-w-{3xl..6xl}` and set the section's
   **Container Width** option (Narrow 768 / Medium 896 / Wide 1024 / Custom) instead of the global width or
   per-element max-widths. The GLOBAL Container Width still maps the widest band (`max-w-7xl` → 1328px).
