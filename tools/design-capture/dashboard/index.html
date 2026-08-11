@@ -51,6 +51,22 @@ button,input{font:inherit;color:inherit}
 .livechip.running .ls-label{color:var(--amber)}
 .livechip.done .ls-label{color:var(--accent)}
 .livechip.error .ls-label{color:var(--red)}
+/* "Mapping ready" next-step CTA — shown when a followed conversion finishes, guides the user back to WP */
+.nextstep{margin:12px 2px 2px;padding:13px 14px;border-radius:12px;border:1px solid color-mix(in oklch,var(--accent) 42%,transparent);
+  background:color-mix(in oklch,var(--accent) 9%,transparent);animation:nsIn .28s ease both}
+@keyframes nsIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.nextstep .ns-h{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text)}
+.nextstep .ns-check{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;
+  background:var(--accent);color:#04231c;font-size:12px;font-weight:800}
+.nextstep .ns-copy{margin:7px 0 11px;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.nextstep .ns-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.nextstep .ns-go{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;background:var(--accent);
+  color:#04231c;font-weight:700;font-size:12.5px;text-decoration:none;transition:filter .12s}
+.nextstep .ns-go:hover{filter:brightness(1.08)}
+.nextstep #nextStepCount{opacity:.8;font-weight:600}
+.nextstep .ns-stay{background:none;border:none;color:var(--faint);font-size:12px;cursor:pointer;font-family:inherit;text-decoration:underline}
+.nextstep .ns-stay:hover{color:var(--muted)}
+.nextstep .ns-fallback{margin:10px 0 0;padding-top:9px;border-top:1px dashed color-mix(in oklch,var(--accent) 30%,transparent);font-size:12px;line-height:1.5;color:var(--muted)}
 .toplink{color:var(--faint);font-size:12px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
 .toplink:hover{color:var(--ink)}
 /* log modal */
@@ -380,6 +396,15 @@ td.txt{color:var(--muted);max-width:340px}
           <section class="panel">
             <div class="panel-h"><h2>Live progress</h2><button class="livechip idle" id="liveState" title="Hover to clear the progress list"><span class="dot" id="statusDot"></span><span class="ls-label" id="statusText">idle</span><span class="ls-clear">✕ Clear</span></button></div>
             <div class="timeline" id="timeline"><div class="tl-empty">Run a conversion in WordPress to watch it here, or pick a past run.</div></div>
+            <div class="nextstep" id="nextStep" hidden>
+              <div class="ns-h"><span class="ns-check">✓</span><b>Mapping ready</b></div>
+              <p class="ns-copy">The design was captured and converted. Your <b>WordPress tab is still open</b> — return to it and click <b>“Build the site from this mapping.”</b></p>
+              <div class="ns-actions">
+                <button class="ns-go" id="nextStepGo" type="button">Return to WordPress <span id="nextStepCount"></span></button>
+                <button class="ns-stay" id="nextStepStay" type="button">Stay here</button>
+              </div>
+              <p class="ns-fallback" id="nextStepFallback" hidden>Your browser wouldn’t let this tab close on its own. Just <b>switch back to your WordPress tab</b> (Ctrl/⌘+Tab) — it’s still on the Site&nbsp;Converter, ready for the <b>Build</b> step.</p>
+            </div>
             <div class="panel-foot"><button class="logbtn" id="viewLogBtn" title="Open the run log (useful when a conversion errors)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>View log</button></div>
           </section>
           <section class="panel">
@@ -579,6 +604,11 @@ function renderProgress(p){
   if(chip)chip.className='livechip '+st;if(dot)dot.className='dot '+st;
   if(txt)txt.textContent=st==='running'?'Following live':st==='done'?'Done':st==='error'?'Error':'idle';
   const vlb=$('#viewLogBtn');if(vlb)vlb.classList.toggle('err',st==='error'); // draw the eye to the log on failure
+  // When a conversion the user is following flips running → done, surface a next-step CTA back to the
+  // WordPress Site Converter (where "Build the site from this mapping" lives) so new users aren't stranded.
+  const prev=state._prevStatus;state._prevStatus=st;
+  if(st==='running'||st==='error')hideNextStep();
+  else if(st==='done'&&prev==='running'&&state.follow&&!state.cleared)showNextStep();
   const tl=$('#timeline');
   const steps=p.steps||[];
   if(!steps.length){tl.innerHTML='<div class="tl-empty">Waiting for the first pipeline step…</div>';return;}
@@ -592,12 +622,48 @@ function renderProgress(p){
   </div>`).join('');
   if(st==='running')tl.scrollTop=0;
 }
+let _nsTimer=null;
+// Show the "Mapping ready" CTA with a gentle, cancelable countdown. "Returning to WordPress" means
+// CLOSING this dashboard tab so focus falls back to the WordPress tab that launched the conversion
+// (which is still open on the Site Converter, ready for the Build step). This tab is opened by the OS
+// with no window.opener + a different origin, so it CANNOT focus/navigate the WordPress tab — closing
+// is the only real "return". If the browser blocks the programmatic close, we show manual guidance
+// (never navigate this tab to the Site Converter, which would look like a second, empty one).
+function showNextStep(){
+  const box=$('#nextStep');if(!box)return;
+  const count=$('#nextStepCount');
+  box.hidden=false;
+  const fb=$('#nextStepFallback');if(fb)fb.hidden=true;
+  try{toast('Conversion done — returning to WordPress…');}catch(e){}
+  // Return IMMEDIATELY (no countdown) — attempt to close this tab right away so focus falls back to the
+  // WordPress tab. The box stays visible so that, if the browser refuses the programmatic close, the
+  // manual switch-back guidance (revealed by returnToWordPress' fallback) is right there.
+  clearInterval(_nsTimer);_nsTimer=null;
+  if(count)count.textContent='';
+  returnToWordPress();
+}
+function hideNextStep(){
+  clearInterval(_nsTimer);_nsTimer=null;
+  const box=$('#nextStep');if(box)box.hidden=true;
+}
+// Attempt to close this tab; if the browser refuses (opener-less OS-opened tab), reveal switch-back
+// guidance instead of navigating anywhere.
+function returnToWordPress(){
+  clearInterval(_nsTimer);_nsTimer=null;
+  const count=$('#nextStepCount');if(count)count.textContent='';
+  try{window.close();}catch(e){}
+  setTimeout(()=>{ if(!window.closed){ const fb=$('#nextStepFallback');if(fb)fb.hidden=false; } },250);
+}
+// "Stay here" cancels the auto-return but leaves the button so they can close when ready.
+$('#nextStepStay')&&($('#nextStepStay').onclick=()=>{clearInterval(_nsTimer);_nsTimer=null;const c=$('#nextStepCount');if(c)c.textContent='';toast('Auto-return canceled');});
+// The button attempts the close (a user gesture is the most likely to be allowed).
+$('#nextStepGo')&&($('#nextStepGo').addEventListener('click',returnToWordPress));
 function esc(s){return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
 // Clear the live-progress list: stop polling, drop the selected run, reset the chip + timeline. Stops
 // auto-following so the cleared state sticks (a fresh conversion re-enables follow, below).
 function clearProgress(){
   if(state.polling){clearInterval(state.polling);state.polling=null;}
-  state.slug=null;state.follow=false;state.cleared=true;state.progress=null;
+  state.slug=null;state.follow=false;state.cleared=true;state.progress=null;state._prevStatus=null;hideNextStep();
   try{localStorage.setItem('upw_pcleared','1');}catch(e){} // persist so Clear survives a page refresh
   const tl=$('#timeline');if(tl)tl.innerHTML='<div class="tl-empty">Cleared. Pick a past run, or run a conversion in WordPress.</div>';
   const chip=$('#liveState');if(chip)chip.className='livechip idle';

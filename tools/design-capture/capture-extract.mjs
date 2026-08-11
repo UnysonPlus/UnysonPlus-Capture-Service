@@ -1566,8 +1566,23 @@ export function extractDesign() {
     // instead of emitting a content media_video block. (The class check catches Tailwind object-cover /
     // inset-0 even when computed objectFit is unavailable.)
     const vcs = getComputedStyle(el);
-    const bgVideo = (vcs.position === 'absolute' || vcs.position === 'fixed')
-      && (vcs.objectFit === 'cover' || /\b(object-cover|inset-0)\b/.test(el.getAttribute('class') || ''));
+    const vcls = (el.getAttribute('class') || '');
+    // Does the video FILL its box (cover)? computed object-fit, object-cover class, or a w-full+h-full pair.
+    const covers = vcs.objectFit === 'cover' || /\bobject-cover\b/.test(vcls)
+      || (/\bw-full\b/.test(vcls) && /\bh-full\b/.test(vcls));
+    // Positioned as a background layer — either the video ITSELF is absolute/fixed, or (the common pattern)
+    // a cover-fill video INSIDE an `absolute/fixed inset-0` wrapper. Walk up to 4 ancestors reading computed
+    // position + class, so `<div class="absolute inset-0"><video class="w-full h-full object-cover">` is
+    // caught, not just `<video class="absolute inset-0 object-cover">`. Mirrors the PHP video recognizer.
+    const selfAbs = vcs.position === 'absolute' || vcs.position === 'fixed';
+    let ancAbs = false;
+    for (let a = el.parentElement, d = 0; a && d < 4; a = a.parentElement, d++) {
+      const acs = getComputedStyle(a), acls = ` ${a.getAttribute('class') || ''} `;
+      const abs = acs.position === 'absolute' || acs.position === 'fixed'
+        || / absolute /.test(acls) || / fixed /.test(acls);
+      if (abs && (/inset-0/.test(acls) || acs.position === 'absolute' || acs.position === 'fixed')) { ancAbs = true; break; }
+    }
+    const bgVideo = covers && (selfAbs || ancAbs);
     return {
       t: 'video', mode: 'self_hosted', src: abs(src), webm: abs(webm), poster: abs(el.getAttribute('poster') || ''),
       bg: bgVideo,
@@ -2106,6 +2121,7 @@ export function extractDesign() {
         // padding (px-10 py-4 → the shortcode's .btn default 10px/24px) and its inline arrow icon.
         if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
           pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+          hover: hoverStyle(child), // NEVER-DROP hover: resolved hover:* colours → to-pages scoped :hover
           bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
       } else if (isOverline(child, el)) {
         const ocs = getComputedStyle(child);
@@ -2119,7 +2135,10 @@ export function extractDesign() {
           const c2 = child.cloneNode(true); c2.querySelectorAll('svg').forEach((s) => s.remove());
           ovHtml = escHtml((c2.textContent || '').replace(/\s+/g, ' ').trim());
         }
-        out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, textTransform: ocs.textTransform, iconSvg: ovIcon, iconPos: ovIconPos });
+        // fontSize + letterSpacing: the overline has NO native size/letter-spacing option, so carry the
+        // computed values (never-drop → scoped .heading-overline CSS in to-pages). Without these the
+        // eyebrow lost its size/tracking and rendered in the theme default. Parity with PHP overline_typography_css.
+        out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, textTransform: ocs.textTransform, fontSize: ocs.fontSize, letterSpacing: ocs.letterSpacing, iconSvg: ovIcon, iconPos: ovIconPos });
       } else if ((_rat = ratingClusterOf(child))) {
         // A star-rating / social-proof cluster (avatars + stars + "4.9/5 from 500+ …") → a `rating`
         // block (→ star-rating shortcode + an avatar group), NOT a verbatim code_block.
@@ -2157,6 +2176,7 @@ export function extractDesign() {
           out.push({ t: 'button', label, href: abs(bel.getAttribute('href') || ''), tag: bel.tagName.toLowerCase(),
             cls: (bel.className || '').toString(), align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
             pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+            hover: hoverStyle(bel), // NEVER-DROP hover: resolved hover:* colours → to-pages scoped :hover
             groupRow, groupFirst: ki === 0, groupLast: ki === kids.length - 1,
             bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
         });

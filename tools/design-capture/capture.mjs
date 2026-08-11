@@ -979,7 +979,10 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         writeFileSync(`${outdir}/mega-menus.json`, JSON.stringify({ menus: home.megaMenus }, null, 2));
       }
       const bundleFiles = [
-        { name: 'bundle.json', data: JSON.stringify({ name: config.theme.name, source: srcUrl, generated: 'design-capture', pages: builderPages.length }, null, 2) },
+        // `converter:'deterministic'` + the bundled rendered.html let WP RE-RUN the (better, maintained)
+        // PHP build_from_html on the captured DOM instead of importing this JS pages.json — closing the
+        // JS↔PHP divergence so a deterministic conversion never loses elements the PHP engine would keep.
+        { name: 'bundle.json', data: JSON.stringify({ name: config.theme.name, source: srcUrl, generated: 'design-capture', converter: 'deterministic', pages: builderPages.length }, null, 2) },
         { name: 'media.json', data: JSON.stringify(media, null, 2) },
         { name: 'theme-design.json', data: JSON.stringify(config, null, 2) },
         { name: 'theme-settings.json', data: JSON.stringify(themeSettings, null, 2) },
@@ -992,6 +995,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         { name: 'style-coverage.csv', data: styleReport.csv },
         { name: 'style-coverage.html', data: styleReport.html },
       ];
+      // The captured DOM with computed styles (data-sc-cs) — so WP can re-run the PHP build_from_html
+      // deterministic converter on it (see bundle.json converter:'deterministic' above).
+      if (home.renderedHtml) { bundleFiles.push({ name: 'rendered.html', data: home.renderedHtml }); }
       if (screenshotBuf) { bundleFiles.push({ name: 'screenshot.png', data: screenshotBuf }); }
       if (Array.isArray(home.megaMenus) && home.megaMenus.length) { bundleFiles.push({ name: 'mega-menus.json', data: JSON.stringify({ menus: home.megaMenus }, null, 2) }); }
       const bundleZip = makeZip(bundleFiles);

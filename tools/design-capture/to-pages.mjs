@@ -757,6 +757,17 @@ export function toPages(capture, opts = {}) {
     if (/^rgb/i.test(_clean(ss.color))) sd.push('color:' + rgbToCss(ss.color));
     measureDecls(b.subtitleCls, sd); // subtitle's own max-w-* mx-auto (never-drop) — the max-w-2xl case
     if (sd.length) { rules.push('selector .heading-subtitle{' + sd.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    // NEVER-DROP overline typography: the overline has native casing/colour/align + weight, but NO native
+    // font-size or letter-spacing option. A source eyebrow like `text-[11px] tracking-[0.3em] uppercase`
+    // lost its 11px size + 0.3em tracking (mangle-prone classes dropped), rendering in the theme default —
+    // the "overline looks different" bug. Carry the computed size + tracking as scoped .heading-overline CSS.
+    // Parity with PHP overline_typography_css.
+    if (b.overline && String(b.overline).trim() !== '') {
+      const od = [];
+      const ofs = _clean(b.overlineFontSize); if (ofs) od.push('font-size:' + ofs);
+      const ols = _clean(b.overlineLetterSpacing); if (ols && ols !== 'normal') od.push('letter-spacing:' + ols);
+      if (od.length) { rules.push('selector .heading-overline{' + od.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    }
     // NO subtitle: reset the theme's default hN bottom margin (never reset by the shortcode) so it doesn't
     // leak as the block's below-gap and dominate the source-derived outer Margin & Padding (e.g. a 48px h1
     // default over a 24px source). The outer `spacing` option then IS the faithful gap. Parity with PHP n_heading.
@@ -889,7 +900,19 @@ export function toPages(capture, opts = {}) {
       }
     }
     decl.push('width:auto !important', 'display:inline-flex !important', 'align-items:center', 'gap:.5rem');
-    const custom_css = 'selector{' + decl.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}';
+    let custom_css = 'selector{' + decl.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}';
+    // NEVER-DROP button hover: the source's RESOLVED hover colours (hoverStyle() probes the `hover:*`
+    // utilities, so `hover:bg-primary/90` becomes a concrete LIGHTER rgba). Without emitting them the
+    // button falls back to the shortcode's darken-on-hover default — the "hover is the opposite/darker"
+    // bug. Scoped :hover with !important wins over `:where(.btn-primary):hover`. Parity with PHP n_button.
+    const _hov = b.hover || (b.bs && b.bs.hover) || null;
+    if (_hov) {
+      const hd = [];
+      if (okc(_hov.backgroundColor)) hd.push('background:' + _hov.backgroundColor + ' !important');
+      if (okc(_hov.color)) hd.push('color:' + _hov.color + ' !important');
+      if (okc(_hov.borderColor)) hd.push('border-color:' + _hov.borderColor + ' !important');
+      if (hd.length) custom_css += 'selector:hover{' + hd.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}';
+    }
     // A STANDALONE button carries its own horizontal alignment (a centred CTA button under a `text-center`
     // block reads `text-align:center`). Grouped buttons (a hero flex-row) are positioned by their row
     // column instead (content_direction/content_h), so leave those at default to avoid wrapping each in a
@@ -1155,6 +1178,8 @@ export function toPages(capture, opts = {}) {
         h.overlineText = prev.text || '';                 // plain text, for the all-caps heuristic
         if (prev.iconSvg) { h.overlineIcon = prev.iconSvg; h.overlineIconPos = prev.iconPos || 'before'; }
         h.overlineCls = prev.cls || '';                   // overline's own classes → native overline_class
+        h.overlineFontSize = prev.fontSize || '';         // NEVER-DROP: no native overline size option → scoped CSS
+        h.overlineLetterSpacing = (prev.letterSpacing && prev.letterSpacing !== 'normal') ? prev.letterSpacing : '';
         out.pop();
       }
       const next = blocks[i + 1];
@@ -1586,6 +1611,14 @@ export function toPages(capture, opts = {}) {
     // Extra section CSS the block loop generates (e.g. a wc_products card skin/hover/ribbon translated
     // from the source cards). Folded into the section's custom_css AFTER the loop so it isn't lost.
     let extraCss = '';
+    // NEVER-DROP hero alignment: a FULL-VIEWPORT-HEIGHT hero whose content is LEFT-aligned (not centered)
+    // should sit LEFT-FLUSH like the source — not in the theme's auto-centered max-width column, which
+    // parks the content mid-viewport (the "hero content is centered, not left" bug). Pin the container to
+    // the left edge. Scoped to THIS section only (selector), so normal centered bands are unaffected.
+    // Parity with PHP Mapper::hero_left_flush_css().
+    if (!centered && /(?:^|\s)(?:min-)?h-(?:screen|\[100s?vh\])(?:\s|$)/.test(' ' + String(sec.sectionClass || '') + ' ')) {
+      extraCss += 'selector .fw-container{margin-left:0 !important;margin-right:auto !important;}';
+    }
     const items = []; let buf = []; let btnRow = [];
     const flush = () => {
       if (buf.length) {
