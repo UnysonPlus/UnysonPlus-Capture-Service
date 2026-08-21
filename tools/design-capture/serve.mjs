@@ -23,13 +23,14 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask } from './to-ai.mjs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls } from './verify.mjs';
 import { refineVisual } from './refine-visual.mjs';
 import { refineChrome } from './refine-chrome.mjs';
+import { generatePenShortcode } from './pen-shortcode.mjs';
 
 // Run log — the Dev Kit launcher sets UPWK_LOG to one file per launch (kept: 5 newest). Mirror every
 // console line into it so a whole run (capture service + conversions + AI + errors) lands in ONE file
@@ -251,6 +252,37 @@ const readBuffer = (req, cap = 32 * 1024 * 1024) => new Promise((resolve, reject
   req.on('error', reject);
 });
 
+// ── Pen → template helpers ─────────────────────────────────────────────────────────────────────
+// A "pen" is pasted HTML/CSS/JS (a CodePen-style snippet). We ALWAYS convert it into native page-builder
+// shortcodes LOCALLY (render + toPages, no WordPress) and hand back a Template Library export envelope the
+// user downloads and imports via the builder's Templates → My templates → Import. Native conversion is
+// what turns the pen's text into editable text options and its images into swappable image options; any
+// markup the recognizers don't map is preserved verbatim in a code_block so nothing is lost.
+const penSlug = (title) => 'pen-' + (String(title || 'pen').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'pen');
+// Sanitize pasted markup: users often copy a WHOLE HTML document. Injecting its <html>/<head>/<body> into
+// our own document nests those tags (corrupting the render) and leaks <head> noise (<title>, <meta>,
+// stylesheet <link>s) into the page. Keep only the <body>'s inner markup and drop document-level tags.
+const stripPenHtml = (html) => {
+  let s = String(html || '');
+  const bodyM = s.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
+  if (bodyM) s = bodyM[1];                                             // full doc → body inner only
+  s = s.replace(/<!doctype[^>]*>/gi, '')
+    .replace(/<head\b[^>]*>[\s\S]*?<\/head>/gi, '')                    // any surviving <head>…</head>
+    .replace(/<\/?(html|body|head)\b[^>]*>/gi, '')                     // stray html/body/head tags
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, '')
+    .replace(/<(meta|base)\b[^>]*>/gi, '');
+  return s.trim();
+};
+const assemblePen = (title, html, css, externals) => {
+  const links = (externals || []).filter((u) => /\.css($|\?)/i.test(u)).map((u) => `<link rel="stylesheet" href="${String(u).replace(/"/g, '&quot;')}">`).join('');
+  // The section extractor keys off <section> elements under <main>. Pens are usually a single <div>
+  // component with NO <section>, so the converter would see zero sections and report "no recognizable
+  // content". Wrap the markup in a <main><section> band (unless the pen already ships its own sections)
+  // so a plain-div component is treated as one convertible section.
+  const inner = /<section\b/i.test(String(html)) ? String(html) : `<section class="upw-pen-root">${html}</section>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${String(title).replace(/[<>]/g, '')}</title>${links}${String(css).trim() ? `<style>${css}</style>` : ''}</head><body><main>${inner}</main></body>`;
+};
+
 /**
  * Minimal ZIP reader (STORED + DEFLATE) — enough to pull an exported HTML out of a Stitch / design-tool
  * .zip without a dependency. Walks the End-Of-Central-Directory → central directory → each local entry.
@@ -287,7 +319,7 @@ function unzip(buf) {
 if (maybeAutoUpdate()) {
   // Updated and re-exec'd into a fresh process — leave this one idle until the child exits.
 } else {
-createServer((req, res) => {
+const __server = createServer((req, res) => {
   setCors(res);
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
@@ -309,6 +341,32 @@ createServer((req, res) => {
       .then((body) => refineMapping({ html: body.html, mapping: body.mapping, source: body.source }))
       .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000) }); console.log('[ai-convert] refined via', out.model); json(res, 200, { ok: true, mapping: out.mapping, theme: out.theme, custom_css: out.custom_css, model: out.model }); })
       .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-convert]', e.message); json(res, 500, { error: e.message }); });
+    return;
+  }
+
+  // POST /ai-micro — ALWAYS-ON local micro pass (token-free): give the sections semantic css_id slugs on
+  // the LOCAL model, applied NON-DESTRUCTIVELY to the review mapping so the wp-admin build uses them. This
+  // runs automatically (not gated by "Use AI") and NEVER fails the conversion — returns the mapping
+  // unchanged when no local model is set up or on any error. It's the "tiny bit on every step" the small
+  // local model is good at, and it does NOT touch the high-stakes structural mapping (that stays Claude/
+  // deterministic).
+  if (u.pathname === '/ai-micro') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    const _aiStart = Date.now();
+    let _mapping = null;
+    readJson(req)
+      .then(async (body) => {
+        _mapping = body && body.mapping;
+        if (!_mapping || !Array.isArray(_mapping.pages)) { json(res, 400, { error: 'No mapping.' }); return; }
+        await localAiStatus().catch(() => {}); // warm the ollama up-probe so microBackend() is accurate
+        if (microBackend() !== 'ollama' || !selectedLocalModel()) { json(res, 200, { ok: true, mapping: _mapping, changes: null, skipped: 'no-local-model' }); return; }
+        markAi({ status: 'thinking', backend: 'ollama', model: selectedLocalModel(), note: 'naming sections', startedAt: _aiStart });
+        const changes = await localSectionMicroTask(_mapping); // mutates _mapping in place
+        markAi({ status: 'done', backend: 'ollama', model: selectedLocalModel(), startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: changes ? `named ${changes.renamed} section(s)` : 'no change' });
+        console.log('[ai-micro] local section-naming →', changes ? `${changes.renamed} renamed, ${changes.decorative} decorative` : 'no local model');
+        json(res, 200, { ok: true, mapping: _mapping, changes });
+      })
+      .catch((e) => { markAi({ status: 'error', backend: 'ollama', model: selectedLocalModel(), startedAt: _aiStart, error: e.message }); console.error('[ai-micro]', e.message); json(res, 200, { ok: true, mapping: _mapping, error: e.message }); });
     return;
   }
 
@@ -483,6 +541,35 @@ createServer((req, res) => {
     return;
   }
 
+  // POST /pen-shortcode — turn a pasted pen (HTML/CSS/JS) into an INSTALLABLE shortcode package (.zip),
+  // ENTIRELY LOCALLY. The shortcode renders the pen VERBATIM (CSS/JS effects preserved) with its text +
+  // images as editable options. Returns { ok, filename, zip_base64, texts, images }; the dashboard turns
+  // the base64 into a download the user uploads at wp-admin → Site Converter → Add a shortcode.
+  if (u.pathname === '/pen-shortcode') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    readBuffer(req, 8 * 1024 * 1024).then(async (buf) => {
+      let b; try { b = JSON.parse(buf.toString('utf8') || '{}'); } catch { json(res, 400, { error: 'Bad request body.' }); return; }
+      const title = String(b.title || 'Pen').trim() || 'Pen';
+      const html = stripPenHtml(b.html), css = String(b.css || ''), js = String(b.js || '');
+      const externals = Array.isArray(b.externals) ? b.externals.map((x) => String(x).trim()).filter(Boolean) : [];
+      if (html.trim() === '') { json(res, 400, { error: 'Paste the pen HTML first.' }); return; }
+      markActive('pen: ' + title, 'running');
+      try {
+        const out = await generatePenShortcode({ title, html, css, js, externals });
+        markActive('pen: ' + title, 'done');
+        json(res, 200, {
+          ok: true,
+          filename: out.filename,
+          slug: out.slug,
+          texts: out.texts,
+          images: out.images,
+          zip_base64: out.zip.toString('base64'),
+        });
+      } catch (e) { markActive('pen', 'error'); json(res, 500, { error: e.message }); }
+    }).catch((e) => { try { json(res, 500, { error: e.message }); } catch { /* */ } });
+    return;
+  }
+
   // POST /capture-file — render an UPLOADED design export (a Stitch .zip or raw HTML) through the SAME
   // engine as /capture, so a file upload gets the full URL-path quality. Body = the raw file bytes; we
   // detect .zip (PK signature) vs HTML, lay the files out in a temp dir (so any relative assets resolve),
@@ -612,7 +699,30 @@ createServer((req, res) => {
   }
 
   json(res, 404, { error: 'not found' });
-}).listen(PORT, () => {
+});
+// If an OLDER capture-service instance is still holding the port (the classic "I re-ran
+// start-converter.bat but the old window was still open, so the new process crashed on EADDRINUSE and the
+// STALE routes kept serving" trap — which reads to the user as a feature that's "not found"), evict it and
+// take over, so a restart ACTUALLY loads the new code.
+let __evictTries = 0;
+__server.on('error', (e) => {
+  if (e && e.code === 'EADDRINUSE' && __evictTries < 1) {
+    __evictTries++;
+    console.log(`  ⚠ Port ${PORT} held by an older capture-service instance — evicting it so this (newer) one can take over…`);
+    try {
+      if (process.platform === 'win32') {
+        spawnSync('cmd', ['/c', `for /f "tokens=5" %a in ('netstat -ano ^| findstr :${PORT} ^| findstr LISTENING') do taskkill /F /PID %a`], { stdio: 'ignore' });
+      } else {
+        spawnSync('sh', ['-c', `lsof -ti tcp:${PORT} | xargs kill 2>/dev/null`], { stdio: 'ignore' });
+      }
+    } catch { /* best-effort */ }
+    setTimeout(() => { try { __server.listen(PORT); } catch { /* */ } }, 700);
+  } else {
+    console.error('  capture-service server error:', (e && e.message) || e);
+    process.exit(1);
+  }
+});
+__server.listen(PORT, () => {
   ensureDashboard(); // starting the capture service is "using the converter" → open the live dashboard (localhost:4600)
   console.log(`UnysonPlus capture service v${VERSION} → http://localhost:${PORT}`);
   console.log('  GET  /health');

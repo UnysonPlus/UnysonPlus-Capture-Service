@@ -736,8 +736,12 @@ export function toPages(capture, opts = {}) {
     // A heading whose size didn't match a display preset (e.g. a 36px section heading) → reproduce its
     // exact font-size here rather than promoting it to the nearest (too-large) display preset.
     if (exactHeadingSize) td.push('font-size:' + exactHeadingSize);
+    // Re-assert the SOURCE font-weight (any 100–900) so it beats the shortcode's
+    // `hN.heading-title{font-weight:var(--hN-font-weight, revert)}` = the UA BOLD default — a source
+    // heading at 400 (regular) otherwise renders bold. Scoped `.uHASH .heading-title` (0,2,0) wins.
+    // Parity with PHP heading_weight_css() re-asserting from the computed style.
     const hw = parseInt(b.fontWeight, 10) || 0;
-    if (hw >= 800 && n.atts.display_size) td.push('font-weight:' + hw);
+    if (hw >= 100 && hw <= 900) td.push('font-weight:' + hw);
     // line-height needs custom_css when the display preset out-specificities the class OR the source used
     // an arbitrary `leading-[…]` (dropped as mangle-prone above, so its effect must come from here).
     const lh = _clean(b.lineHeight); if (lh && lh !== 'normal' && (n.atts.display_size || clsHasArbLeading)) td.push('line-height:' + lh);
@@ -771,7 +775,19 @@ export function toPages(capture, opts = {}) {
     // NO subtitle: reset the theme's default hN bottom margin (never reset by the shortcode) so it doesn't
     // leak as the block's below-gap and dominate the source-derived outer Margin & Padding (e.g. a 48px h1
     // default over a 24px source). The outer `spacing` option then IS the faithful gap. Parity with PHP n_heading.
-    if (!(b.subtitle && String(b.subtitle).trim() !== '')) { rules.push('selector .heading-title{margin-bottom:0 !important;}'); }
+    // WITH a subtitle, the title→subtitle gap is the title's own `mb-*` (e.g. mb-8 = 32px). The coarse
+    // element_spacing select below rounds it to a theme default (much larger than the source), so carry the
+    // EXACT px here as scoped .heading-title CSS — never-drop, reproduced faithfully. Parity with PHP n_heading.
+    if (!(b.subtitle && String(b.subtitle).trim() !== '')) {
+      rules.push('selector .heading-title{margin-bottom:0 !important;}');
+    } else {
+      // Prefer the title's COMPUTED bottom margin (survives class stripping — `mb-8` is removed from the
+      // class), falling back to an `mb-*` still on the class. Parity with PHP cs_margin_bottom_px.
+      const _mbc = _clean(b.marginBottom);
+      let _tmbPx = /^([0-9.]+)px$/.test(_mbc) ? Math.round(parseFloat(_mbc)) : 0;
+      if (!_tmbPx) { const _tmb = String(b.cls || '').match(/\bmb-(\d+(?:\.\d+)?)\b/); _tmbPx = _tmb ? Math.round(parseFloat(_tmb[1]) * 4) : 0; }
+      if (_tmbPx > 0) { rules.push('selector .heading-title{margin-bottom:' + _tmbPx + 'px !important;}'); }
+    }
     n.atts.custom_css = rules.join('');
     // Translate the heading-group wrapper's Tailwind LAYOUT/SPACING classes into NATIVE special_heading
     // options — otherwise they sit DEAD on css_class (no Tailwind runtime in the builder) and the heading
@@ -871,7 +887,8 @@ export function toPages(capture, opts = {}) {
     // (e.g. `.px-8` → var(--spacer-8) = 72px, not Tailwind's 32px) and, being equal-specificity but later
     // in the cascade, beat even the custom_css `!important` below. The button's REAL padding is reproduced
     // from its computed value in custom_css, so dropping the class loses nothing and kills the collision.
-    const cls = [stripSpacingUtils(b.cls), 'sc-btn-' + kind].filter(Boolean).join(' ').trim();
+    const _clsBase = stripSpacingUtils(b.cls);
+    const cls = [_clsBase, 'sc-btn-' + kind].filter(Boolean).join(' ').trim();
     // Icon: an INLINE SVG (a lucide arrow etc.) → the button's svg icon, verbatim; else a font-icon class.
     const icon = (b.iconSvg && String(b.iconSvg).trim())
       ? { type: 'svg', source: 'inline', 'svg-source': 'inline', markup: String(b.iconSvg).trim() }
@@ -905,8 +922,15 @@ export function toPages(capture, opts = {}) {
     // utilities, so `hover:bg-primary/90` becomes a concrete LIGHTER rgba). Without emitting them the
     // button falls back to the shortcode's darken-on-hover default — the "hover is the opposite/darker"
     // bug. Scoped :hover with !important wins over `:where(.btn-primary):hover`. Parity with PHP n_button.
+    // Attach the matching button_colors / button_sizes preset slug (the header CTA does the same).
+    const preset = _buttonPresetFor(b);
+    // When a colour PRESET matched, its `.btn-{slug}:hover` already carries the source-exact hover fill, so
+    // DON'T also emit this node's per-colour `selector:hover !important` — a redundant override that outranks
+    // the preset (and, in the PHP path, is where an undefined `var(--secondary)` slipped through). Keep the
+    // per-node hover only when no colour preset owns it. Parity with PHP hover_verbatim_css($has_color_preset).
+    const _hasColorPreset = !!preset.style && preset.style !== 'btn-link';
     const _hov = b.hover || (b.bs && b.bs.hover) || null;
-    if (_hov) {
+    if (_hov && !_hasColorPreset) {
       const hd = [];
       if (okc(_hov.backgroundColor)) hd.push('background:' + _hov.backgroundColor + ' !important');
       if (okc(_hov.color)) hd.push('color:' + _hov.color + ' !important');
@@ -918,13 +942,13 @@ export function toPages(capture, opts = {}) {
     // column instead (content_direction/content_h), so leave those at default to avoid wrapping each in a
     // centring div that would break the side-by-side layout.
     const btnAlign = (!b.groupRow && /^(center|right)$/.test(String(b.align || ''))) ? b.align : '';
-    // Attach the matching button_colors / button_sizes preset slug (the header CTA does the same);
-    // the custom_css above stays the exact per-node safety net. Parity with PHP Mapper::n_button().
-    const preset = _buttonPresetFor(b);
+    // A text-link CTA (kind 'link') that matched no colour preset → the NATIVE `btn-link` style (its exact
+    // colour is already in the per-node custom_css above), so no `sc-btn-link` marker is carried. Parity with PHP.
+    const _btnStyle = preset.style || (kind === 'link' ? 'btn-link' : '');
     const node = { type: 'simple', shortcode: 'button', _items: [], atts: {
       label: b.label, link: localize(b.href), target: 'no',
-      style: preset.style, size: preset.size, icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
-      alignment: btnAlign, state: '', hover_animation: '', css_class: cls, custom_css, unique_id: uid(),
+      style: _btnStyle, size: preset.size, icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
+      alignment: btnAlign, state: '', hover_animation: '', css_class: (_btnStyle ? _clsBase : cls), custom_css, unique_id: uid(),
     } };
     // HI-FI Pass-2 faithful base — the color/size preset + the sc-btn class + the per-node safety-net CSS
     // already reproduce the fill / text / border / radius / typography (`already`); the base only fills
@@ -984,18 +1008,32 @@ export function toPages(capture, opts = {}) {
     const decl = [];
     if (b.blob) { decl.push('position:relative'); decl.push('z-index:1'); }
     if (b.radius) decl.push(`border-radius:${b.radius}`);
-    if (b.objectFit) decl.push(`object-fit:${b.objectFit}`);
+    // ASPECT-RATIO + FILL — a source aspect-video/aspect-[w/h] frame with object-cover crops the photo to a
+    // fixed box; force the <img> to fill + cover so the native media_image reproduces the crop (parity with
+    // PHP img_composite_skin_css). object-fit falls back to cover when a fixed-ratio box is present.
+    let fit = b.objectFit || '';
+    const wrap = ['position:relative'];
+    if (b.aspect) { wrap.push(`aspect-ratio:${b.aspect}`, 'overflow:hidden'); decl.push('width:100%', 'height:100%'); if (!fit || fit === 'fill') fit = 'cover'; }
+    if (fit && fit !== 'fill') decl.push(`object-fit:${fit}`);
     if (b.borderWidth && b.borderColor) decl.push(`border:${b.borderWidth} solid ${b.borderColor}`);
     if (b.shadow) decl.push(`box-shadow:${b.shadow}`);
     let custom_css = decl.length ? `selector img{${decl.join(';')};}` : '';
-    // A decorative BLOB backdrop behind the photo → a scoped `selector::before` (no extra element /
-    // code_block), mirroring the PHP img_composite_skin_css. `selector` needs position:relative.
-    if (b.blob) {
-      const bd = ['content:""', 'position:absolute', 'inset:0', 'z-index:0', 'pointer-events:none'];
-      if (b.blob.bg && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(b.blob.bg)) bd.push(`background:${b.blob.bg}`);
-      if (b.blob.radius) bd.push(`border-radius:${b.blob.radius}`);
-      if (b.blob.scale) bd.push(`transform:scale(${b.blob.scale})`);
-      custom_css = `selector{position:relative;}` + custom_css + `selector::before{${bd.join(';')};}`;
+    // An overlay layer → a scoped `selector::before` (no extra element / code_block), mirroring the PHP
+    // img_composite_skin_css. A full-bleed `inset-0` SCRIM paints ON TOP (z-index above the img) and clears
+    // on hover when `hover:bg-transparent`; an offset/rounded BLOB stays BEHIND (z-index:0). `selector` needs
+    // position:relative — provided by the wrapper rule below.
+    if (b.blob || b.aspect) {
+      let before = '';
+      if (b.blob) {
+        const scrim = !!b.blob.scrim;
+        const bd = ['content:""', 'position:absolute', 'inset:0', 'pointer-events:none', `z-index:${scrim ? 2 : 0}`];
+        if (b.blob.bg && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(b.blob.bg)) bd.push(`background:${b.blob.bg}`);
+        if (b.blob.radius && !scrim) bd.push(`border-radius:${b.blob.radius}`);
+        if (b.blob.scale) bd.push(`transform:scale(${b.blob.scale})`);
+        if (b.blob.hoverClear) bd.push(`transition:background ${b.blob.dur || '0.5s'} ease`);
+        before = `selector::before{${bd.join(';')};}` + (b.blob.hoverClear ? 'selector:hover::before{background:transparent;}' : '');
+      }
+      custom_css = `selector{${wrap.join(';')};}` + custom_css + before;
     }
     return { type: 'simple', shortcode: 'media_image', _items: [], atts: {
       image: { attachment_id: '', url: b.src || '', alt: b.alt || '' },
@@ -1762,6 +1800,9 @@ export function toPages(capture, opts = {}) {
               col.atts.content_gap = { base: gapSlug((c.flex && c.flex.gap) || '') || '3', md: '', lg: '' };
             }
             col.atts.content_h = 'center';
+            // Size buttons to content so a flex-row + flex-wrap column doesn't wrap two full-width .btns to
+            // stacked (parity with PHP group_buttons). Kept when the column has no other custom_css.
+            if (!col.atts.custom_css) col.atts.custom_css = 'selector .btn{flex:0 0 auto !important;width:auto !important;}';
           }
           items.push(col);
         }

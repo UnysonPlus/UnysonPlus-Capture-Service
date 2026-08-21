@@ -492,6 +492,33 @@ const server = createServer((req, res) => {
     return;
   }
 
+  // POST /api/pen-convert — turn a pasted pen (HTML/CSS/JS) into an INSTALLABLE shortcode package (.zip),
+  // ENTIRELY LOCALLY. No WordPress destination / token: the capture service renders the pen, generates a
+  // shortcode folder (config/options/view/static + scoped css/js) and returns it base64-zipped for the
+  // browser to download. A thin pass-through to the capture service's /pen-shortcode.
+  if (path === '/api/pen-convert' && req.method === 'POST') {
+    let body = '';
+    req.on('data', (c) => { body += c; if (body.length > 8e6) { try { req.destroy(); } catch { /* */ } } });
+    req.on('error', () => { try { json(res, { error: 'Request stream error.' }, 400); } catch { /* */ } });
+    req.on('end', () => {
+      const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+      fetch(`http://localhost:${svcPort}/pen-shortcode`, {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(180000),
+      })
+        .then(async (r) => {
+          const j = await r.json().catch(() => ({ error: 'The converter returned an unreadable response.' }));
+          // A 404 "not found" means the RUNNING capture service predates the /pen-shortcode route — the
+          // dashboard HTML hot-reloads from disk but the Node process keeps its old routes until restarted.
+          if (r.status === 404 && j && /not found/i.test(String(j.error || ''))) {
+            return json(res, { error: 'The capture service is running an older version. Close and re-run start-converter.bat (restart the service), then try again — this feature needs the restarted process.' }, 409);
+          }
+          return json(res, j, r.status);
+        })
+        .catch((e) => json(res, { error: 'Could not reach the capture service (' + e.message + '). Is it running?' }, 502));
+    });
+    return;
+  }
+
   if (path === '/api/convert' && req.method === 'POST') {
     let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e5) req.destroy(); });
     req.on('end', () => {

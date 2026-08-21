@@ -171,7 +171,12 @@ export function extractDesign() {
     });
     if (!best) return [];
     return best.slice(0, 12).map((k) => {
-      const h = k.querySelector('h3,h4,h5,h6') || k.querySelector('strong,b');
+      // Title: a real heading first, then bold, then a class-named title element (`.card-title`,
+      // `.title`, `.name`, `[class*=heading]`) — many hand-built card pens use a <div>/<span> for the
+      // title, not an <hN>, and missing it left every card title empty (→ the whole grid fell back to a
+      // verbatim code_block instead of native card shortcodes). Mirror in PHP collect_cards.
+      const h = k.querySelector('h2,h3,h4,h5,h6') || k.querySelector('strong,b')
+        || k.querySelector('[class*="title" i],[class*="heading" i],[class*="name" i]');
       const p = k.querySelector('p');
       const title = clip(txt(h), 120);
       const body = p ? txt(p) : (h ? txt(k).replace(txt(h), '').trim() : txt(k));
@@ -343,7 +348,7 @@ export function extractDesign() {
       bar: pick(inner, ['display', 'justifyContent', 'backgroundColor', 'borderRadius', 'border', 'padding', 'maxWidth', 'backdropFilter']),
       logo: logoImg ? { type: 'image', src: abs(logoImg.currentSrc || logoImg.src) }
         : (logoLink ? { type: 'text', text: logoLink.textContent.trim(), icon: logoIcon(logoLink), computed: pick(getComputedStyle(logoLink), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) } : null),
-      nav: navLinks.map((a) => ({ label: a.textContent.trim(), href: abs(a.getAttribute('href') || ''), computed: pick(getComputedStyle(a), ['fontFamily', 'fontSize', 'fontWeight', 'color']) })),
+      nav: navLinks.map((a) => ({ label: a.textContent.trim(), href: abs(a.getAttribute('href') || ''), computed: pick(getComputedStyle(a), ['fontFamily', 'fontSize', 'fontWeight', 'color']), hover: hoverStyle(a) })),
       cta: cta ? { label: cta.textContent.trim(), href: abs(cta.getAttribute('href') || ''), computed: pick(getComputedStyle(cta), ['backgroundColor', 'color', 'borderRadius', 'padding', 'fontFamily', 'fontWeight']), hover: hoverStyle(cta) } : null,
     };
   }
@@ -934,9 +939,32 @@ export function extractDesign() {
     const o = {};
     const r = cs.borderRadius;
     if ( r && !/^(0px)( 0px)*$/.test(r.trim()) ) o.radius = r;
-    if ( cs.objectFit && cs.objectFit !== 'fill' ) o.objectFit = cs.objectFit;
+    let fit = ( cs.objectFit && cs.objectFit !== 'fill' ) ? cs.objectFit : '';
+    if ( !fit ) { // fall back to the object-cover / object-contain class when computed wasn't captured
+      const icls = String(el.className || '');
+      if ( /\bobject-cover\b/.test(icls) ) fit = 'cover';
+      else if ( /\bobject-contain\b/.test(icls) ) fit = 'contain';
+    }
+    if ( fit ) o.objectFit = fit;
     if ( cs.boxShadow && cs.boxShadow !== 'none' ) o.shadow = cs.boxShadow;
     if ( cs.maxWidth && cs.maxWidth !== 'none' ) o.maxWidth = cs.maxWidth;
+    // ASPECT-RATIO of the framing wrapper (a `aspect-video`/`aspect-[4/3]` box with object-cover crops the
+    // photo to a fixed box) — from a Tailwind class or a computed aspect-ratio on the <img> or a near
+    // ancestor. Parity with PHP img_wrapper_aspect(). Lets the media_image reproduce a fixed-ratio crop.
+    const aspectOf = (n) => {
+      if (!n || n.nodeType !== 1) return '';
+      const c = String(n.className || '');
+      if (/\baspect-video\b/.test(c)) return '16 / 9';
+      if (/\baspect-square\b/.test(c)) return '1 / 1';
+      const m = c.match(/aspect-\[([0-9.]+)\/([0-9.]+)\]/);
+      if (m) return `${m[1]} / ${m[2]}`;
+      const ar = getComputedStyle(n).aspectRatio;
+      if (ar && ar !== 'auto' && ar.replace(/\s/g, '') !== '0/0') return ar.trim();
+      return '';
+    };
+    let asp = aspectOf(el);
+    for (let p = el.parentElement, i = 0; !asp && p && i < 3; p = p.parentElement, i++) asp = aspectOf(p);
+    if ( asp ) o.aspect = asp;
     return o;
   };
   // A RATING / social-proof cluster — a star rating (+ optional overlapping avatar stack + a caption
@@ -1175,9 +1203,17 @@ export function extractDesign() {
     if (bw > 0 && !isTransparent(ics.borderTopColor)) { image.borderWidth = ics.borderTopWidth; image.borderColor = ics.borderTopColor; }
     let blob = null;
     if (ov.blobs.length) {
-      const bcs = getComputedStyle(ov.blobs[0]);
-      const sm = String(ov.blobs[0].className || '').match(/\bscale-(\d{1,3})\b/);
-      blob = { bg: bcs.backgroundColor, radius: bcs.borderRadius, scale: sm ? (parseInt(sm[1], 10) / 100) : 0 };
+      const bel = ov.blobs[0];
+      const bcs = getComputedStyle(bel);
+      const bcls = String(bel.className || '');
+      const sm = bcls.match(/\bscale-(\d{1,3})\b/);
+      // A FULL-BLEED tinted layer (`inset-0`) over the image is a SCRIM (paints ON TOP, z-index above the
+      // <img>), not a decorative backdrop BEHIND it; a `hover:bg-transparent` scrim clears on hover. Parity
+      // with PHP img_composite_skin_css.
+      const scrim = /\binset-0\b/.test(bcls) || bcs.inset === '0px' || (bcs.top === '0px' && bcs.left === '0px' && bcs.right === '0px' && bcs.bottom === '0px');
+      const hoverClear = scrim && /(?:^|\s)(?:group-)?hover:bg-transparent(?:\s|$)/.test(bcls);
+      blob = { bg: bcs.backgroundColor, radius: bcs.borderRadius, scale: sm ? (parseInt(sm[1], 10) / 100) : 0,
+        scrim, hoverClear, dur: (bcs.transitionDuration && bcs.transitionDuration !== '0s') ? bcs.transitionDuration : '' };
     }
     return { image, cards: ov.cards.map(floatingCardOf), blob };
   };
@@ -1400,6 +1436,18 @@ export function extractDesign() {
               if (flowHeading && hasBtn) {
                 const inner = []; decompose(c, inner);
                 if (inner.filter((x) => x.t !== 'html').length >= 2) { cell.blocks = inner; }
+              }
+              // IMAGE CARD (img + heading/text in normal flow — a service / blog / gallery card whose
+              // "icon" is a photo, not a glyph, so cardOf's icon requirement misses it). DECOMPOSE into
+              // native media_image + heading + text so the photo survives as a SWAPPABLE image input and
+              // the copy stays editable — instead of textBlockOf collapsing it to text and DROPPING the
+              // image. In a uniform grid this yields a row of editable image cards (the repeater the user
+              // expects). The absolute-overlay composite case is handled separately below (text-in-overlay,
+              // so flowHeading/flowPara are false there and this branch doesn't fire).
+              if (!cell.blocks && img && (flowHeading || flowPara)) {
+                const inner = []; decompose(c, inner);
+                const real = inner.filter((x) => x.t !== 'html');
+                if (real.length >= 2 && real.some((x) => x.t === 'image')) { cell.blocks = inner; }
               }
               if (!cell.blocks) {
                 const t = (flowHeading || flowPara) ? textBlockOf(c) : null;
@@ -2588,6 +2636,26 @@ export function extractDesign() {
       return true;
     });
     cols = cols.filter((c) => !cols.some((o) => o !== c && o.contains(c)));
+    // Parity with the PHP raw_chrome_split densest-column-row detection: a Tailwind grid/flex footer whose
+    // columns carry NO `col-*` class (e.g. `grid grid-cols-4` of bare <div>s) yields <2 cols above — the
+    // real columns (Quick Links / Contact) were missed and stayed baked into the footer HTML verbatim. Fall
+    // back to the densest grid/flex CONTAINER whose direct children are the columns, skipping link-list
+    // <ul>s (a menu inside one column) so a 4-link list can't masquerade as the column row.
+    if (cols.length < 2) {
+      let best = null, bestN = 1;
+      root.querySelectorAll('div,ul,section').forEach((el) => {
+        const kids = [...el.children];
+        if (kids.length < 2) return;
+        const listish = kids.filter((k) => /^(LI|A)$/.test(k.tagName)).length;
+        if (listish * 2 > kids.length) return; // a link list, not the column row
+        if (!/grid|flex/.test(String(el.className || '').toLowerCase())) return;
+        if (copyEl && (el === copyEl || el.contains(copyEl)) && kids.length <= 2) return; // the copyright bar
+        if (kids.length > bestN) { bestN = kids.length; best = el; }
+      });
+      if (best) {
+        cols = [...best.children].filter((c) => (txt(c).trim() || c.querySelector('img')) && !(copyEl && (c === copyEl || c.contains(copyEl))));
+      }
+    }
     if (!cols.length) return null;
     const colsHtml = cols.map((col) => {
       const w = col.querySelector('.widget') || col;
@@ -2655,7 +2723,27 @@ export function extractDesign() {
         if (!t || t.split(/\s+/).length > 4) continue;
         const cs = getComputedStyle(a);
         const hm = String(a.className || '').match(/hover:text-([a-z][a-z0-9-]*)/);
-        return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, hover: hm ? hm[1] : '' };
+        // List-item vertical spacing — the source's own rhythm (a `space-y-N`/`gap-N` utility or a real
+        // computed row-gap / sibling margin-top), so the footer list doesn't render cramped at the theme's
+        // 8px default. Walk up to the <ul>/list container. Parity with PHP footer_list_gap_px().
+        let gap = 0;
+        let n = a;
+        for (let i = 0; i < 6 && n && n.getAttribute; i++) {
+          const cls = ' ' + String(n.className || '').toLowerCase() + ' ';
+          const um = cls.match(/\s(?:space-y|gap-y|gap)-(\d+(?:\.\d+)?)\s/);
+          if (um) { gap = parseFloat(um[1]) * 4; break; }
+          const gcs = getComputedStyle(n);
+          const rg = parseFloat(gcs.rowGap || gcs.gap || '');
+          if (rg > 0) { gap = rg; break; }
+          const tag = (n.tagName || '').toLowerCase();
+          if (tag === 'ul' || tag === 'ol' || tag === 'nav') {
+            const lis = n.querySelectorAll(':scope > li');
+            if (lis.length >= 2) { const mt = parseFloat(getComputedStyle(lis[1]).marginTop || ''); if (mt > 0) gap = mt; }
+            break;
+          }
+          n = n.parentElement;
+        }
+        return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, lineHeight: cs.lineHeight, hover: hm ? hm[1] : '', gap: gap > 0 ? Math.round(gap) : 0 };
       }
       return null;
     })(),
@@ -2803,6 +2891,10 @@ export function extractDesign() {
         radius: s.borderRadius || '',
         px: s.paddingLeft || '', py: s.paddingTop || '',
         fs: s.fontSize || '', lh: s.lineHeight || '',
+        // Typography the native colour/size preset fields can't hold → reproduced in the preset Custom CSS
+        // (parity with the PHP stitch's appearance_css): font-family (a display face different from the body
+        // font), letter-spacing, uppercase, weight. Without ff the converted button silently inherits the body font.
+        ff: s.fontFamily || '', ls: s.letterSpacing || '', tt: s.textTransform || '', fw: s.fontWeight || '',
         hoverBg: (hoverStyle(el) || {}).backgroundColor || '',
       });
     });
@@ -2886,6 +2978,19 @@ export function extractDesign() {
       }
     }
     // (No inline svg → a library icon id is already captured on header.logo.icon.)
+    // LAYOUT — how the mark + wordmark sit, so the native logo_layout isn't hardcoded inline-left: icon-only
+    // (a mark with no wordmark), else inline/stacked by the brand's flex-direction and left/right by whether
+    // the icon precedes the wordmark in DOM order. Mirrors the header_logo logo_layout option choices.
+    (() => {
+      const iconEl = svg || brand.querySelector('img');
+      if (!d.text && iconEl) { d.layout = 'icon-only'; return; }
+      if (!iconEl || !d.text) { d.layout = 'inline-left'; return; }
+      const col = /column/.test(getComputedStyle(brand).flexDirection || '');
+      const txtNode = [...brand.querySelectorAll('span')].find((s) => d.text.indexOf((s.textContent || '').trim()) !== -1) || null;
+      let iconFirst = true;
+      if (txtNode) { iconFirst = !!(iconEl.compareDocumentPosition(txtNode) & 0x04 /* DOCUMENT_POSITION_FOLLOWING */); }
+      d.layout = (col ? 'stacked-' : 'inline-') + (iconFirst ? 'left' : 'right');
+    })();
     return d;
   })();
   if (header && header.logo) header.logo.detail = logoDetail;
@@ -3012,6 +3117,7 @@ export function extractDesign() {
       const fam = firstFam(cs.fontFamily); if (fam) rec.family = fam;
       const lh = lhRatio(cs.lineHeight, rec.size || 0); if (lh !== '') rec['line-height'] = lh;
       const ls = lsPx(cs.letterSpacing); if (ls !== '') rec['letter-spacing'] = ls;
+      const tt = String(cs.textTransform || '').toLowerCase(); if (['uppercase', 'lowercase', 'capitalize'].includes(tt)) rec['text-transform'] = tt;
       if (Object.keys(rec).length) out[lvl] = rec;
     }
 

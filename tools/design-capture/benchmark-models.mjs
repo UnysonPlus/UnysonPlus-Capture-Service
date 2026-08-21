@@ -239,7 +239,7 @@ function scoreHeader(j) {
   score += cScore;
 
   // Deductions — hallucinated element types not in the guide, or duplicated logo/menu.
-  const ALLOWED = new Set(['logo', 'menu_area', 'cta_button', 'icon_text', 'social_icons', 'search']);
+  const ALLOWED = new Set(['logo', 'menu_area', 'cta_button', 'icon_text', 'list_item', 'social_icons', 'search']);
   const bogus = els.filter((e) => e && !ALLOWED.has(e.type));
   if (bogus.length) { score -= 5 * bogus.length; notes.push(`-${5 * bogus.length} hallucinated type(s): ${bogus.map((e) => e.type).join(',')}`); }
   const logos = els.filter((e) => e && e.type === 'logo').length;

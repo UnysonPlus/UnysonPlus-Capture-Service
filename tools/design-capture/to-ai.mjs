@@ -395,8 +395,25 @@ export function aiBackend() {
   if (forced === 'api') return (process.env.ANTHROPIC_API_KEY || '').trim() ? 'api' : null;
   if (forced === 'claude-code' || forced === 'cli') return claudeCliAvailable() ? 'claude-code' : null;
   if (forced === 'ollama' || forced === 'local') return ollamaReady() ? 'ollama' : null;
-  // An EXPLICIT local-model pick in the dashboard wins over auto-detected Claude — otherwise the picker
-  // does nothing whenever Claude Code / an API key happens to be present. Select "Off" to use Claude.
+  // HEAVY tasks (full mapping / chrome / visual refine — the opt-in "Use AI" path) want the STRONGEST
+  // backend, so Claude comes FIRST. The small local model is only a last-resort fallback here: on a
+  // whole-page judgement it can degrade a correct deterministic call. The local model instead earns its
+  // keep on the always-on, low-stakes MICRO layer (see microBackend + the pipeline's section-naming pass),
+  // where a wrong guess is cheap and it SAVES Claude tokens. (Was ollama-first, which sidelined Claude.)
+  if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
+  if (claudeCliAvailable()) return 'claude-code';
+  if (ollamaReady()) return 'ollama';
+  return null;
+}
+
+/**
+ * MICRO tasks (section slugs, alt text, labels) prefer the LOCAL model — cheap, low-stakes, offline, and
+ * it saves Claude tokens; Claude is only the fallback when no local model is set up. An explicit
+ * AI_BACKEND override still wins (it applies to everything, heavy + micro alike).
+ */
+export function microBackend() {
+  const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
+  if (forced) return aiBackend();
   if (ollamaReady()) return 'ollama';
   if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
   if (claudeCliAvailable()) return 'claude-code';
@@ -546,6 +563,30 @@ async function refineViaOllamaLight({ mapping }) {
     console.log(`[ai-convert] local model renamed ${changes.renamed} sections, flagged ${changes.decorative} decorative`);
   }
   return { mapping, theme: { style_css: '', header_html: '', footer_html: '' }, custom_css: '', model, backend: 'ollama' };
+}
+
+/**
+ * ALWAYS-ON local micro layer (token-free): give sections semantic css_id slugs (+ flag pure-decoration
+ * bands) using the scoped light job — run automatically in the capture pipeline whenever a LOCAL model is
+ * set up. This is the "tiny bit on every step" the local model is good at: cheap, non-destructive (only
+ * valid slugs; only omits truly-empty decorative bands), and it never touches structure. Mutates `mapping`
+ * in place. Best-effort — returns null (and leaves the deterministic mapping unchanged) on any error, when
+ * the preferred micro backend isn't the local model, or when there's nothing to name.
+ *
+ * @param {object} mapping review mapping ({ pages:[{ sections:[…] }] }).
+ * @returns {Promise<null|{ model, renamed, decorative }>}
+ */
+export async function localSectionMicroTask(mapping) {
+  if (microBackend() !== 'ollama' || !selectedLocalModel()) return null;
+  if (!mapping || !Array.isArray(mapping.pages)) return null;
+  try {
+    const result = await refineSectionsLight({ sections: summarizeSections(mapping) });
+    const changes = applySectionsLight(mapping, result);
+    return { model: selectedLocalModel(), renamed: changes.renamed, decorative: changes.decorative };
+  } catch (e) {
+    console.error('[micro] local section-naming skipped:', e.message);
+    return null;
+  }
 }
 
 /* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *

@@ -41,10 +41,11 @@ if [ -n "$OLLAMA_BIN" ]; then
   ("$OLLAMA_BIN" serve >/dev/null 2>&1 &)
 fi
 
-# Free port 8787 (capture service) from any previous run, so THIS launch rebinds it. We do NOT kill 4600
-# (dashboard): ensure-open.mjs reuses a current dashboard SERVER (no needless restart) and only restarts
-# it when its code is stale — but it always opens a fresh browser tab on launch (below).
-for p in 8787; do
+# Free BOTH ports from any previous run so THIS launch rebinds them with the CURRENT code. We kill 8787
+# (capture service) AND 4600 (dashboard): the "reuse a current dashboard" optimization silently left a
+# STALE dashboard server serving old /api routes after a code update — which reads as a feature that's
+# "not found". A clean kill of both every launch is correct over cute.
+for p in 8787 4600; do
   pids=$(lsof -ti tcp:"$p" 2>/dev/null) || pids=""
   [ -n "$pids" ] && kill $pids 2>/dev/null || true
 done

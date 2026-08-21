@@ -41,10 +41,12 @@ if defined OLLAMA_EXE (
   start "" /min "%OLLAMA_EXE%" serve
 )
 
-REM Free port 8787 (capture service) from any PREVIOUS run, so THIS launch rebinds it. We do NOT kill
-REM 4600 (dashboard): ensure-open.mjs reuses a current dashboard SERVER (no needless restart) and only
-REM restarts it when its code is stale — but it always opens a fresh browser tab on launch (below).
+REM Free BOTH ports from any PREVIOUS run so THIS launch rebinds them with the CURRENT code. We kill 8787
+REM (capture service) AND 4600 (dashboard): the version-check "reuse a current dashboard" optimization
+REM silently left a STALE dashboard server serving old /api routes after a code update — which reads to
+REM the user as a feature that's "not found". A clean kill of both every launch is correct over cute.
 for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":8787 " ^| findstr LISTENING') do taskkill /F /PID %%P >nul 2>nul
+for /f "tokens=5" %%P in ('netstat -ano ^| findstr ":4600 " ^| findstr LISTENING') do taskkill /F /PID %%P >nul 2>nul
 
 REM Always pop the dashboard open when the converter is STARTED — a fresh tab every launch (even a
 REM duplicate) beats silently none when the previous tab was closed. Mid-conversion auto-opens stay quiet.

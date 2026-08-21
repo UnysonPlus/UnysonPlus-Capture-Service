@@ -41,19 +41,24 @@ const allEls = Object.keys(bar)
   .map((n) => n && n.element_type)
   .filter(Boolean);
 
-const iconTextEls = allEls.filter((et) => et.element === 'icon_text');
-ok(iconTextEls.length >= 2, `contact rows are native icon_text elements (found ${iconTextEls.length}, expected >= 2)`);
+// EVERY footer row (nav links + contact rows) is now the UNIFIED `list_item` element. No `link`,
+// `icon_text`, or `<ul>`/contact HTML blobs. 2 menu groups × 2 children = 4 nav + 3 contact = 7 list items.
+const listEls = allEls.filter((et) => et.element === 'list_item');
+ok(listEls.length >= 7, `rows are unified list_item elements (found ${listEls.length}, expected >= 7)`);
+ok(!allEls.some((et) => et.element === 'link' || et.element === 'icon_text'), 'NO legacy link / icon_text elements emitted');
+const anyBlob = allEls.some((et) => et.element === 'text' && et.text && /<ul\b|fw-footer-links|fw-footer-contact/.test(String(et.text.text_content || '')));
+ok(!anyBlob, 'NO <ul> / contact HTML blob inside a Text element');
 
-const anyContactBlob = allEls.some((et) => et.element === 'text' && et.text && /fw-footer-contact/.test(String(et.text.text_content || '')));
-ok(!anyContactBlob, 'NO fw-footer-contact HTML blob (the old drift) present');
-
-// icon_text payload shape: text + tinted inline-svg icon + tel/mailto link type.
-const phoneRow = iconTextEls.map((et) => et.icon_text).find((it) => it && /555/.test(String(it.icontext_text || '')));
-ok(phoneRow && phoneRow.icontext_link_type === 'phone', 'tel: row → icontext_link_type "phone"');
-const addrRow = iconTextEls.map((et) => et.icon_text).find((it) => it && /Meadow/.test(String(it.icontext_text || '')));
-ok(addrRow && addrRow.icontext_icon && addrRow.icontext_icon['svg-source'] === 'inline' && /21c45d/i.test(String(addrRow.icontext_icon.markup || '')), 'address row → inline-svg icon tinted with source colour');
-const mailRow = iconTextEls.map((et) => et.icon_text).find((it) => it && /maison\.com/.test(String(it.icontext_text || '')));
-ok(mailRow && mailRow.icontext_link_type === 'email', 'mailto: row → icontext_link_type "email"');
+// list_item payload shape: li_text + tinted inline-svg li_icon + tel/mailto/url li_link_type.
+const li = listEls.map((et) => et.list_item);
+const phoneRow = li.find((it) => it && /555/.test(String(it.li_text || '')));
+ok(phoneRow && phoneRow.li_link_type === 'phone', 'tel: row → li_link_type "phone"');
+const addrRow = li.find((it) => it && /Meadow/.test(String(it.li_text || '')));
+ok(addrRow && addrRow.li_icon && addrRow.li_icon['svg-source'] === 'inline' && /21c45d/i.test(String(addrRow.li_icon.markup || '')), 'address row → inline-svg icon tinted with source colour');
+const mailRow = li.find((it) => it && /maison\.com/.test(String(it.li_text || '')));
+ok(mailRow && mailRow.li_link_type === 'email', 'mailto: row → li_link_type "email"');
+const navRow = li.find((it) => it && /Home|About|Shop|Blog/.test(String(it.li_text || '')));
+ok(navRow && navRow.li_link_type === 'url', 'nav row → li_link_type "url"');
 
 console.log(fails ? `\nFAILED (${fails})` : '\nALL PASSED');
 process.exit(fails ? 1 : 0);

@@ -105,16 +105,42 @@ export function buildButtonPresets(home) {
     bw: (s.bw && s.bw !== '0px' && s.bw !== '0') ? s.bw : '',
     shadow: s.shadow || '', radius: (s.radius || '').trim(),
     px: s.px || '', py: s.py || '', fs: s.fs || '', lh: s.lh || '',
+    // Typography extras → the preset Custom CSS (parity with PHP appearance_css).
+    ff: (s.ff || '').trim(), ls: (s.ls || '').trim(), tt: (s.tt || '').trim(), fw: (s.fw || '').trim(),
     hoverBg: normc(s.hoverBg),
   }));
   if (!skins.length) return null;
+
+  // Normalize a font stack to its first family, lowercased, for compare (parity with PHP $ff_key).
+  const ffKey = (ff) => { ff = String(ff || '').trim().toLowerCase(); if (!ff) return ''; return ff.split(',')[0].trim().replace(/^["']|["']$/g, ''); };
+  const baseFf = ffKey((home && home.typography && home.typography.body && home.typography.body.family) || '');
+  // Typography → the preset's NATIVE `font` field (family/weight/letter-spacing), so Theme Settings shows the
+  // real font (not Arial) and the CSS emits ONE `.btn-{slug}` rule instead of a duplicate `{{SELECTOR}}` block.
+  // text-transform rides the default state; family carried only when it deviates from the page body font.
+  // Mirror of the PHP stitch. Returns { font, textTransform }.
+  const fontFields = (g) => {
+    const font = {};
+    const ff = String(g.ff || '').trim();
+    if (ff && ffKey(ff) && ffKey(ff) !== baseFf && !/inherit/i.test(ff)) font.family = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+    const fw = String(g.fw || '').trim();
+    if (/^(100|200|300|500|600|700|800|900)$/.test(fw)) font.weight = fw;
+    const ls = String(g.ls || '').trim();
+    if (ls && ls !== 'normal' && ls !== '0px' && ls !== '0') font['letter-spacing'] = ls;
+    const tt = String(g.tt || '').trim().toLowerCase();
+    return { font, textTransform: (tt && tt !== 'none') ? tt : '' };
+  };
 
   // Cluster by role + colours; the most common skin wins each role.
   const groups = new Map();
   for (const s of skins) {
     const key = s.role + '|' + s.bg + '|' + s.bw + s.bd;
     if (!groups.has(key)) groups.set(key, { ...s, count: 0 });
-    groups.get(key).count++;
+    const g = groups.get(key);
+    g.count++;
+    // The winning group keeps the first-seen skin's fields, but the resolved hover often lives on only one
+    // member (e.g. a single outline button with hover:bg-secondary). Adopt a later member's hoverBg when the
+    // stored one has none — parity with the PHP stitch's cluster-adopt.
+    if (!g.hoverBg && s.hoverBg) g.hoverBg = s.hoverBg;
   }
   const order = { Primary: 0, Secondary: 1, Outline: 2, Fill: 3 };
   const byRole = {};
@@ -134,13 +160,25 @@ export function buildButtonPresets(home) {
   for (const g of roles) {
     const name = g.role;
     const isOutline = name === 'Outline' || (!isFilled(g.bg) && g.bw);
-    // Hover: darken a fill to 90% alpha (the source's hover:bg-*/90); else inherit.
-    const hoverBg = isFilled(g.bg) ? String(g.bg).replace(/^rgb\((.+)\)$/, 'rgba($1, 0.9)') : '';
+    // Hover: PREFER the capture's resolved hover fill (hoverStyle → g.hoverBg) — this carries an outline
+    // button's `hover:bg-secondary` to its real colour instead of dropping it. Fall back to darkening a fill
+    // to 90% alpha (the classic hover:bg-*/90 lift) only when no explicit hover was captured.
+    const hoverBg = (g.hoverBg && g.hoverBg !== g.bg) ? g.hoverBg
+      : (isFilled(g.bg) ? String(g.bg).replace(/^rgb\((.+)\)$/, 'rgba($1, 0.9)') : '');
+    const { font, textTransform } = fontFields(g);
+    const defState = colState(g.fg, g.bg, g.bw ? (g.bd || g.fg) : '', g.bw, g.bw ? 'solid' : (isOutline ? 'solid' : 'none'), g.shadow);
+    if (textTransform) defState.text_transform = textTransform;
     colors.push({
       id: roleId[name] || ('00000000' + (colors.length + 1)),
       color_name: name,
+      // slug + role let to-pages.mjs _buttonPresetFor() match a body button to this preset (parity with the
+      // PHP stitch). slug mirrors the plugin's choice key `btn-` + sanitize_title_with_dashes(color_name).
+      slug: String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
+      role: String(name).toLowerCase(),
+      // Typography on the NATIVE font field (shows in the UI, one .btn-{slug} rule) — not Custom CSS.
+      font,
       states: {
-        default: colState(g.fg, g.bg, g.bw ? (g.bd || g.fg) : '', g.bw, g.bw ? 'solid' : (isOutline ? 'solid' : 'none'), g.shadow),
+        default: defState,
         hover: hoverBg ? { bg_color: hex(hoverBg) } : {},
         active: {}, focus: {}, disabled: {},
       },
@@ -223,7 +261,7 @@ export function toThemeSettings(config, home) {
   const titleColor = det.title_color || (headerDark ? '#ffffff' : ink);
   const logoCustom = {
     site_title: siteTitle,
-    logo_layout: 'inline-left',
+    logo_layout: (det.layout && ['icon-only', 'inline-left', 'inline-right', 'stacked-left', 'stacked-right', 'eyebrow-left', 'eyebrow-right'].includes(det.layout)) ? det.layout : 'inline-left',
     title_weight: det.title_weight || '700',
     color: hex(titleColor),
   };
@@ -298,34 +336,122 @@ export function toThemeSettings(config, home) {
   };
 
   /* --- header_menu --- */
+  // Prefer the captured menu-<ul> nav_style; when the header nav is bare <nav><a> anchors (an SPA menu with
+  // no <ul>, so navMapper returns null → nav_style null), FALL BACK to the first nav link's own computed
+  // style (home.header.nav[0]) so menu colour / size / weight / FONT still map to native options instead of
+  // being dropped. See header.md → header_menu.
   const navStyle = (home && home.chrome && home.chrome.nav_style) || {};
-  const navColor = navStyle.color || '';
+  const navLinks0 = (home && home.header && Array.isArray(home.header.nav)) ? home.header.nav : [];
+  const navFallback = (navLinks0[0] && navLinks0[0].computed) || {};
+  const nsGet = (k) => navStyle[k] || navFallback[k] || '';
+  const navColor = nsGet('color');
+  // Real hover colour (from the nav link's hover:* utilities, captured as nav[].hover) beats the
+  // white/accent default when present — parity with PHP detect_menu_styles hover_color.
+  let navHover = '';
+  for (const n of navLinks0) { if (n && n.hover && n.hover.color) { navHover = n.hover.color; break; } }
   values.header_menu = {
     menu_link_color: hex(navColor || (headerDark ? '#cbd5e1' : ink)),
-    menu_link_hover_color: hex(headerDark ? '#ffffff' : (accent || ink)),
+    menu_link_hover_color: hex(navHover || (headerDark ? '#ffffff' : (accent || ink))),
   };
-  // NEVER-DROP menu typography — size / weight / letter-spacing (`tracking-*`) / uppercase from the first
-  // nav link (already on nav_style). Parity with PHP detect_menu_styles + the native menu_link_* options.
-  const nfs = unitOf(navStyle.fontSize); if (nfs) values.header_menu.menu_link_font_size = nfs;
-  const nfw = String(parseInt(navStyle.fontWeight, 10) || '');
+  // NEVER-DROP menu typography — FONT FAMILY / size / weight / letter-spacing / uppercase. Font family was
+  // previously only in the .sc-menu generated CSS; route it into the native menu_font option.
+  const navFamily = nsGet('fontFamily');
+  if (navFamily && !/^(inherit|initial|unset)$/i.test(navFamily)) values.header_menu.menu_font = { family: navFamily };
+  const nfs = unitOf(nsGet('fontSize')); if (nfs) values.header_menu.menu_link_font_size = nfs;
+  const nfw = String(parseInt(nsGet('fontWeight'), 10) || '');
   if (/^(300|400|500|600|700|800)$/.test(nfw)) values.header_menu.menu_link_font_weight = nfw;
-  const nls = (navStyle.letterSpacing && navStyle.letterSpacing !== 'normal' && navStyle.letterSpacing !== '0px') ? unitOf(navStyle.letterSpacing) : null;
+  const _nls = nsGet('letterSpacing');
+  const nls = (_nls && _nls !== 'normal' && _nls !== '0px') ? unitOf(_nls) : null;
   if (nls) values.header_menu.menu_link_letter_spacing = nls;
-  if (navStyle.textTransform && /uppercase/i.test(navStyle.textTransform)) values.header_menu.menu_link_uppercase = 'yes';
+  const _ntt = nsGet('textTransform');
+  if (_ntt && /uppercase/i.test(_ntt)) values.header_menu.menu_link_uppercase = 'yes';
 
-  /* --- header_layout --- */
+  /* --- header_layout — the TWO-STATE model (see the Header Layout doc). POSITION + the AT-TOP appearance
+     come from the RESTING snapshot; the ON-SCROLL appearance comes from the captured scroll state
+     (chrome.header_scroll.scrolled), mapped only as DELTAS vs resting. This makes the OBSIDIAN pattern —
+     clear over the hero, then frosted + shrunk on scroll — reproduce natively instead of collapsing into a
+     single behavior enum. */
+  const _chrome = (home && home.chrome) || {};
+  const _hs = _chrome.header_scroll || {};
+  const _hsTop = _hs.top || {};
+  const _hsScr = _hs.scrolled || {};
+  const _hbar = (home && home.header && home.header.bar) || {};
+  const _hel = (home && home.header && home.header.element) || {};
+  const _pos = String(_hel.position || _hsTop.position || '').toLowerCase();
+  const _pinned = !!header.sticky || _pos === 'fixed' || _pos === 'sticky';
+  const _isClear = (c) => { c = String(c || '').trim().toLowerCase(); return c === '' || c === 'transparent' || /rgba?\([^)]*[,/]\s*0\s*\)/.test(c); };
+  const _restClear = _isClear(_hel.backgroundColor) && _isClear(_hbar.backgroundColor) && _isClear(_hsTop.bg);
+  const _hasBlur = (v) => /blur\(\s*[0-9.]*[1-9]/.test(String(v || ''));
+  const _colOf = (v) => (String(v || '').match(/rgba?\([^)]*\)|#[0-9a-f]{3,8}/i) || [''])[0];
+  const _hasBorder = (v) => { v = String(v || '').trim(); if (v === '' || v === 'none') return false; const w = v.split(/\s+/)[0]; if (/^0(px)?$/.test(w)) return false; return !_isClear(_colOf(v)); };
+  const _hasShadow = (v) => { v = String(v || '').trim(); return v !== '' && v !== 'none'; };
+  const EMPTY_COLOR = { predefined: '', custom: '' };
+  // Resting (AT TOP) vs scrolled (ON SCROLL).
+  const restBlur = _hasBlur(_hbar.backdropFilter) || _hasBlur(_hsTop.backdrop);
+  const restBorder = _hasBorder(_hbar.border) || _hasBorder(_hsTop.borderBottom);
+  const restShadow = _hasShadow(_hsTop.shadow) || _hasShadow(_hbar.boxShadow);
+  const scrBlur = _hasBlur(_hsScr.backdrop);
+  const scrBorder = _hasBorder(_hsScr.borderBottom);
+  const scrShadow = _hasShadow(_hsScr.shadow);
+  const _tpt = parseFloat(_hsTop.padTop), _spt = parseFloat(_hsScr.padTop);
+  const scrShrink = isFinite(_tpt) && isFinite(_spt) && _spt < _tpt - 2;
+  const scrBg = _colOf(_hsScr.bg);
+  const scrBgOpaque = scrBg && !_isClear(_hsScr.bg);
+  // Position: pinned + transparent at rest = overlay; pinned + solid = sticky; else static.
+  const position = _pinned ? (_restClear ? 'overlay' : 'sticky') : 'static';
+  // At-top background: the resting fill (empty for a transparent overlay — do NOT inject a dark default,
+  // that belongs to the scrolled state).
+  const restBg = _colOf(_hel.backgroundColor) || _colOf(_hbar.backgroundColor) || (colors.header_bg && /^#|rgb/.test(colors.header_bg) ? colors.header_bg : '');
+  // On-scroll deltas (only what CHANGES vs resting).
+  const onGlass = scrBlur && !restBlur, onBorder = scrBorder && !restBorder, onShadow = scrShadow && !restShadow, onShrink = scrShrink;
+  const scrollChange = onGlass || onBorder || onShadow || onShrink || scrBgOpaque;
   values.header_layout = {
     header_mode: { mode: 'top', top: { header_design: { design: 'classic' } } },
-    header_behavior: header.sticky ? 'sticky' : 'static',
-    header_glass: 'no',
-    header_shadow: 'no',
-    header_border: 'no',
+    header_position: position,
     header_uppercase_nav: 'no',
-    bg_color: hex(colors.header_bg && /^#|rgb/.test(colors.header_bg) ? colors.header_bg : (headerDark ? '#111111' : '#ffffff')),
+    // Appearance — AT TOP.
+    bg_color: (_restClear || !restBg) ? EMPTY_COLOR : hex(restBg),
+    header_glass: restBlur ? 'yes' : 'no',
+    header_border: restBorder ? 'yes' : 'no',
+    header_shadow: restShadow ? 'yes' : 'no',
   };
+  if (scrollChange) {
+    values.header_layout.header_scroll_change = 'yes';
+    if (onGlass) values.header_layout.scroll_glass = 'yes';
+    if (onBorder) values.header_layout.scroll_border = 'yes';
+    if (onShadow) values.header_layout.scroll_shadow = 'yes';
+    if (onShrink) values.header_layout.scroll_shrink = 'yes';
+    // Scrolled Background: the solid scrolled fill if opaque; else a dark tint for a dark overlay/glass so
+    // the frost reads dark.
+    if (scrBgOpaque) values.header_layout.scroll_bg_color = hex(scrBg);
+    else if ((onGlass || position === 'overlay') && headerDark) values.header_layout.scroll_bg_color = hex(isDark(colors.bg) ? colors.bg : '#111111');
+  }
   // Mobile breakpoint — the width at which the inline nav collapses (only on a real signal).
   if (home && (home.mobileBreakpoint === 'md' || home.mobileBreakpoint === 'lg')) {
-    values.header_layout.mobile_breakpoint = home.mobileBreakpoint;
+    values.mobile_breakpoint = home.mobileBreakpoint;
+  }
+  // Mobile drawer PANEL appearance (mirror of detect: header_layout drawer_* in the PHP stitch). The drawer
+  // used to inherit the desktop menu palette (tuned for the header BAR over a hero), so its links rendered
+  // washed-out on a solid panel. Map a legible drawer look: panel bg = the resting SOLID header fill when
+  // opaque (else the theme light default), drawer link colour = the source nav colour ONLY if it contrasts
+  // on that panel, else a legible ink; active colour = the accent when it reads on the panel.
+  {
+    const _panelSolid = restBg && !_restClear;
+    const _panelBg = _panelSolid ? restBg : '#ffffff';
+    if (_panelSolid) values.drawer_bg = hex(restBg);
+    const _panelDark = isDark(_panelBg);
+    const _dnav = navColor || '';
+    const _dlegible = _dnav && isDark(_dnav) !== _panelDark;
+    values.drawer_link_color = _dlegible ? hex(_dnav) : hex(_panelDark ? '#f1f1f1' : (ink || '#1a1a1a'));
+    if (accent && isDark(accent) !== _panelDark) values.drawer_link_active_color = hex(accent);
+  }
+  // Mobile BAR background (top-level key, Header → Mobile & Tablet). A transparent / overlay desktop header
+  // leaves the COLLAPSED mobile bar see-through over content, so give it a solid fill. Prefer the scrolled
+  // fill; else the site background (dark sites → dark bar); else white. Mirror of the PHP stitch.
+  if (position === 'overlay' || (!restBg || _restClear)) {
+    const scrolled = values.header_layout.scroll_bg_color && values.header_layout.scroll_bg_color.custom;
+    const mbar = scrolled || (colors.bg && /^#|rgb/.test(colors.bg) ? colors.bg : '') || '#ffffff';
+    if (mbar) values.mobile_bar_bg = hex(mbar);
   }
   // HEADER container width — from the header's INNER content wrapper (header.bar) computed max-width.
   // A real capped px → Fixed Width ('container') + the numeric width; full-bleed → Full Width. Mirror
@@ -369,6 +495,14 @@ export function toThemeSettings(config, home) {
     if (/^[0-9.]+px$/.test(String(fls.fontSize || '').trim())) d += 'font-size:' + String(fls.fontSize).trim() + ';';
     if (d) miscCssParts.push('.footer-menu a{' + d + '}');
     if (fls.hover) { const t = String(fls.hover).toLowerCase().replace(/[^a-z0-9-]/g, ''); if (t) miscCssParts.push('.footer-menu a:hover{color:var(--color-' + t + ')}'); }
+    // List-item vertical spacing — override the theme's 8px default so the source's own rhythm shows.
+    // Parity with PHP footer_link_css()'s footer_list_gap_px() emit.
+    const gap = parseInt(fls.gap, 10) || 0;
+    if (gap > 0 && Math.abs(gap - 8) >= 1) miscCssParts.push('.footer-column .footer-links-list>li:not(:last-child){margin-bottom:' + gap + 'px}');
+    // Line-height — the source's own (e.g. 20px); the theme's tighter default leaves the list cramped even
+    // once the gap matches. Applied to every list item (links AND plain-text rows). Parity with PHP.
+    const flh = String(fls.lineHeight || '').trim();
+    if (/^[0-9.]+(px|rem|em)$/.test(flh)) miscCssParts.push('.footer-column .footer-links-list>li,.footer-column .footer-links-list .list-item__text{line-height:' + flh + '}');
   }
   // NEVER-DROP footer TAGLINE typography (size / line-height / colour). Parity with PHP footer_tagline_css().
   const fts = (home && home.chrome && home.chrome.footer_tagline_style) || null;
@@ -473,6 +607,8 @@ export function toThemeSettings(config, home) {
     if (h.size != null) hv.size = { value: String(h.size), unit: 'px' };
     if (h['line-height'] != null && h['line-height'] !== '') hv['line-height'] = h['line-height'];
     if (h['letter-spacing'] != null && h['letter-spacing'] !== '') hv['letter-spacing'] = h['letter-spacing'];
+    // text-transform — reproduce a heading font uppercased purely by CSS (a display face like Syncopate).
+    if (h['text-transform'] && ['uppercase', 'lowercase', 'capitalize', 'none'].includes(String(h['text-transform']).toLowerCase())) hv['text-transform'] = String(h['text-transform']).toLowerCase();
     typo[lvl] = hv;
   }
   if (Object.keys(typo).length) values.typography = typo;
@@ -512,33 +648,42 @@ export function toThemeSettings(config, home) {
     if (social.length) brandCol.push(el('social_icons'));
 
     const cols = [brandCol];
+    // NAV column → heading + one unified `list_item` element (URL link) per {label,url}. Each stays editable,
+    // and the theme's footer column renderer auto-wraps a RUN of 2+ consecutive List Item elements into a
+    // semantic <ul><li> list. Mirror of PHP footer_group_to_column() — the unified element supersedes the old
+    // link / icon_text / text split.
     groups.forEach((g) => {
-      let h = `<h4>${escHtml(g.label)}</h4><ul>`;
-      g.children.forEach((l) => { h += `<li><a href="${escHtml(l.url || '#')}">${escHtml(l.label)}</a></li>`; });
-      h += '</ul>';
-      cols.push([{ element_type: { element: 'text', text: { text_content: h } } }]);
+      const col = [];
+      if (g.label) col.push({ element_type: { element: 'heading', heading: { heading_text: g.label, heading_level: 'h3' } } });
+      (g.children || []).forEach((l) => {
+        const label = String(l.label || '').trim();
+        if (!label) return;
+        col.push({ element_type: { element: 'list_item', list_item: { li_text: label, li_link_type: 'url', li_link: (l.url && l.url !== '') ? l.url : '#', li_target: '_self' } } });
+      });
+      if (col.length) cols.push(col);
     });
-    // CONTACT column → heading + NATIVE `icon_text` rows (leading icon-v2 svg tinted its source colour, value,
-    // tel/mailto/url link) — real editable elements, byte-parity with PHP footer_group_to_column(). Previously
-    // an HTML blob inside one Text element (the JS↔PHP drift the audit flagged); now a true mirror.
+    // CONTACT column → heading + one unified `list_item` per row (leading icon-v2 svg tinted its source
+    // colour, value, tel/mailto/url link). Mirror of PHP footer_group_to_column(); the theme groups the rows
+    // into a <ul>. The unified element supersedes the old icon_text/text emit.
     const fc = footer.contact;
     if (fc && Array.isArray(fc.rows) && fc.rows.length) {
-      const contactCol = [{ element_type: { element: 'text', text: { text_content: `<h4>${escHtml(fc.title || 'Contact')}</h4>` } } }];
+      const contactCol = [{ element_type: { element: 'heading', heading: { heading_text: fc.title || 'Contact', heading_level: 'h4' } } }];
       fc.rows.forEach((r) => {
         const txt = String(r.text || '').trim();
         if (!txt) return;
-        const it = { icontext_text: txt };
+        const li = { li_text: txt, li_link_type: 'none' };
         const svg = String(r.icon || '').trim();
         if (/^<svg\b/i.test(svg)) {
           const markup = (r.color && /currentcolor/i.test(svg)) ? svg.replace(/currentColor/gi, r.color) : svg;
-          it.icontext_icon = { type: 'svg', 'svg-source': 'inline', markup, 'svg-id': '' };
+          li.li_icon = { type: 'svg', 'svg-source': 'inline', markup, 'svg-id': '' };
         }
         const lnk = String(r.link || '').trim();
         if (lnk) {
-          it.icontext_link = lnk;
-          it.icontext_link_type = /^tel:/i.test(lnk) ? 'phone' : (/^mailto:/i.test(lnk) ? 'email' : 'url');
+          li.li_link = lnk;
+          li.li_link_type = /^tel:/i.test(lnk) ? 'phone' : (/^mailto:/i.test(lnk) ? 'email' : 'url');
+          if (li.li_link_type === 'url') li.li_target = '_self';
         }
-        contactCol.push({ element_type: { element: 'icon_text', icon_text: it } });
+        contactCol.push({ element_type: { element: 'list_item', list_item: li } });
       });
       cols.push(contactCol);
     }

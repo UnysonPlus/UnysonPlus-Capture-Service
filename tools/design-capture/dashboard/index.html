@@ -110,6 +110,37 @@ button,input{font:inherit;color:inherit}
 .install-status a{color:var(--accent)}
 .spin{display:inline-block;width:12px;height:12px;border:2px solid color-mix(in oklch,var(--amber) 40%,transparent);border-top-color:var(--amber);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-1px;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.alpha-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#f59e0b;background:oklch(0.75 0.15 70 / .16);border:1px solid oklch(0.75 0.15 70 / .4);border-radius:5px;padding:1px 5px;vertical-align:middle;margin-left:5px;line-height:1.4}
+.alpha-tag-lg{font-size:11px;padding:2px 8px;margin-left:8px}
+/* ---------- Pen → Shortcode (CodePen-style) ---------- */
+.pen-wrap{display:flex;flex-direction:column;gap:16px;padding:22px;max-width:1400px;margin:0 auto;width:100%}
+.pen-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.pen-h1{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.pen-sub{color:var(--muted);font-size:13px;line-height:1.6;max-width:760px}
+.pen-name{display:flex;flex-direction:column;gap:5px;min-width:220px}
+.pen-name span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.pen-name input{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--ink);font-size:14px;outline:none}
+.pen-name input:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
+.pen-editors{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.pen-pane{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;min-height:340px}
+.pen-pane-h{display:flex;align-items:center;gap:8px;padding:9px 13px;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--border-soft);background:oklch(0.5 0 0 / .04)}
+.pen-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.pen-opt{color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0}
+.pen-code{flex:1;width:100%;resize:vertical;background:transparent;border:0;outline:none;color:var(--ink);font-family:var(--mono);font-size:12.5px;line-height:1.6;padding:12px 14px;tab-size:2}
+.pen-code::placeholder{color:var(--faint)}
+.pen-ext{display:flex;flex-direction:column;gap:5px}
+.pen-ext-l{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.pen-ext .pen-code{background:var(--surface);border:1px solid var(--border);border-radius:10px;min-height:40px}
+.pen-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pen-progress-wrap{display:flex;align-items:center;gap:11px;flex:1;min-width:220px}
+.pen-progress{flex:1;height:7px;border-radius:99px;background:var(--surface);border:1px solid var(--border-soft);overflow:hidden}
+.pen-progress-bar{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .4s ease}
+.pen-prog-label{font-size:12px;color:var(--muted);white-space:nowrap;min-width:130px}
+.pen-result{font-size:13px;line-height:1.6;border:1px solid color-mix(in oklch,var(--accent) 40%,transparent);border-radius:12px;padding:14px 16px;background:var(--surface)}
+.pen-result b{color:var(--accent)}
+.pen-result code{background:oklch(0.5 0 0 / .1);padding:1px 6px;border-radius:5px;font-family:var(--mono);font-size:12px}
+.pen-result ol{margin:8px 0 0;padding-left:20px} .pen-result li{margin:3px 0}
+@media (max-width:960px){.pen-editors{grid-template-columns:1fr}.pen-pane{min-height:200px}}
 @media(prefers-reduced-motion:reduce){.spin{animation:none}}
 .watching{margin-left:auto;color:var(--faint);font-size:12px;font-family:var(--mono);white-space:nowrap;display:flex;align-items:center;gap:8px}
 .watching b{color:var(--muted);font-weight:500}
@@ -351,8 +382,11 @@ td.txt{color:var(--muted);max-width:340px}
     <button class="nav-item active" data-view="convert" aria-current="page" title="Convert">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="lbl">Convert</span>
     </button>
-    <button class="nav-item" data-view="chat" title="Chat">
-      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="lbl">Chat</span>
+    <button class="nav-item" data-view="pen" title="Pen → Shortcode (Alpha)">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 6-9 6-9-6 9-6zM3 16l9 6 9-6M3 12l9 6 9-6"/></svg></span><span class="lbl">Pen <span class="alpha-tag">Alpha</span></span>
+    </button>
+    <button class="nav-item" data-view="chat" title="Chat (Experimental)">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="lbl">Chat <span class="alpha-tag">Experimental</span></span>
     </button>
     <button class="nav-item" data-view="benchmarks" title="Benchmarks">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></span><span class="lbl">Benchmarks</span>
@@ -428,6 +462,60 @@ td.txt{color:var(--muted);max-width:340px}
             </div>
           </div>
         </main>
+      </div>
+    </section>
+
+    <!-- ===== PEN VIEW ===== -->
+    <section class="view" id="view-pen">
+      <div class="pen-wrap">
+        <div class="pen-head">
+          <div>
+            <h1 class="pen-h1">Pen → Shortcode <span class="alpha-tag alpha-tag-lg">Alpha</span></h1>
+            <p class="pen-sub"><b>Experimental / Alpha</b> — this feature is still in active development and may not handle every pen correctly. Paste a pen's HTML, CSS and (optional) JS. It's packaged into an installable UnysonPlus <b>shortcode</b> (.zip) that renders the pen verbatim — effects intact — with its text &amp; images as editable options. Upload it at <b>wp-admin → Site Converter → Add a shortcode</b>.</p>
+          </div>
+          <label class="pen-name">
+            <span>Shortcode name</span>
+            <input id="penTitle" type="text" placeholder="Expandable Cards" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
+
+        <div class="pen-editors">
+          <div class="pen-pane">
+            <div class="pen-pane-h"><span class="pen-dot" style="background:#e34f26"></span> HTML</div>
+            <textarea id="penHtml" class="pen-code" spellcheck="false" placeholder="&lt;div class=&quot;cards&quot;&gt; … &lt;/div&gt;"></textarea>
+          </div>
+          <div class="pen-pane">
+            <div class="pen-pane-h"><span class="pen-dot" style="background:#2965f1"></span> CSS</div>
+            <textarea id="penCss" class="pen-code" spellcheck="false" placeholder=".cards{ … }"></textarea>
+          </div>
+          <div class="pen-pane">
+            <div class="pen-pane-h"><span class="pen-dot" style="background:#f0db4f"></span> JS <span class="pen-opt">optional</span></div>
+            <textarea id="penJs" class="pen-code" spellcheck="false" placeholder="// runs on the front end, scoped to the element"></textarea>
+          </div>
+        </div>
+
+        <div class="pen-ext">
+          <span class="pen-ext-l">External CSS (one URL per line)</span>
+          <textarea id="penExternals" class="pen-code" rows="1" spellcheck="false" placeholder="https://cdn.example.com/lib.css"></textarea>
+        </div>
+
+        <div class="pen-actions">
+          <button class="btn btn-primary" id="penBtn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 6-9 6-9-6 9-6z"/></svg>
+            Convert to shortcode
+          </button>
+          <button class="btn" id="penDlBtn" type="button" style="display:none">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+            Download .zip
+          </button>
+          <div class="pen-progress-wrap" id="penProgWrap" style="display:none">
+            <div class="pen-progress"><div class="pen-progress-bar" id="penProgBar"></div></div>
+            <span class="pen-prog-label" id="penProgLabel"></span>
+          </div>
+        </div>
+
+        <div class="pen-result" id="penResult" style="display:none"></div>
+        <div class="convert-err" id="penErr"></div>
       </div>
     </section>
 
@@ -1191,6 +1279,46 @@ $('#installForm').onsubmit=async(e)=>{e.preventDefault();
   finally{ btn.disabled=false; btn.innerHTML=INSTALL_BTN_HTML; }
 };
 
+/* ---- Pen → Shortcode ---- */
+function penErr(msg){ const e=$('#penErr'); if(e) e.textContent=msg||''; }
+const PEN_BTN_HTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 6-9 6-9-6 9-6z"/></svg> Convert to shortcode';
+let _penZip=null, _penFile='', _penProgTimer=null;
+function penProg(pct,label){ const w=$('#penProgWrap'),b=$('#penProgBar'),l=$('#penProgLabel'); if(!w)return; w.style.display=pct==null?'none':'flex'; if(b&&pct!=null)b.style.width=Math.min(100,pct)+'%'; if(l&&label!=null)l.textContent=label; }
+function penB64ToBlob(b64){ const bin=atob(b64); const len=bin.length; const bytes=new Uint8Array(len); for(let i=0;i<len;i++)bytes[i]=bin.charCodeAt(i); return new Blob([bytes],{type:'application/zip'}); }
+function penDoDownload(){ if(!_penZip)return false; try{ const a=document.createElement('a'); a.href=URL.createObjectURL(_penZip); a.download=_penFile||'pen-shortcode.zip'; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},200); return true; }catch(_){ return false; } }
+$('#penDlBtn')&&($('#penDlBtn').onclick=penDoDownload);
+$('#penBtn')&&($('#penBtn').onclick=async()=>{
+  penErr(''); $('#penResult').style.display='none'; $('#penDlBtn').style.display='none'; _penZip=null;
+  const title=$('#penTitle').value.trim()||'Pen';
+  const html=$('#penHtml').value, css=$('#penCss').value, js=$('#penJs').value;
+  const externals=$('#penExternals').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  if(html.trim()===''){ penErr('Paste the pen HTML first.'); return; }
+  const btn=$('#penBtn'); btn.disabled=true; btn.innerHTML='<span class="spin"></span> Converting…';
+  // Simulated staged progress (the real work is one headless render + codegen; stages are indicative).
+  const stages=[[8,'Rendering the pen…'],[38,'Scoping the CSS…'],[62,'Detecting text & image inputs…'],[82,'Generating shortcode files…'],[92,'Packaging the .zip…']];
+  let si=0; penProg(4,'Starting…');
+  clearInterval(_penProgTimer);
+  _penProgTimer=setInterval(()=>{ if(si<stages.length){ penProg(stages[si][0],stages[si][1]); si++; } },900);
+  try{
+    const r=await api2('/api/pen-convert',{title,html,css,js,externals});
+    clearInterval(_penProgTimer);
+    if(!r||r.error||r.ok===false){ penProg(null); const m=(r&&r.error)||'Conversion failed.'; penErr(m); toast(m); }
+    else if(r.zip_base64){
+      penProg(100,'Done'); setTimeout(()=>penProg(null),1200);
+      _penZip=penB64ToBlob(r.zip_base64); _penFile=r.filename||'pen-shortcode.zip';
+      const auto=penDoDownload();
+      $('#penDlBtn').style.display='inline-flex';
+      const res=$('#penResult');
+      res.style.display='block';
+      res.innerHTML='✓ <b>Shortcode “'+esc(r.slug||_penFile)+'” ready</b> — '+esc(r.texts||0)+' text field'+((r.texts||0)===1?'':'s')+' · '+esc(r.images||0)+' image field'+((r.images||0)===1?'':'s')+' detected.'+
+        (auto?' The <b>.zip downloaded</b>.':' Use <b>Download .zip</b> →.')+
+        '<ol><li>Go to <code>wp-admin → Unyson → Shortcodes</code> (<code>admin.php?page=fw-shortcodes</code>) → <b>Add a shortcode or design pack</b>.</li><li>Upload <code>'+esc(_penFile)+'</code> → <b>Upload &amp; install</b>.</li><li>Find it in the page builder under <b>Content Elements</b> — its text &amp; images are editable options.</li></ol>';
+      toast('Shortcode packaged — upload the .zip in wp-admin.');
+    } else { penProg(null); penErr('Conversion returned no package.'); }
+  }catch(_){ clearInterval(_penProgTimer); penProg(null); penErr('Could not reach the dashboard server.'); toast('Request failed.'); }
+  finally{ btn.disabled=false; btn.innerHTML=PEN_BTN_HTML; }
+});
+
 /* ---- Settings → Destination WordPress ---- */
 async function renderWpTarget(){
   let t={url:'',token_set:false}; try{ t=await api('/api/wp-target'); }catch(_){}
@@ -1384,7 +1512,7 @@ loadLocalAi(); setInterval(loadLocalAi,8000);
 
 /* ================= App-shell view routing ================= */
 function showView(name){
-  const valid=['convert','chat','benchmarks','settings'];
+  const valid=['convert','pen','chat','benchmarks','settings'];
   if(!valid.includes(name)) name='convert';
   state.view=name;
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>{const on=b.dataset.view===name;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
@@ -1487,7 +1615,7 @@ async function chatClear(){
 })();
 
 // Land on the deep-linked / remembered view.
-showView((location.hash.slice(1))||(function(){try{return localStorage.getItem('upw-view');}catch(_){return '';}})()||'convert');
+showView((location.hash.slice(1))||(function(){try{const v=localStorage.getItem('upw-view');return v==='pen'?'':v;}catch(_){return '';}})()||'convert');
 // --- Run-log viewer ---
 async function loadLog(file){
   const body=$('#logBody');body.textContent='Loading…';

@@ -31,8 +31,20 @@ import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
+import { microBackend, selectedLocalModel, localSectionMicroTask, localAiStatus } from './to-ai.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
+
+// Write the shared AI-activity record the dashboard polls (/api/ai → CAPTURE_OUT/_ai.json), so the
+// "🧠 <model> working…" indicator lights up while the LOCAL micro layer runs during a capture too — not
+// only during a manual /ai-convert. Best-effort; a write race never breaks the capture.
+function writeAiActivity(obj) {
+  try {
+    const base = process.env.CAPTURE_OUT || 'capture-out';
+    mkdirSync(base, { recursive: true });
+    writeFileSync(`${base}/_ai.json`, JSON.stringify({ backend: 'ollama', model: selectedLocalModel(), tool: 'micro', at: Date.now(), ...obj }));
+  } catch { /* dashboard indicator is best-effort */ }
+}
 const PKG_VERSION = (() => { try { return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version || ''; } catch { return ''; } })();
 
 // --- Args -------------------------------------------------------------------
@@ -230,6 +242,17 @@ async function renderPage(p, target) {
     const ff = getComputedStyle(document.body).fontFamily || '';
     return rules >= 40 || ff.toLowerCase().includes('inter');
   }, { timeout: 8000 }).catch(() => {});
+  // CLIENT-RENDERED SPA guard: a React/Vue/Svelte app mounts its content into #root/#app AFTER networkidle,
+  // so a snapshot taken now can catch an EMPTY shell (`<div id="root"></div>` → 0 sections, a blank
+  // screenshot). Wait until the app root actually holds real content — a landmark/section, or substantial
+  // text/children — before extracting. Generous timeout (heavy SPAs), and .catch so a genuinely-empty page
+  // (or one needing interaction) still proceeds instead of hanging.
+  await p.waitForFunction(() => {
+    const root = document.querySelector('#root, #app, [data-reactroot], main') || document.body;
+    if (!root) { return false; }
+    if (root.querySelector('section, main, header, article, footer, [class*="section"], [data-sc-col]')) { return true; }
+    return (root.innerText || '').trim().length > 200 && root.children.length >= 2;
+  }, { timeout: 20000 }).catch(() => {});
   await p.waitForTimeout(1200);
   step('rendered — scrolling to trigger lazy assets…');
   await evalSafe(p, async () => {
@@ -355,6 +378,19 @@ async function renderPage(p, target) {
   await p.waitForTimeout(150);
   const data = await evalSafe(p, extractDesign);
   step(`extracted ${(data.sections || []).length} sections`);
+  // EMPTY-RENDER DIAGNOSTIC: 0 sections + an unmounted client-side app shell (`<div id="root"></div>`) /
+  // near-empty body means the SOURCE page never rendered — almost always its JS bundle / CDN failed to load
+  // (a temporary preview whose CDN is down, an SPA blocked in headless, an offline dependency). There is
+  // literally nothing to map; make that explicit so it isn't mistaken for a converter/kit bug.
+  if ((data.sections || []).length === 0) {
+    const diag = await evalSafe(p, () => {
+      const root = document.querySelector('#root, #app, [data-reactroot], [data-server-rendered]');
+      return { spaShell: !!(root && root.children.length === 0), textLen: (document.body.innerText || '').trim().length };
+    });
+    if (diag && (diag.spaShell || diag.textLen < 120)) {
+      step('  ⚠ the source rendered BLANK — an empty client-side app shell (its JavaScript / CDN likely failed to load), so there is nothing to map. This is a SOURCE-side problem, NOT a converter bug: open the URL in a normal browser to confirm it renders, retry when its CDN is reachable, or convert a server-rendered page / an uploaded HTML export instead.');
+    }
+  }
   // Per-section breakdown → the dashboard shows exactly WHICH parts were detected (header, each body
   // section named by its heading, footer). The mapping itself is one fast pass, so this is the
   // section-level record rather than a slow live ticker.
@@ -602,6 +638,22 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         const changed = ['bg', 'backdrop', 'shadow', 'padTop', 'padBottom', 'borderBottom'].some((k) => (topState[k] || '') !== (scrolledState[k] || ''));
         if (changed && home.chrome) {
           home.chrome.header_scroll = { top: topState, scrolled: scrolledState };
+          // Also STAMP the scrolled state onto the <header> as `data-sc-scrolled` (mirror of data-sc-cs) so the
+          // bundled rendered.html carries it into the PHP build_from_html path — which sees only the static
+          // top-state snapshot and otherwise can't detect the scroll-revealed backdrop-blur / bg / border.
+          const scParts = [];
+          if (scrolledState.bg) scParts.push('background-color:' + scrolledState.bg);
+          if (scrolledState.backdrop) scParts.push('backdrop-filter:' + scrolledState.backdrop);
+          if (scrolledState.shadow) scParts.push('box-shadow:' + scrolledState.shadow);
+          if (scrolledState.borderBottom) scParts.push('border-bottom:' + scrolledState.borderBottom);
+          if (scrolledState.padTop) scParts.push('padding-top:' + scrolledState.padTop);
+          if (scrolledState.padBottom) scParts.push('padding-bottom:' + scrolledState.padBottom);
+          const scAttr = scParts.join(';');
+          if (scAttr) {
+            await evalSafe(page, (a) => { const h = document.querySelector('header'); if (h) h.setAttribute('data-sc-scrolled', a); }, scAttr);
+            const rh = await page.content().catch(() => '');
+            if (rh && rh.length >= 200) home.renderedHtml = rh; // re-serialize so the attribute rides along
+          }
           step(`  header changes on scroll → bg ${topState.bg} → ${scrolledState.bg}`);
         }
       }
@@ -865,6 +917,29 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         })),
       })),
     };
+
+    // ALWAYS-ON local micro layer (token-free): if a LOCAL model is set up, let it give the sections
+    // semantic css_id slugs (+ flag pure-decoration bands) — the "tiny bit on every step" a small model is
+    // good at. Non-destructive (only valid slugs; only omits truly-empty bands) and best-effort: any error
+    // leaves the deterministic mapping unchanged. Visible in Live progress + the dashboard AI indicator.
+    try {
+      // `ollama` often isn't on PATH (it runs as a background server), so warm the up-probe first — else
+      // ollamaReady()/microBackend() can't tell the local server is live in this fresh CLI process.
+      await localAiStatus().catch(() => {});
+      if (microBackend() === 'ollama' && selectedLocalModel()) {
+        step(`🧠 local AI (${selectedLocalModel()}) → naming sections…`);
+        writeAiActivity({ status: 'thinking', note: 'naming sections', startedAt: Date.now() });
+        const t0 = Date.now();
+        const micro = await localSectionMicroTask(mapping);
+        const secs = Math.round((Date.now() - t0) / 1000);
+        if (micro && (micro.renamed || micro.decorative)) {
+          step(`  local AI → named ${micro.renamed} section${micro.renamed === 1 ? '' : 's'}${micro.decorative ? `, flagged ${micro.decorative} decorative` : ''} (${secs}s)`);
+        } else {
+          step(`  local AI → sections already well-named (${secs}s)`);
+        }
+        writeAiActivity({ status: 'done', note: micro ? `named ${micro.renamed} section(s)` : 'no change', elapsed: secs });
+      }
+    } catch (e) { step('local AI micro pass skipped: ' + e.message); }
 
     // Report (always written first).
     writeFileSync(`${outdir}/conversion-report.csv`, report.csv);
