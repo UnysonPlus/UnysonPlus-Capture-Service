@@ -14,10 +14,17 @@
 //   • style-coverage.html — per-property drop profile to eyeball one site.
 
 const PROPS = [
-  'background-image', 'box-shadow', 'border', 'border-radius', 'max-width',
+  'background-image', 'background-color', 'backdrop-filter', 'box-shadow', 'border', 'border-radius', 'max-width',
   'padding', 'margin', 'gap', 'transform',
   'position-absolute', 'position-fixed', 'position-sticky', 'display-flex', 'display-grid',
 ];
+
+// Fidelity-critical properties whose loss is almost always VISIBLE (a missing fill, frosted blur,
+// border, shadow, or radius changes how an element reads). The coverage-verification pass weights
+// these as significant by default; layout props (gap/margin/padding/display/position) are lower-signal.
+const SIGNIFICANT = new Set([
+  'background-image', 'background-color', 'backdrop-filter', 'box-shadow', 'border', 'border-radius',
+]);
 
 // Does the carried CSS declare this property at all? (coarse but telling — if the source uses
 // background-image on 5 elements but sec.css never says "background-image:", it's dropped.)
@@ -29,6 +36,9 @@ function carries(css, prop) {
   if (prop === 'border') return /border(-(top|right|bottom|left))?(-width)?\s*:/i.test(css);
   if (prop === 'padding') return /padding(-(top|right|bottom|left))?\s*:/i.test(css);
   if (prop === 'margin') return /margin(-(top|right|bottom|left))?\s*:/i.test(css);
+  // background-color is reproduced via the `background:` shorthand too; backdrop-filter via its -webkit- twin.
+  if (prop === 'background-color') return /background(-color)?\s*:/i.test(css);
+  if (prop === 'backdrop-filter') return /(-webkit-)?backdrop-filter\s*:/i.test(css);
   return new RegExp(prop.replace(/-/g, '\\-') + '\\s*:', 'i').test(css);
 }
 
@@ -42,6 +52,9 @@ export function toStyleReport(input) {
   const agg = {};
   PROPS.forEach((p) => { agg[p] = { used: 0, secUsing: 0, secCarried: 0 }; });
   let sections = 0;
+  // GAPS: (section, property) usages the carried CSS does NOT reproduce = dropped styling. The
+  // coverage-verification pass (local AI) reviews these and flags the visually-significant ones.
+  const gaps = [];
 
   for (const pg of (input.pages || [])) {
     for (const s of (pg.sections || [])) {
@@ -55,6 +68,7 @@ export function toStyleReport(input) {
         agg[prop].used += uses;
         agg[prop].secUsing += 1;
         if (carried) agg[prop].secCarried += 1;
+        else gaps.push({ page: pg.slug, s_index: s.index, s_class: s.sectionClass || '', property: prop, uses, significant: SIGNIFICANT.has(prop) });
         rows.push([site, pg.slug, s.index, s.sectionClass || '', prop, uses, carried ? 'yes' : 'no']);
       }
     }
@@ -67,7 +81,7 @@ export function toStyleReport(input) {
 
   const csv = rows.map((r) => r.map(csvCell).join(',')).join('\r\n');
   const html = renderHtml({ site, sections, agg, score });
-  return { csv, html, stats: { sections, fidelityScore: score, props: agg } };
+  return { csv, html, gaps, stats: { sections, fidelityScore: score, props: agg } };
 }
 
 function renderHtml({ site, sections, agg, score }) {

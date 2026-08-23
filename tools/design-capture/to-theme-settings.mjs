@@ -104,7 +104,7 @@ export function buildButtonPresets(home) {
     bg: normc(s.bg), fg: normc(s.fg), bd: normc(s.bd),
     bw: (s.bw && s.bw !== '0px' && s.bw !== '0') ? s.bw : '',
     shadow: s.shadow || '', radius: (s.radius || '').trim(),
-    px: s.px || '', py: s.py || '', fs: s.fs || '', lh: s.lh || '',
+    px: s.px || '', py: s.py || '', fs: s.fs || '', lh: s.lh || '', height: s.height || '',
     // Typography extras → the preset Custom CSS (parity with PHP appearance_css).
     ff: (s.ff || '').trim(), ls: (s.ls || '').trim(), tt: (s.tt || '').trim(), fw: (s.fw || '').trim(),
     hoverBg: normc(s.hoverBg),
@@ -185,23 +185,43 @@ export function buildButtonPresets(home) {
     });
   }
 
-  // Size presets — one per distinct (fs,px,py,radius); biggest font = Large.
-  const seenSz = new Set(); const sizeDefs = [];
+  // Size presets — CLUSTER near-identical skins (#1: computed values are noisy, 43.99≈44), rank by VISUAL
+  // size (#2: fixed height, else font-box + paddings — not font alone), tag the MOST-USED as base/Default
+  // (#3). Representative value per property = the MODE (most common exact value). Parity with the PHP stitch.
+  const pxOf = (v) => { v = String(v || '').trim(); let m; if ((m = v.match(/^([0-9.]+)px$/))) return parseFloat(m[1]); if ((m = v.match(/^([0-9.]+)rem$/))) return parseFloat(m[1]) * 16; if ((m = v.match(/^([0-9.]+)$/))) return parseFloat(m[1]); return 0; };
+  const clusters = [];
   for (const s of skins) {
     if (s.fs === '' && s.px === '' && s.radius === '') continue;
-    const k = s.fs + '|' + s.px + '|' + s.py + '|' + s.radius;
-    if (seenSz.has(k)) continue; seenSz.add(k); sizeDefs.push(s);
+    const fsn = pxOf(s.fs), pxn = pxOf(s.px), pyn = pxOf(s.py), hn = pxOf(s.height);
+    let hit = clusters.find((c) => Math.abs(c.fsn - fsn) <= 1 && Math.abs(c.pxn - pxn) <= 3 && Math.abs(c.pyn - pyn) <= 3 && Math.abs(c.hn - hn) <= 3);
+    if (!hit) { hit = { fsn, pxn, pyn, hn, count: 0, modes: {} }; clusters.push(hit); }
+    hit.count++;
+    for (const [p, val] of Object.entries({ fs: s.fs, px: s.px, py: s.py, radius: s.radius, height: s.height || '', lh: s.lh })) {
+      const v = String(val); (hit.modes[p] = hit.modes[p] || {})[v] = (hit.modes[p][v] || 0) + 1;
+    }
   }
-  sizeDefs.sort((a, b) => (parseFloat(b.fs) || 0) - (parseFloat(a.fs) || 0));
-  const sizeNames = [['Large', 'lg', '0000010004'], ['Medium', 'md', '0000010003'], ['Small', 'sm', '0000010002']];
+  const mode = (counts) => { if (!counts) return ''; let best = '', bc = -1; for (const [k, v] of Object.entries(counts)) { if (v > bc) { bc = v; best = k; } } return best; };
+  const sizeDefs = clusters.map((c) => {
+    const rep = {}; for (const p of ['fs', 'px', 'py', 'radius', 'height', 'lh']) rep[p] = mode(c.modes[p]);
+    rep._visual = Math.max(c.hn, c.fsn * 1.3 + 2 * c.pyn); rep._fs = c.fsn; rep._count = c.count; return rep;
+  });
+  // Rank by visual size, then font-size (same-height tie), then frequency.
+  sizeDefs.sort((a, b) => (b._visual - a._visual) || (b._fs - a._fs) || (b._count - a._count));
+  let domIdx = 0, domCt = -1;
+  sizeDefs.forEach((d, i) => { if (d._count > domCt) { domCt = d._count; domIdx = i; } });
+  const sizeNames = (sizeDefs.length <= 3)
+    ? [['Large', 'lg', '0000010004'], ['Medium', 'md', '0000010003'], ['Small', 'sm', '0000010002']]
+    : [['X-Large', 'xl', '0000010005'], ['Large', 'lg', '0000010004'], ['Medium', 'md', '0000010003'], ['Small', 'sm', '0000010002'], ['X-Small', 'xs', '0000010001'], ['2X-Small', 'xxs', '0000010000']];
   const sizes = [];
-  sizeDefs.slice(0, 3).forEach((s, i) => {
-    const [nm, slug, sid] = sizeNames[i];
+  sizeDefs.slice(0, sizeNames.length).forEach((s, i) => {
+    const [nm0, slug, sid] = sizeNames[i];
+    const nm = (i === domIdx && sizeDefs.length > 1) ? nm0 + ' (Default)' : nm0;
     const sz = { id: sid, size_name: nm, slug };
     if (s.fs) { const u = unitOf(s.fs); if (u) sz.font_size = u; }
     if (s.lh && s.lh !== 'normal') sz.line_height = /px|rem|em/.test(s.lh) ? s.lh : String(s.lh);
     if (s.py) { const u = unitOf(s.py); if (u) sz.padding_y = u; }
     if (s.px) { const u = unitOf(s.px); if (u) sz.padding_x = u; }
+    if (s.height) { const u = unitOf(s.height); if (u) sz.min_height = u; } // fixed h-N → Min Height (content centres to it)
     if (s.radius) { const u = unitOf(s.radius); if (u) sz.border_radius = u; }
     sizes.push(sz);
   });
@@ -217,7 +237,10 @@ export function buildButtonPresets(home) {
 function buildSpacingScale(home) {
   const base = [
     { name: '0', size: '0' }, { name: '1', size: '0.25rem' }, { name: '2', size: '0.5rem' },
-    { name: '3', size: '1rem' }, { name: '4', size: '1.5rem' }, { name: '5', size: '3rem' },
+    { name: '3', size: '1rem' }, { name: '4', size: '1.5rem' },
+    // Mid-range steps bridging the 24px→48px cliff (2rem / 2.5rem). Parity with the theme default.
+    { name: '[32px]', size: '32px' }, { name: '[40px]', size: '40px' },
+    { name: '5', size: '3rem' },
     { name: '6', size: '3.5rem' }, { name: '7', size: '4rem' }, { name: '8', size: '4.5rem' },
     { name: '9', size: '5rem' }, { name: '10', size: '6rem' }, { name: '11', size: '7rem' },
     { name: '12', size: '8rem' },
@@ -228,6 +251,32 @@ function buildSpacingScale(home) {
     const v = String(t.value || '').toLowerCase();
     if (!v || have.has(v)) continue; have.add(v);
     extras.push({ px: t.px || 0, row: { name: '[' + v + ']', size: v } });
+  }
+  extras.sort((a, b) => a.px - b.px);
+  return base.concat(extras.map((e) => e.row));
+}
+
+// GAP SCALE — mirrors the theme default (0-12 + the [32px]/[40px] mid-range) so g-{slug} ≡ p-{slug} and large
+// gutters (64px, 80px) are expressible, then appends any off-scale gutter the source uses (from the harvested
+// spacing tokens — off-scale gaps surface there). Parity with PHP build_gap_scale(). Returns {name,size} rows.
+function buildGapScale(home) {
+  const base = [
+    { name: '0', size: '0' }, { name: '1', size: '0.25rem' }, { name: '2', size: '0.5rem' },
+    { name: '3', size: '1rem' }, { name: '4', size: '1.5rem' },
+    { name: '[32px]', size: '32px' }, { name: '[40px]', size: '40px' },
+    { name: '5', size: '3rem' },
+    { name: '6', size: '3.5rem' }, { name: '7', size: '4rem' }, { name: '8', size: '4.5rem' },
+    { name: '9', size: '5rem' }, { name: '10', size: '6rem' }, { name: '11', size: '7rem' },
+    { name: '12', size: '8rem' },
+  ];
+  const basePx = [0, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 96, 112, 128];
+  const onScale = (px) => basePx.some((b) => Math.abs(b - px) <= 1);
+  const have = new Set();
+  const extras = [];
+  for (const t of (home && Array.isArray(home.gapTokens) ? home.gapTokens : (home && Array.isArray(home.spacingTokens) ? home.spacingTokens : []))) {
+    const px = Math.round(t.px || 0);
+    if (!px || px < 4 || onScale(px) || have.has(px)) continue; have.add(px);
+    extras.push({ px, row: { name: '[' + px + 'px]', size: px + 'px' } });
   }
   extras.sort((a, b) => a.px - b.px);
   return base.concat(extras.map((e) => e.row));
@@ -746,6 +795,8 @@ export function toThemeSettings(config, home) {
 
   /* --- spacing_scale (Components → Spacing): the source's spacing steps → editable scale. --- */
   values.spacing_scale = buildSpacingScale(home);
+  /* --- gap_scale (Components → Spacing → Gaps): extended to mirror the spacing scale + off-scale gutters. --- */
+  values.gap_scale = buildGapScale(home);
 
   // Flush every scoped rule (footer width cap + Tailwind .container ladder) into one custom_css block.
   if (miscCssParts.length) values.misc_custom_css = { custom_css: miscCssParts.join('\n') };

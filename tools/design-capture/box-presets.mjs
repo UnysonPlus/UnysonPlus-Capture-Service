@@ -18,6 +18,22 @@ const _pad = (all) => ({
   margin: { all: '', top: '', right: '', bottom: '', left: '' },
   padding: { all: String(all || ''), top: '', right: '', bottom: '', left: '' },
 });
+// A COMPUTED padding string ("16px 24px" / "32px") → the padding option shape, so a captured card's inner
+// padding is REPRODUCED on the Box Preset instead of dropped (the converted card kept the shortcode default
+// padding). Uniform → `all`; asymmetric → per-side. Values ride as arbitrary spacing tokens (`[24px]`).
+const _padFromCss = (p) => {
+  const parts = String(p || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length || parts.every((x) => x === '0px' || x === '0')) return _pad('');
+  const tok = (v) => (/^[0-9.]+(px|rem|em|%)$/.test(v) ? '[' + v + ']' : v);
+  let t, r, b, l;
+  if (parts.length === 1) { t = r = b = l = parts[0]; }
+  else if (parts.length === 2) { t = b = parts[0]; r = l = parts[1]; }
+  else if (parts.length === 3) { t = parts[0]; r = l = parts[1]; b = parts[2]; }
+  else { [t, r, b, l] = parts; }
+  const m = { all: '', top: '', right: '', bottom: '', left: '' };
+  if (t === r && r === b && b === l) return { margin: m, padding: { all: tok(t), top: '', right: '', bottom: '', left: '' } };
+  return { margin: m, padding: { all: '', top: tok(t), right: tok(r), bottom: tok(b), left: tok(l) } };
+};
 
 export const DEFAULT_BORDER_PRESETS = [
   { id: 'b000000001', preset_name: 'Card', border_sides: 'all', border_radius: _u(8), padding: _pad('p-4'), transition: '200', hover_fx: ['lift'], custom_css: '',
@@ -170,13 +186,29 @@ const parseShadow = (s) => {
   return { x: Math.round(nums[0] || 0), y: Math.round(nums[1] || 0), blur: Math.round(nums[2] || 0), spread: Math.round(nums[3] || 0), color, inset };
 };
 
-// A box qualifies as a "skin" if it has ANY of radius / shadow / border-width.
+// First non-transparent box-shadow layer (a computed shadow often starts with a transparent placeholder).
+const firstRealShadow = (s) => {
+  s = String(s || '').trim();
+  if (!s || s.toLowerCase() === 'none') return '';
+  let depth = 0, layer = '', layers = [];
+  for (const ch of s) { if (ch === '(') depth++; else if (ch === ')') depth--; if (ch === ',' && depth === 0) { layers.push(layer.trim()); layer = ''; continue; } layer += ch; }
+  if (layer.trim()) layers.push(layer.trim());
+  for (const L of layers) { if (!/rgba\([^)]*,\s*0\s*\)/.test(L) && /[1-9]/.test(L)) return L; }
+  return '';
+};
+
+// A box qualifies as a "skin" if it has ANY of fill / radius / shadow / border / backdrop. The full skin
+// (FILL included) is the cluster key so a red-tint and a green-tint card don't merge. Mirror of PHP.
+const realBw = (v) => { const s = String(v || '').trim(); return (unitOf(s) && !['0', '0px', '0.0px'].includes(s)) ? s : ''; };
 const skinSig = (b) => {
+  const fill = normColor(b.fill || b.bg);
   const radius = unitOf(b.radius) ? String(b.radius).trim() : '';
-  const shadow = (b.shadow && String(b.shadow).toLowerCase() !== 'none') ? String(b.shadow).replace(/\s+/g, '') : '';
-  const bw = unitOf(b.borderWidth) ? String(b.borderWidth).trim() : '';
-  if (!radius && !shadow && !bw) return null;
-  return radius + '|' + shadow + '|' + bw + '|' + normColor(b.borderColor);
+  const shadow = firstRealShadow(b.shadow).replace(/\s+/g, '');
+  const bw = realBw(b.borderWidth);
+  const backdrop = (b.backdrop && String(b.backdrop).toLowerCase() !== 'none') ? String(b.backdrop).replace(/\s+/g, '') : '';
+  if (!fill && !radius && !shadow && !bw && !backdrop) return null;
+  const bdcol = bw ? normColor(b.borderColor) : ''; // border colour only counts with a real border width
+  return fill + '|' + radius + '|' + shadow + '|' + bw + '|' + bdcol + '|' + backdrop;
 };
 
 /**
@@ -195,54 +227,93 @@ export function buildBorderPresets(skins) {
   }
   if (!groups.size) return { presets: DEFAULT_BORDER_PRESETS.slice(), boxpFor: () => '' };
 
-  const ordered = [...groups.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 5);
+  const fillVal = (rgba) => ({ color: { value: { predefined: '', custom: rgba || '' } } });
+  const ordered = [...groups.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 12);
   const used = {}; const derived = []; const sigToId = new Map();
   let n = 0;
   for (const [sig, g] of ordered) {
     const b = g.box;
-    const hasShadow = !!(b.shadow && String(b.shadow).toLowerCase() !== 'none');
-    const hasBorder = !!unitOf(b.borderWidth);
-    const base = (hasShadow && hasBorder) ? 'Card' : (hasShadow ? 'Elevated' : (hasBorder ? 'Outline' : 'Rounded'));
+    const shadow = firstRealShadow(b.shadow);
+    const hasShadow = !!shadow;
+    const hasBorder = !!realBw(b.borderWidth);
+    const hasFill = !!normColor(b.fill || b.bg);
+    const hasGlass = !!(b.backdrop && String(b.backdrop).toLowerCase() !== 'none');
+    const base = hasGlass ? 'Glass' : ((hasFill && hasBorder) ? 'Card' : (hasShadow ? 'Elevated' : (hasBorder ? 'Outline' : (hasFill ? 'Tinted' : 'Rounded'))));
     used[base] = (used[base] || 0) + 1;
     const name = used[base] > 1 ? base + ' ' + used[base] : base;
 
-    const def = {};
+    // DEFAULT state: fill + border + shadow.
+    const def = { background: fillVal(normColor(b.fill || b.bg)) };
     if (hasBorder) {
       def.border_style = (b.borderStyle && b.borderStyle !== 'none') ? b.borderStyle : 'solid';
-      def.border_width = unitOf(b.borderWidth);
+      def.border_width = unitOf(realBw(b.borderWidth));
       const bc = normColor(b.borderColor);
       def.border_color = bc ? { predefined: '', custom: bc } : _empty;
     }
-    const sh = parseShadow(b.shadow);
+    const sh = parseShadow(shadow);
     if (sh) def.box_shadow = sh;
+
+    // HOVER state (no class dropped): fill / border / shadow / lift / scale.
+    const hv = (b.hover && typeof b.hover === 'object') ? b.hover : {};
+    const hover = {};
+    if (normColor(hv.fill)) hover.background = fillVal(normColor(hv.fill));
+    if (normColor(hv.bdcol)) hover.border_color = { predefined: '', custom: normColor(hv.bdcol) };
+    const hsh = parseShadow(firstRealShadow(hv.shadow));
+    if (hsh) hover.box_shadow = hsh;
+    const hoverFx = [];
+    if (hv.lift || b.hoverLift) hoverFx.push('lift');
+    if (hv.shadow || hsh) hoverFx.push('glow');
+
+    let ccss = '';
+    if (hasGlass) ccss += `{{SELECTOR}}{backdrop-filter:${b.backdrop};-webkit-backdrop-filter:${b.backdrop};}`;
+    if (hv.scale) ccss += `{{SELECTOR}}:hover{transform:scale(${hv.scale});}`;
 
     const id = 'b' + String(100 + (++n)).padStart(9, '0');
     sigToId.set(sig, id);
+    const states = { default: def };
+    if (Object.keys(hover).length) states.hover = hover;
     derived.push({
       id, preset_name: name, border_sides: 'all',
       border_radius: unitOf(b.radius) || _u('', 'px'),
-      padding: _pad(''),               // padding stays with the element (the plugin scale can't express 32px)
+      padding: _padFromCss(b.padding),
       transition: '200',
-      hover_fx: b.hoverLift ? ['lift'] : [],
-      custom_css: '',
-      states: { default: def },
+      hover_fx: [...new Set(hoverFx)],
+      custom_css: ccss,
+      states,
     });
   }
 
-  // css-tokens keys the `.boxp-{slug}` rules — and the `box_style` value — by a FRIENDLY slug derived
-  // from preset_name (deduped in order across the whole list), NOT the id. Mirror
-  // unysonplus_border_preset_slug_map() so box_style points at the class css-tokens actually emits (else
-  // the box gets `.boxp-b000000101` while the rule is `.boxp-outline-2` → no styling).
-  const presets = DEFAULT_BORDER_PRESETS.concat(derived);
-  const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-  const seenSlug = {}; const idToSlug = {};
-  for (const p of presets) {
-    let slug = slugify(p.preset_name) || p.id; const base = slug; let k = 1;
-    while (seenSlug[slug]) { k++; slug = base + '-' + k; }
-    seenSlug[slug] = true; idToSlug[p.id] = slug;
-  }
+  // Site presets go ON TOP of the defaults (the converted design system is primary). css-tokens keys the
+  // `.boxp-{slug}` rules — and box_style/border_preset — by a FRIENDLY slug from preset_name (deduped in
+  // order across the whole list). Mirror unysonplus_border_preset_slug_map() so references point at a real rule.
+  const presets = derived.concat(DEFAULT_BORDER_PRESETS);
+  // sigToId + a slug rebuilder are returned so a caller (e.g. the local-AI naming pass) can RENAME the
+  // presets and then recompute the box_style/border_preset references against the new slugs.
   return {
     presets,
-    boxpFor: (box) => { const s = skinSig(box || {}); const id = s && sigToId.get(s); return id && idToSlug[id] ? 'boxp-' + idToSlug[id] : ''; },
+    sigToId,
+    derived,
+    boxpFor: boxpForFrom(sigToId, presets),
   };
 }
+
+/** The friendly slug map (id → slug), deduped in order across the whole preset list — mirror of
+ *  unysonplus_border_preset_slug_map(). Recompute after any rename so references stay valid. */
+export function boxSlugMap(presets) {
+  const slugify = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const seen = {}; const idToSlug = {};
+  for (const p of (presets || [])) {
+    let slug = slugify(p.preset_name) || p.id; const base = slug; let k = 1;
+    while (seen[slug]) { k++; slug = base + '-' + k; }
+    seen[slug] = true; idToSlug[p.id] = slug;
+  }
+  return idToSlug;
+}
+
+/** A `boxpFor(box) → 'boxp-<slug>'|''` closure over a sig→id map + the (possibly renamed) preset list. */
+export function boxpForFrom(sigToId, presets) {
+  const idToSlug = boxSlugMap(presets);
+  return (box) => { const s = skinSig(box || {}); const id = s && sigToId.get(s); return (id && idToSlug[id]) ? 'boxp-' + idToSlug[id] : ''; };
+}
+
+export { skinSig };

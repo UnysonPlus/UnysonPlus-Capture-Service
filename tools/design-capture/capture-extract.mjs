@@ -210,6 +210,35 @@ export function extractDesign() {
     }
     return null;
   };
+  // A SHAPE DIVIDER — an edge-pinned SVG wave/tilt/curve/triangle at a section's top or bottom → the native
+  // section divider option (NOT verbatim). Classifies the path silhouette by curve-command count. Parity with
+  // PHP detect_section_divider().
+  const findDivider = (sec) => {
+    for (const svg of sec.querySelectorAll('svg')) {
+      let w = svg, placement = '', flip = 'no';
+      for (let i = 0; i < 3 && w && w !== sec; i++) {
+        const cs = getComputedStyle(w);
+        if (/-1(,\s*0)?\)/.test(cs.transform || '') || /rotate-180|scale-x-\[?-1|(?:^|\s)flip(?:-x)?\b/.test(w.className || '')) flip = 'yes';
+        if (cs.position === 'absolute' || cs.position === 'fixed') {
+          if (parseFloat(cs.top) === 0) placement = 'top';
+          else if (parseFloat(cs.bottom) === 0) placement = 'bottom';
+          break;
+        }
+        w = w.parentElement;
+      }
+      if (!placement) continue;
+      const path = svg.querySelector('path'); if (!path) continue;
+      const d = path.getAttribute('d') || ''; if (!d) continue;
+      const curves = (d.match(/[CcSsQqTt]/g) || []).length;
+      const shape = curves >= 3 ? 'wave' : (curves >= 1 ? 'curve' : ((d.match(/[Ll]/g) || []).length >= 3 ? 'triangle' : 'tilt'));
+      const ha = svg.getAttribute('height'); const hm = ha && String(ha).match(/^([0-9.]+)/);
+      const height = hm ? String(Math.round(parseFloat(hm[1]))) : String(Math.round(svg.getBoundingClientRect().height || 0)) || '';
+      let fill = path.getAttribute('fill') || ''; if (!fill || fill === 'currentColor') fill = svg.getAttribute('fill') || '';
+      const color = (fill && fill.toLowerCase() !== 'currentcolor' && fill !== 'none') ? fill : '';
+      return { placement, shape, height, color, flip };
+    }
+    return null;
+  };
   // Classify a bento tile by what it carries: showcase (image), stat (a number +
   // label, no heading), feature (heading + text), else plain.
   const tileKind = (el) => {
@@ -515,7 +544,8 @@ export function extractDesign() {
       images: [...new Set(images)].slice(0, 8),
       grids: findGrids(sec),
       bgPattern: findPattern(sec),
-      computed: pick(getComputedStyle(sec), ['backgroundColor', 'padding', 'textAlign', 'color']),
+      divider: findDivider(sec),
+      computed: pick(getComputedStyle(sec), ['backgroundColor', 'backgroundImage', 'padding', 'textAlign', 'color']),
       text: clip(txt(sec), 1500),
     };
   });
@@ -1019,6 +1049,19 @@ export function extractDesign() {
     // not collapse the whole column into one icon_box (the false-positive where a hero's overline sparkle
     // read as a card icon). Product/feature cards use h2–h6, so they still map to icon_box as before.
     if (cell.querySelector('h1')) return null;
+    // A big DISPLAY heading (>=30px) marks a hero/content column even when it uses an h2 (Tailwind sites
+    // routinely size an h2 as `text-6xl`). Feature-card titles are ~18–24px, so this only rejects heroes —
+    // which must DECOMPOSE (special_heading + native button + checklist) instead of swallowing the CTA.
+    try { if ((parseFloat(getComputedStyle(h).fontSize) || 0) >= 30) return null; } catch { /* keep */ }
+    // A FILLED CTA button in the column is the other hero tell: feature cards use a bare text link, so a
+    // solid/filled button ( real bg + padding + a few chars ) means this is a content column with a CTA that
+    // would be LOST inside an icon_box. Decompose it so the button maps to a native button shortcode.
+    const _hasCta = [...cell.querySelectorAll('a[href], button')].some((bt) => {
+      try { const bs = getComputedStyle(bt); const bg = bs.backgroundColor;
+        return txt(bt).length >= 3 && bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent' && (parseFloat(bs.paddingLeft) || 0) >= 8;
+      } catch { return false; }
+    });
+    if (_hasCta) return null;
     const p = wrap.querySelector('p');
     const link = wrap.querySelector('a[href]');
     let icon = '', customIcon = '', lucide = '';
@@ -1107,6 +1150,10 @@ export function extractDesign() {
       iconBadgeSize, iconBadgeRadius, iconBadgeBorderWidth, iconBadgeBorderColor,
       title: clip(txt(h), 160),
       titleTag: h.tagName.toLowerCase(),
+      // The card title's computed font-weight — a `font-serif` product title carries its real weight only
+      // here (no weight utility class), so the imgbox title can re-assert it instead of the theme default
+      // (500). Parity with PHP card build (`titleWeight`).
+      titleWeight: h ? getComputedStyle(h).fontWeight : '',
       text: p ? rawHtmlOf(p, true) : '',
       link: link ? { label: clip(txt(link), 60), href: abs(link.getAttribute('href') || '') } : null,
       cls: String(wrap.className || ''),                      // the card wrapper class (.about-item …) → icon_box css_class
@@ -1114,11 +1161,13 @@ export function extractDesign() {
       pad: boxCs.padding,
       box: {
         bg: okc(boxCs.backgroundColor) ? boxCs.backgroundColor : '',
+        fill: okc(boxCs.backgroundColor) ? boxCs.backgroundColor : '', // Box-Preset FILL (clustered incl. fill)
         radius: (parseFloat(boxCs.borderTopLeftRadius) || 0) > 0 ? boxCs.borderTopLeftRadius : '',
         borderWidth: (parseFloat(boxCs.borderTopWidth) || 0) > 0 ? boxCs.borderTopWidth : '',
         borderStyle: boxCs.borderTopStyle, borderColor: okc(boxCs.borderTopColor) ? boxCs.borderTopColor : '',
         shadow: (boxCs.boxShadow && boxCs.boxShadow !== 'none') ? boxCs.boxShadow : '',
-        hoverLift: /hover:-?translate-y-/.test(String(wrap.className || '')),
+        backdrop: ((boxCs.backdropFilter && boxCs.backdropFilter !== 'none') ? boxCs.backdropFilter : ((boxCs.webkitBackdropFilter && boxCs.webkitBackdropFilter !== 'none') ? boxCs.webkitBackdropFilter : '')),
+        hoverLift: /hover:-?translate-y-/.test(String(wrap.className || '')), padding: boxCs.padding,
       },
     };
   };
@@ -1239,7 +1288,7 @@ export function extractDesign() {
       // onto the preset SCALES; the raw computed values are the fallback when not Tailwind.
       sh: (bcs.boxShadow && bcs.boxShadow !== 'none') ? bcs.boxShadow : '',
       rad: bcs.borderRadius, bw: bcs.borderTopWidth, bwStyle: bcs.borderTopStyle,
-      pad: bcs.padding, fw: bcs.fontWeight, fs: bcs.fontSize, lh: bcs.lineHeight,
+      pad: bcs.padding, height: bcs.height, radius: bcs.borderTopLeftRadius, fw: bcs.fontWeight, fs: bcs.fontSize, lh: bcs.lineHeight,
       tw: twTokens(String(child.className || '')),
       hover: hoverStyle(child) };
   };
@@ -1285,9 +1334,23 @@ export function extractDesign() {
       && (/uppercase|overline|eyebrow|kicker|subtitle|sub-?title|label/i.test(e.className || '') || txt(e) === txt(e).toUpperCase()));
     const ps = [...wrap.querySelectorAll('p')].filter((p) => txt(p));
     const p0 = ps[0] || null;
+    // Overline ICON — a leading/trailing <svg> inside the overline pill (e.g. a lucide house before
+    // "Your Prefab Financing Partner"). Captured for the native overline_icon option, kept out of the text.
+    let ovIcon = '', ovIconPos = 'before';
+    if (sp) {
+      const svg = sp.querySelector('svg');
+      if (svg && svg.innerHTML.trim()) {
+        ovIcon = stripCs(svg.outerHTML);
+        // Position: is the icon before or after the pill's text node?
+        const spText = txt(sp);
+        ovIconPos = (spText && sp.textContent.trim().indexOf(spText) > 0) ? 'after' : 'before';
+      }
+    }
     return {
       overline: sp ? clip(txt(sp), 60) : '',
       overlineClass: sp ? String(sp.className || '') : '',
+      overlineIcon: ovIcon,
+      overlineIconPos: ovIconPos,
       title: richHeading(h) || escHtml(txt(h)), // inner HTML — keep coloured <span> etc., no <hN> wrapper
       titleTag: h.tagName.toLowerCase(),
       titleClass: String(h.className || ''),
@@ -1332,10 +1395,14 @@ export function extractDesign() {
     if (suffix) suffix = ' ' + suffix;   // match the export style (" +", " M")
     const label = [...wrap.querySelectorAll('p')].map((p) => txt(p)).find((t) => t && t.trim()) || '';
     const ncs = getComputedStyle(stat), hcs = getComputedStyle(host);
+    // Stat cell text-align (source hero stats are centered) → counter + label centre to match (PHP parity).
+    const wta = getComputedStyle(wrap).textAlign;
+    const align = (wta === 'center' || wta === 'right') ? wta : '';
     return {
-      number, start: '0', prefix, suffix, decimals, label,
+      number, start: '0', prefix, suffix, decimals, label, align,
       numberColor: toHexColor(ncs.color), suffixColor: toHexColor(hcs.color),
       numberSize: String(parseInt(ncs.fontSize, 10) || ''), numberWeight: String(parseInt(ncs.fontWeight, 10) || ''),
+      prefixSize: String(parseInt(ncs.fontSize, 10) || ''),
       suffixSize: String(parseInt(hcs.fontSize, 10) || ''), suffixWeight: String(parseInt(hcs.fontWeight, 10) || ''),
     };
   };
@@ -1744,7 +1811,160 @@ export function extractDesign() {
         items.push({ title, content: panelHtml });
       }
     }
-    return items.length >= 2 ? { t: 'accordion', items } : null;
+    // FAQ JSON-LD FALLBACK — a Radix/Headless accordion unmounts its closed panels, so the answers are absent
+    // from the DOM (title-only items). Recover them from the page's schema.org/FAQPage structured data by
+    // matching each item title to a Question name → acceptedAnswer.text. Parity with PHP accordion_block.
+    if (items.some((it) => !String(it.content || '').trim())) {
+      const faq = faqJsonLdMap(el.ownerDocument);
+      if (faq && Object.keys(faq).length) {
+        for (const it of items) {
+          if (String(it.content || '').trim()) continue;
+          const ans = faq[faqKey(it.title)];
+          if (ans) it.content = /</.test(ans) ? ans : '<p>' + ans.replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])) + '</p>';
+        }
+      }
+    }
+    if (items.length < 2) return null;
+    const block = { t: 'accordion', items };
+    const design = accordionDesign(el);
+    if (design && Object.keys(design).length) block.design = design;
+    return block;
+  };
+  // A schema.org/FAQPage question→answer map from the document's JSON-LD (parity with PHP faq_jsonld_map).
+  const faqKey = (s) => String(s || '').replace(/<[^>]*>/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+  const faqJsonLdMap = (doc) => {
+    const map = {};
+    if (!doc || !doc.querySelectorAll) return map;
+    for (const s of doc.querySelectorAll('script[type="application/ld+json"]')) {
+      let data; try { data = JSON.parse((s.textContent || '').trim()); } catch (e) { continue; }
+      const nodes = (data && Array.isArray(data['@graph'])) ? data['@graph'] : [data];
+      for (const node of nodes) {
+        if (!node || typeof node !== 'object') continue;
+        const t = node['@type'];
+        const isFaq = (typeof t === 'string' && t.toLowerCase() === 'faqpage') || (Array.isArray(t) && t.includes('FAQPage'));
+        if (!isFaq || !node.mainEntity) continue;
+        let ents = Array.isArray(node.mainEntity) ? node.mainEntity : [node.mainEntity];
+        for (const q of ents) {
+          if (!q || typeof q !== 'object') continue;
+          const name = String(q.name || '').trim();
+          const ans = (q.acceptedAnswer && typeof q.acceptedAnswer === 'object') ? String(q.acceptedAnswer.text || '') : '';
+          if (name && ans.trim()) map[faqKey(name)] = ans;
+        }
+      }
+    }
+    return map;
+  };
+  // Read the source accordion's visual design (parity with PHP accordion_design): style/icon/position/
+  // alignment/radius/gap/elevation/title bg — best-effort, each key omitted when there's no clear signal.
+  const accordionDesign = (el) => {
+    const d = {};
+    let items = [...el.querySelectorAll('details')];
+    if (!items.length) {
+      // Climb each toggle to the ancestor whose PARENT holds >=2 toggle-bearing children (the real accordion
+      // TRACK), so an intermediate single wrapper (`max-w-3xl > space-y-4 > cards`) doesn't over-climb to the
+      // bare track and miss each card's own classes — the "matched the outer wrapper → flush" bug. Parity w/ PHP.
+      const hasToggle = (n) => !!(n && n.nodeType === 1 && (n.hasAttribute('aria-expanded') || n.querySelector('[aria-expanded]')));
+      for (const t of el.querySelectorAll('[aria-expanded]')) {
+        let w = t, found = null;
+        while (w && w !== el) {
+          const p = w.parentElement;
+          if (!p) break;
+          const sibs = [...p.children].filter(hasToggle).length;
+          if (sibs >= 2 || p === el) { found = w; break; }
+          w = p;
+        }
+        if (found && !items.includes(found)) items.push(found);
+      }
+    }
+    if (!items.length) return d;
+    const first = items[0];
+    const pxv = (v) => parseFloat(v) || 0;
+    // The real accordion TRACK = the items' shared parent — container-level reads come from here, not $el.
+    const track = (first.parentElement || el);
+    // Item card's + container's utility CLASSES — the style signal often lives ONLY in Tailwind classes, and
+    // `space-y-N` sets margin-TOP (invisible to the computed gap / margin-bottom reads), so every measurement
+    // below falls back to these. Without it a SEPARATED card list read as `flush`. Parity with PHP.
+    const iCls = ' ' + (first.getAttribute('class') || '').toLowerCase() + ' ';
+    const oCls = ' ' + (track.getAttribute('class') || '').toLowerCase() + ' ';
+    const hasBgCls = /\sbg-(?!transparent|none)[a-z][a-z0-9/-]*/.test(iCls);
+    const hasBdCls = /\sborder(?:-[trbl])?\b/.test(iCls) && !/\sborder-0\b|\sborder-none\b/.test(iCls);
+    const radiusCls = /\srounded-(?:2xl|3xl|full)\b/.test(iCls) ? 20 : (/\srounded-xl\b/.test(iCls) ? 12 : (/\srounded-lg\b/.test(iCls) ? 8 : (/\srounded(?:-md|-sm)?\b/.test(iCls) ? 4 : 0)));
+    let gm; const gapCls = (gm = oCls.match(/\s(?:space-y|gap(?:-y)?)-(\d+(?:\.\d+)?)\b/)) ? parseFloat(gm[1]) * 4 : ((gm = iCls.match(/\smb-(\d+(?:\.\d+)?)\b/)) ? parseFloat(gm[1]) * 4 : 0);
+    const divideCls = /\sdivide-y\b/.test(oCls);
+    let bar = first.tagName.toLowerCase() === 'details' ? first.querySelector('summary') : null;
+    if (!bar) bar = first.querySelector('[aria-expanded]') || first;
+    // icon
+    let iconEl = null;
+    for (const c of bar.querySelectorAll('*')) {
+      const ct = c.tagName.toLowerCase(), cc = (c.getAttribute('class') || '');
+      if (ct === 'svg' || ct === 'i' || c.hasAttribute('data-lucide') ||
+        /\b(icon|chevron|arrow|plus|minus|caret|toggle|expand|indicator)\b/i.test(cc)) iconEl = c;
+    }
+    const barTxt = txt(bar);
+    const probe = (iconEl ? (iconEl.getAttribute('class') || '') + ' ' + (iconEl.getAttribute('data-lucide') || '') + ' ' + (iconEl.getAttribute('icon') || '') + ' ' + iconEl.innerHTML : '') + ' ' + barTxt;
+    if (iconEl || /[+−×›▶⌄▼▾˅]/u.test(barTxt)) {
+      if (/chevron|caret|⌄|▾|▼|›|˅/u.test(probe)) d.icon_style = 'chevron';
+      else if (/arrow|triangle|▶|▸/u.test(probe)) d.icon_style = 'arrow';
+      else if (/\btimes\b|\bclose\b|\bx-|\bxmark|×/u.test(probe)) d.icon_style = 'plus-x';
+      else if (/plus|minus|[+−]/u.test(probe)) d.icon_style = 'plus-minus';
+      else if (iconEl && iconEl.tagName.toLowerCase() === 'svg') d.icon_style = 'chevron';
+    } else { d.icon_style = 'none'; }
+    // position
+    let pos = 'left';
+    const jc = getComputedStyle(bar).justifyContent || '';
+    if (/between|end|right/i.test(jc)) pos = 'right';
+    if (iconEl) {
+      const kids = [...bar.children]; const last = kids[kids.length - 1];
+      if (last === iconEl || /auto/i.test(getComputedStyle(iconEl).marginLeft || '')) pos = 'right';
+    }
+    if (d.icon_style && d.icon_style !== 'none') d.icon_position = pos;
+    // alignment
+    const ta = (getComputedStyle(bar).textAlign || '').toLowerCase();
+    if (ta === 'center') d.title_alignment = 'center'; else if (ta === 'right') d.title_alignment = 'right';
+    // radius
+    const csf = getComputedStyle(first);
+    const rr = csf.borderRadius || '';
+    let radius = pxv(rr);
+    if (radius <= 0 && radiusCls > 0) radius = radiusCls; // class fallback (rounded-xl → 12px)
+    if (radius > 0) d.corner_radius = radius >= 16 ? 'lg' : (radius >= 8 ? 'md' : 'sm');
+    else if (rr === '0px' || divideCls) d.corner_radius = 'none';
+    // gap — computed flex-gap / margin-bottom, else the class fallback (space-y-N uses margin-TOP, unseen).
+    let gap = Math.max(pxv(getComputedStyle(track).gap), pxv(csf.marginBottom), pxv(csf.marginTop));
+    if (gap < 4 && gapCls >= 4) gap = gapCls;
+    if (gap >= 4) {
+      // The accordion Item Spacing option renders a `.mb-{slug}` utility, and the view sanitizes the value
+      // (stripping brackets), so an arbitrary `mb-[16px]` matches no rule. Snap to the nearest INTEGER
+      // spacing-scale slug so the gap actually renders (16px → mb-3). Parity with PHP accordion_design.
+      const sc = [[0, 0], [1, 4], [2, 8], [3, 16], [4, 24], [5, 48], [6, 56], [7, 64], [8, 72], [9, 80], [10, 96], [11, 112], [12, 128]];
+      let best = 3, bd = Infinity;
+      for (const [slug, spx] of sc) { const dd = Math.abs(spx - gap); if (dd < bd) { bd = dd; best = slug; } }
+      d.item_spacing = 'mb-' + best;
+    }
+    // style family
+    const itemBg = csf.backgroundColor || '';
+    const hasBg = (itemBg && itemBg !== 'rgba(0, 0, 0, 0)' && itemBg !== 'transparent') || hasBgCls;
+    let itemBw = pxv(csf.borderTopWidth);
+    if (itemBw < 1 && hasBdCls) itemBw = 1; // class fallback (`border` / `border-border`)
+    const outerBw = pxv(getComputedStyle(track).borderTopWidth);
+    const hasEdge = itemBw >= 1 || radius > 0;
+    if (gap >= 4 && (hasEdge || hasBg)) d.accordion_style = (hasBg && itemBw < 1 && radius <= 4) ? 'filled' : 'separated';
+    else if (gap < 4 && outerBw >= 1) d.accordion_style = 'bordered';
+    else if (gap < 4 && !hasBg && !hasEdge) d.accordion_style = 'flush';
+    // title bg
+    let m; if (hasBg && (m = /rgba?\(\s*(\d+)\D+(\d+)\D+(\d+)/.exec(itemBg))) {
+      const hx = (n) => ('0' + (+n).toString(16)).slice(-2);
+      d.title_bg_color = { predefined: '', custom: '#' + hx(m[1]) + hx(m[2]) + hx(m[3]) };
+    }
+    // elevation
+    const sh = csf.boxShadow || '';
+    if (sh && sh !== 'none') { const sm = /(\d+(?:\.\d+)?)px/.exec(sh); d.elevation = (sm && parseFloat(sm[1]) >= 12) ? 'raised' : 'subtle'; }
+    // Compact hint for the local-AI verify pass (real icon signal, not titles): the toggle icon markup +
+    // bar class + item geometry, so the model can confirm/correct icon_style & accordion_style.
+    d._hint = {
+      icon: (iconEl ? ((iconEl.getAttribute('data-lucide') || iconEl.getAttribute('icon') || '') + ' ' + (iconEl.getAttribute('class') || '') + ' ' + iconEl.innerHTML).replace(/\s+/g, ' ').trim().slice(0, 180) : (barTxt.match(/[+−×›▶⌄▼▾]/u) || [''])[0]),
+      count: items.length, gap: Math.round(gap), radius: Math.round(radius), hasBg, itemBw: Math.round(itemBw),
+    };
+    return d;
   };
 
   // --- feature_list (PHP is_text_list): real <ul>/<ol>, >=2 non-empty <li>, NOT a nav/menu/tab list ---
@@ -1769,6 +1989,50 @@ export function extractDesign() {
       items.push({ text: t, html: stripCs(li.innerHTML) });
     }
     return items.length >= 2 ? { t: 'feature_list', ordered, items } : null;
+  };
+
+  // --- DIV-based icon+text list (PHP is_icon_text_list) → feature_list. A container whose EVERY child is an
+  // inline icon (svg / lucide) + a SHORT label (the modfii hero `flex items-center gap-2` [svg + span] rows:
+  // "No credit impact" · "0.5% closing fee" · "Green mortgage options"). The <ul>/<li> path can't see these,
+  // so they were dumped as verbatim code_blocks. Excludes nav/menu/tab/social strips; cards (with headings)
+  // fail the row test. ---
+  const isIconTextRow = (el) => {
+    if (!el || el.nodeType !== 1) return false;
+    const tag = el.tagName.toLowerCase();
+    if (['a', 'button', 'ul', 'ol', 'li', 'svg', 'img', 'input', 'select'].includes(tag)) return false;
+    const hasIcon = !!(el.querySelector('svg') || el.querySelector('[data-lucide], i[class*="lucide-"], [icon^="lucide:"]') || el.querySelector('i'));
+    if (!hasIcon) return false;
+    const t = (txt(el) || '').trim();
+    if (!t || t.length > 60) return false;
+    for (let i = 1; i <= 6; i++) if (el.querySelector('h' + i)) return false;
+    if (el.querySelector('img') || el.querySelector('button')) return false;
+    if (el.querySelector('a[class*="btn"]')) return false;
+    return true;
+  };
+  const isIconTextList = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['a', 'button', 'nav', 'ul', 'ol', 'form'].includes(tag)) return false;
+    if (el.closest && el.closest('nav')) return false;
+    const cls = cn(el).toLowerCase();
+    if (/\b(menu|nav|navbar|pagination|breadcrumb|tabs?|tablist|social|slider|carousel|dropdown|toolbar)\b/.test(cls)) return false;
+    const kids = [...el.children].filter((k) => {
+      const kt = k.tagName.toLowerCase();
+      if (['script', 'style', 'br', 'hr', 'template'].includes(kt)) return false;
+      return txt(k) || k.querySelector('img') || k.querySelector('svg');
+    });
+    if (kids.length < 2) return false;
+    for (const k of kids) if (!isIconTextRow(k)) return false;
+    return true;
+  };
+  const iconTextListBlockOf = (el) => {
+    const items = [];
+    for (const k of [...el.children]) {
+      const kt = k.tagName.toLowerCase();
+      if (['script', 'style', 'br', 'hr', 'template'].includes(kt)) continue;
+      const t = (txt(k) || '').trim(); if (!t) continue;
+      items.push({ text: t, html: stripCs(k.innerHTML) });
+    }
+    return items.length >= 2 ? { t: 'feature_list', ordered: false, items } : null;
   };
 
   // --- tabs (PHP is_tabs_widget): a tablist (role or .tabs/.nav-tabs) with >=2 tabs each → a panel ---
@@ -1835,6 +2099,11 @@ export function extractDesign() {
   const stepMarker = (el) => {
     if (/^\s*(?:step\s*)?(\d{1,2})\b/i.test(txt(el))) return true;
     for (const c of el.querySelectorAll('*')) {
+      // A distinct element whose ENTIRE text is a 1-2 digit number (optionally zero-padded: 01, 02) is a
+      // step-number badge — the common "big number + title + copy" step card where the number span abuts
+      // the title with no separator ("01Tell Us…"), so the leading-digit test above can't fire. Parity with
+      // PHP step_marker (this check was missing here, so numbered card grids read as icon-box columns).
+      if (/^0*\d{1,2}$/.test(txt(c))) return true;
       const cc = cn(c).toLowerCase();
       if (/step-?(number|index|num|count)|\b(number|circle|marker|count)\b/.test(cc) && /\d/.test(txt(c))) return true;
     }
@@ -1852,14 +2121,116 @@ export function extractDesign() {
     if (titled < 2) return false;
     return classSignal ? true : (numbered >= n);
   };
+  // The ICON of one step (parity PHP step_icon): lucide id → {lucide}, inline svg → {svg}, img → {img}, else null.
+  const stepIcon = (k) => {
+    const li = k.querySelector('[data-lucide], i[class*="lucide-"], [icon^="lucide:"], svg[class*="lucide-"]');
+    if (li) {
+      const dl = li.getAttribute('data-lucide'); if (dl) return { lucide: 'lucide/' + dl.trim().toLowerCase() };
+      const ic = li.getAttribute('icon') || ''; const m = ic.match(/^lucide:([a-z0-9-]+)$/i); if (m) return { lucide: 'lucide/' + m[1].toLowerCase() };
+      const cls = (li.className && li.className.baseVal !== undefined ? li.className.baseVal : li.className) || '';
+      const cm = String(cls).match(/\blucide-([a-z0-9-]+)/); if (cm && cm[1] !== 'lucide') return { lucide: 'lucide/' + cm[1] };
+    }
+    const svg = k.querySelector('svg'); if (svg && svg.innerHTML.trim()) return { svg: svg.outerHTML };
+    const img = k.querySelector('img'); if (img && (img.getAttribute('src') || '').trim()) return { img: img.getAttribute('src').trim() };
+    return null;
+  };
+  // Steps DESIGN (parity PHP detect_steps_design): horizontal|vertical|cards + marker/marker_shape/accent.
+  const detectStepsDesign = (el, items) => {
+    const out = { design: 'horizontal' };
+    const cls = ' ' + cn(el).toLowerCase() + ' ';
+    const dir = getComputedStyle(el).flexDirection || '';
+    const vertical = (cls.includes(' flex-col ') && !cls.includes('md:flex-row')) || /column/.test(dir) || cls.includes(' grid-cols-1 ');
+    if (vertical) out.design = 'vertical';
+    const kids = [...el.children];
+    const isBoxedEl = (elm) => {
+      const c = ' ' + cn(elm).toLowerCase() + ' ';
+      if (/\b(?:border|shadow|rounded|bg-white|bg-card)\b/.test(c)) return true;
+      const s = getComputedStyle(elm); const bg = s.backgroundColor;
+      const hasBg = bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';
+      return parseFloat(s.borderTopWidth) >= 1 || parseFloat(s.borderRadius) >= 4 || (s.boxShadow && s.boxShadow !== 'none') || hasBg;
+    };
+    // The step CARD may be the child itself OR a NESTED wrapper (source pattern: `<div class="relative">` →
+    // connector + `<div class="… bg … border rounded">card</div>`). Resolve the actual boxed element so the
+    // card design + skin aren't missed just because the outer flow wrapper is unstyled.
+    const cardOf = (child) => {
+      if (isBoxedEl(child)) return child;
+      for (const d of child.querySelectorAll('div')) { if (isBoxedEl(d)) return d; }
+      return child;
+    };
+    let boxed = 0, n = 0; const cards = [];
+    for (const k of kids) { n++; const card = cardOf(k); cards.push(card); if (isBoxedEl(card)) boxed++; }
+    if (!vertical && n >= 2 && boxed >= n - 1) out.design = 'cards';
+    // Step-card box SKIN (icon-box `box` shape) so the census clusters it and box_style can be assigned.
+    if (out.design === 'cards' && cards[0]) {
+      const s = getComputedStyle(cards[0]);
+      const okc = (v) => v && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
+      out.box = {
+        bg: okc(s.backgroundColor) ? s.backgroundColor : '', fill: okc(s.backgroundColor) ? s.backgroundColor : '',
+        radius: (parseFloat(s.borderTopLeftRadius) || 0) > 0 ? s.borderTopLeftRadius : '',
+        borderWidth: (parseFloat(s.borderTopWidth) || 0) > 0 ? s.borderTopWidth : '',
+        borderStyle: s.borderTopStyle, borderColor: okc(s.borderTopColor) ? s.borderTopColor : '',
+        shadow: (s.boxShadow && s.boxShadow !== 'none') ? s.boxShadow : '',
+        backdrop: (s.backdropFilter && s.backdropFilter !== 'none') ? s.backdropFilter : '',
+        hoverLift: /hover:-?translate-y-/.test(cn(cards[0])),
+      };
+    }
+    // Marker shape + accent: prefer the ICON BADGE (the element wrapping the step's icon that carries a
+    // fill/radius — e.g. `w-14 h-14 rounded-2xl bg-primary/10`), not the plain number span. Falls back to a
+    // number/marker chip so a number-only flow still reads its shape.
+    const first = kids[0];
+    let marker = null;
+    if (first) {
+      const ic = first.querySelector('svg, i[class*="lucide-"], [data-lucide], img');
+      if (ic) {
+        for (let p = ic.parentElement; p && p !== first.parentElement && p !== first; p = p.parentElement) {
+          const ps = getComputedStyle(p); const pbg = ps.backgroundColor;
+          if ((pbg && pbg !== 'rgba(0, 0, 0, 0)' && pbg !== 'transparent') || parseFloat(ps.borderRadius) > 0) { marker = p; break; }
+        }
+      }
+      if (!marker) {
+        for (const c of first.querySelectorAll('*')) {
+          if (/^0*\d{1,2}$/.test(txt(c)) || /step-?(number|index|num|count)|\b(marker|badge|circle|count|number)\b/.test(cn(c).toLowerCase())) { marker = c; break; }
+        }
+      }
+    }
+    if (marker) {
+      const ms = getComputedStyle(marker); const rr = ms.borderRadius || '', rad = parseFloat(rr);
+      if (rad >= 999 || rr.includes('50%')) out.marker_shape = 'circle';
+      else if (rad >= 4) out.marker_shape = 'rounded';
+      else if (rr === '0px') out.marker_shape = 'square';
+      const mbg = ms.backgroundColor, mm = /rgba?\(\s*(\d+)\D+(\d+)\D+(\d+)(?:\D+([\d.]+))?/.exec(mbg || '');
+      if (mbg && mbg !== 'rgba(0, 0, 0, 0)' && mbg !== 'transparent' && mm) {
+        // Preserve a translucent tint (source badges are often `bg-primary/10`) so the marker reads light.
+        if (mm[4] != null && parseFloat(mm[4]) < 1) out.accent = `rgba(${+mm[1]}, ${+mm[2]}, ${+mm[3]}, ${mm[4]})`;
+        else { const hx = (x) => ('0' + (+x).toString(16)).slice(-2); out.accent = '#' + hx(mm[1]) + hx(mm[2]) + hx(mm[3]); }
+      }
+    }
+    const withIcon = items.filter((it) => it.icon).length;
+    if (withIcon >= Math.max(1, Math.floor(items.length / 2))) out.marker = 'icon';
+    // Connector — a thin line element between steps (h-px/h-0.5 bar or a gradient/bg divider) → keep the line;
+    // otherwise turn it off so a boxed source with no line doesn't get a spurious connector.
+    let hasConn = false;
+    for (const k of kids) {
+      for (const c of k.querySelectorAll('*')) {
+        const cc = ' ' + cn(c).toLowerCase() + ' ';
+        if (/\b(?:connector|step-line|divider-line)\b/.test(cc) || (/\bh-(?:px|0\.5|\[1px\]|\[2px\])\b/.test(cc) && /\b(?:bg-|gradient)/.test(cc))) { hasConn = true; break; }
+      }
+      if (hasConn) break;
+    }
+    out.connector = hasConn ? 'solid' : 'none';
+    return out;
+  };
   const stepsBlockOf = (el) => {
     const items = [];
     for (const k of wChildren(el)) {
       const title = wTitle(k); if (!title) continue;
       let num = ''; const m = txt(k).match(/^\s*(?:step\s*)?(\d{1,2})\b/i); if (m) num = m[1];
-      items.push({ title, content: wBody(k, title), number: num });
+      if (!num) { // glued number span ("01Tell Us…") → pull the child whose entire text is a 1-2 digit number (keeps 01/02)
+        for (const c of k.querySelectorAll('*')) { const ct = txt(c); if (/^0*\d{1,2}$/.test(ct)) { num = ct; break; } }
+      }
+      items.push({ title, content: wBody(k, title), number: num, icon: stepIcon(k) });
     }
-    return items.length >= 2 ? { t: 'steps', items } : null;
+    return items.length >= 2 ? { t: 'steps', items, design: detectStepsDesign(el, items) } : null;
   };
 
   // --- timeline (PHP is_timeline): .timeline OR every child dated, each with a title ---
@@ -2038,6 +2409,7 @@ export function extractDesign() {
     if (isProgressBars(el)) return progressBlockOf(el);  // 96
     if (isTabsWidget(el)) return tabsBlockOf(el);        // 95
     if (isAccordionGroup(el)) return accordionBlockOf(el); // 89
+    if (isIconTextList(el)) return iconTextListBlockOf(el); // 84 (DIV icon+text list → feature_list)
     return null;
   };
 
@@ -2144,6 +2516,41 @@ export function extractDesign() {
       // CTA band falls through to the faithful assembled path (centered heading + text + button).
       // ctaBandOf stays defined for a future variant-aware node.
       // { const cta = ctaBandOf(child); if (cta) { out.push({ t: 'cta', ...cta, anim: cAnim }); continue; } }
+      // A NEWSLETTER / email-signup <form> → the native `newsletter` shortcode (parity with PHP
+      // is_newsletter_form / newsletter_build). Claimed as ONE block so its <input> isn't dropped and the
+      // submit button doesn't become a bare text block. The section heading/copy stay separate above it.
+      if (tag === 'FORM') {
+        const inputs = [...child.querySelectorAll('input')];
+        const bad = inputs.some((i) => /^(password|search)$/i.test((i.type || '')));
+        const fields = inputs.filter((i) => { const t = (i.type || '').toLowerCase(); return t === '' || t === 'email' || t === 'text'; });
+        if (!bad && fields.length) {
+          const emailIn = inputs.find((i) => (i.type || '').toLowerCase() === 'email');
+          let emailPh = emailIn ? (emailIn.placeholder || '').trim() : '';
+          const texts = inputs.filter((i) => { const t = (i.type || '').toLowerCase(); return t === '' || t === 'text'; }).map((i) => (i.placeholder || '').trim());
+          if (!emailPh && texts.length) emailPh = texts.shift();
+          const namePh = texts.length ? texts[0] : '';
+          const btnEl = child.querySelector('button') || inputs.find((i) => (i.type || '').toLowerCase() === 'submit') || null;
+          const btnLabel = btnEl ? (clip(txt(btnEl), 40) || (btnEl.value || '').trim()) : '';
+          const bcs = btnEl ? getComputedStyle(btnEl) : null;
+          const fcs = fields[0] ? getComputedStyle(fields[0]) : null;
+          const incls = fields[0] ? ' ' + String(fields[0].className || '').toLowerCase() + ' ' : '';
+          let rounded = 'rounded-0';
+          if (/\srounded-full\s/.test(incls)) rounded = 'pill';
+          else if (/\srounded(?:-(?:sm|md|lg|xl|2xl|3xl))?\s/.test(incls)) rounded = 'rounded';
+          let align = '';
+          for (let p = child.parentElement, i = 0; p && i < 5; p = p.parentElement, i++) {
+            const pc = ' ' + String(p.className || '').toLowerCase() + ' ';
+            if (/\stext-center\s/.test(pc)) { align = 'center'; break; }
+            if (/\stext-right\s/.test(pc)) { align = 'right'; break; }
+            if (/\stext-left\s/.test(pc)) { align = 'left'; break; }
+          }
+          out.push({ t: 'newsletter', role: 'newsletter', placeholder: emailPh, name_placeholder: namePh, show_name: !!namePh,
+            button_label: btnLabel, align, rounded,
+            button_bg: bcs ? bcs.backgroundColor : '', button_fg: bcs ? bcs.color : '',
+            field_bg: (fcs && !isTransparent(fcs.backgroundColor)) ? fcs.backgroundColor : '' });
+          continue;
+        }
+      }
       if (/^H[1-6]$/.test(tag)) {
         const html = richHeading(child) || escHtml(txt(child));
         if (html) { const _hcs = getComputedStyle(child); out.push({ t: 'heading', level: +tag[1], html, text: clip(txt(child), 200), tag: tag.toLowerCase(), cls, wrapCls: headingWrapClass(child), fontSize: _hcs.fontSize, fontWeight: _hcs.fontWeight, color: _hcs.color, marginBottom: _hcs.marginBottom, marginTop: _hcs.marginTop, lineHeight: _hcs.lineHeight, letterSpacing: _hcs.letterSpacing, align: (_hcs.textAlign || 'left').replace(/^(start|justify)$/, 'left').replace('end', 'right') }); }
@@ -2168,7 +2575,8 @@ export function extractDesign() {
         // SVG icon / border width) — otherwise a STANDALONE button (a CTA under a heading) loses its
         // padding (px-10 py-4 → the shortcode's .btn default 10px/24px) and its inline arrow icon.
         if (label) out.push({ t: 'button', label, href: abs(child.getAttribute('href') || ''), tag: tag.toLowerCase(), cls, align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
-          pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+          groupCls: String((child.parentElement && child.parentElement.className) || ''), // wrapper classes → to-pages full-width + wrapper mt/mb spacing (PHP parity)
+          pad: bcs.padding, height: bcs.height, radius: bcs.borderTopLeftRadius, lineHeight: bcs.lineHeight, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
           hover: hoverStyle(child), // NEVER-DROP hover: resolved hover:* colours → to-pages scoped :hover
           bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
       } else if (isOverline(child, el)) {
@@ -2186,7 +2594,7 @@ export function extractDesign() {
         // fontSize + letterSpacing: the overline has NO native size/letter-spacing option, so carry the
         // computed values (never-drop → scoped .heading-overline CSS in to-pages). Without these the
         // eyebrow lost its size/tracking and rendered in the theme default. Parity with PHP overline_typography_css.
-        out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, textTransform: ocs.textTransform, fontSize: ocs.fontSize, letterSpacing: ocs.letterSpacing, iconSvg: ovIcon, iconPos: ovIconPos });
+        out.push({ t: 'overline', html: ovHtml, text: clip(txt(child), 60), cls, pill: /rounded-full|inline-flex|inline-block|pill/i.test(cls), color: ocs.color, bg: ocs.backgroundColor, borderW: ocs.borderTopWidth, borderColor: ocs.borderTopColor, radius: ocs.borderRadius, padding: ocs.padding, backdropFilter: (ocs.backdropFilter && ocs.backdropFilter !== 'none' ? ocs.backdropFilter : (ocs.webkitBackdropFilter && ocs.webkitBackdropFilter !== 'none' ? ocs.webkitBackdropFilter : '')), textTransform: ocs.textTransform, fontSize: ocs.fontSize, letterSpacing: ocs.letterSpacing, fontWeight: ocs.fontWeight, gap: ((ocs.columnGap && ocs.columnGap !== 'normal') ? ocs.columnGap : ocs.gap), iconSvg: ovIcon, iconPos: ovIconPos });
       } else if ((_rat = ratingClusterOf(child))) {
         // A star-rating / social-proof cluster (avatars + stars + "4.9/5 from 500+ …") → a `rating`
         // block (→ star-rating shortcode + an avatar group), NOT a verbatim code_block.
@@ -2223,7 +2631,7 @@ export function extractDesign() {
           }
           out.push({ t: 'button', label, href: abs(bel.getAttribute('href') || ''), tag: bel.tagName.toLowerCase(),
             cls: (bel.className || '').toString(), align: (bcs.textAlign || 'left'), icon, iconSvg, iconPos,
-            pad: bcs.padding, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
+            pad: bcs.padding, height: bcs.height, radius: bcs.borderTopLeftRadius, lineHeight: bcs.lineHeight, fontSize: bcs.fontSize, fontWeight: bcs.fontWeight,
             hover: hoverStyle(bel), // NEVER-DROP hover: resolved hover:* colours → to-pages scoped :hover
             groupRow, groupFirst: ki === 0, groupLast: ki === kids.length - 1,
             bs: { bg: bcs.backgroundColor, fg: bcs.color, bd: bcs.borderTopColor, bds: bcs.borderTopStyle, bw: bcs.borderTopWidth } });
@@ -2249,10 +2657,20 @@ export function extractDesign() {
           const _gapRaw = (_rcs.columnGap && _rcs.columnGap !== 'normal') ? _rcs.columnGap
             : ((_rcs.gap && _rcs.gap !== 'normal') ? _rcs.gap.split(' ').pop() : '');
           const gap = parseFloat(_gapRaw) || 0;
+          // RESPONSIVE gap layers (base / md: / lg:) from the grid's Tailwind classes, so a source
+          // `gap-10 lg:gap-16` keeps its 40px mobile AND 64px desktop gutter on the per-device Section Gap
+          // instead of flattening to the single computed value. Parity with PHP grid_gap_responsive().
+          const _gcls = ' ' + String(child.className || '') + ' ';
+          const _gapPick = (re) => { const m = _gcls.match(re); return m ? parseFloat(m[1]) * 4 : 0; };
+          const gapResp = {
+            base: _gapPick(/\sgap(?:-x)?-(\d+(?:\.\d+)?)\b/) || gap,
+            md: _gapPick(/\smd:gap(?:-x)?-(\d+(?:\.\d+)?)\b/),
+            lg: _gapPick(/\slg:gap(?:-x)?-(\d+(?:\.\d+)?)\b/),
+          };
           // Carry the raw HTML so a NESTED row that reaches blockToNode (e.g. a bespoke rating /
           // social-proof cluster inside a decomposed hero column) renders verbatim as a CONTAINED
           // code_block instead of an EMPTY one. (A top-level layout row is still built into columns.)
-          out.push({ t: 'row', cols, valign, gap, html: rawHtmlOf(child, true) });
+          out.push({ t: 'row', cols, valign, gap, gapResp, html: rawHtmlOf(child, true) });
         }
       } else if (tag === 'IMG' || (/^(FIGURE|PICTURE)$/.test(tag) && child.querySelector('img') && !txt(child))) {
         // A standalone <img> (or a figure/picture wrapping a lone image) → a clean `image` block →
@@ -2278,6 +2696,24 @@ export function extractDesign() {
       // apply_block_anim — to-pages enables it only on the standard {enable,yes} shape). Skip verbatim
       // html (decor/undecomposed) so a decorative backdrop doesn't get false motion.
       if (cAnim) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && _b.t !== 'html' && !_b.anim) _b.anim = cAnim; } }
+      // SELF-CONTAINMENT — feed the leaf's COMPUTED typography into the block so textBlock()'s existing
+      // self-containment reproduces any dropped Tailwind class effect (font-size/line-height/weight/tracking/
+      // transform) in the element's Advanced Custom CSS. Only leaves WITHOUT a rich native size option
+      // (text/overline) — headings own their size via display_size, buttons already self-contain, structural
+      // widgets carry their own skin. Idempotent: only fills fields the block didn't already capture.
+      try {
+        const _lcs = getComputedStyle(child);
+        for (let _i = _animStart; _i < out.length; _i++) {
+          const _b = out[_i];
+          if (!_b || (_b.t !== 'text' && _b.t !== 'overline')) continue;
+          if (_b.fontSize == null) _b.fontSize = _lcs.fontSize;
+          if (_b.lineHeight == null) _b.lineHeight = _lcs.lineHeight;
+          if (_b.fontWeight == null) _b.fontWeight = _lcs.fontWeight;
+          if (_b.letterSpacing == null) _b.letterSpacing = _lcs.letterSpacing;
+          if (_b.textTransform == null) _b.textTransform = _lcs.textTransform;
+          if (_b.color == null && _lcs.color) _b.color = _lcs.color;
+        }
+      } catch { /* no computed style available */ }
     }
   };
 
@@ -2346,6 +2782,8 @@ export function extractDesign() {
       if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'PATH' || tag === 'path') continue;
       const s = getComputedStyle(n);
       if (s.backgroundImage && s.backgroundImage !== 'none') bump('background-image');
+      if (s.backgroundColor && s.backgroundColor !== 'rgba(0, 0, 0, 0)' && s.backgroundColor !== 'transparent') bump('background-color');
+      if ((s.backdropFilter && s.backdropFilter !== 'none') || (s.webkitBackdropFilter && s.webkitBackdropFilter !== 'none')) bump('backdrop-filter');
       if (s.boxShadow && s.boxShadow !== 'none') bump('box-shadow');
       if (s.borderTopWidth !== '0px' || s.borderRightWidth !== '0px' || s.borderBottomWidth !== '0px' || s.borderLeftWidth !== '0px') bump('border');
       if (s.borderRadius && s.borderRadius !== '0px') bump('border-radius');
@@ -2890,6 +3328,17 @@ export function extractDesign() {
         shadow: (s.boxShadow && s.boxShadow !== 'none') ? s.boxShadow : '',
         radius: s.borderRadius || '',
         px: s.paddingLeft || '', py: s.paddingTop || '',
+        // FIXED height (h-11) with ~0 vertical padding → the size preset's Min Height (content centres to it),
+        // the exact reproduction vs guessing Padding Y. Derive from the `h-N` CLASS first (Tailwind h-N = N×4px)
+        // — the computed height is unreliable here (often the ~24px CONTENT height); fall back to computed.
+        height: (() => {
+          const cls = String((el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className) || '');
+          const py = parseFloat(s.paddingTop) || 0, fs = parseFloat(s.fontSize) || 16;
+          let h = 0; const hm = cls.match(/(?:^|\s)h-(\d{1,2}|\[[0-9.]+(?:px|rem)\])(?:\s|$)/);
+          if (hm) { const hv = hm[1]; h = hv[0] === '[' ? parseFloat(hv.replace(/[^0-9.]/g, '')) * (/rem/.test(hv) ? 16 : 1) : parseFloat(hv) * 4; }
+          else { h = parseFloat(s.height) || 0; }
+          return (py < 4 && h >= 28 && h <= 80 && h > fs * 1.6) ? Math.round(h) + 'px' : '';
+        })(),
         fs: s.fontSize || '', lh: s.lineHeight || '',
         // Typography the native colour/size preset fields can't hold → reproduced in the preset Custom CSS
         // (parity with the PHP stitch's appearance_css): font-family (a display face different from the body
@@ -3248,6 +3697,33 @@ export function extractDesign() {
     try { return new URL('/favicon.ico', location.href).href; } catch { return ''; }
   })();
 
+  // BOX CENSUS — every distinct box SKIN on the page (fill + border + radius + shadow + backdrop, plus
+  // hover-lift from `hover:` classes), clustered by full skin. Feeds the Box Presets library so glass
+  // panels, stat boxes, tinted cards and pills ALL get a preset — not just icon-box cards. Mirror of the
+  // PHP build_box_presets() detection; fill is in the key so red/green tints don't merge.
+  const boxCensus = (() => {
+    const skip = new Set(['HTML', 'HEAD', 'BODY', 'SECTION', 'NAV', 'HEADER', 'FOOTER', 'MAIN', 'SCRIPT', 'STYLE', 'SVG', 'PATH', 'BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA', 'IMG']);
+    const nc = (c) => { c = String(c || '').trim().toLowerCase(); const m = c.match(/rgba?\(\s*([0-9.]+)[,\s]+([0-9.]+)[,\s]+([0-9.]+)(?:[,\s/]+([0-9.]+))?/); if (!m) return ''; const a = m[4] === undefined ? 1 : parseFloat(m[4]); if (a === 0) return ''; return a < 1 ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${a})` : `rgb(${m[1]}, ${m[2]}, ${m[3]})`; };
+    const map = new Map();
+    const els = document.querySelectorAll('div,article,li,span,aside');
+    for (let i = 0; i < els.length && i < 4000; i++) {
+      const el = els[i]; if (skip.has(el.tagName)) continue;
+      const cs = getComputedStyle(el);
+      const radius = (parseFloat(cs.borderTopLeftRadius) || 0) > 0 ? cs.borderTopLeftRadius : '';
+      const bw = (parseFloat(cs.borderTopWidth) || 0) > 0 ? cs.borderTopWidth : '';
+      const shadow = (cs.boxShadow && cs.boxShadow !== 'none') ? cs.boxShadow : '';
+      const fill = nc(cs.backgroundColor);
+      const backdrop = (cs.backdropFilter && cs.backdropFilter !== 'none') ? cs.backdropFilter : ((cs.webkitBackdropFilter && cs.webkitBackdropFilter !== 'none') ? cs.webkitBackdropFilter : '');
+      if (!(radius || shadow || backdrop) || !(fill || bw || shadow || backdrop)) continue; // a card/panel/chip, not a section
+      const r = el.getBoundingClientRect(); if (r.width < 40 || r.height < 24) continue;
+      const cls = String(el.className || '');
+      const key = fill + '|' + radius + '|' + shadow.replace(/\s+/g, '') + '|' + bw + '|' + (bw ? nc(cs.borderTopColor) : '') + '|' + backdrop.replace(/\s+/g, '');
+      if (!map.has(key)) map.set(key, { fill, radius, borderWidth: bw, borderStyle: cs.borderTopStyle, borderColor: cs.borderTopColor, shadow, backdrop, padding: cs.padding, hoverLift: /hover:-?translate-y-/.test(cls), count: 0 });
+      map.get(key).count++;
+    }
+    return [...map.values()].sort((a, b) => b.count - a.count).slice(0, 40);
+  })();
+
   return {
     title: document.title,
     favicon,
@@ -3257,7 +3733,7 @@ export function extractDesign() {
     layout: { container_max: containerMax },
     baseHeading,
     header, footer, sections, chrome,
-    buttonSkins, mobileBreakpoint, spacingTokens, footerContainerMax,
+    buttonSkins, mobileBreakpoint, spacingTokens, footerContainerMax, boxCensus,
     assets: { images: [...imgs].filter((u) => /^https?:/.test(u)), fonts },
   };
 }

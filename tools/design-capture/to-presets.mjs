@@ -144,6 +144,22 @@ export function sectionStyles(capture) {
 // section styles) the key is emitted only when the source actually has one.
 export function backgroundPatterns(capture) {
   const secs = (capture && Array.isArray(capture.sections)) ? capture.sections : [];
+  // PREVIEW-ONLY: the resolved background COLOUR of the section a pattern was captured on. A light/white mark
+  // from a coloured band (the green section-9) is invisible on the editor's white preview, so the row's preview
+  // iframe is painted with the band's colour. NEVER emitted into the pattern's output CSS. Parity w/ PHP.
+  const bodyBg = (capture && capture.tokens && capture.tokens.body && capture.tokens.body.backgroundColor) ? String(capture.tokens.body.backgroundColor) : '';
+  const _transp = (c) => !c || /transparent/i.test(c) || /rgba\([^)]*,\s*0(?:\.0+)?\s*\)/i.test(c);
+  const sectionPreviewBg = (s) => {
+    const cmp = (s && s.computed) || {};
+    let pv = cmp.backgroundColor ? String(cmp.backgroundColor) : '';
+    if (_transp(pv)) {
+      const gi = String(cmp.backgroundImage || cmp.background || '');
+      const gm = gi.match(/(#[0-9a-f]{3,8}|rgba?\([^)]*\)|hsla?\([^)]*\))/i);
+      pv = (/gradient/i.test(gi) && gm) ? gm[1] : '';
+    }
+    if (_transp(pv)) pv = _transp(bodyBg) ? '' : bodyBg;
+    return _transp(pv) ? '' : pv;
+  };
   const seen = new Map();
   for (const s of secs) {
     const bp = s && s.bgPattern;
@@ -151,14 +167,19 @@ export function backgroundPatterns(capture) {
     const image = String(bp.image).trim();
     if (!image || image.length > 3000) continue;
     if (!seen.has(image)) {
-      seen.set(image, { image, repeat: bp.repeat || '', size: bp.size || '', opacity: (bp.opacity != null ? bp.opacity : 1), count: 0 });
+      seen.set(image, { image, repeat: bp.repeat || '', size: bp.size || '', opacity: (bp.opacity != null ? bp.opacity : 1), count: 0, preview_bg: sectionPreviewBg(s) });
     }
-    seen.get(image).count++;
+    const e = seen.get(image);
+    e.count++;
+    if (!e.preview_bg) { e.preview_bg = sectionPreviewBg(s); } // first band that resolves a colour wins
   }
-  if (!seen.size) return [];
-  return [...seen.values()].sort((a, b) => b.count - a.count).slice(0, 5).map((g, i) => {
+  if (!seen.size) return []; // no captured pattern → emit nothing, so the saved default library is preserved
+  const derived = [...seen.values()].sort((a, b) => b.count - a.count).slice(0, 5).map((g, i) => {
     const n = i + 1;
-    const cls = 'pat-captured-' + n;
+    // Deterministic id from the image so a section's applied-pattern option (to-pages) resolves to THIS preset.
+    // MUST match patternPresetId() in to-pages.mjs.
+    const id = 'captured-' + (() => { const s = String(g.image || ''); let h = 5381; for (let j = 0; j < s.length; j++) h = ((h << 5) + h + s.charCodeAt(j)) >>> 0; return h.toString(16).padStart(8, '0').slice(0, 8); })();
+    const cls = 'pat-' + id;
     const decls = [
       `background-image:${g.image}`,
       (g.repeat && g.repeat !== 'repeat') ? `background-repeat:${g.repeat}` : '',
@@ -166,14 +187,35 @@ export function backgroundPatterns(capture) {
       (g.opacity < 1) ? `opacity:${g.opacity}` : '',
     ].filter(Boolean).join(';');
     return {
-      id: 'captured-' + n,
+      id,
       pattern_name: 'Captured Pattern ' + n,
       root_class: cls,
       html: `<div class="${cls}"></div>`,
       css: `.${cls}{width:100%;height:100%;${decls}}`,
+      // PREVIEW-ONLY editor metadata (the section colour the pattern sits on). NOT part of `decls`/`css`.
+      preview_bg: g.preview_bg || '',
     };
   });
+  // The importer REPLACES the whole option — so emit the captured patterns ON TOP of the plugin defaults,
+  // or the built-in library is erased. (Same rule as Box Presets.) Mirror of unysonplus_default_pattern_presets().
+  return derived.concat(DEFAULT_PATTERNS);
 }
+
+const _dp = (id, pattern_name, cls, decls) => ({ id, pattern_name, root_class: cls, html: `<div class="${cls}"></div>`, css: `.${cls}{width:100%;height:100%;${decls}}` });
+const DEFAULT_PATTERNS = [
+  _dp('dots', 'Dots', 'pat-dots', 'background-image:radial-gradient(rgba(0,0,0,.18) 1.6px,transparent 1.7px);background-size:22px 22px'),
+  _dp('grid', 'Grid', 'pat-grid', 'background-image:linear-gradient(rgba(0,0,0,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.12) 1px,transparent 1px);background-size:26px 26px'),
+  _dp('diagonal-stripes', 'Diagonal Stripes', 'pat-diagonal', 'background:repeating-linear-gradient(45deg,rgba(0,0,0,.07) 0 10px,transparent 10px 20px)'),
+  _dp('vertical-stripes', 'Vertical Stripes', 'pat-vertical', 'background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 10px,transparent 10px 20px)'),
+  _dp('horizontal-stripes', 'Horizontal Stripes', 'pat-horizontal', 'background:repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0 10px,transparent 10px 20px)'),
+  _dp('checkerboard', 'Checkerboard', 'pat-checker', 'background-image:linear-gradient(45deg,rgba(0,0,0,.1) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.1) 75%),linear-gradient(45deg,rgba(0,0,0,.1) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.1) 75%);background-size:28px 28px;background-position:0 0,14px 14px'),
+  _dp('crosshatch', 'Crosshatch', 'pat-crosshatch', 'background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.08) 0 1px,transparent 1px 12px),repeating-linear-gradient(-45deg,rgba(0,0,0,.08) 0 1px,transparent 1px 12px)'),
+  _dp('triangles', 'Triangles', 'pat-triangles', 'background-image:linear-gradient(45deg,rgba(0,0,0,.09) 25%,transparent 25%),linear-gradient(-45deg,rgba(0,0,0,.09) 25%,transparent 25%);background-size:20px 20px'),
+  _dp('chevron', 'Chevron', 'pat-chevron', 'background:linear-gradient(135deg,rgba(0,0,0,.08) 25%,transparent 25%) -12px 0/24px 24px,linear-gradient(225deg,rgba(0,0,0,.08) 25%,transparent 25%) -12px 0/24px 24px,linear-gradient(315deg,rgba(0,0,0,.08) 25%,transparent 25%) 0 0/24px 24px,linear-gradient(45deg,rgba(0,0,0,.08) 25%,transparent 25%) 0 0/24px 24px'),
+  _dp('circles', 'Circles', 'pat-circles', 'background-image:radial-gradient(circle at 50% 50%,transparent 5px,rgba(0,0,0,.09) 6px,transparent 7px);background-size:24px 24px'),
+  _dp('scales', 'Scales', 'pat-scales', 'background-image:radial-gradient(circle at 50% 100%,transparent 9px,rgba(0,0,0,.08) 10px,transparent 11px);background-size:24px 12px'),
+  _dp('confetti', 'Confetti', 'pat-confetti', 'background-image:radial-gradient(rgba(0,0,0,.15) 1.6px,transparent 1.7px),radial-gradient(rgba(0,0,0,.1) 1.6px,transparent 1.7px);background-size:30px 30px,30px 30px;background-position:0 0,15px 15px'),
+];
 
 export function toPresets(designConfig, capture, iconBadgeSkins) {
   const cfg = designConfig || {};

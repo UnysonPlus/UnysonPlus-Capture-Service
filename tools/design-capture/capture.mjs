@@ -22,7 +22,7 @@ import { toPages } from './to-pages.mjs';
 import { toStyleGuide } from './to-styleguide.mjs';
 import { toPresets } from './to-presets.mjs';
 import { toThemeSettings } from './to-theme-settings.mjs';
-import { buildBorderPresets } from './box-presets.mjs';
+import { buildBorderPresets, boxpForFrom } from './box-presets.mjs';
 import { makeZip } from './minimal-zip.mjs';
 import { extractDesign } from './capture-extract.mjs';
 import { toReport } from './to-report.mjs';
@@ -31,7 +31,7 @@ import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
-import { microBackend, selectedLocalModel, localSectionMicroTask, localAiStatus } from './to-ai.mjs';
+import { microBackend, selectedLocalModel, localSectionMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus } from './to-ai.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
 
@@ -408,8 +408,8 @@ async function renderPage(p, target) {
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
   await evalSafe(p, () => {
-    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','max-width','display','gap','justify-content','align-items','flex-direction','transition','transform'];
-    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal',
+    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','backdrop-filter','max-width','display','gap','justify-content','align-items','flex-direction','transition','transform'];
+    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal',
       // Drop the CSS initial values so only elements that actually declare a transition/transform carry one.
       'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none' };
     const els = document.querySelectorAll('body *');
@@ -781,6 +781,32 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // ship a NEAR-EMPTY child theme (no header.php/footer.php) so the parent renders this chrome.
     // MIRROR of the PHP tokens_to_theme_settings_chrome() + chrome_via_settings flag.
     const themeSettings = toThemeSettings(config, home);
+    // Make EVERY Theme-Settings preset build EXPLICIT + GRANULAR in Live progress (colors / buttons /
+    // section styles / text styles are all derived from the source here; box & icon-badge presets follow
+    // in the box pass below). One step per preset kind so nothing is silent.
+    {
+      const v = themeSettings.values || {};
+      const cnt = (k) => (Array.isArray(v[k]) ? v[k].length : 0);
+      step(`🎛️ Theme Settings presets → deriving the design system from the source…`);
+      // Reported in DESIGN-SYSTEM order (tokens → type → spacing → components → sections), the order the
+      // deterministic converter derives them inside toThemeSettings().
+      if (cnt('theme_colors')) step(`  🎨 Color Presets → ${cnt('theme_colors')} brand color(s)`);
+      if (v.typography && Object.keys(v.typography).length) step(`  🔡 Typography → heading + body scale set`);
+      if (cnt('font_sizes')) step(`  🔤 Text Styles → ${cnt('font_sizes')} size(s)`);
+      if (cnt('spacing_scale')) step(`  📏 Spacing Scale → ${cnt('spacing_scale')} step(s)`);
+      if (cnt('button_colors') || cnt('button_sizes')) step(`  🔘 Button Presets → ${cnt('button_colors')} style(s)${cnt('button_sizes') ? `, ${cnt('button_sizes')} size(s)` : ''}`);
+      if (cnt('section_style_presets')) step(`  🎞️ Section Styles → ${cnt('section_style_presets')} band(s)`);
+    }
+    // LOCAL-AI SECTION-STYLE NAMING (pre-pass, best-effort): name the coloured bands BEFORE to-pages derives
+    // each section's `variant` slug from style_name, so no reslug is needed. Same pattern as the box presets.
+    try {
+      const ssp = themeSettings.values && themeSettings.values.section_style_presets;
+      if (microBackend() === 'ollama' && selectedLocalModel() && Array.isArray(ssp) && ssp.length) {
+        step(`🧠 local AI (${selectedLocalModel()}) → naming section styles…`);
+        const sn = await nameSectionStyles(ssp);
+        if (sn.renamed) step(`  🧠 local AI → named ${sn.renamed} section style(s): ${ssp.slice(0, 5).map((p) => p.style_name).filter(Boolean).join(', ')}`);
+      }
+    } catch (e) { step('section-style naming skipped: ' + e.message); }
     // FIDELITY FIRST (Rule 0.1 — header/footer MUST match the source). The Theme-Settings chrome path
     // is editable but LOSSY — it can't reproduce a custom logo lockup (icon + multi-tone text), a
     // multi-column footer, or social icons, so a rich source (e.g. FreshPaws) converts to a bare
@@ -797,9 +823,14 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       return t || slug.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
     };
     const reportPages = [];
+    let patternsAppliedTotal = 0;
+    let dividersAppliedTotal = 0;
     const builderPages = captures.map((c) => {
       const trace = [];
-      const pg = toPages(c.capture, { trace, fidelity: FIDELITY, hifiCss: HIFI_CSS, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } }).pages[0];
+      const _tp = toPages(c.capture, { trace, fidelity: FIDELITY, hifiCss: HIFI_CSS, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } });
+      patternsAppliedTotal += (_tp.patternsApplied || 0);
+      dividersAppliedTotal += (_tp.dividersApplied || 0);
+      const pg = _tp.pages[0];
       pg.title = titleFor(c.capture, c.slug);
       pg.slug = c.slug; pg.status = 'publish'; pg.front_page = c.front;
       // Targeted re-import: mark the page PARTIAL and list the original s_index of each builder section
@@ -850,10 +881,12 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     const iconBadgeSkins = [];
     {
       const iconBoxes = [];
+      const boxStyleNodes = []; // other shortcodes that carry a stashed card skin on `_box` (e.g. steps cards)
       const collect = (n) => {
         if (Array.isArray(n)) { n.forEach(collect); return; }
         if (n && typeof n === 'object') {
           if (n.shortcode === 'icon_box' && n.atts && n.atts._box) iconBoxes.push(n);
+          else if (n.shortcode !== 'icon_box' && n.atts && n.atts._box) boxStyleNodes.push(n);
           // Harvest every icon_box's badge skin (stashed on `_badge`) for the icon_badge_presets
           // clustering below — collect it independently of `_box` so a badge on a card with no box
           // skin is still counted, then drop it.
@@ -862,10 +895,37 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         }
       };
       builderPages.forEach((pg) => collect(pg.builder));
-      if (iconBoxes.length) {
-        const { presets, boxpFor } = buildBorderPresets(iconBoxes.map((n) => n.atts._box));
+      // FULL BOX CENSUS — cluster EVERY box skin on the page (glass panels, stat boxes, tinted cards, chips,
+      // pills), not just icon-box cards, so the Box Presets library is complete. Fall back to the icon-box
+      // skins if the census came back empty.
+      const censusSkins = captures.flatMap((c) => (c.capture && Array.isArray(c.capture.boxCensus)) ? c.capture.boxCensus : []);
+      // ALWAYS fold the stashed card skins (icon-box `_box`, steps Cards `_box`, …) into the clustering source
+      // — not just as a fallback. The full-page census can miss a widget's own card (a steps grid card isn't a
+      // census "box"), which left `boxpFor()` with no matching preset and box_style unassigned. Adding the exact
+      // skin objects the assignment loop will query guarantees a preset exists and matches by identity.
+      const stashedSkins = [...iconBoxes, ...boxStyleNodes].map((n) => n.atts._box).filter(Boolean);
+      const skinSource = [...censusSkins, ...stashedSkins];
+      if (skinSource.length || iconBoxes.length || boxStyleNodes.length) {
+        step(`🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…`);
+        const { presets, sigToId, derived: derivedBoxes, boxpFor: boxpFor0 } = buildBorderPresets(skinSource);
+        let boxpFor = boxpFor0;
+        // LOCAL-AI NAMING (best-effort): give each detected preset a human, role-aware name; then recompute
+        // the slug map so box_style/border_preset references point at the renamed `.boxp-<slug>` rules.
+        try {
+          if (microBackend() === 'ollama' && selectedLocalModel() && derivedBoxes && derivedBoxes.length) {
+            step(`🧠 local AI (${selectedLocalModel()}) → naming box presets…`);
+            const nm = await nameBoxPresets(derivedBoxes);
+            if (nm.renamed) { boxpFor = boxpForFrom(sigToId, presets); step(`  🧠 local AI → named ${nm.renamed} box preset(s): ${derivedBoxes.slice(0, 6).map((p) => p.preset_name).join(', ')}${derivedBoxes.length > 6 ? '…' : ''}`); }
+          }
+        } catch (e) { step('box-preset naming skipped: ' + e.message); }
         let assigned = 0;
         for (const n of iconBoxes) {
+          const boxp = boxpFor(n.atts._box);
+          if (boxp) { n.atts.box_style = boxp; assigned++; }
+          delete n.atts._box;
+        }
+        // Same Box-Preset assignment for other shortcodes that stashed a card skin (steps Cards design, …).
+        for (const n of boxStyleNodes) {
           const boxp = boxpFor(n.atts._box);
           if (boxp) { n.atts.box_style = boxp; assigned++; }
           delete n.atts._box;
@@ -873,9 +933,71 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         // Merge into the theme-settings values so the importer writes the `border_presets` option (the
         // importer REPLACES the option, so this carries the plugin defaults + the derived presets).
         if (themeSettings && themeSettings.values) { themeSettings.values.border_presets = presets; }
-        const derivedCount = presets.length - 4; // 4 built-in defaults
-        step(`box presets → ${derivedCount} derived skin(s) from ${iconBoxes.length} card(s); box_style set on ${assigned}`);
+        const derived = presets.slice(0, Math.max(0, presets.length - 4)); // derived sit ON TOP of the 4 defaults
+        const kinds = [...new Set(derived.map((p) => String(p.preset_name || '').replace(/\s+\d+$/, '')))].filter(Boolean).join(', ');
+        const withHover = derived.filter((p) => p.states && p.states.hover).length;
+        const glass = derived.filter((p) => /backdrop-filter/.test(String(p.custom_css || ''))).length;
+        step(`  🎨 Box Presets → ${derived.length} kind(s)${kinds ? ' [' + kinds + ']' : ''} from ${skinSource.length} box(es); ${withHover} with hover${glass ? `, ${glass} glass` : ''}; box_style assigned to ${assigned} icon-box(es)`);
       }
+    }
+
+    // ACCORDION DESIGN — the deterministic detector already matched each accordion's style/icon/position/
+    // spacing/colors from the source's computed styles (accordion_design → n_accordion); here the LOCAL AI
+    // CHECKS that mapping against the real toggle-icon markup and corrects an obviously-wrong icon_style /
+    // accordion_style. The hint is stashed on `_accordion_hint`; this always runs so the hint is stripped
+    // from the saved page JSON even when no model is configured.
+    {
+      const accordions = [];
+      const walk = (n) => {
+        if (Array.isArray(n)) { n.forEach(walk); return; }
+        if (n && typeof n === 'object') {
+          if (n.shortcode === 'accordion' && n.atts && n.atts._accordion_hint) accordions.push(n);
+          if (n._items) walk(n._items);
+        }
+      };
+      builderPages.forEach((pg) => walk(pg.builder));
+      if (accordions.length) {
+        const styles = [...new Set(accordions.map((n) => n.atts.accordion_style || 'bordered'))].join(', ');
+        const icons = [...new Set(accordions.map((n) => n.atts.icon_style || 'plus-minus'))].join(', ');
+        step(`📂 Accordions → matched ${accordions.length} to source [style: ${styles}; icon: ${icons}]`);
+        try {
+          if (microBackend() === 'ollama' && selectedLocalModel()) {
+            step(`🧠 local AI (${selectedLocalModel()}) → verifying accordion icon / style mapping…`);
+          }
+          const av = await verifyAccordionDesign(accordions);
+          if (av.corrected) step(`  🧠 local AI → corrected ${av.corrected} accordion field(s) (icon/style)`);
+        } catch (e) { step('accordion verify skipped: ' + e.message); accordions.forEach((n) => { delete n.atts._accordion_hint; }); }
+      }
+    }
+
+    // SELF-CONTAINMENT GUARD — "never drop a class". A converted element carries the SOURCE's raw Tailwind
+    // classes (text-sm / h-11 / rounded-md / font-medium) in css_class, but those class NAMES don't exist on
+    // WordPress, so their effect is silently dropped unless the element also reproduces the computed value in
+    // its Advanced Custom CSS. buttons, box presets, text/overline and icon-boxes now self-contain; this pass
+    // AUDITS the whole tree and flags any element that still carries a sizing/typography class WITHOUT a
+    // matching custom_css decl, so a regression is visible in Live Progress instead of a silently-dropped class.
+    {
+      const RAW = /\b(?:text-(?:xs|sm|base|lg|xl|[2-9]xl)|h-\d|leading-|tracking-|font-(?:light|normal|medium|semibold|bold|extrabold)|rounded(?:-\w+)?)\b/;
+      const NEED = { 'text-': 'font-size', 'h-': 'min-height', 'leading-': 'line-height', 'tracking-': 'letter-spacing', 'font-': 'font-weight', 'rounded': 'border-radius' };
+      let selfContained = 0, flagged = 0; const flags = [];
+      const walk = (n) => {
+        if (Array.isArray(n)) { n.forEach(walk); return; }
+        if (n && typeof n === 'object') {
+          if (n.shortcode && n.atts) {
+            const cls = String(n.atts.css_class || '');
+            const css = String(n.atts.custom_css || '');
+            if (css) selfContained++;
+            if (RAW.test(cls)) {
+              // Which computed properties do the carried raw classes imply, and are they reproduced?
+              const missing = Object.entries(NEED).filter(([k, prop]) => cls.includes(k) && !css.includes(prop + ':'));
+              if (missing.length) { flagged++; if (flags.length < 6) flags.push(n.shortcode + '(' + missing.map((m) => m[1]).join(',') + ')'); }
+            }
+          }
+          if (n._items) walk(n._items);
+        }
+      };
+      builderPages.forEach((pg) => walk(pg.builder));
+      step(`🛡️ Self-containment guard → ${selfContained} element(s) carry their full computed box in custom_css` + (flagged ? `; ⚠️ ${flagged} still rely on a carried class [${flags.join(', ')}${flagged > flags.length ? '…' : ''}]` : `; no dropped classes`));
     }
 
     const report = toReport({ url: srcUrl, generated: 'design-capture', pages: reportPages });
@@ -907,6 +1029,17 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     const media = { urls: [...mediaSet] };
     const styleguide = { pages: [toStyleGuide(home, config)] };
     const presets = toPresets(config, home, iconBadgeSkins);
+    // Make the remaining COMPONENT presets EXPLICIT in Live progress — they were built silently. Background
+    // patterns (captured SVG/gradient tiles), icon-badge tile skins, and image styles each get a step; each
+    // is emitted ONLY when the source actually has that component (so an absent one just doesn't print).
+    {
+      const pv = (presets && presets.values) || {};
+      const pc = (k) => (Array.isArray(pv[k]) ? pv[k].length : 0);
+      if (pc('background_patterns')) step(`  🌐 Background Patterns → ${pc('background_patterns')} pattern(s) captured${patternsAppliedTotal ? `, applied to ${patternsAppliedTotal} section(s)` : ''}`);
+      if (pc('icon_badge_presets')) step(`  🔷 Icon Badge Presets → ${pc('icon_badge_presets')} badge tile style(s)`);
+      if (pc('image_styles')) step(`  🖼️ Image Styles → ${pc('image_styles')} style(s)`);
+      if (dividersAppliedTotal) step(`  〰️ Shape Dividers → applied to ${dividersAppliedTotal} section edge(s)`);
+    }
     const mapping = {
       pages: captures.map((c) => ({
         slug: c.slug, front_page: c.front,
@@ -953,6 +1086,36 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       writeFileSync(`${outdir}/animation-report.html`, animRep.html);
     }
     step('reports → conversion-report + style-coverage + animation-report (csv/html)');
+
+    // CLASS-COVERAGE VERIFICATION (local AI as QA, not author): review the style-coverage GAPS — source
+    // styles the carried CSS did NOT reproduce — and flag the visually-significant ones, so a dropped fill /
+    // blur / border / shadow is surfaced, never lost silently. Deterministic floor (a truly-visual property
+    // is always flagged) + local-AI triage with a terse reason. Best-effort; visible in Live progress.
+    let coverageVerifyCsv = '';
+    try {
+      const covGaps = styleReport.gaps || [];
+      if (covGaps.length) {
+        const covAi = microBackend() === 'ollama' && !!selectedLocalModel();
+        if (covAi) { step(`🔎 local AI (${selectedLocalModel()}) → verifying class coverage…`); writeAiActivity({ status: 'thinking', note: 'verifying class coverage', startedAt: Date.now() }); }
+        const ct0 = Date.now();
+        const cov = await verifyCoverage(covGaps, {});
+        const csecs = Math.round((Date.now() - ct0) / 1000);
+        const covHead = 'page,s_index,s_class,property,src_uses,significant,reason';
+        const covCsv = [covHead].concat((cov.gaps || []).map((g) =>
+          [g.page, g.s_index, g.s_class, g.property, g.uses, g.significant ? 'yes' : 'no', g.reason || '']
+            .map((v) => { const s = String(v == null ? '' : v); return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(','))).join('\r\n');
+        writeFileSync(`${outdir}/coverage-verification.csv`, covCsv);
+        coverageVerifyCsv = covCsv;
+        if (cov.significant) {
+          const secCount = new Set(cov.flagged.map((f) => f.s_index)).size;
+          step(`  class coverage → ${cov.significant} significant gap(s) flagged across ${secCount} section(s) (see coverage-verification.csv)${covAi ? ` (${csecs}s)` : ''}`);
+          cov.flagged.slice(0, 8).forEach((f) => console.log(`    ⚠ ${f.s_class || f.page} — ${f.property} dropped on ${f.uses} el${f.uses === 1 ? '' : 's'}${f.reason ? ` — ${f.reason}` : ''}`));
+        } else {
+          step(`  class coverage → no significant gaps (all source styles reproduced)${covAi ? ` (${csecs}s)` : ''}`);
+        }
+        if (covAi) writeAiActivity({ status: 'done', note: `coverage: ${cov.significant} flagged`, elapsed: csecs });
+      }
+    } catch (e) { step('class-coverage verification skipped: ' + e.message); }
 
     // WCAG contrast review of the extracted BRAND palette. We flag low-contrast text/bg
     // pairs + suggest a nearest-AA shade, but NEVER change the user's colors (their brand).
@@ -1069,6 +1232,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         { name: 'conversion-report.html', data: report.html },
         { name: 'style-coverage.csv', data: styleReport.csv },
         { name: 'style-coverage.html', data: styleReport.html },
+        ...(coverageVerifyCsv ? [{ name: 'coverage-verification.csv', data: coverageVerifyCsv }] : []),
       ];
       // The captured DOM with computed styles (data-sc-cs) — so WP can re-run the PHP build_from_html
       // deterministic converter on it (see bundle.json converter:'deterministic' above).

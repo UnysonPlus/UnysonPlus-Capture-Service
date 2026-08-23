@@ -180,6 +180,15 @@ const applyHifiBase = (node, cs, already = [], on = true) => {
   return node;
 };
 
+// Deterministic Background Pattern preset id from its background-image — MUST match the copy in to-presets.mjs
+// so a section's applied-pattern option resolves to the registered preset. (A djb2 hash, not the PHP md5, but
+// the two JS modules agree with each other, which is what matters within the capture-service path.)
+export const patternPresetId = (img) => {
+  const s = String(img || ''); let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return 'captured-' + h.toString(16).padStart(8, '0').slice(0, 8);
+};
+
 // UnysonPlus spacing scale (rem → slug); px = rem × 16. Twin of PHP Mapper::rem_to_spacing_slug.
 const _SPACING_SCALE_HIFI = [[0, '0'], [0.25, '1'], [0.5, '2'], [1, '3'], [1.5, '4'], [3, '5'], [3.5, '6'], [4, '7'], [4.5, '8'], [5, '9'], [6, '10'], [7, '11'], [8, '12']];
 const spacingPxToSlug = (px) => {
@@ -442,6 +451,19 @@ export function toPages(capture, opts = {}) {
           if (px != null && s.px != null && Math.abs(s.px - px) > 4) continue;
           size = s.slug; break;
         }
+        // CLOSEST-MATCH FALLBACK — never leave a real button unassigned (→ thin `.btn` base). Pick the preset
+        // nearest in font-size (weighted), then padding, so the button still gets a size class. Parity w/ PHP.
+        if (!size) {
+          let best = '', bestD = Infinity;
+          for (const s of _btnPresets.sizes) {
+            if (s.fs == null) continue;
+            let d = Math.abs(s.fs - fs) * 4;
+            if (px != null && s.px != null) d += Math.abs(s.px - px);
+            if (py != null && s.py != null) d += Math.abs(s.py - py);
+            if (d < bestD) { bestD = d; best = s.slug; }
+          }
+          size = best;
+        }
       }
     }
     out.size = size ? 'btn-' + size : '';
@@ -556,10 +578,12 @@ export function toPages(capture, opts = {}) {
   const gapSlug = (g) => {
     const px = parseFloat(String(g || ''));
     if (!px || px < 2) return '';
-    const scale = [[4, '1'], [8, '2'], [16, '3'], [24, '4'], [48, '5']];
-    let best = scale[0];
-    for (const s of scale) { if (Math.abs(s[0] - px) < Math.abs(best[0] - px)) best = s; }
-    return best[1];
+    // Extended gap scale mirrors the spacing scale (px => slug). Exact step (within 1px) → clean slug
+    // (gap-16=64px → '7'); off-scale → a lossless `[NNpx]` arbitrary slug (buildGapScale registers it so the
+    // gap CSS renders). Parity with PHP gap_slug — ends the old snap that flattened 40px/64px to 48px.
+    const scale = [[0, '0'], [4, '1'], [8, '2'], [16, '3'], [24, '4'], [48, '5'], [56, '6'], [64, '7'], [72, '8'], [80, '9'], [96, '10'], [112, '11'], [128, '12']];
+    for (const [v, s] of scale) { if (Math.abs(v - px) <= 1) return s; }
+    return '[' + Math.round(px) + 'px]';
   };
   // The verbatim section HTML goes into a `code-block` (raw, un-processed output — the
   // universal fallback for anything we don't yet map to a dedicated shortcode). The section's
@@ -567,8 +591,34 @@ export function toPages(capture, opts = {}) {
   // the section, renders late (wins the cascade over the plugin's framework CSS) and stays
   // editable. Source selectors pass through the aggregator unchanged (only the literal token
   // `selector` is rewritten), so the rules target the verbatim markup's source classes.
+  // Translate Tailwind POSITION utilities on a verbatim block's root element to inline CSS — those classes
+  // (`absolute -top-4 -right-4 inset-0 …`) are dead on the WP site (no Tailwind), stranding an absolute
+  // overlay at a garbage offset. Parity with PHP translate_tw_position_inline().
+  const translateTwPositionInline = (html) => {
+    html = String(html || '');
+    const m = html.match(/<([a-z0-9]+)\b([^>]*)>/i);
+    if (!m) return html;
+    const cm = m[2].match(/\bclass="([^"]*)"/i);
+    if (!cm) return html;
+    const len = (tok) => { let x; if ((x = tok.match(/^\[([0-9.]+)px\]$/))) return parseFloat(x[1]); if ((x = tok.match(/^\[([0-9.]+)rem\]$/))) return parseFloat(x[1]) * 16; if (/^[0-9]+$/.test(tok)) return parseFloat(tok) * 4; return null; };
+    const decls = {}; const keep = [];
+    for (const c of cm[1].trim().split(/\s+/).filter(Boolean)) {
+      if (['absolute', 'relative', 'fixed', 'sticky'].includes(c)) { decls.position = c; continue; }
+      if (c === 'inset-0') { decls.top = '0'; decls.right = '0'; decls.bottom = '0'; decls.left = '0'; continue; }
+      const mm = c.match(/^(-?)(top|right|bottom|left)-(.+)$/);
+      if (mm) { const px = len(mm[3]); if (px !== null) { decls[mm[2]] = ((mm[1] === '-' ? -1 : 1) * px) + 'px'; continue; } }
+      keep.push(c);
+    }
+    if (!decls.position) return html;
+    let style = ''; for (const k in decls) style += k + ':' + decls[k] + ';';
+    let a = m[2].replace(/\bclass="[^"]*"/i, 'class="' + keep.join(' ').trim() + '"');
+    const sm = a.match(/\bstyle="([^"]*)"/i);
+    a = sm ? a.replace(/\bstyle="[^"]*"/i, 'style="' + sm[1].trim().replace(/;$/, '') + ';' + style + '"') : a + ' style="' + style + '"';
+    return html.slice(0, m.index) + '<' + m[1] + a + '>' + html.slice(m.index + m[0].length);
+  };
   const codeBlock = (html) => {
     html = String(html == null ? '' : html);
+    html = translateTwPositionInline(html); // dead Tailwind position classes → inline CSS (absolute overlays)
     // Preteach tables: wrap a verbatim <table> in the default Table Preset skin (.tbl-clean-lines,
     // whose CSS targets `> table > thead/tbody…`) so raw source tables render styled instead of bare.
     // Mirrors the PHP Mapper::n_code() wrap.
@@ -770,7 +820,24 @@ export function toPages(capture, opts = {}) {
       const od = [];
       const ofs = _clean(b.overlineFontSize); if (ofs) od.push('font-size:' + ofs);
       const ols = _clean(b.overlineLetterSpacing); if (ols && ols !== 'normal') od.push('letter-spacing:' + ols);
+      const ofw = _clean(b.overlineFontWeight); if (ofw && /^[1-9]00$/.test(ofw)) od.push('font-weight:' + ofw);
+      const ocl = _clean(b.overlineColor2 || b.overlineColor); if (/^rgb/i.test(ocl)) od.push('color:' + rgbToCss(ocl));
       if (od.length) { rules.push('selector .heading-overline{' + od.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    }
+    // NEVER-DROP pill overline SKIN → the INNER `.heading-overline__label` (the element that IS the pill: it
+    // shrink-wraps its content and holds the padding/radius/bg). Painting the OUTER `.heading-overline` (a
+    // full-width flex ROW) double-stacked the pill and CLIPPED long text. Reproduce the full box + layout
+    // (inline-flex · items-center · gap · bg · backdrop · border · radius · padding). Parity with PHP.
+    if (b.overlinePill && b.overline && String(b.overline).trim() !== '') {
+      const gd = ['display:inline-flex', 'align-items:center'];
+      const ggp = _clean(b.overlineGap); if (ggp && ggp !== 'normal' && !/^0px$/.test(ggp)) gd.push('gap:' + ggp);
+      const gbg = _clean(b.overlineBg); if (gbg && !/transparent|rgba\([^)]*,\s*0\s*\)/.test(gbg)) gd.push('background:' + gbg);
+      const gbf = _clean(b.overlineBackdrop); if (gbf && gbf !== 'none') { gd.push('backdrop-filter:' + gbf); gd.push('-webkit-backdrop-filter:' + gbf); }
+      const gbw = _clean(b.overlineBorderW), gbc = _clean(b.overlineBorderColor);
+      if (gbw && gbw !== '0px' && gbc) gd.push('border:' + gbw + ' solid ' + gbc);
+      const grd = _clean(b.overlineRadius); if (grd && grd !== '0px') gd.push('border-radius:' + grd);
+      const gpd = _clean(b.overlinePad); if (gpd && !/^(?:0px\s*)+$/.test(gpd)) gd.push('padding:' + gpd);
+      if (gd.length > 2) { rules.push('selector .heading-overline__label{' + gd.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}'); }
     }
     // NO subtitle: reset the theme's default hN bottom margin (never reset by the shortcode) so it doesn't
     // leak as the block's below-gap and dominate the source-derived outer Margin & Padding (e.g. a 48px h1
@@ -826,6 +893,20 @@ export function toPages(capture, opts = {}) {
       const gpx = parseFloat(_titleMb[1]) * 4;
       n.atts.element_spacing = gpx <= 6 ? 'tight' : (gpx <= 20 ? 'relaxed' : '');
       _gapToElementSpacing = n.atts.element_spacing !== '';
+    }
+    // SUBTITLE bottom margin → the block's OUTER below-gap (parity with PHP n_heading). With a subtitle it's
+    // the LAST part, so its own mb-* (hero `<p … mb-8>` = 32px, the gap to the CTA button) IS the block's
+    // bottom margin — it lives on the <p>, not the wrapper, so it was dropped and the heading sat flush.
+    // EXACT px via spacingToken. Only when nothing else already set the outer bottom margin.
+    if (b.subtitle && String(b.subtitle).trim() !== '' && (!n.atts.spacing || !n.atts.spacing.margin || !n.atts.spacing.margin.bottom)) {
+      let subMbPx = null;
+      const _subCs = String(b.subtitleCs || '').match(/margin-bottom:\s*([\d.]+)px/);
+      if (_subCs) subMbPx = parseFloat(_subCs[1]);
+      if (subMbPx == null || subMbPx <= 0) { const _sc = String(b.subtitleCls || '').match(/\bmb-(\d+(?:\.\d+)?)\b/); if (_sc) subMbPx = parseFloat(_sc[1]) * 4; }
+      if (subMbPx && subMbPx > 0) {
+        if (!n.atts.spacing || typeof n.atts.spacing !== 'object') n.atts.spacing = emptySpacing();
+        n.atts.spacing.margin.bottom = spacingToken('mb', subMbPx);
+      }
     }
     // Overline pill colour: the source pill's text colour → native overline_color (drives the pill tint),
     // instead of a dead `text-[#hex]` class or the theme's default auto-tint.
@@ -900,7 +981,27 @@ export function toPages(capture, opts = {}) {
     // inline-flex auto width on the button element via its Advanced Custom CSS (`selector` = the button),
     // `!important` to beat the colliding utilities. Keeps the pill compact + content-sized, like the source.
     const decl = [];
-    if (b.pad) { decl.push('padding:' + String(b.pad).replace(/[{}<>;]/g, '') + ' !important'); }
+    if (b.pad) {
+      const padStr = String(b.pad).replace(/[{}<>;]/g, '').trim();
+      // Source CTAs frequently size their HEIGHT via a FIXED height (Tailwind `h-11` = 44px) + flex centring,
+      // NOT vertical padding — so the computed vertical padding comes back ~0. Reproducing that verbatim
+      // squashes the button to text-height. Deriving padding from the height OVERSHOOTS (line-height + border
+      // guesswork). The exact reproduction: assert the measured min-height + centred flex + the captured
+      // horizontal padding, so the button is precisely the source's height with content centred.
+      const parts = padStr.split(/\s+/);
+      const vtop = parseFloat(parts[0]) || 0;
+      const hpx = parseFloat(b.height) || 0, fspx = parseFloat(b.fontSize || b.fs) || 16;
+      if (vtop < 4 && hpx > fspx * 1.6) {
+        const hpad = parts.length >= 2 ? parts.slice(1).join(' ') : '0px';
+        decl.push('min-height:' + Math.round(hpx) + 'px !important');
+        decl.push('padding:0 ' + hpad + ' !important');
+        decl.push('display:inline-flex !important');
+        decl.push('align-items:center !important');
+        decl.push('justify-content:center !important');
+      } else {
+        decl.push('padding:' + padStr + ' !important');
+      }
+    }
     // Assert the source's FILL / TEXT / BORDER too — the plugin's `.btn` base + button preset otherwise
     // win over the carried Tailwind classes (they collide + `hover:` classes get sanitizer-mangled), so a
     // white "Take a Tour" rendered white-text-on-white with an orange preset border. `!important` + the
@@ -916,6 +1017,19 @@ export function toPages(capture, opts = {}) {
         decl.push('border:0 !important');
       }
     }
+    // Reproduce the source's TYPOGRAPHY + RADIUS too. font-size (text-sm/text-base), line-height, font-weight
+    // and border-radius (rounded-md) are carried as Tailwind CLASSES that DO NOT EXIST on WordPress, so their
+    // effect is DROPPED — the button falls back to the `.btn` base (16px font · 6px radius) and renders bigger
+    // than the source. Emitting the captured COMPUTED values makes the button self-contained: no dead class,
+    // nothing dropped, exact size. (Root cause of the recurring "button size doesn't match".)
+    const _fs = String(b.fontSize || b.fs || '').trim();
+    if (/^[0-9.]+px$/.test(_fs)) decl.push('font-size:' + _fs + ' !important');
+    const _lh = String(b.lineHeight || b.lh || '').trim();
+    if (/^[0-9.]+px$/.test(_lh)) decl.push('line-height:' + _lh + ' !important');
+    const _fw = String(b.fontWeight || b.fw || '').trim();
+    if (/^[1-9]00$/.test(_fw)) decl.push('font-weight:' + _fw + ' !important');
+    const _rad = String(b.radius || '').trim();
+    if (_rad && !/^0px$/.test(_rad)) decl.push('border-radius:' + _rad + ' !important');
     decl.push('width:auto !important', 'display:inline-flex !important', 'align-items:center', 'gap:.5rem');
     let custom_css = 'selector{' + decl.map((d) => d.replace(/[{}<>;]/g, '')).join(';') + ';}';
     // NEVER-DROP button hover: the source's RESOLVED hover colours (hoverStyle() probes the `hover:*`
@@ -945,11 +1059,24 @@ export function toPages(capture, opts = {}) {
     // A text-link CTA (kind 'link') that matched no colour preset → the NATIVE `btn-link` style (its exact
     // colour is already in the per-node custom_css above), so no `sc-btn-link` marker is carried. Parity with PHP.
     const _btnStyle = preset.style || (kind === 'link' ? 'btn-link' : '');
+    // FULL WIDTH — a source `w-full` (or block width:100%) button → the native Full Width mode so it fills its
+    // column (the hero card CTA). Parity with PHP n_button's $bfull → width.mode='w-100'.
+    const _bcls = ' ' + String(b.cls || '').toLowerCase() + ' ' + String(b.groupCls || '').toLowerCase() + ' ';
+    const _bfull = /\s(w-full|w-100|w-screen|block)\s/.test(_bcls);
+    // WRAPPER VERTICAL MARGIN — a lone CTA's wrapper `mt-*`/`mb-*` gap → the native spacing option. Parity with PHP.
+    const _bsp = emptySpacing();
+    let _mm;
+    const _wcls = ' ' + String(b.groupCls || '').toLowerCase() + ' ';
+    if ((_mm = _wcls.match(/\smt-(\d+(?:\.\d+)?)\b/))) _bsp.margin.top = spacingToken('mt', parseFloat(_mm[1]) * 4);
+    if ((_mm = _wcls.match(/\smb-(\d+(?:\.\d+)?)\b/))) _bsp.margin.bottom = spacingToken('mb', parseFloat(_mm[1]) * 4);
     const node = { type: 'simple', shortcode: 'button', _items: [], atts: {
       label: b.label, link: localize(b.href), target: 'no',
       style: _btnStyle, size: preset.size, icon, icon_position: (b.iconPos === 'before' ? 'before' : 'after'),
       alignment: btnAlign, state: '', hover_animation: '', css_class: (_btnStyle ? _clsBase : cls), custom_css, unique_id: uid(),
+      width: { mode: _bfull ? 'w-100' : '', custom: { custom_width: { value: '', unit: 'px' } } },
+      spacing: _bsp,
     } };
+    if (_bfull) node.atts.custom_css = (node.atts.custom_css || '') + 'selector{align-self:stretch;width:100%;}';
     // HI-FI Pass-2 faithful base — the color/size preset + the sc-btn class + the per-node safety-net CSS
     // already reproduce the fill / text / border / radius / typography (`already`); the base only fills
     // leftover appearance (a gradient background-image, opacity, transform, …). Parity with PHP button builder.
@@ -1108,8 +1235,18 @@ export function toPages(capture, opts = {}) {
     ],
     pagination: 'none', unique_id: uid(),
   } });
-  // True when a grid cell looks like a product card: an image + a price token (+ usually a CTA).
-  const cellIsProduct = (c) => /<img/i.test(String(c.html || '')) && /(?:\$|€|£)\s?\d+[.,]\d{2}/.test(String(c.html || ''));
+  // True when a grid cell looks like a product card: an image + a price token (+ usually a CTA); OR a
+  // DECOMPOSED card whose raw price span was dropped but whose WooCommerce `.product` / `type-product`
+  // class survives on the cell/card (the live [wc_products] feed supplies the real prices). Parity with
+  // PHP cell_is_product.
+  const cellIsProduct = (c) => {
+    const h = String(c.html || '');
+    if (/<img/i.test(h) && /(?:\$|€|£)\s?\d+[.,]\d{2}/.test(h)) return true;
+    const cls = ' ' + String((c.fullCls || '') + ' ' + (c.cls || '') + ' ' + ((c.card && c.card.cls) || '')).toLowerCase() + ' ';
+    const isProd = / product |type-product|product_type_/.test(cls);
+    const hasImg = /<img/i.test(h) || !!(c.card && c.card.image && c.card.image.src);
+    return isProd && hasImg;
+  };
 
   // A RATING / social-proof cluster → the native `star-rating` shortcode ("4.9/5" + count text +
   // AggregateRating schema), with the overlapping face stack as an `avatar` GROUP — laid out in a row,
@@ -1158,7 +1295,29 @@ export function toPages(capture, opts = {}) {
     return node;
   };
   const blockToNode = (b) => applyAnim(_blockToNode(b), b);
-  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { color: b.color, textAlign: b.align, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
+  // An email-signup form → the native `newsletter` shortcode. Title/description stay blank (the section's
+  // own heading renders them above); map the form's email/name placeholder, submit label, alignment,
+  // roundness and the button's real colours. The view hard-codes white button text, so a non-white source
+  // text colour is re-asserted via scoped Custom CSS. Parity with PHP n_newsletter.
+  const newsletterNode = (b) => {
+    const atts = {
+      title: '', description: '', show_name: b.show_name ? 'yes' : 'no',
+      email_placeholder: (b.placeholder || '').trim() || 'Your email address',
+      button_label: (b.button_label || '').trim() || 'Subscribe',
+      design: 'inline', unique_id: uid(), custom_css: '',
+    };
+    if (b.show_name && (b.name_placeholder || '').trim()) atts.name_placeholder = b.name_placeholder.trim();
+    if (/^(left|center|right)$/.test(String(b.align || ''))) atts.align = b.align;
+    if (/^(rounded-0|rounded|pill)$/.test(String(b.rounded || ''))) atts.rounded = b.rounded;
+    const bg = b.button_bg ? rgbToCss(b.button_bg) : '';
+    const fg = b.button_fg ? rgbToCss(b.button_fg) : '';
+    const fbg = b.field_bg ? rgbToCss(b.field_bg) : '';
+    if (bg) atts.accent_color = { predefined: '', custom: bg };
+    if (fbg) atts.field_bg = { predefined: '', custom: fbg };
+    if (fg && !/^#?(fff|ffffff)$/i.test(fg.replace('#', ''))) atts.custom_css = ('selector .fw-nl__btn{color:' + fg + ' !important;}');
+    return { type: 'simple', shortcode: 'newsletter', _items: [], atts };
+  };
+  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -1216,7 +1375,10 @@ export function toPages(capture, opts = {}) {
         h.overlineText = prev.text || '';                 // plain text, for the all-caps heuristic
         if (prev.iconSvg) { h.overlineIcon = prev.iconSvg; h.overlineIconPos = prev.iconPos || 'before'; }
         h.overlineCls = prev.cls || '';                   // overline's own classes → native overline_class
-        h.overlineFontSize = prev.fontSize || '';         // NEVER-DROP: no native overline size option → scoped CSS
+        // NEVER-DROP: a PILL overline's frosted-glass skin (translucent fill + border + backdrop-blur + radius)
+        // has no native option — carry the pill's computed skin → scoped `.heading-overline` CSS below.
+        if (h.overlinePill) { h.overlineBg = prev.bg || ''; h.overlineBorderW = prev.borderW || ''; h.overlineBorderColor = prev.borderColor || ''; h.overlineRadius = prev.radius || ''; h.overlineBackdrop = prev.backdropFilter || ''; h.overlinePad = prev.padding || ''; h.overlineGap = prev.gap || ''; }
+        h.overlineFontWeight = prev.fontWeight || ''; h.overlineColor2 = prev.color || ''; h.overlineFontSize = prev.fontSize || '';         // NEVER-DROP: no native overline size option → scoped CSS
         h.overlineLetterSpacing = (prev.letterSpacing && prev.letterSpacing !== 'normal') ? prev.letterSpacing : '';
         out.pop();
       }
@@ -1406,9 +1568,13 @@ export function toPages(capture, opts = {}) {
     a.prefix = String(c.prefix || '');
     a.suffix = String(c.suffix || '');
     a.decimals = String(c.decimals || '0');
+    // Source stat cell alignment (hero stats are centered) → the counter aligns to match. Parity with PHP n_counter.
+    a.alignment = (c.align === 'center' || c.align === 'right') ? c.align : (a.alignment || '');
     a.number_font = counterFont(c.numberWeight, c.numberSize);
     a.number_color = counterColor(c.numberColor);
-    a.prefix_font = counterFont(c.numberWeight, '24');
+    // Prefix ($) + suffix (K) match the NUMBER's size so `$12K` reads as one uniform unit (was a fixed 24px
+    // prefix beside a 44px number). Falls back to the old sizes when the source size wasn't captured.
+    a.prefix_font = counterFont(c.numberWeight, c.prefixSize || '24');
     a.suffix_font = counterFont(c.suffixWeight || c.numberWeight, c.suffixSize);
     a.suffix_color = counterColor(c.suffixColor);
     return n;
@@ -1454,7 +1620,17 @@ export function toPages(capture, opts = {}) {
     const tabs = [];
     for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; tabs.push({ tab_title: title, tab_content: String(it.content || ''), is_open: 'no' }); }
     if (!tabs.length) return codeBlock('');
-    return widgetNode('accordion', { tabs });
+    const atts = { tabs };
+    // Match the SOURCE design captured by accordionDesign (parity n_accordion): style/icon/position/etc.
+    const dz = (b.design && typeof b.design === 'object') ? b.design : {};
+    for (const k of ['accordion_style', 'icon_style', 'icon_position', 'title_alignment', 'corner_radius', 'item_spacing', 'elevation']) {
+      if (dz[k] != null && dz[k] !== '') atts[k] = dz[k];
+    }
+    if (dz.title_bg_color && typeof dz.title_bg_color === 'object') atts.title_bg_color = dz.title_bg_color;
+    // Stash a compact hint (consumed + deleted in capture.mjs) so the local-AI verify pass can confirm/correct
+    // icon_style & accordion_style from the real icon markup — same _box-style hand-off the box presets use.
+    if (dz._hint) atts._accordion_hint = { hint: dz._hint, icon_style: atts.icon_style || '', accordion_style: atts.accordion_style || '', titles: tabs.slice(0, 3).map((t) => t.tab_title) };
+    return widgetNode('accordion', atts);
   };
 
   // A <ul>/<ol> → native `feature_list` (<ul> check, <ol> numbered). Parity n_feature_list.
@@ -1481,12 +1657,43 @@ export function toPages(capture, opts = {}) {
   };
 
   // A numbered process flow → native `steps`. Parity n_steps.
+  // A step's per-item `icon` value from the captured hint (parity PHP step_icon_value): lucide → library
+  // icon, inline svg → inline markup, img → custom url, else the `none` icon.
+  const stepIconValue = (ic) => {
+    if (ic && typeof ic === 'object') {
+      if (ic.lucide) return { type: 'svg', 'svg-source': 'library', 'svg-id': String(ic.lucide), markup: '' };
+      if (ic.svg) return { type: 'svg', 'svg-source': 'inline', markup: String(ic.svg), 'svg-id': '' };
+      if (ic.img) return { type: 'custom', url: String(ic.img) };
+    }
+    return iconNone();
+  };
   const stepsNode = (b) => {
     const src = Array.isArray(b.items) ? b.items : [];
     const steps = [];
-    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; steps.push({ title, content: String(it.content || ''), icon: iconNone(), number: String(it.number || '') }); }
+    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; steps.push({ title, content: String(it.content || ''), icon: stepIconValue(it.icon), number: String(it.number || '') }); }
     if (steps.length < 2) return codeBlock('');
-    return widgetNode('steps', { steps });
+    const atts = { steps };
+    // Match the SOURCE process design captured by detectStepsDesign (parity n_steps): layout + marker.
+    const dz = (b.design && typeof b.design === 'object') ? b.design : {};
+    if (dz.design) atts.design = String(dz.design);
+    if (dz.marker_shape) atts.marker_shape = String(dz.marker_shape);
+    if (dz.connector != null && dz.connector !== '') atts.connector = String(dz.connector);
+    if (dz.accent) atts.accent_color = { predefined: '', custom: String(dz.accent) };
+    // EVERYTHING the step shows lives in Card Rows (icon badge + number + title + description) so the editor is
+    // the single source of truth — no separate marker spine. marker=none; the icon renders as a body badge.
+    const hasIcon = steps.some((s) => s.icon && typeof s.icon === 'object' && (s.icon.type || 'none') !== 'none');
+    const hasNum = src.some((it) => String(it.number || '').trim() !== '');
+    const rows = [];
+    if (hasIcon && hasNum) rows.push({ slots: ['icon', 'number'], direction: 'inline', justify: 'between', align: 'center' });
+    else if (hasIcon) rows.push({ slots: ['icon'], direction: 'stack', justify: 'start', align: 'start' });
+    else if (hasNum) rows.push({ slots: ['number'], direction: 'stack', justify: 'end', align: 'end' });
+    rows.push({ slots: ['title'], direction: 'stack', justify: 'start', align: 'start' });
+    rows.push({ slots: ['content'], direction: 'stack', justify: 'start', align: 'start' });
+    atts.card_rows = rows;
+    atts.marker = 'none';
+    // Stash the step-card box skin for the Box-Preset census in capture.mjs (assigns box_style, then drops _box).
+    if (dz.box && typeof dz.box === 'object') atts._box = dz.box;
+    return widgetNode('steps', atts);
   };
 
   // A dated timeline → native `timeline`; each entry → one milestone. Parity n_timeline.
@@ -1682,8 +1889,18 @@ export function toPages(capture, opts = {}) {
         // Pass #5 — distill the row's inter-column GAP onto the section's NATIVE Gap option (first grid
         // wins; empty = inherit the Theme Settings Default Gap). Parity with the PHP mapper build_section.
         if (s.atts && b.gap > 0 && (!s.atts.gap || !s.atts.gap.base)) {
-          const gs = gapSlug(b.gap);
-          if (gs) s.atts.gap = { base: gs, md: '', lg: '' };
+          // Per-device Section Gap — base / md: / lg: each snap onto the (extended) Gap Scale, so a source
+          // `gap-10 lg:gap-16` keeps 40px mobile + 64px desktop instead of one value. Parity with PHP.
+          const gr = b.gapResp || {};
+          const gBase = (gr.base > 0) ? gr.base : b.gap;
+          const gs = gapSlug(gBase);
+          if (gs) {
+            let gMd = (gr.md > 0) ? gapSlug(gr.md) : '';
+            let gLg = (gr.lg > 0) ? gapSlug(gr.lg) : '';
+            if (gMd === gs) gMd = '';
+            if (gLg === gs) gLg = '';
+            s.atts.gap = { base: gs, md: gMd, lg: gLg };
+          }
         }
         // A PRODUCT-CARD grid (≥60% of cells = image + price) → ONE wc_products grid, not N icon_boxes.
         const prodCells = b.cols.filter(cellIsProduct).length;
@@ -1723,7 +1940,25 @@ export function toPages(capture, opts = {}) {
             detected = 'buttons'; why = 'button group → button(s)';
             cellItems = c.buttons.map((bt) => buttonBlockNode(bt));
           } else if (c.text) {
-            detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
+            const tx = c.text;
+            // A text cell WITH an overline / subtitle → a native special_heading (preserving the overline PILL
+            // + its ICON), not a flat text_block that would drop the eyebrow. Plain single-heading cells still
+            // fall to a text block. Mirrors the decomposed-heading path so the overline icon isn't lost.
+            if (tx && typeof tx === 'object' && (String(tx.overline || '').trim() || String(tx.subtitle || '').trim())) {
+              const lvl = { h1: 1, h2: 2, h3: 3, h4: 4, h5: 5, h6: 6 }[String(tx.titleTag || 'h2')] || 2;
+              const hb = {
+                t: 'heading', html: tx.title || '', level: lvl, cls: tx.titleClass || '',
+                overline: tx.overline || '', overlineCls: tx.overlineClass || '',
+                overlinePill: /rounded-full|inline-flex|inline-block|pill/i.test(tx.overlineClass || ''),
+                overlineIcon: tx.overlineIcon || '', overlineIconPos: tx.overlineIconPos || 'before',
+                subtitle: tx.subtitle || '', subtitleCls: tx.subtitleClass || '', wrapCls: tx.wrapClass || '',
+              };
+              detected = 'text'; why = 'text cell (overline/subtitle) → special_heading';
+              cellItems = [headingNode(hb)];
+              for (const p of (tx.paras || [])) { const pn = textBlock(p); if (pn) cellItems.push(pn); }
+            } else {
+              detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
+            }
           } else if (c.blocks && c.blocks.length) {
             detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = blocksToNodes(c.blocks);
           } else if (c.image) {
@@ -1771,6 +2006,9 @@ export function toPages(capture, opts = {}) {
               && Array.isArray(c.imgComposite.cards) && c.imgComposite.cards.length;
             if (hasFloating) decl.push('position:relative');
             if (c.maxw && /^[0-9.]+(?:px|rem|em|%|ch|vw)$/.test(String(c.maxw))) decl.push('max-width:' + c.maxw);
+            // A centered stat cell → centre the column so BOTH the counter number and its separate label
+            // caption centre (the counter's own alignment only moves the number). Parity with PHP.
+            if (c.counter && (c.counter.align === 'center' || c.counter.align === 'right')) decl.push('text-align:' + c.counter.align);
             if (decl.length && col.atts) {
               const cur = col.atts.custom_css ? String(col.atts.custom_css) : '';
               col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{' + decl.join(';') + ';}').trim();
@@ -1809,7 +2047,8 @@ export function toPages(capture, opts = {}) {
       } else {
         const node = blockToNode(b);
         rec({ kind: 'element', sIndex, role: b.t, detected: b.t, shortcode: node.shortcode || 'simple',
-              why: b.t === 'heading' ? 'heading → special_heading'
+              why: b.t === 'newsletter' ? 'form → newsletter'
+                 : b.t === 'heading' ? 'heading → special_heading'
                  : b.t === 'button' ? 'button → button'
                  : b.t === 'text' ? 'text → text_block'
                  : b.t === 'image' ? 'image → media_image'
@@ -1993,6 +2232,8 @@ export function toPages(capture, opts = {}) {
   };
 
   const builder = [];
+  let patternsApplied = 0;
+  let dividersApplied = 0;
   (capture.sections || []).forEach((sec, sIndex) => {
     let node, decision;
     const hasRaw = !!(sec.rawHtml || sec.rawInner);
@@ -2028,14 +2269,55 @@ export function toPages(capture, opts = {}) {
       const cid = String(sec.sectionId).toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '');
       if (cid) node.atts.css_id = cid;
     }
+    // APPLY a captured background PATTERN (findPattern → the Background Patterns library) as a decorative
+    // overlay BEHIND this section's content, so the section actually SHOWS its pattern (the library entry
+    // alone doesn't render). Inline CSS — the source's `bg-[url('data:…')]` Tailwind arbitrary is dead on WP.
+    // The section is made the positioned ancestor + isolate so the z-index:-10 overlay stays within it.
+    if (node && sec.bgPattern && sec.bgPattern.image && sec.bgPattern.image !== 'none') {
+      // Apply via the section's NATIVE Background Pattern OPTION (a registered preset), NOT an inline code_block
+      // overlay. The id is derived from the image so it agrees with to-presets' backgroundPatterns() (which
+      // registers the preset from the same capture.sections). The section view renders the pattern layer from
+      // the preset — nothing hardcoded into the page markup. Parity with PHP apply_section_pattern.
+      node.atts = node.atts || {};
+      node.atts.background_pattern = { pattern: patternPresetId(sec.bgPattern.image) };
+      patternsApplied++;
+    }
+    // Apply a detected SHAPE DIVIDER to the section's native divider option (parity with PHP apply_section_divider).
+    if (node && node.atts && sec.divider && ['wave', 'tilt', 'curve', 'triangle'].includes(sec.divider.shape)) {
+      const dv = sec.divider;
+      const sub = {
+        color: dv.color ? { predefined: '', custom: dv.color } : { predefined: '', custom: '' },
+        height: { value: dv.height || '100', unit: 'px' },
+        flip: dv.flip === 'yes' ? 'yes' : 'no',
+      };
+      node.atts[dv.placement === 'top' ? 'divider_top' : 'divider_bottom'] = { shape: dv.shape, [dv.shape]: sub };
+      dividersApplied++;
+    }
     rec({ kind: 'section', sIndex, decision, sourceClass: sec.sectionClass || '',
           hasCss: !!(sec.css && sec.css.trim()), computed: sec.computed || {}, diag: sec.diag || {},
           height: sec.h || 0, assets: (sec.assets || []).length, blocks: (sec.blocks || sec.mapBlocks || []).length });
     if (node) builder.push(node);
   });
 
+  // Post-process: a column holding an absolute overlay (a position:absolute code_block — e.g. a translated
+  // `-top-4 -right-4` corner badge) must be the positioned ancestor, or it anchors to the section/page and
+  // drifts far away. Mark the nearest containing column position:relative. Parity with PHP anchor_abs_overlays().
+  const anchorAbs = (n) => {
+    if (!n || typeof n !== 'object') return;
+    const items = Array.isArray(n._items) ? n._items : [];
+    if (n.type === 'column' && items.some((ch) => ch && ch.shortcode === 'code_block' && /position:absolute/.test(String((ch.atts && ch.atts.code) || '')))) {
+      n.atts = n.atts || {};
+      const cur = n.atts.custom_css ? String(n.atts.custom_css) : '';
+      if (!/position:relative/.test(cur)) n.atts.custom_css = (cur + (cur ? '\n' : '') + 'selector{position:relative;}').trim();
+    }
+    for (const ch of items) anchorAbs(ch);
+  };
+  builder.forEach(anchorAbs);
+
   return {
     pages: [{ title: 'Home', slug: 'home', status: 'publish', front_page: true, builder }],
+    patternsApplied,
+    dividersApplied,
     css: '', // styling comes from the captured used-CSS shipped with the theme (raw_chrome.css)
   };
 }

@@ -589,6 +589,213 @@ export async function localSectionMicroTask(mapping) {
   }
 }
 
+/* ---- Class-coverage VERIFICATION (local AI as QA, not author) ---------- *
+ * The deterministic engine already records, per section, which fidelity-critical style properties the
+ * source USES but the carried CSS did NOT reproduce (the style-coverage "gaps"). This pass has the LOCAL
+ * model REVIEW those gaps and confirm which are VISUALLY SIGNIFICANT (a missing fill / frosted blur /
+ * border / shadow / radius / bg image changes how the element reads) vs low-signal layout noise, with a
+ * terse reason — so nothing visible is dropped SILENTLY. It never authors CSS (that stays deterministic);
+ * it only flags, for the conversion report + Live progress. Best-effort: any error leaves the gaps as the
+ * deterministic `significant` flag already marked them. */
+const COVERAGE_VERIFY_SYSTEM = `You are a QA reviewer for a website→WordPress converter.
+You are given a list of STYLE-COVERAGE GAPS. Each gap = a CSS property the SOURCE page uses on some
+elements but the converted page's carried CSS did NOT reproduce — i.e. a dropped visual effect.
+For each gap decide whether losing it is VISUALLY SIGNIFICANT (it changes how the page LOOKS and should be
+reproduced) or not (low-signal layout detail a reader won't notice).
+- SIGNIFICANT (true): a lost fill (background-color/background-image), frosted blur (backdrop-filter), border,
+  box-shadow, or border-radius — anything that changes an element's visible surface.
+- NOT significant (false): minor gap/margin/padding/display/position differences that don't change the look.
+Return ONE JSON object, no prose: { "gaps": [ { "id": <int>, "significant": <bool>, "reason": "<≤8 words>" } ] }.
+Keep the SAME id values you were given. Output only the JSON.`;
+const COVERAGE_VERIFY_SCHEMA = {
+  type: 'object',
+  properties: { gaps: { type: 'array', items: {
+    type: 'object',
+    properties: { id: { type: 'integer' }, significant: { type: 'boolean' }, reason: { type: 'string' } },
+    required: ['id', 'significant'],
+  } } },
+  required: ['gaps'],
+};
+
+/**
+ * Verify style-coverage gaps with the local model. `gaps` is toStyleReport().gaps —
+ * [{ page, s_index, s_class, property, uses, significant }]. Returns the same gaps enriched with an AI
+ * verdict + reason, plus a flagged (significant) subset. Deterministic `significant` is the floor: the AI
+ * can PROMOTE a gap to significant (or annotate), never silently clear a truly-visual property.
+ */
+export async function verifyCoverage(gaps, { max = 40 } = {}) {
+  const list = Array.isArray(gaps) ? gaps.filter((g) => g && g.property) : [];
+  if (!list.length) return { model: '', gaps: [], flagged: [], total: 0, significant: 0 };
+  // Cap the payload: significant-looking gaps first, then by src-use count (biggest visual footprint).
+  const VISUAL = new Set(['background-image', 'background-color', 'backdrop-filter', 'box-shadow', 'border', 'border-radius']);
+  const ranked = list.slice().sort((a, b) => (Number(b.significant) - Number(a.significant)) || ((b.uses || 0) - (a.uses || 0)));
+  const sent = ranked.slice(0, max).map((g, id) => ({ id, ...g }));
+  let verdicts = {};
+  if (microBackend() === 'ollama' && selectedLocalModel()) {
+    try {
+      const model = selectedLocalModel();
+      const compact = sent.map((g) => ({ id: g.id, property: g.property, on_elements: g.uses, section: g.s_class || g.page }));
+      const user = `Gaps (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "gaps": [...] } JSON now.`;
+      const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+      const text = await askModel({ system: COVERAGE_VERIFY_SYSTEM, user, model, format: COVERAGE_VERIFY_SCHEMA, timeoutMs: to });
+      const parsed = extractJson(text);
+      if (parsed && Array.isArray(parsed.gaps)) { for (const v of parsed.gaps) { if (v && Number.isInteger(v.id)) verdicts[v.id] = v; } }
+    } catch (e) { console.error('[coverage] local verification skipped:', e.message); }
+  }
+  const out = sent.map((g) => {
+    const v = verdicts[g.id] || {};
+    // Floor: a truly-visual property stays significant even if the model says otherwise (never lose a
+    // visible effect silently); the model may PROMOTE a non-visual one it judges important.
+    const significant = VISUAL.has(g.property) ? true : (typeof v.significant === 'boolean' ? v.significant : !!g.significant);
+    return { page: g.page, s_index: g.s_index, s_class: g.s_class, property: g.property, uses: g.uses, significant, reason: String(v.reason || '').slice(0, 60) };
+  });
+  const flagged = out.filter((g) => g.significant);
+  return { model: (microBackend() === 'ollama' ? selectedLocalModel() : '') || '', gaps: out, flagged, total: out.length, significant: flagged.length };
+}
+
+/* ---- Box-Preset NAMING (local AI as a design-system namer) ------------- *
+ * The deterministic detector clusters the page's box skins into presets but can only auto-name them by
+ * shape (Card / Tinted / Glass …). This pass has the LOCAL model give each a human, role-aware name
+ * ("Feature Card", "Problem Card", "Glass Stat Box", "Icon Chip") from the fill hue + border + glass +
+ * hover. It only RENAMES (never changes the skin); the caller recomputes the slug map after. Best-effort. */
+const BOX_NAME_SYSTEM = `You name reusable CARD/BOX styles for a website builder's preset library.
+Each box has: an id, a background fill (rgba/rgb or "none"), whether it has a border, its corner radius, whether it is frosted GLASS (backdrop blur), and whether it has a HOVER effect.
+Give each a SHORT human design-system name (2-3 words) describing its role/look. Use the fill HUE as the biggest hint:
+- red/orange tint → "Alert Card" or "Problem Card"; green tint → "Solution Card" or "Success Card";
+- translucent white / glass → "Glass Panel" or "Glass Stat Box"; cream/off-white/light → "Feature Card";
+- a very round (pill) small box → "Icon Chip" or "Pill Badge"; border-only (no fill) → "Outline Card".
+Return ONE JSON object, no prose: { "names": [ { "id": "<id>", "name": "<2-3 words>" } ] }. Keep the SAME ids. Output only JSON.`;
+const BOX_NAME_SCHEMA = {
+  type: 'object',
+  properties: { names: { type: 'array', items: {
+    type: 'object', properties: { id: { type: 'string' }, name: { type: 'string' } }, required: ['id', 'name'],
+  } } },
+  required: ['names'],
+};
+
+/** Rename the DERIVED box presets in place via the local model. Returns { model, renamed }. No-op (renamed:0)
+ *  when no local model is set up. The caller must recompute the slug map / boxpFor afterwards. */
+export async function nameBoxPresets(derived) {
+  if (microBackend() !== 'ollama' || !selectedLocalModel()) return { model: '', renamed: 0 };
+  const list = (Array.isArray(derived) ? derived : []).filter((p) => p && p.id);
+  if (!list.length) return { model: '', renamed: 0 };
+  try {
+    const model = selectedLocalModel();
+    const compact = list.map((p) => {
+      const d = (p.states && p.states.default) || {};
+      const fill = (d.background && d.background.color && d.background.color.value && d.background.color.value.custom) || '';
+      return { id: p.id, fill: fill || 'none', border: !!d.border_width, radius: ((p.border_radius && p.border_radius.value) || '') + ((p.border_radius && p.border_radius.unit) || ''), glass: /backdrop-filter/.test(String(p.custom_css || '')), hover: !!(p.states && p.states.hover) };
+    });
+    const user = `Boxes (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "names": [...] } JSON now.`;
+    const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+    const text = await askModel({ system: BOX_NAME_SYSTEM, user, model, format: BOX_NAME_SCHEMA, timeoutMs: to });
+    const parsed = extractJson(text);
+    let renamed = 0;
+    if (parsed && Array.isArray(parsed.names)) {
+      const byId = new Map(list.map((p) => [p.id, p]));
+      for (const nm of parsed.names) {
+        if (nm && nm.id && byId.has(nm.id)) { const name = String(nm.name || '').trim().replace(/["\r\n]/g, '').slice(0, 32); if (name) { byId.get(nm.id).preset_name = name; renamed++; } }
+      }
+    }
+    return { model, renamed };
+  } catch (e) { console.error('[box-names] local naming skipped:', e.message); return { model: '', renamed: 0 }; }
+}
+
+/* ---- Section-Style NAMING (local AI) — the coloured section BANDS ------- *
+ * Run as a PRE-pass (before to-pages derives each section's `variant` slug from style_name), so renaming
+ * needs no reslug. Names each band by its fill: brand/green → "Brand Band", dark → "Dark Band", tint →
+ * "Alt Section", etc. Renames style_name in place; best-effort. */
+const SECTION_NAME_SYSTEM = `You name reusable SECTION BACKGROUND styles (full-width coloured bands) for a website builder.
+Each band has an id and a background fill (rgb/rgba or "none"). Give each a SHORT human name (1-3 words) from its fill:
+- the brand/primary hue → "Brand Band"; a dark fill → "Dark Band"; a light tint → "Alt Section"; near-white → "Light Section"; an accent/CTA hue → "CTA Band".
+Return ONE JSON object, no prose: { "names": [ { "id": "<id>", "name": "<1-3 words>" } ] }. Keep the SAME ids. Output only JSON.`;
+const SECTION_NAME_SCHEMA = {
+  type: 'object',
+  properties: { names: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, name: { type: 'string' } }, required: ['id', 'name'] } } },
+  required: ['names'],
+};
+
+/** Rename section-style presets in place via the local model (id = index if none). Returns { model, renamed }. */
+export async function nameSectionStyles(presets) {
+  if (microBackend() !== 'ollama' || !selectedLocalModel()) return { model: '', renamed: 0 };
+  const list = (Array.isArray(presets) ? presets : []).filter(Boolean);
+  if (!list.length) return { model: '', renamed: 0 };
+  try {
+    const model = selectedLocalModel();
+    const fillOf = (p) => {
+      const bg = p.background || {};
+      return (bg.color && bg.color.value && bg.color.value.custom) || (typeof bg.color === 'string' ? bg.color : '') || (typeof bg === 'string' ? bg : '') || '';
+    };
+    const compact = list.map((p, i) => ({ id: String(i), fill: fillOf(p) || 'none' }));
+    const user = `Bands (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "names": [...] } JSON now.`;
+    const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+    const text = await askModel({ system: SECTION_NAME_SYSTEM, user, model, format: SECTION_NAME_SCHEMA, timeoutMs: to });
+    const parsed = extractJson(text);
+    let renamed = 0;
+    if (parsed && Array.isArray(parsed.names)) {
+      for (const nm of parsed.names) { const i = parseInt(nm && nm.id, 10); if (Number.isInteger(i) && list[i]) { const name = String(nm.name || '').trim().replace(/["\r\n]/g, '').slice(0, 28); if (name) { list[i].style_name = name; renamed++; } } }
+    }
+    return { model, renamed };
+  } catch (e) { console.error('[section-names] local naming skipped:', e.message); return { model: '', renamed: 0 }; }
+}
+
+/* ---- Accordion design VERIFY (local AI as a checker) ------------------- *
+ * The deterministic detector (accordion_design) reads the source's computed styles to pick icon_style &
+ * accordion_style. This pass has the LOCAL model CHECK that call against the real toggle-icon markup — it
+ * only CORRECTS an obviously-wrong icon_style/accordion_style (never invents other keys), so nothing the
+ * detector got right is dropped. Best-effort: a no-op when no local model is configured. */
+const ACCORDION_VERIFY_SYSTEM = `You verify how a website ACCORDION/FAQ was mapped to a builder's options.
+For each accordion you get: the toggle ICON markup (svg path / class / lucide name / or a literal glyph), item COUNT, the GAP between items (px), corner RADIUS (px), whether each item has its own background (hasBg), each item's border width (itemBw), and the mapper's current guess for icon_style and accordion_style.
+Decide the BEST value for each, ONLY from this evidence:
+- icon_style ∈ plus-minus | plus-x | chevron | arrow | none. A chevron/caret path (e.g. "m6 9 6 6 6-6", polyline pointing down, class/lucide "chevron"/"caret") → chevron. A +/− glyph or "plus"/"minus" → plus-minus. An × / "times"/"close" pairing → plus-x. A ▶/triangle/"arrow"/"caret-right" → arrow. No icon element and no glyph → none.
+- accordion_style ∈ bordered | separated | flush | filled | ghost. gap>=4 with a per-item border or radius → separated; gap>=4 with a tinted fill but no border → filled; gap<4 with hairline dividers and no box → flush; gap<4 inside one bordered box → bordered; borderless with an accent underline → ghost.
+Return ONE JSON object, no prose: { "items": [ { "id": <int>, "icon_style": "<value>", "accordion_style": "<value>" } ] }. Keep the SAME ids. Output only JSON.`;
+const ACCORDION_VERIFY_SCHEMA = {
+  type: 'object',
+  properties: { items: { type: 'array', items: {
+    type: 'object', properties: { id: { type: 'integer' }, icon_style: { type: 'string' }, accordion_style: { type: 'string' } }, required: ['id'],
+  } } },
+  required: ['items'],
+};
+const _ICON_VALS = new Set(['plus-minus', 'plus-x', 'chevron', 'arrow', 'none']);
+const _STYLE_VALS = new Set(['bordered', 'separated', 'flush', 'filled', 'ghost']);
+
+/**
+ * Verify/correct each accordion node's icon_style & accordion_style via the local model, from the stashed
+ * `_accordion_hint`. Mutates the node's atts in place and deletes the hint. Returns { model, checked,
+ * corrected }. No-op (corrected:0) when no local model — the deterministic guess stands.
+ * @param {Array} nodes accordion builder nodes carrying atts._accordion_hint
+ */
+export async function verifyAccordionDesign(nodes) {
+  const list = (Array.isArray(nodes) ? nodes : []).filter((n) => n && n.atts && n.atts._accordion_hint);
+  if (!list.length) return { model: '', checked: 0, corrected: 0 };
+  let verdicts = {};
+  if (microBackend() === 'ollama' && selectedLocalModel()) {
+    try {
+      const model = selectedLocalModel();
+      const compact = list.map((n, id) => {
+        const h = n.atts._accordion_hint; const g = h.hint || {};
+        return { id, icon: String(g.icon || '').slice(0, 160), count: g.count, gap: g.gap, radius: g.radius, hasBg: !!g.hasBg, itemBw: g.itemBw, guess_icon: h.icon_style, guess_style: h.accordion_style };
+      });
+      const user = `Accordions (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "items": [...] } JSON now.`;
+      const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+      const text = await askModel({ system: ACCORDION_VERIFY_SYSTEM, user, model, format: ACCORDION_VERIFY_SCHEMA, timeoutMs: to });
+      const parsed = extractJson(text);
+      if (parsed && Array.isArray(parsed.items)) { for (const v of parsed.items) { if (v && Number.isInteger(v.id)) verdicts[v.id] = v; } }
+    } catch (e) { console.error('[accordion] local verify skipped:', e.message); }
+  }
+  let corrected = 0;
+  list.forEach((n, id) => {
+    const v = verdicts[id] || {};
+    const ic = String(v.icon_style || '').trim();
+    const st = String(v.accordion_style || '').trim();
+    if (ic && _ICON_VALS.has(ic) && ic !== n.atts.icon_style) { n.atts.icon_style = ic; if (ic === 'none') delete n.atts.icon_position; corrected++; }
+    if (st && _STYLE_VALS.has(st) && st !== n.atts.accordion_style) { n.atts.accordion_style = st; corrected++; }
+    delete n.atts._accordion_hint;
+  });
+  return { model: (microBackend() === 'ollama' ? selectedLocalModel() : '') || '', checked: list.length, corrected };
+}
+
 /* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *
  * A raw text→text call to whichever backend is active (used to generate CSS that closes the source-vs-
  * converted visual gap). Unlike refineMapping, this returns the model's raw text (not a parsed mapping). */
