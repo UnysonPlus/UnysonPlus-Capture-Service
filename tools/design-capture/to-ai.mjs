@@ -1155,6 +1155,97 @@ function finishParse(text, model, backend) {
  * one prompt across many models to compare them.
  * ---------------------------------------------------------------------- */
 
+/* ---------------------------------------------------------------------- *
+ * Entrance-animation REFINEMENT — re-pick a tasteful effect + timing per
+ * element on TOP of the converter's deterministic sequential-reveal base.
+ * The deterministic pass (PHP mapper) already set every element to a safe
+ * fade-up / fade with a per-section stagger; this only ADJUSTS the effect
+ * and delay per element using the element's role + text. Constrained to the
+ * Animate.css entrance vocabulary so nothing invalid can be written; any
+ * failure leaves the deterministic base untouched (caller falls back).
+ * ---------------------------------------------------------------------- */
+
+/** The ONLY effects the refinement may choose from — Animate.css *entrances* (one-shot reveals). No
+ *  attention-seekers (pulse/shake) — those loop and don't read as an entrance. Kept in sync with the
+ *  PHP allowlist (Mapper::anim_effect_allowlist). */
+export const ANIM_ENTRANCE_EFFECTS = [
+  'animate__fadeIn', 'animate__fadeInUp', 'animate__fadeInDown', 'animate__fadeInLeft', 'animate__fadeInRight',
+  'animate__zoomIn', 'animate__slideInUp', 'animate__slideInLeft', 'animate__slideInRight',
+  'animate__backInUp', 'animate__backInDown', 'animate__bounceIn', 'animate__flipInX', 'animate__rotateIn',
+];
+
+const ANIM_SYSTEM = `You are a motion designer polishing the entrance animations of a converted web page.
+You are given, as JSON, an ordered list of the page's animatable elements — each with its section index,
+its shortcode (role), a short text label, and the DEFAULT effect + delay a deterministic pass already assigned.
+Re-pick a TASTEFUL entrance effect and delay for each element. Rules:
+- Choose "effect" ONLY from this exact set: ${ANIM_ENTRANCE_EFFECTS.join(', ')}. Never invent one.
+- Keep it calm and coherent — most content reads best as fadeInUp; media (images/galleries/video) as fadeIn or zoomIn.
+  Use directional slides/backs sparingly for emphasis (e.g. a hero CTA, a single feature). Never make a page a circus.
+- "delay" is SECONDS before the element reveals, relative to its section entering view. Preserve a gentle
+  SEQUENTIAL cascade WITHIN each section (delays increase down the section, ~0.08–0.16s apart) and RESET to a
+  small value at the start of each new section. Keep every delay between 0 and 1.2.
+- Return EVERY input element exactly once, keyed by its "i". Output ONE JSON object, no prose, no markdown fences:
+{"items":[{"i":0,"effect":"animate__fadeInUp","delay":0},{"i":1,"effect":"animate__fadeIn","delay":0.12}]}`;
+
+const ANIM_SCHEMA = {
+  type: 'object',
+  properties: {
+    items: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          i:      { type: 'integer' },
+          effect: { type: 'string', enum: ANIM_ENTRANCE_EFFECTS },
+          delay:  { type: 'number' },
+        },
+        required: ['i', 'effect', 'delay'],
+      },
+    },
+  },
+  required: ['items'],
+};
+
+/**
+ * Refine an entrance-animation plan. `plan` is an array of { i, section, sc, text, effect, delay } —
+ * the deterministic base. Returns { ok, items:[{i,effect,delay}], model, backend }, where items is
+ * validated down to the allowed effect set and sane delays. Throws (503) when no AI backend is active.
+ */
+export async function refineAnimations({ plan } = {}) {
+  const items = Array.isArray(plan) ? plan : [];
+  if (!items.length) { return { ok: true, items: [], model: null, backend: aiBackend() || null }; }
+  const backend = aiBackend();
+  if (!backend) { const e = new Error('AI is off — pick a local model, or enable Claude (Claude Code / an API key).'); e.code = 503; throw e; }
+
+  const user = 'Here are the page elements to refine (JSON):\n' + JSON.stringify(items);
+  let raw, model;
+  if (backend === 'ollama') {
+    model = selectedLocalModel();
+    raw = await askModel({ system: ANIM_SYSTEM, user, model, format: ANIM_SCHEMA });
+  } else {
+    model = backend === 'api' ? DEFAULT_MODEL : (process.env.ANTHROPIC_MODEL || 'claude-code');
+    raw = await askModel({ system: ANIM_SYSTEM, user, model });
+  }
+  const parsed = extractJson(stripReasoning(raw));
+  const list = parsed && Array.isArray(parsed.items) ? parsed.items : [];
+  const allow = new Set(ANIM_ENTRANCE_EFFECTS);
+  const seen = new Set();
+  const out = [];
+  for (const it of list) {
+    if (!it || typeof it !== 'object') continue;
+    const i = Number.isInteger(it.i) ? it.i : parseInt(it.i, 10);
+    if (!Number.isInteger(i) || i < 0 || i >= items.length || seen.has(i)) continue;
+    const effect = String(it.effect || '');
+    if (!allow.has(effect)) continue;
+    let delay = Number(it.delay);
+    if (!Number.isFinite(delay)) delay = 0;
+    delay = Math.max(0, Math.min(1.2, delay));
+    seen.add(i);
+    out.push({ i, effect, delay });
+  }
+  return { ok: true, items: out, model, backend };
+}
+
 /** True if a model id means "Claude via the Claude Code CLI". */
 export function isClaudeModel(model) {
   const m = String(model || '').trim().toLowerCase();

@@ -1317,7 +1317,7 @@ export function toPages(capture, opts = {}) {
     if (fg && !/^#?(fff|ffffff)$/i.test(fg.replace('#', ''))) atts.custom_css = ('selector .fw-nl__btn{color:' + fg + ' !important;}');
     return { type: 'simple', shortcode: 'newsletter', _items: [], atts };
   };
-  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
+  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -1353,8 +1353,10 @@ export function toPages(capture, opts = {}) {
   // Is a text block a heading SUBTITLE (short intro line) vs body copy? Single short paragraph, no
   // block-level structure, under a two-sentence cap. Parity with PHP Mapper::is_heading_subtitle.
   const isHeadingSubtitle = (b) => {
+    if (b && b.cls === 'sc-link-strip') return false;                        // a link strip is its own block
     const html = String((b && (b.html || b.text)) || '');
     if (/<(ul|ol|h[1-6]|table|blockquote|figure|hr|div)\b/i.test(html)) return false;
+    if ((html.match(/<a\b/gi) || []).length >= 2) return false;             // a row of links, not intro prose
     if ((html.match(/<p\b/gi) || []).length > 1) return false;               // >1 paragraph = body copy
     const plain = html.replace(/<[^>]*>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
     if (!plain) return false;
@@ -1540,8 +1542,16 @@ export function toPages(capture, opts = {}) {
   const testimonialsNode = (rows) => {
     const n = stamp(clone('testimonials'));
     const a = n.atts;
+    let anyExtra = false;
     a.testimonials = (rows || []).map((r) => {
       const hasRating = r.rating != null && r.rating !== '';
+      // EXTRA TEXTS — per-testimonial stat/result rows ({label,value}) → the shortcode's repeatable Extra
+      // field, so a "Total savings → $14,200" footer survives instead of being lost. Parity with PHP.
+      const extra = Array.isArray(r.extra)
+        ? r.extra.map((e) => ({ label: String((e && e.label) || '').trim(), value: String((e && e.value) || '').trim() }))
+                 .filter((e) => e.label !== '' || e.value !== '')
+        : [];
+      if (extra.length) anyExtra = true;
       return {
         content: String(r.quote || ''),
         author_avatar: { attachment_id: '', url: String(r.image || '') },
@@ -1550,6 +1560,7 @@ export function toPages(capture, opts = {}) {
         site_name: String(r.siteName || ''),
         site_url: String(r.siteUrl || ''),
         rating: hasRating ? Number(r.rating) : 5,
+        extra,
       };
     });
     a.title = '';
@@ -1558,6 +1569,16 @@ export function toPages(capture, opts = {}) {
     a.avatar_shape = 'rounded-circle';
     a.avatar_size = 'avatar-lg';
     a.show_rating = 'yes';
+    // When any testimonial carries a footer stat, pin the Card Rows so the Extra Texts slot renders at the
+    // card footer (a divider + the stat rows). Omitted otherwise, so plain testimonials keep the option default.
+    if (anyExtra) {
+      a.card_rows = [
+        { slots: ['rating'], direction: 'inline', justify: 'center', align: 'center' },
+        { slots: ['quote'], direction: 'stack', justify: 'start', align: 'center' },
+        { slots: ['avatar', 'author'], direction: 'inline', justify: 'center', align: 'center' },
+        { slots: ['extra'], direction: 'stack', justify: 'start', align: 'center' },
+      ];
+    }
     return n;
   };
   const counterNode = (c) => {
@@ -1618,15 +1639,23 @@ export function toPages(capture, opts = {}) {
   const accordionNode = (b) => {
     const src = Array.isArray(b.items) ? b.items : [];
     const tabs = [];
-    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; tabs.push({ tab_title: title, tab_content: String(it.content || ''), is_open: 'no' }); }
+    let opens = 0;
+    for (const it of src) { const title = String(it.title || '').trim(); if (!title) continue; const open = !!it.open; if (open) opens++; tabs.push({ tab_title: title, tab_content: String(it.content || ''), is_open: open ? 'yes' : 'no' }); }
     if (!tabs.length) return codeBlock('');
     const atts = { tabs };
+    // Initial open state from the source (parity n_accordion) — explicit so a source with NO open panel
+    // doesn't force the default 'first' open. Per-tab is_open carries the specifics.
+    atts.initially_open = (opens > 0 && opens === tabs.length) ? 'all' : 'none';
     // Match the SOURCE design captured by accordionDesign (parity n_accordion): style/icon/position/etc.
     const dz = (b.design && typeof b.design === 'object') ? b.design : {};
-    for (const k of ['accordion_style', 'icon_style', 'icon_position', 'title_alignment', 'corner_radius', 'item_spacing', 'elevation']) {
+    for (const k of ['accordion_style', 'icon_style', 'icon_position', 'title_alignment', 'title_tag', 'corner_radius', 'item_spacing', 'elevation', 'multiple_open']) {
       if (dz[k] != null && dz[k] !== '') atts[k] = dz[k];
     }
-    if (dz.title_bg_color && typeof dz.title_bg_color === 'object') atts.title_bg_color = dz.title_bg_color;
+    for (const ck of ['title_bg_color', 'content_bg_color', 'tab_title_color', 'tab_content_color', 'icon_closed_color']) {
+      if (dz[ck] && typeof dz[ck] === 'object') atts[ck] = dz[ck];
+    }
+    // Re-emit the source's FAQ structured data when the page carried a schema.org/FAQPage for these items.
+    if (b.faq) atts.faq_schema = 'yes';
     // Stash a compact hint (consumed + deleted in capture.mjs) so the local-AI verify pass can confirm/correct
     // icon_style & accordion_style from the real icon markup — same _box-style hand-off the box presets use.
     if (dz._hint) atts._accordion_hint = { hint: dz._hint, icon_style: atts.icon_style || '', accordion_style: atts.accordion_style || '', titles: tabs.slice(0, 3).map((t) => t.tab_title) };
@@ -1636,10 +1665,38 @@ export function toPages(capture, opts = {}) {
   // A <ul>/<ol> → native `feature_list` (<ul> check, <ol> numbered). Parity n_feature_list.
   const featureListNode = (b) => {
     const src = Array.isArray(b.items) ? b.items : [];
+    // A computed colour that carries no distinctive tone (pure black / empty / inherit) stays neutral.
+    const isDefaultInk = (v) => { const s = String(v || '').toLowerCase().replace(/\s+/g, ''); return s === '' || ['inherit', 'initial', 'currentcolor', 'transparent', 'black', '#000', '#000000', 'rgb(0,0,0)', 'rgba(0,0,0,1)', 'rgba(0,0,0,0)'].includes(s); };
+    const mkColor = (v) => (v && !isDefaultInk(v) ? { predefined: '', custom: rgbToCss(v) } : { predefined: '', custom: '' });
     const items = [];
-    for (const r of src) { const text = String(r.text || '').trim(); if (!text) continue; items.push({ text, subtext: '', value_text: '', icon: iconNone(), marker_color: { predefined: '', custom: '' }, state: 'on', link_url: '', link_target: '_self' }); }
+    for (const r of src) {
+      const text = String(r.text || '').trim(); if (!text) continue;
+      const icon = String(r.icon_svg || '').trim() ? { type: 'svg', 'svg-source': 'inline', markup: String(r.icon_svg) } : iconNone();
+      items.push({ text, subtext: '', value_text: '', icon, marker_color: mkColor(r.icon_color), state: 'on', link_url: '', link_target: '_self' });
+    }
     if (!items.length) return codeBlock('');
-    return widgetNode('feature_list', { items, design: b.ordered ? 'numbered' : 'check' });
+    const atts = { items, design: b.ordered ? 'numbered' : 'check' };
+    // ORIENTATION — a source `flex flex-wrap` strip is HORIZONTAL; a stacked list is vertical.
+    if (b.orientation === 'horizontal') atts.orientation = 'horizontal';
+    // LIST-LEVEL MARKER + TEXT COLOUR (parity with PHP n_feature_list).
+    if (b.markerColor && !isDefaultInk(b.markerColor)) atts.marker_color = mkColor(b.markerColor);
+    if (b.textColor && !isDefaultInk(b.textColor)) atts.text_color = mkColor(b.textColor);
+    // LABEL SIZE — nearest Text Style preset, else pin the exact px via scoped CSS (a 14px `text-sm` label
+    // falls between the 12px Caption + 16px Small presets, so no preset matches within tolerance).
+    let css = '';
+    const labelFs = Number(b.labelFs) || 0;
+    if (labelFs > 0) { const p = textPresetFor(labelFs); if (p) atts.font_size_preset = p; else css += 'selector .fw-fl__text{font-size:' + Math.round(labelFs) + 'px;}'; }
+    // MARKER SIZE — the icon width (`w-5` = 20px) → the Icon Size unit-input.
+    const markerSize = Number(b.markerSize) || 0;
+    if (markerSize > 0) atts.marker_size = { value: String(Math.round(markerSize)), unit: 'px' };
+    // ROW SPACING — the wrapping gap (`gap-5` = 20px) → sm/md/lg.
+    const listGap = Number(b.listGap) || 0;
+    if (listGap > 0) atts.spacing_size = listGap <= 8 ? 'sm' : (listGap >= 28 ? 'lg' : 'md');
+    // ICON↔LABEL GAP — each row's own `gap-2` (8px); the skin default is ~12px, so carry a meaningful diff.
+    const itemGap = Number(b.itemGap) || 0;
+    if (itemGap > 0 && Math.abs(itemGap - 12) >= 2) css += (css ? '\n' : '') + 'selector .fw-fl__item{gap:' + Math.round(itemGap) + 'px;}';
+    if (css) atts.custom_css = css;
+    return widgetNode('feature_list', atts);
   };
 
   // A tab widget → native `tabs`; each tab → one entry. Parity n_tabs (needs >=2, first active fallback).
@@ -1992,6 +2049,10 @@ export function toPages(capture, opts = {}) {
                 sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
                 fallback: sc === 'code_block', opportunity: false });
           const col = column(c.width, cellItems);
+          // A DECOMPOSED card cell (icon_box + feature_list) → the box goes on the COLUMN's Border Preset so
+          // it wraps ALL the shortcodes (not just the icon_box header). Stash the skin for the Box-Preset
+          // census, which assigns border_preset to a column (box_style to an icon_box). Parity with PHP.
+          if (c.cardBox && col.atts) col.atts._box = c.cardBox;
           // Fidelity fixes on the column's scoped custom_css:
           //  (1) an image-composite cell with FLOATING CARD(s) needs the column to be the POSITIONED
           //      ancestor, or each card's `position:absolute; top/left` resolves against the section/page

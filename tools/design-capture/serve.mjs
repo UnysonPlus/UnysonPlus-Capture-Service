@@ -23,7 +23,7 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask, refineAnimations } from './to-ai.mjs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
@@ -367,6 +367,29 @@ const __server = createServer((req, res) => {
         json(res, 200, { ok: true, mapping: _mapping, changes });
       })
       .catch((e) => { markAi({ status: 'error', backend: 'ollama', model: selectedLocalModel(), startedAt: _aiStart, error: e.message }); console.error('[ai-micro]', e.message); json(res, 200, { ok: true, mapping: _mapping, error: e.message }); });
+    return;
+  }
+
+  // POST /ai-animations — refine the converter's deterministic entrance-animation plan. Body:
+  // { plan:[{ i, section, sc, text, effect, delay }] }. Returns { ok, items:[{i,effect,delay}] } with
+  // effects validated to the Animate.css entrance set. Non-destructive like /ai-micro: NEVER hard-fails
+  // the conversion — on any error (or no AI backend) it returns items:[] so the plugin keeps its
+  // deterministic base. The "Refine with AI" entrance-animation sub-option (Site Converter) calls this.
+  if (u.pathname === '/ai-animations') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    const _aiStart = Date.now();
+    readJson(req)
+      .then(async (body) => {
+        const plan = body && Array.isArray(body.plan) ? body.plan : [];
+        if (!plan.length) { json(res, 200, { ok: true, items: [], skipped: 'empty-plan' }); return; }
+        if (!aiReady()) { json(res, 200, { ok: true, items: [], skipped: 'ai-off' }); return; }
+        markAi({ status: 'thinking', backend: aiBackend(), note: `refining ${plan.length} entrance animation(s)…`, startedAt: _aiStart });
+        const out = await refineAnimations({ plan });
+        markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: `refined ${out.items.length} animation(s)` });
+        console.log('[ai-animations] refined', out.items.length, 'of', plan.length, 'via', out.model);
+        json(res, 200, { ok: true, items: out.items, model: out.model });
+      })
+      .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-animations]', e.message); json(res, 200, { ok: true, items: [], error: e.message }); });
     return;
   }
 

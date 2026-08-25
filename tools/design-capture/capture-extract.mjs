@@ -1142,8 +1142,15 @@ export function extractDesign() {
     // default: text alignment (source feature cards are often LEFT, the shortcode default is centred),
     // the box padding (the `p-8` class collides with the plugin's own `.p-8` = 72px utility, so carry the
     // COMPUTED value), and the box skin (bg / border / radius / shadow) for the native box options.
-    const boxCs = getComputedStyle(wrap);
-    const _al = (boxCs.textAlign || 'left').replace(/^(start|justify)$/, 'left').replace(/^end$/, 'right');
+    // Read the box skin + padding from the CELL when IT carries the box — a source card often wraps the
+    // icon+heading in a header sub-div, so `wrap` is that header (no box) while the box/fill/radius/padding
+    // live on the cell. Parity with PHP read_card_skin($cell). Falls back to `wrap` (the about-item pattern,
+    // where wrap === cell anyway).
+    const _cellCs = getComputedStyle(cell);
+    const _cellBg = _cellCs.backgroundColor && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(_cellCs.backgroundColor);
+    const _cellBoxed = _cellBg || (parseFloat(_cellCs.borderTopWidth) || 0) > 0 || (parseFloat(_cellCs.borderTopLeftRadius) || 0) > 0 || (_cellCs.boxShadow && _cellCs.boxShadow !== 'none');
+    const boxCs = _cellBoxed ? _cellCs : getComputedStyle(wrap);
+    const _al = (getComputedStyle(wrap).textAlign || 'left').replace(/^(start|justify)$/, 'left').replace(/^end$/, 'right');
     const okc = (v) => v && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
     return {
       icon, customIcon, lucide, iconLayout, iconColor, iconBadge, iconBadgeColor,
@@ -1483,8 +1490,23 @@ export function extractDesign() {
       if (!cell.grid) {
         cell.counter = counterOf(c);                            // animated stat counter
         if (!cell.counter) {
-          cell.card = cardOf(c);                                // single icon card
-          if (!cell.card) {
+          // A card that WRAPS a nested icon-text/feature list (icon + heading + description, THEN a grid of
+          // icon+text rows — e.g. a "Loan Types" card) must NOT collapse into one icon_box (dropping the
+          // list). Decompose into an icon_box HEADER block + a feature_list block; the box then lands on the
+          // COLUMN (2+ shortcodes). Parity with PHP grid_cols() cell_wraps_icon_text_list decomposition.
+          const _flEl = cellWrapsIconTextList(c);
+          if (_flEl) {
+            const _flBlock = iconTextListBlockOf(_flEl);
+            if (_flBlock) {
+              const _p = _flEl.parentNode, _n = _flEl.nextSibling;
+              if (_p) _p.removeChild(_flEl);                     // hide the list so the header card excludes its text
+              const _hdr = cardOf(c);
+              if (_p) _p.insertBefore(_flEl, _n);                // restore
+              if (_hdr) { cell.cardBox = _hdr.box || null; _hdr.box = null; cell.blocks = [{ t: 'card', card: _hdr }, _flBlock]; } // box → the COLUMN, not the header icon_box
+            }
+          }
+          if (!cell.blocks) cell.card = cardOf(c);               // single icon card
+          if (!cell.card && !cell.blocks) {
             const b = buttonsOf(c);                             // a CTA button group?
             if (b && b.length) { cell.buttons = b; }
             else {
@@ -1622,7 +1644,31 @@ export function extractDesign() {
     const a = [...b.querySelectorAll('a[href]')].find((x) => { const h = x.getAttribute('href') || ''; return h && !/^#/.test(h); });
     const siteUrl = a ? abs(a.getAttribute('href') || '') : '';
     const siteName = a ? clip(txt(a), 60) : '';
-    return { quote, image, name, position, siteName, siteUrl, rating: ratingOf(b) };
+    // EXTRA TEXTS — a bordered footer row (border-t) holding a stat/result (a muted label + emphasized
+    // value, e.g. "Total savings" → "$14,200", or a lone "40% more closes") → { label, value }[]. Prefers
+    // two distinct leaf texts; else splits a single "Label $Figure" string on the figure. Parity with PHP
+    // testimonial_extra(). Empty when the card has no footer stat.
+    let extra = [];
+    const foot = [...b.children].find((e) => /(?:^|\s)border-t/.test(e.className || '') || /border-top/.test(e.className || ''));
+    if (foot) {
+      const parts = [];
+      for (const e of foot.querySelectorAll('p,span,div,strong,b,dt,dd')) {
+        if (e.children.length > 0) continue; // leaf only
+        const t = txt(e).replace(/\s+/g, ' ').trim();
+        if (t && t !== quote && t.length <= 60 && !parts.includes(t)) parts.push(t);
+      }
+      if (parts.length >= 2) {
+        extra = [{ label: parts[0], value: parts[1] }];
+      } else {
+        const ft = txt(foot).replace(/\s+/g, ' ').trim();
+        if (ft && ft !== quote && ft.length <= 60) {
+          const m = ft.match(/^(.*?)\s*((?:[$€£]\s?[\d.,]+|\d[\d.,]*\s*%|\d[\d.,]+)\b.*)$/u);
+          if (m && m[1].trim()) extra = [{ label: m[1].trim(), value: m[2].trim() }];
+          else extra = [{ label: '', value: ft }];
+        }
+      }
+    }
+    return { quote, image, name, position, siteName, siteUrl, rating: ratingOf(b), extra };
   };
   const TESTI_BLOCK_RE = /\b(testimonial|review|feedback|client[-_]?(say|review|quote)|quote[-_]?(item|block|card))\b/i;
   const testimonialsOf = (scope) => {
@@ -1798,7 +1844,7 @@ export function extractDesign() {
         const title = txt(sum);
         const clone = d.cloneNode(true);
         clone.querySelectorAll('summary').forEach((s) => s.remove());
-        if (title) items.push({ title, content: stripCs(clone.innerHTML) });
+        if (title) items.push({ title, content: stripCs(clone.innerHTML), open: d.hasAttribute('open') });
       }
     } else {
       const doc = el.ownerDocument;
@@ -1808,19 +1854,21 @@ export function extractDesign() {
         const ctrl = (tgl.getAttribute('aria-controls') || '').trim();
         if (ctrl && doc) { const p = doc.getElementById(ctrl); if (p) panelHtml = stripCs(p.innerHTML); }
         if (!panelHtml) { const sib = tgl.nextElementSibling; if (sib) panelHtml = stripCs(sib.innerHTML); }
-        items.push({ title, content: panelHtml });
+        items.push({ title, content: panelHtml, open: String(tgl.getAttribute('aria-expanded') || '').toLowerCase() === 'true' });
       }
     }
-    // FAQ JSON-LD FALLBACK — a Radix/Headless accordion unmounts its closed panels, so the answers are absent
-    // from the DOM (title-only items). Recover them from the page's schema.org/FAQPage structured data by
-    // matching each item title to a Question name → acceptedAnswer.text. Parity with PHP accordion_block.
-    if (items.some((it) => !String(it.content || '').trim())) {
-      const faq = faqJsonLdMap(el.ownerDocument);
-      if (faq && Object.keys(faq).length) {
-        for (const it of items) {
-          if (String(it.content || '').trim()) continue;
-          const ans = faq[faqKey(it.title)];
-          if (ans) it.content = /</.test(ans) ? ans : '<p>' + ans.replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])) + '</p>';
+    // FAQ JSON-LD — recover answers a Radix/Headless accordion unmounts from closed panels, AND flag
+    // `faq` when the page's schema.org/FAQPage structured data covers these questions, so the rebuilt
+    // accordion re-emits the FAQ schema (native `faq_schema`). Parity with PHP accordion_block.
+    let faqMatched = 0;
+    const faq = faqJsonLdMap(el.ownerDocument);
+    if (faq && Object.keys(faq).length) {
+      for (const it of items) {
+        const ans = faq[faqKey(it.title)];
+        if (ans === undefined) continue;
+        faqMatched++;
+        if (!String(it.content || '').trim()) {
+          it.content = /</.test(ans) ? ans : '<p>' + ans.replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])) + '</p>';
         }
       }
     }
@@ -1828,6 +1876,8 @@ export function extractDesign() {
     const block = { t: 'accordion', items };
     const design = accordionDesign(el);
     if (design && Object.keys(design).length) block.design = design;
+    // FAQ schema present when the structured data covers at least half the questions.
+    if (faqMatched >= Math.max(1, Math.floor(items.length / 2))) block.faq = true;
     return block;
   };
   // A schema.org/FAQPage question→answer map from the document's JSON-LD (parity with PHP faq_jsonld_map).
@@ -1921,6 +1971,10 @@ export function extractDesign() {
     // alignment
     const ta = (getComputedStyle(bar).textAlign || '').toLowerCase();
     if (ta === 'center') d.title_alignment = 'center'; else if (ta === 'right') d.title_alignment = 'right';
+    // title tag — the header is often wrapped in a real heading (<h3><button aria-expanded>); carry the level.
+    for (let hn = bar; hn && hn !== first; hn = hn.parentElement) {
+      if (/^h[2-6]$/.test(hn.tagName.toLowerCase())) { d.title_tag = hn.tagName.toLowerCase(); break; }
+    }
     // radius
     const csf = getComputedStyle(first);
     const rr = csf.borderRadius || '';
@@ -1958,6 +2012,26 @@ export function extractDesign() {
     // elevation
     const sh = csf.boxShadow || '';
     if (sh && sh !== 'none') { const sm = /(\d+(?:\.\d+)?)px/.exec(sh); d.elevation = (sm && parseFloat(sm[1]) >= 12) ? 'raised' : 'subtle'; }
+    // panel (content) element — parity with PHP accordion_design: <details> first non-summary child, else
+    // the aria-controls target or the bar's next sibling. Used for the content bg + text colour.
+    let panel = null;
+    if (first.tagName.toLowerCase() === 'details') { for (const ch of first.children) { if (ch.tagName.toLowerCase() !== 'summary') { panel = ch; break; } } }
+    else { const ctrl = (bar.getAttribute('aria-controls') || '').trim(); if (ctrl && el.ownerDocument) panel = el.ownerDocument.getElementById(ctrl); if (!panel) panel = bar.nextElementSibling; }
+    const rgbHex = (css) => { const mm = /rgba?\(\s*(\d+)\D+(\d+)\D+(\d+)/.exec(String(css || '')); if (!mm) return ''; const hx = (n) => ('0' + (+n).toString(16)).slice(-2); return '#' + hx(mm[1]) + hx(mm[2]) + hx(mm[3]); };
+    const nearBlack = (css) => { const mm = /rgba?\(\s*(\d+)\D+(\d+)\D+(\d+)/.exec(String(css || '')); return !!mm && +mm[1] < 70 && +mm[2] < 70 && +mm[3] < 70; };
+    const colv = (hex) => ({ predefined: '', custom: hex });
+    if (panel) {
+      const pbg = getComputedStyle(panel).backgroundColor || '';
+      if (pbg && pbg !== 'transparent' && pbg !== 'rgba(0, 0, 0, 0)') { const h = rgbHex(pbg); if (h) d.content_bg_color = colv(h); }
+      const pc = getComputedStyle(panel).color || '';
+      if (pc && !nearBlack(pc)) { const h = rgbHex(pc); if (h) d.tab_content_color = colv(h); }
+    }
+    const bcol = getComputedStyle(bar).color || '';
+    if (bcol && !nearBlack(bcol)) { const h = rgbHex(bcol); if (h) d.tab_title_color = colv(h); }
+    if (iconEl) { const ic = getComputedStyle(iconEl).color || ''; if (ic && !nearBlack(ic)) { const h = rgbHex(ic); if (h) d.icon_closed_color = colv(h); } }
+    // multiple open — a <details> group opens panels independently; Bootstrap collapse with data-bs-parent = single.
+    if (first.tagName.toLowerCase() === 'details') d.multiple_open = 'yes';
+    else { let hasParent = false; for (const _n of el.querySelectorAll('[data-bs-parent]')) { hasParent = true; break; } d.multiple_open = hasParent ? 'no' : 'yes'; }
     // Compact hint for the local-AI verify pass (real icon signal, not titles): the toggle icon markup +
     // bar class + item geometry, so the model can confirm/correct icon_style & accordion_style.
     d._hint = {
@@ -2026,13 +2100,112 @@ export function extractDesign() {
   };
   const iconTextListBlockOf = (el) => {
     const items = [];
+    const iconColors = [];
+    let textColor = '', labelFs = 0, markerSize = 0;
     for (const k of [...el.children]) {
       const kt = k.tagName.toLowerCase();
       if (['script', 'style', 'br', 'hr', 'template'].includes(kt)) continue;
       const t = (txt(k) || '').trim(); if (!t) continue;
-      items.push({ text: t, html: stripCs(k.innerHTML) });
+      const row = { text: t, html: stripCs(k.innerHTML) };
+      // Per-item ICON — the exact inline <svg> (reproduced verbatim) + its computed colour + size, so the
+      // native marker resolves the source glyph / tint / width. Parity with PHP icon_text_list_block.
+      const svg = k.querySelector('svg');
+      const iconEl = svg || k.querySelector('[class*="lucide-"], i');
+      if (svg) row.icon_svg = svg.outerHTML;
+      if (iconEl) {
+        const ics = getComputedStyle(iconEl);
+        if (/^rgb/i.test(ics.color)) { row.icon_color = ics.color; iconColors.push(ics.color); }
+        if (!markerSize) { const w = parseFloat(ics.width || '0'); if (w > 0) markerSize = w; }
+      }
+      // Label element (span/p) → the list-level text colour + size (from the FIRST row that has one).
+      if (!textColor && !labelFs) {
+        const le = k.querySelector('span') || k.querySelector('p');
+        if (le && (txt(le) || '').trim()) {
+          const lcs = getComputedStyle(le);
+          if (/^rgb/i.test(lcs.color)) textColor = lcs.color;
+          const fsm = String(lcs.fontSize || '').match(/^([0-9.]+)px$/); if (fsm) labelFs = parseFloat(fsm[1]);
+        }
+      }
+      items.push(row);
     }
-    return items.length >= 2 ? { t: 'feature_list', ordered: false, items } : null;
+    if (items.length < 2) return null;
+    const cls = cn(el).toLowerCase();
+    const cs = getComputedStyle(el);
+    // Orientation: an inline flex/inline-flex strip that ISN'T a column stack = horizontal; flex-col / grid = vertical.
+    let orientation = 'vertical';
+    if ((/\bflex\b|\binline-flex\b/.test(cls) || /flex/.test(cs.display || '')) && !/\bflex-col\b/.test(cls) && !/\bgrid\b/.test(cls) && cs.flexDirection !== 'column') orientation = 'horizontal';
+    // The wrapping gap (between items) → spacing_size; the first row's own gap (icon↔label) → item gap.
+    const listGap = parseFloat((cs.rowGap && cs.rowGap !== 'normal' ? cs.rowGap : (cs.gap && cs.gap !== 'normal' ? String(cs.gap).split(' ')[0] : '')) || '0') || 0;
+    let itemGap = 0;
+    const k0 = [...el.children].find((k) => txt(k));
+    if (k0) { const rcs = getComputedStyle(k0); itemGap = parseFloat((rcs.columnGap && rcs.columnGap !== 'normal' ? rcs.columnGap : (rcs.gap && rcs.gap !== 'normal' ? String(rcs.gap).split(' ').pop() : '')) || '0') || 0; }
+    // List-level marker colour = the most common icon colour across the rows.
+    let markerColor = '';
+    if (iconColors.length) { const counts = {}; for (const c of iconColors) counts[c] = (counts[c] || 0) + 1; markerColor = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || ''; }
+    return { t: 'feature_list', ordered: false, items, orientation, markerColor, textColor, labelFs, markerSize, listGap, itemGap };
+  };
+  // The FIRST descendant container that is an icon-text/feature list inside `cell` (excluding `cell` itself) →
+  // lets a card cell that wraps a nested feature list decompose into an icon_box header + a feature_list,
+  // instead of one icon_box that drops the list. Parity with PHP cell_wraps_icon_text_list.
+  const cellWrapsIconTextList = (cell) => {
+    for (const d of cell.querySelectorAll('div,ul,section')) { if (d !== cell && isIconTextList(d)) return d; }
+    return null;
+  };
+
+  // --- inline LINK STRIP (PHP is_inline_link_strip) → ONE centered text_block. A flex row whose children are
+  // all short inline <a> links + <=3-char separators (•/|//), e.g. a footer policy-links line. Claimed high so
+  // a card_grid/layout_row doesn't split each link into its own column (dropping separators + inline flow). ---
+  const isInlineLinkStrip = (el) => {
+    const tag = el.tagName.toLowerCase();
+    if (['a', 'button', 'nav', 'ul', 'ol', 'form', 'header'].includes(tag)) return false;
+    if (el.closest && el.closest('nav')) return false;
+    const cls = cn(el).toLowerCase();
+    const cs = getComputedStyle(el);
+    const isFlex = /flex|inline-flex/.test(cls) || /flex/.test(cs.display || '');
+    if (!isFlex) return false;
+    if (/\b(menu|nav|navbar|pagination|breadcrumb|tabs?|tablist|social|slider|carousel|dropdown|toolbar)\b/.test(cls)) return false;
+    const kids = [...el.children].filter((k) => { const kt = k.tagName.toLowerCase(); if (['script', 'style', 'br', 'hr', 'template'].includes(kt)) return false; return !!(txt(k)); });
+    if (kids.length < 2) return false;
+    let links = 0;
+    for (const k of kids) {
+      const kt = k.tagName.toLowerCase();
+      const t = (txt(k) || '').trim();
+      if (kt === 'a') {
+        if (!t || t.length > 40) return false;
+        const kcs = getComputedStyle(k);
+        const padded = parseFloat(kcs.paddingLeft || '0') >= 12 || parseFloat(kcs.paddingTop || '0') >= 8;
+        const bg = kcs.backgroundColor && !/rgba?\(0,\s*0,\s*0,\s*0\)|transparent/.test(kcs.backgroundColor);
+        const bordered = parseFloat(kcs.borderTopWidth || '0') > 0;
+        if (padded && (bg || bordered)) return false; // a button-styled CTA is not a link-strip item
+        if (k.querySelector('img,svg,h1,h2,h3,h4,h5,h6,p,div,button')) return false;
+        links++;
+      } else {
+        if (t.length > 3) return false; // a short separator only
+        if (k.querySelector('a,img,svg')) return false;
+      }
+    }
+    return links >= 2;
+  };
+  const inlineLinkStripBlock = (el) => {
+    const escAttr = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    const parts = [];
+    for (const k of [...el.children]) {
+      const kt = k.tagName.toLowerCase();
+      const t = (txt(k) || '').replace(/\s+/g, ' ').trim();
+      if (!t) continue;
+      if (kt === 'a') {
+        const href = (k.getAttribute('href') || '').trim();
+        const target = (k.getAttribute('target') || '').trim();
+        parts.push('<a href="' + escAttr(href || '#') + '"' + (target === '_blank' ? ' target="_blank" rel="noopener"' : '') + '>' + escHtml(t) + '</a>');
+      } else {
+        parts.push(escHtml(t)); // separator (•, |, /)
+      }
+    }
+    if (parts.length < 2) return null;
+    const cls = cn(el).toLowerCase();
+    const cs = getComputedStyle(el);
+    const center = /justify-center|text-center|mx-auto/.test(cls) || cs.justifyContent === 'center' || cs.textAlign === 'center';
+    return { t: 'text', role: 'text', cls: 'sc-link-strip', align: center ? 'center' : '', textAlign: center ? 'center' : '', text: txt(el), html: '<p class="sc-link-strip">' + parts.join(' ') + '</p>' };
   };
 
   // --- tabs (PHP is_tabs_widget): a tablist (role or .tabs/.nav-tabs) with >=2 tabs each → a panel ---
@@ -2409,6 +2582,7 @@ export function extractDesign() {
     if (isProgressBars(el)) return progressBlockOf(el);  // 96
     if (isTabsWidget(el)) return tabsBlockOf(el);        // 95
     if (isAccordionGroup(el)) return accordionBlockOf(el); // 89
+    if (isInlineLinkStrip(el)) return inlineLinkStripBlock(el); // 93 (link strip → one centered text_block)
     if (isIconTextList(el)) return iconTextListBlockOf(el); // 84 (DIV icon+text list → feature_list)
     return null;
   };

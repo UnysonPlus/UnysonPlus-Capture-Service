@@ -924,10 +924,12 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
           if (boxp) { n.atts.box_style = boxp; assigned++; }
           delete n.atts._box;
         }
-        // Same Box-Preset assignment for other shortcodes that stashed a card skin (steps Cards design, …).
+        // Same Box-Preset assignment for other shortcodes that stashed a card skin (steps Cards design, …)
+        // AND for a decomposed card's COLUMN — a column carries the box on `border_preset` (it wraps the
+        // icon_box + feature_list), every other node on `box_style`.
         for (const n of boxStyleNodes) {
           const boxp = boxpFor(n.atts._box);
-          if (boxp) { n.atts.box_style = boxp; assigned++; }
+          if (boxp) { if (n.type === 'column') { n.atts.border_preset = boxp; } else { n.atts.box_style = boxp; } assigned++; }
           delete n.atts._box;
         }
         // Merge into the theme-settings values so the importer writes the `border_presets` option (the
