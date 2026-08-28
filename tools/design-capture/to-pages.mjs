@@ -1460,7 +1460,7 @@ export function toPages(capture, opts = {}) {
     // Icon badge/chip: the source icon's filled container → icon_badge (shape) + icon_badge_color (fill).
     if (card.iconBadge) { a.icon_badge = card.iconBadge; }
     const ibc = String(card.iconBadgeColor || '').trim();
-    if (/^#[0-9a-f]{3,8}$/i.test(ibc)) { a.icon_badge_color = { predefined: '', custom: ibc }; }
+    if (/^(#[0-9a-f]{3,8}|rgba?\([^)]*\)|hsla?\([^)]*\))$/i.test(ibc)) { a.icon_badge_color = { predefined: '', custom: ibc }; }
     // Stash the full badge SKIN (shape / fill / glyph colour / size / radius / border) so the
     // post-pass in capture.mjs can cluster the DISTINCT badge designs into `icon_badge_presets`
     // (buildIconBadgePresets — the JS counterpart of PHP build_icon_badge_presets). Dropped after.

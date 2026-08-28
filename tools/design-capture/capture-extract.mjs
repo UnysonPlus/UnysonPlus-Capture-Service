@@ -1118,7 +1118,9 @@ export function extractDesign() {
         const alpha = m ? (m[4] === undefined ? 1 : parseFloat(m[4])) : 0;
         if (m && alpha > 0.05) {
           const hx = (n) => ('0' + (+n).toString(16)).slice(-2);
-          iconBadgeColor = '#' + hx(m[1]) + hx(m[2]) + hx(m[3]);
+          // Preserve a TINT badge (e.g. bg-primary/10 → rgba(...,0.1)) so it renders soft, not as a solid
+          // circle with a white icon. Only flatten to a solid hex when the fill is (near-)opaque.
+          iconBadgeColor = alpha < 0.98 ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${+alpha.toFixed(2)})` : '#' + hx(m[1]) + hx(m[2]) + hx(m[3]);
           const r = parseFloat(cs.borderTopLeftRadius) || 0;
           const box = el.getBoundingClientRect();
           const w = box.width || 0, h = box.height || 0;
@@ -1221,7 +1223,11 @@ export function extractDesign() {
       if (chip) {
         const cs = getComputedStyle(chip);
         if (!isTransparent(cs.backgroundColor)) {
-          o.iconBadgeColor = toHex(cs.backgroundColor);
+          // Preserve a TINT badge (bg-primary/10 → rgba(...,0.1)) so a soft chip stays soft instead of
+          // becoming a solid circle with a white icon; flatten to a hex only when (near-)opaque.
+          const bm = (cs.backgroundColor || '').match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/i);
+          const ba = bm ? (bm[4] === undefined ? 1 : parseFloat(bm[4])) : 1;
+          o.iconBadgeColor = (bm && ba < 0.98) ? `rgba(${bm[1]}, ${bm[2]}, ${bm[3]}, ${+ba.toFixed(2)})` : toHex(cs.backgroundColor);
           const r = parseFloat(cs.borderTopLeftRadius) || 0;
           o.iconBadge = (r >= 9999 || /50%/.test(cs.borderRadius)) ? 'solid-circle' : (r > 0 ? 'solid-rounded' : 'solid-square');
         }
