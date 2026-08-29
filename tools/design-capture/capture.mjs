@@ -31,7 +31,7 @@ import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
-import { microBackend, selectedLocalModel, localSectionMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus } from './to-ai.mjs';
+import { microBackend, selectedLocalModel, localSectionMicroTask, bgFxMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus } from './to-ai.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
 
@@ -822,6 +822,18 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       const t = (cap.title || '').split(/\s+[|–—·-]\s+/)[0].trim();
       return t || slug.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
     };
+    // AI-TIER AMBIENT BACKGROUNDS (pre-pass, best-effort): for sections with an UNNAMED animated backdrop
+    // (a WebGL/particle canvas the deterministic keyword pass couldn't identify), let the local model / Claude
+    // pick the closest built-in Background Effect. Runs BEFORE to-pages so the added bgEffects flow through the
+    // same stacked-bg_effect apply as the deterministic ones. Non-destructive; skipped when no backend/candidates.
+    try {
+      for (const c of captures) {
+        const bfx = await bgFxMicroTask((c.capture && c.capture.sections) || []);
+        if (bfx && bfx.sections) {
+          step(`  🧠 ${bfx.backend} → suggested backgrounds for ${bfx.sections} section${bfx.sections === 1 ? '' : 's'} (${bfx.layers} layer${bfx.layers === 1 ? '' : 's'})`);
+        }
+      }
+    } catch (e) { step('ambient-background suggestion skipped: ' + e.message); }
     const reportPages = [];
     let patternsAppliedTotal = 0;
     let dividersAppliedTotal = 0;

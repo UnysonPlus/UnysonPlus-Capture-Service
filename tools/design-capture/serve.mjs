@@ -23,7 +23,7 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask, refineAnimations } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
@@ -390,6 +390,28 @@ const __server = createServer((req, res) => {
         json(res, 200, { ok: true, items: out.items, model: out.model });
       })
       .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-animations]', e.message); json(res, 200, { ok: true, items: [], error: e.message }); });
+    return;
+  }
+
+  // POST /ai-preloader-js — synthesize a cosmetic loader script for a detected preloader whose ORIGINAL JS
+  // was intertwined with the app (so the converter couldn't extract it). Body { html, css }. Returns
+  // { ok, js, model }. Non-destructive like /ai-animations: any error / no backend → { ok:true, js:'' } so
+  // the converter keeps the (JS-less) overlay. The Site Converter calls this when it detects such a preloader.
+  if (u.pathname === '/ai-preloader-js') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    const _aiStart = Date.now();
+    readJson(req)
+      .then(async (body) => {
+        const html = body && typeof body.html === 'string' ? body.html : '';
+        if (!html.trim()) { json(res, 200, { ok: true, js: '', skipped: 'empty' }); return; }
+        if (!aiReady()) { json(res, 200, { ok: true, js: '', skipped: 'ai-off' }); return; }
+        markAi({ status: 'thinking', backend: aiBackend(), note: 'writing a preloader script…', startedAt: _aiStart });
+        const out = await synthesizePreloaderJs({ html, css: (body && body.css) || '' });
+        markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000) });
+        console.log('[ai-preloader-js]', out.js ? `wrote ${out.js.length} chars via ${out.model}` : `no js (${out.skipped || 'empty'})`);
+        json(res, 200, { ok: true, js: out.js, model: out.model });
+      })
+      .catch((e) => { markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[ai-preloader-js]', e.message); json(res, 200, { ok: true, js: '', error: e.message }); });
     return;
   }
 

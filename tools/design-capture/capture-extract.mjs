@@ -239,6 +239,81 @@ export function extractDesign() {
     }
     return null;
   };
+  // Ambient particle/background LAYERS a source names descriptively (`fg-leaves`, `fg-sakura`, `#grain`,
+  // a `.snow`/`.rain` overlay …) → the nearest built-in Background Effect. The mapper emits these as
+  // STACKED bg_effect slots on the section (parity with PHP detect_section_bg_effects). High-precision:
+  // the element must read as decorative (a <canvas>, aria-hidden, a layer-marker class like
+  // `fg`/`particle`/`layer`, or absolute/fixed position) AND carry an effect keyword. A bespoke unnamed
+  // WebGL scene (kage's three.js `#gl`, whose "embers" live only in JS) is NOT guessed here — that
+  // ambiguous long tail is where the AI tiers pick the closest effect or skip.
+  const bgFxMap = [
+    [/(?:^|[\s_-])(?:leaf|leaves|sakura|petal|petals|blossom|cherry)(?:[\s_-]|$)/, 'snow', 'petals'],
+    [/(?:^|[\s_-])(?:ember|embers|cinder|cinders)(?:[\s_-]|$)/, 'snow', 'embers'],
+    [/(?:^|[\s_-])(?:ash|ashes)(?:[\s_-]|$)/, 'snow', 'ash'],
+    [/(?:^|[\s_-])(?:snow|snowflake|flake|flakes)(?:[\s_-]|$)/, 'snow', 'snow'],
+    [/(?:^|[\s_-])(?:rain|rainfall|drizzle|droplet|droplets)(?:[\s_-]|$)/, 'rain', ''],
+    [/(?:^|[\s_-])(?:starfield|stars)(?:[\s_-]|$)/, 'starfield', ''],
+    [/(?:^|[\s_-])(?:constellation)(?:[\s_-]|$)/, 'constellation', ''],
+    [/(?:^|[\s_-])(?:confetti)(?:[\s_-]|$)/, 'confetti', ''],
+    [/(?:^|[\s_-])(?:bubble|bubbles)(?:[\s_-]|$)/, 'bubbles', ''],
+    [/(?:^|[\s_-])(?:firefly|fireflies)(?:[\s_-]|$)/, 'fireflies', ''],
+    [/(?:^|[\s_-])(?:meteor|meteors|shooting-?stars?)(?:[\s_-]|$)/, 'meteors', ''],
+    [/(?:^|[\s_-])(?:particle|particles)(?:[\s_-]|$)/, 'particles', ''],
+    [/(?:^|[\s_-])(?:grain|film-?grain|noise)(?:[\s_-]|$)/, 'noise', ''],
+    [/(?:^|[\s_-])(?:matrix)(?:[\s_-]|$)/, 'matrix', ''],
+    [/(?:^|[\s_-])(?:aurora)(?:[\s_-]|$)/, 'aurora', ''],
+    [/(?:^|[\s_-])(?:borealis)(?:[\s_-]|$)/, 'borealis', ''],
+  ];
+  const bgFxMarker = /(?:^|\s)(?:fg|fg-el|particles?|layers?|decor|backdrop|bg-scene|art-layers?|overlay|ambient)(?:-[a-z0-9]+)?(?:\s|$)/;
+  const findBgEffects = (sec) => {
+    const out = [], seen = new Set();
+    const els = [...sec.querySelectorAll('*')].slice(0, 600);
+    for (const el of els) {
+      const hay = ' ' + ((el.getAttribute('class') || '') + ' ' + (el.id || '')).toLowerCase().trim() + ' ';
+      if (hay.trim() === '') continue;
+      const tag = el.tagName.toLowerCase();
+      let decor = tag === 'canvas'
+        || String(el.getAttribute('aria-hidden') || '').toLowerCase() === 'true'
+        || bgFxMarker.test(hay);
+      if (!decor) { const p = getComputedStyle(el).position; decor = p === 'absolute' || p === 'fixed'; }
+      if (!decor) continue;
+      for (const [re, effect, variant] of bgFxMap) {
+        if (re.test(hay)) {
+          const key = effect + ':' + variant;
+          if (seen.has(key)) break;           // de-dupe identical layers (leaves + sakura → one petals)
+          seen.add(key);
+          out.push({ effect, variant });
+          break;                              // first (most specific) keyword wins for this element
+        }
+      }
+      if (out.length >= 4) break;             // auto-detection cap (users can add more by hand)
+    }
+    return out;
+  };
+  // Evidence for the AI tiers: a section has an ANIMATED BACKDROP (a WebGL/particle canvas or a strongly
+  // "ambient" layer) that the deterministic keyword pass could NOT name. We hand the local model / Claude
+  // these compact tokens + any engine hint so it can pick the closest built-in effect (or none). Returned
+  // only when there is a STRONG signal (a <canvas> or an ambient-marker class) AND deterministic found
+  // nothing — so a plain absolute-positioned decor div never triggers an AI call.
+  const bgFxStrong = /(?:particle|canvas|webgl|three|gsap|pixi|shader|sim|backdrop|bg-scene|fg-el|ambient|effect-layer|animate-bg)/;
+  const findBgFxCandidate = (sec) => {
+    const tokens = new Set();
+    let engine = '';
+    const els = [...sec.querySelectorAll('canvas, [class], [id]')].slice(0, 400);
+    for (const el of els) {
+      const tag = el.tagName.toLowerCase();
+      const cls = (el.getAttribute('class') || '').toLowerCase();
+      const id = (el.id || '').toLowerCase();
+      const isCanvas = tag === 'canvas';
+      if (!isCanvas && !bgFxStrong.test(cls + ' ' + id)) continue;
+      if (isCanvas) { const en = el.getAttribute('data-engine') || el.getAttribute('data-lib') || ''; if (en && !engine) engine = String(en).slice(0, 40); }
+      for (const t of (cls + ' ' + id).split(/[\s]+/)) { if (t && t.length <= 40 && bgFxStrong.test(t)) tokens.add(t); }
+      if (isCanvas) tokens.add('canvas');
+      if (tokens.size >= 8) break;
+    }
+    if (!tokens.size && !engine) return null;
+    return { tokens: [...tokens].slice(0, 8), engine };
+  };
   // Classify a bento tile by what it carries: showcase (image), stat (a number +
   // label, no heading), feature (heading + text), else plain.
   const tileKind = (el) => {
@@ -544,6 +619,8 @@ export function extractDesign() {
       images: [...new Set(images)].slice(0, 8),
       grids: findGrids(sec),
       bgPattern: findPattern(sec),
+      bgEffects: findBgEffects(sec),
+      bgFxCandidate: findBgFxCandidate(sec), // AI-tier evidence (unnamed animated backdrop); applied only where bgEffects is empty
       divider: findDivider(sec),
       computed: pick(getComputedStyle(sec), ['backgroundColor', 'backgroundImage', 'padding', 'textAlign', 'color']),
       text: clip(txt(sec), 1500),

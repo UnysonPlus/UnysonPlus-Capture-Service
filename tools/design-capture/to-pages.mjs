@@ -2354,6 +2354,20 @@ export function toPages(capture, opts = {}) {
       node.atts[dv.placement === 'top' ? 'divider_top' : 'divider_bottom'] = { shape: dv.shape, [dv.shape]: sub };
       dividersApplied++;
     }
+    // Apply detected ambient background layers → stacked bg_effect slots (parity with PHP
+    // apply_section_bg_effects). leaves+sakura already de-duped to one petals layer on the extract side.
+    if (node && node.atts && Array.isArray(sec.bgEffects) && sec.bgEffects.length) {
+      let bi = 1;
+      for (const spec of sec.bgEffects) {
+        const effect = spec && spec.effect ? String(spec.effect) : '';
+        if (!effect) continue;
+        const val = { effect };
+        // The `snow` engine (petals/embers/ash/snow) carries its look in a `variant` sub-option.
+        if (effect === 'snow' && spec.variant) val.snow = { variant: String(spec.variant) };
+        node.atts[bi === 1 ? 'bg_effect' : 'bg_effect__' + bi] = val;
+        bi++;
+      }
+    }
     rec({ kind: 'section', sIndex, decision, sourceClass: sec.sectionClass || '',
           hasCss: !!(sec.css && sec.css.trim()), computed: sec.computed || {}, diag: sec.diag || {},
           height: sec.h || 0, assets: (sec.assets || []).length, blocks: (sec.blocks || sec.mapBlocks || []).length });

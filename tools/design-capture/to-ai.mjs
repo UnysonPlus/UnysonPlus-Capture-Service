@@ -589,6 +589,166 @@ export async function localSectionMicroTask(mapping) {
   }
 }
 
+/* ---- AMBIENT BACKGROUND suggestion (AI tier for unnamed animated backdrops) -------------- *
+ * The deterministic pass maps DESCRIPTIVELY-NAMED ambient layers (fg-leaves → petals, #grain → noise) to
+ * stacked Background Effects. When a section instead has a BESPOKE animated backdrop the keyword pass can't
+ * name — a raw WebGL/three.js particle canvas, an obfuscated `.pjs-x` layer — the extractor leaves a
+ * `bgFxCandidate` (compact tokens + any engine hint). This tier hands that evidence + our effect catalog to
+ * the local model (or Claude) and lets it pick the closest built-in effect(s) — or none. Applied
+ * NON-DESTRUCTIVELY: only valid effect ids, only to sections deterministic left empty. Never a wrong guess. */
+const BG_FX_IDS = [
+  'aurora', 'borealis', 'bokeh', 'bubbles', 'circuit', 'confetti', 'conic', 'constellation', 'spotlight',
+  'dots', 'fireflies', 'shapes', 'flow', 'orbs', 'gradient', 'noise', 'grid', 'halftone', 'hexgrid', 'rays',
+  'matrix', 'mesh', 'blobs', 'nebula', 'orbits', 'particles', 'pgrid', 'rain', 'ripple', 'scanlines',
+  'meteors', 'snow', 'starfield', 'topo', 'waves',
+];
+const BG_FX_VARIANTS = ['', 'snow', 'petals', 'embers', 'ash']; // `snow` engine variants (petals = leaves/blossoms)
+const BG_FX_SCHEMA = {
+  type: 'object',
+  properties: { sections: { type: 'array', items: {
+    type: 'object',
+    properties: {
+      index: { type: 'integer' },
+      effects: { type: 'array', items: {
+        type: 'object',
+        properties: { effect: { type: 'string', enum: BG_FX_IDS }, variant: { type: 'string', enum: BG_FX_VARIANTS } },
+        required: ['effect'],
+      } },
+    },
+    required: ['index', 'effects'],
+  } } },
+  required: ['sections'],
+};
+const BG_FX_SYSTEM = `You choose an ANIMATED BACKGROUND effect for web-page sections being converted to WordPress.
+Each input section has an animated backdrop (a WebGL/particle canvas or ambient layer) we could NOT identify by name.
+You get: the section index, a short heading, and evidence tokens (class/id fragments + any rendering-engine hint).
+Pick the CLOSEST match from this catalog of built-in effects (use these ids EXACTLY):
+${BG_FX_IDS.join(', ')}.
+The "snow" effect has variants (set "variant"): petals (falling leaves / cherry blossoms / petals), embers (rising sparks), ash, snow (snowflakes).
+Rules:
+- Return ONE JSON object, no prose: { "sections": [ { "index": <int>, "effects": [ { "effect": "<id>", "variant": "<opt>" } ] } ] }.
+- effects may hold 1–3 layers that STACK (e.g. petals + embers). Order them back-to-front.
+- Choose ONLY when the evidence clearly implies a look. If nothing fits, return "effects": [] for that section — a wrong guess is worse than none.
+- Use ONLY ids from the catalog. variant applies only to "snow" (else "").
+- Keep the SAME index values you were given. Output only the JSON.`;
+
+/** Compact per-section evidence for sections that have an UNNAMED animated backdrop and no deterministic
+ *  effect yet. Input = the extractor's section list (each may carry bgEffects + bgFxCandidate). */
+export function summarizeBgFxCandidates(sections) {
+  const out = [];
+  (sections || []).forEach((s, i) => {
+    const cand = s && s.bgFxCandidate;
+    const has = Array.isArray(s && s.bgEffects) && s.bgEffects.length; // deterministic already handled it
+    if (!cand || has || (!cand.tokens?.length && !cand.engine)) return;
+    out.push({ index: i, heading: String((s.heading || s.overline || '')).replace(/\s+/g, ' ').trim().slice(0, 60), tokens: (cand.tokens || []).slice(0, 8), engine: cand.engine || '' });
+  });
+  return out;
+}
+
+/** Fold the model's picks back onto the extractor sections as `bgEffects` — NON-DESTRUCTIVELY: only valid
+ *  catalog ids, only sections still empty, capped at 3 layers. Mutates in place. @returns {{sections:number,layers:number}} */
+export function applyBgFx(sections, result) {
+  const changes = { sections: 0, layers: 0 };
+  const byIndex = new Map();
+  for (const r of ((result && result.sections) || [])) { if (r && Number.isInteger(r.index)) byIndex.set(r.index, r); }
+  (sections || []).forEach((s, i) => {
+    if (!s || (Array.isArray(s.bgEffects) && s.bgEffects.length)) return; // never overwrite a deterministic match
+    const r = byIndex.get(i);
+    if (!r || !Array.isArray(r.effects) || !r.effects.length) return;
+    const picks = [];
+    for (const e of r.effects) {
+      const effect = e && typeof e.effect === 'string' ? e.effect.trim().toLowerCase() : '';
+      if (!BG_FX_IDS.includes(effect)) continue;
+      const variant = (effect === 'snow' && e.variant && BG_FX_VARIANTS.includes(String(e.variant))) ? String(e.variant) : '';
+      picks.push({ effect, variant });
+      if (picks.length >= 3) break;
+    }
+    if (picks.length) { s.bgEffects = picks; changes.sections++; changes.layers += picks.length; }
+  });
+  return changes;
+}
+
+/** Run the suggestion job on a given model (local Ollama tag OR 'claude-code'). Schema-constrained. */
+export async function suggestSectionBackgrounds({ candidates, model }) {
+  if (!Array.isArray(candidates) || !candidates.length) return { sections: [] };
+  if (!model) throw new Error('No model for background suggestion.');
+  const user = `Sections (${candidates.length}):\n${JSON.stringify(candidates)}\n\nReturn the { "sections": [...] } JSON now.`;
+  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const text = await askModel({ system: BG_FX_SYSTEM, user, model, format: BG_FX_SCHEMA, timeoutMs: to });
+  const parsed = extractJson(text);
+  if (!parsed || !Array.isArray(parsed.sections)) throw new Error('The model returned no sections.');
+  return parsed;
+}
+
+/**
+ * AI-tier hook: suggest Background Effects for sections with an unnamed animated backdrop, using whichever
+ * backend is available (local model first — the always-on tier — else Claude CLI). Best-effort: mutates the
+ * extractor `sections` in place and returns a small summary, or null on any error / no candidates / no backend.
+ * @param {Array} sections the extractor section list (each may carry bgEffects + bgFxCandidate).
+ * @returns {Promise<null|{ backend, model, sections, layers }>}
+ */
+export async function bgFxMicroTask(sections) {
+  const candidates = summarizeBgFxCandidates(sections);
+  if (!candidates.length) return null;
+  const be = microBackend();
+  let model = '';
+  if (be === 'ollama' && selectedLocalModel()) model = selectedLocalModel();
+  else if (claudeCliAvailable()) model = 'claude-code';        // Claude tier (subscription CLI)
+  if (!model) return null;
+  try {
+    const result = await suggestSectionBackgrounds({ candidates, model });
+    const changes = applyBgFx(sections, result);
+    if (!changes.sections) return null;
+    return { backend: isClaudeModel(model) ? 'claude' : 'ollama', model, sections: changes.sections, layers: changes.layers };
+  } catch (e) {
+    console.error('[micro] background-effect suggestion skipped:', e.message);
+    return null;
+  }
+}
+
+/* ---- PRELOADER JS synthesis (AI tier for an intertwined source loader) -------------------- *
+ * The deterministic converter extracts a source preloader's HTML + CSS, but when its ORIGINAL script is
+ * welded to the app (e.g. kage's loader drives the three.js build) it can't be sliced out. This tier reads
+ * the extracted HTML + CSS and writes a small, self-contained COSMETIC loader script: animate the bar /
+ * counter, cycle any phrase, then call window.upwPreloaderDone() to dismiss. Runs on the plugin's request
+ * (POST /ai-preloader-js). Best-effort: '' on any error / no backend — the overlay just stays JS-less. */
+const PRELOADER_JS_SYSTEM = `You write a SMALL, self-contained vanilla-JS snippet that drives a website loading overlay ("preloader").
+You are given the overlay's extracted HTML and CSS. Write JS that runs a brief COSMETIC loading sequence, then
+dismisses the overlay by calling window.upwPreloaderDone() (a global the host page already provides).
+Rules:
+- Return ONE JSON object: { "js": "<code>" }. No prose, no markdown fences, no <script> tags.
+- Vanilla JS ONLY. No imports, no external libraries, no three.js / WebGL / canvas, no network calls, no eval.
+- Wrap everything in a single IIFE with a try/catch so it can never break the page.
+- Only touch elements INSIDE the overlay — query within document.querySelector('.upw-preloader') using the
+  ids/classes that appear in the given HTML.
+- If the HTML has a progress bar/fill, animate it smoothly to full; if it has a numeric counter, count it to 100;
+  if it has a rotating status/phrase line, you may cycle a few short phrases. Keep it tasteful and subtle.
+- After roughly 1.2-2s of animation (or on window 'load', whichever is later), call window.upwPreloaderDone().
+- Keep it under ~1500 characters. Never redefine window.upwPreloaderDone.`;
+const PRELOADER_JS_SCHEMA = { type: 'object', properties: { js: { type: 'string' } }, required: ['js'] };
+
+/** Strip anything that would break injection / is out of scope, and cap length. */
+function sanitizePreloaderJs(js) {
+  js = String(js || '').replace(/<\/?script[^>]*>/gi, '').replace(/^\s*```[a-z]*\s*|\s*```\s*$/gi, '').trim();
+  return js.length > 6000 ? js.slice(0, 6000) : js;
+}
+
+/** Synthesize a cosmetic loader script from the extracted overlay { html, css }. Backend-aware (local model
+ *  first, else Claude CLI). @returns {Promise<{ js:string, model:string, skipped?:string }>} */
+export async function synthesizePreloaderJs({ html, css } = {}) {
+  if (!String(html || '').trim()) return { js: '', model: '', skipped: 'empty' };
+  const be = microBackend();
+  let model = '';
+  if (be === 'ollama' && selectedLocalModel()) model = selectedLocalModel();
+  else if (claudeCliAvailable()) model = 'claude-code';
+  if (!model) return { js: '', model: '', skipped: 'no-backend' };
+  const user = `Overlay HTML:\n${String(html).slice(0, 4000)}\n\nOverlay CSS:\n${String(css || '').slice(0, 4000)}\n\nReturn the { "js": "..." } JSON now.`;
+  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const text = await askModel({ system: PRELOADER_JS_SYSTEM, user, model, format: PRELOADER_JS_SCHEMA, timeoutMs: to });
+  const parsed = extractJson(text);
+  return { js: sanitizePreloaderJs(parsed && parsed.js), model };
+}
+
 /* ---- Class-coverage VERIFICATION (local AI as QA, not author) ---------- *
  * The deterministic engine already records, per section, which fidelity-critical style properties the
  * source USES but the carried CSS did NOT reproduce (the style-coverage "gaps"). This pass has the LOCAL
