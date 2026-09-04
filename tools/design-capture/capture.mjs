@@ -22,6 +22,7 @@ import { toPages } from './to-pages.mjs';
 import { toStyleGuide } from './to-styleguide.mjs';
 import { toPresets } from './to-presets.mjs';
 import { toThemeSettings } from './to-theme-settings.mjs';
+import { toBlockBundle } from './to-block-bundle.mjs';
 import { buildBorderPresets, boxpForFrom } from './box-presets.mjs';
 import { makeZip } from './minimal-zip.mjs';
 import { extractDesign } from './capture-extract.mjs';
@@ -85,6 +86,12 @@ const ONLY_SECTIONS = _intList('--only-sections'); // keep ONLY these s_index se
 // untouched on re-import. --only-header / --only-footer reconvert just that chrome part; --only-sections
 // reconverts just those body sections (merged into the existing page by index). These set a
 // `convert_scope` on the bundle that the importer honours (gate phases + section-merge + chrome-preserve).
+// Output TARGET: 'page-builder' (default, the classic UnysonPlus site) or 'block-theme' (additionally
+// emit block-bundle.json — a portable FSE block theme the plugin installs via install_block_theme).
+const TARGET = ( _flags.find((f) => f.startsWith('--target=')) || '' ).split('=')[1] || process.env.TARGET || 'page-builder';
+// Block-theme VOCABULARY: 'core' (default, plugin-independent) or 'enriched' (emit UnysonPlus
+// blocks where mapped — richer output that depends on the plugin's blocks extension). Tier C6.
+const VOCAB = ( _flags.find((f) => f.startsWith('--vocab=')) || '' ).split('=')[1] || process.env.VOCAB || 'core';
 const ONLY_HEADER = _flags.includes('--only-header') || process.env.UPW_ONLY_HEADER === '1';
 const ONLY_FOOTER = _flags.includes('--only-footer') || process.env.UPW_ONLY_FOOTER === '1';
 // The scope object: which regions are IN SCOPE for this run. null = full convert (back-compat).
@@ -1179,6 +1186,15 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       step('writing files & bundle…');
       writeFileSync(`${outdir}/design-capture.json`, JSON.stringify(home, null, 2));
       if (home.renderedHtml) { writeFileSync(`${outdir}/rendered.html`, home.renderedHtml); }
+      // BLOCK-THEME target — additionally emit a portable FSE block-theme bundle the plugin installs
+      // via FW_Site_Converter_Blocks::install_block_theme(). Additive: never affects the classic bundle.
+      if (TARGET === 'block-theme') {
+        try {
+          const bundle = toBlockBundle(home, { name: home.title || (home.header && home.header.logo && home.header.logo.text) || 'Converted Site', vocabulary: VOCAB });
+          writeFileSync(`${outdir}/block-bundle.json`, JSON.stringify(bundle, null, 2));
+          step(`block-theme target: wrote block-bundle.json (${Object.keys(bundle.theme.files).length} theme files, vocab=${VOCAB})`);
+        } catch (e) { step('block-bundle.json skipped: ' + (e && e.message)); }
+      }
       writeFileSync(`${outdir}/mapping.json`, JSON.stringify(mapping, null, 2));
       const specSlug = (cls, idx) => {
         const first = (cls || '').split(/\s+/).find((c) => c && !/^(sc-mirror|section|wrapper|block|area|inner|content|main|elementor|d-|align-|justify-|text-|p[xytrbl]?-|m[xytrbl]?-|g-|container|row|col|w-|h-|bg-|position-|overflow-|order-)/.test(c));

@@ -428,6 +428,13 @@ export function extractDesign() {
     const navEl = headerEl.querySelector('nav');
     const navLinks = [...(navEl || headerEl).querySelectorAll('a, button')]
       .filter((el) => el !== cta && el !== logoLink && !el.querySelector('img'))
+      // Skip HIDDEN items — a responsive overflow toggle ("More") or a mobile-only duplicate menu is
+      // display:none at desktop, so it must not leak into the captured nav. Mirror in PHP nav_is_hidden.
+      .filter((el) => {
+        const r = el.getBoundingClientRect();
+        const cs = getComputedStyle(el);
+        return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none' && el.getAttribute('aria-hidden') !== 'true';
+      })
       .filter((el) => { const t = el.textContent.trim(); return t && t.length < 30; });
     const hcs = getComputedStyle(headerEl);
     const inner = headerEl.firstElementChild ? getComputedStyle(headerEl.firstElementChild) : null;
@@ -1827,9 +1834,20 @@ export function extractDesign() {
       if (abs && (/inset-0/.test(acls) || acs.position === 'absolute' || acs.position === 'fixed')) { ancAbs = true; break; }
     }
     const bgVideo = covers && (selfAbs || ancAbs);
+    // Aspect ratio from the video's own `aspect-[W/H]` class (a portrait reel is `aspect-[9/16]`), so the
+    // media_video box matches instead of letterboxing a portrait clip in a forced 16:9 frame. PHP twin: the
+    // stitch video recognizer's $vaspect.
+    let vaspect = '';
+    const am = vcls.match(/aspect-\[(\d+)\/(\d+)\]/);
+    if (am) { const k = `${am[1]}x${am[2]}`; if (['16x9', '4x3', '1x1', '21x9', '9x16', '3x4'].includes(k)) vaspect = k; }
+    // Responsive visibility: a source often ships a MOBILE `sm:hidden` reel beside a desktop one — carry the
+    // video's own + wrapping-ancestor classes so the mapper can hide the mobile-only clip on desktop (else it
+    // renders as a stray letterboxed box). PHP twin: rhideCls in the stitch video recognizer.
+    let rcls = ` ${vcls}`;
+    for (let a = el.parentElement, d = 0; a && d < 3; a = a.parentElement, d++) { rcls += ` ${a.getAttribute('class') || ''}`; }
     return {
       t: 'video', mode: 'self_hosted', src: abs(src), webm: abs(webm), poster: abs(el.getAttribute('poster') || ''),
-      bg: bgVideo,
+      bg: bgVideo, aspect: vaspect, cover: covers, rhideCls: rcls,
       autoplay: el.hasAttribute('autoplay') ? 'yes' : 'no', muted: el.hasAttribute('muted') ? 'yes' : 'no',
       loop: el.hasAttribute('loop') ? 'yes' : 'no', controls: el.hasAttribute('controls') ? 'yes' : 'no',
       playsinline: el.hasAttribute('playsinline') ? 'yes' : 'no',
@@ -2700,6 +2718,27 @@ export function extractDesign() {
     return '';
   };
 
+  // An AUTO-SCROLL MARQUEE / horizontal-scroll strip: a continuously scrolling track (`animate-marquee`
+  // / `animate-scroll-left|right`, on the element OR its single track child), or an `overflow-x-auto` flex
+  // row of many fixed-width `flex-shrink-0` cards (a reel / logo ticker). It must stay ONE verbatim block —
+  // splitting it into builder columns stacks the cards and loses the horizontal scroll. PHP twin:
+  // Stitch::is_marquee_strip(). The scroll keyframe is reproduced by the Tailwind CSS layer.
+  const isMarqueeStrip = (el) => {
+    if (!el || !el.getAttribute) return false;
+    const hasAnim = (c) => /\banimate-(marquee|scroll(?:-left|-right)?)\b/.test(c);
+    const cls = ` ${el.getAttribute('class') || ''} `;
+    if (hasAnim(cls)) return true;
+    const kidsAll = [...el.children];
+    if (kidsAll.length === 1 && kidsAll[0].getAttribute && hasAnim(` ${kidsAll[0].getAttribute('class') || ''} `)) return true;
+    const s = getComputedStyle(el);
+    if (s.overflowX === 'auto' || s.overflowX === 'scroll' || /\boverflow-x-(auto|scroll)\b/.test(cls)) {
+      const kids = rowKids(el);
+      const shrink0 = kids.filter((k) => /\b(?:flex-)?shrink-0\b/.test(k.className || '')).length;
+      if (kids.length >= 4 && shrink0 >= Math.ceil(kids.length / 2)) return true;
+    }
+    return false;
+  };
+
   const decompose = (el, out, inheritAnim = '') => {
     let _rat;
     for (const child of [...el.children]) {
@@ -2755,6 +2794,8 @@ export function extractDesign() {
         const gh = galleryGridHtml(child);
         if (gh) { out.push({ t: 'html', html: gh, gallery: true }); continue; }
       }
+      // An auto-scroll marquee / horizontal reel strip → ONE verbatim code_block (not split into columns).
+      if (isMarqueeStrip(child)) { out.push({ t: 'html', html: rawHtmlOf(child, true), marquee: true }); continue; }
       // A logo / "trusted by" strip (>=2 <img>, no headings, NOT an avatar/rating cluster) → native
       // logo_grid (each <img> → one editable logo). Parity PHP is_logo_strip / logo_strip_items.
       if (tag !== 'IMG' && child.querySelectorAll('img').length >= 2
@@ -3621,6 +3662,84 @@ export function extractDesign() {
     if (r >= 10) return 'squircle';
     return r > 0 ? 'rounded' : 'square';
   };
+  // CSS-COMPOSED MARK → inline SVG. Many modern brands draw the logo ICON in pure CSS — nested absolutely
+  // positioned <div>s with gradient/solid fills, rounded corners and a small rotation, no <img>/<svg>. The
+  // detectors below then capture nothing and the mark is lost (the wordmark falls back to the site name). We
+  // reconstruct it from the LIVE geometry into a faithful, resolution-independent inline SVG: each painted
+  // layer → a <rect> (box relative to the mark, corner radius, rotation) filled with its own paint (a linear
+  // gradient → an SVG <linearGradient>, else the solid colour). Drops into logo_icon (svg-inline) like any real
+  // inline-SVG logo; PHP detect_logo reads the SAME svg off the `data-sc-logo-svg` attribute we stamp.
+  const _mkSplitTop = (s) => { const out = []; let depth = 0, cur = ''; for (const ch of s) { if (ch === '(') depth++; else if (ch === ')') depth--; if (ch === ',' && depth === 0) { out.push(cur); cur = ''; } else cur += ch; } if (cur.trim() !== '') out.push(cur); return out.map((x) => x.trim()); };
+  const _mkGradient = (bg) => {
+    if (!bg || bg.indexOf('linear-gradient') === -1) return null;
+    const inner = bg.slice(bg.indexOf('linear-gradient(') + 16, bg.lastIndexOf(')'));
+    const parts = _mkSplitTop(inner); if (!parts.length) return null;
+    let dir = 'to bottom', si = 0;
+    if (/^(to\s|[-0-9.]+deg|[-0-9.]+rad|[-0-9.]+turn)/.test(parts[0])) { dir = parts[0]; si = 1; }
+    const raw = parts.slice(si).filter(Boolean); if (raw.length < 2) return null;
+    const stops = raw.map((sr, i) => { const mm = sr.match(/^(.*?)(?:\s+([0-9.]+)%)?$/); return { color: (mm[1] || sr).trim(), off: mm[2] !== undefined ? parseFloat(mm[2]) : (i / (raw.length - 1)) * 100 }; });
+    let x1 = 0, y1 = 0, x2 = 0, y2 = 1; const dm = dir.trim().match(/^([-0-9.]+)deg$/);
+    if (dm) { const a = parseFloat(dm[1]) * Math.PI / 180, dx = Math.sin(a), dy = -Math.cos(a); x1 = 0.5 - dx / 2; y1 = 0.5 - dy / 2; x2 = 0.5 + dx / 2; y2 = 0.5 + dy / 2; }
+    else { const to = dir.replace('to', ''); const rr = /right/.test(to), l = /left/.test(to), t = /top/.test(to), bo = /bottom/.test(to); x1 = rr ? 0 : (l ? 1 : 0.5); x2 = rr ? 1 : (l ? 0 : 0.5); y1 = bo ? 0 : (t ? 1 : 0.5); y2 = bo ? 1 : (t ? 0 : 0.5); }
+    return { x1, y1, x2, y2, stops };
+  };
+  const _mkAngle = (t) => { if (!t || t === 'none') return 0; const m = t.match(/matrix\(([^)]+)\)/); if (!m) return 0; const n = m[1].split(',').map(parseFloat); return Math.atan2(n[1], n[0]) * 180 / Math.PI; };
+  // The header's leftmost logo SLOT — used when there's no brand <a> (a link-less logo like ModFii's
+  // `<div class="flex items-center gap-2">…</div>`). Without this the brand falls back to the WHOLE header, so
+  // the wordmark harvests the glued nav ("ModFiiFinancingResources…") and a random nav <svg> masquerades as the
+  // logo icon. Mirror of PHP header_brand_block(): descend single-child wrappers to the flex row, then the first
+  // child slot that isn't the nav / a link cluster and has an <img> or short (≤24 char) text.
+  const _mkElChildren = (el) => [...el.children].filter((n) => n.nodeType === 1);
+  const _mkBrandBlock = (header) => {
+    if (!header) return null;
+    let row = header, guard = 0;
+    while (guard++ < 6) {
+      const kids = _mkElChildren(row);
+      if (kids.length === 1 && ['div', 'header', 'a'].indexOf(kids[0].tagName.toLowerCase()) !== -1) { row = kids[0]; continue; }
+      break;
+    }
+    for (const slot of _mkElChildren(row)) {
+      const tag = slot.tagName.toLowerCase();
+      if (tag === 'nav' || slot.querySelector('nav')) continue;
+      if (slot.querySelectorAll('a').length > 1) continue;
+      const hasImg = !!slot.querySelector('img');
+      const t = (slot.textContent || '').replace(/\s+/g, ' ').trim();
+      if (hasImg || (t !== '' && t.length <= 24)) return slot;
+    }
+    return null;
+  };
+  // The mark ROOT within a brand: the outermost small (≤96px) text-free element whose subtree paints a gradient
+  // or an opaque fill — i.e. the decorative icon cluster, not the wordmark.
+  const _mkFindMark = (scope) => {
+    const cands = [...scope.querySelectorAll('*')].filter((el) => {
+      if ((el.textContent || '').trim() !== '') return false;
+      const r = el.getBoundingClientRect();
+      if (r.width < 8 || r.height < 8 || r.width > 96 || r.height > 96) return false;
+      return [el, ...el.querySelectorAll('*')].some((n) => { const cs = getComputedStyle(n); return (cs.backgroundImage && cs.backgroundImage.indexOf('gradient') !== -1) || hasBg(cs.backgroundColor); });
+    });
+    if (!cands.length) return null;
+    return cands.find((el) => !cands.some((o) => o !== el && o.contains(el))) || cands[0];
+  };
+  const _mkSynth = (root) => {
+    const rr = root.getBoundingClientRect(), W = Math.round(rr.width), H = Math.round(rr.height);
+    if (W < 4 || H < 4) return '';
+    const layers = [root, ...root.querySelectorAll('*')].filter((el) => { const cs = getComputedStyle(el); return (cs.backgroundImage && cs.backgroundImage.indexOf('gradient') !== -1) || hasBg(cs.backgroundColor); });
+    if (!layers.length) return '';
+    let defs = '', rects = '', gi = 0;
+    for (const el of layers) {
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      const x = +(r.left - rr.left).toFixed(2), y = +(r.top - rr.top).toFixed(2), w = +r.width.toFixed(2), h = +r.height.toFixed(2);
+      if (w < 1 || h < 1) continue;
+      const rad = Math.min(parseFloat(cs.borderTopLeftRadius) || 0, w / 2, h / 2);
+      const g = _mkGradient(cs.backgroundImage); let fill;
+      if (g) { const id = 'g' + (gi++); defs += `<linearGradient id="${id}" x1="${g.x1}" y1="${g.y1}" x2="${g.x2}" y2="${g.y2}">` + g.stops.map((s) => `<stop offset="${(+s.off).toFixed(1)}%" stop-color="${s.color}"/>`).join('') + '</linearGradient>'; fill = `url(#${id})`; }
+      else fill = cs.backgroundColor;
+      let tf = ''; const ang = _mkAngle(cs.transform); if (Math.abs(ang) > 0.5) tf = ` transform="rotate(${ang.toFixed(2)} ${(x + w / 2).toFixed(2)} ${(y + h / 2).toFixed(2)})"`;
+      rects += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rad.toFixed(2)}"${tf} fill="${fill}"/>`;
+    }
+    if (!rects) return '';
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" fill="none" role="img" aria-hidden="true">` + (defs ? `<defs>${defs}</defs>` : '') + rects + '</svg>';
+  };
   const logoDetail = (() => {
     const d = { text: '', icon: '', image: '', svg: '', icon_color: '', frame: 'none', frame_bg: '', title_color: '', title_size: '', title_weight: '', title_font: '', title_ls: '', title_hover: '', icon_size: '', title_accent_color: '', title_accent_text: '' };
     if (!headerEl) return d;
@@ -3629,7 +3748,7 @@ export function extractDesign() {
       const href = (a.getAttribute('href') || '').trim();
       const home = href === '' || href === '#' || href === '/' || /^https?:\/\/[^/]+\/?$/.test(href);
       return home && !looksButton(a);
-    }) || headerEl;
+    }) || _mkBrandBlock(headerEl) || headerEl;
     const img = brand.querySelector('img');
     if (img && !String(img.getAttribute('src') || '').startsWith('data:')) d.image = abs(img.currentSrc || img.src);
     // Wordmark span: the first span whose text is part of the brand's short label; base tone + size/weight,
@@ -3683,12 +3802,28 @@ export function extractDesign() {
         anc = anc.parentNode;
       }
     }
+    // No <img> and no inline <svg>? The icon may be a CSS-COMPOSED mark (gradient <div>s). Reconstruct it as an
+    // inline SVG so it survives the conversion, and stamp it on the mark root so the PHP path (detect_logo) reads
+    // the same markup off `data-sc-logo-svg`. icon_size = the mark's rendered box so it lands at the source size.
+    let synthMark = null;
+    if (!d.svg && !img) {
+      synthMark = _mkFindMark(brand);
+      if (synthMark) {
+        const mk = _mkSynth(synthMark);
+        if (mk) {
+          d.svg = mk;
+          const mr = synthMark.getBoundingClientRect();
+          if (mr.width) d.icon_size = Math.round(mr.width) + 'px';
+          try { synthMark.setAttribute('data-sc-logo-svg', mk); } catch { /* read-only DOM, skip */ }
+        } else { synthMark = null; }
+      }
+    }
     // (No inline svg → a library icon id is already captured on header.logo.icon.)
     // LAYOUT — how the mark + wordmark sit, so the native logo_layout isn't hardcoded inline-left: icon-only
     // (a mark with no wordmark), else inline/stacked by the brand's flex-direction and left/right by whether
     // the icon precedes the wordmark in DOM order. Mirrors the header_logo logo_layout option choices.
     (() => {
-      const iconEl = svg || brand.querySelector('img');
+      const iconEl = svg || brand.querySelector('img') || synthMark;
       if (!d.text && iconEl) { d.layout = 'icon-only'; return; }
       if (!iconEl || !d.text) { d.layout = 'inline-left'; return; }
       const col = /column/.test(getComputedStyle(brand).flexDirection || '');

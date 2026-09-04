@@ -2,6 +2,43 @@
 // logo and brand stay the WordPress site's own at render time). Mirror of the PHP
 // FW_Site_Converter_Theme_Generator::from_capture so EITHER file feeds the generator
 // (the admin "Generate theme" tool auto-detects a raw capture too).
+
+const GENERIC_FONTS = new Set(['serif', 'sans-serif', 'monospace', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace', 'cursive', 'fantasy', 'inherit', 'initial']);
+
+// A heading font-family stack normalised — returned ONLY when it pairs the primary display face with a
+// SECOND NAMED (non-generic) fallback (a licensed `Neutraface Condensed Titling` backed by web-safe
+// `Alfa Slab One`), so headings keep the intended display face instead of a system serif. PHP twin:
+// Theme_Generator::heading_fallback_stack().
+function headingFallbackStack(raw) {
+  raw = String(raw || '').trim();
+  if (!raw) return '';
+  let named = 0; const parts = [];
+  for (let fam of raw.split(',')) {
+    fam = fam.trim(); if (!fam) continue;
+    const bare = fam.replace(/^["']|["']$/g, '');
+    if (GENERIC_FONTS.has(bare.toLowerCase())) parts.push(bare.toLowerCase());
+    else { named++; parts.push(`'${bare}'`); }
+  }
+  return named >= 2 ? parts.join(',') : '';
+}
+
+// The source's DESIGN-token :root custom properties (from tokens.vars), minus Tailwind's internal runtime
+// vars (--tw-*). These back arbitrary `bg-[hsl(var(--dark))]` + semantic `bg-background` classes, so a
+// child theme that doesn't define them renders those transparent (a dark section going white, its white
+// heading then invisible). PHP twin: Stitch::design_root_vars().
+function designRootVars(vars) {
+  const out = {};
+  for (const [k, v] of Object.entries(vars || {})) {
+    if (!k || typeof v !== 'string') continue;
+    let name = k.startsWith('--') ? k : '--' + String(k).replace(/^-+/, '');
+    if (name.startsWith('--tw-')) continue;
+    const val = v.trim();
+    if (!val || val.length > 120) continue;
+    out[name] = val;
+  }
+  return out;
+}
+
 export function toDesignConfig(cap) {
   const firstFamily = (stack) => {
     if (!stack) return '';
@@ -165,7 +202,11 @@ export function toDesignConfig(cap) {
     ...(cap.favicon ? { favicon: cap.favicon } : {}),
     hero: heroPattern ? { pattern: heroPattern } : {},
     layout: prune({ container_max: (cap.layout && cap.layout.container_max) || '' }),
-    fonts: prune({ heading: headingFont, heading_weight: (cap.baseHeading && cap.baseHeading.weight) || '', body: bodyFont, google, icons }),
+    // Design-token :root custom properties (--dark, --brand-*, --background, …) so the child theme's
+    // arbitrary/semantic var-based classes resolve. PHP twin: Stitch::design_root_vars(), also injected
+    // by Bundle::import_dir for older bundles that lack this field.
+    ...((() => { const cv = designRootVars(vars); return Object.keys(cv).length ? { css_vars: cv } : {}; })()),
+    fonts: prune({ heading: headingFont, heading_weight: (cap.baseHeading && cap.baseHeading.weight) || '', body: bodyFont, google, icons, heading_stack: headingFallbackStack((cap.sections || []).map((s) => s.headingComputed?.fontFamily).find(Boolean) || '') }),
     colors: prune({
       ink: nz(body.color), accent, bg: nz(body.backgroundColor),
       // The theme's DEFAULT heading colour must be the DOMINANT heading tone (usually the ink used by

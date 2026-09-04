@@ -50,6 +50,7 @@ if (UPWK_LOG) {
 const PORT = Number(process.env.PORT) || 8787;
 const SELF_DIR = fileURLToPath(new URL('.', import.meta.url));
 const CAPTURE = fileURLToPath(new URL('./capture.mjs', import.meta.url));
+const MIRROR = fileURLToPath(new URL('./mirror.mjs', import.meta.url));
 const IS_WIN = process.platform === 'win32';
 // Version = the single source of truth in package.json (no hard-coded duplicate to drift).
 const VERSION = (() => { try { return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version || '0.0.0'; } catch { return '0.0.0'; } })();
@@ -707,17 +708,38 @@ const __server = createServer((req, res) => {
     const target = (u.searchParams.get('url') || '').trim();
     if (!/^https?:\/\//i.test(target)) { json(res, 400, { error: 'Provide a valid http(s) URL.' }); return; }
 
+    // Output TARGET: 'block-theme' additionally emits block-bundle.json (a portable FSE block theme);
+    // default 'page-builder' is unchanged. VOCAB (block-theme only): 'core' | 'enriched'.
+    const outTarget = (u.searchParams.get('target') || 'page-builder').trim() === 'block-theme' ? 'block-theme' : 'page-builder';
+    const vocab = (u.searchParams.get('vocab') || 'core').trim() === 'enriched' ? 'enriched' : 'core';
+
     // Write into CAPTURE_OUT (not a throwaway temp dir) so the run shows up LIVE in the dashboard
     // (progress + history). capture.mjs makes its own per-site subfolder under here.
     mkdirSync(CAPTURE_OUT, { recursive: true });
     const out = CAPTURE_OUT;
-    console.log('[capture]', target);
+    console.log('[capture]', target, outTarget === 'block-theme' ? `(block-theme, vocab=${vocab})` : '');
     markActive(target, 'running'); // surface this service-driven run on the dashboard
-    const child = spawn(process.execPath, [CAPTURE, target, out], { stdio: 'inherit' });
+    const args = [CAPTURE, target, out];
+    if (outTarget === 'block-theme') { args.push('--target=block-theme', '--vocab=' + vocab); }
+    const child = spawn(process.execPath, args, { stdio: 'inherit' });
 
     child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); });
     child.on('exit', () => {
       markActive(target, 'done');
+      // Block-theme target → return the block-bundle.json the WordPress plugin installs as an FSE theme.
+      if (outTarget === 'block-theme') {
+        const bbPath = findFile(out, 'block-bundle.json');
+        if (bbPath) {
+          const buf = readFileSync(bbPath);
+          res.writeHead(200, {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="block-bundle.json"',
+            'Content-Length': buf.length,
+          });
+          res.end(buf);
+        } else { json(res, 500, { error: 'Capture produced no block-bundle.json (the page may have failed to render).' }); }
+        return;
+      }
       // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
       if (u.searchParams.get('html') === '1') {
         const html = readRenderedHtml(out);
@@ -739,6 +761,30 @@ const __server = createServer((req, res) => {
       } else {
         json(res, 500, { error: 'Capture produced no bundle (the page may have failed to render).' });
       }
+    });
+    return;
+  }
+
+  // GET /mirror?url=<url> — "Duplicate as landing page": browser-record a VERBATIM self-contained mirror
+  // (index.html + assets/ where every JS-loaded asset was captured & re-linked) into CAPTURE_OUT/mirror-<slug>/.
+  // Returns { ok, dir, assets } — the WordPress Landing importer (same machine) reads that dir and creates the
+  // section→column→code_block iframe page. For a WebGL/three.js scroll-experience the deterministic converter
+  // can't decompose, this grabs it as-is so it runs identically.
+  if (u.pathname === '/mirror') {
+    const target = (u.searchParams.get('url') || '').trim();
+    if (!/^https?:\/\//i.test(target)) { json(res, 400, { error: 'Provide a valid http(s) URL.' }); return; }
+    mkdirSync(CAPTURE_OUT, { recursive: true });
+    const dir = join(CAPTURE_OUT, 'mirror-' + siteSlug(target));
+    console.log('[mirror]', target, '→', dir);
+    markActive(target, 'running');
+    const child = spawn(process.execPath, [MIRROR, target, dir], { stdio: 'inherit' });
+    child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); });
+    child.on('exit', (code) => {
+      markActive(target, 'done');
+      if (code !== 0) { json(res, 500, { error: 'Mirror failed (the page may not have loaded).' }); return; }
+      let assets = 0;
+      try { assets = readdirSync(join(dir, 'assets')).length; } catch { /* none */ }
+      json(res, 200, { ok: true, dir, assets, index: join(dir, 'index.html') });
     });
     return;
   }

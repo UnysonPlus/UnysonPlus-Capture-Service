@@ -549,6 +549,231 @@ export function toPages(capture, opts = {}) {
     c._items = items;
     return c;
   };
+  // --- Flexbox ("Div") emission — PHP twin of Mapper::n_flexbox / flex_width_preset / slug_to_span /
+  //     row_flex_safe / column_to_flexbox_cell. A clean multi-cell row → ONE flexbox (display:flex,
+  //     direction row) whose cells are child flexbox Divs carrying their Width, instead of loose
+  //     columns the builder would wrap in a Bootstrap .fw-row. Keeps PHP↔JS parity (see
+  //     CONVERSION-ALGORITHM-SYNC.md). ---
+  const flexWidthPreset = (n) => { n = parseInt(n, 10); return (n >= 1 && n <= 12) ? String(n) : 'none'; };
+  const slugToSpan = (slug) => {
+    const m = /^(\d+)_(\d+)$/.exec(String(slug == null ? '' : slug));
+    if (m && +m[2] > 0) return Math.max(1, Math.min(12, Math.round((+m[1] / +m[2]) * 12)));
+    return 12;
+  };
+  const nFlexbox = (items, over = {}) => {
+    const fx = stamp(clone('flexbox'));
+    fx._items = items;
+    if (fx.atts) for (const k in over) fx.atts[k] = over[k]; // whole-key override
+    return fx;
+  };
+  const rowFlexSafe = (cols) => {
+    if (!Array.isArray(cols) || cols.length < 2) return false;
+    for (const col of cols) {
+      if (!col || col.type !== 'column') return false;
+    }
+    // inner_class (inner-wrapper box/max-width CSS) and element_position (floating-card ancestor) no longer
+    // veto flexing — columnToFlexboxCell now emits a TWO-NODE cell for inner-wrapper columns and carries
+    // element_position onto the cell. PHP twin: Mapper::row_flex_safe() / column_to_flexbox_cell().
+    return true;
+  };
+  // The column's inner CONTENT-layout options → a flexbox's own flex props (axis-aware). Shared by the
+  // single-node cell (props on the cell) and the two-node cell (props on the inner Div). PHP: content_layout_over().
+  const contentLayoutOver = (a) => {
+    const over = {};
+    const cd = String(a.content_direction || '');
+    const cgap = (a.content_gap && a.content_gap.base != null) ? String(a.content_gap.base) : '';
+    const ch = String(a.content_h || ''), cv = String(a.content_v || '');
+    const isRow = cd === 'row';
+    const hMap = { left: 'start', start: 'start', center: 'center', right: 'end', end: 'end', between: 'between', around: 'around' };
+    const vMap = { top: 'start', start: 'start', middle: 'center', center: 'center', bottom: 'end', end: 'end' };
+    const h = hMap[ch] || '', v = vMap[cv] || '';
+    if (isRow || cgap !== '' || h !== '' || v !== '') {
+      over.display = 'flex';
+      over.direction = { base: isRow ? 'row' : 'column', md: '', lg: '' };
+      // A COLUMN-direction flex is a vertical STACK — it must NOT wrap (wrap:yes, the row default, makes a
+      // stack whose items exceed a constrained height wrap into side-by-side columns and overflow).
+      if (!isRow) over.wrap = { base: 'no', md: '', lg: '' };
+      if (cgap !== '') over.gap = { base: cgap, md: '', lg: '' };
+      const main = isRow ? h : v, cross = isRow ? v : h;
+      if (main !== '') over.justify_content = { base: main, md: '', lg: '' };
+      if (cross !== '') over.align_items = { base: cross, md: '', lg: '' };
+      if ((a.content_order || '') === 'reverse') over.reverse = { base: 'yes', md: '', lg: '' };
+    } else {
+      over.display = 'block';
+    }
+    return over;
+  };
+  // Split a column's custom_css for the two-node cell: inner-wrapper rules (selector .CLS{…} whose CLS is one
+  // of the column's inner_class names) → rewritten to selector{…} for the INNER Div; the rest (bare selector{…}
+  // column-level rules, e.g. gutter padding) stays on the OUTER track. PHP twin: split_col_css().
+  const splitColCss = (css, innerClasses) => {
+    css = String(css || '');
+    const inner = [];
+    const rest = css.replace(/selector\s+\.([A-Za-z0-9_-]+)\s*\{([^}]*)\}/g, (m, cls, body) => {
+      if (innerClasses.indexOf(cls) !== -1) { inner.push('selector{' + body.trim() + '}'); return ''; }
+      return m;
+    });
+    return [rest.trim(), inner.join('\n').trim()];
+  };
+  const columnToFlexboxCell = (col) => {
+    const a = (col && col.atts) || {};
+    const over = {};
+    const isNum = (v) => (typeof v === 'string' || typeof v === 'number') && String(v) !== '' && /^\d+$/.test(String(v));
+    const wp = a.w_phone != null ? a.w_phone : 'default';
+    const wt = a.w_tablet != null ? a.w_tablet : 'default';
+    const wd = a.w_desktop != null ? a.w_desktop : 'default';
+    if (isNum(wd) || isNum(wt) || isNum(wp)) {
+      over.width = {
+        base: { preset: isNum(wp) ? flexWidthPreset(wp) : 'none' },
+        md:   { preset: isNum(wt) ? flexWidthPreset(wt) : 'none' },
+        lg:   { preset: isNum(wd) ? flexWidthPreset(wd) : 'none' },
+      };
+    } else {
+      const span = slugToSpan(col.width != null ? col.width : '1_1');
+      over.width = { base: { preset: flexWidthPreset(span) }, md: { preset: 'none' }, lg: { preset: 'none' } };
+    }
+    // OUTER-track carries (grid-cell level). element_position (floating-card ancestor) now CARRIED.
+    if (a.align_self && typeof a.align_self === 'object') over.align_self = a.align_self;
+    if (a.responsive_hide && (Array.isArray(a.responsive_hide) ? a.responsive_hide.length : Object.keys(a.responsive_hide).length)) over.responsive_hide = a.responsive_hide;
+    if (a.spacing) over.spacing = a.spacing;
+    if (a.animation) over.animation = a.animation;
+    if (a.css_id) over.css_id = String(a.css_id);
+    if (a.custom_attrs) over.custom_attrs = a.custom_attrs;
+    if (a.element_position) over.element_position = a.element_position;
+    // RECURSE: flex any nested column runs inside this cell too (mutual recursion with flexifyItems()).
+    const items = Array.isArray(col._items) ? flexifyItems(col._items) : [];
+    // TWO-NODE cell: an inner-wrapper column (box skin / max-width cap on inner_class) → OUTER width track
+    // wrapping an INNER Div that carries the box + content-layout. Keeps max-width;margin:auto on a BLOCK
+    // child (classic left-align) not a flex item. PHP twin: column_to_flexbox_cell() two-node branch.
+    const innerClass = String(a.inner_class || '').trim();
+    if (innerClass !== '') {
+      const innerOver = contentLayoutOver(a);
+      const [outerCss, innerCss0] = splitColCss(a.custom_css || '', innerClass.split(/\s+/).filter(Boolean));
+      let innerCss = innerCss0;
+      const ta2 = String(a.text_align || '');
+      if (ta2 === 'center' || ta2 === 'right' || ta2 === 'left') innerCss = (innerCss + (innerCss !== '' ? '\n' : '') + 'selector{text-align:' + ta2 + ';}').trim();
+      if (innerCss !== '') innerOver.custom_css = innerCss;
+      if (a.border_preset) innerOver.border_preset = String(a.border_preset);
+      if (a.css_class) innerOver.css_class = String(a.css_class);
+      const innerDiv = nFlexbox(items, innerOver);
+      over.display = 'block';
+      if (outerCss !== '') over.custom_css = outerCss;
+      return nFlexbox([innerDiv], over);
+    }
+    // SINGLE-NODE cell: content-layout maps onto the cell's own flex props.
+    Object.assign(over, contentLayoutOver(a));
+    if (a.border_preset) over.border_preset = String(a.border_preset);
+    if (a.css_class) over.css_class = String(a.css_class);
+    const ta = String(a.text_align || '');
+    let css = String(a.custom_css || '');
+    if (ta === 'center' || ta === 'right' || ta === 'left') css = (css + (css !== '' ? '\n' : '') + 'selector{text-align:' + ta + ';}').trim();
+    if (css !== '') over.custom_css = css;
+    if (a.unique_id) over.unique_id = String(a.unique_id);
+    return nFlexbox(items, over);
+  };
+  // Twin of PHP Mapper::cells_uniform_grid — do these flex cells form a UNIFORM, non-responsive 12-column
+  // grid (every cell the SAME numeric base span, the spans summing to 12, no per-device width override, none
+  // absolutely positioned)? Then flex-grow on the cells fills the row exactly (see the flush call site).
+  const cellsUniformGrid = (cells) => {
+    if (!Array.isArray(cells) || cells.length < 2) return false;
+    let base = null, sum = 0;
+    for (const c of cells) {
+      if (!c || !c.atts || c.atts.element_position) return false;
+      const w = c.atts.width;
+      if (!w || !w.base) return false;
+      const b = String((w.base && w.base.preset) || '');
+      const md = String((w.md && w.md.preset) || 'none');
+      const lg = String((w.lg && w.lg.preset) || 'none');
+      if (!/^\d+$/.test(b)) return false;                 // needs a real 1–12 span
+      if (md !== '' && md !== 'none') return false;        // any responsive change → keep flex
+      if (lg !== '' && lg !== 'none') return false;
+      if (base === null) base = b; else if (b !== base) return false; // all cells equal
+      sum += parseInt(b, 10);
+    }
+    return sum === 12;
+  };
+  // Recursively flex NESTED column runs (PHP twin of Mapper::flexify_items): a run of ≥2 consecutive
+  // flex-safe `column` siblings → one flexbox Div of flexbox cells; non-column / unsafe / lone columns
+  // pass through. columnToFlexboxCell calls back here, so nesting is handled at every depth.
+  const flexifyItems = (items) => {
+    const out = [];
+    let run = [];
+    const flush = () => {
+      if (!run.length) return;
+      if (run.length >= 2 && rowFlexSafe(run)) {
+        const cells = run.map(columnToFlexboxCell);
+        // UNIFORM NON-RESPONSIVE GRID → grow the cells to fill the row. A wrapping flex row sizes each span
+        // cell width:calc(pct - gap), subtracting the FULL gap from every cell though only N-1 gaps sit between
+        // N cells, so the row ends one gap short (a trailing empty strip). flex-grow:1 on equal cells distributes
+        // that remainder back. Twin of PHP Mapper::cells_uniform_grid + the flexify flex-grow push.
+        if (cellsUniformGrid(cells)) { for (const uc of cells) uc.atts.flex_grow = { base: 'yes', md: '', lg: '' }; }
+        out.push(nFlexbox(cells, { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } }));
+      } else {
+        // A LONE column still becomes a flexbox Div, never a classic fw-row/fw-col (PHP twin: flexify_items).
+        for (const rc of run) out.push(columnToFlexboxCell(rc));
+      }
+      run = [];
+    };
+    for (const it of items) {
+      if (it && it.type === 'column') run.push(it);
+      else { flush(); out.push(it); }
+    }
+    flush();
+    return out;
+  };
+  // --- Container Width (parity with the PHP Mapper's sectionContainerW + container_width_px). A source
+  //     content cap (`max-w-5xl mx-auto` / computed max-width) → the section's container_width preset,
+  //     and pushed onto a direct flexbox child's content_width (a flexbox escapes the section's
+  //     .fw-container, so it needs its own cap to stay centred instead of going edge-to-edge). ---
+  const sectionContentMaxPx = (sec) => {
+    const cm = sec && sec.computed && sec.computed.maxWidth;
+    if (cm && /^[0-9.]+px$/.test(String(cm))) return parseFloat(cm);
+    const cls = String((sec && sec.sectionClass) || '');
+    const twMap = { '3xl': 768, '4xl': 896, '5xl': 1024, '6xl': 1152, '7xl': 1280 };
+    const m = cls.match(/\bmax-w-(\[?[0-9a-z.]+\]?)\b/);
+    if (m) {
+      const k = m[1];
+      if (twMap[k]) return twMap[k];
+      const px = k.match(/^\[?([0-9.]+)px\]?$/);
+      if (px) return parseFloat(px[1]);
+    }
+    return 0;
+  };
+  // px → container_width preset value; INHERIT (null) for the wide theme-default range (≥ ~1152).
+  const containerWidthPreset = (px) => {
+    px = parseFloat(px) || 0;
+    if (px <= 0) return null;
+    if (px <= 820) return { preset: 'narrow' };  // ~768 (3xl)
+    if (px <= 960) return { preset: 'medium' };  // ~896 (4xl)
+    if (px <= 1100) return { preset: 'wide' };   // ~1024 (5xl)
+    return null;                                  // 6xl/7xl → inherit the site-wide container
+  };
+  // container_width value → its pixel cap (for pushing onto a flexbox content_width). Twin of PHP container_width_px.
+  const containerWidthPx = (cw) => {
+    if (!cw || typeof cw !== 'object') return 0;
+    if (cw.preset === 'small') return 640;
+    if (cw.preset === 'prose') return 672;
+    if (cw.preset === 'narrow') return 768;
+    if (cw.preset === 'medium') return 896;
+    if (cw.preset === 'wide') return 1024;
+    if (cw.preset === 'wide-l') return 1152;
+    if (cw.preset === 'wide-xl') return 1280;
+    if (cw.preset === 'wide-xxl') return 1440;
+    // A non-standard "Content NNNN" preset (a source container that isn't a standard step) → its px (PHP twin).
+    const m = /^content-(\d+)$/.exec(String(cw.preset || ''));
+    if (m) return parseInt(m[1], 10);
+    return 0;
+  };
+  // A px content-band cap → a flexbox content_width VALUE. The value MUST be a NAMED preset ({preset:'wide'},
+  // {preset:'content-1400'}, …): a bare {value,unit} is normalized to {preset:''} on read and the cap is
+  // silently DROPPED (the grid then escapes to the full container width). Twin of PHP content_width_value().
+  const contentWidthValue = (px) => {
+    px = Math.round(Number(px) || 0);
+    if (px <= 0) return { preset: 'inherit' };
+    const steps = [[640, 'small'], [672, 'prose'], [768, 'narrow'], [896, 'medium'], [1024, 'wide'], [1152, 'wide-l'], [1280, 'wide-xl'], [1440, 'wide-xxl']];
+    for (const [spx, key] of steps) { if (Math.abs(spx - px) <= 2) return { preset: key }; }
+    return { preset: 'content-' + px };
+  };
   // CONTAINER-LEVEL text_align (parity with the PHP mapper). text-align is an INHERITED property,
   // so setting it on the section/column centers the whole band's heading + paragraph + buttons as
   // one — a different axis from content_h (the flexbox positioning of the column's children).
@@ -1118,11 +1343,20 @@ export function toPages(capture, opts = {}) {
       self_hosted: {
         video_file: up(src), video_webm: up(webm), video_url: '', poster: up(mode === 'self_hosted' ? poster : ''),
         autoplay: b.autoplay || 'no', muted: b.muted || 'no', loop: b.loop || 'no',
-        controls: b.controls || 'yes', playsinline: b.playsinline || 'yes', preload: 'metadata', object_fit: 'contain',
+        controls: b.controls || 'yes', playsinline: b.playsinline || 'yes', preload: 'metadata',
+        // A cover-fill source (`object-cover`, e.g. a portrait reel) should FILL its ratio box, not letterbox
+        // inside it — carry object-fit so it matches the source instead of showing black bars. PHP twin: n_video.
+        object_fit: b.cover ? 'cover' : 'contain',
       },
     };
     if (st.self_hosted.autoplay === 'yes') st.self_hosted.muted = 'yes';
-    return { type: 'simple', shortcode: 'media_video', _items: [], atts: { source_type: st, width: { value: 600, unit: 'px' }, ratio: '16x9', unique_id: uid() } };
+    // Ratio from the source's own aspect (portrait `9x16` reel, `1x1`, …); default landscape 16:9. A portrait
+    // clip gets a narrower box, and the source's responsive visibility (`sm:hidden` mobile-only reel → hidden
+    // on desktop) is carried. Parity with PHP Mapper::n_video().
+    const ratio = ['16x9', '4x3', '1x1', '21x9', '9x16', '3x4'].includes(String(b.aspect || '')) ? String(b.aspect) : '16x9';
+    const vwidth = (ratio === '9x16' || ratio === '3x4') ? 320 : 600;
+    const rhide = b.rhideCls && String(b.rhideCls).trim() ? responsiveHideFromClasses(String(b.rhideCls)) : {};
+    return { type: 'simple', shortcode: 'media_video', _items: [], atts: { source_type: st, width: { value: vwidth, unit: 'px' }, ratio, responsive_hide: rhide, unique_id: uid() } };
   };
 
   // A standalone image → the native media_image element (NOT a gallery — that's for multiple
@@ -1909,6 +2143,11 @@ export function toPages(capture, opts = {}) {
       // A CENTERED source band → the section's native `text_align='center'` so the whole band's
       // heading + paragraph + buttons inherit text-align:center together (parity with PHP n_section).
       if (centered) s.atts.text_align = 'center';
+      // Container Width — constrain the content band to the source's content cap (`max-w-* mx-auto` /
+      // computed max-width) instead of always using the site-wide theme container. Parity with the PHP
+      // n_section container_width; the flexbox content_width push below completes it for flex bands.
+      const cwVal = containerWidthPreset(sectionContentMaxPx(sec));
+      if (cwVal) s.atts.container_width = cwVal;
     }
     // Extra section CSS the block loop generates (e.g. a wc_products card skin/hover/ribbon translated
     // from the source cards). Folded into the section's custom_css AFTER the loop so it isn't lost.
@@ -1921,7 +2160,7 @@ export function toPages(capture, opts = {}) {
     if (!centered && /(?:^|\s)(?:min-)?h-(?:screen|\[100s?vh\])(?:\s|$)/.test(' ' + String(sec.sectionClass || '') + ' ')) {
       extraCss += 'selector .fw-container{margin-left:0 !important;margin-right:auto !important;}';
     }
-    const items = []; let buf = []; let btnRow = [];
+    let items = []; let buf = []; let btnRow = [];
     const flush = () => {
       if (buf.length) {
         const col = column('1_1', buf);
@@ -1976,6 +2215,7 @@ export function toPages(capture, opts = {}) {
                 text: snip(b.cols.map((c) => c.html).join(' ')), fallback: false, opportunity: true });
           continue;
         }
+        const rowCols = [];
         for (const c of b.cols) {
           // Map each grid cell to a dedicated, editable shortcode using the role the extractor
           // already detected (parity with the PHP mapper). A cell with plain text (but no media /
@@ -2103,7 +2343,19 @@ export function toPages(capture, opts = {}) {
             // stacked (parity with PHP group_buttons). Kept when the column has no other custom_css.
             if (!col.atts.custom_css) col.atts.custom_css = 'selector .btn{flex:0 0 auto !important;width:auto !important;}';
           }
-          items.push(col);
+          rowCols.push(col);
+        }
+        // HYBRID row emission (PHP twin of Mapper 7904-7918): a clean multi-cell row → ONE flex-Div
+        // (flexbox, direction row) whose cells are child flex-Divs carrying their Width; otherwise
+        // (single cell, or a cell needing the column inner-wrapper / positioned ancestor) emit the
+        // columns unchanged. No fw-row for the flexed rows.
+        if (rowFlexSafe(rowCols)) {
+          const rowAtts = { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } };
+          const rgap = gapSlug(b.gap || '');
+          if (rgap) rowAtts.gap = { base: rgap, md: '', lg: '' };
+          items.push(nFlexbox(rowCols.map(columnToFlexboxCell), rowAtts));
+        } else {
+          for (const rc of rowCols) items.push(rc);
         }
       } else {
         const node = blockToNode(b);
@@ -2163,7 +2415,34 @@ export function toPages(capture, opts = {}) {
     const kf = missingKeyframes(String(sec.rawHtml || '') + ' ' + carried);
     const allCss = carried + (extraCss ? ('\n' + extraCss) : '') + (clipCss ? ('\n' + clipCss) : '') + kf;
     if (s.atts && allCss.trim()) s.atts.custom_css = flattenCss(allCss);
+    // SECTION-LEVEL ROW → flexbox. flexifyItems() previously only ran on rows NESTED inside a section;
+    // a section that is ITSELF the row (direct children = ≥2 clean columns — a hero's text+image, a
+    // 2-up/3-up feature band) stayed section → [column, column] (classic bootstrap fw-row/fw-col). Run
+    // the section's own items through the SAME flexify pass so those section-as-row bands emit a flexbox
+    // Div (fw-flex) too. A run that doesn't qualify falls back to columns; a single column is untouched.
+    // Twin of the PHP mapper's section-level flexify_items() call. The content_width push below then
+    // keeps the new band constrained.
+    items = flexifyItems(items);
     s._items = items.length ? items : [column('1_1', [codeBlock(sec.rawHtml || '')])];
+    // Push the section's container_width cap onto any DIRECT flexbox child's content_width — a flexbox
+    // escapes the section's .fw-container (rendered full-width), so it needs its own cap to stay centred
+    // at the source's max-width. Parity with the PHP mapper's flexbox content_width push.
+    {
+      const cwPx = containerWidthPx(s.atts && s.atts.container_width);
+      if (cwPx > 0 && Array.isArray(s._items)) {
+        const cwVal = contentWidthValue(cwPx);
+        for (const ch of s._items) {
+          if (!ch || ch.type !== 'flexbox' || !ch.atts) continue;
+          // Already carries a real cap (legacy {value}, or the multi-picker's own preset/custom)? Leave it.
+          const ex = ch.atts.content_width;
+          const hasCw = ex && typeof ex === 'object' && (ex.value
+            || (ex.custom && ex.custom.custom_width && ex.custom.custom_width.value)
+            || (ex.preset && ex.preset !== 'inherit'));
+          if (hasCw) continue;
+          ch.atts.content_width = cwVal;
+        }
+      }
+    }
     return s;
   };
 

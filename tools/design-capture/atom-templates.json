@@ -849,5 +849,170 @@
       "dc_end": "",
       "custom_attrs": []
     }
+  },
+  "flexbox": {
+    "type": "flexbox",
+    "_items": [],
+    "atts": {
+      "html_tag": "div",
+      "display": "flex",
+      "grid_columns": "3",
+      "grid_autofit": "no",
+      "grid_min": {
+        "value": "240",
+        "unit": "px"
+      },
+      "direction": {
+        "base": "row",
+        "md": "",
+        "lg": ""
+      },
+      "gap": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "justify_content": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "align_items": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "wrap": {
+        "base": "yes",
+        "md": "",
+        "lg": ""
+      },
+      "reverse": {
+        "base": "no",
+        "md": "",
+        "lg": ""
+      },
+      "align_content": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "width": {
+        "base": {
+          "preset": "none"
+        },
+        "md": {
+          "preset": "none"
+        },
+        "lg": {
+          "preset": "none"
+        }
+      },
+      "flex_grow": {
+        "base": "no",
+        "md": "",
+        "lg": ""
+      },
+      "align_self": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "order": {
+        "base": "",
+        "md": "",
+        "lg": ""
+      },
+      "background": {
+        "color": {
+          "value": {
+            "predefined": "",
+            "custom": ""
+          }
+        },
+        "gradient": {
+          "data": {
+            "type": "linear",
+            "angle": 90,
+            "stops": []
+          }
+        },
+        "image": {
+          "src": [],
+          "position": "center center",
+          "size": {
+            "selected": "cover",
+            "custom": ""
+          },
+          "repeat": "no-repeat",
+          "attachment": "scroll"
+        },
+        "video": {
+          "enabled": "no",
+          "external_url": "",
+          "source_mp4": [],
+          "source_webm": [],
+          "poster": [],
+          "fallback": [],
+          "loop": "yes",
+          "autoplay": "yes",
+          "mute": "yes",
+          "playsinline": "yes"
+        },
+        "advanced": []
+      },
+      "border_preset": "",
+      "min_height": {
+        "base": {
+          "value": "",
+          "unit": "vh"
+        },
+        "md": {
+          "value": "",
+          "unit": "vh"
+        },
+        "lg": {
+          "value": "",
+          "unit": "vh"
+        }
+      },
+      "spacing": {
+        "margin": {
+          "all": "",
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "padding": {
+          "all": "",
+          "top": "",
+          "right": "",
+          "bottom": "",
+          "left": ""
+        },
+        "advanced": []
+      },
+      "animation": {
+        "enable": "no",
+        "yes": {
+          "effect": "animate__fadeInUp",
+          "speed_preset": "",
+          "advanced_tweaks_heading": "",
+          "delay": 0,
+          "custom_duration": 0,
+          "repeat_count": 1,
+          "loop_forever": "no",
+          "replay_on_scroll": "no",
+          "easing": ""
+        }
+      },
+      "unique_id": "",
+      "css_id": "",
+      "css_class": "",
+      "custom_css": "",
+      "responsive_hide": [],
+      "custom_attrs": []
+    }
   }
 }
