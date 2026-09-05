@@ -18,6 +18,7 @@ import { chromium } from 'playwright-core';
 import { writeFileSync, mkdirSync, readFileSync, appendFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { toDesignConfig } from './to-design-config.mjs';
+import { matchRenderedFont } from './font-match/match.mjs';
 import { toPages } from './to-pages.mjs';
 import { toStyleGuide } from './to-styleguide.mjs';
 import { toPresets } from './to-presets.mjs';
@@ -237,6 +238,109 @@ function traceStory(trace, sIndex, node, scenes, story) {
 }
 
 // Render a URL: navigate, let late CDN runtimes settle, scroll to trigger lazy assets, extract.
+// Reveal the content of TAB PANELS that a JS tab widget renders lazily (only the active panel is in the DOM;
+// inactive panels — a menu's Dessert list, a product's Reviews — appear only on click). We detect tab bars,
+// click each tab, snapshot the revealed panel, then REWRITE the region as a semantic ARIA tabs structure
+// (role=tablist / tab / tabpanel) holding every panel — which the converter's tabs recognizer maps to a
+// native tabs shortcode. Conservative: only clear pill/segmented tab bars (2–5 short-text buttons that
+// aren't the site nav and DO change the page on click) qualify, and a group is left untouched if a panel
+// comes back empty or the content collapses — so a mis-detection never mangles a page.
+async function revealTabPanels(p) {
+  const groups = await p.evaluate(() => {
+    const txt = (e) => (e.textContent || '').replace(/\s+/g, ' ').trim();
+    // Compact `prop:val;…` of an element's meaningful computed styles — the same shape the converter reads from
+    // data-sc-cs. Used to PRESERVE the source tab-nav look (a segmented track's fill/radius, the active segment)
+    // before we replace the bar with normalized sc-tabs markup, so the PHP detect_tabs_design can classify +
+    // carry it instead of getting unstyled buttons.
+    const csStr = (el, props) => {
+      if (!el) return '';
+      const c = getComputedStyle(el); const out = [];
+      for (const pr of props) {
+        const v = (c.getPropertyValue(pr) || '').trim();
+        if (!v || v === 'none' || v === 'normal' || v === 'auto' || /^rgba\(0,\s*0,\s*0,\s*0\)$/.test(v)) continue;
+        out.push(pr + ':' + v);
+      }
+      return out.join(';');
+    };
+    const isTabBtn = (e) => {
+      const t = (e.tagName || '').toLowerCase();
+      if (t === 'button' || e.getAttribute('role') === 'tab') return true;
+      if (t === 'a') { const h = e.getAttribute('href') || ''; return h === '' || h === '#' || h.startsWith('#'); } // a real page link is NOT a tab
+      return false;
+    };
+    let gi = 0;
+    for (const bar of document.querySelectorAll('div,ul,nav,[role="tablist"]')) {
+      if (bar.closest('header, footer')) continue;                          // site chrome, not content tabs
+      const kids = [...bar.children].map((c) => (isTabBtn(c) ? c : (c.children.length === 1 && isTabBtn(c.children[0]) ? c.children[0] : null))).filter(Boolean);
+      if (kids.length < 2 || kids.length > 5) continue;
+      if (kids.length !== bar.children.length) continue;                    // the bar is ONLY tabs
+      if (!kids.every((b) => { const l = txt(b); return l && l.length <= 28 && l.split(' ').length <= 4; })) continue;
+      // Content container: the nearest ancestor that holds meaningfully MORE than the bar (the panel lives there).
+      let cont = bar.parentElement, guard = 0;
+      const barLen = txt(bar).length;
+      while (cont && guard++ < 5 && txt(cont).length <= barLen + 24) cont = cont.parentElement;
+      if (!cont || cont === document.body || cont.closest('header, footer')) continue;
+      bar.setAttribute('data-sc-tabbar', String(gi));
+      cont.setAttribute('data-sc-tabcont', String(gi));
+      kids.forEach((b, i) => b.setAttribute('data-sc-tab', gi + ':' + i));
+      // PRESERVE the source tab-nav styling (lost when we swap in sc-tabs). Capture the TRACK (the bar), the
+      // ACTIVE tab (aria-selected / .active, else the first) and an INACTIVE tab — the converter reads these to
+      // pick the closest tab style (segmented / pills / boxed / underline) and carry the colours.
+      const isActive = (b) => (b.getAttribute('aria-selected') || '').toLowerCase() === 'true' || /\bactive\b/.test((b.className || '').toLowerCase());
+      const activeBtn = kids.find(isActive) || kids[0];
+      const inactiveBtn = kids.find((b) => b !== activeBtn) || kids[1] || null;
+      const LIST_P = ['background-color', 'border-radius', 'padding', 'gap', 'display', 'border-top-width', 'border-top-color'];
+      const BTN_P = ['background-color', 'color', 'border-radius', 'box-shadow', 'border-top-width', 'border-top-style', 'border-top-color', 'border-bottom-width', 'border-bottom-color', 'font-weight', 'padding', 'text-transform'];
+      bar.setAttribute('data-sc-tabnav', JSON.stringify({
+        list: csStr(bar, LIST_P),
+        active: csStr(activeBtn, BTN_P),
+        inactive: csStr(inactiveBtn, BTN_P),
+        activeIdx: activeBtn ? kids.indexOf(activeBtn) : 0,
+      }));
+      gi++;
+    }
+    return gi;
+  });
+  if (!groups) return;
+  for (let g = 0; g < groups; g++) {
+    const n = await p.evaluate((g) => document.querySelectorAll('[data-sc-tab^="' + g + ':"]').length, g);
+    const panels = [];
+    for (let i = 0; i < n; i++) {
+      await p.evaluate(({ g, i }) => { const b = document.querySelector('[data-sc-tab="' + g + ':' + i + '"]'); if (b) b.click(); }, { g, i });
+      await p.waitForTimeout(550);
+      const pn = await p.evaluate(({ g, i }) => {
+        const cont = document.querySelector('[data-sc-tabcont="' + g + '"]'); if (!cont) return null;
+        const clone = cont.cloneNode(true);
+        clone.querySelectorAll('[data-sc-tabbar]').forEach((b) => b.remove()); // drop the bar itself from the panel
+        const b = document.querySelector('[data-sc-tab="' + g + ':' + i + '"]');
+        return { label: b ? (b.textContent || '').replace(/\s+/g, ' ').trim() : ('Tab ' + (i + 1)), html: clone.innerHTML, len: clone.textContent.replace(/\s+/g, '').length };
+      }, { g, i });
+      if (!pn || pn.len < 8) { panels.length = 0; break; }                  // empty panel → abort this group (leave page as-is)
+      panels.push(pn);
+    }
+    if (panels.length < 2) continue;
+    await p.evaluate(({ g, panels }) => {
+      const cont = document.querySelector('[data-sc-tabcont="' + g + '"]'); if (!cont) return;
+      // The source tab-nav styling we captured at detection time (track + active/inactive segments), carried on
+      // the original bar — stamp it as data-sc-cs on the normalized sc-tabs so the converter can read the look.
+      let nav = {}; try { nav = JSON.parse(cont.querySelector('[data-sc-tabnav]')?.getAttribute('data-sc-tabnav') || '{}'); } catch { nav = {}; }
+      const list = document.createElement('div'); list.setAttribute('role', 'tablist'); list.className = 'sc-tabs__list';
+      if (nav.list) list.setAttribute('data-sc-cs', nav.list);
+      const wrap = document.createElement('div'); wrap.className = 'sc-tabs__panels';
+      panels.forEach((pn, i) => {
+        const t = document.createElement('button'); t.setAttribute('role', 'tab'); t.setAttribute('aria-controls', 'sc-tp-' + g + '-' + i); t.textContent = pn.label;
+        const bcs = (i === (nav.activeIdx || 0)) ? nav.active : nav.inactive;
+        if (bcs) t.setAttribute('data-sc-cs', bcs);
+        if (i === (nav.activeIdx || 0)) t.setAttribute('aria-selected', 'true');
+        list.appendChild(t);
+        const d = document.createElement('div'); d.setAttribute('role', 'tabpanel'); d.id = 'sc-tp-' + g + '-' + i; d.innerHTML = pn.html; wrap.appendChild(d);
+      });
+      const box = document.createElement('div'); box.className = 'sc-tabs'; box.appendChild(list); box.appendChild(wrap);
+      cont.replaceChildren(box);
+    }, { g, panels });
+  }
+}
+
 async function renderPage(p, target) {
   step(`navigating ${target} … (can take up to ~60s on heavy SPAs)`);
   await p.goto(target, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
@@ -518,6 +622,45 @@ async function renderPage(p, target) {
       if (found.length) el.setAttribute('data-sc-hover', found.join('|').slice(0, 1600));
     }
   });
+  // SECTION BACKDROP PATTERN harvest. A section's decorative backdrop — a faint diagonal-stripe
+  // `repeating-linear-gradient`, a data-URI SVG grid — is very often painted on a `::before`/`::after` pseudo,
+  // which getComputedStyle(el) (and therefore the deterministic PHP converter reading rendered.html) can NEVER
+  // see. `bgPattern` in design-capture.json records it, but build_from_html rebuilds from rendered.html and so
+  // misses it. Stamp the pattern (+ opacity) onto the hosting section block as `data-sc-pattern` so the
+  // deterministic path (detect_section_pattern) can read and re-apply it. Mirrors capture-extract's findPattern().
+  await evalSafe(p, () => {
+    const PAT = /data:image\/svg|repeating-(?:linear|radial)-gradient/i;
+    const cands = new Set();
+    document.querySelectorAll('section').forEach((e) => cands.add(e));
+    document.querySelectorAll('main > *, body > div > *, [class*="section"]').forEach((e) => {
+      try { if (e.getBoundingClientRect().height > 240) cands.add(e); } catch { /* detached */ }
+    });
+    let stamped = 0;
+    for (const el of cands) {
+      if (stamped >= 40) break;
+      if (el.hasAttribute('data-sc-pattern')) continue;
+      let hit = null;
+      for (const pe of [null, '::before', '::after']) {
+        let s; try { s = getComputedStyle(el, pe); } catch { continue; }
+        const bg = s && s.backgroundImage;
+        if (!bg || bg === 'none' || bg.length > 2000 || !PAT.test(bg)) continue;
+        // A pseudo-layer's own opacity (else the element's) — the faint 2% tint lives here.
+        const op = Math.min(1, parseFloat(s.opacity) || 1);
+        hit = { image: bg, opacity: op };
+        break;
+      }
+      if (hit) {
+        el.setAttribute('data-sc-pattern', hit.image.slice(0, 2000));
+        el.setAttribute('data-sc-pattern-opacity', String(hit.opacity));
+        stamped++;
+      }
+    }
+  });
+  // Reveal lazy-rendered TAB PANELS before serializing, so the static capture carries ALL tab content — a
+  // React tab that renders only the ACTIVE panel (a menu's Main / Dessert lists, a product's Description /
+  // Reviews) otherwise loses every inactive panel from rendered.html. See revealTabPanels().
+  try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ }
+
   // Grab the fully-rendered HTML robustly. `p.content()` can reject with "Execution context was
   // destroyed…" on SPA / preview routes (e.g. an /api/preview endpoint that re-navigates), which used
   // to leave renderedHtml empty → no rendered.html written → the ?html=1 URL path 500'd even though the
@@ -1219,6 +1362,21 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         });
       });
       writeFileSync(`${outdir}/spec.md`, spec);
+      // VISUAL FONT FALLBACK — measure the source's heading + body font AS RENDERED on the source page (the
+      // source browser has the real, possibly-licensed face loaded — no font file needed) and record the
+      // nearest FREE Google font by shape. The PHP converter uses this ONLY when its curated name→lookalike
+      // map misses (an unmapped licensed face), so a heading in e.g. "Neutraface Condensed Titling" resolves
+      // to a shape-matched free face (Staatliches/Bebas…) instead of collapsing to a coarse web-safe fallback.
+      // Same canvas measurement engine that built font-match/font-index.json → cross-modal consistent.
+      // Best-effort: on any failure the fields are simply absent and the map / declared fallback stands.
+      try {
+        await page.goto(srcUrl, { waitUntil: 'load', timeout: 30000 }).catch(() => {});
+        await page.evaluate(async () => { try { await document.fonts.ready; } catch { /* noop */ } });
+        const hv = await matchRenderedFont(page, config.fonts.heading, 5);
+        const bv = await matchRenderedFont(page, config.fonts.body, 5);
+        if (hv && hv.matches && hv.matches.length) { config.fonts.heading_visual = hv.matches[0].name; config.fonts.heading_visual_top = hv.matches.map((m) => m.name); step(`visual font match: ${config.fonts.heading} → ${hv.matches[0].name}`); }
+        if (bv && bv.matches && bv.matches.length) { config.fonts.body_visual = bv.matches[0].name; config.fonts.body_visual_top = bv.matches.map((m) => m.name); }
+      } catch { /* leave visual fields absent */ }
       writeFileSync(`${outdir}/design-config.json`, JSON.stringify(config, null, 2));
       writeFileSync(`${outdir}/pages.json`, JSON.stringify(pages, null, 2));
       writeFileSync(`${outdir}/styleguide.json`, JSON.stringify(styleguide, null, 2));
