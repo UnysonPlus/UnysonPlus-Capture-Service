@@ -3189,7 +3189,16 @@ export function extractDesign() {
     // A cell is CLEAN only if it maps entirely to real shortcodes — a decomposed content column counts
     // only when NONE of its child blocks fell to verbatim `html` (an un-detected overline pill / stat row
     // leaves a code_block, which means the section is design-dense and should stay verbatim for fidelity).
-    const MAPPABLE = ['heading', 'button', 'text', 'image', 'video', 'testimonials', 'pill', 'rating'];
+    // Every block kind to-pages.mjs emits as a first-class shortcode. A kind that HAS a shortcode must
+    // never force its whole section verbatim — that was causing 37 of 44 gate failures across a
+    // 120-site Wegic corpus (feature_list x20, card x6, newsletter x4, logo_grid, rating, pricing,
+    // steps, timeline, accordion), and with it 58% of all hero bands. Keep in sync with the
+    // `b.t === '<kind>'` arms in to-pages.mjs's _blockToNode.
+    const MAPPABLE = [
+      'heading', 'button', 'text', 'image', 'video', 'testimonials', 'pill', 'rating',
+      'feature_list', 'newsletter', 'logo_grid', 'pricing', 'steps', 'timeline',
+      'accordion', 'tabs', 'table', 'progress', 'card', 'cta', 'lottie', 'svg_draw',
+    ];
     // Residual block kinds a decomposed hero column may carry that to-pages emits as a CONTAINED
     // code_block leaf (a small bespoke bit — a rating / social-proof row, an inline list) — these do
     // NOT force the WHOLE section verbatim. A column stays clean if it has ≥1 real block and every
@@ -3328,7 +3337,19 @@ export function extractDesign() {
     if (!sections[i]) return;
     const out = [];
     for (const r of siteRules) {
-      const keep = r.parts.filter((p) => matchesIn(root, stripPseudo(p)));
+      // A section's Custom CSS carries only the rules SPECIFIC to that section. Globally scoped parts
+      // (:root / html / body / *, and the pseudo-element forms stripPseudo folds into '*') are already
+      // emitted once in the global base/util buckets, so re-including them here copied Tailwind's
+      // ~90-property preflight (`*, ::before, ::after { --tw-*: … }`) into EVERY band — a 36.5 KB
+      // median per page, 4.86 MB across a 120-site corpus, of user-facing Advanced-tab CSS for zero
+      // visual gain. A `--tw-*`-only body is dropped outright: nothing reads those custom properties
+      // once Tailwind itself is gone.
+      if (/^\s*(?:--tw-[\w-]+\s*:[^;]*;?\s*)+$/.test(String(r.body || ''))) continue;
+      const keep = r.parts.filter((p) => {
+        const t = stripPseudo(p);
+        if (isGlobalSel(t)) return false;
+        return matchesIn(root, t);
+      });
       if (keep.length) out.push(r.media ? `${r.media}{${keep.join(', ')}{${r.body}}}` : `${keep.join(', ')}{${r.body}}`);
     }
     sections[i].css = out.join('\n');
