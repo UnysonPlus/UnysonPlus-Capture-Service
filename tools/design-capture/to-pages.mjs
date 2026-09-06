@@ -1516,7 +1516,112 @@ export function toPages(capture, opts = {}) {
   // (`overflow:hidden`) so they can't cause a horizontal scrollbar. (c) Ignores pointer events. Its
   // section is given `position:relative; isolation:isolate` (below) so `inset:0` anchors to it and the
   // negative z-index stays within the section instead of sliding behind the page.
-  const decorNode = (html) => codeBlock('<div style="position:absolute;inset:0;z-index:-10;pointer-events:none;overflow:hidden">' + String(html || '') + '</div>');
+  // Parse a CSS linear-gradient into the background-pro `gradient.data` shape. Tailwind emits
+  // `linear-gradient(to bottom, <color> <pos>, …)` or an `NNdeg` angle, which is the subset handled
+  // here; anything else returns null and the caller keeps it as a scoped background-image rule.
+  const GRAD_DIR = { 'to top': 0, 'to right': 90, 'to bottom': 180, 'to left': 270,
+                     'to top right': 45, 'to bottom right': 135, 'to bottom left': 225, 'to top left': 315 };
+  const gradientToStops = (img) => {
+    const m = String(img || '').match(/^linear-gradient\(([\s\S]+)\)$/i);
+    if (!m) return null;
+    const parts = []; let depth = 0, buf = '';
+    for (const ch of m[1]) {                       // split on TOP-LEVEL commas only (rgba(…) is safe)
+      if (ch === '(') depth++;
+      if (ch === ')') depth--;
+      if (ch === ',' && depth === 0) { parts.push(buf.trim()); buf = ''; continue; }
+      buf += ch;
+    }
+    if (buf.trim()) parts.push(buf.trim());
+    if (parts.length < 2) return null;
+    let angle = 180;
+    if (/^(to\s|[-0-9.]+deg)/i.test(parts[0])) {
+      const head = parts.shift().trim().toLowerCase();
+      if (head.endsWith('deg')) angle = Math.round(parseFloat(head)) || 0;
+      else if (GRAD_DIR[head] != null) angle = GRAD_DIR[head];
+      else return null;
+    }
+    const stops = [];
+    parts.forEach((p, i) => {
+      const cm = p.match(/^((?:rgba?\([^)]*\)|#[0-9a-f]{3,8}|[a-z]+))\s*([0-9.]+%)?$/i);
+      if (!cm) return;
+      stops.push({ color: cm[1], position: cm[2] ? parseFloat(cm[2]) : Math.round((i / Math.max(1, parts.length - 1)) * 100) });
+    });
+    return stops.length >= 2 ? { type: 'linear', angle, stops } : null;
+  };
+  const decorTransparent = (c) => !c || /^transparent$/i.test(c) || /rgba?\(\s*0\s*,\s*0\s*,\s*0\s*,\s*0\s*\)/i.test(c);
+
+  // A DECORATIVE layer (a scrim, a gradient wash, a blur glow, a pattern overlay) is an empty
+  // positioned box whose entire purpose is its background. Emitting it as a code_block made it the
+  // single largest source of raw markup in a converted page — 300 of 359 unmapped `html` leaves
+  // (83.6%) across a 120-site Wegic corpus — and left it uneditable. It is a Div with a background,
+  // so emit exactly that, using the paint captured alongside the block (capture-extract stamps
+  // `paint` because rawHtmlOf() carries no data-sc-cs for the engine to read).
+  //
+  // Falls back to the original verbatim code_block when there is no paint to reproduce, so the
+  // "NOTHING DROPPED" invariant holds and the two call sites never see a null.
+  const decorNode = (html, paint) => {
+    const legacy = () => codeBlock('<div style="position:absolute;inset:0;z-index:-10;pointer-events:none;overflow:hidden">' + String(html || '') + '</div>');
+    const p = paint;
+    if (!p) return legacy();
+    const grad    = p.bgImage ? gradientToStops(p.bgImage) : null;
+    const hasFill = !decorTransparent(p.bg);
+    if (!hasFill && !grad && !p.bgImage && !p.blur) return legacy();
+
+    const node = stamp(clone('flexbox'));
+    const atts = node.atts;
+    const decorSize = [];      // width/height, filled by the placement block when the layer is edge-anchored
+    atts.html_tag = 'div';
+    atts.display  = 'block';
+    if (hasFill && atts.background && atts.background.color && atts.background.color.value) {
+      atts.background.color.value.custom = p.bg;
+    }
+    if (grad && atts.background && atts.background.gradient) { atts.background.gradient.data = grad; }
+
+    // `element_position` is a MULTI-PICKER — { position, <position>:{ pos_offsets, pos_zindex } } —
+    // not a bare string (see shortcode-get-option-helpers.php in the shortcodes extension).
+    //
+    // ⚠️ getComputedStyle RESOLVES an `auto` offset to a used pixel value, so all four sides always
+    // read as numbers. Pinning all four over-constrains the box: it stretches to the measured rect,
+    // its declared size (`w-32 h-32`) is discarded, and the offsets — measured against the 1440px
+    // capture viewport — are wrong at every other width. Source `absolute top-32 -right-10 w-32 h-32`
+    // came out as {top:128, right:-40, bottom:644, left:1352}. So anchor to the side the source
+    // actually used (the nearer edge on each axis) and carry the box's own size instead.
+    if (p.position === 'absolute' || p.position === 'fixed') {
+      const AUTO = { value: '', unit: 'auto' };
+      const px   = (n) => ({ value: String(Math.round(n)), unit: 'px' });
+      const num  = (v) => { const n = parseFloat(v); return Number.isNaN(n) ? null : n; };
+      const t = num(p.top), r = num(p.right), b = num(p.bottom), l = num(p.left);
+      const off = { top: AUTO, right: AUTO, bottom: AUTO, left: AUTO };
+      // A full-bleed `inset-0` layer genuinely declares all four; keep it stretched (no size).
+      const insetAll = [t, r, b, l].every((v) => v === 0);
+      if (insetAll) {
+        off.top = px(0); off.right = px(0); off.bottom = px(0); off.left = px(0);
+      } else {
+        if (t != null && (b == null || Math.abs(t) <= Math.abs(b))) off.top = px(t); else if (b != null) off.bottom = px(b);
+        if (r != null && (l == null || Math.abs(r) <= Math.abs(l))) off.right = px(r); else if (l != null) off.left = px(l);
+        // Anchored on one edge per axis, the layer needs its own measured size to keep its shape.
+        if (p.w) decorSize.push('width:' + p.w + 'px');
+        if (p.h) decorSize.push('height:' + p.h + 'px');
+      }
+      atts.element_position = {
+        position: p.position,
+        [p.position]: { pos_offsets: off, pos_zindex: p.zIndex || '' },
+      };
+    }
+    // Options added in shortcodes ext 1.14.69 (Styling → Box Style) precisely so a decorative layer
+    // no longer needs raw CSS for its compositing.
+    if (p.blend) { atts.blend_mode = p.blend; }
+    if (p.blur)  { atts.backdrop_blur = { value: String(parseFloat(p.blur) || ''), unit: 'px' }; }
+
+    // The residue with no option yet: radius (a round glow blob), opacity, an unparsed gradient, and
+    // the explicit size a positioned blob needs. One short scoped rule — not a whole code block.
+    const decl = decorSize.slice();
+    if (p.radius)  decl.push('border-radius:' + p.radius);
+    if (p.opacity) decl.push('opacity:' + p.opacity);
+    if (p.bgImage && !grad) decl.push('background-image:' + p.bgImage);
+    if (decl.length) atts.custom_css = 'selector{' + decl.join(';') + ';}';
+    return node;
+  };
   // Enable the source reveal animation on a node's Animations tab — ONLY for the standard
   // { enable, yes:{effect} } shape (heading/text/button/image/counter/testimonials/icon_box). A node
   // without that shape (the interactive widgets built inline) is left at its default, mirroring the PHP
@@ -1551,7 +1656,7 @@ export function toPages(capture, opts = {}) {
     if (fg && !/^#?(fff|ffffff)$/i.test(fg.replace('#', ''))) atts.custom_css = ('selector .fw-nl__btn{color:' + fg + ' !important;}');
     return { type: 'simple', shortcode: 'newsletter', _items: [], atts };
   };
-  const _blockToNode = (b) => (b.decor ? decorNode(b.html) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
+  const _blockToNode = (b) => (b.decor ? decorNode(b.html, b.paint) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the

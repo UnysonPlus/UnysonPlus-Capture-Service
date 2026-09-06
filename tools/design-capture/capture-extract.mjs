@@ -2772,7 +2772,30 @@ export function extractDesign() {
           // `decor:true` marks a full-bleed section DECORATION (an absolute bg / glow layer). It's kept
           // verbatim (nothing dropped) but must NOT count against the clean-hero gate — a decorative
           // backdrop shouldn't force an otherwise-decomposable section to stay wholly verbatim.
-          if (dcls !== '' || dsty !== '') { out.push({ t: 'html', html: rawHtmlOf(child, true), decor: true }); }
+          if (dcls !== '' || dsty !== '') {
+            // Carry the layer's COMPUTED paint so to-pages can rebuild it as a NATIVE Div instead of
+            // raw markup. Reading it here is the only option: rawHtmlOf() does not stamp data-sc-cs,
+            // so the downstream engine would otherwise see only a class list it cannot resolve
+            // (Tailwind arbitrary values and shadcn CSS-variable palettes both need the computed
+            // value). Measured on a 120-site Wegic corpus: 300 of 359 unmapped `html` leaves (83.6%)
+            // are these layers, making them the single largest source of code_blocks.
+            const dr = child.getBoundingClientRect();
+            out.push({
+              t: 'html', html: rawHtmlOf(child, true), decor: true,
+              paint: {
+                bg:      dcs.backgroundColor || '',
+                bgImage: (dcs.backgroundImage && dcs.backgroundImage !== 'none') ? dcs.backgroundImage : '',
+                blur:    (dcs.filter && dcs.filter !== 'none') ? ((dcs.filter.match(/blur\(([^)]+)\)/) || [])[1] || '') : '',
+                blend:   (dcs.mixBlendMode && dcs.mixBlendMode !== 'normal') ? dcs.mixBlendMode : '',
+                radius:  (dcs.borderRadius && dcs.borderRadius !== '0px') ? dcs.borderRadius : '',
+                opacity: (dcs.opacity && dcs.opacity !== '1') ? dcs.opacity : '',
+                position: dcs.position,
+                top: dcs.top, right: dcs.right, bottom: dcs.bottom, left: dcs.left,
+                zIndex: (dcs.zIndex && dcs.zIndex !== 'auto') ? dcs.zIndex : '',
+                w: Math.round(dr.width), h: Math.round(dr.height),
+              },
+            });
+          }
           continue;
         }
       }
