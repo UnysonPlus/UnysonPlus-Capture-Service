@@ -20,3 +20,10 @@ responses*.csv
 # OS / editor cruft
 .DS_Store
 Thumbs.db
+
+# local corpus/run artifacts (never in the clone)
+batch/
+**/batch/
+.share-last-send
+_active.json
+_ai.json

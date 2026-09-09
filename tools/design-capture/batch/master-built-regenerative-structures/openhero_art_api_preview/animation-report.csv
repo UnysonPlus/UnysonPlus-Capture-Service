@@ -1,9 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#0,pinned for ~4319px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-trace,trace#1,pinned for ~4319px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-trace,trace#56,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
-trace,trace#59,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
-hover,.amber-button,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
-hover,.rail-nav a,color change on hover,interaction: {effect:'color_shift'},medium
-hover,.monolith,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
-hover,.footer-links a,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'color_shift'},medium

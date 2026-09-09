@@ -1,5 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-css-animation,.typed,keyframes 'typedIn' 0.8s,entrance animation (Animate.css picker),low
-hover,.audit-nav a,color change on hover,interaction: {effect:'color_shift'},medium
-hover,.aero,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
-hover,aero,"transform, boxShadow, borderColor change on hover",interaction: {effect:'color_shift'},medium

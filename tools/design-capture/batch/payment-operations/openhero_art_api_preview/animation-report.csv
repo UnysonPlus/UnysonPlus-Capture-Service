@@ -1,7 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#5,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
-trace,trace#6,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
-hover,.apple-sharpness,"background-color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'} or glow_border,medium
-hover,.liquid-btn,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
-hover,.nav-link,color change on hover,interaction: {effect:'color_shift'},medium
-hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium

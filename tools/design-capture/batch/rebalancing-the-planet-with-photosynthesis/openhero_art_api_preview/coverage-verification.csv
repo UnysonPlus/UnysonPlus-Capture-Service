@@ -1,2 +1,0 @@
-page,s_index,s_class,property,src_uses,significant,reason
-home,0,min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-32 pb-20 relative,background-image,1,yes,background-image lost

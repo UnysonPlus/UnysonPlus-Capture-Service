@@ -1,6 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#0,pinned for ~2799px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-css-animation,.kinetic-header,keyframes 'weight-shift' auto,entrance animation (Animate.css picker),low
-hover,.inverted-impact,"animation-duration, animation-timing-function, animation-delay, animation-iteration-count change on hover",interaction: {effect:'color_shift'},medium
-hover,.hover\:text-silver-lens,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
-hover,inverted-impact bg-denim-black text-stark-white px-12 py-5 f,"background, color change on hover",interaction: {effect:'color_shift'},medium

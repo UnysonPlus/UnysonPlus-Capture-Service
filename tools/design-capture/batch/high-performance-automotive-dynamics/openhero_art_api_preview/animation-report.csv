@@ -1,5 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#4,document position drifts -79px over 638px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.12),medium
-css-animation,.text-kinetic,"infinite keyframes 'kinetic-shimmer' (background-position-x,background-position-y)",physics float/pulse or backgrounds module,low
-css-animation,.native-scroll-timeline,keyframes 'scroll-reveal' auto,entrance animation (Animate.css picker),low
-hover,.liquid-mercury-btn,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium

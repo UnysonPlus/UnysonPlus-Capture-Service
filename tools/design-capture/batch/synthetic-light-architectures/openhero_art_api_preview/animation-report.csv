@@ -1,8 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#0,pinned for ~2661px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-css-animation,.wind,infinite keyframes 'wind' (transform),physics float/pulse or backgrounds module,low
-css-animation,.hero-video,infinite keyframes 'zoom' (transform),physics float/pulse or backgrounds module,low
-css-animation,.marquee,infinite keyframes 'marquee' translating X,marquee fx: {mode:'left'},high
-hover,.dock-btn,"transform, background-image, background-position-x, background-position-y change on hover",interaction: {effect:'lift'},medium
-hover,.cta-orb,"transform, box-shadow change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
-hover,dock-btn,"transform, background change on hover",interaction: {effect:'color_shift'},medium

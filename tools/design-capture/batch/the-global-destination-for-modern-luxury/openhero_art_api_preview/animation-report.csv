@@ -1,9 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#0,pinned for ~867px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-trace,trace#1,document position drifts -135px over 900px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.15),medium
-trace,trace#3,document position drifts -304px over 900px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.34),medium
-trace,trace#5,document position drifts -135px over 900px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.15),medium
-trace,trace#6,document position drifts -289px over 900px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.32),medium
-css-animation,.z-plane-1,keyframes 'parallax-float' auto,entrance animation (Animate.css picker),low
-css-animation,.z-plane-2,keyframes 'parallax-deep' auto,entrance animation (Animate.css picker),low
-hover,.sculpted-volume,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium

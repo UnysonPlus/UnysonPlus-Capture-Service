@@ -1,5 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#0,pinned for ~2425px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-css-animation,.reveal-text,keyframes 'reveal-fade' auto,entrance animation (Animate.css picker),low
-css-animation,.timeline-line,keyframes 'grow-line' auto,entrance animation (Animate.css picker),low
-hover,.matte-silk,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium

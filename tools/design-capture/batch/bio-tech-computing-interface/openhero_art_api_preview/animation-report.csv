@@ -1,6 +1,0 @@
-kind,target,evidence,suggested_fx,confidence
-trace,trace#1,pinned for ~1545px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
-css-animation,.synaptic-shimmer,keyframes 'synaptic-pulse' auto,entrance animation (Animate.css picker),low
-css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
-hover,.organic-volume,"transform, border-top-left-radius, border-top-right-radius, border-bottom-right-radius change on hover",interaction: {effect:'lift'},medium
-hover,.bio-elastic-btn,"transform, border-top-left-radius, border-top-right-radius, border-bottom-right-radius change on hover",interaction: {effect:'lift'},medium
