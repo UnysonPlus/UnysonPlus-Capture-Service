@@ -1,0 +1,631 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-screen overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\nh1{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-10{margin-top: 2.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-\\[1700px\\]{max-width: 1700px;}\n.max-w-xl{max-width: 36rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.overflow-visible{overflow: visible;}\n.rounded-\\[2\\.2rem\\]{border-radius: 2.2rem;}\n.rounded-full{border-radius: 9999px;}\n.bg-\\[\\#d8c1a3\\]\\/50{background-color: rgba(216, 193, 163, 0.5);}\n.bg-white\\/35{background-color: rgba(255, 255, 255, 0.35);}\n.object-cover{object-fit: cover;}\n.p-7{padding: 1.75rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.py-6{padding-top: 1.5rem; padding-bottom: 1.5rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.uppercase{text-transform: uppercase;}\n.leading-9{line-height: 2.25rem;}\n.leading-\\[0\\.88\\]{line-height: 0.88;}\n.tracking-\\[0\\.25em\\]{letter-spacing: 0.25em;}\n.text-\\[\\#231f19\\]{--tw-text-opacity: 1; color: rgb(35 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#43392d\\]{--tw-text-opacity: 1; color: rgb(67 57 45 / var(--tw-text-opacity, 1));}\n.text-\\[\\#4a4339\\]{--tw-text-opacity: 1; color: rgb(74 67 57 / var(--tw-text-opacity, 1));}\n.glass-smoke{backdrop-filter: blur(15px) contrast(0.95);}\n.silk-touch{position: relative; overflow: hidden; border-radius: 999px; background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(241, 233, 219, 0.9)); box-shadow: rgba(255, 255, 255, 0.9) 0px 1px 0px inset, rgba(100, 80, 54, 0.08) 0px 18px 40px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;}\n.silk-touch:hover{transform: translateY(2px); box-shadow: rgba(109, 84, 54, 0.09) 0px 8px 20px inset, rgba(255, 255, 255, 0.8) 0px -1px 0px inset;}\n.kinetic-title span{display: inline-block; opacity: 0; transform: translateY(80px); animation: 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0s 1 normal forwards running reveal;}\n.kinetic-title span:nth-child(3){animation-delay: 0.16s;}\n.hero-video{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: zoomVideo; animation-range: normal; animation-timeline: scroll(root);}\n@media (min-width: 1280px){.xl\\:grid-cols-\\[\\.42fr_\\.58fr\\]{grid-template-columns: 0.42fr 0.58fr;}}\n@media (min-width: 1280px){.xl\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}\n@media (min-width: 1280px){.xl\\:px-20{padding-left: 5rem; padding-right: 5rem;}}",
+          "computed": {
+            "color": "rgb(34, 31, 26)",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"mx-auto grid min-h-screen max-w-[1700px] grid-cols-1 xl:grid-cols-[.42fr_.58fr]\">                 <div class=\"relative z-20 flex items-center px-8 py-20 xl:px-20\">                     <div class=\"max-w-2xl\">                         <h1 class=\"kinetic-title text-[clamp(4rem,8vw,8rem)] leading-[0.88] text-[#231f19]\">                             <span>The Art</span><br>                             <span>of</span><br>                             <span>Living</span>                         </h1>                         <p class=\"glass-smoke mt-10 max-w-xl rounded-[2.2rem] bg-white/35 p-7 text-lg leading-9 text-[#4a4339]\">                             Sculptural furniture systems inspired by tactile materiality, mid-century restraint, and the                             silence of architectural space.                         </p>                         <div class=\"mt-10 flex flex-wrap gap-4\">                             <button class=\"silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d]\">                                 Explore Collection                             </button>                             <button class=\"rounded-full bg-[#d8c1a3]/50 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d] glass-smoke\">                                 View Residences                             </button>                         </div>                     </div>                 </div>                 <div class=\"relative flex items-center justify-center overflow-visible px-4 py-6 xl:px-10\">                     <div class=\"flex w-full\">                         <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover \">                             <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                         </video>                         <div class=\"absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.18))]\">                         </div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "relative z-20 flex items-center px-8 py-20 xl:px-20",
+                  "colId": "sccol-0",
+                  "cw": 5,
+                  "html": "                     <div class=\"max-w-2xl\">                         <h1 class=\"kinetic-title text-[clamp(4rem,8vw,8rem)] leading-[0.88] text-[#231f19]\">                             <span>The Art</span><br>                             <span>of</span><br>                             <span>Living</span>                         </h1>                         <p class=\"glass-smoke mt-10 max-w-xl rounded-[2.2rem] bg-white/35 p-7 text-lg leading-9 text-[#4a4339]\">                             Sculptural furniture systems inspired by tactile materiality, mid-century restraint, and the                             silence of architectural space.                         </p>                         <div class=\"mt-10 flex flex-wrap gap-4\">                             <button class=\"silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d]\">                                 Explore Collection                             </button>                             <button class=\"rounded-full bg-[#d8c1a3]/50 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d] glass-smoke\">                                 View Residences                             </button>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "heading",
+                      "level": 1,
+                      "html": "The Art<br> of<br> Living",
+                      "text": "The Art of Living",
+                      "tag": "h1",
+                      "cls": "kinetic-title text-[clamp(4rem,8vw,8rem)] leading-[0.88] text-[#231f19]",
+                      "wrapCls": "max-w-2xl",
+                      "fontSize": "115.2px",
+                      "fontWeight": "400",
+                      "color": "rgb(35, 31, 25)",
+                      "marginBottom": "0px",
+                      "marginTop": "0px",
+                      "lineHeight": "101.376px",
+                      "letterSpacing": "-5.76px",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"glass-smoke mt-10 max-w-xl rounded-[2.2rem] bg-white/35 p-7 text-lg leading-9 text-[#4a4339]\">                             Sculptural furniture systems inspired by tactile materiality, mid-century restraint, and the                             silence of architectural space.                         </p>",
+                      "text": "Sculptural furniture systems inspired by tactile materiality, mid-century restraint, and the silence of architectural space.",
+                      "tag": "p",
+                      "cls": "glass-smoke mt-10 max-w-xl rounded-[2.2rem] bg-white/35 p-7 text-lg leading-9 text-[#4a4339]",
+                      "fontSize": "18px",
+                      "color": "rgb(74, 67, 57)",
+                      "lineHeight": "36px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "400",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "button",
+                      "label": "Explore Collection",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+                      "tag": "button",
+                      "cls": "silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d]",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "20px 32px",
+                      "height": "56.5px",
+                      "radius": "999px",
+                      "lineHeight": "16.5px",
+                      "fontSize": "11px",
+                      "fontWeight": "400",
+                      "hover": null,
+                      "groupRow": true,
+                      "groupFirst": true,
+                      "groupLast": false,
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgb(67, 57, 45)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    },
+                    {
+                      "t": "button",
+                      "label": "View Residences",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+                      "tag": "button",
+                      "cls": "rounded-full bg-[#d8c1a3]/50 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d] glass-smoke",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "20px 32px",
+                      "height": "56.5px",
+                      "radius": "9999px",
+                      "lineHeight": "16.5px",
+                      "fontSize": "11px",
+                      "fontWeight": "400",
+                      "hover": null,
+                      "groupRow": true,
+                      "groupFirst": false,
+                      "groupLast": true,
+                      "bs": {
+                        "bg": "rgba(216, 193, 163, 0.5)",
+                        "fg": "rgb(67, 57, 45)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "relative flex items-center justify-center overflow-visible px-4 py-6 xl:px-10",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                     <div class=\"flex w-full\">                         <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover \">                             <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                         </video>                         <div class=\"absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.18))]\">                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"mx-auto grid min-h-screen max-w-[1700px] grid-cols-1 xl:grid-cols-[.42fr_.58fr]\">                 <div class=\"relative z-20 flex items-center px-8 py-20 xl:px-20\" data-sc-col=\"sccol-0\">                     <div class=\"max-w-2xl\">                         <h1 class=\"kinetic-title text-[clamp(4rem,8vw,8rem)] leading-[0.88] text-[#231f19]\">                             <span>The Art</span><br>                             <span>of</span><br>                             <span>Living</span>                         </h1>                         <p class=\"glass-smoke mt-10 max-w-xl rounded-[2.2rem] bg-white/35 p-7 text-lg leading-9 text-[#4a4339]\">                             Sculptural furniture systems inspired by tactile materiality, mid-century restraint, and the                             silence of architectural space.                         </p>                         <div class=\"mt-10 flex flex-wrap gap-4\">                             <button class=\"silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d]\" data-sc-col=\"sccol-1\">                                 Explore Collection                             </button>                             <button class=\"rounded-full bg-[#d8c1a3]/50 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#43392d] glass-smoke\" data-sc-col=\"sccol-2\">                                 View Residences                             </button>                         </div>                     </div>                 </div>                 <div class=\"relative flex items-center justify-center overflow-visible px-4 py-6 xl:px-10\" data-sc-col=\"sccol-3\">                     <div class=\"flex w-full\">                         <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover \">                             <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                         </video>                         <div class=\"absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.18))]\">                         </div>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "grain-oak relative overflow-hidden px-6 py-28",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\nh2, h3{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-4{margin-top: 1rem;}\n.mt-5{margin-top: 1.25rem;}\n.flex{display: flex;}\n.h-\\[22rem\\]{height: 22rem;}\n.h-\\[34rem\\]{height: 34rem;}\n.h-\\[42rem\\]{height: 42rem;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-\\[1700px\\]{max-width: 1700px;}\n.columns-1{columns: 1;}\n.items-end{align-items: flex-end;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-\\[5rem\\]{border-radius: 5rem;}\n.rounded-\\[6rem\\]{border-radius: 6rem;}\n.rounded-\\[7rem\\]{border-radius: 7rem;}\n.rounded-\\[8rem\\]{border-radius: 8rem;}\n.bg-\\[\\#e4d4bf\\]\\/70{background-color: rgba(228, 212, 191, 0.7);}\n.bg-\\[\\#f4ede4\\]{--tw-bg-opacity: 1; background-color: rgb(244 237 228 / var(--tw-bg-opacity, 1));}\n.bg-white\\/40{background-color: rgba(255, 255, 255, 0.4);}\n.bg-white\\/50{background-color: rgba(255, 255, 255, 0.5);}\n.object-cover{object-fit: cover;}\n.p-5{padding: 1.25rem;}\n.p-7{padding: 1.75rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-28{padding-top: 7rem; padding-bottom: 7rem;}\n.py-6{padding-top: 1.5rem; padding-bottom: 1.5rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.tracking-\\[0\\.28em\\]{letter-spacing: 0.28em;}\n.tracking-\\[0\\.35em\\]{letter-spacing: 0.35em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-\\[\\#231f19\\]{--tw-text-opacity: 1; color: rgb(35 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#241f19\\]{--tw-text-opacity: 1; color: rgb(36 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#2a241c\\]{--tw-text-opacity: 1; color: rgb(42 36 28 / var(--tw-text-opacity, 1));}\n.text-\\[\\#5e4c39\\]{--tw-text-opacity: 1; color: rgb(94 76 57 / var(--tw-text-opacity, 1));}\n.text-\\[\\#7a6b5c\\]{--tw-text-opacity: 1; color: rgb(122 107 92 / var(--tw-text-opacity, 1));}\n.text-\\[\\#7b6d5b\\]{--tw-text-opacity: 1; color: rgb(123 109 91 / var(--tw-text-opacity, 1));}\n.backdrop-blur-2xl{--tw-backdrop-blur: blur(40px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.grain-oak{background-image: linear-gradient(rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), repeating-linear-gradient(90deg, rgba(102, 75, 48, 0.05) 0px, rgba(102, 75, 48, 0.05) 1px, transparent 1px, transparent 7px);}\n.arch-card{border-radius: 10rem 10rem 2.5rem 2.5rem;}\n.section-rise{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: rise; animation-timeline: view(); animation-range: entry 10% cover 40%;}\n.float-slow{animation: 8s ease-in-out 0s infinite normal none running floaty;}\n@media (min-width: 768px){.md\\:columns-2{columns: 2;}}\n@media (min-width: 1280px){.xl\\:columns-3{columns: 3;}}",
+          "computed": {
+            "backgroundImage": "linear-gradient(rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), repeating-linear-gradient(90deg, rgba(102, 75, 48, 0.05) 0px, rgba(102, 75, 48, 0.05) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 7px)",
+            "color": "rgb(34, 31, 26)",
+            "padding": "112px 24px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"mx-auto max-w-[1700px]\">                 <div class=\"section-rise mb-16 max-w-4xl\">                     <div class=\"text-[10px] uppercase tracking-[0.35em] text-[#7a6b5c]\">                         The Collection Arch                     </div>                     <h2 class=\"mt-5 text-[clamp(3rem,6vw,5.8rem)] leading-[0.9] text-[#241f19]\">                         Sculptural forms curated like a private gallery.                     </h2>                 </div>                 <div class=\"columns-1 gap-8 md:columns-2 xl:columns-3\">                     <article class=\"arch-card section-rise mb-8 overflow-hidden bg-white/50 p-5 backdrop-blur-2xl\">                         <div class=\"h-[34rem] overflow-hidden rounded-[7rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-full w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"px-4 py-6\">                             <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#7b6d5b]\">                                 Bouclé Composition                             </div>                             <h3 class=\"mt-4 text-4xl text-[#231f19]\">                                 Crescent Sofa                             </h3>                         </div>                     </article>                     <article class=\"arch-card section-rise float-slow mb-8 overflow-hidden bg-[#e4d4bf]/70 p-5\">                         <div class=\"h-[22rem] overflow-hidden rounded-[6rem] bg-[#f4ede4] p-5\">                             <div class=\"flex h-full items-end rounded-[5rem] bg-[linear-gradient(180deg,#e4d3bd,#cfb393)] p-7\">                                 <div>                                     <div class=\"text-[10px] uppercase tracking-[0.28em] text-[#5e4c39]\">                                         Mid-century modernism                                     </div>                                     <div class=\"mt-4 text-5xl font-semibold text-[#2a241c]\">                                         1972                                     </div>                                 </div>                             </div>                         </div>                     </article>                     <article class=\"arch-card section-rise mb-8 overflow-hidden bg-white/40 p-5 backdrop-blur-2xl\">                         <div class=\"h-[42rem] overflow-hidden rounded-[8rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-full w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"px-4 py-6\">                             <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#7b6d5b]\">                                 Artisanal joinery                             </div>                             <h3 class=\"mt-4 text-4xl text-[#231f19]\">                                 Walnut Arc                             </h3>                         </div>                     </article>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "The Collection Arch",
+              "text": "The Collection Arch",
+              "cls": "text-[10px] uppercase tracking-[0.35em] text-[#7a6b5c]",
+              "pill": false,
+              "color": "rgb(122, 107, 92)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "3.5px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Sculptural forms curated like a private gallery.",
+              "text": "Sculptural forms curated like a private gallery.",
+              "tag": "h2",
+              "cls": "mt-5 text-[clamp(3rem,6vw,5.8rem)] leading-[0.9] text-[#241f19]",
+              "wrapCls": "",
+              "fontSize": "86.4px",
+              "fontWeight": "400",
+              "color": "rgb(36, 31, 25)",
+              "marginBottom": "0px",
+              "marginTop": "20px",
+              "lineHeight": "77.76px",
+              "letterSpacing": "-4.32px",
+              "align": "left"
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+              "poster": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+              "bg": false,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " h-full w-full object-cover h-[34rem] overflow-hidden rounded-[7rem] arch-card section-rise mb-8 overflow-hidden bg-white/50 p-5 backdrop-blur-2xl columns-1 gap-8 md:columns-2 xl:columns-3",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "overline",
+              "html": "Bouclé Composition",
+              "text": "Bouclé Composition",
+              "cls": "text-[10px] uppercase tracking-[0.3em] text-[#7b6d5b]",
+              "pill": false,
+              "color": "rgb(123, 109, 91)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 3,
+              "html": "Crescent Sofa",
+              "text": "Crescent Sofa",
+              "tag": "h3",
+              "cls": "mt-4 text-4xl text-[#231f19]",
+              "wrapCls": "px-4 py-6",
+              "fontSize": "36px",
+              "fontWeight": "400",
+              "color": "rgb(35, 31, 25)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "40px",
+              "letterSpacing": "-1.8px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"text-[10px] uppercase tracking-[0.28em] text-[#5e4c39]\">                                         Mid-century modernism                                     </div>",
+              "text": "Mid-century modernism",
+              "tag": "div",
+              "cls": "text-[10px] uppercase tracking-[0.28em] text-[#5e4c39]",
+              "fontSize": "10px",
+              "color": "rgb(94, 76, 57)",
+              "lineHeight": "15px",
+              "letterSpacing": "2.8px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"mt-4 text-5xl font-semibold text-[#2a241c]\">                                         1972                                     </div>",
+              "text": "1972",
+              "tag": "div",
+              "cls": "mt-4 text-5xl font-semibold text-[#2a241c]",
+              "fontSize": "48px",
+              "color": "rgb(42, 36, 28)",
+              "lineHeight": "48px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "600",
+              "textTransform": "none"
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+              "poster": "https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living",
+              "bg": false,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " h-full w-full object-cover h-[42rem] overflow-hidden rounded-[8rem] arch-card section-rise mb-8 overflow-hidden bg-white/40 p-5 backdrop-blur-2xl columns-1 gap-8 md:columns-2 xl:columns-3",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "overline",
+              "html": "Artisanal joinery",
+              "text": "Artisanal joinery",
+              "cls": "text-[10px] uppercase tracking-[0.3em] text-[#7b6d5b]",
+              "pill": false,
+              "color": "rgb(123, 109, 91)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 3,
+              "html": "Walnut Arc",
+              "text": "Walnut Arc",
+              "tag": "h3",
+              "cls": "mt-4 text-4xl text-[#231f19]",
+              "wrapCls": "px-4 py-6",
+              "fontSize": "36px",
+              "fontWeight": "400",
+              "color": "rgb(35, 31, 25)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "40px",
+              "letterSpacing": "-1.8px",
+              "align": "left"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "woven-layer relative overflow-hidden py-28",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\nh2{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-20{margin-top: 5rem;}\n.mt-3{margin-top: 0.75rem;}\n.mt-4{margin-top: 1rem;}\n.mt-5{margin-top: 1.25rem;}\n.mt-6{margin-top: 1.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[30rem\\]{height: 30rem;}\n.w-full{width: 100%;}\n.min-w-\\[28rem\\]{min-width: 28rem;}\n.min-w-\\[32rem\\]{min-width: 32rem;}\n.min-w-\\[48rem\\]{min-width: 48rem;}\n.max-w-5xl{max-width: 64rem;}\n.max-w-\\[1700px\\]{max-width: 1700px;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.overflow-x-auto{overflow-x: auto;}\n.rounded-\\[3rem\\]{border-radius: 3rem;}\n.rounded-\\[4rem\\]{border-radius: 4rem;}\n.bg-\\[\\#d7c0a3\\]\\/40{background-color: rgba(215, 192, 163, 0.4);}\n.bg-\\[\\#efe6db\\]\\/80{background-color: rgba(239, 230, 219, 0.8);}\n.bg-\\[\\#f4ece2\\]\\/70{background-color: rgba(244, 236, 226, 0.7);}\n.object-cover{object-fit: cover;}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-28{padding-top: 7rem; padding-bottom: 7rem;}\n.pb-6{padding-bottom: 1.5rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.uppercase{text-transform: uppercase;}\n.leading-8{line-height: 2rem;}\n.leading-\\[0\\.92\\]{line-height: 0.92;}\n.tracking-\\[0\\.35em\\]{letter-spacing: 0.35em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-\\[\\#231f19\\]{--tw-text-opacity: 1; color: rgb(35 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#241f19\\]{--tw-text-opacity: 1; color: rgb(36 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#251f19\\]{--tw-text-opacity: 1; color: rgb(37 31 25 / var(--tw-text-opacity, 1));}\n.text-\\[\\#4f473e\\]{--tw-text-opacity: 1; color: rgb(79 71 62 / var(--tw-text-opacity, 1));}\n.text-\\[\\#5f564b\\]{--tw-text-opacity: 1; color: rgb(95 86 75 / var(--tw-text-opacity, 1));}\n.text-\\[\\#6d5c49\\]{--tw-text-opacity: 1; color: rgb(109 92 73 / var(--tw-text-opacity, 1));}\n.text-\\[\\#776858\\]{--tw-text-opacity: 1; color: rgb(119 104 88 / var(--tw-text-opacity, 1));}\n.text-\\[\\#7a6b5c\\]{--tw-text-opacity: 1; color: rgb(122 107 92 / var(--tw-text-opacity, 1));}\n.text-\\[\\#7c6d5b\\]{--tw-text-opacity: 1; color: rgb(124 109 91 / var(--tw-text-opacity, 1));}\n.backdrop-blur-2xl{--tw-backdrop-blur: blur(40px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.woven-layer{background-image: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)), repeating-linear-gradient(0deg, rgba(113, 88, 58, 0.04) 0px, rgba(113, 88, 58, 0.04) 1px, transparent 1px, transparent 5px), repeating-linear-gradient(90deg, rgba(113, 88, 58, 0.04) 0px, rgba(113, 88, 58, 0.04) 1px, transparent 1px, transparent 5px);}\n.section-rise{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: rise; animation-timeline: view(); animation-range: entry 10% cover 40%;}\n.macro-track{scrollbar-width: none;}\n.macro-track::-webkit-scrollbar{display: none;}",
+          "computed": {
+            "backgroundImage": "linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)), repeating-linear-gradient(0deg, rgba(113, 88, 58, 0.04) 0px, rgba(113, 88, 58, 0.04) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 5px), repeating-linear-gradient(90deg, rgba(113, 88, 58, 0.04) 0px, rgba(113, 88, 58, 0.04) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 5px)",
+            "color": "rgb(34, 31, 26)",
+            "padding": "112px 0px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"mx-auto max-w-[1700px]\">                 <div class=\"section-rise px-6\">                     <div class=\"text-[10px] uppercase tracking-[0.35em] text-[#7a6b5c]\">                         Tactile Storytelling                     </div>                     <h2 class=\"mt-5 max-w-5xl text-[clamp(3rem,6vw,6rem)] leading-[0.92] text-[#241f19]\">                         Material transitions shaped through touch, grain, and shadow.                     </h2>                 </div>                 <div class=\"macro-track mt-20 flex gap-8 overflow-x-auto px-6 pb-6\">                     <article class=\"section-rise min-w-[32rem] rounded-[4rem] bg-[#f4ece2]/70 p-6 backdrop-blur-2xl\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 flex items-end justify-between\">                             <div>                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#776858]\">                                     Wool composition                                 </div>                                 <div class=\"mt-3 text-4xl text-[#251f19]\">                                     Bouclé Ivory                                 </div>                             </div>                             <div class=\"text-sm text-[#5f564b]\">                                 Soft thermal layering                             </div>                         </div>                     </article>                     <article class=\"section-rise min-w-[48rem] rounded-[4rem] bg-[#d7c0a3]/40 p-6\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 grid grid-cols-2 gap-6\">                             <div>                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#6d5c49]\">                                     Oak detailing                                 </div>                                 <div class=\"mt-4 text-5xl text-[#231f19]\">                                     Warm Grain                                 </div>                             </div>                             <div class=\"text-base leading-8 text-[#4f473e]\">                                 Hand-finished wood textures engineered for architectural calm and tonal continuity.                             </div>                         </div>                     </article>                     <article class=\"section-rise min-w-[28rem] rounded-[4rem] bg-[#efe6db]/80 p-6 backdrop-blur-2xl\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6\">                             <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#7c6d5b]\">                                 Leather balance                             </div>                             <div class=\"mt-4 text-4xl text-[#241f19]\">                                 Smoked Camel                             </div>                         </div>                     </article>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Tactile Storytelling",
+              "text": "Tactile Storytelling",
+              "cls": "text-[10px] uppercase tracking-[0.35em] text-[#7a6b5c]",
+              "pill": false,
+              "color": "rgb(122, 107, 92)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "3.5px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Material transitions shaped through touch, grain, and shadow.",
+              "text": "Material transitions shaped through touch, grain, and shadow.",
+              "tag": "h2",
+              "cls": "mt-5 max-w-5xl text-[clamp(3rem,6vw,6rem)] leading-[0.92] text-[#241f19]",
+              "wrapCls": "",
+              "fontSize": "86.4px",
+              "fontWeight": "400",
+              "color": "rgb(36, 31, 25)",
+              "marginBottom": "0px",
+              "marginTop": "20px",
+              "lineHeight": "79.488px",
+              "letterSpacing": "-4.32px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "section-rise min-w-[32rem] rounded-[4rem] bg-[#f4ece2]/70 p-6 backdrop-blur-2xl",
+                  "colId": "sccol-4",
+                  "cw": 4,
+                  "html": "                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 flex items-end justify-between\">                             <div>                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#776858]\">                                     Wool composition                                 </div>                                 <div class=\"mt-3 text-4xl text-[#251f19]\">                                     Bouclé Ivory                                 </div>                             </div>                             <div class=\"text-sm text-[#5f564b]\">                                 Soft thermal layering                             </div>                         </div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 8,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "section-rise min-w-[48rem] rounded-[4rem] bg-[#d7c0a3]/40 p-6",
+                  "colId": "sccol-7",
+                  "cw": 6,
+                  "html": "                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 grid grid-cols-2 gap-6\">                             <div>                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#6d5c49]\">                                     Oak detailing                                 </div>                                 <div class=\"mt-4 text-5xl text-[#231f19]\">                                     Warm Grain                                 </div>                             </div>                             <div class=\"text-base leading-8 text-[#4f473e]\">                                 Hand-finished wood textures engineered for architectural calm and tonal continuity.                             </div>                         </div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "section-rise min-w-[28rem] rounded-[4rem] bg-[#efe6db]/80 p-6 backdrop-blur-2xl",
+                  "colId": "sccol-10",
+                  "cw": 4,
+                  "html": "                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6\">                             <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#7c6d5b]\">                                 Leather balance                             </div>                             <div class=\"mt-4 text-4xl text-[#241f19]\">                                 Smoked Camel                             </div>                         </div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"macro-track mt-20 flex gap-8 overflow-x-auto px-6 pb-6\">                     <article class=\"section-rise min-w-[32rem] rounded-[4rem] bg-[#f4ece2]/70 p-6 backdrop-blur-2xl\" data-sc-col=\"sccol-4\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 flex items-end justify-between\">                             <div data-sc-col=\"sccol-5\">                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#776858]\">                                     Wool composition                                 </div>                                 <div class=\"mt-3 text-4xl text-[#251f19]\">                                     Bouclé Ivory                                 </div>                             </div>                             <div class=\"text-sm text-[#5f564b]\" data-sc-col=\"sccol-6\">                                 Soft thermal layering                             </div>                         </div>                     </article>                     <article class=\"section-rise min-w-[48rem] rounded-[4rem] bg-[#d7c0a3]/40 p-6\" data-sc-col=\"sccol-7\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6 grid grid-cols-2 gap-6\">                             <div data-sc-col=\"sccol-8\">                                 <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#6d5c49]\">                                     Oak detailing                                 </div>                                 <div class=\"mt-4 text-5xl text-[#231f19]\">                                     Warm Grain                                 </div>                             </div>                             <div class=\"text-base leading-8 text-[#4f473e]\" data-sc-col=\"sccol-9\">                                 Hand-finished wood textures engineered for architectural calm and tonal continuity.                             </div>                         </div>                     </article>                     <article class=\"section-rise min-w-[28rem] rounded-[4rem] bg-[#efe6db]/80 p-6 backdrop-blur-2xl\" data-sc-col=\"sccol-10\">                         <div class=\"overflow-hidden rounded-[3rem]\">                             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"h-[30rem] w-full object-cover\">                                 <source src=\"https://videos.openhero.art/downloads/enterprice/the-art-of-living/video.mp4\" type=\"video/mp4\">                             </video>                         </div>                         <div class=\"mt-6\">                             <div class=\"text-[10px] uppercase tracking-[0.3em] text-[#7c6d5b]\">                                 Leather balance                             </div>                             <div class=\"mt-4 text-4xl text-[#241f19]\">                                 Smoked Camel                             </div>                         </div>                     </article>                 </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "relative overflow-hidden bg-[#241c18] px-6 py-28 text-white",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2{margin: 0px;}\nbutton{cursor: pointer;}\nh2{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.left-\\[8\\%\\]{left: 8%;}\n.top-\\[20\\%\\]{top: 20%;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-2{margin-top: 0.5rem;}\n.mt-24{margin-top: 6rem;}\n.mt-6{margin-top: 1.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[28rem\\]{height: 28rem;}\n.h-full{height: 100%;}\n.w-\\[28rem\\]{width: 28rem;}\n.w-full{width: 100%;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-\\[1700px\\]{max-width: 1700px;}\n.flex-col{flex-direction: column;}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.justify-end{justify-content: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-16{gap: 4rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-\\[3rem\\]{border-radius: 3rem;}\n.rounded-full{border-radius: 9999px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-\\[\\#241c18\\]{--tw-bg-opacity: 1; background-color: rgb(36 28 24 / var(--tw-bg-opacity, 1));}\n.bg-white\\/\\[0\\.04\\]{background-color: rgba(255, 255, 255, 0.04);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-28{padding-top: 7rem; padding-bottom: 7rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.pt-8{padding-top: 2rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.tracking-\\[0\\.25em\\]{letter-spacing: 0.25em;}\n.tracking-\\[0\\.35em\\]{letter-spacing: 0.35em;}\n.text-\\[\\#2b241d\\]{--tw-text-opacity: 1; color: rgb(43 36 29 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n.opacity-\\[0\\.12\\]{opacity: 0.12;}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-2xl{--tw-backdrop-blur: blur(40px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.silk-touch{position: relative; overflow: hidden; border-radius: 999px; background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(241, 233, 219, 0.9)); box-shadow: rgba(255, 255, 255, 0.9) 0px 1px 0px inset, rgba(100, 80, 54, 0.08) 0px 18px 40px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;}\n.silk-touch:hover{transform: translateY(2px); box-shadow: rgba(109, 84, 54, 0.09) 0px 8px 20px inset, rgba(255, 255, 255, 0.8) 0px -1px 0px inset;}\n.section-rise{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: rise; animation-timeline: view(); animation-range: entry 10% cover 40%;}\n@media (min-width: 1280px){.xl\\:grid-cols-\\[1fr_\\.55fr\\]{grid-template-columns: 1fr 0.55fr;}}",
+          "computed": {
+            "background": "rgb(36, 28, 24)",
+            "color": "rgb(255, 255, 255)",
+            "padding": "112px 24px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 opacity-[0.12]\">                 <div class=\"h-full w-full bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.08)_0px,rgba(255,255,255,.08)_1px,transparent_1px,transparent_8px)]\">                 </div>             </div>             <div class=\"absolute left-[8%] top-[20%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(201,161,113,.14),transparent_72%)] blur-3xl\">             </div>             <div class=\"relative mx-auto max-w-[1700px]\">                 <div class=\"grid gap-16 xl:grid-cols-[1fr_.55fr]\">                     <div class=\"section-rise\">                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             The Residence Footer                         </div>                         <h2 class=\"mt-6 max-w-4xl text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-white\">                             Designed to feel less like a website and more like a private residence.                         </h2>                     </div>                     <div class=\"section-rise flex flex-col justify-end\">                         <div class=\"rounded-[3rem] bg-white/[0.04] p-8 backdrop-blur-2xl\">                             <div class=\"space-y-5 text-sm uppercase tracking-[0.25em] text-white/55\">                                 <div class=\"flex items-center justify-between\">                                     <span>Spatial Ergonomics</span>                                     <span>01</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Tactile Materiality</span>                                     <span>02</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Curvilinear Systems</span>                                     <span>03</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Artisanal Joinery</span>                                     <span>04</span>                                 </div>                             </div>                         </div>                     </div>                 </div>                 <div class=\"mt-24 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8\">                     <div>                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             Vesta Atelier                         </div>                         <div class=\"mt-2 text-white/70\">                             Bespoke Living Spaces                         </div>                     </div>                     <button class=\"silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#2b241d]\">                         Request Residence Catalog                     </button>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 opacity-[0.12]\">                 <div class=\"h-full w-full bg-[repeating-linear-gradient(90deg,rgba(255,255,255,.08)_0px,rgba(255,255,255,.08)_1px,transparent_1px,transparent_8px)]\">                 </div>             </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "0.12",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 682
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute left-[8%] top-[20%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(201,161,113,.14),transparent_72%)] blur-3xl\">             </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle, rgba(201, 161, 113, 0.14), rgba(0, 0, 0, 0) 72%)",
+                "blur": "64px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "136.359px",
+                "right": "876.812px",
+                "bottom": "97.4375px",
+                "left": "115.188px",
+                "zIndex": "",
+                "w": 448,
+                "h": 448
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "section-rise",
+                  "colId": "sccol-11",
+                  "cw": 7,
+                  "html": "                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             The Residence Footer                         </div>                         <h2 class=\"mt-6 max-w-4xl text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-white\">                             Designed to feel less like a website and more like a private residence.                         </h2>                     ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "The Residence Footer",
+                    "overlineClass": "text-[10px] uppercase tracking-[0.35em] text-white/40",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Designed to feel less like a website and more like a private residence.",
+                    "titleTag": "h2",
+                    "titleClass": "mt-6 max-w-4xl text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "section-rise flex flex-col justify-end",
+                  "colId": "sccol-12",
+                  "cw": 4,
+                  "html": "                         <div class=\"rounded-[3rem] bg-white/[0.04] p-8 backdrop-blur-2xl\">                             <div class=\"space-y-5 text-sm uppercase tracking-[0.25em] text-white/55\">                                 <div class=\"flex items-center justify-between\">                                     <span>Spatial Ergonomics</span>                                     <span>01</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Tactile Materiality</span>                                     <span>02</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Curvilinear Systems</span>                                     <span>03</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Artisanal Joinery</span>                                     <span>04</span>                                 </div>                             </div>                         </div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid gap-16 xl:grid-cols-[1fr_.55fr]\">                     <div class=\"section-rise\" data-sc-col=\"sccol-11\">                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             The Residence Footer                         </div>                         <h2 class=\"mt-6 max-w-4xl text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-white\">                             Designed to feel less like a website and more like a private residence.                         </h2>                     </div>                     <div class=\"section-rise flex flex-col justify-end\" data-sc-col=\"sccol-12\">                         <div class=\"rounded-[3rem] bg-white/[0.04] p-8 backdrop-blur-2xl\">                             <div class=\"space-y-5 text-sm uppercase tracking-[0.25em] text-white/55\">                                 <div class=\"flex items-center justify-between\">                                     <span data-sc-col=\"sccol-13\">Spatial Ergonomics</span>                                     <span data-sc-col=\"sccol-14\">01</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Tactile Materiality</span>                                     <span>02</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Curvilinear Systems</span>                                     <span>03</span>                                 </div>                                 <div class=\"flex items-center justify-between\">                                     <span>Artisanal Joinery</span>                                     <span>04</span>                                 </div>                             </div>                         </div>                     </div>                 </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-15",
+                  "cw": 1,
+                  "html": "                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             Vesta Atelier                         </div>                         <div class=\"mt-2 text-white/70\">                             Bespoke Living Spaces                         </div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 3,
+                    "desktop": 1
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#2b241d]",
+                  "colId": "sccol-16",
+                  "cw": 2,
+                  "html": "                         Request Residence Catalog                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 5,
+                    "desktop": 2
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"mt-24 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8\">                     <div data-sc-col=\"sccol-15\">                         <div class=\"text-[10px] uppercase tracking-[0.35em] text-white/40\">                             Vesta Atelier                         </div>                         <div class=\"mt-2 text-white/70\">                             Bespoke Living Spaces                         </div>                     </div>                     <button class=\"silk-touch px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-[#2b241d]\" data-sc-col=\"sccol-16\">                         Request Residence Catalog                     </button>                 </div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

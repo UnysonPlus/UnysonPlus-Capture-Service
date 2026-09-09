@@ -1,0 +1,33 @@
+{"t":1788703538643,"elapsed":0.1,"msg":"navigating https://openhero.art/api/preview?category=tech&slug=creative-engineering … (can take up to ~60s on heavy SPAs)"}
+{"t":1788703542925,"elapsed":4.4,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788703545955,"elapsed":7.5,"msg":"extracted 4 sections"}
+{"t":1788703545956,"elapsed":7.5,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788703545957,"elapsed":7.5,"msg":"  §1 hero · “SoulfulSystems.” (2 elements)"}
+{"t":1788703545958,"elapsed":7.5,"msg":"  §2 section · “The DigitalCraftsman’s Forge” (1 element)"}
+{"t":1788703545959,"elapsed":7.5,"msg":"  §3 section · “ARCHIPELAGO” (2 elements)"}
+{"t":1788703545960,"elapsed":7.5,"msg":"  §4 section · “Software is the mirror of the developer's soul” (1 element)"}
+{"t":1788703545961,"elapsed":7.5,"msg":"  chrome · footer → 2 columns"}
+{"t":1788703545986,"elapsed":7.5,"msg":"capturing sticky-header scroll state…"}
+{"t":1788703547914,"elapsed":9.4,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788703548691,"elapsed":10.2,"msg":"brand tokens → heading=Outfit · body=Outfit · brand=oklch(0.75 0.15 50)"}
+{"t":1788703548692,"elapsed":10.2,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788703566445,"elapsed":27.9,"msg":"animations → 20 finding(s)"}
+{"t":1788703566446,"elapsed":27.9,"msg":"building theme, pages & conversion report…"}
+{"t":1788703566454,"elapsed":28,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788703566455,"elapsed":28,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788703566455,"elapsed":28,"msg":"  🔤 Text Styles → 8 size(s)"}
+{"t":1788703566456,"elapsed":28,"msg":"  📏 Spacing Scale → 17 step(s)"}
+{"t":1788703566456,"elapsed":28,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788703574414,"elapsed":35.9,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788703574418,"elapsed":35.9,"msg":"  🎨 Box Presets → 9 kind(s) [Glass, Tinted, Outline] from 9 box(es); 0 with hover, 5 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788703574419,"elapsed":35.9,"msg":"🛡️ Self-containment guard → 10 element(s) carry their full computed box in custom_css; ⚠️ 4 still rely on a carried class [button(letter-spacing), special_heading(border-radius), special_heading(border-radius), special_heading(border-radius)]"}
+{"t":1788703574438,"elapsed":35.9,"msg":"🧠 local AI (qwen3:4b) → naming sections…"}
+{"t":1788703577056,"elapsed":38.6,"msg":"  local AI → named 4 sections (3s)"}
+{"t":1788703577062,"elapsed":38.6,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788703577065,"elapsed":38.6,"msg":"🔎 local AI (qwen3:4b) → verifying class coverage…"}
+{"t":1788703578154,"elapsed":39.7,"msg":"  class coverage → 1 significant gap(s) flagged across 1 section(s) (see coverage-verification.csv) (1s)"}
+{"t":1788703578158,"elapsed":39.7,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788703578158,"elapsed":39.7,"msg":"writing files & bundle…"}
+{"t":1788703578388,"elapsed":39.9,"msg":"visual font match: Outfit → Outfit"}
+{"t":1788703579817,"elapsed":41.3,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788703579831,"elapsed":41.3,"msg":"saving full-page screenshot…"}

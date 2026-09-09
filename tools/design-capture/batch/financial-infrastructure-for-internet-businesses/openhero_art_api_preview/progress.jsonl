@@ -1,0 +1,31 @@
+{"t":1788701709209,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=abstract&slug=financial-infrastructure-for-internet-businesses … (can take up to ~60s on heavy SPAs)"}
+{"t":1788701714336,"elapsed":5.3,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788701717248,"elapsed":8.2,"msg":"extracted 4 sections"}
+{"t":1788701717250,"elapsed":8.2,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788701717252,"elapsed":8.2,"msg":"  §1 hero · “Ideas move faster when knowledge flows.” (1 element)"}
+{"t":1788701717253,"elapsed":8.2,"msg":"  §2 section · “Information shaped as a living system.” (1 element)"}
+{"t":1788701717254,"elapsed":8.2,"msg":"  §3 section · “Systems designed around cognition.” (1 element)"}
+{"t":1788701717257,"elapsed":8.2,"msg":"  §4 section · “Design interfaces people can feel.” (1 element)"}
+{"t":1788701717258,"elapsed":8.2,"msg":"  chrome · footer → 2 columns"}
+{"t":1788701718422,"elapsed":9.4,"msg":"capturing sticky-header scroll state…"}
+{"t":1788701720351,"elapsed":11.3,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788701721125,"elapsed":12.1,"msg":"brand tokens → heading=Inter · body=Inter · brand=?"}
+{"t":1788701721126,"elapsed":12.1,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788701738055,"elapsed":29,"msg":"animations → 12 finding(s)"}
+{"t":1788701738056,"elapsed":29,"msg":"building theme, pages & conversion report…"}
+{"t":1788701738065,"elapsed":29,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788701738066,"elapsed":29,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788701738067,"elapsed":29,"msg":"  🔤 Text Styles → 10 size(s)"}
+{"t":1788701738068,"elapsed":29,"msg":"  📏 Spacing Scale → 17 step(s)"}
+{"t":1788701738068,"elapsed":29.1,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788701738326,"elapsed":29.3,"msg":"motion profile → reveal×4 · button-hover×0 · card-hover×0"}
+{"t":1788701738327,"elapsed":29.3,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788701738332,"elapsed":29.3,"msg":"  🎨 Box Presets → 12 kind(s) [Glass, Tinted, Card] from 14 box(es); 0 with hover, 6 glass; box_style assigned to 2 icon-box(es)"}
+{"t":1788701738333,"elapsed":29.3,"msg":"🛡️ Self-containment guard → 3 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788701738352,"elapsed":29.3,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788701738356,"elapsed":29.3,"msg":"  class coverage → 2 significant gap(s) flagged across 2 section(s) (see coverage-verification.csv)"}
+{"t":1788701738358,"elapsed":29.3,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788701738359,"elapsed":29.3,"msg":"writing files & bundle…"}
+{"t":1788701738655,"elapsed":29.6,"msg":"visual font match: Inter → Libre Caslon Text"}
+{"t":1788701740232,"elapsed":31.2,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788701740252,"elapsed":31.2,"msg":"saving full-page screenshot…"}

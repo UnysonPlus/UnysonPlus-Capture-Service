@@ -20,11 +20,24 @@ const TW_MAXW = { 'xs':20,'sm':24,'md':28,'lg':32,'xl':36,'2xl':42,'3xl':48,'4xl
 // A section that routes through blocksSectionNode (needs >=1 block) with a given computed style.
 const secFixture = (computed) => ({ url:'http://x/', sections:[ { sectionClass:'', computed,
   blocks:[ { t:'text', html:'<p>x</p>' } ] } ] });
-const padTopSlug = (px) => {
+// padding_top is a RESPONSIVE LAYER object { base, md, lg }. Capture samples one desktop
+// viewport, so sectionLayout() deliberately CLAMPS the base layer at BASE_CAP (112px) — a
+// 384px desktop padding would read as an empty gap on a phone — and carries the exact value
+// on `lg`. The DESKTOP-EFFECTIVE token is therefore `lg || base`, and that is what a 1440px
+// render (and every fidelity comparison) actually applies.
+//
+// Reading `.base` alone reports the intentional mobile clamp as a lossy conversion. It is not:
+// the desktop value is exact. Assert the effective token, and check the clamp separately.
+const padTopLayers = (px) => {
   const out = toPages(secFixture({ padding: `${px}px 0px 0px 0px`, margin:'0px' }));
   const builder = out?.pages?.[0]?.builder || [];
   const sec = builder.find(n => n.type === 'section') || builder[0];
-  const v = sec?.atts?.padding_top; return v && v.base ? v.base.replace('pt-','') : '0';
+  return sec?.atts?.padding_top || null;
+};
+const padTopSlug = (px) => {
+  const v = padTopLayers(px);
+  if (!v) return '0';
+  return String(v.lg || v.base || '0').replace('pt-','');
 };
 
 let fails = 0;
@@ -55,6 +68,27 @@ if (lossy.length) {
 }
 
 // ── max-width sweep ─────────────────────────────────────────────────────────
+log('');
+log('=== RESPONSIVE CLAMP: base layer capped, exact value on lg ===');
+// The clamp is intentional (see sectionLayout's BASE_CAP). Assert BOTH halves of the contract so a
+// future edit cannot silently drop either: a big desktop padding must be capped on `base` (or phones
+// get a huge gap) AND must still be exact on `lg` (or the desktop render loses the spacing).
+const BASE_CAP = 112;
+const clampRows = [96, 112, 128, 192, 384].map((px) => {
+  const v = padTopLayers(px) || {};
+  const baseTok = String(v.base || '').replace('pt-','');
+  const lgTok = String(v.lg || '').replace('pt-','');
+  const basePx = renderedPx(baseTok);
+  const lgPx = lgTok ? renderedPx(lgTok) : null;
+  const effective = lgPx !== null ? lgPx : basePx;
+  const ok = basePx <= BASE_CAP && effective === px;
+  if (!ok) fails++;
+  return { px, baseTok, lgTok: lgTok || '(none)', effective, ok };
+});
+clampRows.forEach(r => log(`  ${String(r.px).padStart(3)}px -> base pt-${r.baseTok.padEnd(9)} lg ${String(r.lgTok).padEnd(11)} effective ${String(r.effective).padStart(3)}px ${r.ok ? '✓' : '✗'}`));
+if (clampRows.every(r => r.ok)) log('  ✓ base never exceeds ' + BASE_CAP + 'px, and the desktop-effective value is always exact');
+else log('  ✗ FAIL: the base-cap / exact-lg contract is broken');
+
 log('\n=== MAX-WIDTH: block_max_width passthrough (heading tiers) ===');
 // block_max_width is an exact unit value, not a slug — so it should NEVER clamp. Sanity: the common
 // heading tier max-w-3xl=48rem and section tier max-w-7xl=80rem are both representable.

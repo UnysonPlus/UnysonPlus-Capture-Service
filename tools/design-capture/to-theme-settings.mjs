@@ -41,7 +41,40 @@ function socialLucide(url) {
 }
 const escHtml = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-// Is a CSS color string a dark fill? (hex or rgb/rgba). Conservative: unknown → false.
+// oklch()/oklab()/hsl()/hsla() → [r, g, b(, a)] (0-255). A dark AI page commonly declares its canvas +
+// text in oklch(), which the rgb/hex-only parsers dropped — so the palette defaulted to a WHITE background
+// AND kept the light text, rendering white-on-white. Mirrors the PHP color_to_hex() math (oklab→linear sRGB).
+function cssToRgb(c) {
+  c = String(c || '').trim().toLowerCase();
+  let m;
+  if ((m = c.match(/^okl(ch|ab)\(\s*([0-9.]+%?)[,\s]+(-?[0-9.]+)[,\s]+(-?[0-9.]+)(?:[,\s/]+([0-9.]+%?))?\s*\)$/))) {
+    let L = parseFloat(m[2]); if (m[2].includes('%') || L > 1.5) L /= 100;
+    let aa, bb;
+    if (m[1] === 'ch') { const C = parseFloat(m[3]), H = parseFloat(m[4]) * Math.PI / 180; aa = C * Math.cos(H); bb = C * Math.sin(H); }
+    else { aa = parseFloat(m[3]); bb = parseFloat(m[4]); }
+    const l_ = L + 0.3963377774 * aa + 0.2158037573 * bb;
+    const m_ = L - 0.1055613458 * aa - 0.0638541728 * bb;
+    const s_ = L - 0.0894841775 * aa - 1.2914855480 * bb;
+    const lc = l_ ** 3, mc = m_ ** 3, sc = s_ ** 3;
+    const lin = [4.0767416621 * lc - 3.3077115913 * mc + 0.2309699292 * sc,
+      -1.2684380046 * lc + 2.6097574011 * mc - 0.3413193965 * sc,
+      -0.0041960863 * lc - 0.7034186147 * mc + 1.7076147010 * sc];
+    const gam = (x) => { x = Math.max(0, Math.min(1, x)); return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055; };
+    const a5 = (m[5] !== undefined && m[5] !== '') ? (m[5].includes('%') ? parseFloat(m[5]) / 100 : parseFloat(m[5])) : undefined;
+    return [Math.max(0, Math.min(255, Math.round(gam(lin[0]) * 255))), Math.max(0, Math.min(255, Math.round(gam(lin[1]) * 255))), Math.max(0, Math.min(255, Math.round(gam(lin[2]) * 255))), a5];
+  }
+  if ((m = c.match(/^hsla?\(\s*([0-9.]+)(?:deg)?[,\s]+([0-9.]+)%[,\s]+([0-9.]+)%(?:[,\s/]+([0-9.]+%?))?\s*\)$/))) {
+    const h = ((((parseFloat(m[1]) % 360) + 360) % 360) / 360), s = parseFloat(m[2]) / 100, l = parseFloat(m[3]) / 100;
+    const hue = (p, q, t) => { if (t < 0) t += 1; if (t > 1) t -= 1; if (t < 1 / 6) return p + (q - p) * 6 * t; if (t < 1 / 2) return q; if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6; return p; };
+    let r, g, b;
+    if (s === 0) { r = g = b = l; } else { const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q; r = hue(p, q, h + 1 / 3); g = hue(p, q, h); b = hue(p, q, h - 1 / 3); }
+    const a4 = (m[4] !== undefined && m[4] !== '') ? (m[4].includes('%') ? parseFloat(m[4]) / 100 : parseFloat(m[4])) : undefined;
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), a4];
+  }
+  return null;
+}
+
+// Is a CSS color string a dark fill? (hex, rgb/rgba, oklch/oklab, hsl/hsla). Conservative: unknown → false.
 function isDark(c) {
   c = String(c || '').trim();
   let r, g, b;
@@ -49,7 +82,7 @@ function isDark(c) {
   if (m) { r = parseInt(m[1][0] + m[1][0], 16); g = parseInt(m[1][1] + m[1][1], 16); b = parseInt(m[1][2] + m[1][2], 16); }
   else if ((m = c.match(/^#([0-9a-f]{6})$/i))) { r = parseInt(m[1].slice(0, 2), 16); g = parseInt(m[1].slice(2, 4), 16); b = parseInt(m[1].slice(4, 6), 16); }
   else if ((m = c.match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/i))) { r = +m[1]; g = +m[2]; b = +m[3]; }
-  else return false;
+  else { const rc = cssToRgb(c); if (rc) { r = rc[0]; g = rc[1]; b = rc[2]; } else return false; }
   // Relative luminance; < 0.4 reads as dark.
   return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 < 0.4;
 }
@@ -68,6 +101,9 @@ const normc = (c) => {
   let m = c.match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([0-9.]+))?/);
   if (m) { const a = (m[4] !== undefined && m[4] !== '') ? parseFloat(m[4]) : 1; if (a <= 0.02) return ''; return a < 1 ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${a})` : `rgb(${m[1]}, ${m[2]}, ${m[3]})`; }
   if (/^#[0-9a-f]{3,8}$/.test(c)) return c;
+  // oklch()/oklab()/hsl() → rgb() so a dark AI-page palette (canvas/text in oklch) isn't dropped to white.
+  const rc = cssToRgb(c);
+  if (rc) { const a = rc[3]; if (a !== undefined && a <= 0.02) return ''; return (a !== undefined && a < 1) ? `rgba(${rc[0]}, ${rc[1]}, ${rc[2]}, ${a})` : `rgb(${rc[0]}, ${rc[1]}, ${rc[2]})`; }
   return '';
 };
 // The FIRST visible (non-transparent) layer of a computed box-shadow → {x,y,blur,spread,color,inset}.
@@ -398,9 +434,16 @@ export function toThemeSettings(config, home) {
   // white/accent default when present — parity with PHP detect_menu_styles hover_color.
   let navHover = '';
   for (const n of navLinks0) { if (n && n.hover && n.hover.color) { navHover = n.hover.color; break; } }
+  // Active/hover fallback: when no hover is captured, brighten the BASE nav colour (a translucent link like
+  // rgba(255,255,255,.6) → the same at ~.9 alpha) so the active/current item stays in the nav's palette,
+  // instead of leaving it empty and letting the theme paint `.current-menu-item` with --color-primary (brand
+  // green). Mirror of PHP's menu_link_hover_color fallback.
+  const _baseNav = navColor || (headerDark ? '#cbd5e1' : ink);
+  const _brighten = (c) => { const m = String(c || '').match(/^rgba\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)$/i); return (m && parseFloat(m[4]) < 0.9) ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, 0.9)` : c; };
+  const _hoverFinal = navHover || (String(_baseNav).trim() !== '' ? _brighten(_baseNav) : (headerDark ? '#ffffff' : (accent || ink)));
   values.header_menu = {
     menu_link_color: hex(navColor || (headerDark ? '#cbd5e1' : ink)),
-    menu_link_hover_color: hex(navHover || (headerDark ? '#ffffff' : (accent || ink))),
+    menu_link_hover_color: hex(_hoverFinal),
   };
   // NEVER-DROP menu typography — FONT FAMILY / size / weight / letter-spacing / uppercase. Font family was
   // previously only in the .sc-menu generated CSS; route it into the native menu_font option.
@@ -436,9 +479,11 @@ export function toThemeSettings(config, home) {
   const _hasShadow = (v) => { v = String(v || '').trim(); return v !== '' && v !== 'none'; };
   const EMPTY_COLOR = { predefined: '', custom: '' };
   // Resting (AT TOP) vs scrolled (ON SCROLL).
-  const restBlur = _hasBlur(_hbar.backdropFilter) || _hasBlur(_hsTop.backdrop);
+  // Include the header ELEMENT: many sources frost the <header> itself rather than an inner bar,
+  // and those were coming through as header_glass:'no' — the frost was dropped entirely.
+  const restBlur = _hasBlur(_hbar.backdropFilter) || _hasBlur(_hel.backdropFilter) || _hasBlur(_hsTop.backdrop);
   const restBorder = _hasBorder(_hbar.border) || _hasBorder(_hsTop.borderBottom);
-  const restShadow = _hasShadow(_hsTop.shadow) || _hasShadow(_hbar.boxShadow);
+  const restShadow = _hasShadow(_hsTop.shadow) || _hasShadow(_hbar.boxShadow) || _hasShadow(_hel.boxShadow);
   const scrBlur = _hasBlur(_hsScr.backdrop);
   const scrBorder = _hasBorder(_hsScr.borderBottom);
   const scrShadow = _hasShadow(_hsScr.shadow);
@@ -454,6 +499,25 @@ export function toThemeSettings(config, home) {
   // On-scroll deltas (only what CHANGES vs resting).
   const onGlass = scrBlur && !restBlur, onBorder = scrBorder && !restBorder, onShadow = scrShadow && !restShadow, onShrink = scrShrink;
   const scrollChange = onGlass || onBorder || onShadow || onShrink || scrBgOpaque;
+  /* --- NUMERIC refinements of the two-state model (theme 2.5.90). The booleans above say a header
+     frosts / shadows / shrinks; these say by HOW MUCH, which is the difference between "behaves like
+     the source" and "matches it". Every one is derived from a signal the capture already carries. --- */
+  const _blurPx = (v) => { const m = /blur\(\s*([0-9.]+)px/.exec(String(v || '')); return m ? Math.round(parseFloat(m[1])) : null; };
+  const _satOf  = (v) => { const m = /saturate\(\s*([0-9.]+)(%?)/.exec(String(v || '')); if (!m) return null;
+                           const n = parseFloat(m[1]); return Math.round(m[2] === '%' ? n : n * 100); };
+  // Shadow depth from the blur radius of the FIRST length triple — soft < 12px, strong > 26px.
+  // `0 1px 4px` is as common as `0px 1px 4px` — a unitless zero is legal CSS, so the third length
+  // (the blur radius) must be found without demanding `px` on the first two.
+  const _shadowDepth = (v) => { const m = /(-?[0-9.]+)(?:px)?\s+(-?[0-9.]+)(?:px)?\s+(-?[0-9.]+)px/.exec(String(v || ''));
+                                if (!m) return ''; const b = parseFloat(m[3]);
+                                return b < 12 ? 'soft' : (b > 26 ? 'strong' : 'medium'); };
+  const _unit = (px) => ({ value: String(Math.round(px)), unit: 'px' });
+  // Colours elsewhere in this mapper are hex strings; a captured computed style is rgb()/rgba().
+  const _rgbHex = (v) => { const m = /rgba?\(\s*([0-9.]+)[,\s]+([0-9.]+)[,\s]+([0-9.]+)/.exec(String(v || ''));
+    if (!m) return String(v || '');
+    const h = (n) => Math.max(0, Math.min(255, Math.round(parseFloat(n)))).toString(16).padStart(2, '0');
+    return '#' + h(m[1]) + h(m[2]) + h(m[3]); };
+
   values.header_layout = {
     header_mode: { mode: 'top', top: { header_design: { design: 'classic' } } },
     header_position: position,
@@ -474,6 +538,40 @@ export function toThemeSettings(config, home) {
     // the frost reads dark.
     if (scrBgOpaque) values.header_layout.scroll_bg_color = hex(scrBg);
     else if ((onGlass || position === 'overlay') && headerDark) values.header_layout.scroll_bg_color = hex(isDark(colors.bg) ? colors.bg : '#111111');
+
+    // Scrolled Header Height — the exact stuck height, not just "it shrinks". Only when the capture
+    // measured both states and the change is real (>4px) and sane (>=32px).
+    const _th = parseFloat(_hsTop.height), _sh = parseFloat(_hsScr.height);
+    if (isFinite(_th) && isFinite(_sh) && _sh >= 32 && Math.abs(_th - _sh) > 4) {
+      values.header_layout.scroll_height = _unit(_sh);
+      // min-height loses to taller CONTENT, so a target height alone will not shrink the bar unless
+      // the logo scales with it — mirror of the PHP twin.
+      values.header_layout.scroll_shrink = 'yes';
+    }
+    // Scrolled Link Color — a header that lands on a solid bar usually darkens its nav text. Map it
+    // only when it actually differs from the resting colour.
+    const _tlc = _colOf(_hsTop.linkColor), _slc = _colOf(_hsScr.linkColor);
+    if (_slc && _tlc && _slc !== _tlc) { values.header_layout.scroll_link_color = hex(_slc); }
+  }
+  // Glass blur + saturation — the frost RADIUS was previously fixed at 10px whatever the source used.
+  // Prefer whichever state actually has a blur (a clear-then-frosted header only blurs when stuck).
+  {
+    // Pick the first source that actually HAS a blur - a plain `||` chain stops at the string
+    // 'none', which every non-frosted element reports, and would never reach the real one.
+    const _bsrc = [_hsScr.backdrop, _hbar.backdropFilter, _hel.backdropFilter, _hsTop.backdrop].find(_hasBlur) || '';
+    const _b = _blurPx(_bsrc);
+    if (_b !== null && _b > 0 && _b !== 10) { values.header_layout.header_glass_blur = _unit(_b); }
+    const _sat = _satOf(_bsrc);
+    if (_sat !== null && _sat >= 100 && _sat <= 200 && _sat !== 140) { values.header_layout.header_glass_saturate = _sat; }
+    // A source that blurs WITHOUT saturating must say so — the theme's frost adds saturate(1.4) by
+    // default, which over-saturates against a literal blur-only source. (PHP twin does this too.)
+    else if (_sat === null && _b !== null && _b > 0) { values.header_layout.header_glass_saturate = 100; }
+  }
+  // Shadow depth — the toggles emit one fixed shadow; grade it from the source's blur radius.
+  {
+    const _shsrc = [_hsScr.shadow, _hsTop.shadow, _hbar.boxShadow, _hel.boxShadow].find(_hasShadow) || '';
+    const _d = _shadowDepth(_shsrc);
+    if (_d && _d !== 'medium') { values.header_layout.header_shadow_depth = _d; }
   }
   // Mobile breakpoint — the width at which the inline nav collapses (only on a real signal).
   if (home && (home.mobileBreakpoint === 'md' || home.mobileBreakpoint === 'lg')) {
@@ -510,6 +608,12 @@ export function toThemeSettings(config, home) {
   if (mwPx) {
     const px = Math.round(parseFloat(mwPx[1]));
     if (px >= 320 && px <= 2200) { values.header_layout.container = 'container'; values.header_layout.container_width = { value: String(px), unit: 'px' }; }
+  } else if ((restBlur || restShadow) && _isClear(_hel.backgroundColor) && !_isClear(_hbar.backgroundColor)) {
+    // A FLOATING PILL (transparent header root, blurred/shadowed inner bar with a fill) has NO max-width —
+    // it hugs its content and is centered by the header's transform. Cap it to pill scale so it doesn't
+    // stretch edge-to-edge in the flow layout. Mirror of detect_header_chrome_styles()'s pill_width fallback.
+    values.header_layout.container = 'container';
+    values.header_layout.container_width = { value: '1024', unit: 'px' };
   } else if (/^(none|100%|full)$/i.test(String(barMw).trim())) {
     values.header_layout.container = 'container-fluid';
   }
@@ -520,6 +624,33 @@ export function toThemeSettings(config, home) {
   values.footer_background = { color: { value: { predefined: '', custom: footerBg } } };
   values.footer_text_color = hex(footerText);
   values.footer_link_color = hex(footerText);
+
+  /* --- footer numeric refinements (theme 2.5.92). The footer's own captured computed styles carry
+     padding; the column gap and link-hover colour come from the footer chrome probe. --- */
+  {
+    const _f = (home && home.footer) || {};
+    const _fc = _f.computed || {};
+    // Padding: the Spacing-Scale select tops out at 8rem (128px), so anything larger used to clamp
+    // and silently lose up to 112px. Emit the exact override only when the source is off-scale.
+    const SCALE_PX = [0, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 96, 112, 128];
+    const _onScale = (px) => SCALE_PX.some((v) => Math.abs(v - px) <= 1);
+    const _sides = String(_fc.padding || '').trim().split(/\s+/).map((v) => parseFloat(v));
+    if (_sides.length >= 1 && isFinite(_sides[0])) {
+      const top = _sides[0];
+      const bottom = isFinite(_sides[2]) ? _sides[2] : top;
+      if (top > 0 && !_onScale(top)) { values.footer_padding_top_custom = _unit(top); }
+      if (bottom > 0 && !_onScale(bottom)) { values.footer_padding_bottom_custom = _unit(bottom); }
+    }
+    // Column gap — was a fixed 40px; 80% of real footers differ (48px most common).
+    const _gap = parseFloat(_f.colGap);
+    if (isFinite(_gap) && _gap >= 0 && Math.abs(_gap - 40) > 2) { values.footer_col_gap = _unit(_gap); }
+    // Link hover colour — 90% of footers change it; the theme used to only fade the rest colour.
+    const _fh = _colOf(_f.linkHoverColor);
+    const _fr = _colOf(_f.linkColor);
+    if (_fh && (!_fr || _fh !== _fr)) { values.footer_link_hover_color = hex(_rgbHex(_fh)); }
+    // Columns kept on a phone — the footer otherwise stacks unconditionally under 768px.
+    if (Number(_f.mobileColumns) >= 2) { values.footer_mobile_columns = '2'; }
+  }
   // NEVER-DROP footer COLUMN-HEADING typography — uppercase / tracking / weight / size / colour → a scoped
   // `.footer-links-title` rule (no native footer-heading option). Parity with PHP footer_heading_css().
   const fhs = (home && home.chrome && home.chrome.footer_heading_style) || null;

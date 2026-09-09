@@ -1,0 +1,1752 @@
+<!DOCTYPE html><html lang="en" class="dark" data-sc-cs="color:rgb(255, 255, 255)" data-sc-content-width="1416"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lignum Glass | Master-Built Regenerative Structures</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --amber: oklch(76% 0.15 75);
+            --amber-deep: oklch(62% 0.12 68);
+            --oak: oklch(63% 0.08 82);
+            --concrete: oklch(24% 0.02 240);
+            --concrete-2: oklch(18% 0.02 240);
+            --graphite: oklch(12% 0.02 240);
+            --text: oklch(97% 0.01 80);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: "Inter Tight", sans-serif;
+            color: white;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(255, 181, 92, .18), transparent 18%),
+                radial-gradient(circle at 82% 12%, rgba(255, 255, 255, .04), transparent 14%),
+                linear-gradient(180deg, oklch(18% 0.02 240) 0%, oklch(14% 0.02 240) 45%, oklch(10% 0.02 240) 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px),
+                repeating-linear-gradient(135deg, rgba(255, 255, 255, .03) 0 1px, transparent 1px 12px);
+            background-size: 128px 128px, 128px 128px, 240px 240px;
+            opacity: .2;
+            mask-image: radial-gradient(circle at center, black 34%, transparent 88%);
+            z-index: -2;
+        }
+
+        .mono {
+            font-family: "IBM Plex Mono", monospace;
+        }
+
+        .serif {
+            font-family: "Cormorant Garamond", serif;
+            letter-spacing: -.055em;
+        }
+
+        .grain-concrete {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015)),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, .02) 0 1px, transparent 1px 10px),
+                linear-gradient(180deg, rgba(52, 53, 58, .78), rgba(28, 30, 34, .94));
+        }
+
+        .grain-oak {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .01)),
+                repeating-linear-gradient(90deg, rgba(145, 110, 64, .12) 0 1px, transparent 1px 8px),
+                linear-gradient(180deg, rgba(93, 66, 39, .72), rgba(55, 39, 24, .92));
+        }
+
+        .sunset-amber {
+            background:
+                radial-gradient(circle at 20% 10%, rgba(255, 190, 112, .16), transparent 18%),
+                linear-gradient(180deg, rgba(134, 82, 40, .95), rgba(61, 36, 20, .98));
+        }
+
+        .dense-panel {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .02)),
+                linear-gradient(135deg, rgba(255, 255, 255, .04), transparent 35%);
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .06),
+                0 24px 70px rgba(0, 0, 0, .28);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .amber-button {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background:
+                linear-gradient(180deg, rgba(255, 196, 116, .96), rgba(193, 124, 47, .92));
+            border: 1px solid rgba(255, 255, 255, .14);
+            color: #1d130a;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .45),
+                0 24px 50px rgba(0, 0, 0, .26);
+            transition: transform .45s cubic-bezier(.16, 1, .3, 1), box-shadow .45s ease;
+        }
+
+        .amber-button::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .2), transparent 34%),
+                linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, .7) 50%, transparent 56%);
+            transform: translateX(-140%) rotate(12deg);
+            animation: sheen 8s ease-in-out infinite;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .amber-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .5),
+                0 30px 60px rgba(0, 0, 0, .3);
+        }
+
+        .section-shell {
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+        }
+
+        .top-rail {
+            position: fixed;
+            inset: 18px 18px auto 18px;
+            z-index: 80;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 16px;
+            align-items: center;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(15, 17, 20, .72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, .26);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .05);
+        }
+
+        .brand-copy {
+            min-width: 0;
+            line-height: 1.02;
+        }
+
+        .brand-copy .k {
+            font-size: 10px;
+            letter-spacing: .34em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .56);
+        }
+
+        .brand-copy .v {
+            margin-top: 4px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, .88);
+        }
+
+        .rail-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            text-transform: uppercase;
+            letter-spacing: .24em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .6);
+        }
+
+        .rail-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .rail-nav a {
+            color: inherit;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: .25s ease;
+        }
+
+        .rail-nav a:hover {
+            color: var(--amber);
+        }
+
+        .top-stats {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .meter {
+            width: 220px;
+            height: 8px;
+            background: rgba(255, 255, 255, .08);
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .meter span {
+            display: block;
+            width: 74%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 201, 118, .95), rgba(172, 115, 43, .95));
+        }
+
+        .hero {
+            min-height: 100svh;
+            position: relative;
+            overflow: hidden;
+            padding-top: 88px;
+        }
+
+        .hero-grid {
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+            min-height: calc(100svh - 88px);
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .telemetry {
+            position: absolute;
+            z-index: 5;
+            width: clamp(220px, 18vw, 320px);
+            padding: 14px 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 195, 126, .28);
+            background: rgba(20, 20, 20, .42);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, .24);
+        }
+
+        .telemetry .k {
+            text-transform: uppercase;
+            letter-spacing: .3em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .56);
+        }
+
+        .telemetry .v {
+            margin-top: 10px;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+            letter-spacing: -.06em;
+            color: white;
+        }
+
+        .telemetry .d {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.7;
+            font-size: 12px;
+        }
+
+        .hero-core {
+            grid-column: 3 / span 8;
+            align-self: center;
+            position: relative;
+            z-index: 3;
+            padding: 22px;
+            border-radius: 2.4rem;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02)),
+                linear-gradient(135deg, rgba(255, 193, 127, .06), transparent 42%);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, .36);
+        }
+
+        .core-shell {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 199, 137, .2);
+            background: rgba(20, 20, 20, .55);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .08),
+                0 0 0 1px rgba(255, 255, 255, .03);
+        }
+
+        .core-shell::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(circle at center, rgba(255, 196, 116, .28), transparent 36%),
+                radial-gradient(circle at center, rgba(255, 255, 255, .08), transparent 56%);
+            pointer-events: none;
+            opacity: .9;
+        }
+
+        .core-shell::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .08), transparent 22%),
+                linear-gradient(90deg, rgba(255, 255, 255, .04), transparent 24%, transparent 76%, rgba(255, 255, 255, .04));
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .hero-video {
+            width: 100%;
+            height: clamp(36rem, 64vh, 54rem);
+            object-fit: cover;
+            display: block;
+            transform: scale(1.05);
+            filter: saturate(1.08) contrast(1.06) brightness(.94);
+            mask-image: linear-gradient(180deg, black 0 100%);
+            -webkit-mask-image: linear-gradient(180deg, black 0 100%);
+            will-change: transform;
+        }
+
+        .shimmer-frame {
+            position: absolute;
+            inset: 0;
+            border-radius: 2rem;
+            pointer-events: none;
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 201, 118, .28),
+                inset 0 0 80px rgba(255, 196, 116, .22),
+                0 0 80px rgba(255, 178, 92, .1);
+        }
+
+        .hero-title {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 8;
+            width: min(1020px, 92%);
+            text-align: center;
+            padding: 20px 24px;
+        }
+
+        .hero-title h1 {
+            font-size: clamp(4rem, 9vw, 8.8rem);
+            line-height: .84;
+            letter-spacing: -.08em;
+            color: white;
+            text-shadow: 0 16px 40px rgba(0, 0, 0, .34);
+        }
+
+        .hero-title p {
+            margin-top: 18px;
+            font-size: 16px;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, .8);
+            max-width: 760px;
+            margin-inline: auto;
+        }
+
+        .hero-title .actions {
+            margin-top: 26px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-title .actions button {
+            height: 54px;
+            padding: 0 22px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: .26em;
+            font-size: 10px;
+        }
+
+        .hero-title .chips {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .hero-title .chips span {
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .08);
+            color: rgba(255, 255, 255, .74);
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            font-size: 10px;
+        }
+
+        .glow-left,
+        .glow-right {
+            position: absolute;
+            top: 50%;
+            width: 20%;
+            height: 42%;
+            pointer-events: none;
+            transform: translateY(-50%);
+            filter: blur(22px);
+            opacity: .9;
+        }
+
+        .glow-left {
+            left: 0;
+            background: radial-gradient(circle, rgba(255, 193, 98, .22), transparent 68%);
+        }
+
+        .glow-right {
+            right: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, .09), transparent 68%);
+        }
+
+        .section {
+            position: relative;
+            margin-top: -22px;
+            padding: 120px 0;
+        }
+
+        .section-shell {
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 26px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(3rem, 6vw, 6.2rem);
+            line-height: .88;
+            letter-spacing: -.08em;
+            color: white;
+        }
+
+        .section-heading p {
+            max-width: 460px;
+            color: rgba(255, 255, 255, .68);
+            line-height: 1.95;
+        }
+
+        .section-heading .tag {
+            text-transform: uppercase;
+            letter-spacing: .34em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .52);
+            margin-bottom: 18px;
+        }
+
+        .blueprint {
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(48, 49, 55, .96), rgba(28, 30, 35, .98));
+            box-shadow: 0 28px 90px rgba(0, 0, 0, .26);
+            z-index: 3;
+        }
+
+        .blueprint-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .tile {
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+            box-shadow: 0 16px 44px rgba(0, 0, 0, .18);
+        }
+
+        .tile::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .04), transparent 28%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 18px);
+            opacity: .16;
+            pointer-events: none;
+        }
+
+        .tile .inner {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .tile .label {
+            text-transform: uppercase;
+            letter-spacing: .3em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .54);
+        }
+
+        .tile h3 {
+            font-size: clamp(1.7rem, 3vw, 3.3rem);
+            line-height: .92;
+            letter-spacing: -.05em;
+            color: white;
+        }
+
+        .tile p {
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.9;
+            max-width: 36ch;
+        }
+
+        .tile .mini {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            align-items: flex-end;
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .24em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .tile .metric {
+            font-size: 42px;
+            line-height: 1;
+            letter-spacing: -.06em;
+            color: #fff;
+        }
+
+        .tile.a {
+            grid-column: span 5;
+            min-height: 220px;
+        }
+
+        .tile.b {
+            grid-column: span 4;
+            min-height: 220px;
+        }
+
+        .tile.c {
+            grid-column: span 3;
+            min-height: 220px;
+        }
+
+        .tile.d {
+            grid-column: span 4;
+            min-height: 260px;
+        }
+
+        .tile.e {
+            grid-column: span 8;
+            min-height: 260px;
+        }
+
+        .tile.f {
+            grid-column: span 6;
+            min-height: 190px;
+        }
+
+        .tile.g {
+            grid-column: span 6;
+            min-height: 190px;
+        }
+
+        .material-anatomy {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 12% 10%, rgba(255, 190, 110, .12), transparent 16%),
+                linear-gradient(180deg, rgba(20, 21, 24, .96), rgba(10, 11, 13, 1));
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .anatomy-shell {
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+            padding: 36px 0 42px;
+        }
+
+        .anatomy-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 22px;
+            padding-inline: 2px;
+        }
+
+        .anatomy-head h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: .88;
+            letter-spacing: -.08em;
+            color: white;
+        }
+
+        .anatomy-head p {
+            max-width: 460px;
+            color: rgba(255, 255, 255, .68);
+            line-height: 1.95;
+        }
+
+        .anatomy-stage {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .wall-view {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02)),
+                linear-gradient(135deg, rgba(255, 190, 108, .08), transparent 40%);
+            min-height: 720px;
+            padding: 22px;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, .25);
+        }
+
+        .cross-section {
+            position: absolute;
+            inset: 22px;
+            border-radius: 3px;
+            background:
+                linear-gradient(90deg, rgba(224, 198, 167, .14) 0 16%, rgba(150, 142, 135, .14) 16% 33%, rgba(74, 73, 78, .16) 33% 54%, rgba(109, 92, 70, .16) 54% 76%, rgba(222, 183, 115, .18) 76% 100%),
+                linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .015));
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .cross-section .layer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .22em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .78);
+            transition: transform .4s ease, opacity .4s ease;
+        }
+
+        .cross-section .layer.active {
+            transform: translateX(8px);
+            opacity: 1;
+        }
+
+        .cross-section .layer span:last-child {
+            color: rgba(255, 255, 255, .55);
+        }
+
+        .cross-section .l1 {
+            top: 0;
+            height: 15%;
+            background: rgba(208, 169, 122, .28);
+        }
+
+        .cross-section .l2 {
+            top: 15%;
+            height: 16%;
+            background: rgba(126, 111, 92, .24);
+        }
+
+        .cross-section .l3 {
+            top: 31%;
+            height: 18%;
+            background: rgba(43, 54, 60, .28);
+        }
+
+        .cross-section .l4 {
+            top: 49%;
+            height: 17%;
+            background: rgba(99, 82, 58, .26);
+        }
+
+        .cross-section .l5 {
+            top: 66%;
+            height: 18%;
+            background: rgba(210, 171, 97, .26);
+        }
+
+        .cross-section .l6 {
+            top: 84%;
+            height: 16%;
+            background: rgba(255, 255, 255, .06);
+        }
+
+        .cross-overlay {
+            position: absolute;
+            inset: auto 22px 22px 22px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 193, 119, .22);
+            background: rgba(17, 17, 19, .52);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white;
+        }
+
+        .cross-overlay .k {
+            text-transform: uppercase;
+            letter-spacing: .3em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .58);
+        }
+
+        .cross-overlay .v {
+            margin-top: 10px;
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            line-height: 1;
+            letter-spacing: -.06em;
+        }
+
+        .anatomy-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .detail-card {
+            padding: 20px;
+            min-height: calc(33.33% - 10px);
+            border: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015));
+            box-shadow: 0 18px 44px rgba(0, 0, 0, .22);
+        }
+
+        .detail-card .k {
+            text-transform: uppercase;
+            letter-spacing: .28em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .54);
+        }
+
+        .detail-card .v {
+            margin-top: 12px;
+            font-size: clamp(1.7rem, 3.5vw, 3rem);
+            line-height: .95;
+            letter-spacing: -.06em;
+        }
+
+        .detail-card p {
+            margin-top: 12px;
+            color: rgba(255, 255, 255, .68);
+            line-height: 1.85;
+        }
+
+        .portfolio {
+            position: relative;
+            z-index: 4;
+            background:
+                radial-gradient(circle at top left, rgba(255, 198, 116, .1), transparent 16%),
+                linear-gradient(180deg, rgba(31, 29, 28, 1), rgba(20, 19, 18, 1));
+            padding: 120px 0;
+        }
+
+        .portfolio-shell {
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+        }
+
+        .portfolio-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .portfolio-head h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: .88;
+            letter-spacing: -.08em;
+            color: white;
+        }
+
+        .portfolio-head p {
+            max-width: 470px;
+            color: rgba(255, 255, 255, .68);
+            line-height: 1.95;
+        }
+
+        .monoliths {
+            display: grid;
+            gap: 16px;
+        }
+
+        .monolith {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .015)),
+                linear-gradient(135deg, rgba(255, 200, 120, .06), transparent 42%);
+            box-shadow: 0 26px 80px rgba(0, 0, 0, .26);
+            min-height: 290px;
+            transition: transform .5s cubic-bezier(.16, 1, .3, 1), border-color .35s ease;
+        }
+
+        .monolith:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 200, 120, .16);
+        }
+
+        .monolith .bg {
+            position: absolute;
+            inset: 0;
+            opacity: .96;
+            background-size: cover;
+            background-position: center;
+            filter: saturate(1.02) contrast(1.04) brightness(.86);
+        }
+
+        .monolith .veil {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(17, 17, 19, .94) 0 42%, rgba(17, 17, 19, .6) 62%, rgba(17, 17, 19, .1) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, .08), rgba(0, 0, 0, .35));
+        }
+
+        .monolith .content {
+            position: relative;
+            z-index: 2;
+            padding: 26px;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 20px;
+            min-height: 290px;
+            align-items: end;
+        }
+
+        .monolith h3 {
+            font-size: clamp(2.6rem, 5vw, 5.2rem);
+            line-height: .9;
+            letter-spacing: -.07em;
+            color: white;
+        }
+
+        .monolith .meta {
+            display: grid;
+            gap: 10px;
+            justify-items: end;
+            align-content: end;
+            text-align: right;
+            color: rgba(255, 255, 255, .74);
+        }
+
+        .meta .m {
+            padding: 10px 12px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .05);
+            text-transform: uppercase;
+            letter-spacing: .24em;
+            font-size: 10px;
+        }
+
+        .monolith .description {
+            max-width: 58ch;
+            margin-top: 14px;
+            color: rgba(255, 255, 255, .72);
+            line-height: 1.9;
+        }
+
+        .monolith .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .monolith .actions button {
+            height: 44px;
+            padding: 0 16px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: .24em;
+            font-size: 10px;
+        }
+
+        .monolith .details {
+            display: none;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            padding: 0 26px 26px;
+        }
+
+        .monolith.open .details {
+            display: grid;
+        }
+
+        .spec {
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .04);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 11px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, .76);
+        }
+
+        .spec strong {
+            display: block;
+            margin-bottom: 8px;
+            font-family: inherit;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+        }
+
+        .technical-footer {
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 90px;
+            background:
+                linear-gradient(180deg, rgba(12, 12, 13, 1), rgba(7, 7, 8, 1));
+            color: white;
+        }
+
+        .technical-footer::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 12%, rgba(255, 197, 112, .12), transparent 16%),
+                linear-gradient(180deg, transparent 0 66%, rgba(255, 255, 255, .03) 100%);
+            pointer-events: none;
+        }
+
+        .footer-shell {
+            position: relative;
+            z-index: 2;
+            width: min(1680px, calc(100% - 28px));
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 18px;
+        }
+
+        .footer-card {
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .03);
+            box-shadow: 0 20px 70px rgba(0, 0, 0, .24);
+            padding: 24px;
+        }
+
+        .footer-card h2 {
+            font-size: clamp(3rem, 6vw, 6rem);
+            line-height: .9;
+            letter-spacing: -.08em;
+        }
+
+        .footer-card p {
+            margin-top: 16px;
+            color: rgba(255, 255, 255, .68);
+            line-height: 1.95;
+            max-width: 740px;
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 14px;
+        }
+
+        .map {
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .015)),
+                linear-gradient(135deg, rgba(255, 200, 120, .08), transparent 42%);
+            min-height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .map::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 34px),
+                repeating-linear-gradient(180deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 28px);
+            opacity: .12;
+            pointer-events: none;
+        }
+
+        .badges {
+            display: grid;
+            gap: 14px;
+        }
+
+        .badge {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .04);
+            text-transform: uppercase;
+            letter-spacing: .22em;
+            font-size: 10px;
+            color: rgba(255, 255, 255, .72);
+        }
+
+        .footer-links {
+            margin-top: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .footer-links a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 15px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .03);
+            text-decoration: none;
+            color: rgba(255, 255, 255, .8);
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: .2em;
+            font-size: 10px;
+            transition: .25s ease;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+        }
+
+        .footer-line {
+            margin-top: 18px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
+        }
+
+        .footer-bottom {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: rgba(255, 255, 255, .52);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .22em;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .8s ease, transform .8s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes sheen {
+            to {
+                transform: translateX(240%) rotate(12deg);
+            }
+        }
+
+        @media (max-width: 1180px) {
+            .top-rail {
+                grid-template-columns: 1fr auto;
+            }
+
+            .rail-nav {
+                display: none;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-core {
+                grid-column: 1 / -1;
+            }
+
+            .telemetry {
+                position: static;
+                width: 100%;
+            }
+
+            .glow-left,
+            .glow-right {
+                display: none;
+            }
+
+            .section-heading,
+            .anatomy-head,
+            .portfolio-head,
+            .footer-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .anatomy-stage,
+            .footer-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .tile.a,
+            .tile.b,
+            .tile.c,
+            .tile.d,
+            .tile.e,
+            .tile.f,
+            .tile.g {
+                grid-column: span 6;
+            }
+
+            .portfolio .monolith .content {
+                grid-template-columns: 1fr;
+            }
+
+            .monolith .meta {
+                justify-items: start;
+                text-align: left;
+            }
+
+            .monolith .details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-links,
+            .map-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+
+            .top-rail,
+            .section-shell,
+            .anatomy-shell,
+            .portfolio-shell,
+            .footer-shell {
+                width: min(100% - 18px, 1680px);
+            }
+
+            .hero {
+                padding-top: 104px;
+            }
+
+            .hero-title h1 {
+                font-size: clamp(3rem, 13vw, 6.2rem);
+            }
+
+            .hero-video {
+                height: clamp(28rem, 52vh, 42rem);
+            }
+
+            .hero-title {
+                width: calc(100% - 12px);
+                padding: 16px 14px;
+            }
+
+            .section {
+                padding: 94px 0;
+            }
+
+            .tile.a,
+            .tile.b,
+            .tile.c,
+            .tile.d,
+            .tile.e,
+            .tile.f,
+            .tile.g {
+                grid-column: span 12;
+            }
+
+            .blueprint-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .monolith .details {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                gap: 10px;
+            }
+        }
+
+        @container (min-width: 700px) {
+            .hero-title p {
+                font-size: 17px;
+            }
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-\[10\%\]{bottom:10%}.left-\[6\%\]{left:6%}.right-\[4\%\]{right:4%}.top-\[10\%\]{top:10%}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.flex{display:flex}.h-\[28rem\]{height:28rem}.h-\[30rem\]{height:30rem}.h-10{height:2.5rem}.h-\[190px\]{height:190px}.h-full{height:100%}.w-\[28rem\]{width:28rem}.w-\[30rem\]{width:30rem}.w-full{width:100%}.gap-3{gap:0.75rem}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-\[1rem\]{border-radius:1rem}.rounded-\[2px\]{border-radius:2px}.border{border-width:1px}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 193\2c 102\2c \.16\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,193,102,.16),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 255\2c 255\2c \.06\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,255,255,.06),transparent 70%)}.bg-\[linear-gradient\(180deg\2c rgba\(255\2c 255\2c 255\2c \.03\)\2c rgba\(255\2c 255\2c 255\2c \.01\)\)\]{background-image:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-7{padding-left:1.75rem;padding-right:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\[10px\]{font-size:10px}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.tracking-\[0\.26em\]{letter-spacing:0.26em}.tracking-\[0\.28em\]{letter-spacing:0.28em}.tracking-\[0\.34em\]{letter-spacing:0.34em}.text-\[\#f0b36b\]{--tw-text-opacity:1;color:rgb(240 179 107 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/100{color:rgb(255 255 255 / 1)}.shadow-\[0_20px_40px_rgba\(0\2c 0\2c 0\2c 0\.5\)\]{--tw-shadow:0 20px 40px rgba(0,0,0,0.5);--tw-shadow-colored:0 20px 40px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_15px_30px_rgba\(0\2c 0\2c 0\2c 0\.6\)\]{--tw-drop-shadow:drop-shadow(0 15px 30px rgba(0,0,0,0.6));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_15px_30px_rgba\(0\2c 0\2c 0\2c 0\.8\)\]{--tw-drop-shadow:drop-shadow(0 15px 30px rgba(0,0,0,0.8));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_1px_2px_rgba\(0\2c 0\2c 0\2c 1\)\]{--tw-drop-shadow:drop-shadow(0 1px 2px rgba(0,0,0,1));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_2px_2px_rgba\(0\2c 0\2c 0\2c 1\)\]{--tw-drop-shadow:drop-shadow(0 2px 2px rgba(0,0,0,1));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_4px_10px_rgba\(0\2c 0\2c 0\2c 0\.6\)\]{--tw-drop-shadow:drop-shadow(0 4px 10px rgba(0,0,0,0.6));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_4px_10px_rgba\(0\2c 0\2c 0\2c 1\)\]{--tw-drop-shadow:drop-shadow(0 4px 10px rgba(0,0,0,1));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_4px_6px_rgba\(0\2c 0\2c 0\2c 1\)\]{--tw-drop-shadow:drop-shadow(0 4px 6px rgba(0,0,0,1));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_8px_15px_rgba\(0\2c 0\2c 0\2c 0\.9\)\]{--tw-drop-shadow:drop-shadow(0 8px 15px rgba(0,0,0,0.9));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}</style></head>
+
+<body data-sc-cs="color:rgb(255, 255, 255)">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="absolute left-[6%] top-[10%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(255,193,102,.16),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 193, 102, 0.16), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+        <div class="absolute right-[4%] bottom-[10%] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,.06),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+    </div>
+
+    <header class="top-rail" data-sc-cs="background-color:rgba(15, 17, 20, 0.72);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.26) 0px 18px 60px 0px;backdrop-filter:blur(20px);display:grid;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all;position:fixed">
+        <div class="brand" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <div class="brand-mark" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:3px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <iconify-icon icon="ph:building-bold" class="text-xl text-[#f0b36b]" data-sc-cs="color:rgb(240, 179, 107);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </div>
+            <div class="brand-copy" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:16.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.56);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:10.2px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Lignum Glass</div>
+                <div class="v" data-sc-cs="color:rgba(255, 255, 255, 0.88);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:14.28px;text-align:start;margin:4px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Master-Built Regenerative Structures</div>
+            </div>
+        </div>
+
+        <nav class="rail-nav" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:center;align-items:normal;flex-direction:row;transition:all">
+            <a href="#blueprint" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{color:var(--amber)}">Blueprint</a>
+            <a href="#anatomy" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{color:var(--amber)}">Anatomy</a>
+            <a href="#portfolio" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{color:var(--amber)}">Portfolio</a>
+            <a href="#footer" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{color:var(--amber)}">Footer</a>
+        </nav>
+
+        <div class="top-stats" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <div class="meter" data-sc-cs="background-color:rgba(255, 255, 255, 0.08);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:2px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><span data-sc-cs="background-image:linear-gradient(90deg, rgba(255, 201, 118, 0.95), rgba(172, 115, 43, 0.95));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></span></div>
+            <button class="amber-button h-10 px-4 text-[10px] uppercase tracking-[0.26em]" data-sc-cs="background-image:linear-gradient(rgba(255, 196, 116, 0.96), rgba(193, 124, 47, 0.92));color:rgb(29, 19, 10);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.6px;text-align:center;text-transform:uppercase;padding:0px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.14);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.26) 0px 24px 50px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 34%), linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.7) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-3px);box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px}">
+                Request Data Room
+            </button>
+        </div>
+    </header>
+
+    <main data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <section class="hero" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:88px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="glow-left" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 193, 98, 0.22), rgba(0, 0, 0, 0) 68%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, -189);position:absolute"></div>
+            <div class="glow-right" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 255, 255, 0.09), rgba(0, 0, 0, 0) 68%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, -189);position:absolute"></div>
+
+            <div class="section-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="hero-grid" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:14px;justify-content:normal;align-items:stretch;flex-direction:row;transition:all">
+                    <div class="telemetry reveal in" style="left:0; top:22%; transform:translateY(-50%);" data-sc-col="sccol-0" data-sc-cs="background-color:rgba(20, 20, 20, 0.42);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 195, 126, 0.28);border-radius:3px;box-shadow:rgba(0, 0, 0, 0.24) 0px 18px 48px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, -73.4922);position:absolute">
+                        <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.56);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Energy efficiency</div>
+                        <div class="v" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:43.2px;letter-spacing:-2.592px;text-align:start;margin:10px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">92%</div>
+                        <div class="d" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:20.4px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Photon-capturing facades calibrated for passive gain.</div>
+                    </div>
+
+                    <div class="telemetry reveal in" style="right:0; top:30%; transform:translateY(-50%);" data-sc-col="sccol-1" data-sc-cs="background-color:rgba(20, 20, 20, 0.42);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 195, 126, 0.28);border-radius:3px;box-shadow:rgba(0, 0, 0, 0.24) 0px 18px 48px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, -73.4922);position:absolute">
+                        <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.56);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Structural integrity</div>
+                        <div class="v" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:43.2px;letter-spacing:-2.592px;text-align:start;margin:10px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A+</div>
+                        <div class="d" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:20.4px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">High-thermal mass concrete locking the monolith with precision.</div>
+                    </div>
+
+                    <div class="telemetry reveal in" style="left:0; bottom:16%; transform:translateY(50%);" data-sc-col="sccol-2" data-sc-cs="background-color:rgba(20, 20, 20, 0.42);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 195, 126, 0.28);border-radius:3px;box-shadow:rgba(0, 0, 0, 0.24) 0px 18px 48px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 73.4922);position:absolute">
+                        <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.56);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Material load</div>
+                        <div class="v" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:43.2px;letter-spacing:-2.592px;text-align:start;margin:10px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">4.8k</div>
+                        <div class="d" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:20.4px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Translucent timber, solar glass, and carbon-sequestering assemblies.</div>
+                    </div>
+
+                    <div class="telemetry reveal in" style="right:0; bottom:18%; transform:translateY(50%);" data-sc-col="sccol-3" data-sc-cs="background-color:rgba(20, 20, 20, 0.42);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 195, 126, 0.28);border-radius:3px;box-shadow:rgba(0, 0, 0, 0.24) 0px 18px 48px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 73.4922);position:absolute">
+                        <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.56);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Build phase</div>
+                        <div class="v" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:43.2px;letter-spacing:-2.592px;text-align:start;margin:10px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Live</div>
+                        <div class="d" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:20.4px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Crane rhythm, joint locking, and site telemetry synchronized in real time.</div>
+                    </div>
+
+                    <div class="hero-core" data-sc-col="sccol-4" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)), linear-gradient(135deg, rgba(255, 193, 127, 0.06), rgba(0, 0, 0, 0) 42%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:22px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:38.4px;box-shadow:rgba(0, 0, 0, 0.36) 0px 30px 90px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="core-shell" data-sc-cs="background-color:rgba(20, 20, 20, 0.55);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 199, 137, 0.2);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.03) 0px 0px 0px 1px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <video id="heroVideo" autoplay="" muted="" loop="" playsinline="" class="hero-video" style="transform: scale(1.05) translateY(0px);" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.05, 0, 0, 1.05, 0, 0)">
+                                <source src="https://videos.openhero.art/downloads/enterprice/master-built-regenerative-structures/video.mp4" type="video/mp4">
+                            </video>
+                            <div class="shimmer-frame" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:32px;box-shadow:rgba(255, 201, 118, 0.28) 0px 0px 0px 1px inset, rgba(255, 196, 116, 0.22) 0px 0px 80px 0px inset, rgba(255, 178, 92, 0.1) 0px 0px 80px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+                            <div class="hero-title" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:20px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -401.117, -298.156);position:absolute">
+                                <h1 class="display mt-4 drop-shadow-[0_4px_6px_rgba(0,0,0,1)] drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:129.6px;font-weight:400;line-height:108.864px;letter-spacing:-10.368px;text-align:center;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    The villa becomes the machine.
+                                </h1>
+
+                                <p class="text-white/100 drop-shadow-[0_2px_2px_rgba(0,0,0,1)] drop-shadow-[0_4px_10px_rgba(0,0,0,1)] drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)]" data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:30.4px;text-align:center;margin:18px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:760px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    A central portal for translucent timber engineering, solar glass geometry, and the
+                                    density of master-built regenerative structures.
+                                </p>
+
+                                <div class="chips flex gap-3 mt-6" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:18px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:10px;justify-content:center;align-items:normal;flex-direction:row;transition:all">
+                                    <span class="drop-shadow-[0_1px_2px_rgba(0,0,0,1)] drop-shadow-[0_8px_15px_rgba(0,0,0,0.9)] font-medium" data-sc-col="sccol-5" data-sc-cs="background-color:rgba(255, 255, 255, 0.08);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:center;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                        Amber Glow
+                                    </span>
+                                    <span class="drop-shadow-[0_1px_2px_rgba(0,0,0,1)] drop-shadow-[0_8px_15px_rgba(0,0,0,0.9)] font-medium" data-sc-col="sccol-6" data-sc-cs="background-color:rgba(255, 255, 255, 0.08);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:center;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                        Concrete Grey
+                                    </span>
+                                    <span class="drop-shadow-[0_1px_2px_rgba(0,0,0,1)] drop-shadow-[0_8px_15px_rgba(0,0,0,0.9)] font-medium" data-sc-col="sccol-7" data-sc-cs="background-color:rgba(255, 255, 255, 0.08);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:center;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                        Golden Oak
+                                    </span>
+                                </div>
+
+
+                                <div class="actions mt-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:26px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:center;align-items:normal;flex-direction:row;transition:all">
+                                    <button class="amber-button px-7 shadow-[0_20px_40px_rgba(0,0,0,0.5)]" data-sc-cs="background-image:linear-gradient(rgba(255, 196, 116, 0.96), rgba(193, 124, 47, 0.92));color:rgb(29, 19, 10);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.6px;text-align:center;text-transform:uppercase;padding:0px 22px;border-top-style:none;border-top-color:rgb(29, 19, 10);border-radius:16px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.5) 0px 20px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 34%), linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.7) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-3px);box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px}">
+                                        Explore the Monolith
+                                    </button>
+
+                                    <button class="dense-panel rounded-[1rem] px-7 text-[10px] uppercase tracking-[0.28em] text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)), linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0) 35%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.6px;text-align:center;text-transform:uppercase;padding:0px 22px;border-top-style:none;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.28) 0px 24px 70px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                        View Technical Sheet
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="blueprint" class="section" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:120px 0px;margin:-22px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="section-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="section-heading reveal in" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 26px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                    <div data-sc-col="sccol-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="tag" data-sc-cs="color:rgba(255, 255, 255, 0.52);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;margin:0px 0px 18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">The Blueprint Grid</div>
+                        <h2 class="display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:86.4px;font-weight:400;line-height:76.032px;letter-spacing:-6.912px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Dense, measurable, and structurally complete.</h2>
+                    </div>
+                    <p data-sc-col="sccol-9" data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:31.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:460px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Floor plans, CAD snippets, and material samples are arranged in a compact mosaic so every pixel
+                        carries built-quality.
+                    </p>
+                </div>
+            </div>
+
+            <div class="blueprint" data-sc-cs="background-image:linear-gradient(rgba(48, 49, 55, 0.96), rgba(28, 30, 35, 0.98));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.26) 0px 28px 90px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="section-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="blueprint-grid" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <article class="tile a reveal in" data-sc-col="sccol-10" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Floor plan / level 01</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Plan geometry for solar glass envelopes.</h3>
+                                </div>
+                                <div class="mini" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all">
+                                    <span data-sc-col="sccol-11" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">140 m²</span>
+                                    <span class="metric display" data-sc-col="sccol-12" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:42px;font-weight:400;line-height:42px;letter-spacing:-2.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A1</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="tile b reveal in" data-sc-col="sccol-13" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">CAD section / facade</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Translucent timber ribs.</h3>
+                                </div>
+                                <div class="mini" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all">
+                                    <span data-sc-col="sccol-14" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">load path</span>
+                                    <span class="metric display" data-sc-col="sccol-15" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:42px;font-weight:400;line-height:42px;letter-spacing:-2.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">B2</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="tile c reveal in" data-sc-col="sccol-16" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Material sample</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Oiled oak + glass.</h3>
+                                </div>
+                                <div class="mini" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all">
+                                    <span data-sc-col="sccol-17" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">ratio</span>
+                                    <span class="metric display" data-sc-col="sccol-18" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:42px;font-weight:400;line-height:42px;letter-spacing:-2.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">60/40</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="tile d reveal in" data-sc-col="sccol-19" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Energy study</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Photon-capturing facades tuned to sunset gain.</h3>
+                                </div>
+                                <p data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:30.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:333px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Thermal behavior modeled around exterior light intensity and seasonal solar shift.
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="tile e reveal in" data-sc-col="sccol-20" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Monolith detail / section cut</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">High-thermal mass concrete anchors the frame.</h3>
+                                </div>
+                                <p data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:30.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:333px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Thick, quiet, and engineered to retain heat while preserving the luminous balance of
+                                    the villa.</p>
+                            </div>
+                        </article>
+
+                        <article class="tile f reveal in" data-sc-col="sccol-21" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Certifications</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Net-positive targets.</h3>
+                                </div>
+                                <div class="mini" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all">
+                                    <span data-sc-col="sccol-22" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">LEED</span>
+                                    <span class="metric display" data-sc-col="sccol-23" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:42px;font-weight:400;line-height:42px;letter-spacing:-2.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Gold</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="tile g reveal in" data-sc-col="sccol-24" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.18) 0px 16px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="inner" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:18px;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="label" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Structural luminosity</div>
+                                    <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:39.744px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Light, made load-bearing.</h3>
+                                </div>
+                                <div class="mini" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:14px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all">
+                                    <span data-sc-col="sccol-25" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">status</span>
+                                    <span class="metric display" data-sc-col="sccol-26" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:42px;font-weight:400;line-height:42px;letter-spacing:-2.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Stable</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="anatomy" class="material-anatomy" data-sc-cs="background-image:radial-gradient(circle at 12% 10%, rgba(255, 190, 110, 0.12), rgba(0, 0, 0, 0) 16%), linear-gradient(rgba(20, 21, 24, 0.96), rgb(10, 11, 13));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="anatomy-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:36px 0px 42px;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="anatomy-head reveal in" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 2px;margin:0px 0px 22px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                    <div data-sc-col="sccol-27" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="tag" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Material Anatomy</div>
+                        <h2 class="display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:86.4px;font-weight:400;line-height:76.032px;letter-spacing:-6.912px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A scroll-through cross-section of the wall itself.</h2>
+                    </div>
+                    <p data-sc-col="sccol-28" data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:31.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:460px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Layer-by-layer construction reveals insulation, timber, concrete, and glass as a continuous
+                        technical narrative rather than a decorative diagram.
+                    </p>
+                </div>
+
+                <div class="anatomy-stage" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:stretch;flex-direction:row;transition:all">
+                    <div class="wall-view reveal in" data-sc-col="sccol-29" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)), linear-gradient(135deg, rgba(255, 190, 108, 0.08), rgba(0, 0, 0, 0) 40%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.25) 0px 22px 60px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <div class="cross-section" data-sc-cs="background-image:linear-gradient(90deg, rgba(224, 198, 167, 0.14) 0px, rgba(224, 198, 167, 0.14) 16%, rgba(150, 142, 135, 0.14) 16%, rgba(150, 142, 135, 0.14) 33%, rgba(74, 73, 78, 0.16) 33%, rgba(74, 73, 78, 0.16) 54%, rgba(109, 92, 70, 0.16) 54%, rgba(109, 92, 70, 0.16) 76%, rgba(222, 183, 115, 0.18) 76%, rgba(222, 183, 115, 0.18) 100%), linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.016));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:3px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                            <div class="layer l1 active" data-sc-cs="background-color:rgba(208, 169, 122, 0.28);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;transform:matrix(1, 0, 0, 1, 8, 0);position:absolute"><span data-sc-col="sccol-30" data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">1. Outer solar glass</span><span data-sc-col="sccol-31" data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">low-e</span></div>
+                            <div class="layer l2" data-sc-cs="background-color:rgba(126, 111, 92, 0.24);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;position:absolute"><span data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">2. Ventilated cavity</span><span data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">air gap</span></div>
+                            <div class="layer l3" data-sc-cs="background-color:rgba(43, 54, 60, 0.28);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;position:absolute"><span data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">3. Structural timber</span><span data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">glulam</span></div>
+                            <div class="layer l4" data-sc-cs="background-color:rgba(99, 82, 58, 0.26);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;position:absolute"><span data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">4. Thermal insulation</span><span data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">high density</span></div>
+                            <div class="layer l5" data-sc-cs="background-color:rgba(210, 171, 97, 0.26);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;position:absolute"><span data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">5. High-thermal mass concrete</span><span data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">core</span></div>
+                            <div class="layer l6" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:0px 22px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.4s, opacity 0.4s;position:absolute"><span data-sc-cs="color:rgba(255, 255, 255, 0.78);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">6. Interior finish</span><span data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">oak lining</span></div>
+                        </div>
+                        <div class="cross-overlay" data-sc-cs="background-color:rgba(17, 17, 19, 0.52);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 193, 119, 0.22);border-radius:0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                            <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.58);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Cross-section telemetry</div>
+                            <div class="v display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:43.2px;font-weight:400;line-height:43.2px;letter-spacing:-2.592px;text-align:start;margin:10px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">U-value 0.16 · load factor 98%</div>
+                        </div>
+                    </div>
+
+                    <div class="anatomy-copy" data-sc-col="sccol-32" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+                        <div class="detail-card reveal in" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.016));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.22) 0px 18px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Layer 01</div>
+                            <div class="v display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:400;line-height:45.6px;letter-spacing:-2.88px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Photon-capturing facades</div>
+                            <p data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:29.6px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Glazing controls daylight with a calibrated sheen that softens heat gain while preserving
+                                clarity.</p>
+                        </div>
+
+                        <div class="detail-card reveal in" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.016));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.22) 0px 18px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Layer 02</div>
+                            <div class="v display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:400;line-height:45.6px;letter-spacing:-2.88px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Translucent timber engineering</div>
+                            <p data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:29.6px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Wood becomes a luminous structural instrument, balancing warmth and precision in the same
+                                assembly.</p>
+                        </div>
+
+                        <div class="detail-card reveal in" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.016));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.22) 0px 18px 44px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+                            <div class="k" data-sc-cs="color:rgba(255, 255, 255, 0.54);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Layer 03</div>
+                            <div class="v display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:400;line-height:45.6px;letter-spacing:-2.88px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Carbon-sequestering monoliths</div>
+                            <p data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:29.6px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">The mass of the structure stores energy, stabilizes interior climate, and reinforces
+                                long-term performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="portfolio" data-sc-cs="background-image:radial-gradient(circle at 0% 0%, rgba(255, 198, 116, 0.1), rgba(0, 0, 0, 0) 16%), linear-gradient(rgb(31, 29, 28), rgb(20, 19, 18));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:120px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="portfolio-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="portfolio-head reveal" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)">
+                    <div data-sc-col="sccol-33" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="tag" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Portfolio Monoliths</div>
+                        <h2 class="display" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:86.4px;font-weight:400;line-height:76.032px;letter-spacing:-6.912px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Massive projects that expand in place.</h2>
+                    </div>
+                    <p data-sc-col="sccol-34" data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:31.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:470px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Each monolith is a full-width statement piece with an inline expansion driven by View
+                        Transitions, preserving the scroll position and the sense of physical scale.
+                    </p>
+                </div>
+
+                <div class="monoliths" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <article class="monolith reveal open" data-open="false" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.016)), linear-gradient(135deg, rgba(255, 200, 120, 0.06), rgba(0, 0, 0, 0) 42%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.26) 0px 26px 80px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)">
+                        <div class="bg" style="background-image:url('./video.mp4');" data-sc-cs="background-image:url(&quot;https://openhero.art/api/video.mp4&quot;);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                        <div class="veil" data-sc-cs="background-image:linear-gradient(90deg, rgba(17, 17, 19, 0.94) 0px, rgba(17, 17, 19, 0.94) 42%, rgba(17, 17, 19, 0.6) 62%, rgba(17, 17, 19, 0.1) 100%), linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                        <div class="content" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:26px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:20px;justify-content:normal;align-items:end;flex-direction:row;transition:all">
+                            <div data-sc-col="sccol-35" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="mono text-[10px] uppercase tracking-[0.34em] text-white/58" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Residence 01
+                                </div>
+                                <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-5.04px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Sunset villa with translucent oak ribs.</h3>
+                                <p class="description" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:30.4px;text-align:start;margin:14px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:536.5px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A regenerative retreat framed by solar glass and thermal mass,
+                                    designed to feel calm, heavy, and deeply luminous.</p>
+                                <div class="actions" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:10px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <button class="amber-button px-5" data-sc-col="sccol-36" data-sc-cs="background-image:linear-gradient(rgba(255, 196, 116, 0.96), rgba(193, 124, 47, 0.92));color:rgb(29, 19, 10);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;padding:0px 16px;border-top-style:none;border-top-color:rgb(29, 19, 10);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.26) 0px 24px 50px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 34%), linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.7) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-3px);box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px}">Expand monolith</button>
+                                    <button class="dense-panel rounded-[1rem] px-5 text-[10px] uppercase tracking-[0.28em] text-white" data-sc-col="sccol-37" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)), linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0) 35%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;padding:0px 16px;border-top-style:none;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.28) 0px 24px 70px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Spec
+                                        sheet</button>
+                                </div>
+                            </div>
+                            <div class="meta" data-sc-col="sccol-38" data-sc-cs="color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:10px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Energy +24%</div>
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Materials 7</div>
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Integrity A+</div>
+                            </div>
+                        </div>
+                        <div class="details" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 26px 26px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:none;gap:14px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Facade</strong>Solar glass, low-e coating, daylight capture</div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Frame</strong>Translucent timber, engineered for span and warmth
+                            </div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Mass</strong>High-thermal concrete core, climate stabilization
+                            </div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Status</strong>Delivered, certified, and net-positive ready</div>
+                        </div>
+                    </article>
+
+                    <article class="monolith reveal open" data-open="false" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.016)), linear-gradient(135deg, rgba(255, 200, 120, 0.06), rgba(0, 0, 0, 0) 42%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.26) 0px 26px 80px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)">
+                        <div class="bg" style="background-image:url('./video.mp4');" data-sc-cs="background-image:url(&quot;https://openhero.art/api/video.mp4&quot;);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                        <div class="veil" data-sc-cs="background-image:linear-gradient(90deg, rgba(17, 17, 19, 0.94) 0px, rgba(17, 17, 19, 0.94) 42%, rgba(17, 17, 19, 0.6) 62%, rgba(17, 17, 19, 0.1) 100%), linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                        <div class="content" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:26px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:20px;justify-content:normal;align-items:end;flex-direction:row;transition:all">
+                            <div data-sc-col="sccol-39" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="mono text-[10px] uppercase tracking-[0.34em] text-white/58" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Residence 02
+                                </div>
+                                <h3 class="display mt-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-5.04px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Monolithic courtyard with layered oak interiors.</h3>
+                                <p class="description" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:30.4px;text-align:start;margin:14px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:536.5px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A deep, anchored plan with material transitions that turn the
+                                    home into a sequence of luminous chambers.</p>
+                                <div class="actions" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:10px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <button class="amber-button px-5" data-sc-col="sccol-40" data-sc-cs="background-image:linear-gradient(rgba(255, 196, 116, 0.96), rgba(193, 124, 47, 0.92));color:rgb(29, 19, 10);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;padding:0px 16px;border-top-style:none;border-top-color:rgb(29, 19, 10);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.45) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.26) 0px 24px 50px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 34%), linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.7) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-3px);box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px}">Expand monolith</button>
+                                    <button class="dense-panel rounded-[1rem] px-5 text-[10px] uppercase tracking-[0.28em] text-white" data-sc-col="sccol-41" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)), linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0) 35%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;padding:0px 16px;border-top-style:none;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.28) 0px 24px 70px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Spec
+                                        sheet</button>
+                                </div>
+                            </div>
+                            <div class="meta" data-sc-col="sccol-42" data-sc-cs="color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:10px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Apertures 18</div>
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Floors 3</div>
+                                <div class="m" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgba(255, 255, 255, 0.74);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.4px;text-align:right;text-transform:uppercase;padding:10px 12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Carbon low</div>
+                            </div>
+                        </div>
+                        <div class="details" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 26px 26px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:none;gap:14px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Courtyard</strong>Ventilation, privacy, and solar moderation</div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Joinery</strong>Precision-locked oak assemblies</div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Envelope</strong>Thermal gradient management</div>
+                            <div class="spec" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.76);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:400;line-height:19.8px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><strong data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:11px;font-weight:700;line-height:19.8px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Output</strong>Built for long-cycle performance</div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="footer" class="technical-footer" data-sc-cs="background-image:linear-gradient(rgb(12, 12, 13), rgb(7, 7, 8));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:120px 0px 90px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="footer-shell" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 14px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:18px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="footer-card reveal" data-sc-col="sccol-43" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;box-shadow:rgba(0, 0, 0, 0.24) 0px 20px 70px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)">
+                    <div class="mono text-[10px] uppercase tracking-[0.34em] text-white/54" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Technical Footer</div>
+                    <h2 class="display mt-5" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:86.4px;font-weight:400;line-height:77.76px;letter-spacing:-6.912px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Global project maps, certification badges, and deep links.</h2>
+                    <p data-sc-cs="color:rgba(255, 255, 255, 0.68);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:31.2px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:740px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        The final layer keeps the page dense with utility: maps, accreditations, contact pathways, and
+                        data-rich navigation, all held together by a monolithic material language.
+                    </p>
+
+                    <div class="footer-links" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:18px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <a href="#" data-sc-col="sccol-44" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:14px 15px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{background-color:rgba(255, 255, 255, 0.06);background-image:initial;color:rgb(255, 255, 255)}"><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Projects</span><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">↗</span></a>
+                        <a href="#" data-sc-col="sccol-45" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:14px 15px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{background-color:rgba(255, 255, 255, 0.06);background-image:initial;color:rgb(255, 255, 255)}"><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Materials</span><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">↗</span></a>
+                        <a href="#" data-sc-col="sccol-46" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:14px 15px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:0.25s" data-sc-hover="hover-self{background-color:rgba(255, 255, 255, 0.06);background-image:initial;color:rgb(255, 255, 255)}"><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Certification</span><span data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">↗</span></a>
+                    </div>
+
+                    <div class="footer-line" data-sc-cs="background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:18px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+
+                    <div class="footer-bottom" data-sc-cs="color:rgba(255, 255, 255, 0.52);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;margin:18px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:space-between;align-items:normal;flex-direction:row;transition:all">
+                        <div data-sc-col="sccol-47" data-sc-cs="color:rgba(255, 255, 255, 0.52);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Lignum Glass</div>
+                        <div data-sc-col="sccol-48" data-sc-cs="color:rgba(255, 255, 255, 0.52);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Amber Glow · Concrete Grey · Golden Oak</div>
+                        <div data-sc-col="sccol-49" data-sc-cs="color:rgba(255, 255, 255, 0.52);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Master-built regenerative structures</div>
+                    </div>
+                </div>
+
+                <div class="map-grid" data-sc-col="sccol-50" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:14px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="map reveal" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.016)), linear-gradient(135deg, rgba(255, 200, 120, 0.08), rgba(0, 0, 0, 0) 42%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)">
+                        <div class="mono text-[10px] uppercase tracking-[0.34em] text-white/54" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;IBM Plex Mono&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Global project map</div>
+                        <div class="mt-4 h-[190px] rounded-[2px] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))] relative overflow-hidden" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:16px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:2px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <svg viewBox="0 0 900 190" class="absolute inset-0 h-full w-full" preserveAspectRatio="none">
+                                <path d="M40 150 C140 70, 220 60, 310 98 S500 150, 630 76 S760 40, 860 108" fill="none" stroke="rgba(255,201,120,.85)" stroke-width="2"></path>
+                                <circle cx="160" cy="90" r="4" fill="rgba(255,255,255,.85)" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></circle>
+                                <circle cx="312" cy="98" r="4" fill="rgba(255,255,255,.85)" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></circle>
+                                <circle cx="628" cy="76" r="4" fill="rgba(255,255,255,.85)" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></circle>
+                                <circle cx="840" cy="108" r="4" fill="rgba(255,255,255,.85)" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></circle>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="badges" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:14px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="badge reveal" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:16px 18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)"><span data-sc-col="sccol-51" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">LEED</span><span data-sc-col="sccol-52" data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Gold</span></div>
+                        <div class="badge reveal" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:16px 18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)"><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Energy</span><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Net+</span></div>
+                        <div class="badge reveal" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:16px 18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)"><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Structure</span><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Class A</span></div>
+                        <div class="badge reveal" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:16px 18px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-direction:row;transition:opacity 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 24)"><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Delivery</span><span data-sc-cs="color:rgba(255, 255, 255, 0.72);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Global</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const supportsViewTransitions = typeof document.startViewTransition === 'function';
+        const heroVideo = document.getElementById('heroVideo');
+        const revealTargets = document.querySelectorAll('.reveal');
+        const layers = document.querySelectorAll('.cross-section .layer');
+        const monoliths = document.querySelectorAll('.monolith');
+
+        let ticking = false;
+
+        function updateHero() {
+            const progress = Math.min(window.scrollY / (window.innerHeight * 1.1), 1);
+            const scale = 1.05 + progress * 0.12;
+            const translate = progress * 18;
+            if (heroVideo) heroVideo.style.transform = `scale(${scale}) translateY(${translate}px)`;
+        }
+
+        updateHero();
+
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateHero();
+                ticking = false;
+            });
+        }, { passive: true });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                }
+            });
+        }, { threshold: 0.16 });
+
+        revealTargets.forEach((el) => revealObserver.observe(el));
+
+        const layerObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    layers.forEach((layer, i) => layer.classList.toggle('active', i === index % layers.length));
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const anatomySection = document.querySelector('#anatomy');
+        if (anatomySection) layerObserver.observe(anatomySection);
+
+        monoliths.forEach((card) => {
+            const btn = card.querySelector('.amber-button');
+            btn?.addEventListener('click', () => {
+                const toggle = () => {
+                    card.classList.toggle('open');
+                };
+
+                if (supportsViewTransitions) {
+                    document.startViewTransition(toggle);
+                } else {
+                    toggle();
+                }
+            });
+        });
+
+        document.querySelectorAll('button, a').forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+                el.animate(
+                    [{ transform: 'translateY(0px)' }, { transform: 'translateY(-2px)' }],
+                    { duration: 220, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' }
+                );
+            });
+
+            el.addEventListener('mouseleave', () => {
+                el.animate(
+                    [{ transform: 'translateY(-2px)' }, { transform: 'translateY(0px)' }],
+                    { duration: 220, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' }
+                );
+            });
+        });
+
+        if (supportsViewTransitions) {
+            document.querySelectorAll('button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    document.startViewTransition(() => { });
+                });
+            });
+        }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+</body></html>

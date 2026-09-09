@@ -1,0 +1,10 @@
+kind,target,evidence,suggested_fx,confidence
+css-animation,.floating-element,infinite keyframes 'float' (transform),physics float/pulse or backgrounds module,low
+hover,.bioluminescent-btn,"transform, box-shadow, border-top-color, border-right-color change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.hover\:bg-white\/\[0\.03\],background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-amber-glow,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-amber-glow,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-pink-petal,color change on hover,interaction: {effect:'color_shift'},medium
+hover,hover:text-amber-glow transition-colors duration-300 mix-ble,color change on hover,interaction: {effect:'color_shift'},medium
+hover,bioluminescent-btn px-10 py-5 text-white tracking-widest tex,"boxShadow, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,bioluminescent-btn px-12 py-6 text-white tracking-widest tex,"transform, boxShadow, borderColor change on hover",interaction: {effect:'color_shift'},medium

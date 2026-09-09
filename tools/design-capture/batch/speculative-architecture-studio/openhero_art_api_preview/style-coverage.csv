@@ -1,0 +1,57 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,background-image,3,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,box-shadow,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,border,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,padding,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,margin,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,gap,3,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,position-absolute,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,display-flex,3,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,0,relative w-full h-screen flex items-center overflow-hidden,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,background-color,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,border,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,padding,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,margin,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,gap,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,position-sticky,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,1,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,display-grid,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,background-image,8,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,background-color,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,border,14,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,padding,19,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,margin,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,gap,7,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,position-absolute,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,display-flex,14,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,2,py-40 bg-darkroom-950 border-t border-b border-white/5 relative,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,background-image,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,background-color,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,border,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,border-radius,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,padding,8,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,margin,12,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,gap,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,transform,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,position-absolute,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,display-flex,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,3,py-40 px-8 lg:px-20 max-w-9xl mx-auto relative,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,background-color,6,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,border,10,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,padding,11,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,margin,8,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,gap,4,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,display-flex,3,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,4,py-40 bg-zinc-950 border-t border-white/5 relative,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,background-color,2,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,border,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,max-width,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,padding,6,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,margin,5,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=speculative-architecture-studio,home,5,py-40 px-8 lg:px-20 max-w-9xl mx-auto border-t border-white/5 relative,display-grid,1,yes

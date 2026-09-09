@@ -1,0 +1,335 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glow-bleed{background: linear-gradient(135deg, oklch(0.9 0.1 50) 0%, oklch(0.75 0.2 45) 40%, oklch(0.65 0.25 30) 100%) text; -webkit-text-fill-color: transparent; animation: 4s ease-in-out 0s infinite alternate none running organicPulse;}\n.liquid-terminals i{font-style: italic; letter-spacing: -0.04em; padding-right: 0.06em; font-weight: 400;}\n.apple-sharpness{backdrop-filter: blur(15px); background: oklch(0.75 0.2 45 / 0.02); border: 0.5px solid oklch(0.75 0.2 45 / 0.15); box-shadow: oklch(0.9 0.1 50 / 0.05) 0px 1px 1px inset, rgba(0, 0, 0, 0.6) 0px 20px 40px; border-radius: 20px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.apple-sharpness:hover{background: oklch(0.75 0.2 45 / 0.04); border-color: oklch(0.75 0.2 45 / 0.3);}\n.sss-card{position: relative; overflow: hidden;}\n.sss-card::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(145deg, oklch(0.75 0.2 45 / 0.4), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.sss-card::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: oklch(0.75 0.2 45 / 0.05) 0px 0px 40px inset; pointer-events: none; transition: box-shadow 0.4s;}\n.sss-card:hover::after{box-shadow: oklch(0.75 0.2 45 / 0.15) 0px 0px 60px inset;}\n.subsurface-glow{position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, oklch(0.75 0.2 45 / 0.4) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); opacity: 0; transition: opacity 0.5s; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;}\n.sss-card:hover .subsurface-glow{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(20px); filter: blur(8px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), filter 1.4s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh1{font-size: inherit; font-weight: inherit;}\nh1, p{margin: 0px;}\n.relative{position: relative;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.order-2{order: 2;}\n.mb-12{margin-bottom: 3rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.aspect-\\[4\\/3\\]{aspect-ratio: 4 / 3;}\n.max-w-md{max-width: 28rem;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.p-6{padding: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.pb-20{padding-bottom: 5rem;}\n.pr-4{padding-right: 1rem;}\n.pt-32{padding-top: 8rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-\\[9px\\]{font-size: 9px;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-lumina{color: oklch(0.9 0.1 50);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-flare{color: oklch(0.65 0.25 30);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-ember{color: oklch(0.75 0.2 45);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.group:hover .group-hover\\:text-lumina{color: oklch(0.9 0.1 50);}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:order-1{order: 1;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:py-0{padding-top: 0px; padding-bottom: 0px;}}\n@media (min-width: 1024px){.lg\\:text-\\[6rem\\]{font-size: 6rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "0px 96px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "       <h1 class=\"font-serif text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-tight mb-8 bloom-reveal active delay-100 liquid-terminals\">         Living <br>         <i class=\"glow-bleed pr-4\">Light</i> <br>         Technology       </h1>       <p class=\"font-sans text-sm md:text-base text-white/40 max-w-md leading-relaxed bloom-reveal active delay-200 font-light mb-12\">         Engineering mycelium photon-conductivity to redefine illumination. We harness organic luminescence efficiency and circadian bio-rhythms to cultivate light that breathes.       </p>       <div class=\"grid grid-cols-2 gap-4 max-w-md bloom-reveal active delay-300\">         <div class=\"apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group\">           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:lightning-light\" class=\"text-2xl text-flare mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Quantum Yield</span>               <span class=\"font-serif text-2xl text-lumina\">84.2%</span>             </div>           </div>         </div>         <div class=\"apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group\">           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:timer-light\" class=\"text-2xl text-ember mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Circadian Cycle</span>               <span class=\"font-serif text-2xl text-lumina\">24h Sync</span>             </div>           </div>         </div>       </div>     ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Living <br> <em>Light</em> <br> Technology",
+              "text": "Living Light Technology",
+              "tag": "h1",
+              "cls": "font-serif text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-tight mb-8 bloom-reveal active delay-100 liquid-terminals",
+              "wrapCls": "flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1",
+              "fontSize": "96px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "96px",
+              "letterSpacing": "-2.4px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-sans text-sm md:text-base text-white/40 max-w-md leading-relaxed bloom-reveal active delay-200 font-light mb-12\">         Engineering mycelium photon-conductivity to redefine illumination. We harness organic luminescence efficiency and circadian bio-rhythms to cultivate light that breathes.       </p>",
+              "text": "Engineering mycelium photon-conductivity to redefine illumination. We harness organic luminescence efficiency and circadian bio-rhythms to cultivate light that breathes.",
+              "tag": "p",
+              "cls": "font-sans text-sm md:text-base text-white/40 max-w-md leading-relaxed bloom-reveal active delay-200 font-light mb-12",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.4)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group",
+                  "colId": "sccol-0",
+                  "cw": 6,
+                  "html": "           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:lightning-light\" class=\"text-2xl text-flare mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Quantum Yield</span>               <span class=\"font-serif text-2xl text-lumina\">84.2%</span>             </div>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 6,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group",
+                  "colId": "sccol-1",
+                  "cw": 6,
+                  "html": "           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:timer-light\" class=\"text-2xl text-ember mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Circadian Cycle</span>               <span class=\"font-serif text-2xl text-lumina\">24h Sync</span>             </div>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 6,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-2 gap-4 max-w-md bloom-reveal active delay-300\">         <div class=\"apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group\" data-sc-col=\"sccol-0\">           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:lightning-light\" class=\"text-2xl text-flare mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Quantum Yield</span>               <span class=\"font-serif text-2xl text-lumina\">84.2%</span>             </div>           </div>         </div>         <div class=\"apple-sharpness sss-card p-6 flex flex-col justify-between aspect-[4/3] group\" data-sc-col=\"sccol-1\">           <div class=\"subsurface-glow\"></div>           <div class=\"relative z-10\">             <iconify-icon icon=\"ph:timer-light\" class=\"text-2xl text-ember mb-4 group-hover:text-lumina transition-colors\"></iconify-icon>             <div>               <span class=\"block font-sans text-[9px] tracking-[0.2em] uppercase text-white/30 mb-1\">Circadian Cycle</span>               <span class=\"font-serif text-2xl text-lumina\">24h Sync</span>             </div>           </div>         </div>       </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".radial-portal{mask-image: radial-gradient(circle, black 25%, transparent 75%); transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;}\n.radial-portal:hover{transform: scale(1.03);}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.order-1{order: 1;}\n.flex{display: flex;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.object-cover{object-fit: cover;}\n.opacity-90{opacity: 0.9;}\n.mix-blend-color{mix-blend-mode: color;}\n.contrast-125{--tw-contrast: contrast(1.25); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-150{--tw-saturate: saturate(1.5); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 1024px){.lg\\:order-2{order: 2;}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "       <div class=\"absolute inset-0 w-full h-full radial-portal\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 opacity-90 filter contrast-125 saturate-150\">           <source src=\"https://videos.openhero.art/downloads/nature/living-light-technology/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"absolute inset-0 bg-flare/10 mix-blend-color\"></div>       </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/living-light-technology/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=living-light-technology",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=living-light-technology",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover scale-105 opacity-90 filter contrast-125 saturate-150 absolute inset-0 w-full h-full radial-portal relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10 relative w-full min-h-screen grid grid-cols-1 lg:grid-cols-2",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-flare/10 mix-blend-color\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "color",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 720,
+                "h": 900
+              }
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".liquid-terminals i{font-style: italic; letter-spacing: -0.04em; padding-right: 0.06em; font-weight: 400;}\n.apple-sharpness{backdrop-filter: blur(15px); background: oklch(0.75 0.2 45 / 0.02); border: 0.5px solid oklch(0.75 0.2 45 / 0.15); box-shadow: oklch(0.9 0.1 50 / 0.05) 0px 1px 1px inset, rgba(0, 0, 0, 0.6) 0px 20px 40px; border-radius: 20px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.apple-sharpness:hover{background: oklch(0.75 0.2 45 / 0.04); border-color: oklch(0.75 0.2 45 / 0.3);}\n.sss-card{position: relative; overflow: hidden;}\n.sss-card::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(145deg, oklch(0.75 0.2 45 / 0.4), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.sss-card::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: oklch(0.75 0.2 45 / 0.05) 0px 0px 40px inset; pointer-events: none; transition: box-shadow 0.4s;}\n.sss-card:hover::after{box-shadow: oklch(0.75 0.2 45 / 0.15) 0px 0px 60px inset;}\n.subsurface-glow{position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, oklch(0.75 0.2 45 / 0.4) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); opacity: 0; transition: opacity 0.5s; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;}\n.sss-card:hover .subsurface-glow{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(20px); filter: blur(8px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), filter 1.4s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.relative{position: relative;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-20{margin-bottom: 5rem;}\n.mt-6{margin-top: 1.5rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.min-h-\\[320px\\]{min-height: 320px;}\n.max-w-\\[1400px\\]{max-width: 1400px;}\n.max-w-sm{max-width: 24rem;}\n.flex-1{flex: 1 1 0%;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.p-8{padding: 2rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-lumina{color: oklch(0.9 0.1 50);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-flare{color: oklch(0.65 0.25 30);}\n.text-ember{color: oklch(0.75 0.2 45);}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:p-10{padding: 2.5rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:text-6xl{font-size: 3.75rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "128px 96px",
+            "margin": "0px 20px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1400px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"flex flex-col md:flex-row justify-between items-end mb-20 bloom-reveal active\">       <h2 class=\"font-serif text-4xl md:text-5xl lg:text-6xl text-white tracking-tight liquid-terminals\">         Synthesis <br>         <i>Pipeline</i>       </h2>       <p class=\"font-sans text-sm text-white/40 max-w-sm font-light mt-6 md:mt-0\">         A closed-loop biochemical framework designed to maintain perpetual luminescent output without external energy grids.       </p>     </div>     <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6\">       <div class=\"apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-reveal delay-100 min-h-[320px] flex flex-col active\">         <div class=\"subsurface-glow\"></div>         <div class=\"relative z-10 flex-1 flex flex-col justify-between\">           <iconify-icon icon=\"ph:dna-light\" class=\"text-3xl text-lumina/70 mb-8\"></iconify-icon>           <div>             <h3 class=\"font-sans text-xs tracking-[0.2em] uppercase text-ember mb-3\">01. Cultivation</h3>             <p class=\"font-sans text-sm text-white/50 leading-relaxed font-light\">               Incubating high-yield luciferase networks in zero-light vacuum chambers to hyper-sensitize photon receptors.             </p>           </div>         </div>       </div>       <div class=\"apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-reveal delay-200 min-h-[320px] flex flex-col active\">         <div class=\"subsurface-glow\"></div>         <div class=\"relative z-10 flex-1 flex flex-col justify-between\">           <iconify-icon icon=\"ph:drop-light\" class=\"text-3xl text-lumina/70 mb-8\"></iconify-icon>           <div>             <h3 class=\"font-sans text-xs tracking-[0.2em] uppercase text-flare mb-3\">02. Micro-Dosing</h3>             <p class=\"font-sans text-sm text-white/50 leading-relaxed font-light\">               Algorithmic injection of synthetic luciferin compounds orchestrates the precise wavelength and intensity of emission.             </p>           </div>         </div>       </div>       <div class=\"apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-reveal delay-300 min-h-[320px] flex flex-col active\">         <div class=\"subsurface-glow\"></div>         <div class=\"relative z-10 flex-1 flex flex-col justify-between\">           <iconify-icon icon=\"ph:aperture-light\" class=\"text-3xl text-lumina/70 mb-8\"></iconify-icon>           <div>             <h3 class=\"font-sans text-xs tracking-[0.2em] uppercase text-lumina mb-3\">03. Harvesting</h3>             <p class=\"font-sans text-sm text-white/50 leading-relaxed font-light\">               Directing bio-photons through optical mycelium fiber channels, scaling organic light to architectural dimensions.             </p>           </div>         </div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-serif text-4xl md:text-5xl lg:text-6xl text-white tracking-tight liquid-terminals",
+                  "colId": "sccol-2",
+                  "cw": 2,
+                  "html": "         Synthesis <br>         <i>Pipeline</i>       ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 4,
+                    "desktop": 2
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-sans text-sm text-white/40 max-w-sm font-light mt-6 md:mt-0",
+                  "colId": "sccol-3",
+                  "cw": 4,
+                  "html": "         A closed-loop biochemical framework designed to maintain perpetual luminescent output without external energy grids.       ",
+                  "maxw": "384px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col md:flex-row justify-between items-end mb-20 bloom-reveal active\">       <h2 class=\"font-serif text-4xl md:text-5xl lg:text-6xl text-white tracking-tight liquid-terminals\" data-sc-col=\"sccol-2\">         Synthesis <br>         <i>Pipeline</i>       </h2>       <p class=\"font-sans text-sm text-white/40 max-w-sm font-light mt-6 md:mt-0\" data-sc-col=\"sccol-3\">         A closed-loop biochemical framework designed to maintain perpetual luminescent output without external energy grids.       </p>     </div>"
+            },
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "01. Cultivation",
+                  "content": "Incubating high-yield luciferase networks in zero-light vacuum chambers to hyper-sensitize photon receptors.",
+                  "number": "01",
+                  "icon": null
+                },
+                {
+                  "title": "02. Micro-Dosing",
+                  "content": "Algorithmic injection of synthetic luciferin compounds orchestrates the precise wavelength and intensity of emission.",
+                  "number": "02",
+                  "icon": null
+                },
+                {
+                  "title": "03. Harvesting",
+                  "content": "Directing bio-photons through optical mycelium fiber channels, scaling organic light to architectural dimensions.",
+                  "number": "03",
+                  "icon": null
+                }
+              ],
+              "design": {
+                "design": "vertical",
+                "connector": "none"
+              }
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glow-bleed{background: linear-gradient(135deg, oklch(0.9 0.1 50) 0%, oklch(0.75 0.2 45) 40%, oklch(0.65 0.25 30) 100%) text; -webkit-text-fill-color: transparent; animation: 4s ease-in-out 0s infinite alternate none running organicPulse;}\n.liquid-terminals i{font-style: italic; letter-spacing: -0.04em; padding-right: 0.06em; font-weight: 400;}\n.bloom-reveal{opacity: 0; transform: translateY(20px); filter: blur(8px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), filter 1.4s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px); filter: blur(0px);}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-20{z-index: 20;}\n.mb-6{margin-bottom: 1.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "160px 32px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px",
+            "textAlign": "center"
+          },
+          "assets": [],
+          "raw": "     <div class=\"absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(75%_0.2_45/0.05)_0%,transparent_60%)] pointer-events-none\"></div>     <div class=\"bloom-reveal active\">       <span class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/30 block mb-6\">Continuous Output</span>       <h2 class=\"font-serif text-7xl md:text-9xl tracking-tighter liquid-terminals text-white\">         <i class=\"glow-bleed\">Infinite</i> Lumen       </h2>     </div>   ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(75%_0.2_45/0.05)_0%,transparent_60%)] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(oklch(0.75 0.2 45 / 0.05) 0%, rgba(0, 0, 0, 0) 60%)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 487
+              }
+            },
+            {
+              "t": "overline",
+              "html": "Continuous Output",
+              "text": "Continuous Output",
+              "cls": "font-sans text-[10px] tracking-[0.3em] uppercase text-white/30 block mb-6",
+              "pill": false,
+              "color": "rgba(255, 255, 255, 0.3)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "<em>Infinite</em> Lumen",
+              "text": "Infinite Lumen",
+              "tag": "h2",
+              "cls": "font-serif text-7xl md:text-9xl tracking-tighter liquid-terminals text-white",
+              "wrapCls": "bloom-reveal active",
+              "fontSize": "128px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "128px",
+              "letterSpacing": "-6.4px",
+              "align": "center"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

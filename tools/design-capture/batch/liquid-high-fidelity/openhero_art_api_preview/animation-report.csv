@@ -1,0 +1,8 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,document position drifts 581px over 806px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ 0.72),medium
+trace,trace#1,pinned for ~758px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#4,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.kinetic-text,keyframes 'scroll-shimmer' auto,entrance animation (Animate.css picker),low
+css-animation,.reveal-scroll,keyframes 'reveal-keyframe' auto,entrance animation (Animate.css picker),low
+hover,.mercury-btn,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,"[data-theme=""light""] .mercury-btn",box-shadow change on hover,interaction: {effect:'lift'} or glow_border,medium

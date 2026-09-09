@@ -1,0 +1,1643 @@
+{
+  "url": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.1 0.02 160);color:oklch(1 0 0 / 0.9)\" data-sc-content-width=\"1312\"><head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Inari | The SEED Design Company</title>\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n  <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n  <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap\" rel=\"stylesheet\">\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n  <script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n  <script>\n    tailwind.config = {\n      theme: {\n        extend: {\n          colors: {\n            obsidian: \"oklch(10% 0.02 160)\",\n            clover: \"oklch(75% 0.25 145)\",\n            glass: \"oklch(90% 0.05 150 / 0.1)\",\n          },\n          fontFamily: {\n            sans: ['\"Inter\"', 'sans-serif'],\n            serif: ['\"Playfair Display\"', 'serif'],\n          }\n        }\n      }\n    }\n  </script>\n  <style>\n    html,\n    body {\n      margin: 0;\n      padding: 0;\n      width: 100%;\n      background-color: oklch(10% 0.02 160);\n      color: oklch(100% 0 0 / 0.9);\n      scroll-behavior: smooth;\n      overflow-x: hidden;\n    }\n\n    .vercel-grain {\n      position: fixed;\n      inset: 0;\n      z-index: 9999;\n      pointer-events: none;\n      background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\");\n      opacity: 0.03;\n      mix-blend-mode: screen;\n    }\n\n    .liquid-header {\n      backdrop-filter: blur(10px);\n      -webkit-backdrop-filter: blur(10px);\n      background: linear-gradient(to bottom, oklch(10% 0.02 160 / 0.8), oklch(10% 0.02 160 / 0));\n      border-bottom: 0.5px solid oklch(100% 0 0 / 0.05);\n    }\n\n    .nav-link {\n      color: oklch(100% 0 0 / 0.6);\n      transition: color 0.4s ease, text-shadow 0.4s ease;\n    }\n\n    .nav-link:hover {\n      color: oklch(75% 0.25 145);\n      text-shadow: 0 0 15px oklch(75% 0.25 145 / 0.4);\n    }\n\n    .radial-portal {\n      -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 80%);\n      mask-image: radial-gradient(circle at center, black 35%, transparent 80%);\n      will-change: transform;\n    }\n\n    .retina-border {\n      box-shadow: inset 0 0 0 0.5px oklch(100% 0 0 / 0.15);\n    }\n\n    .dew-drop {\n      position: relative;\n      overflow: hidden;\n      background: oklch(90% 0.05 150 / 0.05);\n      backdrop-filter: blur(8px);\n      -webkit-backdrop-filter: blur(8px);\n      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease, background 0.5s ease;\n    }\n\n    .dew-drop:hover {\n      transform: scale(1.03);\n      background: oklch(90% 0.05 150 / 0.1);\n      box-shadow: inset 0 0 0 0.5px oklch(75% 0.25 145 / 0.5), 0 15px 35px oklch(75% 0.25 145 / 0.15);\n    }\n\n    .subsurface-text {\n      text-shadow: 0 0 45px oklch(75% 0.25 145 / 0.35), 0 0 15px oklch(75% 0.25 145 / 0.15);\n      background: linear-gradient(180deg, oklch(100% 0 0) 0%, oklch(85% 0.1 150) 100%);\n      -webkit-background-clip: text;\n      -webkit-text-fill-color: transparent;\n    }\n\n    @keyframes sway {\n\n      0%,\n      100% {\n        transform: rotate(-0.5deg) translateX(-2px);\n      }\n\n      50% {\n        transform: rotate(0.5deg) translateX(2px);\n      }\n    }\n\n    .kinetic-sway {\n      display: inline-block;\n      animation: sway 7s ease-in-out infinite;\n      transform-origin: center bottom;\n    }\n\n    .reveal-up {\n      opacity: 0;\n      transform: translateY(40px);\n      transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);\n    }\n\n    .reveal-up.active {\n      opacity: 1;\n      transform: translateY(0);\n    }\n\n    .delay-100 {\n      transition-delay: 0.1s;\n    }\n\n    .delay-200 {\n      transition-delay: 0.2s;\n    }\n\n    .delay-300 {\n      transition-delay: 0.3s;\n    }\n\n    #portal-video {\n      will-change: transform;\n      transform: scale(1.4);\n    }\n\n    .rhizome-link {\n      opacity: 0.4;\n      transition: opacity 0.5s ease, transform 0.5s ease, color 0.5s ease;\n    }\n\n    .rhizome-link:hover {\n      opacity: 1;\n      color: oklch(75% 0.25 145);\n      transform: translateX(4px);\n    }\n  </style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:\"Inter\", sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.top-0{top:0px}.-top-\\[10\\%\\]{top:-10%}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.mx-auto{margin-left:auto;margin-right:auto}.mb-8{margin-bottom:2rem}.mt-12{margin-top:3rem}.mt-8{margin-top:2rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-2{margin-bottom:0.5rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-8{height:2rem}.h-2{height:0.5rem}.h-12{height:3rem}.h-\\[120\\%\\]{height:120%}.h-\\[60vh\\]{height:60vh}.h-full{height:100%}.h-\\[1px\\]{height:1px}.min-h-\\[85vh\\]{min-height:85vh}.w-8{width:2rem}.w-full{width:100%}.w-2{width:0.5rem}.w-12{width:3rem}.w-10{width:2.5rem}.w-3{width:0.75rem}.w-4{width:1rem}.w-6{width:1.5rem}.max-w-\\[1800px\\]{max-width:1800px}.max-w-md{max-width:28rem}.max-w-xl{max-width:36rem}.max-w-sm{max-width:24rem}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-10{gap:2.5rem}.gap-12{gap:3rem}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-16{gap:4rem}.rounded-full{border-radius:9999px}.rounded-2xl{border-radius:1rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-white\\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\\/5{border-color:rgb(255 255 255 / 0.05)}.bg-obsidian{background-color:oklch(10% 0.02 160)}.bg-clover{background-color:oklch(75% 0.25 145)}.bg-white\\/20{background-color:rgb(255 255 255 / 0.2)}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-obsidian{--tw-gradient-to:oklch(10% 0.02 160) var(--tw-gradient-to-position)}.object-contain{object-fit:contain}.px-8{padding-left:2rem;padding-right:2rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2\\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-32{padding-top:8rem;padding-bottom:8rem}.py-20{padding-top:5rem;padding-bottom:5rem}.pt-\\[15vh\\]{padding-top:15vh}.font-sans{font-family:\"Inter\", sans-serif}.font-serif{font-family:\"Playfair Display\", serif}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-6xl{font-size:3.75rem;line-height:1}.text-\\[10px\\]{font-size:10px}.text-\\[11px\\]{font-size:11px}.text-\\[12px\\]{font-size:12px}.text-\\[13px\\]{font-size:13px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-\\[14px\\]{font-size:14px}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-light{font-weight:300}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.italic{font-style:italic}.not-italic{font-style:normal}.leading-\\[0\\.95\\]{line-height:0.95}.leading-relaxed{line-height:1.625}.tracking-\\[0\\.2em\\]{letter-spacing:0.2em}.tracking-\\[0\\.3em\\]{letter-spacing:0.3em}.tracking-tighter{letter-spacing:-0.05em}.tracking-wide{letter-spacing:0.025em}.tracking-widest{letter-spacing:0.1em}.text-clover{color:oklch(75% 0.25 145)}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\\/40{color:rgb(255 255 255 / 0.4)}.text-white\\/50{color:rgb(255 255 255 / 0.5)}.text-white\\/90{color:rgb(255 255 255 / 0.9)}.text-white\\/30{color:rgb(255 255 255 / 0.3)}.text-white\\/20{color:rgb(255 255 255 / 0.2)}.text-white\\/70{color:rgb(255 255 255 / 0.7)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.mix-blend-screen{mix-blend-mode:screen}.mix-blend-overlay{mix-blend-mode:overlay}.shadow-\\[0_0_10px_oklch\\(75\\%_0\\.25_145\\/0\\.8\\)\\]{--tw-shadow:0 0 10px oklch(75% 0.25 145/0.8);--tw-shadow-colored:0 0 10px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.brightness-90{--tw-brightness:brightness(.9);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.contrast-\\[1\\.15\\]{--tw-contrast:contrast(1.15);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.delay-100{transition-delay:100ms}.delay-200{transition-delay:200ms}.delay-300{transition-delay:300ms}.duration-500{transition-duration:500ms}.will-change-transform{will-change:transform}.\\[mask-image\\:radial-gradient\\(circle\\2c black_20\\%\\2c transparent_55\\%\\)\\]{-webkit-mask-image:radial-gradient(circle,black 20%,transparent 55%);mask-image:radial-gradient(circle,black 20%,transparent 55%)}.selection\\:text-clover *::selection{color:oklch(75% 0.25 145)}.selection\\:text-clover::selection{color:oklch(75% 0.25 145)}@media (min-width: 768px){.md\\:mt-0{margin-top:0px}.md\\:flex{display:flex}.md\\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\\:flex-row{flex-direction:row}.md\\:gap-32{gap:8rem}.md\\:px-16{padding-left:4rem;padding-right:4rem}.md\\:text-7xl{font-size:4.5rem;line-height:1}}@media (min-width: 1024px){.lg\\:-top-\\[20\\%\\]{top:-20%}.lg\\:col-span-5{grid-column:span 5 / span 5}.lg\\:col-span-7{grid-column:span 7 / span 7}.lg\\:h-\\[140\\%\\]{height:140%}.lg\\:h-full{height:100%}.lg\\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\\:justify-end{justify-content:flex-end}.lg\\:gap-20{gap:5rem}.lg\\:gap-8{gap:2rem}.lg\\:text-\\[6\\.5rem\\]{font-size:6.5rem}}</style></head>\n\n<body class=\"antialiased selection:bg-clover/20 selection:text-clover\" data-sc-cs=\"background-color:oklch(0.1 0.02 160);color:oklch(1 0 0 / 0.9)\">\n\n  <div class=\"vercel-grain\" data-sc-cs=\"background-image:url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;);color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\"></div>\n\n  <nav class=\"fixed top-0 w-full z-50 px-8 py-5 flex items-center justify-between liquid-header\" id=\"navbar\" data-sc-cs=\"background-image:linear-gradient(oklch(0.1 0.02 160 / 0.8), oklch(0.1 0.02 160 / 0));color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all;position:fixed\">\n    <div class=\"flex items-center gap-3 cursor-pointer group\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n      <div class=\"w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-clover bg-obsidian group-hover:bg-clover/10 transition-colors duration-500\" data-sc-cs=\"background-color:oklch(0.1 0.02 160);color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.2);border-radius:9999px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:color 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), fill 0.5s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.5s cubic-bezier(0.4, 0, 0.2, 1)\">\n        <iconify-icon icon=\"ph:plant-light\" class=\"text-lg\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n      </div>\n      <span class=\"font-sans font-medium text-[13px] tracking-widest uppercase text-white/90\" data-sc-cs=\"color:rgba(255, 255, 255, 0.9);font-family:Inter, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:1.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">INARI</span>\n    </div>\n\n    <div class=\"hidden md:flex items-center gap-10 font-sans text-[11px] uppercase tracking-[0.2em] font-medium\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n      <a href=\"#\" class=\"nav-link\" data-sc-cs=\"color:oklch(1 0 0 / 0.6);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.4s, text-shadow 0.4s\" data-sc-hover=\"hover-self{color:oklch(0.75 0.25 145)}\">Genomic Labs</a>\n      <a href=\"#\" class=\"nav-link\" data-sc-cs=\"color:oklch(1 0 0 / 0.6);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.4s, text-shadow 0.4s\" data-sc-hover=\"hover-self{color:oklch(0.75 0.25 145)}\">Phenotypes</a>\n      <a href=\"#\" class=\"nav-link\" data-sc-cs=\"color:oklch(1 0 0 / 0.6);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.4s, text-shadow 0.4s\" data-sc-hover=\"hover-self{color:oklch(0.75 0.25 145)}\">Synthetics</a>\n      <a href=\"#\" class=\"nav-link\" data-sc-cs=\"color:oklch(1 0 0 / 0.6);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.4s, text-shadow 0.4s\" data-sc-hover=\"hover-self{color:oklch(0.75 0.25 145)}\">Ecology</a>\n    </div>\n\n    <div class=\"flex items-center gap-4\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n      <button class=\"dew-drop retina-border px-6 py-2.5 rounded-full font-sans text-[11px] uppercase tracking-[0.2em] font-medium flex items-center gap-2 text-white/90\" data-sc-cs=\"background-color:oklch(0.9 0.05 150 / 0.05);color:rgba(255, 255, 255, 0.9);font-family:Inter, sans-serif;font-size:11px;font-weight:500;line-height:16.5px;letter-spacing:2.2px;text-align:center;text-transform:uppercase;padding:10px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;backdrop-filter:blur(8px);display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s\" data-sc-hover=\"hover-self{transform:scale(1.03);background-color:oklch(0.9 0.05 150 / 0.1);background-image:initial;box-shadow:oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px}\">\n        Access Portal\n      </button>\n    </div>\n  </nav>\n\n  <main class=\"relative w-full z-10 pt-[15vh]\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:135px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <section class=\"min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1800px;display:grid;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n      <div class=\"flex flex-col justify-center max-w-xl z-20\" id=\"hero-text\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all\">\n\n        <div class=\"reveal-up active flex items-center gap-4 mb-8\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <div class=\"w-2 h-2 rounded-full bg-clover shadow-[0_0_10px_oklch(75%_0.25_145/0.8)] animate-pulse\" data-sc-col=\"sccol-0\" data-sc-cs=\"background-color:oklch(0.75 0.25 145);color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.75 0.25 145 / 0.8) 0px 0px 10px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          <span class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/50\" data-sc-col=\"sccol-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.5);font-family:Inter, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Chlorophyll fluorescence\n            active</span>\n        </div>\n\n        <h1 class=\"font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.95] tracking-tighter text-white reveal-up active delay-100\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:400;line-height:104px;letter-spacing:-5.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <span class=\"kinetic-sway\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:400;line-height:104px;letter-spacing:-5.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999964, 0.00847485, -0.00847485, 0.999964, 1.94225, 0.0164608)\">Symbiosis</span><br>\n          <i class=\"subsurface-text not-italic\" data-sc-cs=\"background-image:linear-gradient(oklch(1 0 0) 0%, oklch(0.85 0.1 150) 100%);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:400;line-height:104px;letter-spacing:-5.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\">Engineered</i>\n        </h1>\n\n        <p class=\"mt-8 font-sans text-sm text-white/40 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:Inter, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;letter-spacing:0.35px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic\n          plasticity to rewrite the bounds of photosynthetic efficiency.\n        </p>\n\n        <div class=\"mt-12 flex flex-wrap items-center gap-6 reveal-up active delay-300\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <button class=\"dew-drop retina-border px-8 py-4 rounded-full font-sans text-[12px] uppercase tracking-[0.2em] font-medium flex items-center gap-3 text-white\" data-sc-col=\"sccol-2\" data-sc-cs=\"background-color:oklch(0.9 0.05 150 / 0.05);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:18px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;padding:16px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;backdrop-filter:blur(8px);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s\" data-sc-hover=\"hover-self{transform:scale(1.03);background-color:oklch(0.9 0.05 150 / 0.1);background-image:initial;box-shadow:oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px}\">\n            Explore Synthesis\n            <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-clover\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:14px;font-weight:500;line-height:21px;letter-spacing:2.4px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          </button>\n          <div class=\"flex items-center gap-3 text-white/30\" data-sc-col=\"sccol-3\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <iconify-icon icon=\"ph:activity-light\" class=\"text-xl\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Inter, sans-serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            <span class=\"font-sans text-[10px] uppercase tracking-widest\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Inter, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">+40% Stomatal Conductance</span>\n          </div>\n        </div>\n\n      </div>\n\n      <div class=\"relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 perspective-1000\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:flex-end;align-items:center;flex-direction:row;transition:all\">\n        <div class=\"absolute inset-0 w-full h-[120%] lg:h-[140%] -top-[10%] lg:-top-[20%] radial-portal \n           [mask-image:radial-gradient(circle,black_20%,transparent_55%)]\" id=\"portal-container\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n          <video id=\"portal-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-contain filter contrast-[1.15] saturate-110 brightness-90 mix-blend-screen will-change-transform\" style=\"transform: scale(1.4) translateY(0px);\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.4, 0, 0, 1.4, 0, 0)\">\n            <source src=\"https://videos.openhero.art/downloads/nature/the-seed-design-company/video.mp4\" type=\"video/mp4\">\n          </video>\n          <div class=\"absolute inset-0 bg-obsidian/30 mix-blend-overlay pointer-events-none\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n        </div>\n      </div>\n    </section>\n\n    <section class=\"py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:128px 64px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;max-width:1800px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:80px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n        <div class=\"flex flex-col reveal-up active\" data-sc-col=\"sccol-4\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\" data-sc-cs=\"background-color:oklch(0.9 0.05 150 / 0.05);color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;box-shadow:oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s\">\n            <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          </div>\n          <h3 class=\"font-serif text-2xl text-white mb-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Genomic Editing</h3>\n          <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:Inter, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,\n            accelerating natural evolutionary timelines.\n          </p>\n        </div>\n\n        <div class=\"flex flex-col reveal-up delay-100 active\" data-sc-col=\"sccol-5\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\" data-sc-cs=\"background-color:oklch(0.9 0.05 150 / 0.05);color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;box-shadow:oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s\">\n            <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          </div>\n          <h3 class=\"font-serif text-2xl text-white mb-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Carbon Sequestration</h3>\n          <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:Inter, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant\n            biopolymers at unprecedented rates.\n          </p>\n        </div>\n\n        <div class=\"flex flex-col reveal-up delay-200 active\" data-sc-col=\"sccol-6\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\" data-sc-cs=\"background-color:oklch(0.9 0.05 150 / 0.05);color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;box-shadow:oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s\">\n            <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          </div>\n          <h3 class=\"font-serif text-2xl text-white mb-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Yield Optimization</h3>\n          <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:Inter, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and\n            structural resilience in volatile climates.\n          </p>\n        </div>\n\n      </div>\n    </section>\n  </main>\n\n  <footer class=\"relative z-20 w-full px-8 py-20 border-t border-white/5 bg-gradient-to-b from-transparent to-obsidian\" data-sc-cs=\"background-image:linear-gradient(rgba(0, 0, 0, 0), oklch(0.1 0.02 160));color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <div class=\"max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1800px;display:grid;gap:32px;justify-content:normal;align-items:flex-end;flex-direction:row;transition:all\">\n\n      <div class=\"lg:col-span-5\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <div class=\"flex items-center gap-3 mb-6\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n          <iconify-icon icon=\"ph:plant-light\" class=\"text-clover text-2xl\" data-sc-cs=\"color:oklch(0.75 0.25 145);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          <span class=\"font-serif italic text-white/70\" data-sc-cs=\"color:rgba(255, 255, 255, 0.7);font-family:&quot;Playfair Display&quot;, serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Inari Agriculture</span>\n        </div>\n        <p class=\"font-sans text-xs text-white/30 max-w-sm leading-relaxed font-light\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Inter, sans-serif;font-size:12px;font-weight:300;line-height:19.5px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          Deploying nature's deepest algorithms. Our predictive design platform maps the full complexity of plant\n          genomes to solve planetary-scale challenges.\n        </p>\n      </div>\n\n      <div class=\"lg:col-span-7 flex flex-col md:flex-row justify-end gap-16 md:gap-32\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:128px;justify-content:flex-end;align-items:normal;flex-direction:row;transition:all\">\n        <div class=\"flex flex-col gap-4\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n          <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\" data-sc-cs=\"color:rgba(255, 255, 255, 0.2);font-family:Inter, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Research</h4>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-4 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Phyto-Networks\n          </a>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-8 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> CRISPR Cas9\n          </a>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-2 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Biomaterials\n          </a>\n        </div>\n\n        <div class=\"flex flex-col gap-4 mt-8 md:mt-0\" data-sc-cs=\"color:oklch(1 0 0 / 0.9);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n          <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\" data-sc-cs=\"color:rgba(255, 255, 255, 0.2);font-family:Inter, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Operations</h4>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-6 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Cambridge Labs\n          </a>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-3 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Field Trials\n          </a>\n          <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s, transform 0.5s, color 0.5s\" data-sc-hover=\"hover-self{transform:translateX(4px);opacity:1;color:oklch(0.75 0.25 145)}\">\n            <div class=\"w-10 h-[1px] bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Investors\n          </a>\n        </div>\n      </div>\n\n    </div>\n  </footer>\n\n  <script>\n    let ticking = false;\n\n    window.addEventListener('scroll', () => {\n      if (!ticking) {\n        window.requestAnimationFrame(() => {\n          const scrolled = window.scrollY;\n          const video = document.getElementById('portal-video');\n\n          if (video && scrolled < window.innerHeight * 1.5) {\n            const scaleProgress = Math.max(1, 1.4 - (scrolled * 0.0005));\n\n            const parallaxY = scrolled * 0.15;\n            video.style.transform = `scale(${scaleProgress}) translateY(${parallaxY}px)`;\n          }\n\n          ticking = false;\n        });\n        ticking = true;\n      }\n    });\n\n    const observerOptions = {\n      root: null,\n      rootMargin: '0px 0px -10% 0px',\n      threshold: 0.1\n    };\n\n    const observer = new IntersectionObserver((entries) => {\n      entries.forEach(entry => {\n        if (entry.isIntersecting) {\n          entry.target.classList.add('active');\n          observer.unobserve(entry.target);\n        }\n      });\n    }, observerOptions);\n\n    document.querySelectorAll('.reveal-up:not(.active)').forEach(el => {\n      observer.observe(el);\n    });\n  </script>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n\n</body></html>",
+  "megaMenus": [],
+  "title": "Inari | The SEED Design Company",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 14,
+      "family": "Inter",
+      "line-height": "1.63",
+      "letter-spacing": "0.35"
+    },
+    "h1": {
+      "size": 104,
+      "weight": "400",
+      "family": "Playfair Display",
+      "line-height": "1",
+      "letter-spacing": "-5.2"
+    },
+    "h3": {
+      "size": 24,
+      "weight": "400",
+      "family": "Playfair Display",
+      "line-height": "1.33"
+    },
+    "h4": {
+      "size": 10,
+      "weight": "400",
+      "family": "Inter",
+      "line-height": "1.5",
+      "letter-spacing": "3",
+      "text-transform": "uppercase"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "104",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "24",
+        "weight": "400",
+        "line_height": "1.33",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Caption",
+        "size": "12",
+        "weight": "300",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-caption"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "10",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "3",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-border-spacing-x": "0",
+      "--tw-scale-x": "1",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "oklch(0.9 0.05 150 / 0.05)",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "oklch(1 0 0 / 0.9)",
+      "backgroundColor": "oklch(0.1 0.02 160)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1800px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Playfair Display",
+    "color": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "20px 32px"
+    },
+    "bar": {
+      "display": "flex",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Genomic Labs",
+      "icon": "",
+      "computed": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "11px",
+        "fontWeight": "500",
+        "color": "oklch(1 0 0 / 0.6)",
+        "letterSpacing": "2.2px"
+      },
+      "detail": {
+        "text": "Genomic Labs",
+        "icon": "",
+        "image": "",
+        "svg": "",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "oklch(1 0 0 / 0.6)",
+        "title_size": "",
+        "title_weight": "",
+        "title_font": "Inter, sans-serif",
+        "title_ls": "2.2px",
+        "title_hover": "",
+        "icon_size": "",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Phenotypes",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#",
+        "computed": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "11px",
+          "fontWeight": "500",
+          "color": "oklch(1 0 0 / 0.6)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Synthetics",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#",
+        "computed": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "11px",
+          "fontWeight": "500",
+          "color": "oklch(1 0 0 / 0.6)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Ecology",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#",
+        "computed": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "11px",
+          "fontWeight": "500",
+          "color": "oklch(1 0 0 / 0.6)"
+        },
+        "hover": null
+      }
+    ],
+    "cta": {
+      "label": "Access Portal",
+      "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+      "computed": {
+        "backgroundColor": "oklch(0.9 0.05 150 / 0.05)",
+        "color": "rgba(255, 255, 255, 0.9)",
+        "borderRadius": "9999px",
+        "padding": "10px 24px",
+        "fontFamily": "Inter, sans-serif",
+        "fontWeight": "500"
+      },
+      "hover": null
+    }
+  },
+  "footer": {
+    "computed": {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "oklch(1 0 0 / 0.9)",
+      "padding": "80px 32px"
+    },
+    "brand": "",
+    "groups": [],
+    "contact": null,
+    "newsletter": null,
+    "social": [],
+    "copyright": "",
+    "links": [
+      {
+        "label": "Phyto-Networks",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "CRISPR Cas9",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Biomaterials",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Cambridge Labs",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Field Trials",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Investors",
+        "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company#"
+      }
+    ],
+    "text": "Inari Agriculture Deploying nature's deepest algorithms. Our predictive design platform maps the full complexity of plant genomes to solve planetary-scale challenges. Research Phyto-Networks CRISPR Cas9 Biomaterials Operations Cambridge Labs Field Trials Investors"
+  },
+  "sections": [
+    {
+      "heading": "Symbiosis Engineered",
+      "headingHtml": "Symbiosis<br> <em>Engineered</em>",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "\"Playfair Display\", serif",
+        "fontSize": "104px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "Chlorophyll fluorescence active",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(1 0 0 / 0.9)",
+        "textTransform": "none",
+        "letterSpacing": "normal",
+        "borderRadius": "0px",
+        "fontSize": "16px"
+      },
+      "lead": "Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency.",
+      "paragraphs": [
+        "Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency."
+      ],
+      "buttons": [
+        {
+          "label": "Explore Synthesis",
+          "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+          "primary": true
+        }
+      ],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(1 0 0 / 0.9)",
+        "padding": "0px 64px",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px",
+        "minHeight": "765px",
+        "maxWidth": "1800px"
+      },
+      "text": "Chlorophyll fluorescence active Symbiosis Engineered Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency. Explore Synthesis +40% Stomatal Conductance",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "0px 64px",
+          "grid": {
+            "cols": "632px 632px",
+            "gap": "48px"
+          },
+          "maxWidth": "1800px",
+          "transition": "all",
+          "tw": {
+            "px": "32px",
+            "gap": "48px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "flex": {
+                "dir": "column",
+                "justify": "center",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "maxWidth": "576px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "center",
+                    "gap": "16px",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  "tw": {
+                    "gap": "16px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Chlorophyll fluorescence active",
+                    "text": "Chlorophyll fluorescence active",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.5)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "10px",
+                      "letterSpacing": "3px",
+                      "lineHeight": "15px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "heading",
+                "level": 1,
+                "html": "Symbiosis<br> <em>Engineered</em>",
+                "text": "Symbiosis Engineered",
+                "styles": {
+                  "color": "rgb(255, 255, 255)",
+                  "fontFamily": "\"Playfair Display\", serif",
+                  "fontSize": "104px",
+                  "letterSpacing": "-5.2px",
+                  "lineHeight": "104px",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                  "tw": {
+                    "fontSize": "60px",
+                    "lineHeight": "1"
+                  }
+                }
+              },
+              {
+                "role": "text",
+                "html": "Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency.",
+                "text": "Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency.",
+                "styles": {
+                  "color": "rgba(255, 255, 255, 0.4)",
+                  "fontFamily": "Inter, sans-serif",
+                  "fontSize": "14px",
+                  "fontWeight": "300",
+                  "letterSpacing": "0.35px",
+                  "lineHeight": "22.75px",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+                  "tw": {
+                    "fontWeight": "300",
+                    "fontSize": "14px",
+                    "lineHeight": "20px"
+                  }
+                }
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "center",
+                    "gap": "24px",
+                    "wrap": "wrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s",
+                  "tw": {
+                    "gap": "24px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "button",
+                    "label": "Explore Synthesis",
+                    "href": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+                    "styles": {
+                      "textAlign": "center",
+                      "bg": "oklch(0.9 0.05 150 / 0.05)",
+                      "padding": "16px 32px",
+                      "borderRadius": "9999px",
+                      "boxShadow": "oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12px",
+                      "fontWeight": "500",
+                      "letterSpacing": "2.4px",
+                      "lineHeight": "18px",
+                      "textTransform": "uppercase",
+                      "transition": "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s",
+                      "tw": {
+                        "radius": "9999px",
+                        "px": "32px",
+                        "py": "16px",
+                        "gap": "12px",
+                        "fontWeight": "500"
+                      }
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "normal",
+                        "align": "center",
+                        "gap": "12px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "12px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "+40% Stomatal Conductance",
+                        "text": "+40% Stomatal Conductance",
+                        "styles": {
+                          "color": "rgba(255, 255, 255, 0.3)",
+                          "fontFamily": "Inter, sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "1px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!\">       <div class=\"flex flex-col justify-center max-w-xl z-20\" id=\"hero-text\">         <div class=\"reveal-up active flex items-center gap-4 mb-8\">           <div class=\"w-2 h-2 rounded-full bg-clover shadow-[0_0_10px_oklch(75%_0.25_145/0.8)] animate-pulse\"></div>           <span class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/50\">Chlorophyll fluorescence             active</span>         </div>         <h1 class=\"font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.95] tracking-tighter text-white reveal-up active delay-100\">           <span class=\"kinetic-sway\">Symbiosis</span><br>           <i class=\"subsurface-text not-italic\">Engineered</i>         </h1>         <p class=\"mt-8 font-sans text-sm text-white/40 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\">           Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic           plasticity to rewrite the bounds of photosynthetic efficiency.         </p>         <div class=\"mt-12 flex flex-wrap items-center gap-6 reveal-up active delay-300\">           <button class=\"dew-drop retina-border px-8 py-4 rounded-full font-sans text-[12px] uppercase tracking-[0.2em] font-medium flex items-center gap-3 text-white\">             Explore Synthesis             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-clover\"></iconify-icon>           </button>           <div class=\"flex items-center gap-3 text-white/30\">             <iconify-icon icon=\"ph:activity-light\" class=\"text-xl\"></iconify-icon>             <span class=\"font-sans text-[10px] uppercase tracking-widest\">+40% Stomatal Conductance</span>           </div>         </div>       </div>       <div class=\"relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 perspective-1000\">         <div class=\"absolute inset-0 w-full h-[120%] lg:h-[140%] -top-[10%] lg:-top-[20%] radial-portal             [mask-image:radial-gradient(circle,black_20%,transparent_55%)]\" id=\"portal-container\">           <video id=\"portal-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-contain filter contrast-[1.15] saturate-110 brightness-90 mix-blend-screen will-change-transform\" style=\"transform: scale(1.4) translateY(0px);\">             <source src=\"https://videos.openhero.art/downloads/nature/the-seed-design-company/video.mp4\" type=\"video/mp4\">           </video>           <div class=\"absolute inset-0 bg-obsidian/30 mix-blend-overlay pointer-events-none\"></div>         </div>       </div>     </section>",
+      "rawInner": "       <div class=\"flex flex-col justify-center max-w-xl z-20\" id=\"hero-text\">         <div class=\"reveal-up active flex items-center gap-4 mb-8\">           <div class=\"w-2 h-2 rounded-full bg-clover shadow-[0_0_10px_oklch(75%_0.25_145/0.8)] animate-pulse\"></div>           <span class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/50\">Chlorophyll fluorescence             active</span>         </div>         <h1 class=\"font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.95] tracking-tighter text-white reveal-up active delay-100\">           <span class=\"kinetic-sway\">Symbiosis</span><br>           <i class=\"subsurface-text not-italic\">Engineered</i>         </h1>         <p class=\"mt-8 font-sans text-sm text-white/40 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\">           Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic           plasticity to rewrite the bounds of photosynthetic efficiency.         </p>         <div class=\"mt-12 flex flex-wrap items-center gap-6 reveal-up active delay-300\">           <button class=\"dew-drop retina-border px-8 py-4 rounded-full font-sans text-[12px] uppercase tracking-[0.2em] font-medium flex items-center gap-3 text-white\">             Explore Synthesis             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-clover\"></iconify-icon>           </button>           <div class=\"flex items-center gap-3 text-white/30\">             <iconify-icon icon=\"ph:activity-light\" class=\"text-xl\"></iconify-icon>             <span class=\"font-sans text-[10px] uppercase tracking-widest\">+40% Stomatal Conductance</span>           </div>         </div>       </div>       <div class=\"relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 perspective-1000\">         <div class=\"absolute inset-0 w-full h-[120%] lg:h-[140%] -top-[10%] lg:-top-[20%] radial-portal             [mask-image:radial-gradient(circle,black_20%,transparent_55%)]\" id=\"portal-container\">           <video id=\"portal-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-contain filter contrast-[1.15] saturate-110 brightness-90 mix-blend-screen will-change-transform\" style=\"transform: scale(1.4) translateY(0px);\">             <source src=\"https://videos.openhero.art/downloads/nature/the-seed-design-company/video.mp4\" type=\"video/mp4\">           </video>           <div class=\"absolute inset-0 bg-obsidian/30 mix-blend-overlay pointer-events-none\"></div>         </div>       </div>     ",
+      "sectionClass": "min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "max-width": 4,
+        "display-grid": 1,
+        "gap": 5,
+        "padding": 2,
+        "display-flex": 6,
+        "transform": 6,
+        "margin": 3,
+        "background-color": 2,
+        "box-shadow": 2,
+        "border-radius": 2,
+        "background-image": 1,
+        "backdrop-filter": 1,
+        "position-absolute": 2,
+        "border": 1
+      },
+      "h": 765,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "font-sans text-[10px] tracking-[0.3em] uppercase text-white/50",
+              "colId": "sccol-1",
+              "cw": 6,
+              "html": "Chlorophyll fluorescence             active",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 11,
+                "tablet": 6,
+                "desktop": 6
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 16,
+          "gapResp": {
+            "base": 16,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"reveal-up active flex items-center gap-4 mb-8\">           <div class=\"w-2 h-2 rounded-full bg-clover shadow-[0_0_10px_oklch(75%_0.25_145/0.8)] animate-pulse\" data-sc-col=\"sccol-0\"></div>           <span class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/50\" data-sc-col=\"sccol-1\">Chlorophyll fluorescence             active</span>         </div>"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Symbiosis<br> <em>Engineered</em>",
+          "text": "Symbiosis Engineered",
+          "tag": "h1",
+          "cls": "font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.95] tracking-tighter text-white reveal-up active delay-100",
+          "wrapCls": "flex flex-col justify-center max-w-xl z-20",
+          "fontSize": "104px",
+          "fontWeight": "400",
+          "color": "rgb(255, 255, 255)",
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "lineHeight": "104px",
+          "letterSpacing": "-5.2px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"mt-8 font-sans text-sm text-white/40 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\">           Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic           plasticity to rewrite the bounds of photosynthetic efficiency.         </p>",
+          "text": "Rebalancing the planet through precise genomic design. Harnessing phyto-neural networks and extreme phenotypic plasticity to rewrite the bounds of photosynthetic efficiency.",
+          "tag": "p",
+          "cls": "mt-8 font-sans text-sm text-white/40 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200",
+          "fontSize": "14px",
+          "color": "rgba(255, 255, 255, 0.4)",
+          "lineHeight": "22.75px",
+          "letterSpacing": "0.35px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "300",
+          "textTransform": "none"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "dew-drop retina-border px-8 py-4 rounded-full font-sans text-[12px] uppercase tracking-[0.2em] font-medium flex items-center gap-3 text-white",
+              "colId": "sccol-2",
+              "cw": 5,
+              "html": "             Explore Synthesis             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-clover\"></iconify-icon>           ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 10,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "flex items-center gap-3 text-white/30",
+              "colId": "sccol-3",
+              "cw": 5,
+              "html": "             <iconify-icon icon=\"ph:activity-light\" class=\"text-xl\"></iconify-icon>             <span class=\"font-sans text-[10px] uppercase tracking-widest\">+40% Stomatal Conductance</span>           ",
+              "flex": {
+                "dir": "row",
+                "justify": "normal",
+                "align": "center",
+                "gap": "12px"
+              },
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 9,
+                "tablet": 5,
+                "desktop": 5
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 24,
+          "gapResp": {
+            "base": 24,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"mt-12 flex flex-wrap items-center gap-6 reveal-up active delay-300\">           <button class=\"dew-drop retina-border px-8 py-4 rounded-full font-sans text-[12px] uppercase tracking-[0.2em] font-medium flex items-center gap-3 text-white\" data-sc-col=\"sccol-2\">             Explore Synthesis             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-clover\"></iconify-icon>           </button>           <div class=\"flex items-center gap-3 text-white/30\" data-sc-col=\"sccol-3\">             <iconify-icon icon=\"ph:activity-light\" class=\"text-xl\"></iconify-icon>             <span class=\"font-sans text-[10px] uppercase tracking-widest\">+40% Stomatal Conductance</span>           </div>         </div>"
+        },
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/nature/the-seed-design-company/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+          "poster": "https://openhero.art/api/preview?category=nature&slug=the-seed-design-company",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": " w-full h-full object-contain filter contrast-[1.15] saturate-110 brightness-90 mix-blend-screen will-change-transform absolute inset-0 w-full h-[120%] lg:h-[140%] -top-[10%] lg:-top-[20%] radial-portal \n           [mask-image:radial-gradient(circle,black_20%,transparent_55%)] relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 perspective-1000 min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-obsidian/30 mix-blend-overlay pointer-events-none\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "overlay",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 632,
+            "h": 1071
+          }
+        }
+      ],
+      "css": ".radial-portal{mask-image: radial-gradient(circle, black 35%, transparent 80%); will-change: transform;}\n.retina-border{box-shadow: oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;}\n.dew-drop{position: relative; overflow: hidden; background: oklch(0.9 0.05 150 / 0.05); backdrop-filter: blur(8px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s;}\n.dew-drop:hover{transform: scale(1.03); background: oklch(0.9 0.05 150 / 0.1); box-shadow: oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px;}\n.subsurface-text{text-shadow: oklch(0.75 0.25 145 / 0.35) 0px 0px 45px, oklch(0.75 0.25 145 / 0.15) 0px 0px 15px; background: linear-gradient(oklch(1 0 0) 0%, oklch(0.85 0.1 150) 100%) text; -webkit-text-fill-color: transparent;}\n.kinetic-sway{display: inline-block; animation: 7s ease-in-out 0s infinite normal none running sway; transform-origin: center bottom;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n#portal-video{will-change: transform; transform: scale(1.4);}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.-top-\\[10\\%\\]{top: -10%;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.mt-8{margin-top: 2rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-2{height: 0.5rem;}\n.h-\\[120\\%\\]{height: 120%;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-\\[85vh\\]{min-height: 85vh;}\n.w-full{width: 100%;}\n.w-2{width: 0.5rem;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-md{max-width: 28rem;}\n.max-w-xl{max-width: 36rem;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-12{gap: 3rem;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.rounded-full{border-radius: 9999px;}\n.bg-clover{background-color: oklch(0.75 0.25 145);}\n.object-contain{object-fit: contain;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-\\[14px\\]{font-size: 14px;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.not-italic{font-style: normal;}\n.leading-\\[0\\.95\\]{line-height: 0.95;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-clover{color: oklch(0.75 0.25 145);}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.mix-blend-screen{mix-blend-mode: screen;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_10px_oklch\\(75\\%_0\\.25_145\\/0\\.8\\)\\]{--tw-shadow: 0 0 10px oklch(75% 0.25 145/0.8); --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.brightness-90{--tw-brightness: brightness(.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[1\\.15\\]{--tw-contrast: contrast(1.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.will-change-transform{will-change: transform;}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:-top-\\[20\\%\\]{top: -20%;}}\n@media (min-width: 1024px){.lg\\:h-\\[140\\%\\]{height: 140%;}}\n@media (min-width: 1024px){.lg\\:h-full{height: 100%;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:justify-end{justify-content: flex-end;}}\n@media (min-width: 1024px){.lg\\:text-\\[6\\.5rem\\]{font-size: 6.5rem;}}"
+    },
+    {
+      "heading": "Genomic Editing",
+      "headingHtml": "",
+      "level": 3,
+      "headingComputed": {
+        "fontFamily": "\"Playfair Display\", serif",
+        "fontSize": "24px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+      "paragraphs": [
+        "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+        "Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates.",
+        "Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates."
+      ],
+      "buttons": [],
+      "cards": [
+        {
+          "number": "",
+          "icon": "",
+          "title": "Genomic Editing",
+          "text": "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "Carbon Sequestration",
+          "text": "Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "Yield Optimization",
+          "text": "Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates.",
+          "image": ""
+        }
+      ],
+      "images": [],
+      "grids": [
+        {
+          "cols": 3,
+          "tiles": [
+            {
+              "kind": "feature",
+              "title": "Genomic Editing",
+              "text": "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "Carbon Sequestration",
+              "text": "Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "Yield Optimization",
+              "text": "Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(1 0 0 / 0.9)",
+        "padding": "128px 64px",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px",
+        "maxWidth": "1800px"
+      },
+      "text": "Genomic Editing Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines. Carbon Sequestration Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates. Yield Optimization Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates.",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "128px 64px",
+          "border": "1px solid rgba(255, 255, 255, 0.05)",
+          "maxWidth": "1800px",
+          "transition": "all",
+          "tw": {
+            "px": "32px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "384px 384px 384px",
+                "gap": "80px"
+              },
+              "transition": "all",
+              "tw": {
+                "gap": "48px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Genomic Editing",
+                    "text": "Genomic Editing",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "24px",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "24px",
+                        "lineHeight": "32px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+                    "text": "Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes, accelerating natural evolutionary timelines.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.4)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "14px",
+                      "fontWeight": "300",
+                      "lineHeight": "22.75px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Carbon Sequestration",
+                    "text": "Carbon Sequestration",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "24px",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "24px",
+                        "lineHeight": "32px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates.",
+                    "text": "Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant biopolymers at unprecedented rates.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.4)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "14px",
+                      "fontWeight": "300",
+                      "lineHeight": "22.75px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Yield Optimization",
+                    "text": "Yield Optimization",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "24px",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "24px",
+                        "lineHeight": "32px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates.",
+                    "text": "Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and structural resilience in volatile climates.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.4)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "14px",
+                      "fontWeight": "300",
+                      "lineHeight": "22.75px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20\">       <div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20\">         <div class=\"flex flex-col reveal-up active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-100 active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-200 active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         </div>       </div>     </section>",
+      "rawInner": "       <div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20\">         <div class=\"flex flex-col reveal-up active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-100 active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-200 active\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         </div>       </div>     ",
+      "sectionClass": "py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20",
+      "colClass": "",
+      "diag": {
+        "borderTop": "1px solid rgba(255, 255, 255, 0.05)"
+      },
+      "styleCensus": {
+        "border": 1,
+        "max-width": 1,
+        "padding": 1,
+        "display-grid": 1,
+        "gap": 1,
+        "transform": 3,
+        "display-flex": 6,
+        "background-color": 3,
+        "backdrop-filter": 3,
+        "box-shadow": 3,
+        "border-radius": 3,
+        "margin": 6
+      },
+      "h": 453,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up active",
+              "colId": "sccol-4",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Genomic Editing",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up delay-100 active",
+              "colId": "sccol-5",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Carbon Sequestration",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up delay-100 active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up delay-200 active",
+              "colId": "sccol-6",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Yield Optimization",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up delay-200 active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 80,
+          "gapResp": {
+            "base": 48,
+            "md": 0,
+            "lg": 80
+          },
+          "html": "<div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20\">         <div class=\"flex flex-col reveal-up active\" data-sc-col=\"sccol-4\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-100 active\" data-sc-col=\"sccol-5\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-200 active\" data-sc-col=\"sccol-6\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         </div>       </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up active",
+              "colId": "sccol-4",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Genomic Editing",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up delay-100 active",
+              "colId": "sccol-5",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Carbon Sequestration",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up delay-100 active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "flex flex-col reveal-up delay-200 active",
+              "colId": "sccol-6",
+              "cw": 4,
+              "html": "           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "top-title",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Yield Optimization",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>",
+                "link": null,
+                "cls": "flex flex-col reveal-up delay-200 active",
+                "align": "left",
+                "pad": "0px",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false,
+                  "padding": "0px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 80,
+          "gapResp": {
+            "base": 48,
+            "md": 0,
+            "lg": 80
+          },
+          "html": "<div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20\">         <div class=\"flex flex-col reveal-up active\" data-sc-col=\"sccol-4\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Genomic Editing</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Multiplex editing capabilities allowing simultaneous targeted changes across complex plant genomes,             accelerating natural evolutionary timelines.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-100 active\" data-sc-col=\"sccol-5\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:drop-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Carbon Sequestration</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Trees engineered to capture deeper carbon pools, transforming atmospheric CO2 into enduring rot-resistant             biopolymers at unprecedented rates.           </p>         </div>         <div class=\"flex flex-col reveal-up delay-200 active\" data-sc-col=\"sccol-6\">           <div class=\"w-12 h-12 rounded-2xl dew-drop retina-border flex items-center justify-center mb-8 text-clover\">             <iconify-icon icon=\"ph:graph-light\" class=\"text-2xl\"></iconify-icon>           </div>           <h3 class=\"font-serif text-2xl text-white mb-4\">Yield Optimization</h3>           <p class=\"font-sans text-sm text-white/40 leading-relaxed font-light\">             Redesigning metabolic pathways to minimize resource consumption while maximizing caloric density and             structural resilience in volatile climates.           </p>         </div>       </div>"
+        }
+      ],
+      "css": ".retina-border{box-shadow: oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;}\n.dew-drop{position: relative; overflow: hidden; background: oklch(0.9 0.05 150 / 0.05); backdrop-filter: blur(8px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s;}\n.dew-drop:hover{transform: scale(1.03); background: oklch(0.9 0.05 150 / 0.1); box-shadow: oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\nh3{font-size: inherit; font-weight: inherit;}\nh3, p{margin: 0px;}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-4{margin-bottom: 1rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-12{gap: 3rem;}\n.rounded-2xl{border-radius: 1rem;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-light{font-weight: 300;}\n.leading-relaxed{line-height: 1.625;}\n.text-clover{color: oklch(0.75 0.25 145);}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 1024px){.lg\\:gap-20{gap: 5rem;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 w-full z-50 px-8 py-5 flex items-center justify-between liquid-header\" id=\"navbar\">     <div class=\"flex items-center gap-3 cursor-pointer group\">       <div class=\"w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-clover bg-obsidian group-hover:bg-clover/10 transition-colors duration-500\">         <iconify-icon icon=\"ph:plant-light\" class=\"text-lg\"></iconify-icon>       </div>       <span class=\"font-sans font-medium text-[13px] tracking-widest uppercase text-white/90\">INARI</span>     </div>     <div class=\"hidden md:flex items-center gap-10 font-sans text-[11px] uppercase tracking-[0.2em] font-medium\">       <a href=\"#\" class=\"nav-link\">Genomic Labs</a>       <a href=\"#\" class=\"nav-link\">Phenotypes</a>       <a href=\"#\" class=\"nav-link\">Synthetics</a>       <a href=\"#\" class=\"nav-link\">Ecology</a>     </div>     <div class=\"flex items-center gap-4\">       <button class=\"dew-drop retina-border px-6 py-2.5 rounded-full font-sans text-[11px] uppercase tracking-[0.2em] font-medium flex items-center gap-2 text-white/90\">         Access Portal       </button>     </div>   </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"relative z-20 w-full px-8 py-20 border-t border-white/5 bg-gradient-to-b from-transparent to-obsidian\">     <div class=\"max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end\">       <!--SC_FCOL_0-->       <!--SC_FCOL_1-->     </div>   </footer>",
+    "footer_cols": [
+      "         <div class=\"flex items-center gap-3 mb-6\">           <iconify-icon icon=\"ph:plant-light\" class=\"text-clover text-2xl\"></iconify-icon>           <span class=\"font-serif italic text-white/70\">Inari Agriculture</span>         </div>         <p class=\"font-sans text-xs text-white/30 max-w-sm leading-relaxed font-light\">           Deploying nature's deepest algorithms. Our predictive design platform maps the full complexity of plant           genomes to solve planetary-scale challenges.         </p>       ",
+      "         <div class=\"flex flex-col gap-4\">           <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\">Research</h4>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-4 h-[1px] bg-white/20\"></div> Phyto-Networks           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-8 h-[1px] bg-white/20\"></div> CRISPR Cas9           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-2 h-[1px] bg-white/20\"></div> Biomaterials           </a>         </div>         <div class=\"flex flex-col gap-4 mt-8 md:mt-0\">           <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\">Operations</h4>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-6 h-[1px] bg-white/20\"></div> Cambridge Labs           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-3 h-[1px] bg-white/20\"></div> Field Trials           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-10 h-[1px] bg-white/20\"></div> Investors           </a>         </div>       "
+    ],
+    "footer_copyright": "",
+    "footer_heading_style": {
+      "transform": "uppercase",
+      "letterSpacing": "3px",
+      "fontWeight": "400",
+      "fontSize": "10px",
+      "color": "rgba(255, 255, 255, 0.2)"
+    },
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "12px",
+      "lineHeight": "19.5px",
+      "color": "rgba(255, 255, 255, 0.3)"
+    },
+    "base_css": "html, body{margin: 0px; padding: 0px; width: 100%; background-color: oklch(0.1 0.02 160); color: oklch(1 0 0 / 0.9); scroll-behavior: smooth; overflow-x: hidden;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Inter, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh4{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh4, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".vercel-grain{position: fixed; inset: 0px; z-index: 9999; pointer-events: none; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(https://openhero.art/api/%23noiseFilter)'/%3E%3C/svg%3E\"); opacity: 0.03; mix-blend-mode: screen;}\n.radial-portal{mask-image: radial-gradient(circle, black 35%, transparent 80%); will-change: transform;}\n.subsurface-text{text-shadow: oklch(0.75 0.25 145 / 0.35) 0px 0px 45px, oklch(0.75 0.25 145 / 0.15) 0px 0px 15px; background: linear-gradient(oklch(1 0 0) 0%, oklch(0.85 0.1 150) 100%) text; -webkit-text-fill-color: transparent;}\n@keyframes sway { \n  0%, 100% { transform: rotate(-0.5deg) translateX(-2px); }\n  50% { transform: rotate(0.5deg) translateX(2px); }\n}\n.kinetic-sway{display: inline-block; animation: 7s ease-in-out 0s infinite normal none running sway; transform-origin: center bottom;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n#portal-video{will-change: transform; transform: scale(1.4);}\nh1, h3{font-size: inherit; font-weight: inherit;}\nh1, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.-top-\\[10\\%\\]{top: -10%;}\n.z-10{z-index: 10;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.mb-4{margin-bottom: 1rem;}\n.h-2{height: 0.5rem;}\n.h-12{height: 3rem;}\n.h-\\[120\\%\\]{height: 120%;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-\\[85vh\\]{min-height: 85vh;}\n.w-12{width: 3rem;}\n.max-w-md{max-width: 28rem;}\n.max-w-xl{max-width: 36rem;}\n@keyframes pulse { \n  50% { opacity: 0.5; }\n}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-wrap{flex-wrap: wrap;}\n.gap-6{gap: 1.5rem;}\n.rounded-2xl{border-radius: 1rem;}\n.bg-clover{background-color: oklch(0.75 0.25 145);}\n.object-contain{object-fit: contain;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pt-\\[15vh\\]{padding-top: 15vh;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-\\[14px\\]{font-size: 14px;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.not-italic{font-style: normal;}\n.leading-\\[0\\.95\\]{line-height: 0.95;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.mix-blend-screen{mix-blend-mode: screen;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_10px_oklch\\(75\\%_0\\.25_145\\/0\\.8\\)\\]{--tw-shadow: 0 0 10px oklch(75% 0.25 145/0.8); --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.brightness-90{--tw-brightness: brightness(.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[1\\.15\\]{--tw-contrast: contrast(1.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.will-change-transform{will-change: transform;}\n.selection\\:text-clover ::selection{color: oklch(0.75 0.25 145);}\n.selection\\:text-clover::selection{color: oklch(0.75 0.25 145);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:-top-\\[20\\%\\]{top: -20%;}}\n@media (min-width: 1024px){.lg\\:h-\\[140\\%\\]{height: 140%;}}\n@media (min-width: 1024px){.lg\\:h-full{height: 100%;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:justify-end{justify-content: flex-end;}}\n@media (min-width: 1024px){.lg\\:gap-20{gap: 5rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[6\\.5rem\\]{font-size: 6.5rem;}}",
+    "header_css": ".liquid-header{backdrop-filter: blur(10px); background: linear-gradient(oklch(0.1 0.02 160 / 0.8), oklch(0.1 0.02 160 / 0)); border-bottom: 0.5px solid oklch(1 0 0 / 0.05);}\n.nav-link{color: oklch(1 0 0 / 0.6); transition: color 0.4s, text-shadow 0.4s;}\n.nav-link:hover{color: oklch(0.75 0.25 145); text-shadow: oklch(0.75 0.25 145 / 0.4) 0px 0px 15px;}\n.retina-border{box-shadow: oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;}\n.dew-drop{position: relative; overflow: hidden; background: oklch(0.9 0.05 150 / 0.05); backdrop-filter: blur(8px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s;}\n.dew-drop:hover{transform: scale(1.03); background: oklch(0.9 0.05 150 / 0.1); box-shadow: oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px;}\n.fixed{position: fixed;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-8{height: 2rem;}\n.w-8{width: 2rem;}\n.w-full{width: 100%;}\n.cursor-pointer{cursor: pointer;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-10{gap: 2.5rem;}\n.gap-2{gap: 0.5rem;}\n.gap-4{gap: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.bg-obsidian{background-color: oklch(0.1 0.02 160);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-2\\.5{padding-top: 0.625rem; padding-bottom: 0.625rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-\\[13px\\]{font-size: 13px;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-clover{color: oklch(0.75 0.25 145);}\n.text-white\\/90{color: rgba(255, 255, 255, 0.9);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".rhizome-link{opacity: 0.4; transition: opacity 0.5s, transform 0.5s, color 0.5s;}\n.rhizome-link:hover{opacity: 1; color: oklch(0.75 0.25 145); transform: translateX(4px);}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-8{margin-top: 2rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.grid{display: grid;}\n.h-\\[1px\\]{height: 1px;}\n.w-2{width: 0.5rem;}\n.w-10{width: 2.5rem;}\n.w-3{width: 0.75rem;}\n.w-4{width: 1rem;}\n.w-6{width: 1.5rem;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-sm{max-width: 24rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-end{justify-content: flex-end;}\n.gap-12{gap: 3rem;}\n.gap-16{gap: 4rem;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/20{background-color: rgba(255, 255, 255, 0.2);}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.to-obsidian{--tw-gradient-to: oklch(10% 0.02 160) var(--tw-gradient-to-position);}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white\\/20{color: rgba(255, 255, 255, 0.2);}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-32{gap: 8rem;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:gap-8{gap: 2rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Fill",
+      "bg": "oklch(0.9 0.05 150 / 0.05)",
+      "fg": "rgba(255, 255, 255, 0.9)",
+      "bd": "",
+      "bw": "",
+      "shadow": "oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset",
+      "radius": "9999px",
+      "px": "24px",
+      "py": "10px",
+      "height": "",
+      "fs": "11px",
+      "lh": "16.5px",
+      "ff": "Inter, sans-serif",
+      "ls": "2.2px",
+      "tt": "uppercase",
+      "fw": "500",
+      "hoverBg": ""
+    },
+    {
+      "role": "Fill",
+      "bg": "oklch(0.9 0.05 150 / 0.05)",
+      "fg": "rgb(255, 255, 255)",
+      "bd": "",
+      "bw": "",
+      "shadow": "oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset",
+      "radius": "9999px",
+      "px": "32px",
+      "py": "16px",
+      "height": "",
+      "fs": "12px",
+      "lh": "18px",
+      "ff": "Inter, sans-serif",
+      "ls": "2.4px",
+      "tt": "uppercase",
+      "fw": "500",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "md",
+  "spacingTokens": [
+    {
+      "value": "135px",
+      "px": 135
+    }
+  ],
+  "footerContainerMax": "1800",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "16px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset",
+      "backdrop": "blur(8px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 3
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "sway",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": true
+      },
+      {
+        "name": "pulse",
+        "props": [
+          "opacity"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".kinetic-sway",
+        "name": "sway",
+        "duration": "7s",
+        "infinite": true
+      },
+      {
+        "selector": ".animate-pulse",
+        "name": "pulse",
+        "duration": "2s",
+        "infinite": true
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".nav-link",
+        "changed": {
+          "color": "oklch(0.75 0.25 145)",
+          "text-shadow": "oklch(0.75 0.25 145 / 0.4) 0px 0px 15px"
+        }
+      },
+      {
+        "selector": ".dew-drop",
+        "changed": {
+          "transform": "scale(1.03)",
+          "background-color": "oklch(0.9 0.05 150 / 0.1)",
+          "box-shadow": "oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px"
+        }
+      },
+      {
+        "selector": ".rhizome-link",
+        "changed": {
+          "opacity": "1",
+          "color": "oklch(0.75 0.25 145)",
+          "transform": "translateX(4px)"
+        }
+      },
+      {
+        "selector": "dew-drop retina-border px-6 py-2.5 rounded-full font-sans te",
+        "changed": {
+          "transform": "matrix(1.03253, 0, 0, 1.03253, 0, 0)",
+          "boxShadow": "oklab(0.760412 -0.196259 0.137422 / 0.455713) 0px 0px 0px 0.5px inset, oklab(0.75 -0.204788 0.143394 / 0.13102) 0px 13.102px 30.5713px 0px",
+          "background": "oklab(0.9 -0.0433013 0.025 / 0.0936733)"
+        },
+        "live": true
+      },
+      {
+        "selector": "dew-drop retina-border px-8 py-4 rounded-full font-sans text",
+        "changed": {
+          "transform": "matrix(1.03247, 0, 0, 1.03247, 0, 0)",
+          "boxShadow": "oklab(0.761539 -0.195336 0.136776 / 0.451387) 0px 0px 0px 0.5px inset, oklab(0.75 -0.204788 0.143394 / 0.129166) 0px 12.9166px 30.1387px 0px",
+          "background": "oklab(0.9 -0.0433013 0.025 / 0.0930552)"
+        },
+        "live": true
+      },
+      {
+        "selector": "font-serif text-sm text-white rhizome-link flex items-center",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 3.44436, 0)",
+          "color": "oklab(0.784727 -0.176335 0.123478)"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".nav-link",
+        "props": "color, text-shadow",
+        "duration": "0.4s, 0.4s"
+      },
+      {
+        "selector": ".dew-drop",
+        "props": "transform, box-shadow, background",
+        "duration": "0.5s, 0.5s, 0.5s"
+      },
+      {
+        "selector": ".reveal-up",
+        "props": "opacity, transform",
+        "duration": "1.6s, 1.6s"
+      },
+      {
+        "selector": ".rhizome-link",
+        "props": "opacity, transform, color",
+        "duration": "0.5s, 0.5s, 0.5s"
+      },
+      {
+        "selector": ".transition-colors",
+        "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 1645,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~731px of scroll"
+      },
+      {
+        "i": 8,
+        "kind": "parallax",
+        "evidence": "document position drifts 314px over 745px of scroll",
+        "ratio": 0.42
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~731px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#8",
+        "evidence": "document position drifts 314px over 745px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ 0.42)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".kinetic-sway",
+        "evidence": "infinite keyframes 'sway' translating X",
+        "suggest": "marquee fx: {mode:'left'}",
+        "confidence": "high"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".animate-pulse",
+        "evidence": "infinite keyframes 'pulse' (opacity)",
+        "suggest": "physics float/pulse or backgrounds module",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".nav-link",
+        "evidence": "color, text-shadow change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".dew-drop",
+        "evidence": "transform, background-color, box-shadow change on hover",
+        "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".rhizome-link",
+        "evidence": "opacity, color, transform change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "dew-drop retina-border px-6 py-2.5 rounded-full font-sans te",
+        "evidence": "transform, boxShadow, background change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "dew-drop retina-border px-8 py-4 rounded-full font-sans text",
+        "evidence": "transform, boxShadow, background change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "font-serif text-sm text-white rhizome-link flex items-center",
+        "evidence": "transform, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

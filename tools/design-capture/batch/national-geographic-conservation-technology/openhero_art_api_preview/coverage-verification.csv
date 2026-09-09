@@ -1,0 +1,5 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,3,section-glow,background-image,32,yes,
+home,4,genomic-section,background-image,6,yes,
+home,2,biome-section section-glow,background-image,3,yes,
+home,0,hero,background-image,2,yes,

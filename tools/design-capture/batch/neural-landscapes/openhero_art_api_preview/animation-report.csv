@@ -1,0 +1,12 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1361px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~1361px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#2,pinned for ~1361px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#10,document position drifts 223px over 1390px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ 0.16),medium
+css-animation,.kinetic-sway,infinite keyframes 'sway' translating X,marquee fx: {mode:'left'},high
+hover,.radial-portal,transform change on hover,"interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.dew-drop,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'lift'},medium
+hover,.sss-card::after,box-shadow change on hover,interaction: {effect:'lift'} or glow_border,medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,dew-drop px-5 py-2 font-data text-[10px] tracking-widest upp,"transform, boxShadow, background, color change on hover",interaction: {effect:'color_shift'},medium
+hover,dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] up,"transform, boxShadow, background change on hover",interaction: {effect:'color_shift'},medium

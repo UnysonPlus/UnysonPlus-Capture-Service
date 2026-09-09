@@ -1,0 +1,2 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,2,min-h-screen bg-stark-white border-y border-denim-black grid grid-cols-1 md:grid-cols-4 @container,background-image,3,yes,

@@ -1,0 +1,299 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "tourbillon-float",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "atomic-assembly",
+      "props": [
+        "opacity",
+        "transform",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".kinetic-anchor",
+      "name": "tourbillon-float",
+      "duration": "24s",
+      "infinite": true
+    },
+    {
+      "selector": ".scroll-assembly",
+      "name": "atomic-assembly",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".magnetic-liquid",
+      "changed": {
+        "color": "var(--deep-obsidian)",
+        "transform": "translateY(-3px) scale(1.03)",
+        "box-shadow": "oklch(0.65 0.25 45 / 0.4) 0px 15px 40px"
+      }
+    },
+    {
+      "selector": ".magnetic-liquid::before",
+      "changed": {
+        "top": "0px"
+      }
+    },
+    {
+      "selector": ".hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/5",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.05)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-\\[oklch\\(65\\%_0\\.25_45\\)\\]",
+      "changed": {
+        "color": "oklch(0.65 0.25 45)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-80",
+      "changed": {
+        "opacity": "0.8"
+      }
+    },
+    {
+      "selector": "magnetic-liquid px-12 py-6 text-sm tracking-widest uppercase",
+      "changed": {
+        "transform": "matrix(1.02958, 0, 0, 1.02958, 0, -2.958)",
+        "boxShadow": "oklab(0.65 0.176777 0.176777 / 0.3944) 0px 14.79px 39.44px 0px",
+        "color": "oklab(0.157 0.00589931 -0.0169454)"
+      },
+      "live": true
+    },
+    {
+      "selector": "lens-refraction px-12 py-6 text-sm tracking-widest uppercase",
+      "changed": {
+        "background": "rgba(255, 255, 255, 0.05)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".magnetic-liquid::before",
+      "props": "top",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3066,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 9,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 150,
+        "ease": "power2.out",
+        "scaled": true,
+        "sx": 0.886,
+        "tx": 0,
+        "ty": 150,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 11,
+      "kind": "parallax",
+      "evidence": "document position drifts -147px over 2166px of scroll",
+      "ratio": -0.07
+    },
+    {
+      "i": 17,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 150,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.886,
+        "tx": 0,
+        "ty": 150,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 19,
+      "kind": "parallax",
+      "evidence": "document position drifts -150px over 2166px of scroll",
+      "ratio": -0.07
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#9",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#11",
+      "evidence": "document position drifts -147px over 2166px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.07)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#17",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#19",
+      "evidence": "document position drifts -150px over 2166px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.07)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".kinetic-anchor",
+      "evidence": "infinite keyframes 'tourbillon-float' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".scroll-assembly",
+      "evidence": "keyframes 'atomic-assembly' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".magnetic-liquid",
+      "evidence": "color, transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/5",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-\\[oklch\\(65\\%_0\\.25_45\\)\\]",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "magnetic-liquid px-12 py-6 text-sm tracking-widest uppercase",
+      "evidence": "transform, boxShadow, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "lens-refraction px-12 py-6 text-sm tracking-widest uppercase",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

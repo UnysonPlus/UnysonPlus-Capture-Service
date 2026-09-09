@@ -1,0 +1,9 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": []
+    }
+  ]
+}

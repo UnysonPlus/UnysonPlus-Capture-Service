@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,2,telemetry,background-image,7,yes,
+home,1,section,background-image,3,yes,
+home,3,ledger-footer,background-image,3,yes,

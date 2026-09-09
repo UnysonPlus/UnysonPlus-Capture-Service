@@ -1,0 +1,2662 @@
+{
+  "url": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" class=\"dark\" data-sc-cs=\"color:rgb(0, 0, 0)\" data-sc-content-width=\"1376\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Lumina Gen | Synthetic Light Architectures</title>\n\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap\" rel=\"stylesheet\">\n\n    <style>\n        :root {\n            --bg: oklch(8% .02 280);\n            --cyan: oklch(79% .17 220);\n            --magenta: oklch(70% .28 340);\n            --amber: oklch(82% .17 70);\n        }\n\n        * {\n            box-sizing: border-box;\n        }\n\n        html {\n            scroll-behavior: smooth;\n        }\n\n        body {\n            margin: 0;\n            overflow-x: hidden;\n            font-family: 'Inter Tight', sans-serif;\n            background:\n                radial-gradient(circle at 20% 10%, rgba(255, 56, 182, .12), transparent 20%),\n                radial-gradient(circle at 80% 20%, rgba(97, 218, 251, .1), transparent 22%),\n                linear-gradient(180deg, #09090d 0%, #06060a 100%);\n            color: white;\n        }\n\n        body::before {\n            content: '';\n            position: fixed;\n            inset: 0;\n            pointer-events: none;\n            background-image:\n                linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),\n                linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);\n            background-size: 100px 100px;\n            mask-image: radial-gradient(circle at center, black 20%, transparent 90%);\n            opacity: .3;\n            z-index: -1;\n        }\n\n        .serif {\n            font-family: 'Cormorant Garamond', serif;\n            letter-spacing: -.05em;\n        }\n\n        .copy {\n            font-family: 'Inter Tight', sans-serif;\n        }\n\n        .glass {\n            background: rgba(255, 255, 255, .04);\n            border: 1px solid rgba(255, 255, 255, .08);\n            backdrop-filter: blur(30px) saturate(1.4);\n            -webkit-backdrop-filter: blur(30px) saturate(1.4);\n            box-shadow:\n                0 10px 60px rgba(0, 0, 0, .45),\n                inset 0 1px 0 rgba(255, 255, 255, .08);\n        }\n\n        .wind {\n            animation: wind 8s ease-in-out infinite;\n            display: inline-block;\n            transform-origin: center bottom;\n        }\n\n        .hero-mask {\n            mask-image:\n                radial-gradient(circle at center,\n                    black 35%,\n                    rgba(0, 0, 0, .95) 52%,\n                    rgba(0, 0, 0, .75) 70%,\n                    transparent 100%);\n            -webkit-mask-image:\n                radial-gradient(circle at center,\n                    black 35%,\n                    rgba(0, 0, 0, .95) 52%,\n                    rgba(0, 0, 0, .75) 70%,\n                    transparent 100%);\n        }\n\n        .hero-video {\n            animation: zoom 16s linear infinite alternate;\n        }\n\n        .dock {\n            position: fixed;\n            bottom: 24px;\n            left: 50%;\n            transform: translateX(-50%);\n            z-index: 60;\n        }\n\n        .dock-inner {\n            display: flex;\n            gap: 12px;\n            padding: 12px;\n            border-radius: 999px;\n            background: rgba(255, 255, 255, .06);\n            border: 1px solid rgba(255, 255, 255, .08);\n            backdrop-filter: blur(40px);\n            -webkit-backdrop-filter: blur(40px);\n        }\n\n        .dock-btn {\n            width: 52px;\n            height: 52px;\n            border-radius: 999px;\n            display: grid;\n            place-items: center;\n            background: rgba(255, 255, 255, .04);\n            transition: .5s cubic-bezier(.16, 1, .3, 1);\n            border: 1px solid rgba(255, 255, 255, .08);\n        }\n\n        .dock-btn:hover {\n            transform: translateY(-6px) scale(1.08);\n            background: rgba(255, 255, 255, .08);\n        }\n\n        .floating-label {\n            position: absolute;\n            padding: 12px 16px;\n            border-radius: 999px;\n            font-size: 11px;\n            letter-spacing: .2em;\n            text-transform: uppercase;\n            background: rgba(255, 255, 255, .04);\n            backdrop-filter: blur(30px);\n            border: 1px solid rgba(255, 255, 255, .08);\n        }\n\n        .massive-number {\n            font-size: clamp(7rem, 20vw, 18rem);\n            line-height: .8;\n            font-weight: 700;\n            color: rgba(255, 255, 255, .06);\n        }\n\n        .river-line {\n            height: 1px;\n            background:\n                linear-gradient(90deg,\n                    transparent,\n                    rgba(255, 56, 182, .5),\n                    rgba(97, 218, 251, .6),\n                    transparent);\n        }\n\n        .editorial {\n            display: grid;\n            grid-template-columns: 1fr 1.2fr;\n            gap: 5rem;\n            align-items: center;\n        }\n\n        .data-monolith {\n            border-radius: 4rem;\n            overflow: hidden;\n            position: relative;\n            min-height: 720px;\n            background:\n                linear-gradient(145deg,\n                    rgba(255, 255, 255, .04),\n                    rgba(255, 255, 255, .01));\n            border: 1px solid rgba(255, 255, 255, .08);\n        }\n\n        .data-monolith::before {\n            content: '';\n            position: absolute;\n            inset: -20%;\n            background:\n                radial-gradient(circle at 20% 30%, rgba(255, 56, 182, .18), transparent 20%),\n                radial-gradient(circle at 80% 40%, rgba(97, 218, 251, .15), transparent 20%),\n                radial-gradient(circle at 50% 80%, rgba(255, 153, 0, .12), transparent 25%);\n            filter: blur(80px);\n        }\n\n        .orbit {\n            position: absolute;\n            border: 1px solid rgba(255, 255, 255, .08);\n            border-radius: 999px;\n        }\n\n        .marquee {\n            display: flex;\n            gap: 80px;\n            white-space: nowrap;\n            animation: marquee 20s linear infinite;\n        }\n\n        .quote-panel {\n            padding: 6rem;\n            border-radius: 4rem;\n            background:\n                linear-gradient(180deg,\n                    rgba(255, 255, 255, .05),\n                    rgba(255, 255, 255, .01));\n            border: 1px solid rgba(255, 255, 255, .08);\n        }\n\n        .cta-orb {\n            width: 14rem;\n            height: 14rem;\n            border-radius: 999px;\n            display: grid;\n            place-items: center;\n            background:\n                radial-gradient(circle at 30% 30%,\n                    rgba(255, 255, 255, .18),\n                    rgba(255, 255, 255, .04));\n            border: 1px solid rgba(255, 255, 255, .1);\n            backdrop-filter: blur(30px);\n            transition: 1s cubic-bezier(.16, 1, .3, 1);\n        }\n\n        .cta-orb:hover {\n            transform: scale(1.08) rotate(8deg);\n            box-shadow:\n                0 0 100px rgba(97, 218, 251, .18);\n        }\n\n        @keyframes marquee {\n            to {\n                transform: translateX(-50%);\n            }\n        }\n\n        @keyframes zoom {\n            from {\n                transform: scale(1.05);\n            }\n\n            to {\n                transform: scale(1.15);\n            }\n        }\n\n        @keyframes wind {\n\n            0%,\n            100% {\n                transform: rotate(-1deg);\n            }\n\n            50% {\n                transform: rotate(1deg);\n            }\n        }\n    </style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-\\[-12rem\\]{bottom:-12rem}.left-\\[10\\%\\]{left:10%}.right-\\[10\\%\\]{right:10%}.top-\\[-10rem\\]{top:-10rem}.bottom-\\[10\\%\\]{bottom:10%}.left-0{left:0px}.left-\\[30\\%\\]{left:30%}.right-\\[12\\%\\]{right:12%}.top-0{top:0px}.top-\\[15\\%\\]{top:15%}.top-\\[20\\%\\]{top:20%}.top-\\[28\\%\\]{top:28%}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mt-10{margin-top:2.5rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-\\[30rem\\]{height:30rem}.h-\\[32rem\\]{height:32rem}.h-2{height:0.5rem}.h-\\[18rem\\]{height:18rem}.h-\\[22rem\\]{height:22rem}.h-\\[28rem\\]{height:28rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-\\[30rem\\]{width:30rem}.w-\\[32rem\\]{width:32rem}.w-2{width:0.5rem}.w-\\[18rem\\]{width:18rem}.w-\\[22rem\\]{width:22rem}.w-\\[28rem\\]{width:28rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-3xl{max-width:48rem}.max-w-\\[1600px\\]{max-width:1600px}.max-w-\\[1700px\\]{max-width:1700px}.max-w-sm{max-width:24rem}.max-w-xl{max-width:36rem}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-10{gap:2.5rem}.gap-12{gap:3rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.space-y-10 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2.5rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-\\[2rem\\]{border-radius:2rem}.border{border-width:1px}.border-white\\/10{border-color:rgb(255 255 255 / 0.1)}.bg-cyan-400\\/10{background-color:rgb(34 211 238 / 0.1)}.bg-pink-500\\/10{background-color:rgb(236 72 153 / 0.1)}.bg-cyan-300{--tw-bg-opacity:1;background-color:rgb(103 232 249 / var(--tw-bg-opacity, 1))}.bg-white\\/\\[0\\.03\\]{background-color:rgb(255 255 255 / 0.03)}.bg-\\[radial-gradient\\(circle_at_30\\%_30\\%\\2c rgba\\(255\\2c 56\\2c 182\\2c \\.22\\)\\2c transparent_20\\%\\)\\2c radial-gradient\\(circle_at_70\\%_40\\%\\2c rgba\\(97\\2c 218\\2c 251\\2c \\.18\\)\\2c transparent_22\\%\\)\\2c linear-gradient\\(180deg\\2c rgba\\(0\\2c 0\\2c 0\\2c \\.1\\)\\2c rgba\\(0\\2c 0\\2c 0\\2c \\.55\\)\\)\\]{background-image:radial-gradient(circle at 30% 30%,rgba(255,56,182,.22),transparent 20%),radial-gradient(circle at 70% 40%,rgba(97,218,251,.18),transparent 22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))}.object-cover{object-fit:cover}.p-10{padding:2.5rem}.p-6{padding:1.5rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-8{padding-left:2rem;padding-right:2rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-40{padding-top:10rem;padding-bottom:10rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.text-center{text-align:center}.text-right{text-align:right}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-7xl{font-size:4.5rem;line-height:1}.text-\\[11px\\]{font-size:11px}.text-\\[9rem\\]{font-size:9rem}.text-\\[clamp\\(3rem\\2c 6vw\\2c 5rem\\)\\]{font-size:clamp(3rem,6vw,5rem)}.text-\\[clamp\\(3rem\\2c 6vw\\2c 6rem\\)\\]{font-size:clamp(3rem,6vw,6rem)}.text-\\[clamp\\(4rem\\2c 9vw\\2c 8rem\\)\\]{font-size:clamp(4rem,9vw,8rem)}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-10{line-height:2.5rem}.leading-8{line-height:2rem}.leading-9{line-height:2.25rem}.leading-\\[\\.85\\]{line-height:.85}.leading-\\[\\.9\\]{line-height:.9}.leading-\\[1\\]{line-height:1}.leading-none{line-height:1}.tracking-\\[0\\.25em\\]{letter-spacing:0.25em}.tracking-\\[0\\.28em\\]{letter-spacing:0.28em}.tracking-\\[0\\.3em\\]{letter-spacing:0.3em}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77 / var(--tw-text-opacity, 1))}.text-cyan-300{--tw-text-opacity:1;color:rgb(103 232 249 / var(--tw-text-opacity, 1))}.text-cyan-300\\/10{color:rgb(103 232 249 / 0.1)}.text-pink-400{--tw-text-opacity:1;color:rgb(244 114 182 / var(--tw-text-opacity, 1))}.text-pink-400\\/10{color:rgb(244 114 182 / 0.1)}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\\/40{color:rgb(255 255 255 / 0.4)}.text-white\\/45{color:rgb(255 255 255 / 0.45)}.text-white\\/50{color:rgb(255 255 255 / 0.5)}.text-white\\/55{color:rgb(255 255 255 / 0.55)}.text-white\\/60{color:rgb(255 255 255 / 0.6)}.text-white\\/65{color:rgb(255 255 255 / 0.65)}.text-white\\/70{color:rgb(255 255 255 / 0.7)}.text-white\\/\\[0\\.06\\]{color:rgb(255 255 255 / 0.06)}.blur-\\[120px\\]{--tw-blur:blur(120px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-\\[140px\\]{--tw-blur:blur(140px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.brightness-\\[1\\.1\\]{--tw-brightness:brightness(1.1);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.contrast-\\[1\\.15\\]{--tw-contrast:contrast(1.15);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.saturate-\\[1\\.4\\]{--tw-saturate:saturate(1.4);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-\\[40px\\]{--tw-backdrop-blur:blur(40px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\\:grid-cols-\\[1\\.2fr_\\.8fr\\]{grid-template-columns:1.2fr .8fr}}</style></head>\n\n<body data-sc-cs=\"color:rgb(255, 255, 255)\">\n\n    <div class=\"fixed inset-0 pointer-events-none overflow-hidden\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\">\n        <div class=\"absolute top-[-10rem] left-[10%] h-[30rem] w-[30rem] rounded-full bg-cyan-400/10 blur-[120px]\" data-sc-cs=\"background-color:rgba(34, 211, 238, 0.1);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n        </div>\n        <div class=\"absolute bottom-[-12rem] right-[10%] h-[32rem] w-[32rem] rounded-full bg-pink-500/10 blur-[140px]\" data-sc-cs=\"background-color:rgba(236, 72, 153, 0.1);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n        </div>\n    </div>\n\n    <div class=\"dock\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -135, 0);position:fixed\">\n        <div class=\"dock-inner\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.06);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;backdrop-filter:blur(40px);display:flex;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <a class=\"dock-btn\" href=\"#\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\">\n                <iconify-icon icon=\"ph:house\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </a>\n\n            <a class=\"dock-btn\" href=\"#\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\">\n                <iconify-icon icon=\"ph:atom\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </a>\n\n            <a class=\"dock-btn\" href=\"#\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\">\n                <iconify-icon icon=\"ph:circles-four\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </a>\n\n            <a class=\"dock-btn\" href=\"#\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\">\n                <iconify-icon icon=\"ph:sparkle\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </a>\n        </div>\n    </div>\n\n    <main data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n        <section class=\"relative min-h-screen overflow-hidden\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n            <div class=\"absolute inset-0 hero-mask\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.08427, 0, 0, 1.08427, 0, 0);position:absolute\">\n                    <source src=\"https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4\" type=\"video/mp4\">\n                </video>\n\n                <div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]\" data-sc-cs=\"background-image:radial-gradient(circle at 30% 30%, rgba(255, 56, 182, 0.22), rgba(0, 0, 0, 0) 20%), radial-gradient(circle at 70% 40%, rgba(97, 218, 251, 0.18), rgba(0, 0, 0, 0) 22%), linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.55));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                </div>\n            </div>\n\n            <div class=\"relative z-10 mx-auto flex min-h-screen max-w-[1600px] items-center px-8\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n\n                <div class=\"max-w-3xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                    <div class=\"glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;padding:12px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;backdrop-filter:blur(30px) saturate(1.4);display:inline-flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n                        <div class=\"h-2 w-2 rounded-full bg-cyan-300\" data-sc-cs=\"background-color:rgb(103, 232, 249);color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n                        Neural-optic synchronization active\n                    </div>\n\n                    <h1 class=\"serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <span class=\"wind block\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)\">Synthetic</span>\n                        <span class=\"wind block\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)\">Light</span>\n                        <span class=\"wind block\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)\">Architectures</span>\n                    </h1>\n\n                    <p class=\"copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;padding:24px;margin:32px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;backdrop-filter:blur(40px);max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        A next-generation luminous interface engineered around chromatic protein sequencing,\n                        photon-efficient biosynthesis, and neural-optic ecosystems.\n                    </p>\n\n                    <div class=\"mt-10 flex gap-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <button class=\"glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;backdrop-filter:blur(30px) saturate(1.4);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            Launch Spectrum\n                        </button>\n\n                        <button class=\"rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70\" data-sc-cs=\"color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            Explore Systems\n                        </button>\n                    </div>\n\n                </div>\n\n            </div>\n\n            <div class=\"floating-label right-[10%] top-[28%]\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;backdrop-filter:blur(30px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                Live Cytoplasmic Stability\n            </div>\n\n        </section>\n\n        <section class=\"relative overflow-hidden px-8 py-40\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n            <div class=\"massive-number absolute left-0 top-0\" data-sc-cs=\"color:rgba(255, 255, 255, 0.06);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:288px;font-weight:700;line-height:230.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                01\n            </div>\n\n            <div class=\"editorial relative z-10 mx-auto max-w-[1600px]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:grid;gap:80px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n\n                <div data-sc-col=\"sccol-0\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Editorial Narrative\n                    </div>\n\n                    <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:86.4px;font-weight:400;line-height:77.76px;letter-spacing:-4.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Light behaving like biological matter.\n                    </h2>\n                </div>\n\n                <div class=\"space-y-10\" data-sc-col=\"sccol-1\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                    <p class=\"text-xl leading-10 text-white/70\" data-sc-cs=\"color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:400;line-height:40px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system\n                        where color, motion, and biological light become one continuous interface.\n                    </p>\n\n                    <div class=\"river-line\" data-sc-cs=\"background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(255, 56, 182, 0.5), rgba(97, 218, 251, 0.6), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n\n                    <p class=\"max-w-xl text-base leading-8 text-white/55\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Built around chromatic protein sequencing and neural-optic synchronization, the system responds\n                        like a living ecosystem instead of static software.\n                    </p>\n\n                </div>\n\n            </div>\n\n        </section>\n\n        <section class=\"px-8 py-20\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n            <div class=\"data-monolith mx-auto max-w-[1700px]\" data-sc-cs=\"background-image:linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:64px;max-width:1700px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                <div class=\"orbit left-[10%] top-[15%] h-[18rem] w-[18rem]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n                <div class=\"orbit right-[12%] top-[20%] h-[28rem] w-[28rem]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n                <div class=\"orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n\n                <div class=\"relative z-10 flex h-full flex-col justify-between p-10\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n\n                    <div class=\"flex items-start justify-between\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\">\n\n                        <div data-sc-col=\"sccol-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\" data-sc-cs=\"color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Neural-optic Core\n                            </div>\n\n                            <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:86.4px;font-weight:400;line-height:77.76px;letter-spacing:-4.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                A monolithic chromatic ecosystem.\n                            </h2>\n                        </div>\n\n                        <div class=\"max-w-sm text-right text-white/60 leading-8\" data-sc-col=\"sccol-3\" data-sc-cs=\"color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            Real-time biosynthetic telemetry visualized through a living atmospheric architecture.\n                        </div>\n\n                    </div>\n\n                    <div class=\"grid gap-10 md:grid-cols-3\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:40px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                        <div data-sc-col=\"sccol-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Yield Index\n                            </div>\n\n                            <div class=\"mt-4 text-7xl font-semibold text-cyan-300\" data-sc-cs=\"color:rgb(103, 232, 249);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                98%\n                            </div>\n                        </div>\n\n                        <div data-sc-col=\"sccol-5\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Photon Stability\n                            </div>\n\n                            <div class=\"mt-4 text-7xl font-semibold text-pink-400\" data-sc-cs=\"color:rgb(244, 114, 182);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Live\n                            </div>\n                        </div>\n\n                        <div data-sc-col=\"sccol-6\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Neural Sync\n                            </div>\n\n                            <div class=\"mt-4 text-7xl font-semibold text-amber-300\" data-sc-cs=\"color:rgb(252, 211, 77);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                0.2ms\n                            </div>\n                        </div>\n\n                    </div>\n\n                </div>\n\n            </div>\n\n        </section>\n\n        <section class=\"overflow-hidden py-40\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n            <div class=\"marquee\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:80px;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -197.394, 0)\">\n\n                <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-7\" data-sc-cs=\"color:rgba(255, 255, 255, 0.06);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Chromatic Sequencing\n                </div>\n\n                <div class=\"serif text-[9rem] leading-none text-cyan-300/10\" data-sc-col=\"sccol-8\" data-sc-cs=\"color:rgba(103, 232, 249, 0.1);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Neural Synchronization\n                </div>\n\n                <div class=\"serif text-[9rem] leading-none text-pink-400/10\" data-sc-col=\"sccol-9\" data-sc-cs=\"color:rgba(244, 114, 182, 0.1);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Photon Biosynthesis\n                </div>\n\n                <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-10\" data-sc-cs=\"color:rgba(255, 255, 255, 0.06);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Synthetic Luminosity\n                </div>\n\n            </div>\n\n        </section>\n\n        <section class=\"px-8 py-20\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n            <div class=\"mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:grid;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                <div class=\"quote-panel\" data-sc-col=\"sccol-11\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:64px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n                    <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Field Observation\n                    </div>\n\n                    <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:80px;font-weight:400;line-height:80px;letter-spacing:-4px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        “The interface dissolves into pure atmospheric light.”\n                    </blockquote>\n\n                    <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\" data-sc-cs=\"color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive\n                        and reactive.\n                    </p>\n\n                </div>\n\n                <div class=\"flex items-center justify-center\" data-sc-col=\"sccol-12\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n\n                    <button class=\"cta-orb\" data-sc-cs=\"background-image:radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;backdrop-filter:blur(30px);display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:1s cubic-bezier(0.16, 1, 0.3, 1)\">\n                        <div class=\"text-center\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                            <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\" data-sc-cs=\"color:rgba(255, 255, 255, 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Access\n                            </div>\n\n                            <div class=\"mt-2 serif text-4xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-1.8px;text-align:center;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                                Prism\n                            </div>\n                        </div>\n                    </button>\n\n                </div>\n\n            </div>\n\n        </section>\n\n    </main>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n\n</body></html>",
+  "megaMenus": [],
+  "title": "Lumina Gen | Synthetic Light Architectures",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 20,
+      "family": "Inter Tight",
+      "line-height": "2"
+    },
+    "h1": {
+      "size": 128,
+      "weight": "400",
+      "family": "Cormorant Garamond",
+      "line-height": "0.85",
+      "letter-spacing": "-6.4"
+    },
+    "h2": {
+      "size": 86,
+      "weight": "400",
+      "family": "Cormorant Garamond",
+      "line-height": "0.9",
+      "letter-spacing": "-4.32"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "128",
+        "weight": "400",
+        "line_height": "0.85",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "86",
+        "weight": "400",
+        "line_height": "0.9",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "2",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "16",
+        "weight": "",
+        "line_height": "2",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "11",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "3.3",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--cyan": "oklch(79% .17 220)",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--bg": "oklch(8% .02 280)",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--magenta": "oklch(70% .28 340)",
+      "--amber": "oklch(82% .17 70)",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "\"Inter Tight\", sans-serif",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1600px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Inter Tight",
+    "color": "rgba(255, 255, 255, 0.06)"
+  },
+  "header": null,
+  "footer": null,
+  "sections": [
+    {
+      "heading": "Synthetic Light Architectures",
+      "headingHtml": "",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "\"Cormorant Garamond\", serif",
+        "fontSize": "128px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "Neural-optic synchronization active",
+      "overlineComputed": {
+        "backgroundColor": "rgba(255, 255, 255, 0.04)",
+        "color": "rgba(255, 255, 255, 0.6)",
+        "textTransform": "uppercase",
+        "letterSpacing": "3.3px",
+        "borderRadius": "9999px",
+        "fontSize": "11px"
+      },
+      "lead": "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems.",
+      "paragraphs": [
+        "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems."
+      ],
+      "buttons": [
+        {
+          "label": "Launch Spectrum",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "primary": true
+        },
+        {
+          "label": "Explore Systems",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "primary": false
+        }
+      ],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": {
+        "tokens": [
+          "backdrop-blur-[40px]"
+        ],
+        "engine": ""
+      },
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px",
+        "minHeight": "900px"
+      },
+      "text": "Neural-optic synchronization active Synthetic Light Architectures A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems. Launch Spectrum Explore Systems Live Cytoplasmic Stability",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "padding": "0px 32px",
+              "flex": {
+                "dir": "row",
+                "justify": "normal",
+                "align": "center",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "maxWidth": "1600px",
+              "transition": "all",
+              "tw": {
+                "px": "32px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "maxWidth": "768px",
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Neural-optic synchronization active",
+                    "text": "Neural-optic synchronization active",
+                    "styles": {
+                      "bg": "rgba(255, 255, 255, 0.04)",
+                      "padding": "12px 20px",
+                      "borderRadius": "9999px",
+                      "boxShadow": "rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset",
+                      "border": "1px solid rgba(255, 255, 255, 0.08)",
+                      "color": "rgba(255, 255, 255, 0.6)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "11px",
+                      "letterSpacing": "3.3px",
+                      "lineHeight": "16.5px",
+                      "textTransform": "uppercase",
+                      "transition": "all",
+                      "tw": {
+                        "radius": "9999px",
+                        "px": "20px",
+                        "py": "12px",
+                        "gap": "12px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 1,
+                    "html": "Synthetic Light Architectures",
+                    "text": "Synthetic Light Architectures",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "128px",
+                      "letterSpacing": "-6.4px",
+                      "lineHeight": "108.8px",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems.",
+                    "text": "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems.",
+                    "styles": {
+                      "bg": "rgba(255, 255, 255, 0.03)",
+                      "padding": "24px",
+                      "borderRadius": "32px",
+                      "border": "1px solid rgba(255, 255, 255, 0.1)",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "18px",
+                      "lineHeight": "36px",
+                      "transition": "all",
+                      "tw": {
+                        "radius": "2rem",
+                        "borderWidth": "1px",
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "normal",
+                        "align": "normal",
+                        "gap": "16px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "16px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "button",
+                        "label": "Launch Spectrum",
+                        "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+                        "styles": {
+                          "textAlign": "center",
+                          "bg": "rgba(255, 255, 255, 0.04)",
+                          "padding": "20px 32px",
+                          "borderRadius": "9999px",
+                          "boxShadow": "rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset",
+                          "border": "1px solid rgba(255, 255, 255, 0.08)",
+                          "color": "rgb(255, 255, 255)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "11px",
+                          "letterSpacing": "2.75px",
+                          "lineHeight": "16.5px",
+                          "textTransform": "uppercase",
+                          "transition": "all",
+                          "tw": {
+                            "radius": "9999px",
+                            "px": "32px",
+                            "py": "20px"
+                          }
+                        }
+                      },
+                      {
+                        "role": "button",
+                        "label": "Explore Systems",
+                        "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+                        "styles": {
+                          "textAlign": "center",
+                          "padding": "20px 32px",
+                          "borderRadius": "9999px",
+                          "border": "1px solid rgba(255, 255, 255, 0.1)",
+                          "color": "rgba(255, 255, 255, 0.7)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "11px",
+                          "letterSpacing": "2.75px",
+                          "lineHeight": "16.5px",
+                          "textTransform": "uppercase",
+                          "transition": "all",
+                          "tw": {
+                            "radius": "9999px",
+                            "borderWidth": "1px",
+                            "px": "32px",
+                            "py": "20px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "text",
+            "html": "Live Cytoplasmic Stability",
+            "text": "Live Cytoplasmic Stability",
+            "styles": {
+              "bg": "rgba(255, 255, 255, 0.04)",
+              "padding": "12px 16px",
+              "borderRadius": "999px",
+              "border": "1px solid rgba(255, 255, 255, 0.08)",
+              "color": "rgb(255, 255, 255)",
+              "fontFamily": "\"Inter Tight\", sans-serif",
+              "fontSize": "11px",
+              "letterSpacing": "2.2px",
+              "lineHeight": "16.5px",
+              "textTransform": "uppercase",
+              "transition": "all"
+            }
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"relative min-h-screen overflow-hidden\">             <div class=\"absolute inset-0 hero-mask\">                 <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15]\">                     <source src=\"https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4\" type=\"video/mp4\">                 </video>                 <div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]\">                 </div>             </div>             <div class=\"relative z-10 mx-auto flex min-h-screen max-w-[1600px] items-center px-8\">                 <div class=\"max-w-3xl\">                     <div class=\"glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60\">                         <div class=\"h-2 w-2 rounded-full bg-cyan-300\"></div>                         Neural-optic synchronization active                     </div>                     <h1 class=\"serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white\">                         <span class=\"wind block\">Synthetic</span>                         <span class=\"wind block\">Light</span>                         <span class=\"wind block\">Architectures</span>                     </h1>                     <p class=\"copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]\">                         A next-generation luminous interface engineered around chromatic protein sequencing,                         photon-efficient biosynthesis, and neural-optic ecosystems.                     </p>                     <div class=\"mt-10 flex gap-4\">                         <button class=\"glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]\">                             Launch Spectrum                         </button>                         <button class=\"rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70\">                             Explore Systems                         </button>                     </div>                 </div>             </div>             <div class=\"floating-label right-[10%] top-[28%]\">                 Live Cytoplasmic Stability             </div>         </section>",
+      "rawInner": "             <div class=\"absolute inset-0 hero-mask\">                 <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15]\">                     <source src=\"https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4\" type=\"video/mp4\">                 </video>                 <div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]\">                 </div>             </div>             <div class=\"relative z-10 mx-auto flex min-h-screen max-w-[1600px] items-center px-8\">                 <div class=\"max-w-3xl\">                     <div class=\"glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60\">                         <div class=\"h-2 w-2 rounded-full bg-cyan-300\"></div>                         Neural-optic synchronization active                     </div>                     <h1 class=\"serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white\">                         <span class=\"wind block\">Synthetic</span>                         <span class=\"wind block\">Light</span>                         <span class=\"wind block\">Architectures</span>                     </h1>                     <p class=\"copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]\">                         A next-generation luminous interface engineered around chromatic protein sequencing,                         photon-efficient biosynthesis, and neural-optic ecosystems.                     </p>                     <div class=\"mt-10 flex gap-4\">                         <button class=\"glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]\">                             Launch Spectrum                         </button>                         <button class=\"rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70\">                             Explore Systems                         </button>                     </div>                 </div>             </div>             <div class=\"floating-label right-[10%] top-[28%]\">                 Live Cytoplasmic Stability             </div>         ",
+      "sectionClass": "relative min-h-screen overflow-hidden",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "position-absolute": 4,
+        "max-width": 4,
+        "transform": 4,
+        "border": 6,
+        "background-image": 1,
+        "display-flex": 2,
+        "padding": 6,
+        "background-color": 5,
+        "backdrop-filter": 4,
+        "box-shadow": 2,
+        "border-radius": 6,
+        "gap": 2,
+        "margin": 3
+      },
+      "h": 900,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "poster": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": " hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15] absolute inset-0 hero-mask relative min-h-screen overflow-hidden ",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]\">                 </div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "radial-gradient(circle at 30% 30%, rgba(255, 56, 182, 0.22), rgba(0, 0, 0, 0) 20%), radial-gradient(circle at 70% 40%, rgba(97, 218, 251, 0.18), rgba(0, 0, 0, 0) 22%), linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.55))",
+            "blur": "",
+            "blend": "",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 1440,
+            "h": 900
+          }
+        },
+        {
+          "t": "overline",
+          "html": "Neural-optic synchronization active",
+          "text": "Neural-optic synchronization active",
+          "cls": "glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60",
+          "pill": true,
+          "color": "rgba(255, 255, 255, 0.6)",
+          "bg": "rgba(255, 255, 255, 0.04)",
+          "borderW": "1px",
+          "borderColor": "rgba(255, 255, 255, 0.08)",
+          "radius": "9999px",
+          "padding": "12px 20px",
+          "backdropFilter": "blur(30px) saturate(1.4)",
+          "textTransform": "uppercase",
+          "fontSize": "11px",
+          "letterSpacing": "3.3px",
+          "fontWeight": "400",
+          "gap": "12px",
+          "iconSvg": "",
+          "iconPos": "before",
+          "lineHeight": "16.5px"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Synthetic Light Architectures",
+          "text": "Synthetic Light Architectures",
+          "tag": "h1",
+          "cls": "serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white",
+          "wrapCls": "max-w-3xl",
+          "fontSize": "128px",
+          "fontWeight": "400",
+          "color": "rgb(255, 255, 255)",
+          "marginBottom": "0px",
+          "marginTop": "32px",
+          "lineHeight": "108.8px",
+          "letterSpacing": "-6.4px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]\">                         A next-generation luminous interface engineered around chromatic protein sequencing,                         photon-efficient biosynthesis, and neural-optic ecosystems.                     </p>",
+          "text": "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems.",
+          "tag": "p",
+          "cls": "copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]",
+          "fontSize": "18px",
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": "36px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "button",
+          "label": "Launch Spectrum",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "tag": "button",
+          "cls": "glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 32px",
+          "height": "58.5px",
+          "radius": "9999px",
+          "lineHeight": "16.5px",
+          "fontSize": "11px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": true,
+          "groupLast": false,
+          "bs": {
+            "bg": "rgba(255, 255, 255, 0.04)",
+            "fg": "rgb(255, 255, 255)",
+            "bd": "rgba(255, 255, 255, 0.08)",
+            "bds": "solid",
+            "bw": "1px"
+          }
+        },
+        {
+          "t": "button",
+          "label": "Explore Systems",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "tag": "button",
+          "cls": "rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 32px",
+          "height": "58.5px",
+          "radius": "9999px",
+          "lineHeight": "16.5px",
+          "fontSize": "11px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": false,
+          "groupLast": true,
+          "bs": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "fg": "rgba(255, 255, 255, 0.7)",
+            "bd": "rgba(255, 255, 255, 0.1)",
+            "bds": "solid",
+            "bw": "1px"
+          }
+        },
+        {
+          "t": "text",
+          "html": "<div class=\"floating-label right-[10%] top-[28%]\">                 Live Cytoplasmic Stability             </div>",
+          "text": "Live Cytoplasmic Stability",
+          "tag": "div",
+          "cls": "floating-label right-[10%] top-[28%]",
+          "fontSize": "11px",
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": "16.5px",
+          "letterSpacing": "2.2px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "uppercase"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "poster": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": " hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15] absolute inset-0 hero-mask relative min-h-screen overflow-hidden ",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]\">                 </div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "radial-gradient(circle at 30% 30%, rgba(255, 56, 182, 0.22), rgba(0, 0, 0, 0) 20%), radial-gradient(circle at 70% 40%, rgba(97, 218, 251, 0.18), rgba(0, 0, 0, 0) 22%), linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.55))",
+            "blur": "",
+            "blend": "",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 1440,
+            "h": 900
+          }
+        },
+        {
+          "t": "overline",
+          "html": "Neural-optic synchronization active",
+          "text": "Neural-optic synchronization active",
+          "cls": "glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60",
+          "pill": true,
+          "color": "rgba(255, 255, 255, 0.6)",
+          "bg": "rgba(255, 255, 255, 0.04)",
+          "borderW": "1px",
+          "borderColor": "rgba(255, 255, 255, 0.08)",
+          "radius": "9999px",
+          "padding": "12px 20px",
+          "backdropFilter": "blur(30px) saturate(1.4)",
+          "textTransform": "uppercase",
+          "fontSize": "11px",
+          "letterSpacing": "3.3px",
+          "fontWeight": "400",
+          "gap": "12px",
+          "iconSvg": "",
+          "iconPos": "before",
+          "lineHeight": "16.5px"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Synthetic Light Architectures",
+          "text": "Synthetic Light Architectures",
+          "tag": "h1",
+          "cls": "serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white",
+          "wrapCls": "max-w-3xl",
+          "fontSize": "128px",
+          "fontWeight": "400",
+          "color": "rgb(255, 255, 255)",
+          "marginBottom": "0px",
+          "marginTop": "32px",
+          "lineHeight": "108.8px",
+          "letterSpacing": "-6.4px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]\">                         A next-generation luminous interface engineered around chromatic protein sequencing,                         photon-efficient biosynthesis, and neural-optic ecosystems.                     </p>",
+          "text": "A next-generation luminous interface engineered around chromatic protein sequencing, photon-efficient biosynthesis, and neural-optic ecosystems.",
+          "tag": "p",
+          "cls": "copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]",
+          "fontSize": "18px",
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": "36px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "button",
+          "label": "Launch Spectrum",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "tag": "button",
+          "cls": "glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 32px",
+          "height": "58.5px",
+          "radius": "9999px",
+          "lineHeight": "16.5px",
+          "fontSize": "11px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": true,
+          "groupLast": false,
+          "bs": {
+            "bg": "rgba(255, 255, 255, 0.04)",
+            "fg": "rgb(255, 255, 255)",
+            "bd": "rgba(255, 255, 255, 0.08)",
+            "bds": "solid",
+            "bw": "1px"
+          }
+        },
+        {
+          "t": "button",
+          "label": "Explore Systems",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "tag": "button",
+          "cls": "rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 32px",
+          "height": "58.5px",
+          "radius": "9999px",
+          "lineHeight": "16.5px",
+          "fontSize": "11px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": false,
+          "groupLast": true,
+          "bs": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "fg": "rgba(255, 255, 255, 0.7)",
+            "bd": "rgba(255, 255, 255, 0.1)",
+            "bds": "solid",
+            "bw": "1px"
+          }
+        },
+        {
+          "t": "text",
+          "html": "<div class=\"floating-label right-[10%] top-[28%]\">                 Live Cytoplasmic Stability             </div>",
+          "text": "Live Cytoplasmic Stability",
+          "tag": "div",
+          "cls": "floating-label right-[10%] top-[28%]",
+          "fontSize": "11px",
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": "16.5px",
+          "letterSpacing": "2.2px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "uppercase"
+        }
+      ],
+      "css": ".serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.copy{font-family: \"Inter Tight\", sans-serif;}\n.glass{background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px) saturate(1.4); box-shadow: rgba(0, 0, 0, 0.45) 0px 10px 60px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;}\n.wind{animation: 8s ease-in-out 0s infinite normal none running wind; display: inline-block; transform-origin: center bottom;}\n.hero-mask{mask-image: radial-gradient(circle, black 35%, rgba(0, 0, 0, 0.95) 52%, rgba(0, 0, 0, 0.75) 70%, transparent 100%);}\n.hero-video{animation: 16s linear 0s infinite alternate none running zoom;}\n.floating-label{position: absolute; padding: 12px 16px; border-radius: 999px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.08);}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.right-\\[10\\%\\]{right: 10%;}\n.top-\\[28\\%\\]{top: 28%;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-10{margin-top: 2.5rem;}\n.mt-8{margin-top: 2rem;}\n.block{display: block;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.h-2{height: 0.5rem;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-2{width: 0.5rem;}\n.w-full{width: 100%;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.items-center{align-items: center;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.rounded-\\[2rem\\]{border-radius: 2rem;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-cyan-300{--tw-bg-opacity: 1; background-color: rgb(103 232 249 / var(--tw-bg-opacity, 1));}\n.bg-white\\/\\[0\\.03\\]{background-color: rgba(255, 255, 255, 0.03);}\n.object-cover{object-fit: cover;}\n.p-6{padding: 1.5rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.uppercase{text-transform: uppercase;}\n.leading-9{line-height: 2.25rem;}\n.leading-\\[\\.85\\]{line-height: 0.85;}\n.tracking-\\[0\\.25em\\]{letter-spacing: 0.25em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n.brightness-\\[1\\.1\\]{--tw-brightness: brightness(1.1); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[1\\.15\\]{--tw-contrast: contrast(1.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-\\[1\\.4\\]{--tw-saturate: saturate(1.4); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-\\[40px\\]{--tw-backdrop-blur: blur(40px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}"
+    },
+    {
+      "heading": "Light behaving like biological matter.",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "\"Cormorant Garamond\", serif",
+        "fontSize": "86.4px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "Editorial Narrative",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgba(255, 255, 255, 0.4)",
+        "textTransform": "uppercase",
+        "letterSpacing": "3.3px",
+        "borderRadius": "0px",
+        "fontSize": "11px"
+      },
+      "lead": "Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface.",
+      "paragraphs": [
+        "Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface.",
+        "Built around chromatic protein sequencing and neural-optic synchronization, the system responds like a living ecosystem instead of static software."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [
+        {
+          "cols": 2,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "padding": "160px 32px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "01 Editorial Narrative Light behaving like biological matter. Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface. Built around chromatic protein sequencing and neural-optic synchronization, the system responds like a living ecosystem instead of static software.",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "160px 32px",
+          "transition": "all",
+          "tw": {
+            "px": "32px"
+          }
+        },
+        "children": [
+          {
+            "role": "text",
+            "html": "01",
+            "text": "01",
+            "styles": {
+              "color": "rgba(255, 255, 255, 0.06)",
+              "fontFamily": "\"Inter Tight\", sans-serif",
+              "fontSize": "288px",
+              "fontWeight": "700",
+              "lineHeight": "230.4px",
+              "transition": "all"
+            }
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "589.078px 706.906px",
+                "gap": "80px"
+              },
+              "maxWidth": "1600px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Editorial Narrative",
+                    "text": "Editorial Narrative",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.4)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "11px",
+                      "letterSpacing": "3.3px",
+                      "lineHeight": "16.5px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Light behaving like biological matter.",
+                    "text": "Light behaving like biological matter.",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "86.4px",
+                      "letterSpacing": "-4.32px",
+                      "lineHeight": "77.76px",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface.",
+                    "text": "Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system where color, motion, and biological light become one continuous interface.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.7)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "20px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "20px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Built around chromatic protein sequencing and neural-optic synchronization, the system responds like a living ecosystem instead of static software.",
+                    "text": "Built around chromatic protein sequencing and neural-optic synchronization, the system responds like a living ecosystem instead of static software.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.55)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "16px",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "16px",
+                        "lineHeight": "24px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"relative overflow-hidden px-8 py-40\">             <div class=\"massive-number absolute left-0 top-0\">                 01             </div>             <div class=\"editorial relative z-10 mx-auto max-w-[1600px]\">                 <div>                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 </div>                 <div class=\"space-y-10\">                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"massive-number absolute left-0 top-0\">                 01             </div>             <div class=\"editorial relative z-10 mx-auto max-w-[1600px]\">                 <div>                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 </div>                 <div class=\"space-y-10\">                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 </div>             </div>         ",
+      "sectionClass": "relative overflow-hidden px-8 py-40",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 1,
+        "position-absolute": 1,
+        "max-width": 2,
+        "display-grid": 1,
+        "gap": 1,
+        "margin": 3,
+        "background-image": 1
+      },
+      "h": 585,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "text",
+          "html": "<div class=\"massive-number absolute left-0 top-0\">                 01             </div>",
+          "text": "01",
+          "tag": "div",
+          "cls": "massive-number absolute left-0 top-0",
+          "fontSize": "288px",
+          "color": "rgba(255, 255, 255, 0.06)",
+          "lineHeight": "230.4px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "700",
+          "textTransform": "none"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-0",
+              "cw": 5,
+              "html": "                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Editorial Narrative",
+                "overlineClass": "text-[11px] uppercase tracking-[0.3em] text-white/40",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Light behaving like biological matter.",
+                "titleTag": "h2",
+                "titleClass": "serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 6,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "space-y-10",
+              "colId": "sccol-1",
+              "cw": 6,
+              "html": "                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 4,
+                "tablet": 6,
+                "desktop": 6
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 80,
+          "gapResp": {
+            "base": 80,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"editorial relative z-10 mx-auto max-w-[1600px]\">                 <div data-sc-col=\"sccol-0\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 </div>                 <div class=\"space-y-10\" data-sc-col=\"sccol-1\">                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 </div>             </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "text",
+          "html": "<div class=\"massive-number absolute left-0 top-0\">                 01             </div>",
+          "text": "01",
+          "tag": "div",
+          "cls": "massive-number absolute left-0 top-0",
+          "fontSize": "288px",
+          "color": "rgba(255, 255, 255, 0.06)",
+          "lineHeight": "230.4px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "700",
+          "textTransform": "none"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-0",
+              "cw": 5,
+              "html": "                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Editorial Narrative",
+                "overlineClass": "text-[11px] uppercase tracking-[0.3em] text-white/40",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Light behaving like biological matter.",
+                "titleTag": "h2",
+                "titleClass": "serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 6,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "space-y-10",
+              "colId": "sccol-1",
+              "cw": 6,
+              "html": "                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 4,
+                "tablet": 6,
+                "desktop": 6
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 80,
+          "gapResp": {
+            "base": 80,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"editorial relative z-10 mx-auto max-w-[1600px]\">                 <div data-sc-col=\"sccol-0\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Editorial Narrative                     </div>                     <h2 class=\"serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                         Light behaving like biological matter.                     </h2>                 </div>                 <div class=\"space-y-10\" data-sc-col=\"sccol-1\">                     <p class=\"text-xl leading-10 text-white/70\">                         Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system                         where color, motion, and biological light become one continuous interface.                     </p>                     <div class=\"river-line\"></div>                     <p class=\"max-w-xl text-base leading-8 text-white/55\">                         Built around chromatic protein sequencing and neural-optic synchronization, the system responds                         like a living ecosystem instead of static software.                     </p>                 </div>             </div>"
+        }
+      ],
+      "css": ".serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.massive-number{font-size: clamp(7rem, 20vw, 18rem); line-height: 0.8; font-weight: 700; color: rgba(255, 255, 255, 0.06);}\n.river-line{height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 56, 182, 0.5), rgba(97, 218, 251, 0.6), transparent);}\n.editorial{display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: center;}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-6{margin-top: 1.5rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-xl{max-width: 36rem;}\n.space-y-10 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.uppercase{text-transform: uppercase;}\n.leading-10{line-height: 2.5rem;}\n.leading-8{line-height: 2rem;}\n.leading-\\[\\.9\\]{line-height: 0.9;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}"
+    },
+    {
+      "heading": "A monolithic chromatic ecosystem.",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "\"Cormorant Garamond\", serif",
+        "fontSize": "86.4px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "Neural-optic Core",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgba(255, 255, 255, 0.45)",
+        "textTransform": "uppercase",
+        "letterSpacing": "3.3px",
+        "borderRadius": "0px",
+        "fontSize": "11px"
+      },
+      "lead": "",
+      "paragraphs": [],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "padding": "80px 32px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "Neural-optic Core A monolithic chromatic ecosystem. Real-time biosynthetic telemetry visualized through a living atmospheric architecture. Yield Index 98% Photon Stability Live Neural Sync 0.2ms",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "80px 32px",
+          "transition": "all",
+          "tw": {
+            "px": "32px",
+            "py": "80px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bgImage": "linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))",
+              "borderRadius": "64px",
+              "border": "1px solid rgba(255, 255, 255, 0.08)",
+              "maxWidth": "1700px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "padding": "40px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "space-between",
+                        "align": "flex-start",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all"
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Neural-optic Core",
+                            "text": "Neural-optic Core",
+                            "styles": {
+                              "color": "rgba(255, 255, 255, 0.45)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "11px",
+                              "letterSpacing": "3.3px",
+                              "lineHeight": "16.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "heading",
+                            "level": 2,
+                            "html": "A monolithic chromatic ecosystem.",
+                            "text": "A monolithic chromatic ecosystem.",
+                            "styles": {
+                              "color": "rgb(255, 255, 255)",
+                              "fontFamily": "\"Cormorant Garamond\", serif",
+                              "fontSize": "86.4px",
+                              "letterSpacing": "-4.32px",
+                              "lineHeight": "77.76px",
+                              "transition": "all"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "text",
+                        "html": "Real-time biosynthetic telemetry visualized through a living atmospheric architecture.",
+                        "text": "Real-time biosynthetic telemetry visualized through a living atmospheric architecture.",
+                        "styles": {
+                          "textAlign": "right",
+                          "color": "rgba(255, 255, 255, 0.6)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "16px",
+                          "lineHeight": "32px",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "grid": {
+                        "cols": "404.656px 404.672px 404.656px",
+                        "gap": "40px"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "40px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all"
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Yield Index",
+                            "text": "Yield Index",
+                            "styles": {
+                              "color": "rgba(255, 255, 255, 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "11px",
+                              "letterSpacing": "3.08px",
+                              "lineHeight": "16.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "98%",
+                            "text": "98%",
+                            "styles": {
+                              "color": "rgb(103, 232, 249)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "72px",
+                              "fontWeight": "600",
+                              "lineHeight": "72px",
+                              "transition": "all",
+                              "tw": {
+                                "fontWeight": "600",
+                                "fontSize": "72px",
+                                "lineHeight": "1"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all"
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Photon Stability",
+                            "text": "Photon Stability",
+                            "styles": {
+                              "color": "rgba(255, 255, 255, 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "11px",
+                              "letterSpacing": "3.08px",
+                              "lineHeight": "16.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "Live",
+                            "text": "Live",
+                            "styles": {
+                              "color": "rgb(244, 114, 182)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "72px",
+                              "fontWeight": "600",
+                              "lineHeight": "72px",
+                              "transition": "all",
+                              "tw": {
+                                "fontWeight": "600",
+                                "fontSize": "72px",
+                                "lineHeight": "1"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all"
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Neural Sync",
+                            "text": "Neural Sync",
+                            "styles": {
+                              "color": "rgba(255, 255, 255, 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "11px",
+                              "letterSpacing": "3.08px",
+                              "lineHeight": "16.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "0.2ms",
+                            "text": "0.2ms",
+                            "styles": {
+                              "color": "rgb(252, 211, 77)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "72px",
+                              "fontWeight": "600",
+                              "lineHeight": "72px",
+                              "transition": "all",
+                              "tw": {
+                                "fontWeight": "600",
+                                "fontSize": "72px",
+                                "lineHeight": "1"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"px-8 py-20\">             <div class=\"data-monolith mx-auto max-w-[1700px]\">                 <div class=\"orbit left-[10%] top-[15%] h-[18rem] w-[18rem]\"></div>                 <div class=\"orbit right-[12%] top-[20%] h-[28rem] w-[28rem]\"></div>                 <div class=\"orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]\"></div>                 <div class=\"relative z-10 flex h-full flex-col justify-between p-10\">                     <div class=\"flex items-start justify-between\">                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         </div>                         <div class=\"max-w-sm text-right text-white/60 leading-8\">                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         </div>                     </div>                     <div class=\"grid gap-10 md:grid-cols-3\">                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         </div>                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         </div>                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         </div>                     </div>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"data-monolith mx-auto max-w-[1700px]\">                 <div class=\"orbit left-[10%] top-[15%] h-[18rem] w-[18rem]\"></div>                 <div class=\"orbit right-[12%] top-[20%] h-[28rem] w-[28rem]\"></div>                 <div class=\"orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]\"></div>                 <div class=\"relative z-10 flex h-full flex-col justify-between p-10\">                     <div class=\"flex items-start justify-between\">                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         </div>                         <div class=\"max-w-sm text-right text-white/60 leading-8\">                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         </div>                     </div>                     <div class=\"grid gap-10 md:grid-cols-3\">                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         </div>                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         </div>                         <div>                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         </div>                     </div>                 </div>             </div>         ",
+      "sectionClass": "px-8 py-20",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 2,
+        "background-image": 1,
+        "border": 4,
+        "border-radius": 4,
+        "max-width": 3,
+        "position-absolute": 3,
+        "display-flex": 2,
+        "margin": 4,
+        "display-grid": 1,
+        "gap": 1
+      },
+      "h": 880,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "html",
+          "html": "<div class=\"orbit left-[10%] top-[15%] h-[18rem] w-[18rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "107.688px",
+            "right": "948.609px",
+            "bottom": "322.312px",
+            "left": "137.391px",
+            "zIndex": "",
+            "w": 288,
+            "h": 288
+          }
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"orbit right-[12%] top-[20%] h-[28rem] w-[28rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "143.594px",
+            "right": "164.875px",
+            "bottom": "126.406px",
+            "left": "761.125px",
+            "zIndex": "",
+            "w": 448,
+            "h": 448
+          }
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "294.203px",
+            "right": "609.812px",
+            "bottom": "71.7969px",
+            "left": "412.188px",
+            "zIndex": "",
+            "w": 352,
+            "h": 352
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-2",
+              "cw": 7,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Neural-optic Core",
+                "overlineClass": "text-[11px] uppercase tracking-[0.3em] text-white/45",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "A monolithic chromatic ecosystem.",
+                "titleTag": "h2",
+                "titleClass": "serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 10,
+                "tablet": 6,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "max-w-sm text-right text-white/60 leading-8",
+              "colId": "sccol-3",
+              "cw": 4,
+              "html": "                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         ",
+              "maxw": "384px",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 4,
+                "tablet": 6,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex items-start justify-between\">                         <div data-sc-col=\"sccol-2\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         </div>                         <div class=\"max-w-sm text-right text-white/60 leading-8\" data-sc-col=\"sccol-3\">                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         </div>                     </div>"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-4",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-5",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-6",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 40,
+          "gapResp": {
+            "base": 40,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"grid gap-10 md:grid-cols-3\">                         <div data-sc-col=\"sccol-4\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         </div>                         <div data-sc-col=\"sccol-5\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         </div>                         <div data-sc-col=\"sccol-6\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         </div>                     </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "html",
+          "html": "<div class=\"orbit left-[10%] top-[15%] h-[18rem] w-[18rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "107.688px",
+            "right": "948.609px",
+            "bottom": "322.312px",
+            "left": "137.391px",
+            "zIndex": "",
+            "w": 288,
+            "h": 288
+          }
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"orbit right-[12%] top-[20%] h-[28rem] w-[28rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "143.594px",
+            "right": "164.875px",
+            "bottom": "126.406px",
+            "left": "761.125px",
+            "zIndex": "",
+            "w": 448,
+            "h": 448
+          }
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "",
+            "radius": "999px",
+            "opacity": "",
+            "position": "absolute",
+            "top": "294.203px",
+            "right": "609.812px",
+            "bottom": "71.7969px",
+            "left": "412.188px",
+            "zIndex": "",
+            "w": 352,
+            "h": 352
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-2",
+              "cw": 7,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Neural-optic Core",
+                "overlineClass": "text-[11px] uppercase tracking-[0.3em] text-white/45",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "A monolithic chromatic ecosystem.",
+                "titleTag": "h2",
+                "titleClass": "serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 10,
+                "tablet": 6,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "max-w-sm text-right text-white/60 leading-8",
+              "colId": "sccol-3",
+              "cw": 4,
+              "html": "                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         ",
+              "maxw": "384px",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 4,
+                "tablet": 6,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex items-start justify-between\">                         <div data-sc-col=\"sccol-2\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/45\">                                 Neural-optic Core                             </div>                             <h2 class=\"serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]\">                                 A monolithic chromatic ecosystem.                             </h2>                         </div>                         <div class=\"max-w-sm text-right text-white/60 leading-8\" data-sc-col=\"sccol-3\">                             Real-time biosynthetic telemetry visualized through a living atmospheric architecture.                         </div>                     </div>"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-4",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-5",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-6",
+              "cw": 4,
+              "html": "                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 3,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 40,
+          "gapResp": {
+            "base": 40,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"grid gap-10 md:grid-cols-3\">                         <div data-sc-col=\"sccol-4\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Yield Index                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-cyan-300\">                                 98%                             </div>                         </div>                         <div data-sc-col=\"sccol-5\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Photon Stability                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-pink-400\">                                 Live                             </div>                         </div>                         <div data-sc-col=\"sccol-6\">                             <div class=\"text-[11px] uppercase tracking-[0.28em] text-white/40\">                                 Neural Sync                             </div>                             <div class=\"mt-4 text-7xl font-semibold text-amber-300\">                                 0.2ms                             </div>                         </div>                     </div>"
+        }
+      ],
+      "css": ".serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.data-monolith{border-radius: 4rem; overflow: hidden; position: relative; min-height: 720px; background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(255, 255, 255, 0.08);}\n.data-monolith::before{content: \"\"; position: absolute; inset: -20%; background: radial-gradient(circle at 20% 30%, rgba(255, 56, 182, 0.18), transparent 20%), radial-gradient(circle at 80% 40%, rgba(97, 218, 251, 0.15), transparent 20%), radial-gradient(circle at 50% 80%, rgba(255, 153, 0, 0.12), transparent 25%); filter: blur(80px);}\n.orbit{position: absolute; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 999px;}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\n.relative{position: relative;}\n.left-\\[10\\%\\]{left: 10%;}\n.bottom-\\[10\\%\\]{bottom: 10%;}\n.left-\\[30\\%\\]{left: 30%;}\n.right-\\[12\\%\\]{right: 12%;}\n.top-\\[15\\%\\]{top: 15%;}\n.top-\\[20\\%\\]{top: 20%;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-4{margin-top: 1rem;}\n.mt-6{margin-top: 1.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[18rem\\]{height: 18rem;}\n.h-\\[22rem\\]{height: 22rem;}\n.h-\\[28rem\\]{height: 28rem;}\n.h-full{height: 100%;}\n.w-\\[18rem\\]{width: 18rem;}\n.w-\\[22rem\\]{width: 22rem;}\n.w-\\[28rem\\]{width: 28rem;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-\\[1700px\\]{max-width: 1700px;}\n.max-w-sm{max-width: 24rem;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.justify-between{justify-content: space-between;}\n.gap-10{gap: 2.5rem;}\n.p-10{padding: 2.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-right{text-align: right;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[11px\\]{font-size: 11px;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-8{line-height: 2rem;}\n.leading-\\[\\.9\\]{line-height: 0.9;}\n.tracking-\\[0\\.28em\\]{letter-spacing: 0.28em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-amber-300{--tw-text-opacity: 1; color: rgb(252 211 77 / var(--tw-text-opacity, 1));}\n.text-cyan-300{--tw-text-opacity: 1; color: rgb(103 232 249 / var(--tw-text-opacity, 1));}\n.text-pink-400{--tw-text-opacity: 1; color: rgb(244 114 182 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/45{color: rgba(255, 255, 255, 0.45);}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}"
+    },
+    {
+      "heading": "",
+      "headingHtml": "",
+      "level": 0,
+      "headingComputed": null,
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "",
+      "paragraphs": [],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "padding": "160px 0px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "Chromatic Sequencing Neural Synchronization Photon Biosynthesis Synthetic Luminosity",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "160px 0px",
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "flex": {
+                "dir": "row",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "80px",
+                "wrap": "nowrap"
+              },
+              "animation": "marquee 20s linear infinite",
+              "transform": "matrix(1, 0, 0, 1, -194.693, 0)",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "text",
+                "html": "Chromatic Sequencing",
+                "text": "Chromatic Sequencing",
+                "styles": {
+                  "color": "rgba(255, 255, 255, 0.06)",
+                  "fontFamily": "\"Cormorant Garamond\", serif",
+                  "fontSize": "144px",
+                  "letterSpacing": "-7.2px",
+                  "lineHeight": "144px",
+                  "transition": "all"
+                }
+              },
+              {
+                "role": "text",
+                "html": "Neural Synchronization",
+                "text": "Neural Synchronization",
+                "styles": {
+                  "color": "rgba(103, 232, 249, 0.1)",
+                  "fontFamily": "\"Cormorant Garamond\", serif",
+                  "fontSize": "144px",
+                  "letterSpacing": "-7.2px",
+                  "lineHeight": "144px",
+                  "transition": "all"
+                }
+              },
+              {
+                "role": "text",
+                "html": "Photon Biosynthesis",
+                "text": "Photon Biosynthesis",
+                "styles": {
+                  "color": "rgba(244, 114, 182, 0.1)",
+                  "fontFamily": "\"Cormorant Garamond\", serif",
+                  "fontSize": "144px",
+                  "letterSpacing": "-7.2px",
+                  "lineHeight": "144px",
+                  "transition": "all"
+                }
+              },
+              {
+                "role": "text",
+                "html": "Synthetic Luminosity",
+                "text": "Synthetic Luminosity",
+                "styles": {
+                  "color": "rgba(255, 255, 255, 0.06)",
+                  "fontFamily": "\"Cormorant Garamond\", serif",
+                  "fontSize": "144px",
+                  "letterSpacing": "-7.2px",
+                  "lineHeight": "144px",
+                  "transition": "all"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"overflow-hidden py-40\">             <div class=\"marquee\">                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\">                     Chromatic Sequencing                 </div>                 <div class=\"serif text-[9rem] leading-none text-cyan-300/10\">                     Neural Synchronization                 </div>                 <div class=\"serif text-[9rem] leading-none text-pink-400/10\">                     Photon Biosynthesis                 </div>                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\">                     Synthetic Luminosity                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"marquee\">                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\">                     Chromatic Sequencing                 </div>                 <div class=\"serif text-[9rem] leading-none text-cyan-300/10\">                     Neural Synchronization                 </div>                 <div class=\"serif text-[9rem] leading-none text-pink-400/10\">                     Photon Biosynthesis                 </div>                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\">                     Synthetic Luminosity                 </div>             </div>         ",
+      "sectionClass": "overflow-hidden py-40",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 1,
+        "transform": 1,
+        "display-flex": 1,
+        "gap": 1
+      },
+      "h": 464,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-white/[0.06]",
+              "colId": "sccol-7",
+              "cw": 10,
+              "html": "                     Chromatic Sequencing                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 10
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-cyan-300/10",
+              "colId": "sccol-8",
+              "cw": 10,
+              "html": "                     Neural Synchronization                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 10
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-pink-400/10",
+              "colId": "sccol-9",
+              "cw": 8,
+              "html": "                     Photon Biosynthesis                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 8
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-white/[0.06]",
+              "colId": "sccol-10",
+              "cw": 9,
+              "html": "                     Synthetic Luminosity                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 9
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 80,
+          "gapResp": {
+            "base": 80,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"marquee\">                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-7\">                     Chromatic Sequencing                 </div>                 <div class=\"serif text-[9rem] leading-none text-cyan-300/10\" data-sc-col=\"sccol-8\">                     Neural Synchronization                 </div>                 <div class=\"serif text-[9rem] leading-none text-pink-400/10\" data-sc-col=\"sccol-9\">                     Photon Biosynthesis                 </div>                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-10\">                     Synthetic Luminosity                 </div>             </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-white/[0.06]",
+              "colId": "sccol-7",
+              "cw": 10,
+              "html": "                     Chromatic Sequencing                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 10
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-cyan-300/10",
+              "colId": "sccol-8",
+              "cw": 10,
+              "html": "                     Neural Synchronization                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 10
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-pink-400/10",
+              "colId": "sccol-9",
+              "cw": 8,
+              "html": "                     Photon Biosynthesis                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 8
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "",
+              "fullCls": "serif text-[9rem] leading-none text-white/[0.06]",
+              "colId": "sccol-10",
+              "cw": 9,
+              "html": "                     Synthetic Luminosity                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 9
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 80,
+          "gapResp": {
+            "base": 80,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"marquee\">                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-7\">                     Chromatic Sequencing                 </div>                 <div class=\"serif text-[9rem] leading-none text-cyan-300/10\" data-sc-col=\"sccol-8\">                     Neural Synchronization                 </div>                 <div class=\"serif text-[9rem] leading-none text-pink-400/10\" data-sc-col=\"sccol-9\">                     Photon Biosynthesis                 </div>                 <div class=\"serif text-[9rem] leading-none text-white/[0.06]\" data-sc-col=\"sccol-10\">                     Synthetic Luminosity                 </div>             </div>"
+        }
+      ],
+      "css": ".serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.marquee{display: flex; gap: 80px; white-space: nowrap; animation: 20s linear 0s infinite normal none running marquee;}\n.overflow-hidden{overflow: hidden;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-\\[9rem\\]{font-size: 9rem;}\n.leading-none{line-height: 1;}\n.text-cyan-300\\/10{color: rgba(103, 232, 249, 0.1);}\n.text-pink-400\\/10{color: rgba(244, 114, 182, 0.1);}\n.text-white\\/\\[0\\.06\\]{color: rgba(255, 255, 255, 0.06);}"
+    },
+    {
+      "heading": "",
+      "headingHtml": "",
+      "level": 0,
+      "headingComputed": null,
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive.",
+      "paragraphs": [
+        "Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive."
+      ],
+      "buttons": [
+        {
+          "label": "Access Prism",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+          "primary": false
+        }
+      ],
+      "cards": [],
+      "images": [],
+      "grids": [
+        {
+          "cols": 2,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "padding": "80px 32px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "Field Observation “The interface dissolves into pure atmospheric light.” Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive. Access Prism",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "80px 32px",
+          "transition": "all",
+          "tw": {
+            "px": "32px",
+            "py": "80px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "796.797px 531.203px",
+                "gap": "48px"
+              },
+              "maxWidth": "1600px",
+              "transition": "all",
+              "tw": {
+                "gap": "48px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01))",
+                  "padding": "96px",
+                  "borderRadius": "64px",
+                  "border": "1px solid rgba(255, 255, 255, 0.08)",
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Field Observation",
+                    "text": "Field Observation",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.4)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "11px",
+                      "letterSpacing": "3.3px",
+                      "lineHeight": "16.5px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "“The interface dissolves into pure atmospheric light.”",
+                    "text": "“The interface dissolves into pure atmospheric light.”",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "80px",
+                      "letterSpacing": "-4px",
+                      "lineHeight": "80px",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive.",
+                    "text": "Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive and reactive.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.65)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "18px",
+                      "lineHeight": "36px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "center",
+                    "align": "center",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "button",
+                    "label": "Access Prism",
+                    "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+                    "styles": {
+                      "textAlign": "center",
+                      "bgImage": "radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04))",
+                      "borderRadius": "999px",
+                      "border": "1px solid rgba(255, 255, 255, 0.1)",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "16px",
+                      "lineHeight": "24px",
+                      "transition": "1s cubic-bezier(0.16, 1, 0.3, 1)"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"px-8 py-20\">             <div class=\"mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]\">                 <div class=\"quote-panel\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 </div>                 <div class=\"flex items-center justify-center\">                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]\">                 <div class=\"quote-panel\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 </div>                 <div class=\"flex items-center justify-center\">                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 </div>             </div>         ",
+      "sectionClass": "px-8 py-20",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 2,
+        "max-width": 2,
+        "display-grid": 2,
+        "gap": 1,
+        "background-image": 2,
+        "border": 2,
+        "border-radius": 2,
+        "margin": 3,
+        "display-flex": 1,
+        "backdrop-filter": 1
+      },
+      "h": 763,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "quote-panel",
+              "colId": "sccol-11",
+              "cw": 7,
+              "html": "                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "flex items-center justify-center",
+              "colId": "sccol-12",
+              "cw": 5,
+              "html": "                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 ",
+              "counter": null,
+              "card": null,
+              "buttons": [
+                {
+                  "t": "button",
+                  "label": "Access Prism",
+                  "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+                  "tag": "button",
+                  "cls": "cta-orb",
+                  "align": "center",
+                  "icon": "",
+                  "iconPos": "after",
+                  "bs": {
+                    "bg": "rgba(0, 0, 0, 0)",
+                    "fg": "rgb(255, 255, 255)",
+                    "bd": "rgba(255, 255, 255, 0.1)",
+                    "bds": "solid"
+                  },
+                  "sh": "",
+                  "rad": "999px",
+                  "bw": "1px",
+                  "bwStyle": "solid",
+                  "pad": "0px",
+                  "height": "224px",
+                  "radius": "999px",
+                  "fw": "400",
+                  "fs": "16px",
+                  "lh": "24px",
+                  "tw": null,
+                  "hover": null
+                }
+              ],
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 5
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 48,
+          "gapResp": {
+            "base": 48,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]\">                 <div class=\"quote-panel\" data-sc-col=\"sccol-11\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 </div>                 <div class=\"flex items-center justify-center\" data-sc-col=\"sccol-12\">                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 </div>             </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "quote-panel",
+              "colId": "sccol-11",
+              "cw": 7,
+              "html": "                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "flex items-center justify-center",
+              "colId": "sccol-12",
+              "cw": 5,
+              "html": "                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 ",
+              "counter": null,
+              "card": null,
+              "buttons": [
+                {
+                  "t": "button",
+                  "label": "Access Prism",
+                  "href": "https://openhero.art/api/preview?category=enterprice&slug=synthetic-light-architectures",
+                  "tag": "button",
+                  "cls": "cta-orb",
+                  "align": "center",
+                  "icon": "",
+                  "iconPos": "after",
+                  "bs": {
+                    "bg": "rgba(0, 0, 0, 0)",
+                    "fg": "rgb(255, 255, 255)",
+                    "bd": "rgba(255, 255, 255, 0.1)",
+                    "bds": "solid"
+                  },
+                  "sh": "",
+                  "rad": "999px",
+                  "bw": "1px",
+                  "bwStyle": "solid",
+                  "pad": "0px",
+                  "height": "224px",
+                  "radius": "999px",
+                  "fw": "400",
+                  "fs": "16px",
+                  "lh": "24px",
+                  "tw": null,
+                  "hover": null
+                }
+              ],
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 5
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 48,
+          "gapResp": {
+            "base": 48,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]\">                 <div class=\"quote-panel\" data-sc-col=\"sccol-11\">                     <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/40\">                         Field Observation                     </div>                     <blockquote class=\"serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]\">                         “The interface dissolves into pure atmospheric light.”                     </blockquote>                     <p class=\"mt-10 max-w-xl text-lg leading-9 text-white/65\">                         Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive                         and reactive.                     </p>                 </div>                 <div class=\"flex items-center justify-center\" data-sc-col=\"sccol-12\">                     <button class=\"cta-orb\">                         <div class=\"text-center\">                             <div class=\"text-[11px] uppercase tracking-[0.3em] text-white/50\">                                 Access                             </div>                             <div class=\"mt-2 serif text-4xl\">                                 Prism                             </div>                         </div>                     </button>                 </div>             </div>"
+        }
+      ],
+      "css": ".serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.05em;}\n.quote-panel{padding: 6rem; border-radius: 4rem; background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(255, 255, 255, 0.08);}\n.cta-orb{width: 14rem; height: 14rem; border-radius: 999px; display: grid; place-items: center; background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04)); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(30px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1);}\n.cta-orb:hover{transform: scale(1.08) rotate(8deg); box-shadow: rgba(97, 218, 251, 0.18) 0px 0px 100px;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nblockquote, p{margin: 0px;}\nbutton{cursor: pointer;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-10{margin-top: 2.5rem;}\n.mt-2{margin-top: 0.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-xl{max-width: 36rem;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-12{gap: 3rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-center{text-align: center;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.uppercase{text-transform: uppercase;}\n.leading-9{line-height: 2.25rem;}\n.leading-\\[1\\]{line-height: 1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/65{color: rgba(255, 255, 255, 0.65);}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[1\\.2fr_\\.8fr\\]{grid-template-columns: 1.2fr 0.8fr;}}"
+    }
+  ],
+  "chrome": null,
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "rgba(255, 255, 255, 0.04)",
+      "fg": "rgb(255, 255, 255)",
+      "bd": "rgba(255, 255, 255, 0.08)",
+      "bw": "1px",
+      "shadow": "rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset",
+      "radius": "9999px",
+      "px": "32px",
+      "py": "20px",
+      "height": "",
+      "fs": "11px",
+      "lh": "16.5px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "2.75px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "rgba(255, 255, 255, 0.7)",
+      "bd": "rgba(255, 255, 255, 0.1)",
+      "bw": "1px",
+      "shadow": "",
+      "radius": "9999px",
+      "px": "32px",
+      "py": "20px",
+      "height": "",
+      "fs": "11px",
+      "lh": "16.5px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "2.75px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "rgb(255, 255, 255)",
+      "bd": "rgba(255, 255, 255, 0.1)",
+      "bw": "1px",
+      "shadow": "",
+      "radius": "999px",
+      "px": "0px",
+      "py": "0px",
+      "height": "",
+      "fs": "16px",
+      "lh": "24px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "normal",
+      "tt": "none",
+      "fw": "400",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "160px",
+      "px": 160
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 3
+    },
+    {
+      "fill": "",
+      "radius": "64px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "rgba(34, 211, 238, 0.1)",
+      "radius": "9999px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(236, 72, 153, 0.1)",
+      "radius": "9999px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.06)",
+      "radius": "999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "",
+      "backdrop": "blur(40px)",
+      "padding": "12px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.04)",
+      "radius": "9999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset",
+      "backdrop": "blur(30px) saturate(1.4)",
+      "padding": "12px 20px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.04)",
+      "radius": "999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "",
+      "backdrop": "blur(30px)",
+      "padding": "12px 16px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "marquee",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": true
+      },
+      {
+        "name": "zoom",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "wind",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".wind",
+        "name": "wind",
+        "duration": "8s",
+        "infinite": true
+      },
+      {
+        "selector": ".hero-video",
+        "name": "zoom",
+        "duration": "16s",
+        "infinite": true
+      },
+      {
+        "selector": ".marquee",
+        "name": "marquee",
+        "duration": "20s",
+        "infinite": true
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".dock-btn",
+        "changed": {
+          "transform": "translateY(-6px) scale(1.08)",
+          "background-image": "initial",
+          "background-position-x": "initial",
+          "background-position-y": "initial",
+          "background-size": "initial",
+          "background-repeat": "initial",
+          "background-attachment": "initial",
+          "background-origin": "initial",
+          "background-clip": "initial",
+          "background-color": "rgba(255, 255, 255, 0.08)"
+        }
+      },
+      {
+        "selector": ".cta-orb",
+        "changed": {
+          "transform": "scale(1.08) rotate(8deg)",
+          "box-shadow": "rgba(97, 218, 251, 0.18) 0px 0px 100px"
+        }
+      },
+      {
+        "selector": "dock-btn",
+        "changed": {
+          "transform": "matrix(1.07918, 0, 0, 1.07918, 0, -5.93831)",
+          "background": "rgba(255, 255, 255, 0.08)"
+        },
+        "live": true
+      },
+      {
+        "selector": "cta-orb",
+        "changed": {
+          "transform": "matrix(1.0617, 0.129565, -0.129565, 1.0617, 0, 0)",
+          "boxShadow": "rgba(97, 218, 251, 0.157) 0px 0px 86.9711px 0px"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [],
+    "hijack": {
+      "bodyScrollHeight": 3592,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~2661px of scroll"
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~2661px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".wind",
+        "evidence": "infinite keyframes 'wind' (transform)",
+        "suggest": "physics float/pulse or backgrounds module",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".hero-video",
+        "evidence": "infinite keyframes 'zoom' (transform)",
+        "suggest": "physics float/pulse or backgrounds module",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".marquee",
+        "evidence": "infinite keyframes 'marquee' translating X",
+        "suggest": "marquee fx: {mode:'left'}",
+        "confidence": "high"
+      },
+      {
+        "kind": "hover",
+        "target": ".dock-btn",
+        "evidence": "transform, background-image, background-position-x, background-position-y change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".cta-orb",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "dock-btn",
+        "evidence": "transform, background change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

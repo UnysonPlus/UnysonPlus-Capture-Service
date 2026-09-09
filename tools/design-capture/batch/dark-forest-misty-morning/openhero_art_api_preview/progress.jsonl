@@ -1,0 +1,23 @@
+{"t":1788702723061,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=nature&slug=dark-forest-misty-morning … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702727188,"elapsed":4.3,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702730015,"elapsed":7.1,"msg":"extracted 0 sections"}
+{"t":1788702730019,"elapsed":7.1,"msg":"  chrome · footer → 2 columns"}
+{"t":1788702730061,"elapsed":7.2,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702731956,"elapsed":9.1,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702732722,"elapsed":9.8,"msg":"brand tokens → heading=ui-sans-serif · body=ui-sans-serif · brand=?"}
+{"t":1788702732723,"elapsed":9.8,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702746988,"elapsed":24.1,"msg":"animations → 18 finding(s)"}
+{"t":1788702746989,"elapsed":24.1,"msg":"building theme, pages & conversion report…"}
+{"t":1788702746996,"elapsed":24.1,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702746997,"elapsed":24.1,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702746998,"elapsed":24.1,"msg":"  🔤 Text Styles → 8 size(s)"}
+{"t":1788702746999,"elapsed":24.1,"msg":"  📏 Spacing Scale → 15 step(s)"}
+{"t":1788702746999,"elapsed":24.1,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788702747205,"elapsed":24.3,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702747208,"elapsed":24.3,"msg":"  🎨 Box Presets → 7 kind(s) [Glass, Card, Tinted] from 7 box(es); 0 with hover, 2 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788702747209,"elapsed":24.3,"msg":"🛡️ Self-containment guard → 0 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702747223,"elapsed":24.3,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702747225,"elapsed":24.3,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702747226,"elapsed":24.3,"msg":"writing files & bundle…"}
+{"t":1788702749659,"elapsed":26.8,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702749668,"elapsed":26.8,"msg":"saving full-page screenshot…"}

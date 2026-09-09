@@ -1,0 +1,208 @@
+{
+  "theme": {
+    "name": "Orexis",
+    "slug": "orexis",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1280px"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "heading_weight": "inherit",
+    "body": "Inter",
+    "google": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,600&display=swap",
+    "heading_visual": "Archivo",
+    "heading_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ],
+    "body_visual": "Archivo",
+    "body_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ]
+  },
+  "colors": {
+    "ink": "rgb(255, 255, 255)",
+    "accent": "rgb(249, 115, 22)",
+    "bg": "rgb(9, 9, 11)",
+    "heading": "rgb(255, 255, 255)",
+    "footer_bg": "rgb(9, 9, 11)",
+    "footer_text": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "About",
+        "url": "/api/preview?category=nature&slug=homexis-platform#"
+      },
+      {
+        "label": "Pricing",
+        "url": "/api/preview?category=nature&slug=homexis-platform#features"
+      },
+      {
+        "label": "Articles",
+        "url": "/api/preview?category=nature&slug=homexis-platform#"
+      },
+      {
+        "label": "Contact",
+        "url": "/api/preview?category=nature&slug=homexis-platform#"
+      },
+      {
+        "label": "Sign\n                    in",
+        "url": "/api/preview?category=nature&slug=homexis-platform#"
+      },
+      {
+        "label": "Book a Demo",
+        "url": "/api/preview?category=nature&slug=homexis-platform#"
+      }
+    ],
+    "logo": {
+      "font": "Inter",
+      "size": "16px",
+      "weight": "400",
+      "color": "rgb(255, 255, 255)"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {
+        "hover_color": "rgb(0, 0, 0)"
+      }
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "All rights reserved. English (US) Español.",
+    "menu": [
+      {
+        "label": "Product",
+        "url": "#",
+        "children": [
+          {
+            "label": "Features",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Integrations",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Pricing",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Changelog",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          }
+        ]
+      },
+      {
+        "label": "Resources",
+        "url": "#",
+        "children": [
+          {
+            "label": "Documentation",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Blog",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Help Center",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Webinars",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          }
+        ]
+      },
+      {
+        "label": "Company",
+        "url": "#",
+        "children": [
+          {
+            "label": "About Us",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Careers",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Privacy Policy",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          },
+          {
+            "label": "Terms of Service",
+            "url": "/api/preview?category=nature&slug=homexis-platform#"
+          }
+        ]
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav id=\"navbar\" class=\"fixed top-0 w-full z-50 glass-nav\">         <div class=\"max-w-7xl mx-auto px-6 h-20 flex items-center justify-between\">             <a href=\"#\" class=\"flex items-center gap-2\">                 <iconify-icon icon=\"lucide:hexagon\" class=\"text-3xl text-white\"></iconify-icon>                 <span class=\"font-bold text-xl tracking-tight\">Orexis</span>             </a>             <div class=\"hidden md:flex items-center gap-8 text-sm font-medium text-gray-300\">                 <a href=\"#\" class=\"hover:text-white transition-colors\">About</a>                 <a href=\"#features\" class=\"hover:text-white transition-colors\">Pricing</a>                 <a href=\"#\" class=\"hover:text-white transition-colors\">Articles</a>                 <a href=\"#\" class=\"hover:text-white transition-colors\">Contact</a>             </div>             <div class=\"flex items-center gap-6\">                 <a href=\"#\" class=\"hidden sm:block text-sm font-medium text-gray-300 hover:text-white transition-colors\">Sign                     in</a>                 <a href=\"#\" class=\"px-4 py-2 rounded-lg border border-white/20 text-sm font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2\">                     Book a Demo <iconify-icon icon=\"lucide:arrow-right\"></iconify-icon>                 </a>             </div>         </div>     </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"border-t border-zinc-900 bg-zinc-950 pt-20 pb-10 px-6\">         <div class=\"max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-10 mb-16\">             <!--SC_FCOL_0-->             <!--SC_FCOL_1-->             <!--SC_FCOL_2-->             <!--SC_FCOL_3-->         </div>         <!--SC_FCOPY-->     </footer>",
+    "footer_cols": [
+      "                 <a href=\"#\" class=\"flex items-center gap-2 mb-6\">                     <iconify-icon icon=\"lucide:hexagon\" class=\"text-2xl text-white\"></iconify-icon>                     <span class=\"font-bold text-xl tracking-tight\">Orexis</span>                 </a>                 <p class=\"text-gray-500 max-w-xs mb-8\">The AI-native enterprise platform built for teams that demand                     clarity, speed, and scalable growth.</p>                 <div class=\"flex gap-4\">                     <a href=\"#\" class=\"w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-zinc-600 transition-all\"><iconify-icon icon=\"lucide:linkedin\"></iconify-icon></a>                     <a href=\"#\" class=\"w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-zinc-600 transition-all\"><iconify-icon icon=\"lucide:twitter\"></iconify-icon></a>                     <a href=\"#\" class=\"w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-zinc-600 transition-all\"><iconify-icon icon=\"lucide:github\"></iconify-icon></a>                 </div>             ",
+      "                 <h4 class=\"font-semibold mb-6 text-white\">Product</h4>                 <ul class=\"space-y-4 text-gray-500 text-sm\">                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Features</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Integrations</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Pricing</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Changelog</a></li>                 </ul>             ",
+      "                 <h4 class=\"font-semibold mb-6 text-white\">Resources</h4>                 <ul class=\"space-y-4 text-gray-500 text-sm\">                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Documentation</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Blog</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Help Center</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Webinars</a></li>                 </ul>             ",
+      "                 <h4 class=\"font-semibold mb-6 text-white\">Company</h4>                 <ul class=\"space-y-4 text-gray-500 text-sm\">                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">About Us</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Careers</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Privacy Policy</a></li>                     <li><a href=\"#\" class=\"hover:text-brand transition-colors\">Terms of Service</a></li>                 </ul>             "
+    ],
+    "footer_copyright": "<div class=\"max-w-7xl mx-auto pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600\">             <p>© 2026 Orexis Inc. All rights reserved.</p>             <div class=\"flex items-center gap-4\">                 <select class=\"bg-transparent border-none outline-none cursor-pointer hover:text-gray-300 transition-colors\">                     <option value=\"en\">English (US)</option>                     <option value=\"es\">Español</option>                 </select>             </div>         </div>",
+    "footer_heading_style": {
+      "transform": "none",
+      "letterSpacing": "normal",
+      "fontWeight": "600",
+      "fontSize": "16px",
+      "color": "rgb(255, 255, 255)"
+    },
+    "footer_link_style": {
+      "transform": "none",
+      "letterSpacing": "normal",
+      "fontWeight": "400",
+      "fontSize": "14px",
+      "lineHeight": "20px",
+      "hover": "brand",
+      "gap": 16
+    },
+    "footer_tagline_style": {
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "color": "rgb(107, 114, 128)"
+    },
+    "base_css": "body{background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Inter, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh4{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nselect{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nselect{text-transform: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh4, p{margin: 0px;}\nul{list-style: none; margin: 0px; padding: 0px;}\n:disabled{cursor: default;}",
+    "util_css": ".glass-panel{background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1);}\n.text-glow{text-shadow: rgba(249, 115, 22, 0.3) 0px 0px 20px;}\n.chart-bar{animation: 1.5s ease-out 0s 1 normal forwards running growUp; transform-origin: center bottom;}\n@keyframes growUp { \n  0% { transform: scaleY(0); }\n  100% { transform: scaleY(1); }\n}\nh1, h2, h3{font-size: inherit; font-weight: inherit;}\nh1, h2, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.right-0{right: 0px;}\n.left-1\\/2{left: 50%;}\n.bottom-0{bottom: 0px;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-20{margin-bottom: 5rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.inline-flex{display: inline-flex;}\n.h-full{height: 100%;}\n.h-1\\.5{height: 0.375rem;}\n.h-64{height: 16rem;}\n.h-12{height: 3rem;}\n.h-\\[500px\\]{height: 500px;}\n.h-96{height: 24rem;}\n.min-h-screen{min-height: 100vh;}\n.w-1\\.5{width: 0.375rem;}\n.w-64{width: 16rem;}\n.w-12{width: 3rem;}\n.w-\\[1000px\\]{width: 1000px;}\n.w-96{width: 24rem;}\n.max-w-lg{max-width: 32rem;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-xl{max-width: 36rem;}\n.flex-1{flex: 1 1 0%;}\n.shrink-0{flex-shrink: 0;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@keyframes pulse { \n  50% { opacity: 0.5; }\n}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-wrap{flex-wrap: wrap;}\n.items-start{align-items: flex-start;}\n.gap-12{gap: 3rem;}\n.gap-1\\.5{gap: 0.375rem;}\n.gap-1{gap: 0.25rem;}\n.gap-3{gap: 0.75rem;}\n.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));}\n.divide-x > :not([hidden]) ~ :not([hidden]){--tw-divide-x-reverse: 0; border-right-width: calc(1px * var(--tw-divide-x-reverse)); border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));}\n.divide-white\\/10 > :not([hidden]) ~ :not([hidden]){border-color: rgba(255, 255, 255, 0.1);}\n.overflow-hidden{overflow: hidden;}\n.scroll-smooth{scroll-behavior: smooth;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.rounded-xl{border-radius: 0.75rem;}\n.rounded-t-sm{border-top-left-radius: 0.125rem; border-top-right-radius: 0.125rem;}\n.border-white\\/30{border-color: rgba(255, 255, 255, 0.3);}\n.border-emerald-500\\/20{border-color: rgba(16, 185, 129, 0.2);}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-zinc-700{--tw-border-opacity: 1; border-color: rgb(63 63 70 / var(--tw-border-opacity, 1));}\n.bg-black\\/20{background-color: rgba(0, 0, 0, 0.2);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-brand\\/10{background-color: rgba(249, 115, 22, 0.1);}\n.bg-emerald-500{--tw-bg-opacity: 1; background-color: rgb(16 185 129 / var(--tw-bg-opacity, 1));}\n.bg-emerald-500\\/10{background-color: rgba(16, 185, 129, 0.1);}\n.bg-brand{--tw-bg-opacity: 1; background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));}\n.bg-brand\\/40{background-color: rgba(249, 115, 22, 0.4);}\n.bg-brand\\/50{background-color: rgba(249, 115, 22, 0.5);}\n.bg-brand\\/60{background-color: rgba(249, 115, 22, 0.6);}\n.bg-brand\\/70{background-color: rgba(249, 115, 22, 0.7);}\n.bg-brand\\/80{background-color: rgba(249, 115, 22, 0.8);}\n.bg-brand\\/90{background-color: rgba(249, 115, 22, 0.9);}\n.bg-brand\\/5{background-color: rgba(249, 115, 22, 0.05);}\n.bg-black{--tw-bg-opacity: 1; background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));}\n.bg-zinc-800{--tw-bg-opacity: 1; background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.from-black\\/45{--tw-gradient-from: rgb(0 0 0 / 0.45) var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.from-black\\/70{--tw-gradient-from: rgb(0 0 0 / 0.7) var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.via-black\\/25{--tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), rgb(0 0 0 / 0.25) var(--tw-gradient-via-position), var(--tw-gradient-to);}\n.via-transparent{--tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);}\n.to-transparent{--tw-gradient-to: transparent var(--tw-gradient-to-position);}\n.object-cover{object-fit: cover;}\n.p-6{padding: 1.5rem;}\n.p-8{padding: 2rem;}\n.p-4{padding: 1rem;}\n.px-3{padding-left: 0.75rem; padding-right: 0.75rem;}\n.py-1\\.5{padding-top: 0.375rem; padding-bottom: 0.375rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.px-2\\.5{padding-left: 0.625rem; padding-right: 0.625rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-10{padding-top: 2.5rem;}\n.text-center{text-align: center;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-8xl{font-size: 6rem; line-height: 1;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-\\[1\\.1\\]{line-height: 1.1;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-black{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.text-brand{--tw-text-opacity: 1; color: rgb(249 115 22 / var(--tw-text-opacity, 1));}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.opacity-70{opacity: 0.7;}\n.opacity-10{opacity: 0.1;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-\\[80px\\]{--tw-blur: blur(80px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.blur-\\[120px\\]{--tw-blur: blur(120px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.blur-\\[100px\\]{--tw-blur: blur(100px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.backdrop-blur-sm{--tw-backdrop-blur: blur(4px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.duration-700{transition-duration: 700ms;}\n.selection\\:bg-brand ::selection{--tw-bg-opacity: 1; background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));}\n.selection\\:text-white ::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.selection\\:bg-brand::selection{--tw-bg-opacity: 1; background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));}\n.selection\\:text-white::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.hover\\:bg-gray-200:hover{--tw-bg-opacity: 1; background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n.hover\\:bg-zinc-900:hover{--tw-bg-opacity: 1; background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-brand-light:hover{--tw-bg-opacity: 1; background-color: rgb(253 186 116 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-zinc-700:hover{--tw-bg-opacity: 1; background-color: rgb(63 63 70 / var(--tw-bg-opacity, 1));}\n.group:hover .group-hover\\:bg-brand\\/20{background-color: rgba(249, 115, 22, 0.2);}\n@media (min-width: 768px){.md\\:w-auto{width: auto;}}\n@media (min-width: 768px){.md\\:grid-cols-4{grid-template-columns: repeat(4, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-4xl{font-size: 2.25rem; line-height: 2.5rem;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:block{display: block;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:text-7xl{font-size: 4.5rem; line-height: 1;}}",
+    "header_css": ".glass-nav{background: transparent; transition: 0.3s;}\n.fixed{position: fixed;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-20{height: 5rem;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-2{gap: 0.5rem;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.rounded-lg{border-radius: 0.5rem;}\n.border{border-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-2{padding-top: 0.5rem; padding-bottom: 0.5rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-medium{font-weight: 500;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-gray-300{--tw-text-opacity: 1; color: rgb(209 213 219 / var(--tw-text-opacity, 1));}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-white:hover{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.hover\\:text-black:hover{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:block{display: block;}}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".col-span-2{grid-column: span 2 / span 2;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-16{margin-bottom: 4rem;}\n.mb-8{margin-bottom: 2rem;}\n.grid{display: grid;}\n.h-10{height: 2.5rem;}\n.w-10{width: 2.5rem;}\n.max-w-xs{max-width: 20rem;}\n.cursor-pointer{cursor: pointer;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.gap-10{gap: 2.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.rounded-full{border-radius: 9999px;}\n.border-t{border-top-width: 1px;}\n.border-none{border-style: none;}\n.border-zinc-800{--tw-border-opacity: 1; border-color: rgb(39 39 42 / var(--tw-border-opacity, 1));}\n.border-zinc-900{--tw-border-opacity: 1; border-color: rgb(24 24 27 / var(--tw-border-opacity, 1));}\n.bg-zinc-900{--tw-bg-opacity: 1; background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));}\n.bg-zinc-950{--tw-bg-opacity: 1; background-color: rgb(9 9 11 / var(--tw-bg-opacity, 1));}\n.bg-transparent{background-color: transparent;}\n.pt-20{padding-top: 5rem;}\n.pb-10{padding-bottom: 2.5rem;}\n.pt-8{padding-top: 2rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-semibold{font-weight: 600;}\n.text-gray-400{--tw-text-opacity: 1; color: rgb(156 163 175 / var(--tw-text-opacity, 1));}\n.text-gray-500{--tw-text-opacity: 1; color: rgb(107 114 128 / var(--tw-text-opacity, 1));}\n.text-gray-600{--tw-text-opacity: 1; color: rgb(75 85 99 / var(--tw-text-opacity, 1));}\n.outline-none{outline: transparent solid 2px; outline-offset: 2px;}\n.hover\\:border-zinc-600:hover{--tw-border-opacity: 1; border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));}\n.hover\\:text-brand:hover{--tw-text-opacity: 1; color: rgb(249 115 22 / var(--tw-text-opacity, 1));}\n.hover\\:text-gray-300:hover{--tw-text-opacity: 1; color: rgb(209 213 219 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:grid-cols-5{grid-template-columns: repeat(5, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,600&display=swap"
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "shine",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "portalFloat",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "shimmer",
+      "props": [
+        "background-position-x",
+        "background-position-y"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "drift",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".portal",
+      "name": "portalFloat",
+      "duration": "12s",
+      "infinite": true
+    },
+    {
+      "selector": ".kinetic",
+      "name": "shimmer",
+      "duration": "5s",
+      "infinite": true
+    },
+    {
+      "selector": ".floating-card",
+      "name": "drift",
+      "duration": "8s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".tilt",
+      "changed": {
+        "transform": "perspective(1200px) rotateX(5deg) rotateY(-5deg) translateY(-10px)"
+      }
+    },
+    {
+      "selector": ".hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/\\[\\.06\\]",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.06)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": "liquid-btn glass rounded-full px-6 py-3 text-sm font-medium ",
+      "changed": {
+        "transform": "matrix(1.04, 0, 0, 1.04, -0.074375, 0)"
+      },
+      "live": true
+    },
+    {
+      "selector": "liquid-btn glass border-flow rounded-full px-7 py-4 font-med",
+      "changed": {
+        "transform": "matrix(1.04, 0, 0, 1.04, 0, -0.0425)"
+      },
+      "live": true
+    },
+    {
+      "selector": "rounded-full px-7 py-4 border border-white/10 bg-white/[.03]",
+      "changed": {
+        "background": "rgba(255, 255, 255, 0.06)"
+      },
+      "live": true
+    },
+    {
+      "selector": "absolute top-[-40px] left-[-60px] glass border-flow rounded-",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -1.53943)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".tilt",
+      "props": "transform, box-shadow",
+      "duration": "0.5s, 0.5s"
+    },
+    {
+      "selector": ".reveal",
+      "props": "opacity, transform, filter",
+      "duration": "1s, 1s, 1s"
+    },
+    {
+      "selector": ".transition",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, opac",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3728,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 2,
+      "kind": "pin",
+      "evidence": "pinned for ~2828px of scroll"
+    },
+    {
+      "i": 3,
+      "kind": "pin",
+      "evidence": "pinned for ~2828px of scroll"
+    },
+    {
+      "i": 33,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 50,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 50,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 35,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 50,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 50,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#2",
+      "evidence": "pinned for ~2828px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#3",
+      "evidence": "pinned for ~2828px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#33",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#35",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".portal",
+      "evidence": "infinite keyframes 'portalFloat' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".kinetic",
+      "evidence": "infinite keyframes 'shimmer' (background-position-x,background-position-y)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".floating-card",
+      "evidence": "infinite keyframes 'drift' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".tilt",
+      "evidence": "transform change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/\\[\\.06\\]",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "rounded-full px-7 py-4 border border-white/10 bg-white/[.03]",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

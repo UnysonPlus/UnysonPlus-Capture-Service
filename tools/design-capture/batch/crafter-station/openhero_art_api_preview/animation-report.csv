@@ -1,0 +1,30 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~5054px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#2,pinned for ~5054px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#11,document position drifts -179px over 5054px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.04),medium
+trace,trace#46,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#47,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#48,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#49,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#53,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#54,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#55,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#56,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#57,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#58,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#59,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.fade-up,keyframes 'fadeUp' 0.88s,entrance animation (Animate.css picker),low
+css-animation,.fade-soft,keyframes 'fadeSoft' 0.8s,entrance animation (Animate.css picker),low
+css-animation,.progress,keyframes 'progress' auto,entrance animation (Animate.css picker),low
+hover,.hover-lift,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:border-white\/20,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/\[0\.04\],background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/\[0\.06\],background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,hover:text-white transition-colors,"transform, color change on hover",interaction: {effect:'color_shift'},medium
+hover,hidden rounded-full border border-white/10 bg-white/[0.03] p,"transform, color change on hover",interaction: {effect:'color_shift'},medium
+hover,border-b-2 border-transparent pb-1 font-mono text-white/55 h,"transform, color change on hover",interaction: {effect:'color_shift'},medium
+hover,sheen rounded-md border border-white/12 bg-white/[0.03] px-5,"transform, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,rounded-md border border-white/10 bg-transparent px-5 py-3.5,"transform, background, color change on hover",interaction: {effect:'color_shift'},medium
+hover,rounded-md border border-white/10 bg-white/[0.03] px-5 py-3 ,"transform, color change on hover",interaction: {effect:'color_shift'},medium
+hover,rounded-full border border-white/10 bg-white/[0.03] px-4 py-,"transform, color change on hover",interaction: {effect:'color_shift'},medium

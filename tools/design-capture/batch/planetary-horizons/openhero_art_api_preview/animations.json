@@ -1,0 +1,339 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "spin",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "bounce",
+      "props": [
+        "transform",
+        "animation-timing-function"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".animate-\\[spin_10s_linear_infinite\\]",
+      "name": "spin",
+      "duration": "10s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-bounce",
+      "name": "bounce",
+      "duration": "1s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".group .tech-border::before, .group .tech-border::after",
+      "changed": {
+        "width": "100%",
+        "height": "100%",
+        "opacity": "0.3"
+      }
+    },
+    {
+      "selector": ".hover\\:border-neon-blue",
+      "changed": {
+        "--tw-border-opacity": "1",
+        "border-top-color": "",
+        "border-right-color": "",
+        "border-bottom-color": "",
+        "border-left-color": ""
+      }
+    },
+    {
+      "selector": ".hover\\:border-neon-blue\\/50",
+      "changed": {
+        "border-top-color": "rgba(0, 242, 254, 0.5)",
+        "border-right-color": "rgba(0, 242, 254, 0.5)",
+        "border-bottom-color": "rgba(0, 242, 254, 0.5)",
+        "border-left-color": "rgba(0, 242, 254, 0.5)"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-neon-blue",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(0 242 254 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(255 255 255 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-neon-blue",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(0 242 254 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-space-900",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(3 7 18 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:grayscale-0",
+      "changed": {
+        "--tw-grayscale": "grayscale(0)",
+        "filter": "var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)"
+      }
+    },
+    {
+      "selector": "px-5 py-2.5 bg-white text-space-900 font-bold hover:bg-neon-",
+      "changed": {
+        "background": "rgb(0, 242, 254)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-full sm:w-auto px-8 py-4 bg-neon-blue text-space-900 font-",
+      "changed": {
+        "background": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-full sm:w-auto px-8 py-4 border border-slate-700 text-whit",
+      "changed": {
+        "color": "rgb(0, 242, 254)",
+        "borderColor": "rgb(0, 242, 254)"
+      },
+      "live": true
+    },
+    {
+      "selector": "font-mono text-sm text-slate-400 hover:text-neon-blue transi",
+      "changed": {
+        "color": "rgb(0, 242, 254)",
+        "borderColor": "rgb(0, 242, 254)"
+      },
+      "live": true
+    },
+    {
+      "selector": "bg-neon-blue text-space-900 font-bold uppercase tracking-wid",
+      "changed": {
+        "background": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-10 h-10 border border-slate-800 flex items-center justify-",
+      "changed": {
+        "color": "rgb(0, 242, 254)",
+        "borderColor": "rgb(0, 242, 254)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, opac",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3863,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "css-animation",
+      "target": ".animate-\\[spin_10s_linear_infinite\\]",
+      "evidence": "infinite keyframes 'spin' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-bounce",
+      "evidence": "infinite keyframes 'bounce' (transform,animation-timing-function)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:border-neon-blue",
+      "evidence": "--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:border-neon-blue\\/50",
+      "evidence": "border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-neon-blue",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-neon-blue",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-space-900",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".group .group-hover\\:grayscale-0",
+      "evidence": "--tw-grayscale, filter change on hover",
+      "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "px-5 py-2.5 bg-white text-space-900 font-bold hover:bg-neon-",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-full sm:w-auto px-8 py-4 bg-neon-blue text-space-900 font-",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-full sm:w-auto px-8 py-4 border border-slate-700 text-whit",
+      "evidence": "color, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "font-mono text-sm text-slate-400 hover:text-neon-blue transi",
+      "evidence": "color, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "bg-neon-blue text-space-900 font-bold uppercase tracking-wid",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-10 h-10 border border-slate-800 flex items-center justify-",
+      "evidence": "color, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

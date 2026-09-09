@@ -1,0 +1,503 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-32 pb-20 relative",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".spectral-text{mix-blend-mode: plus-lighter; animation: 6s ease-in-out 0s infinite normal none running spectralPulse; background: linear-gradient(rgb(255, 255, 255) 0%, oklch(0.65 0.25 330 / 0.8) 100%) text; -webkit-text-fill-color: transparent;}\n.liquid-terminals i{font-style: italic; letter-spacing: -0.05em; padding-right: 0.05em; font-weight: 300;}\n.reveal{opacity: 0; transform: translateY(40px) scale(0.98); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity;}\n.reveal.active{opacity: 1; transform: translateY(0px) scale(1);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n.atmospheric-orb{position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1;}\nh1{font-size: inherit; font-weight: inherit;}\nh1, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.bottom-\\[20\\%\\]{bottom: 20%;}\n.left-\\[20\\%\\]{left: 20%;}\n.right-\\[10\\%\\]{right: 10%;}\n.top-\\[30\\%\\]{top: 30%;}\n.m-0{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.h-2{height: 0.5rem;}\n.h-\\[30vw\\]{height: 30vw;}\n.h-\\[40vw\\]{height: 40vw;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-2{width: 0.5rem;}\n.w-\\[30vw\\]{width: 30vw;}\n.w-\\[40vw\\]{width: 40vw;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-6xl{max-width: 72rem;}\n.animate-pulse-slow{animation: 8s ease-in-out 0s infinite normal none running pulse-slow;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-amber{background-color: oklch(0.7 0.2 45);}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-1\\.5{padding-top: 0.375rem; padding-bottom: 0.375rem;}\n.pb-20{padding-bottom: 5rem;}\n.pt-32{padding-top: 8rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: Inter, ui-sans-serif, system-ui, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.mix-blend-screen{mix-blend-mode: screen;}\n.shadow-\\[0_0_10px_oklch\\(70\\%_0\\.2_45\\)\\]{--tw-shadow: 0 0 10px oklch(70% 0.2 45); --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[8rem\\]{font-size: 8rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "128px 16px 80px",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+            "fontSize": "16px",
+            "textAlign": "center",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"absolute top-[30%] left-[20%] w-[40vw] h-[40vw] atmospheric-orb bg-magenta/20 animate-pulse-slow mix-blend-screen\"></div>     <div class=\"absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] atmospheric-orb bg-amber/10 mix-blend-screen\"></div>     <div class=\"inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-magenta/30 bg-magenta/5 backdrop-blur-md mb-8 reveal active delay-100\">       <span class=\"w-2 h-2 rounded-full bg-amber shadow-[0_0_10px_oklch(70%_0.2_45)]\"></span>       <p class=\"font-sans text-[10px] tracking-[0.3em] uppercase text-white/80 m-0\">         Anthocyanin Hyper-pigmentation       </p>     </div>     <h1 class=\"font-serif text-5xl md:text-8xl lg:text-[8rem] leading-[0.9] spectral-text liquid-terminals reveal active delay-200 max-w-6xl mx-auto\">       Rebalancing the <i>planet</i> with photosynthesis     </h1>          <p class=\"mt-12 font-sans font-light text-sm md:text-base text-white/50 max-w-2xl leading-relaxed reveal active delay-300\">       We engineer circadian rhythm optimization to unlock the latent potential of botanical life. Bridging the gap between high-tech precision and raw spectral vitality to reverse atmospheric decay.     </p>   ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute top-[30%] left-[20%] w-[40vw] h-[40vw] atmospheric-orb bg-magenta/20 animate-pulse-slow mix-blend-screen\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "120px",
+                "blend": "screen",
+                "radius": "50%",
+                "opacity": "0.465077",
+                "position": "absolute",
+                "top": "270px",
+                "right": "576px",
+                "bottom": "54px",
+                "left": "288px",
+                "zIndex": "-1",
+                "w": 608,
+                "h": 608
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] atmospheric-orb bg-amber/10 mix-blend-screen\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "120px",
+                "blend": "screen",
+                "radius": "50%",
+                "opacity": "",
+                "position": "absolute",
+                "top": "288px",
+                "right": "144px",
+                "bottom": "180px",
+                "left": "864px",
+                "zIndex": "-1",
+                "w": 432,
+                "h": 432
+              }
+            },
+            {
+              "t": "overline",
+              "html": "<span style=\"color:rgba(255, 255, 255, 0.8)\"> Anthocyanin Hyper-pigmentation </span>",
+              "text": "Anthocyanin Hyper-pigmentation",
+              "cls": "inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-magenta/30 bg-magenta/5 backdrop-blur-md mb-8 reveal active delay-100",
+              "pill": true,
+              "color": "rgb(255, 255, 255)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "1px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "9999px",
+              "padding": "6px 16px",
+              "backdropFilter": "blur(12px)",
+              "textTransform": "none",
+              "fontSize": "16px",
+              "letterSpacing": "normal",
+              "fontWeight": "400",
+              "gap": "12px",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "24px"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Rebalancing the <em>planet</em> with photosynthesis",
+              "text": "Rebalancing the planet with photosynthesis",
+              "tag": "h1",
+              "cls": "font-serif text-5xl md:text-8xl lg:text-[8rem] leading-[0.9] spectral-text liquid-terminals reveal active delay-200 max-w-6xl mx-auto",
+              "wrapCls": "min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-32 pb-20 relative",
+              "fontSize": "128px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "128px",
+              "letterSpacing": "normal",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-12 font-sans font-light text-sm md:text-base text-white/50 max-w-2xl leading-relaxed reveal active delay-300\">       We engineer circadian rhythm optimization to unlock the latent potential of botanical life. Bridging the gap between high-tech precision and raw spectral vitality to reverse atmospheric decay.     </p>",
+              "text": "We engineer circadian rhythm optimization to unlock the latent potential of botanical life. Bridging the gap between high-tech precision and raw spectral vitality to reverse atmospheric decay.",
+              "tag": "p",
+              "cls": "mt-12 font-sans font-light text-sm md:text-base text-white/50 max-w-2xl leading-relaxed reveal active delay-300",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            }
+          ],
+          "css_id": "hero"
+        },
+        {
+          "index": 1,
+          "sectionClass": "min-h-screen w-full relative z-20 py-40 px-6 md:px-12 lg:px-24 bg-midnight",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".spotlight-card{background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px) saturate(1.5); position: relative; overflow: hidden; border-radius: 24px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.spotlight-card::before{content: \"\"; position: absolute; inset: 0px; opacity: 0; transition: opacity 0.3s; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.15), transparent 40%); z-index: 1; pointer-events: none;}\n.spotlight-card::after{content: \"\"; position: absolute; inset: 0px; opacity: 0; transition: opacity 0.3s; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), oklch(70% 0.2 45 / 0.08), transparent 40%); z-index: 2; pointer-events: none;}\n.spotlight-card:hover::before, .spotlight-card:hover::after{opacity: 1;}\n.spotlight-card:hover{transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.15); box-shadow: rgba(0, 0, 0, 0.5) 0px 20px 40px, oklch(0.65 0.25 330 / 0.1) 0px 0px 40px;}\n.spotlight-content{position: relative; z-index: 3;}\n.gradient-border-mask{position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.8), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); opacity: 0; transition: opacity 0.3s; pointer-events: none;}\n.spotlight-card:hover .gradient-border-mask{opacity: 1;}\n.reveal{opacity: 0; transform: translateY(40px) scale(0.98); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity;}\n.reveal.active{opacity: 1; transform: translateY(0px) scale(1);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n.atmospheric-orb{position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: -1;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.top-0{top: 0px;}\n.right-0{right: 0px;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-24{margin-bottom: 6rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mt-8{margin-top: 2rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-2{height: 0.5rem;}\n.h-14{height: 3.5rem;}\n.h-\\[400px\\]{height: 400px;}\n.h-\\[60vw\\]{height: 60vw;}\n.h-px{height: 1px;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-2{width: 0.5rem;}\n.w-14{width: 3.5rem;}\n.w-\\[60vw\\]{width: 60vw;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xs{max-width: 20rem;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.gap-2{gap: 0.5rem;}\n.rounded-full{border-radius: 9999px;}\n.rounded-2xl{border-radius: 1rem;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-amber{background-color: oklch(0.7 0.2 45);}\n.bg-midnight{background-color: oklch(0.12 0.03 260);}\n.bg-magenta{background-color: oklch(0.65 0.25 330);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-10{padding: 2.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.font-sans{font-family: Inter, ui-sans-serif, system-ui, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.font-light{font-weight: 300;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-amber{color: oklch(0.7 0.2 45);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-magenta{color: oklch(0.65 0.25 330);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-30{opacity: 0.3;}\n.backdrop-blur-xl{--tw-backdrop-blur: blur(24px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n@media (min-width: 768px){.md\\:w-\\[200\\%\\]{width: 200%;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-end{align-items: flex-end;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:translate-y-12{--tw-translate-y: 3rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}}\n@media (min-width: 1024px){.lg\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "background": "oklch(0.12 0.03 260)",
+            "color": "rgb(255, 255, 255)",
+            "padding": "160px 96px",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"absolute top-0 right-0 w-[60vw] h-[60vw] atmospheric-orb bg-magenta/5\"></div>          <div class=\"max-w-7xl mx-auto\">       <div class=\"mb-24 reveal flex flex-col md:flex-row md:items-end justify-between gap-8 active\">         <div>           <h2 class=\"font-serif text-5xl md:text-7xl text-white mb-6 tracking-tight\">Spectral <br><i class=\"text-white/40\">Irradiance</i></h2>           <div class=\"h-px w-full md:w-[200%] bg-gradient-to-r from-magenta via-amber to-transparent opacity-30\"></div>         </div>         <p class=\"max-w-xs text-sm font-light text-white/50 leading-relaxed\">           The structural geometry of our synthetic flora adapts in real-time, responding to atmospheric carbon density.         </p>       </div>       <div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">         <div class=\"spotlight-card p-10 reveal delay-100 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-magenta\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Liquid Synthesis</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Harnessing specific wavelengths to accelerate chlorophyll production. The UI mirrors this bioluminescent radiation.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-magenta\">             <span>SYS_READY</span> <div class=\"w-2 h-2 rounded-full bg-magenta animate-pulse\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-200 interactive h-[400px] flex flex-col justify-between lg:translate-y-12 active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:hexagon-light\" class=\"text-3xl text-amber\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Phenotypic Plasticity</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Flora engineered to adapt its structural geometry in real-time, responding to atmospheric carbon density and light.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-amber\">             <span>ACT_VAR_01</span> <div class=\"w-2 h-2 rounded-full bg-amber animate-pulse\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-300 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-white\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Atmospheric Sync</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Deploying bio-engineered canopies that act as high-efficiency carbon sinks, wrapping molecular structures seamlessly.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-white\">             <span>DATA_STREAM</span> <div class=\"w-2 h-2 rounded-full bg-white animate-pulse\"></div>           </div>         </div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute top-0 right-0 w-[60vw] h-[60vw] atmospheric-orb bg-magenta/5\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "120px",
+                "blend": "",
+                "radius": "50%",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "121px",
+                "left": "576px",
+                "zIndex": "-1",
+                "w": 864,
+                "h": 864
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "mb-24 reveal flex flex-col md:flex-row md:items-end justify-between gap-8 active",
+                  "colId": "sccol-0",
+                  "cw": 12,
+                  "html": "         <div>           <h2 class=\"font-serif text-5xl md:text-7xl text-white mb-6 tracking-tight\">Spectral <br><i class=\"text-white/40\">Irradiance</i></h2>           <div class=\"h-px w-full md:w-[200%] bg-gradient-to-r from-magenta via-amber to-transparent opacity-30\"></div>         </div>         <p class=\"max-w-xs text-sm font-light text-white/50 leading-relaxed\">           The structural geometry of our synthetic flora adapts in real-time, responding to atmospheric carbon density.         </p>       ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "space-between",
+                    "align": "flex-end",
+                    "gap": "32px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Spectral <br><span class=\"text-white/40\" style=\"color:rgba(255, 255, 255, 0.4)\"><em>Irradiance</em></span>",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-5xl md:text-7xl text-white mb-6 tracking-tight",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 12
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6",
+                  "colId": "sccol-1",
+                  "cw": 12,
+                  "html": "         <div class=\"spotlight-card p-10 reveal delay-100 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-magenta\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Liquid Synthesis</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Harnessing specific wavelengths to accelerate chlorophyll production. The UI mirrors this bioluminescent radiation.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-magenta\">             <span>SYS_READY</span> <div class=\"w-2 h-2 rounded-full bg-magenta animate-pulse\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-200 interactive h-[400px] flex flex-col justify-between lg:translate-y-12 active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:hexagon-light\" class=\"text-3xl text-amber\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Phenotypic Plasticity</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Flora engineered to adapt its structural geometry in real-time, responding to atmospheric carbon density and light.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-amber\">             <span>ACT_VAR_01</span> <div class=\"w-2 h-2 rounded-full bg-amber animate-pulse\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-300 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-white\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Atmospheric Sync</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Deploying bio-engineered canopies that act as high-efficiency carbon sinks, wrapping molecular structures seamlessly.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-white\">             <span>DATA_STREAM</span> <div class=\"w-2 h-2 rounded-full bg-white animate-pulse\"></div>           </div>         </div>       ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Liquid Synthesis",
+                    "titleTag": "h3",
+                    "titleClass": "font-serif text-3xl mb-4 text-white",
+                    "subtitle": "Harnessing specific wavelengths to accelerate chlorophyll production. The UI mirrors this bioluminescent radiation.",
+                    "subtitleClass": "font-sans font-light text-sm text-white/50 leading-relaxed",
+                    "wrapClass": "spotlight-content",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 12
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto\">       <div class=\"mb-24 reveal flex flex-col md:flex-row md:items-end justify-between gap-8 active\" data-sc-col=\"sccol-0\">         <div>           <h2 class=\"font-serif text-5xl md:text-7xl text-white mb-6 tracking-tight\">Spectral <br><i class=\"text-white/40\">Irradiance</i></h2>           <div class=\"h-px w-full md:w-[200%] bg-gradient-to-r from-magenta via-amber to-transparent opacity-30\"></div>         </div>         <p class=\"max-w-xs text-sm font-light text-white/50 leading-relaxed\">           The structural geometry of our synthetic flora adapts in real-time, responding to atmospheric carbon density.         </p>       </div>       <div class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\" data-sc-col=\"sccol-1\">         <div class=\"spotlight-card p-10 reveal delay-100 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-magenta\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Liquid Synthesis</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Harnessing specific wavelengths to accelerate chlorophyll production. The UI mirrors this bioluminescent radiation.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-magenta\">             <span data-sc-col=\"sccol-2\">SYS_READY</span> <div class=\"w-2 h-2 rounded-full bg-magenta animate-pulse\" data-sc-col=\"sccol-3\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-200 interactive h-[400px] flex flex-col justify-between lg:translate-y-12 active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:hexagon-light\" class=\"text-3xl text-amber\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Phenotypic Plasticity</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Flora engineered to adapt its structural geometry in real-time, responding to atmospheric carbon density and light.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-amber\">             <span>ACT_VAR_01</span> <div class=\"w-2 h-2 rounded-full bg-amber animate-pulse\"></div>           </div>         </div>         <div class=\"spotlight-card p-10 reveal delay-300 interactive h-[400px] flex flex-col justify-between active\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <div class=\"w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl\">               <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-white\"></iconify-icon>             </div>             <h3 class=\"font-serif text-3xl mb-4 text-white\">Atmospheric Sync</h3>             <p class=\"font-sans font-light text-sm text-white/50 leading-relaxed\">               Deploying bio-engineered canopies that act as high-efficiency carbon sinks, wrapping molecular structures seamlessly.             </p>           </div>           <div class=\"spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-white\">             <span>DATA_STREAM</span> <div class=\"w-2 h-2 rounded-full bg-white animate-pulse\"></div>           </div>         </div>       </div>     </div>"
+            }
+          ],
+          "css_id": "features"
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-40 px-6 md:px-12 lg:px-24 w-full bg-surface relative z-20 overflow-hidden rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_60px_rgba(0,0,0,0.5)]",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".spotlight-card{background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px) saturate(1.5); position: relative; overflow: hidden; border-radius: 24px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.spotlight-card::before{content: \"\"; position: absolute; inset: 0px; opacity: 0; transition: opacity 0.3s; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.15), transparent 40%); z-index: 1; pointer-events: none;}\n.spotlight-card::after{content: \"\"; position: absolute; inset: 0px; opacity: 0; transition: opacity 0.3s; background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), oklch(70% 0.2 45 / 0.08), transparent 40%); z-index: 2; pointer-events: none;}\n.spotlight-card:hover::before, .spotlight-card:hover::after{opacity: 1;}\n.spotlight-card:hover{transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.15); box-shadow: rgba(0, 0, 0, 0.5) 0px 20px 40px, oklch(0.65 0.25 330 / 0.1) 0px 0px 40px;}\n.spotlight-content{position: relative; z-index: 3;}\n.gradient-border-mask{position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.8), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); opacity: 0; transition: opacity 0.3s; pointer-events: none;}\n.spotlight-card:hover .gradient-border-mask{opacity: 1;}\n.reveal{opacity: 0; transform: translateY(40px) scale(0.98); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform, opacity;}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh2, h3, h4{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, h3, h4, p{margin: 0px;}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.z-0{z-index: 0;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-20{margin-bottom: 5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mt-6{margin-top: 1.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-1{height: 0.25rem;}\n.h-16{height: 4rem;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.w-16{width: 4rem;}\n.w-\\[60\\%\\]{width: 60%;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-\\[92\\%\\]{width: 92%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.max-w-sm{max-width: 24rem;}\n.auto-rows-\\[250px\\]{grid-auto-rows: 250px;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.rounded-t-\\[3rem\\]{border-top-left-radius: 3rem; border-top-right-radius: 3rem;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-amber{background-color: oklch(0.7 0.2 45);}\n.bg-magenta{background-color: oklch(0.65 0.25 330);}\n.bg-surface{background-color: oklch(0.18 0.02 260);}\n.bg-white\\/10{background-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/80{background-color: rgba(255, 255, 255, 0.8);}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1518531933037-91b2f5f229cc\\?q\\=80\\&w\\=2000\\&auto\\=format\\&fit\\=crop\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop\");}\n.bg-cover{background-size: cover;}\n.bg-center{background-position: center center;}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.px-3{padding-left: 0.75rem; padding-right: 0.75rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.text-center{text-align: center;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.text-amber{color: oklch(0.7 0.2 45);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-magenta{color: oklch(0.65 0.25 330);}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.backdrop-blur-sm{--tw-backdrop-blur: blur(4px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n@media (min-width: 768px){.md\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "background": "oklch(0.18 0.02 260)",
+            "color": "rgb(255, 255, 255)",
+            "padding": "160px 96px",
+            "fontFamily": "Inter, ui-sans-serif, system-ui, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop"
+          ],
+          "raw": "     <div class=\"absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,oklch(65%_0.25_330/0.1)_0%,transparent_50%)] pointer-events-none\"></div>     <div class=\"max-w-7xl mx-auto\">       <div class=\"mb-20 text-center reveal\">         <h2 class=\"font-serif text-4xl md:text-6xl text-white mb-6\">Genomic Architecture</h2>         <p class=\"text-white/50 max-w-xl mx-auto font-light\">Advanced bento-grid visualization of real-time cellular data and engineered chromosomal adaptations.</p>       </div>       <div class=\"grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]\">                  <div class=\"md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&amp;w=2000&amp;auto=format&amp;fit=crop')] bg-cover bg-center relative\">           <div class=\"absolute inset-0 bg-midnight/80 mix-blend-multiply backdrop-blur-sm z-0\"></div>           <div class=\"gradient-border-mask z-10\"></div>           <div class=\"spotlight-content flex justify-between items-start\">             <span class=\"px-3 py-1 bg-white/10 rounded-full text-[10px] tracking-widest font-mono uppercase backdrop-blur-md\">Cellular Growth</span>             <iconify-icon icon=\"ph:trend-up-light\" class=\"text-2xl text-magenta\"></iconify-icon>           </div>           <div class=\"spotlight-content\">             <h3 class=\"text-4xl font-serif text-white mb-2\">3.4x</h3>             <p class=\"text-sm text-white/60\">Increased carbon sequestration per leaf surface area.</p>           </div>         </div>         <div class=\"spotlight-card p-8 reveal delay-200 interactive flex flex-col justify-center items-center text-center\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content relative\">             <div class=\"absolute inset-0 bg-amber/20 blur-3xl rounded-full\"></div>             <iconify-icon icon=\"ph:sun-dim-light\" class=\"text-6xl text-amber relative z-10 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Photon Yield</h4>             <p class=\"text-xs text-white/50\">Optimal at 450nm</p>           </div>         </div>         <div class=\"spotlight-card p-8 reveal delay-300 interactive flex flex-col justify-between\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-3xl text-white/50 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Sequence Align</h4>             <div class=\"space-y-2 mt-6\">               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[85%] bg-magenta\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[60%] bg-amber\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[92%] bg-white/80\"></div></div>             </div>           </div>         </div>         <div class=\"md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content flex items-center justify-between h-full\">             <div>                <h4 class=\"font-serif text-3xl text-white mb-2\">Global Impact</h4>                <p class=\"text-sm text-white/50 max-w-sm leading-relaxed\">Monitoring live canopy deployments across 4 biomes. The neural root network stabilizes soil integrity.</p>             </div>             <button class=\"w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors\">               <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-2xl text-white\"></iconify-icon>             </button>           </div>         </div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,oklch(65%_0.25_330/0.1)_0%,transparent_50%)] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle at 0% 100%, oklch(0.65 0.25 330 / 0.1) 0%, rgba(0, 0, 0, 0) 50%)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 1056
+              }
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Genomic Architecture",
+              "text": "Genomic Architecture",
+              "tag": "h2",
+              "cls": "font-serif text-4xl md:text-6xl text-white mb-6",
+              "wrapCls": "mb-20 text-center reveal",
+              "fontSize": "60px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "normal",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-white/50 max-w-xl mx-auto font-light\">Advanced bento-grid visualization of real-time cellular data and engineered chromosomal adaptations.</p>",
+              "text": "Advanced bento-grid visualization of real-time cellular data and engineered chromosomal adaptations.",
+              "tag": "p",
+              "cls": "text-white/50 max-w-xl mx-auto font-light",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center relative",
+                  "colId": "sccol-4",
+                  "cw": 8,
+                  "html": "           <div class=\"absolute inset-0 bg-midnight/80 mix-blend-multiply backdrop-blur-sm z-0\"></div>           <div class=\"gradient-border-mask z-10\"></div>           <div class=\"spotlight-content flex justify-between items-start\">             <span class=\"px-3 py-1 bg-white/10 rounded-full text-[10px] tracking-widest font-mono uppercase backdrop-blur-md\">Cellular Growth</span>             <iconify-icon icon=\"ph:trend-up-light\" class=\"text-2xl text-magenta\"></iconify-icon>           </div>           <div class=\"spotlight-content\">             <h3 class=\"text-4xl font-serif text-white mb-2\">3.4x</h3>             <p class=\"text-sm text-white/60\">Increased carbon sequestration per leaf surface area.</p>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "3.4x",
+                    "titleTag": "h3",
+                    "titleClass": "text-4xl font-serif text-white mb-2",
+                    "subtitle": "Increased carbon sequestration per leaf surface area.",
+                    "subtitleClass": "text-sm text-white/60",
+                    "wrapClass": "spotlight-content",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 8,
+                    "desktop": 8
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "spotlight-card p-8 reveal delay-200 interactive flex flex-col justify-center items-center text-center",
+                  "colId": "sccol-7",
+                  "cw": 4,
+                  "html": "           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content relative\">             <div class=\"absolute inset-0 bg-amber/20 blur-3xl rounded-full\"></div>             <iconify-icon icon=\"ph:sun-dim-light\" class=\"text-6xl text-amber relative z-10 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Photon Yield</h4>             <p class=\"text-xs text-white/50\">Optimal at 450nm</p>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "center",
+                    "align": "center",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Photon Yield",
+                    "titleTag": "h4",
+                    "titleWeight": "400",
+                    "text": "<p class=\"text-xs text-white/50\">Optimal at 450nm</p>",
+                    "link": null,
+                    "cls": "spotlight-card p-8 reveal delay-200 interactive flex flex-col justify-center items-center text-center",
+                    "align": "center",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.01)",
+                      "fill": "rgba(255, 255, 255, 0.01)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "blur(40px) saturate(1.5)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "spotlight-card p-8 reveal delay-300 interactive flex flex-col justify-between",
+                  "colId": "sccol-8",
+                  "cw": 4,
+                  "html": "           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-3xl text-white/50 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Sequence Align</h4>             <div class=\"space-y-2 mt-6\">               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[85%] bg-magenta\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[60%] bg-amber\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[92%] bg-white/80\"></div></div>             </div>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#ffffff",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Sequence Align",
+                    "titleTag": "h4",
+                    "titleWeight": "400",
+                    "text": "",
+                    "link": null,
+                    "cls": "spotlight-card p-8 reveal delay-300 interactive flex flex-col justify-between",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.01)",
+                      "fill": "rgba(255, 255, 255, 0.01)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "blur(40px) saturate(1.5)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between",
+                  "colId": "sccol-9",
+                  "cw": 8,
+                  "html": "           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content flex items-center justify-between h-full\">             <div>                <h4 class=\"font-serif text-3xl text-white mb-2\">Global Impact</h4>                <p class=\"text-sm text-white/50 max-w-sm leading-relaxed\">Monitoring live canopy deployments across 4 biomes. The neural root network stabilizes soil integrity.</p>             </div>             <button class=\"w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors\">               <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-2xl text-white\"></iconify-icon>             </button>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Global Impact",
+                    "titleTag": "h4",
+                    "titleClass": "font-serif text-3xl text-white mb-2",
+                    "subtitle": "Monitoring live canopy deployments across 4 biomes. The neural root network stabilizes soil integrity.",
+                    "subtitleClass": "text-sm text-white/50 max-w-sm leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 8,
+                    "desktop": 8
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]\">                  <div class=\"md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&amp;w=2000&amp;auto=format&amp;fit=crop')] bg-cover bg-center relative\" data-sc-col=\"sccol-4\">           <div class=\"absolute inset-0 bg-midnight/80 mix-blend-multiply backdrop-blur-sm z-0\"></div>           <div class=\"gradient-border-mask z-10\"></div>           <div class=\"spotlight-content flex justify-between items-start\">             <span class=\"px-3 py-1 bg-white/10 rounded-full text-[10px] tracking-widest font-mono uppercase backdrop-blur-md\" data-sc-col=\"sccol-5\">Cellular Growth</span>             <iconify-icon icon=\"ph:trend-up-light\" class=\"text-2xl text-magenta\" data-sc-col=\"sccol-6\"></iconify-icon>           </div>           <div class=\"spotlight-content\">             <h3 class=\"text-4xl font-serif text-white mb-2\">3.4x</h3>             <p class=\"text-sm text-white/60\">Increased carbon sequestration per leaf surface area.</p>           </div>         </div>         <div class=\"spotlight-card p-8 reveal delay-200 interactive flex flex-col justify-center items-center text-center\" data-sc-col=\"sccol-7\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content relative\">             <div class=\"absolute inset-0 bg-amber/20 blur-3xl rounded-full\"></div>             <iconify-icon icon=\"ph:sun-dim-light\" class=\"text-6xl text-amber relative z-10 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Photon Yield</h4>             <p class=\"text-xs text-white/50\">Optimal at 450nm</p>           </div>         </div>         <div class=\"spotlight-card p-8 reveal delay-300 interactive flex flex-col justify-between\" data-sc-col=\"sccol-8\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content\">             <iconify-icon icon=\"ph:dna-light\" class=\"text-3xl text-white/50 mb-4\"></iconify-icon>             <h4 class=\"font-serif text-xl text-white mb-2\">Sequence Align</h4>             <div class=\"space-y-2 mt-6\">               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[85%] bg-magenta\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[60%] bg-amber\"></div></div>               <div class=\"h-1 w-full bg-white/5 rounded-full overflow-hidden\"><div class=\"h-full w-[92%] bg-white/80\"></div></div>             </div>           </div>         </div>         <div class=\"md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between\" data-sc-col=\"sccol-9\">           <div class=\"gradient-border-mask\"></div>           <div class=\"spotlight-content flex items-center justify-between h-full\">             <div data-sc-col=\"sccol-10\">                <h4 class=\"font-serif text-3xl text-white mb-2\">Global Impact</h4>                <p class=\"text-sm text-white/50 max-w-sm leading-relaxed\">Monitoring live canopy deployments across 4 biomes. The neural root network stabilizes soil integrity.</p>             </div>             <button class=\"w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors\" data-sc-col=\"sccol-11\">               <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-2xl text-white\"></iconify-icon>             </button>           </div>         </div>       </div>"
+            }
+          ],
+          "css_id": "cta"
+        }
+      ]
+    }
+  ]
+}

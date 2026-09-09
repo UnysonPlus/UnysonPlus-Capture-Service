@@ -1,0 +1,534 @@
+<!DOCTYPE html><html lang="en" class="dark" data-sc-cs="color:rgb(0, 0, 0)" data-sc-content-width="1360"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cristo Redentor | Rio de Janeiro Heritage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: oklch(98% 0.01 240);
+            --panel: rgba(255, 255, 255, .52);
+            --panel-strong: rgba(255, 255, 255, .68);
+            --line: rgba(20, 30, 40, .08);
+            --sky: oklch(82% 0.06 230);
+            --stone: oklch(72% 0.02 240);
+            --forest: oklch(66% 0.11 145);
+            --amber: oklch(78% 0.12 78);
+            --cyan: oklch(80% 0.13 205);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(97, 218, 251, .16), transparent 18%),
+                radial-gradient(circle at 82% 16%, rgba(255, 198, 109, .12), transparent 18%),
+                radial-gradient(circle at 50% 100%, rgba(87, 150, 110, .08), transparent 22%),
+                linear-gradient(180deg, oklch(98% 0.01 240) 0%, oklch(97% 0.01 240) 46%, oklch(95% 0.01 240) 100%);
+            color: #0b1220;
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(15, 23, 42, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, .03) 1px, transparent 1px);
+            background-size: 96px 96px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+            opacity: .5;
+            z-index: -2;
+        }
+
+        .copy {
+            font-family: 'PP Neue Montreal', 'Inter Tight', sans-serif;
+        }
+
+        .data {
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -0.06em;
+        }
+
+        .sheet {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .68), rgba(255, 255, 255, .42));
+            border: 1px solid rgba(255, 255, 255, .45);
+            backdrop-filter: blur(38px) saturate(1.18);
+            -webkit-backdrop-filter: blur(38px) saturate(1.18);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .6),
+                0 25px 70px rgba(80, 100, 120, .1);
+        }
+
+        .sheet-mist {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .34));
+            border: 1px solid rgba(255, 255, 255, .44);
+            backdrop-filter: blur(50px) saturate(1.2);
+            -webkit-backdrop-filter: blur(50px) saturate(1.2);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .5),
+                0 28px 100px rgba(87, 118, 145, .1);
+        }
+
+        .dew {
+            position: relative;
+            overflow: hidden;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .76), rgba(255, 255, 255, .5));
+            border: 1px solid rgba(255, 255, 255, .68);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .72),
+                0 0 0 1px rgba(255, 255, 255, .28),
+                0 18px 40px rgba(97, 218, 251, .08);
+            transition: transform .55s cubic-bezier(.16, 1, .3, 1), box-shadow .55s ease, border-color .35s ease;
+        }
+
+        .dew::after {
+            content: '';
+            position: absolute;
+            inset: -120%;
+            background: linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, .75) 50%, transparent 57%);
+            transform: translateX(-140%) rotate(14deg);
+            animation: sheen 8s ease-in-out infinite;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .dew:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, .8),
+                0 0 0 1px rgba(97, 218, 251, .18),
+                0 22px 50px rgba(97, 218, 251, .12);
+        }
+
+        .squircle {
+            border-radius: 2rem;
+        }
+
+        .wind {
+            display: inline-block;
+            animation: wind 9s ease-in-out infinite;
+            transform-origin: center bottom;
+        }
+
+        .bloom {
+            opacity: 0;
+            transform: translateY(30px) scale(.98);
+            animation: bloom .9s cubic-bezier(.16, 1, .3, 1) forwards;
+            animation-timeline: view();
+            animation-range: entry 8% cover 30%;
+        }
+
+        .river-line {
+            position: absolute;
+            inset: auto 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(97, 218, 251, .4), rgba(255, 198, 109, .42), transparent);
+            filter: blur(.2px);
+        }
+
+        .orbital {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 50% 45%, rgba(97, 218, 251, .22), transparent 20%),
+                radial-gradient(circle at 55% 35%, rgba(255, 198, 109, .18), transparent 16%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .05), transparent 42%);
+            filter: blur(18px);
+        }
+
+        .portal-shell {
+            will-change: transform;
+            border-radius: 43% 57% 58% 42% / 40% 33% 67% 60%;
+            -webkit-mask-image:
+                radial-gradient(circle at 50% 46%, black 0 24%, rgba(0, 0, 0, .98) 31%, rgba(0, 0, 0, .72) 46%, transparent 70%),
+                radial-gradient(circle at 18% 16%, rgba(0, 0, 0, .9) 0 10%, transparent 24%),
+                radial-gradient(circle at 82% 18%, rgba(0, 0, 0, .9) 0 10%, transparent 26%),
+                radial-gradient(circle at 52% 85%, rgba(0, 0, 0, .86) 0 12%, transparent 28%);
+            mask-image:
+                radial-gradient(circle at 50% 46%, black 0 24%, rgba(0, 0, 0, .98) 31%, rgba(0, 0, 0, .72) 46%, transparent 70%),
+                radial-gradient(circle at 18% 16%, rgba(0, 0, 0, .9) 0 10%, transparent 24%),
+                radial-gradient(circle at 82% 18%, rgba(0, 0, 0, .9) 0 10%, transparent 26%),
+                radial-gradient(circle at 52% 85%, rgba(0, 0, 0, .86) 0 12%, transparent 28%);
+            filter: drop-shadow(0 0 90px rgba(97, 218, 251, .15));
+        }
+
+        .portal-video {
+            transform-origin: center center;
+            will-change: transform, filter;
+        }
+
+        .soft-screen {
+            backdrop-filter: blur(50px) saturate(1.2);
+            -webkit-backdrop-filter: blur(50px) saturate(1.2);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .4), rgba(255, 255, 255, .18));
+            border: 1px solid rgba(255, 255, 255, .35);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 16px 50px rgba(76, 108, 132, .08);
+        }
+
+        .mask-fade {
+            -webkit-mask-image: radial-gradient(circle at center, black 38%, transparent 82%);
+            mask-image: radial-gradient(circle at center, black 38%, transparent 82%);
+        }
+
+        .state-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .title-shadow {
+            text-shadow: 0 0 20px rgba(255, 255, 255, .35);
+        }
+
+        @keyframes bloom {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes sheen {
+            to {
+                transform: translateX(240%) rotate(14deg);
+            }
+        }
+
+        @keyframes wind {
+
+            0%,
+            100% {
+                transform: rotate(-1deg) translateX(-1px);
+            }
+
+            50% {
+                transform: rotate(1deg) translateX(1px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: .9;
+            }
+
+            50% {
+                transform: scale(1.04);
+                opacity: 1;
+            }
+        }
+
+        @keyframes heroScale {
+            from {
+                transform: scale(1.02);
+            }
+
+            to {
+                transform: scale(1.14);
+            }
+        }
+
+        .hero-scale {
+            animation: heroScale linear both;
+            animation-timeline: scroll(root);
+            transform-origin: center center;
+        }
+
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: .7s;
+            animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+        }
+
+        @container main (min-width: 760px) {
+            .hero-copy {
+                max-width: 40rem;
+            }
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.-top-24{top:-6rem}.bottom-0{bottom:0px}.left-\[12\%\]{left:12%}.right-\[8\%\]{right:8%}.top-0{top:0px}.bottom-20{bottom:5rem}.left-20{left:5rem}.right-0{right:0px}.z-50{z-index:50}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mb-14{margin-bottom:3.5rem}.mt-10{margin-top:2.5rem}.mt-14{margin-top:3.5rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.mt-9{margin-top:2.25rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-11{height:2.75rem}.h-\[26rem\]{height:26rem}.h-\[28rem\]{height:28rem}.h-32{height:8rem}.h-40{height:10rem}.h-full{height:100%}.min-h-\[100svh\]{min-height:100svh}.min-h-\[calc\(100svh-92px\)\]{min-height:calc(100svh - 92px)}.w-11{width:2.75rem}.w-\[26rem\]{width:26rem}.w-\[28rem\]{width:28rem}.w-64{width:16rem}.w-80{width:20rem}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-\[1600px\]{max-width:1600px}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-\[32rem\]{max-width:32rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.place-items-center{place-items:center}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-10{gap:2.5rem}.gap-3{gap:0.75rem}.gap-8{gap:2rem}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-\[1\.5rem\]{border-radius:1.5rem}.rounded-\[2rem\]{border-radius:2rem}.rounded-full{border-radius:9999px}.rounded-\[1\.4rem\]{border-radius:1.4rem}.rounded-\[1\.6rem\]{border-radius:1.6rem}.border{border-width:1px}.border-white\/40{border-color:rgb(255 255 255 / 0.4)}.border-white\/35{border-color:rgb(255 255 255 / 0.35)}.bg-white\/55{background-color:rgb(255 255 255 / 0.55)}.bg-white\/40{background-color:rgb(255 255 255 / 0.4)}.bg-white\/45{background-color:rgb(255 255 255 / 0.45)}.bg-transparent{background-color:transparent}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 198\2c 109\2c \.14\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,198,109,.14),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(97\2c 218\2c 251\2c \.18\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(97,218,251,.18),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 198\2c 109\2c \.18\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,198,109,.18),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(97\2c 218\2c 251\2c \.20\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(97,218,251,.20),transparent 70%)}.bg-\[radial-gradient\(circle_at_50\%_70\%\2c rgba\(0\2c 0\2c 0\2c \.05\)\2c rgba\(255\2c 255\2c 255\2c \.02\)_30\%\2c transparent_60\%\)\]{background-image:radial-gradient(circle at 50% 70%,rgba(0,0,0,.05),rgba(255,255,255,.02) 30%,transparent 60%)}.object-cover{object-fit:cover}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-4{padding-left:1rem;padding-right:1rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-24{padding-top:6rem;padding-bottom:6rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.pb-12{padding-bottom:3rem}.pt-\[92px\]{padding-top:92px}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[12px\]{font-size:12px}.text-\[clamp\(1rem\2c 1\.7vw\2c 1\.22rem\)\]{font-size:clamp(1rem,1.7vw,1.22rem)}.text-\[clamp\(2\.5rem\2c 5vw\2c 4\.6rem\)\]{font-size:clamp(2.5rem,5vw,4.6rem)}.text-\[clamp\(2\.5rem\2c 5vw\2c 4\.8rem\)\]{font-size:clamp(2.5rem,5vw,4.8rem)}.text-\[clamp\(2\.6rem\2c 5vw\2c 5rem\)\]{font-size:clamp(2.6rem,5vw,5rem)}.text-\[clamp\(3\.8rem\2c 8vw\2c 7rem\)\]{font-size:clamp(3.8rem,8vw,7rem)}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-8{line-height:2rem}.leading-\[\.88\]{line-height:.88}.leading-\[\.95\]{line-height:.95}.leading-tight{line-height:1.25}.tracking-\[0\.22em\]{letter-spacing:0.22em}.tracking-\[0\.24em\]{letter-spacing:0.24em}.tracking-\[0\.28em\]{letter-spacing:0.28em}.tracking-\[0\.32em\]{letter-spacing:0.32em}.tracking-\[0\.34em\]{letter-spacing:0.34em}.text-\[\#6c89a3\]{--tw-text-opacity:1;color:rgb(108 137 163 / var(--tw-text-opacity, 1))}.text-\[\#0d1725\]{--tw-text-opacity:1;color:rgb(13 23 37 / var(--tw-text-opacity, 1))}.text-\[\#101927\]{--tw-text-opacity:1;color:rgb(16 25 39 / var(--tw-text-opacity, 1))}.text-\[\#10203a\]{--tw-text-opacity:1;color:rgb(16 32 58 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-700\/80{color:rgb(51 65 85 / 0.8)}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_10px_20px_rgba\(0\2c 0\2c 0\2c 0\.2\)\]{--tw-drop-shadow:drop-shadow(0 10px 20px rgba(0,0,0,0.2));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_2px_4px_rgba\(0\2c 0\2c 0\2c 0\.5\)\]{--tw-drop-shadow:drop-shadow(0 2px 4px rgba(0,0,0,0.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-\[48px\]{--tw-backdrop-blur:blur(48px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.placeholder\:text-slate-400::placeholder{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.hover\:text-\[\#2f6fa3\]:hover{--tw-text-opacity:1;color:rgb(47 111 163 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:col-span-2{grid-column:span 2 / span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:p-5{padding:1.25rem}.md\:p-8{padding:2rem}.md\:px-10{padding-left:2.5rem;padding-right:2.5rem}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:grid-cols-\[\.42fr_\.58fr\]{grid-template-columns:.42fr .58fr}.lg\:grid-cols-\[1\.1fr_\.9fr\]{grid-template-columns:1.1fr .9fr}.lg\:flex-row{flex-direction:row}.lg\:items-end{align-items:flex-end}.lg\:items-stretch{align-items:stretch}.lg\:p-8{padding:2rem}}</style></head>
+
+<body data-sc-cs="color:rgb(11, 18, 32)">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="absolute -top-24 left-[12%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(97,218,251,.18),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(97, 218, 251, 0.18), rgba(0, 0, 0, 0) 70%);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+        <div class="absolute bottom-0 right-[8%] h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(255,198,109,.14),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 198, 109, 0.14), rgba(0, 0, 0, 0) 70%);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+    </div>
+
+    <header class="fixed inset-x-0 top-0 z-50 px-6 py-5 md:px-10" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="sheet mx-auto flex max-w-[1600px] items-center justify-between rounded-[2rem] px-6 py-4" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);max-width:1600px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+            <div class="flex items-center gap-4" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <div class="grid h-11 w-11 place-items-center rounded-[1.5rem] border border-white/40 bg-white/55" data-sc-logo-svg="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 44 44&quot; width=&quot;44&quot; height=&quot;44&quot; fill=&quot;none&quot; role=&quot;img&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;44&quot; height=&quot;44&quot; rx=&quot;22.00&quot; fill=&quot;rgba(255, 255, 255, 0.55)&quot;/&gt;&lt;/svg&gt;" data-sc-cs="background-color:rgba(255, 255, 255, 0.55);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.4);border-radius:24px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                    <iconify-icon icon="ph:cross-fill" class="text-2xl text-[#6c89a3]" data-sc-cs="color:rgb(108, 137, 163);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+                </div>
+                <div class="leading-tight" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="data text-[11px] uppercase tracking-[0.34em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:13.75px;letter-spacing:3.74px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Cristo Redentor</div>
+                    <div class="copy text-sm text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Rio de Janeiro Heritage</div>
+                </div>
+            </div>
+
+            <nav class="hidden items-center gap-10 font-sans text-[11px] uppercase tracking-[0.24em] text-slate-700 lg:flex" data-sc-cs="color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <a href="#story" class="transition hover:text-[#2f6fa3]" data-sc-cs="color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(47 111 163 / var(--tw-text-opacity, 1))}">Story</a>
+                <a href="#preservation" class="transition hover:text-[#2f6fa3]" data-sc-cs="color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(47 111 163 / var(--tw-text-opacity, 1))}">Preservation</a>
+                <a href="#biodiversity" class="transition hover:text-[#2f6fa3]" data-sc-cs="color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(47 111 163 / var(--tw-text-opacity, 1))}">Biodiversity</a>
+                <a href="#visit" class="transition hover:text-[#2f6fa3]" data-sc-cs="color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(47 111 163 / var(--tw-text-opacity, 1))}">Visit</a>
+            </nav>
+
+            <button class="dew squircle px-6 py-3 font-sans text-[11px] uppercase tracking-[0.24em] text-slate-700" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.5));color:rgb(51, 65, 85);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:center;text-transform:uppercase;padding:12px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.68);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.72) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.28) 0px 0px 0px 1px, rgba(97, 218, 251, 0.08) 0px 18px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s" data-sc-hover="after{content:&quot;&quot;;position:absolute;top:-120%;right:-120%;bottom:-120%;left:-120%;inset:-120%;transform:translateX(-140%) rotate(14deg);background-color:initial;background-image:linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.75) 50%, transparent 57%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-4px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.8) 0px 1px 0px inset, rgba(97, 218, 251, 0.18) 0px 0px 0px 1px, rgba(97, 218, 251, 0.12) 0px 22px 50px}">
+                Book a viewing
+            </button>
+        </div>
+    </header>
+
+    <main id="main" class="relative pt-[92px]" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:92px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <section class="relative min-h-[100svh]" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="absolute inset-0 portal-shell mask-fade hero-scale" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:43% 57% 58% 42% / 40% 33% 67% 60%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.02, 0, 0, 1.02, 0, 0);position:absolute">
+                <video id="heroVideo" autoplay="" muted="" loop="" playsinline="" class="portal-video absolute inset-0 h-full w-full object-cover" style="transform: scale(1) translateY(0px);" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0);position:absolute">
+                    <source src="https://videos.openhero.art/downloads/enterprice/cristo-redentor/video.mp4" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(0,0,0,.05),rgba(255,255,255,.02)_30%,transparent_60%)]" data-sc-cs="background-image:radial-gradient(circle at 50% 70%, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.02) 30%, rgba(0, 0, 0, 0) 60%);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                </div>
+            </div>
+
+            <div class="relative z-10 mx-auto flex min-h-[calc(100svh-92px)] max-w-[1600px] items-center px-6 py-10 md:px-10" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <div class="grid w-full items-center gap-10 lg:grid-cols-[.42fr_.58fr] lg:items-stretch" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:40px;justify-content:normal;align-items:stretch;flex-direction:row;transition:all">
+                    <div class="hero-copy bloom flex flex-col justify-center active" data-sc-col="sccol-0" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+
+                        <h1 class="serif max-w-2xl text-[clamp(3.8rem,8vw,7rem)] leading-[.88] text-[#0d1725] title-shadow" data-sc-cs="color:rgb(13, 23, 37);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:112px;font-weight:400;line-height:98.56px;letter-spacing:-6.72px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <span class="wind block" data-sc-cs="color:rgb(13, 23, 37);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:112px;font-weight:400;line-height:98.56px;letter-spacing:-6.72px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999869, 0.0161781, -0.0161781, 0.999869, 0.926854, 0.0149967)">Cristo</span>
+                            <span class="wind block" data-sc-cs="color:rgb(13, 23, 37);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:112px;font-weight:400;line-height:98.56px;letter-spacing:-6.72px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999869, 0.0161781, -0.0161781, 0.999869, 0.926854, 0.0149967)">Redentor</span>
+                        </h1>
+
+                        <p class="copy mt-6 max-w-xl text-[clamp(1rem,1.7vw,1.22rem)] leading-8 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:19.52px;font-weight:400;line-height:32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Iconographic preservation, aerial cartography, and panoramic biodiversity converge in an
+                            immersive homage to one of Rio de Janeiro’s most enduring cultural presences.
+                        </p>
+
+                        <div class="mt-9 flex flex-wrap gap-3" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:36px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <button class="dew rounded-[2rem] px-6 py-3.5 font-sans text-[12px] uppercase tracking-[0.24em] text-slate-900" data-sc-col="sccol-1" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.5));color:rgb(15, 23, 42);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.88px;text-align:center;text-transform:uppercase;padding:14px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.68);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.72) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.28) 0px 0px 0px 1px, rgba(97, 218, 251, 0.08) 0px 18px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s" data-sc-hover="after{content:&quot;&quot;;position:absolute;top:-120%;right:-120%;bottom:-120%;left:-120%;inset:-120%;transform:translateX(-140%) rotate(14deg);background-color:initial;background-image:linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.75) 50%, transparent 57%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-4px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.8) 0px 1px 0px inset, rgba(97, 218, 251, 0.18) 0px 0px 0px 1px, rgba(97, 218, 251, 0.12) 0px 22px 50px}">
+                                Explore the monument
+                            </button>
+                            <button class="dew rounded-[2rem] px-6 py-3.5 font-sans text-[12px] uppercase tracking-[0.24em] text-slate-900" data-sc-col="sccol-2" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.5));color:rgb(15, 23, 42);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:12px;font-weight:400;line-height:18px;letter-spacing:2.88px;text-align:center;text-transform:uppercase;padding:14px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.68);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.72) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.28) 0px 0px 0px 1px, rgba(97, 218, 251, 0.08) 0px 18px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s" data-sc-hover="after{content:&quot;&quot;;position:absolute;top:-120%;right:-120%;bottom:-120%;left:-120%;inset:-120%;transform:translateX(-140%) rotate(14deg);background-color:initial;background-image:linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.75) 50%, transparent 57%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-4px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.8) 0px 1px 0px inset, rgba(97, 218, 251, 0.18) 0px 0px 0px 1px, rgba(97, 218, 251, 0.12) 0px 22px 50px}">
+                                Visit preservation archive
+                            </button>
+                        </div>
+
+                        <div class="mt-10 flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.22em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.42px;text-align:start;text-transform:uppercase;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <span class="rounded-full border border-white/40 bg-white/55 px-4 py-2" data-sc-cs="background-color:rgba(255, 255, 255, 0.55);color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.42px;text-align:start;text-transform:uppercase;padding:8px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.4);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Soapstone
+                                masonry</span>
+                            <span class="rounded-full border border-white/40 bg-white/55 px-4 py-2" data-sc-cs="background-color:rgba(255, 255, 255, 0.55);color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.42px;text-align:start;text-transform:uppercase;padding:8px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.4);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Panoramic
+                                biodiversity</span>
+                        </div>
+                    </div>
+                    <div class="relative flex h-full w-full flex-col justify-end pb-12 lg:items-end" data-sc-col="sccol-3" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:flex-end;align-items:flex-end;flex-direction:column;transition:all">
+
+                        <div class="absolute bottom-20 right-0 h-40 w-80 bg-[radial-gradient(circle,rgba(97,218,251,.20),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(97, 218, 251, 0.2), rgba(0, 0, 0, 0) 70%);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                        </div>
+                        <div class="absolute bottom-0 left-20 h-32 w-64 bg-[radial-gradient(circle,rgba(255,198,109,.18),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 198, 109, 0.18), rgba(0, 0, 0, 0) 70%);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                        </div>
+
+                        <div class="relative w-full max-w-[32rem]" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="soft-screen bloom squircle overflow-hidden p-4 md:p-5 active" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.18));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.35);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px 0px inset, rgba(76, 108, 132, 0.08) 0px 16px 50px 0px;backdrop-filter:blur(50px) saturate(1.2);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                                <div class="rounded-[1.6rem] border border-white/40 bg-white/45 p-4 backdrop-blur-[48px] shadow-2xl" data-sc-cs="background-color:rgba(255, 255, 255, 0.45);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.4);border-radius:25.6px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;backdrop-filter:blur(48px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="grid gap-3 sm:grid-cols-2" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                                        <div class="rounded-[1.4rem] border border-white/35 bg-white/40 p-4" data-sc-col="sccol-4" data-sc-cs="background-color:rgba(255, 255, 255, 0.4);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.35);border-radius:22.4px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                            <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700/80" data-sc-cs="color:rgba(51, 65, 85, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                                Elevation</div>
+                                            <div class="mt-2 text-3xl font-semibold text-slate-900" data-sc-cs="color:rgb(15, 23, 42);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:600;line-height:36px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">710m</div>
+                                        </div>
+
+                                        <div class="rounded-[1.4rem] border border-white/35 bg-white/40 p-4" data-sc-col="sccol-5" data-sc-cs="background-color:rgba(255, 255, 255, 0.4);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.35);border-radius:22.4px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                            <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700/80" data-sc-cs="color:rgba(51, 65, 85, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                                Width</div>
+                                            <div class="mt-2 text-3xl font-semibold text-slate-900" data-sc-cs="color:rgb(15, 23, 42);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:600;line-height:36px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">28m</div>
+                                        </div>
+
+                                        <div class="rounded-[1.4rem] border border-white/35 bg-white/40 p-4 sm:col-span-2" data-sc-col="sccol-6" data-sc-cs="background-color:rgba(255, 255, 255, 0.4);color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.35);border-radius:22.4px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                            <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700/80" data-sc-cs="color:rgba(51, 65, 85, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                                Material</div>
+                                            <div class="mt-2 text-xl font-semibold leading-tight text-slate-900" data-sc-cs="color:rgb(15, 23, 42);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:600;line-height:25px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                                Soapstone masonry · reinforced concrete core
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="river-line bottom-0" data-sc-cs="background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(97, 218, 251, 0.4), rgba(255, 198, 109, 0.42), rgba(0, 0, 0, 0));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+        </section>
+
+        <section id="story" class="relative mx-auto max-w-[1600px] px-6 py-24 md:px-10" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="max-w-4xl bloom active" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                <div class="data text-[11px] uppercase tracking-[0.32em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Heritage lens</div>
+                <h2 class="serif mt-5 text-[clamp(2.6rem,5vw,5rem)] leading-[.95] text-[#101927]" data-sc-cs="color:rgb(16, 25, 39);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:68.4px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    A cultural landmark shaped by sky, stone, and coastal light.
+                </h2>
+            </div>
+
+            <div class="mt-14 flex flex-col gap-4 lg:flex-row" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:56px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-7" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Iconographic preservation
+                    </div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Conservation practices designed to protect
+                        the statue’s visual identity while respecting the weathering logic of high-altitude exposure.
+                    </p>
+                </article>
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-8" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Aerial cartography</div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Aerial perspective and route mapping that
+                        translate the experience of approaching Corcovado across the bay and forest ridge.</p>
+                </article>
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-9" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Monumental telemetry</div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Quiet operational insight for preservation,
+                        visitor flow, environmental conditions, and monument stewardship.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="biodiversity" class="relative mx-auto max-w-[1600px] px-6 py-24 md:px-10" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="feature-line mb-14 relative" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 56px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="max-w-4xl bloom active" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[11px] uppercase tracking-[0.32em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Panoramic biodiversity
+                    </div>
+                    <h2 class="serif mt-5 text-[clamp(2.5rem,5vw,4.8rem)] leading-[.95] text-[#10203a]" data-sc-cs="color:rgb(16, 32, 58);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:68.4px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Rio’s Atlantic breeze, forest canopy, and ocean horizon flow together.
+                    </h2>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4 lg:flex-row" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-10" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Golden Hour Amber</div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Warm light leaks echo sunrise and sunset
+                        over the bay, softening transitions between monument, forest, and city.</p>
+                </article>
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-11" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Ocean Cyan</div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Cinematic accents shape the coastline
+                        feeling of the interface, as if the system breathes with the Atlantic current.</p>
+                </article>
+                <article class="bloom lift sheet squircle flex-1 p-6 lg:p-8 active" data-sc-col="sccol-12" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 30)">
+                    <div class="data text-[10px] uppercase tracking-[0.28em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Stone grey</div>
+                    <p class="copy mt-4 text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A restrained palette that honors the statue,
+                        the stone, and the museum-grade calm of the experience.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="visit" class="relative mx-auto max-w-[1600px] px-6 py-24 md:px-10" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="sheet-mist squircle p-6 md:p-8" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.34));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.44);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 0px 0px inset, rgba(87, 118, 145, 0.1) 0px 28px 100px 0px;backdrop-filter:blur(50px) saturate(1.2);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="grid gap-8 lg:grid-cols-[1.1fr_.9fr] lg:items-end" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:32px;justify-content:normal;align-items:flex-end;flex-direction:row;transition:all">
+                    <div data-sc-col="sccol-13" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="data text-[11px] uppercase tracking-[0.32em] text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Visit</div>
+                        <h2 class="serif mt-5 text-[clamp(2.5rem,5vw,4.6rem)] leading-[.95] text-[#10203a]" data-sc-cs="color:rgb(16, 32, 58);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:68.4px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Plan an immersive ascent.
+                        </h2>
+                        <p class="copy mt-5 max-w-2xl text-base leading-8 text-slate-700" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Private viewing routes,
+                            heritage storytelling, and panoramic positioning guided by preservation-minded spatial
+                            design.</p>
+                    </div>
+
+                    <div class="space-y-3" data-sc-col="sccol-14" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="sheet squircle flex items-center gap-3 px-4 py-3" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.42));color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.45);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(80, 100, 120, 0.1) 0px 25px 70px 0px;backdrop-filter:blur(38px) saturate(1.18);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                            <iconify-icon icon="ph:envelope-simple" class="text-slate-700" data-sc-col="sccol-15" data-sc-cs="color:rgb(51, 65, 85);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+                            <input type="email" placeholder="Email address" class="min-w-0 flex-1 bg-transparent outline-none copy text-slate-900 placeholder:text-slate-400" data-sc-col="sccol-16" data-sc-cs="color:rgb(15, 23, 42);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        </div>
+                        <button class="dew squircle w-full px-5 py-4 copy text-sm text-slate-900" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.5));color:rgb(15, 23, 42);font-family:&quot;PP Neue Montreal&quot;, &quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;padding:16px 20px;margin:12px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.68);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.72) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.28) 0px 0px 0px 1px, rgba(97, 218, 251, 0.08) 0px 18px 40px 0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s">Request private
+                            route</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const heroVideo = document.getElementById('heroVideo');
+        const supportsViewTransitions = typeof document.startViewTransition === 'function';
+        let raf = 0;
+
+        const updateHero = () => {
+            const max = window.innerHeight * 1.2;
+            const progress = Math.min(Math.max(window.scrollY / max, 0), 1);
+            const scale = 1 + progress * 0.16;
+            const translateY = progress * 16;
+            if (heroVideo) {
+                heroVideo.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            }
+        };
+
+        updateHero();
+        window.addEventListener('scroll', () => {
+            if (raf) return;
+            raf = window.requestAnimationFrame(() => {
+                updateHero();
+                raf = 0;
+            });
+        }, { passive: true });
+        window.addEventListener('resize', updateHero);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.14 });
+
+        document.querySelectorAll('.bloom').forEach((el) => observer.observe(el));
+
+        document.querySelectorAll('a, button').forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+                el.animate([{ transform: 'translateY(0px)' }, { transform: 'translateY(-2px)' }], {
+                    duration: 220,
+                    easing: 'cubic-bezier(.16,1,.3,1)',
+                    fill: 'forwards'
+                });
+            });
+            el.addEventListener('mouseleave', () => {
+                el.animate([{ transform: 'translateY(-2px)' }, { transform: 'translateY(0px)' }], {
+                    duration: 220,
+                    easing: 'cubic-bezier(.16,1,.3,1)',
+                    fill: 'forwards'
+                });
+            });
+        });
+
+        if (supportsViewTransitions) {
+            document.querySelectorAll('button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    document.startViewTransition(() => { });
+                });
+            });
+        }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+<div style="position: absolute; left: -99999px; top: -99999px;" data-sc-cs="color:rgb(11, 18, 32);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div></body></html>

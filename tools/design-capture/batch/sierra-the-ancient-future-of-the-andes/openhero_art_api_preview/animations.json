@@ -1,0 +1,266 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "spin",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".animate-\\[spin_40s_linear_infinite\\]",
+      "name": "spin",
+      "duration": "40s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".crystal-btn",
+      "changed": {
+        "background-color": "oklch(0.95 0.01 240 / 0.08)",
+        "box-shadow": "oklch(0.8 0.25 75 / 0.3) 0px 0px 15px inset, rgba(0, 0, 0, 0.3) 0px 8px 25px",
+        "border-top-color": "oklch(0.8 0.25 75 / 0.4)",
+        "border-right-color": "oklch(0.8 0.25 75 / 0.4)",
+        "border-bottom-color": "oklch(0.8 0.25 75 / 0.4)",
+        "border-left-color": "oklch(0.8 0.25 75 / 0.4)",
+        "transform": "translateY(-1px)"
+      }
+    },
+    {
+      "selector": ".subsurface-glow",
+      "changed": {
+        "box-shadow": "oklch(0.8 0.25 75 / 0.15) 0px 0px 40px inset, oklch(0.8 0.25 75 / 0.4) 0.5px 0.5px 0px inset"
+      }
+    },
+    {
+      "selector": ".hover\\:text-inkagold",
+      "changed": {
+        "color": "oklch(0.8 0.25 75)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:translate-y-1",
+      "changed": {
+        "--tw-translate-y": "0.25rem",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:text-inkagold",
+      "changed": {
+        "color": "oklch(0.8 0.25 75)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "crystal-btn px-5 py-2 font-sans text-[10px] uppercase tracki",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -0.996972)",
+        "boxShadow": "oklab(0.8 0.0647047 0.241481 / 0.299394) 0px 0px 14.9849px 0px inset, rgba(0, 0, 0, 0.3) 0px 7.98789px 24.9697px 0px",
+        "background": "oklab(0.95 -0.005 -0.00866025 / 0.0798486)",
+        "borderColor": "oklab(0.800114 0.0646518 0.241292 / 0.399092)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-12 h-12 rounded-full crystal-btn flex items-center justify",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -0.996923)",
+        "boxShadow": "oklab(0.8 0.0647047 0.241481 / 0.299385) 0px 0px 14.9846px 0px inset, rgba(0, 0, 0, 0.3) 0px 7.98769px 24.9692px 0px",
+        "background": "oklab(0.95 -0.005 -0.00866025 / 0.0798461)",
+        "borderColor": "oklab(0.800116 0.064651 0.241289 / 0.399077)"
+      },
+      "live": true
+    },
+    {
+      "selector": "andenes-clip subsurface-glow p-12 md:p-16 flex flex-col just",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -0.362997)",
+        "boxShadow": "oklch(0.8 0.25 75 / 0.15) 0px 0px 40px 0px inset, oklch(0.8 0.25 75 / 0.4) 0.5px 0.5px 0px 0px inset"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".andenes-clip",
+      "props": "transform",
+      "duration": "0.8s"
+    },
+    {
+      "selector": ".reveal-up",
+      "props": "opacity, transform",
+      "duration": "1.6s, 1.6s"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 2295,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 2,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~1360px of scroll"
+    },
+    {
+      "i": 3,
+      "kind": "parallax",
+      "evidence": "document position drifts -71px over 1395px of scroll",
+      "ratio": -0.05
+    },
+    {
+      "i": 4,
+      "kind": "parallax",
+      "evidence": "document position drifts -71px over 1395px of scroll",
+      "ratio": -0.05
+    },
+    {
+      "i": 22,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 40,
+        "ease": "power2.out",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 40,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~1360px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#3",
+      "evidence": "document position drifts -71px over 1395px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.05)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#4",
+      "evidence": "document position drifts -71px over 1395px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.05)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#22",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-\\[spin_40s_linear_infinite\\]",
+      "evidence": "infinite keyframes 'spin' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".crystal-btn",
+      "evidence": "background-color, box-shadow, border-top-color, border-right-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".subsurface-glow",
+      "evidence": "box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'} or glow_border",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-inkagold",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".group .group-hover\\:text-inkagold",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "crystal-btn px-5 py-2 font-sans text-[10px] uppercase tracki",
+      "evidence": "transform, boxShadow, background, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-12 h-12 rounded-full crystal-btn flex items-center justify",
+      "evidence": "transform, boxShadow, background, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,493 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "hero",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".hero{position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding: 0px 4rem;}\n.savanna-portal{position: absolute; right: -5%; top: 50%; transform: translateY(-50%) rotate(-2deg); width: 62vw; height: 72vh; z-index: 1; animation: 12s ease-in-out 0s infinite alternate none running lens-drift;}\n.portal-mask{width: 100%; height: 100%; position: relative; border-radius: var(--r-lens); overflow: hidden; box-shadow: oklch(0.85 0.12 70 / 0.15) 0px 0px 80px inset, oklch(0.75 0.15 50 / 0.25) 0px 0px 120px, oklch(0.12 0.03 40 / 0.6) 0px 40px 100px;}\n.portal-mask::before{content: \"\"; position: absolute; inset: -2px; z-index: 3; background: transparent; border-radius: var(--r-lens); box-shadow: oklch(0.85 0.12 70 / 0.2) 0px 0px 0px 3px inset; pointer-events: none;}\n.portal-mask::after{content: \"\"; position: absolute; inset: 0px; z-index: 2; background: transparent; backdrop-filter: none; pointer-events: none; border-radius: var(--r-lens);}\n.portal-video{width: 100%; height: 100%; object-fit: cover; filter: none; transform: none; transition: none;}\n.grass-overlay{position: absolute; inset: 0px; z-index: 4; pointer-events: none; background: none; opacity: 0; border-radius: var(--r-lens);}\n.hero-content{position: relative; z-index: 10; max-width: 42%; padding-top: 6rem;}\n.hero-eyebrow{display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ochre-glow); margin-bottom: 1.5rem; opacity: 0; animation: 1s ease 0.3s 1 normal forwards running fade-up;}\n.eyebrow-line{width: 40px; height: 1px; background: linear-gradient(to right, var(--ochre-glow), transparent);}\n.hero-title{font-family: var(--font-display); font-size: clamp(3.2rem, 5.5vw, 7rem); font-weight: 400; line-height: 0.9; color: var(--ivory-mist); letter-spacing: -0.02em; margin-bottom: 2rem; opacity: 0; animation: 1s ease 0.5s 1 normal forwards running fade-up;}\n.hero-title em{font-style: italic; color: var(--ochre-glow); display: block;}\n.hero-body{font-family: var(--font-ui); font-size: 0.88rem; line-height: 1.75; font-weight: 400; color: oklch(0.85 0.12 70 / 0.65); max-width: 36ch; margin-bottom: 2.5rem; opacity: 0; animation: 1s ease 0.7s 1 normal forwards running fade-up;}\n.hero-ctas{display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; opacity: 0; animation: 1s ease 0.9s 1 normal forwards running fade-up;}\n.btn-primary{position: relative; overflow: hidden; padding: 0.85rem 2rem; background: oklch(0.85 0.12 70 / 0.12); border: 1px solid oklch(0.85 0.12 70 / 0.3); border-radius: 44% 56% 38% 62% / 52% 44% 56% 48%; color: var(--ivory-mist); font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: none; text-decoration: none; backdrop-filter: var(--blur-glass); box-shadow: oklch(0.85 0.12 70 / 0.2) 0px 1px 0px inset, oklch(0.12 0.03 40 / 0.3) 0px -1px 0px inset, oklch(0.12 0.03 40 / 0.4) 0px 8px 32px; transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);}\n.btn-primary::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(at 50% 0%, oklch(0.85 0.12 70 / 0.25) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s;}\n.btn-primary:hover{transform: translateY(-2px) scale(1.02);}\n.btn-primary:hover::before{opacity: 1;}\n.btn-ghost{display: flex; align-items: center; gap: 0.5rem; color: oklch(0.85 0.12 70 / 0.55); font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: none; text-decoration: none; transition: color 0.3s;}\n.btn-ghost::after{content: \"→\"; font-size: 1rem; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);}\n.btn-ghost:hover{color: var(--ochre-glow);}\n.btn-ghost:hover::after{transform: translateX(6px);}\n.telemetry-hud{position: absolute; bottom: 2rem; left: 2rem; z-index: 12; opacity: 0; animation: 1s ease 1.2s 1 normal forwards running fade-up;}\n.hud-panel{background: oklch(0.12 0.03 40 / 0.65); backdrop-filter: var(--blur-glass); border: 1px solid oklch(0.85 0.12 70 / 0.12); border-radius: 28% 72% 22% 78% / 42% 32% 68% 58%; padding: 1rem 1.4rem; font-family: var(--font-data); font-size: 0.58rem; color: oklch(0.85 0.12 70 / 0.7); letter-spacing: 0.1em; box-shadow: oklch(0.85 0.12 70 / 0.1) 0px 1px 0px inset;}\n.hud-row{display: flex; gap: 1.5rem; margin-bottom: 0.3rem;}\n.hud-row:last-child{margin: 0px;}\n.hud-label{color: oklch(0.55 0.14 50 / 0.6);}\n.hud-value{color: var(--ochre-glow);}\n.scroll-hint{position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--font-data); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: oklch(0.85 0.12 70 / 0.3); z-index: 10; animation: 1s ease 1.5s 1 normal both running fade-up;}\n.scroll-track{width: 1px; height: 48px; background: linear-gradient(to bottom, var(--ochre-glow), transparent); animation: 2.5s ease-in-out 0s infinite normal none running scroll-pulse;}\n@media (max-width: 900px){.hero{padding: 0px 1.5rem;}}\n@media (max-width: 900px){.hero-content{max-width: 100%; z-index: 10;}}\n@media (max-width: 900px){.savanna-portal{opacity: 0.3; width: 100vw; right: 0px; height: 55vh; top: auto; bottom: 0px; transform: none; animation: auto ease 0s 1 normal none running none;}}\n@media (max-width: 900px){.hero-title{font-size: 2.8rem;}}",
+          "computed": {
+            "color": "oklch(0.96 0.03 75)",
+            "padding": "0px 64px",
+            "fontFamily": "Syne, sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "   <div class=\"savanna-portal\">     <div class=\"portal-mask\">       <video class=\"portal-video\" autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" poster=\"\" onerror=\"this.style.display='none'; this.nextElementSibling.style.display='block'\">         <source src=\"https://videos.openhero.art/downloads/nature/national-geographic-conservation-technology/video.mp4\" type=\"video/mp4\">       </video>       <svg id=\"savannaFallback\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 900 700\" style=\"display:none;width:100%;height:100%;position:absolute;top:0;left:0\">         <defs>           <radialGradient id=\"sky\" cx=\"50%\" cy=\"40%\" r=\"70%\">             <stop offset=\"0%\" stop-color=\"#c8832a\"></stop>             <stop offset=\"40%\" stop-color=\"#a05c1a\"></stop>             <stop offset=\"100%\" stop-color=\"#1a0e05\"></stop>           </radialGradient>           <radialGradient id=\"sun\" cx=\"50%\" cy=\"50%\" r=\"50%\">             <stop offset=\"0%\" stop-color=\"#fde68a\" stop-opacity=\"0.9\"></stop>             <stop offset=\"100%\" stop-color=\"#f59e0b\" stop-opacity=\"0\"></stop>           </radialGradient>           <filter id=\"blur-soft\"><feGaussianBlur stdDeviation=\"3\"></feGaussianBlur></filter>           <filter id=\"glow\"><feGaussianBlur stdDeviation=\"8\" result=\"b\"></feGaussianBlur><feMerge><feMergeNode in=\"b\"></feMergeNode><feMergeNode in=\"SourceGraphic\"></feMergeNode></feMerge></filter>         </defs>         <rect width=\"900\" height=\"700\" fill=\"url(#sky)\"></rect>         <ellipse cx=\"450\" cy=\"260\" rx=\"120\" ry=\"100\" fill=\"url(#sun)\" filter=\"url(#blur-soft)\"></ellipse>         <g fill=\"#2d1a06\" opacity=\"0.7\">           <rect x=\"100\" y=\"340\" width=\"8\" height=\"80\"></rect>           <ellipse cx=\"104\" cy=\"330\" rx=\"45\" ry=\"18\"></ellipse>           <rect x=\"750\" y=\"320\" width=\"10\" height=\"100\"></rect>           <ellipse cx=\"755\" cy=\"308\" rx=\"55\" ry=\"22\"></ellipse>           <rect x=\"580\" y=\"350\" width=\"6\" height=\"60\"></rect>           <ellipse cx=\"583\" cy=\"342\" rx=\"36\" ry=\"14\"></ellipse>         </g>         <ellipse cx=\"450\" cy=\"600\" rx=\"550\" ry=\"120\" fill=\"#3d200a\" opacity=\"0.9\"></ellipse>         <rect x=\"0\" y=\"480\" width=\"900\" height=\"220\" fill=\"#2a1506\" opacity=\"0.8\"></rect>         <g stroke=\"#c8832a\" stroke-width=\"2\" opacity=\"0.6\" fill=\"none\">           <line x1=\"60\" y1=\"480\" x2=\"55\" y2=\"430\"></line>           <line x1=\"80\" y1=\"490\" x2=\"88\" y2=\"435\"></line>           <line x1=\"140\" y1=\"475\" x2=\"136\" y2=\"425\"></line>           <line x1=\"200\" y1=\"485\" x2=\"206\" y2=\"440\"></line>           <line x1=\"260\" y1=\"478\" x2=\"255\" y2=\"430\"></line>           <line x1=\"320\" y1=\"490\" x2=\"325\" y2=\"440\"></line>           <line x1=\"400\" y1=\"482\" x2=\"396\" y2=\"432\"></line>           <line x1=\"500\" y1=\"480\" x2=\"505\" y2=\"428\"></line>           <line x1=\"600\" y1=\"478\" x2=\"596\" y2=\"430\"></line>           <line x1=\"680\" y1=\"485\" x2=\"685\" y2=\"435\"></line>           <line x1=\"760\" y1=\"480\" x2=\"755\" y2=\"430\"></line>           <line x1=\"840\" y1=\"488\" x2=\"845\" y2=\"438\"></line>         </g>         <g fill=\"#1a0c04\" opacity=\"0.55\" filter=\"url(#blur-soft)\">           <ellipse cx=\"450\" cy=\"475\" rx=\"70\" ry=\"28\"></ellipse>           <ellipse cx=\"430\" cy=\"460\" rx=\"28\" ry=\"22\"></ellipse>           <ellipse cx=\"408\" cy=\"448\" rx=\"22\" ry=\"18\"></ellipse>           <circle cx=\"400\" cy=\"442\" r=\"14\"></circle>           <ellipse cx=\"395\" cy=\"438\" rx=\"20\" ry=\"16\"></ellipse>         </g>         <g stroke=\"#f59e0b\" stroke-width=\"1\" opacity=\"0.08\" fill=\"none\">           <line x1=\"0\" y1=\"400\" x2=\"900\" y2=\"400\"></line>           <line x1=\"0\" y1=\"420\" x2=\"900\" y2=\"416\"></line>           <line x1=\"0\" y1=\"440\" x2=\"900\" y2=\"438\"></line>         </g>         <rect width=\"900\" height=\"700\" fill=\"url(#sky)\" opacity=\"0.2\"></rect>       </svg>       <div class=\"grass-overlay\"></div>     </div>   </div>   <div class=\"hero-content\">     <div class=\"hero-eyebrow\">       <div class=\"eyebrow-line\"></div>       Apex-Predator Telemetry · Field System v4.2     </div>     <h1 class=\"hero-title\">       The Wild<br>       <em>Never Sleeps.</em>     </h1>     <p class=\"hero-body\">       Serengeti biome-sync technology meets real-time ethological intelligence.       We track, map, and protect the apex predators of our age—through       acoustic monitoring arrays, non-invasive genomic sampling, and       satellite telemetry at 120-frame fidelity.     </p>     <div class=\"hero-ctas\">       <a href=\"#telemetry\" class=\"btn-primary\">Explore the System</a>       <a href=\"#genomic\" class=\"btn-ghost\">View Live Data</a>     </div>   </div>   <div class=\"telemetry-hud\">     <div class=\"hud-panel\">       <div class=\"hud-row\">         <span class=\"hud-label\">LAT</span> <span class=\"hud-value\">-2.3304° S</span>         <span class=\"hud-label\">LONG</span> <span class=\"hud-value\">34.8332° E</span>       </div>       <div class=\"hud-row\">         <span class=\"hud-label\">SUBJECT</span> <span class=\"hud-value\">LION♀ ID:447</span>         <span class=\"hud-label\">TEMP</span> <span class=\"hud-value\">38.6°C</span>       </div>       <div class=\"hud-row\">         <span class=\"hud-label\">SIGNAL</span> <span class=\"hud-value\" style=\"color:var(--grass-green)\">STRONG</span>         <span class=\"hud-label\">PING</span> <span class=\"hud-value\">4s AGO</span>       </div>     </div>   </div>   <div class=\"scroll-hint\">     Scroll to explore     <div class=\"scroll-track\"></div>   </div> ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/national-geographic-conservation-technology/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " portal-video portal-mask savanna-portal hero",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"grass-overlay\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "",
+                "radius": "48% 52% 58% 42% / 44% 41% 59% 56%",
+                "opacity": "0",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "4",
+                "w": 920,
+                "h": 682
+              }
+            },
+            {
+              "t": "overline",
+              "html": "Apex-Predator Telemetry · Field System v4.2",
+              "text": "Apex-Predator Telemetry · Field System v4.2",
+              "cls": "hero-eyebrow",
+              "pill": false,
+              "color": "oklch(0.78 0.18 68)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "oklch(0.78 0.18 68)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "9.92px",
+              "letterSpacing": "2.976px",
+              "fontWeight": "400",
+              "gap": "12px",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "normal"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "The Wild<br> <span style=\"color:oklch(0.78 0.18 68)\"><em>Never Sleeps.</em></span>",
+              "text": "The Wild Never Sleeps.",
+              "tag": "h1",
+              "cls": "hero-title",
+              "wrapCls": "hero-content",
+              "fontSize": "79.2px",
+              "fontWeight": "400",
+              "color": "oklch(0.96 0.03 75)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "71.28px",
+              "letterSpacing": "-1.584px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"hero-body\">       Serengeti biome-sync technology meets real-time ethological intelligence.       We track, map, and protect the apex predators of our age—through       acoustic monitoring arrays, non-invasive genomic sampling, and       satellite telemetry at 120-frame fidelity.     </p>",
+              "text": "Serengeti biome-sync technology meets real-time ethological intelligence. We track, map, and protect the apex predators of our age—through acoustic monitoring arrays, non-invasive genomic sampling, an",
+              "tag": "p",
+              "cls": "hero-body",
+              "fontSize": "14.08px",
+              "color": "oklch(0.85 0.12 70 / 0.65)",
+              "lineHeight": "24.64px",
+              "letterSpacing": "normal",
+              "marginBottom": "40px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Explore the System",
+              "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#telemetry",
+              "tag": "a",
+              "cls": "btn-primary",
+              "align": "start",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "13.6px 32px",
+              "height": "43.1875px",
+              "radius": "44% 52%",
+              "lineHeight": "normal",
+              "fontSize": "11.52px",
+              "fontWeight": "700",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "oklch(0.85 0.12 70 / 0.12)",
+                "fg": "oklch(0.96 0.03 75)",
+                "bd": "oklch(0.85 0.12 70 / 0.3)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "View Live Data",
+              "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#genomic",
+              "tag": "a",
+              "cls": "btn-ghost",
+              "align": "start",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "0px",
+              "height": "24px",
+              "radius": "0px",
+              "lineHeight": "normal",
+              "fontSize": "9.92px",
+              "fontWeight": "400",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "fg": "oklch(0.85 0.12 70 / 0.55)",
+                "bd": "oklch(0.85 0.12 70 / 0.55)",
+                "bds": "none",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"hud-row\">         <span class=\"hud-label\">LAT</span> <span class=\"hud-value\">-2.3304° S</span>         <span class=\"hud-label\">LONG</span> <span class=\"hud-value\">34.8332° E</span>       </div>",
+              "text": "LAT -2.3304° S LONG 34.8332° E",
+              "tag": "div",
+              "cls": "hud-row",
+              "fontSize": "9.28px",
+              "color": "oklch(0.85 0.12 70 / 0.7)",
+              "lineHeight": "normal",
+              "letterSpacing": "0.928px",
+              "marginBottom": "4.8px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"hud-row\">         <span class=\"hud-label\">SUBJECT</span> <span class=\"hud-value\">LION♀ ID:447</span>         <span class=\"hud-label\">TEMP</span> <span class=\"hud-value\">38.6°C</span>       </div>",
+              "text": "SUBJECT LION♀ ID:447 TEMP 38.6°C",
+              "tag": "div",
+              "cls": "hud-row",
+              "fontSize": "9.28px",
+              "color": "oklch(0.85 0.12 70 / 0.7)",
+              "lineHeight": "normal",
+              "letterSpacing": "0.928px",
+              "marginBottom": "4.8px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"hud-row\">         <span class=\"hud-label\">SIGNAL</span> <span class=\"hud-value\" style=\"color:var(--grass-green)\">STRONG</span>         <span class=\"hud-label\">PING</span> <span class=\"hud-value\">4s AGO</span>       </div>",
+              "text": "SIGNAL STRONG PING 4s AGO",
+              "tag": "div",
+              "cls": "hud-row",
+              "fontSize": "9.28px",
+              "color": "oklch(0.85 0.12 70 / 0.7)",
+              "lineHeight": "normal",
+              "letterSpacing": "0.928px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "telemetry-section",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".telemetry-section{position: relative; padding: 7rem 4rem; overflow: hidden;}\n.section-label{display: flex; align-items: center; gap: 1rem; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 1rem;}\n.section-label-line{width: 32px; height: 1px; background: var(--sienna-mid);}\n.section-title{font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 4.5rem); font-weight: 700; line-height: 1; color: var(--ivory-mist); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 4rem;}\n.section-title span{color: var(--ochre-glow); font-style: italic;}\n.card-river{display: flex; gap: 2rem; flex-wrap: wrap; position: relative;}\n.card-river::before{content: \"\"; position: absolute; top: -40px; left: 10%; right: 10%; height: 80px; background: radial-gradient(oklch(0.85 0.12 70 / 0.06) 0%, transparent 70%); pointer-events: none;}\n.tech-card{position: relative; flex: 1 1 280px; max-width: 360px; padding: 2.2rem 2rem; background: oklch(0.18 0.04 45 / 0.7); backdrop-filter: var(--blur-glass); border: 1px solid oklch(0.85 0.12 70 / 0.08); border-radius: var(--r-card); overflow: hidden; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s; cursor: none; will-change: transform;}\n.tech-card::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(at 30% 0%, oklch(0.85 0.12 70 / 0.08) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; pointer-events: none;}\n.tech-card::after{content: \"\"; position: absolute; top: 0px; left: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, oklch(0.85 0.12 70 / 0.3), transparent); opacity: 0.5;}\n.tech-card:hover{transform: translateY(-8px) rotate(0.5deg); box-shadow: oklch(0.12 0.03 40 / 0.5) 0px 32px 80px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px;}\n.tech-card:hover::before{opacity: 1;}\n.card-icon{width: 48px; height: 48px; margin-bottom: 1.5rem; border-radius: 35% 65% 42% 58% / 50% 38% 62% 50%; background: oklch(0.85 0.12 70 / 0.1); border: 1px solid oklch(0.85 0.12 70 / 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: oklch(0.85 0.12 70 / 0.1) 0px 0px 16px inset;}\n.card-kicker{font-family: var(--font-data); font-size: 0.56rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 0.5rem;}\n.card-name{font-family: var(--font-title); font-size: 1.3rem; font-weight: 700; line-height: 1.1; color: var(--ivory-mist); margin-bottom: 0.8rem;}\n.card-desc{font-size: 0.8rem; line-height: 1.7; color: oklch(0.85 0.12 70 / 0.5);}\n.card-metric{margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid oklch(0.85 0.12 70 / 0.08); display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-data); font-size: 0.6rem;}\n.metric-val{font-size: 1.4rem; color: var(--ochre-glow); font-weight: 700;}\n.metric-label{color: oklch(0.85 0.12 70 / 0.35); letter-spacing: 0.1em;}\n.stalk{opacity: 0; transform: translateY(32px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity;}\n.stalk.in-view{opacity: 1; transform: translateY(0px);}\n.stalk-delay-1{transition-delay: 0.1s;}\n.stalk-delay-2{transition-delay: 0.2s;}\n.stalk-delay-3{transition-delay: 0.3s;}\n@media (max-width: 900px){.telemetry-section{padding: 4rem 1.5rem;}}",
+          "computed": {
+            "color": "oklch(0.96 0.03 75)",
+            "padding": "112px 64px",
+            "fontFamily": "Syne, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "   <div class=\"section-label stalk in-view\">     <div class=\"section-label-line\"></div>     Core Technology Systems   </div>   <h2 class=\"section-title stalk stalk-delay-1 in-view\">     Intelligence<br>born from <span>silence</span>.   </h2>   <div class=\"card-river\">     <div class=\"tech-card stalk stalk-delay-1 in-view\">       <div class=\"card-icon\">📡</div>       <div class=\"card-kicker\">Module 01 · Apex Telemetry</div>       <div class=\"card-name\">Solar GPS Collar System</div>       <p class=\"card-desc\">Sub-20g solar-harvesting collars with dual-frequency GNSS. Sends location pings every 4 seconds. Waterproof to 30m. Operates across -40°C to 65°C biome ranges.</p>       <div class=\"card-metric\">         <div><span class=\"metric-val\">4s</span><br><span class=\"metric-label\">Ping Interval</span></div>         <div><span class=\"metric-val\">99.1%</span><br><span class=\"metric-label\">Accuracy</span></div>         <div><span class=\"metric-val\">18mo</span><br><span class=\"metric-label\">Lifespan</span></div>       </div>     </div>     <div class=\"tech-card stalk stalk-delay-2 in-view\">       <div class=\"card-icon\">🌿</div>       <div class=\"card-kicker\">Module 02 · Biome Sync</div>       <div class=\"card-name\">Serengeti Habitat Mesh</div>       <p class=\"card-desc\">900-node IoT environmental mesh measuring soil moisture, canopy density, prey density indices, and fire-risk thermoclines. Feeds predictive migration AI.</p>       <div class=\"card-metric\">         <div><span class=\"metric-val\">900</span><br><span class=\"metric-label\">Mesh Nodes</span></div>         <div><span class=\"metric-val\">2hz</span><br><span class=\"metric-label\">Refresh Rate</span></div>         <div><span class=\"metric-val\">14TB</span><br><span class=\"metric-label\">Daily Data</span></div>       </div>     </div>     <div class=\"tech-card stalk stalk-delay-3 in-view\">       <div class=\"card-icon\">🧬</div>       <div class=\"card-kicker\">Module 03 · Genomic</div>       <div class=\"card-name\">Non-Invasive eDNA Sampling</div>       <p class=\"card-desc\">Environmental DNA collection from water sources, scat, and hair snares. Full genetic profiles without tranquilization—preserving behavioral integrity across the study period.</p>       <div class=\"card-metric\">         <div><span class=\"metric-val\">0</span><br><span class=\"metric-label\">Captures</span></div>         <div><span class=\"metric-val\">98.4%</span><br><span class=\"metric-label\">ID Accuracy</span></div>         <div><span class=\"metric-val\">72h</span><br><span class=\"metric-label\">Turnaround</span></div>       </div>     </div>   </div> ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Intelligence<br>born from <span style=\"color:oklch(0.78 0.18 68)\"><em>silence</em></span>.",
+              "text": "Intelligenceborn from silence.",
+              "tag": "h2",
+              "cls": "section-title stalk stalk-delay-1 in-view",
+              "wrapCls": "telemetry-section",
+              "fontSize": "57.6px",
+              "fontWeight": "700",
+              "color": "oklch(0.96 0.03 75)",
+              "marginBottom": "64px",
+              "marginTop": "0px",
+              "lineHeight": "57.6px",
+              "letterSpacing": "-1.152px",
+              "align": "left"
+            },
+            {
+              "t": "testimonials",
+              "items": [
+                {
+                  "quote": "Sub-20g solar-harvesting collars with dual-frequency GNSS. Sends location pings every 4 seconds. Waterproof to 30m. Operates across -40°C to 65°C biome ranges.",
+                  "image": "",
+                  "name": "",
+                  "position": "4s",
+                  "siteName": "",
+                  "siteUrl": "",
+                  "rating": 5,
+                  "extra": []
+                },
+                {
+                  "quote": "Environmental DNA collection from water sources, scat, and hair snares. Full genetic profiles without tranquilization—preserving behavioral integrity across the study period.",
+                  "image": "",
+                  "name": "",
+                  "position": "0",
+                  "siteName": "",
+                  "siteUrl": "",
+                  "rating": 5,
+                  "extra": []
+                }
+              ],
+              "anim": ""
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "biome-section section-glow",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".section-glow{position: relative; padding: 8rem 4rem;}\n.section-glow::before{content: \"\"; position: absolute; left: 50%; top: 0px; transform: translateX(-50%); width: 60%; height: 1px; background: radial-gradient(oklch(0.85 0.12 70 / 0.3) 0%, transparent 70%);}\n.section-label{display: flex; align-items: center; gap: 1rem; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 1rem;}\n.section-label-line{width: 32px; height: 1px; background: var(--sienna-mid);}\n.section-title{font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 4.5rem); font-weight: 700; line-height: 1; color: var(--ivory-mist); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 4rem;}\n.section-title span{color: var(--ochre-glow); font-style: italic;}\n.biome-section{position: relative; padding: 7rem 4rem; overflow: hidden;}\n.biome-grid{display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;}\n.biome-visual{position: relative; height: 500px;}\n.biome-orb{position: absolute; border-radius: var(--r-pill); animation: auto ease-in-out 0s infinite alternate none running orb-float;}\n.biome-orb-1{width: 340px; height: 340px; top: 0px; left: 0px; background: radial-gradient(at 35% 35%, oklch(0.78 0.18 68 / 0.15), oklch(0.22 0.06 50 / 0.05)); border: 1px solid oklch(0.85 0.12 70 / 0.1); backdrop-filter: blur(40px); animation-duration: 7s; box-shadow: oklch(0.85 0.12 70 / 0.06) 0px 0px 60px inset;}\n.biome-orb-2{width: 240px; height: 260px; bottom: 0px; right: 0px; background: radial-gradient(at 60% 60%, oklch(0.55 0.12 145 / 0.12), transparent); border: 1px solid oklch(0.55 0.12 145 / 0.15); animation-duration: 9s;}\n.biome-orb-3{width: 160px; height: 180px; top: 50%; left: 55%; transform: translate(-50%, -50%); background: radial-gradient(oklch(0.75 0.15 50 / 0.2), transparent); animation-duration: 5s; border: 1px solid oklch(0.75 0.15 50 / 0.2); backdrop-filter: blur(20px);}\n.spec-list{list-style: none; margin-top: 1.5rem;}\n.spec-list li{display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0px; border-bottom: 1px solid oklch(0.85 0.12 70 / 0.06); font-size: 0.8rem; transition: background 0.2s;}\n.spec-list li:last-child{border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;}\n.spec-key{color: oklch(0.85 0.12 70 / 0.45); font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.1em;}\n.spec-val{color: var(--ivory-mist); font-weight: 600;}\n.spec-badge{font-family: var(--font-data); font-size: 0.52rem; letter-spacing: 0.15em; padding: 0.2rem 0.5rem; border-radius: 99px; background: oklch(0.55 0.12 145 / 0.15); border: 1px solid oklch(0.55 0.12 145 / 0.3); color: oklch(0.7 0.14 145);}\n.stalk{opacity: 0; transform: translateY(32px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity;}\n.stalk.in-view{opacity: 1; transform: translateY(0px);}\n.stalk-delay-1{transition-delay: 0.1s;}\n.stalk-delay-2{transition-delay: 0.2s;}\n.stalk-delay-3{transition-delay: 0.3s;}\n@media (max-width: 900px){.section-glow, .biome-section{padding: 4rem 1.5rem;}}\n@media (max-width: 900px){.biome-grid{grid-template-columns: 1fr;}}",
+          "computed": {
+            "color": "oklch(0.96 0.03 75)",
+            "padding": "112px 64px",
+            "fontFamily": "Syne, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "   <div class=\"biome-grid\">     <div>       <div class=\"section-label stalk in-view\">         <div class=\"section-label-line\"></div>         Serengeti Biome-Sync       </div>       <h2 class=\"section-title stalk stalk-delay-1 in-view\">         The land<br>breathes<br><span>data.</span>       </h2>       <p class=\"stalk stalk-delay-2 in-view\" style=\"font-size:0.88rem; line-height:1.8; color: oklch(85% 0.12 70 / 0.5); max-width: 42ch; margin-bottom: 2rem;\">         Our biome-synchronization platform integrates satellite multispectral imagery, ground-truth sensor arrays, and machine-learning habitat models into a living cartographic intelligence. Updated every 2 hours. Predictive horizon: 72 hours.       </p>       <ul class=\"spec-list stalk stalk-delay-3\">         <li>           <span class=\"spec-key\">Vegetation NDVI Index</span>           <span class=\"spec-val\">0.74 <span class=\"spec-badge\">Optimal</span></span>         </li>         <li>           <span class=\"spec-key\">Prey Density (km²)</span>           <span class=\"spec-val\">142 wildebeest</span>         </li>         <li>           <span class=\"spec-key\">Water Source Status</span>           <span class=\"spec-val\">16 / 18 Active</span>         </li>         <li>           <span class=\"spec-key\">Predator Corridors</span>           <span class=\"spec-val\">7 mapped</span>         </li>         <li>           <span class=\"spec-key\">Biome Sync Latency</span>           <span class=\"spec-val\">1.8s avg</span>         </li>       </ul>     </div>     <div class=\"biome-visual stalk stalk-delay-2 in-view\">       <div class=\"biome-orb biome-orb-1\"></div>       <div class=\"biome-orb biome-orb-2\"></div>       <div class=\"biome-orb biome-orb-3\"></div>       <div style=\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;\">         <div style=\"position:relative;width:280px;height:280px;\">           <svg viewBox=\"0 0 280 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:100%;height:100%;opacity:0.6\">             <defs>               <radialGradient id=\"mapglow\" cx=\"50%\" cy=\"50%\" r=\"50%\">                 <stop offset=\"0%\" stop-color=\"oklch(85% 0.12 70)\" stop-opacity=\"0.15\"></stop>                 <stop offset=\"100%\" stop-color=\"transparent\"></stop>               </radialGradient>             </defs>             <ellipse cx=\"110\" cy=\"130\" rx=\"80\" ry=\"65\" fill=\"none\" stroke=\"oklch(78% 0.18 68 / 0.3)\" stroke-width=\"1\" stroke-dasharray=\"4 3\"></ellipse>             <ellipse cx=\"175\" cy=\"155\" rx=\"65\" ry=\"55\" fill=\"none\" stroke=\"oklch(55% 0.12 145 / 0.4)\" stroke-width=\"1\" stroke-dasharray=\"3 4\"></ellipse>             <circle cx=\"90\" cy=\"110\" r=\"4\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.8\"></circle>             <circle cx=\"140\" cy=\"100\" r=\"3\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.6\"></circle>             <circle cx=\"170\" cy=\"140\" r=\"5\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.9\">               <animate attributeName=\"r\" values=\"5;8;5\" dur=\"2s\" repeatCount=\"indefinite\"></animate>               <animate attributeName=\"opacity\" values=\"0.9;0.3;0.9\" dur=\"2s\" repeatCount=\"indefinite\"></animate>             </circle>             <circle cx=\"120\" cy=\"175\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.7\"></circle>             <circle cx=\"200\" cy=\"120\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.5\"></circle>             <line x1=\"90\" y1=\"110\" x2=\"140\" y2=\"100\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"140\" y1=\"100\" x2=\"170\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"120\" y2=\"175\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"200\" y2=\"120\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"130\" x2=\"170\" y2=\"150\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>             <line x1=\"160\" y1=\"140\" x2=\"180\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>           </svg>           <div style=\"position:absolute;top:18%;left:22%;font-family:var(--font-data);font-size:0.5rem;color:oklch(78% 0.18 68 / 0.7);letter-spacing:0.1em\">PRIDE TERRITORY A</div>           <div style=\"position:absolute;top:62%;left:48%;font-family:var(--font-data);font-size:0.5rem;color:oklch(55% 0.12 145 / 0.7);letter-spacing:0.1em\">GRAZING ZONE</div>         </div>       </div>     </div>   </div> ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-0",
+                  "cw": 6,
+                  "html": "       <div class=\"section-label stalk in-view\">         <div class=\"section-label-line\"></div>         Serengeti Biome-Sync       </div>       <h2 class=\"section-title stalk stalk-delay-1 in-view\">         The land<br>breathes<br><span>data.</span>       </h2>       <p class=\"stalk stalk-delay-2 in-view\" style=\"font-size:0.88rem; line-height:1.8; color: oklch(85% 0.12 70 / 0.5); max-width: 42ch; margin-bottom: 2rem;\">         Our biome-synchronization platform integrates satellite multispectral imagery, ground-truth sensor arrays, and machine-learning habitat models into a living cartographic intelligence. Updated every 2 hours. Predictive horizon: 72 hours.       </p>       <ul class=\"spec-list stalk stalk-delay-3\">         <li>           <span class=\"spec-key\">Vegetation NDVI Index</span>           <span class=\"spec-val\">0.74 <span class=\"spec-badge\">Optimal</span></span>         </li>         <li>           <span class=\"spec-key\">Prey Density (km²)</span>           <span class=\"spec-val\">142 wildebeest</span>         </li>         <li>           <span class=\"spec-key\">Water Source Status</span>           <span class=\"spec-val\">16 / 18 Active</span>         </li>         <li>           <span class=\"spec-key\">Predator Corridors</span>           <span class=\"spec-val\">7 mapped</span>         </li>         <li>           <span class=\"spec-key\">Biome Sync Latency</span>           <span class=\"spec-val\">1.8s avg</span>         </li>       </ul>     ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Serengeti Biome-Sync",
+                    "overlineClass": "section-label stalk in-view",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The land<br>breathes<br><span style=\"color:oklch(0.78 0.18 68)\"><em>data.</em></span>",
+                    "titleTag": "h2",
+                    "titleClass": "section-title stalk stalk-delay-1 in-view",
+                    "subtitle": "Our biome-synchronization platform integrates satellite multispectral imagery, ground-truth sensor arrays, and machine-learning habitat models into a living cartographic intelligence. Updated every 2 hours. Predictive horizon: 72 hours.",
+                    "subtitleClass": "stalk stalk-delay-2 in-view",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "biome-visual stalk stalk-delay-2 in-view",
+                  "colId": "sccol-3",
+                  "cw": 5,
+                  "html": "       <div class=\"biome-orb biome-orb-1\"></div>       <div class=\"biome-orb biome-orb-2\"></div>       <div class=\"biome-orb biome-orb-3\"></div>       <div style=\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;\">         <div style=\"position:relative;width:280px;height:280px;\">           <svg viewBox=\"0 0 280 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:100%;height:100%;opacity:0.6\">             <defs>               <radialGradient id=\"mapglow\" cx=\"50%\" cy=\"50%\" r=\"50%\">                 <stop offset=\"0%\" stop-color=\"oklch(85% 0.12 70)\" stop-opacity=\"0.15\"></stop>                 <stop offset=\"100%\" stop-color=\"transparent\"></stop>               </radialGradient>             </defs>             <ellipse cx=\"110\" cy=\"130\" rx=\"80\" ry=\"65\" fill=\"none\" stroke=\"oklch(78% 0.18 68 / 0.3)\" stroke-width=\"1\" stroke-dasharray=\"4 3\"></ellipse>             <ellipse cx=\"175\" cy=\"155\" rx=\"65\" ry=\"55\" fill=\"none\" stroke=\"oklch(55% 0.12 145 / 0.4)\" stroke-width=\"1\" stroke-dasharray=\"3 4\"></ellipse>             <circle cx=\"90\" cy=\"110\" r=\"4\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.8\"></circle>             <circle cx=\"140\" cy=\"100\" r=\"3\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.6\"></circle>             <circle cx=\"170\" cy=\"140\" r=\"5\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.9\">               <animate attributeName=\"r\" values=\"5;8;5\" dur=\"2s\" repeatCount=\"indefinite\"></animate>               <animate attributeName=\"opacity\" values=\"0.9;0.3;0.9\" dur=\"2s\" repeatCount=\"indefinite\"></animate>             </circle>             <circle cx=\"120\" cy=\"175\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.7\"></circle>             <circle cx=\"200\" cy=\"120\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.5\"></circle>             <line x1=\"90\" y1=\"110\" x2=\"140\" y2=\"100\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"140\" y1=\"100\" x2=\"170\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"120\" y2=\"175\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"200\" y2=\"120\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"130\" x2=\"170\" y2=\"150\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>             <line x1=\"160\" y1=\"140\" x2=\"180\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>           </svg>           <div style=\"position:absolute;top:18%;left:22%;font-family:var(--font-data);font-size:0.5rem;color:oklch(78% 0.18 68 / 0.7);letter-spacing:0.1em\">PRIDE TERRITORY A</div>           <div style=\"position:absolute;top:62%;left:48%;font-family:var(--font-data);font-size:0.5rem;color:oklch(55% 0.12 145 / 0.7);letter-spacing:0.1em\">GRAZING ZONE</div>         </div>       </div>     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"biome-grid\">     <div data-sc-col=\"sccol-0\">       <div class=\"section-label stalk in-view\">         <div class=\"section-label-line\"></div>         Serengeti Biome-Sync       </div>       <h2 class=\"section-title stalk stalk-delay-1 in-view\">         The land<br>breathes<br><span>data.</span>       </h2>       <p class=\"stalk stalk-delay-2 in-view\" style=\"font-size:0.88rem; line-height:1.8; color: oklch(85% 0.12 70 / 0.5); max-width: 42ch; margin-bottom: 2rem;\">         Our biome-synchronization platform integrates satellite multispectral imagery, ground-truth sensor arrays, and machine-learning habitat models into a living cartographic intelligence. Updated every 2 hours. Predictive horizon: 72 hours.       </p>       <ul class=\"spec-list stalk stalk-delay-3\">         <li>           <span class=\"spec-key\" data-sc-col=\"sccol-1\">Vegetation NDVI Index</span>           <span class=\"spec-val\" data-sc-col=\"sccol-2\">0.74 <span class=\"spec-badge\">Optimal</span></span>         </li>         <li>           <span class=\"spec-key\">Prey Density (km²)</span>           <span class=\"spec-val\">142 wildebeest</span>         </li>         <li>           <span class=\"spec-key\">Water Source Status</span>           <span class=\"spec-val\">16 / 18 Active</span>         </li>         <li>           <span class=\"spec-key\">Predator Corridors</span>           <span class=\"spec-val\">7 mapped</span>         </li>         <li>           <span class=\"spec-key\">Biome Sync Latency</span>           <span class=\"spec-val\">1.8s avg</span>         </li>       </ul>     </div>     <div class=\"biome-visual stalk stalk-delay-2 in-view\" data-sc-col=\"sccol-3\">       <div class=\"biome-orb biome-orb-1\"></div>       <div class=\"biome-orb biome-orb-2\"></div>       <div class=\"biome-orb biome-orb-3\"></div>       <div style=\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;\">         <div style=\"position:relative;width:280px;height:280px;\">           <svg viewBox=\"0 0 280 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:100%;height:100%;opacity:0.6\">             <defs>               <radialGradient id=\"mapglow\" cx=\"50%\" cy=\"50%\" r=\"50%\">                 <stop offset=\"0%\" stop-color=\"oklch(85% 0.12 70)\" stop-opacity=\"0.15\"></stop>                 <stop offset=\"100%\" stop-color=\"transparent\"></stop>               </radialGradient>             </defs>             <ellipse cx=\"110\" cy=\"130\" rx=\"80\" ry=\"65\" fill=\"none\" stroke=\"oklch(78% 0.18 68 / 0.3)\" stroke-width=\"1\" stroke-dasharray=\"4 3\"></ellipse>             <ellipse cx=\"175\" cy=\"155\" rx=\"65\" ry=\"55\" fill=\"none\" stroke=\"oklch(55% 0.12 145 / 0.4)\" stroke-width=\"1\" stroke-dasharray=\"3 4\"></ellipse>             <circle cx=\"90\" cy=\"110\" r=\"4\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.8\"></circle>             <circle cx=\"140\" cy=\"100\" r=\"3\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.6\"></circle>             <circle cx=\"170\" cy=\"140\" r=\"5\" fill=\"oklch(78% 0.18 68)\" opacity=\"0.9\">               <animate attributeName=\"r\" values=\"5;8;5\" dur=\"2s\" repeatCount=\"indefinite\"></animate>               <animate attributeName=\"opacity\" values=\"0.9;0.3;0.9\" dur=\"2s\" repeatCount=\"indefinite\"></animate>             </circle>             <circle cx=\"120\" cy=\"175\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.7\"></circle>             <circle cx=\"200\" cy=\"120\" r=\"3\" fill=\"oklch(55% 0.12 145)\" opacity=\"0.5\"></circle>             <line x1=\"90\" y1=\"110\" x2=\"140\" y2=\"100\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"140\" y1=\"100\" x2=\"170\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"120\" y2=\"175\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"140\" x2=\"200\" y2=\"120\" stroke=\"oklch(55% 0.12 145 / 0.2)\" stroke-width=\"1\"></line>             <line x1=\"170\" y1=\"130\" x2=\"170\" y2=\"150\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>             <line x1=\"160\" y1=\"140\" x2=\"180\" y2=\"140\" stroke=\"oklch(78% 0.18 68 / 0.5)\" stroke-width=\"0.8\"></line>           </svg>           <div style=\"position:absolute;top:18%;left:22%;font-family:var(--font-data);font-size:0.5rem;color:oklch(78% 0.18 68 / 0.7);letter-spacing:0.1em\">PRIDE TERRITORY A</div>           <div style=\"position:absolute;top:62%;left:48%;font-family:var(--font-data);font-size:0.5rem;color:oklch(55% 0.12 145 / 0.7);letter-spacing:0.1em\">GRAZING ZONE</div>         </div>       </div>     </div>   </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "section-glow",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".section-glow{position: relative; padding: 8rem 4rem;}\n.section-glow::before{content: \"\"; position: absolute; left: 50%; top: 0px; transform: translateX(-50%); width: 60%; height: 1px; background: radial-gradient(oklch(0.85 0.12 70 / 0.3) 0%, transparent 70%);}\n.section-label{display: flex; align-items: center; gap: 1rem; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 1rem;}\n.section-label-line{width: 32px; height: 1px; background: var(--sienna-mid);}\n.section-title{font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 4.5rem); font-weight: 700; line-height: 1; color: var(--ivory-mist); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 4rem;}\n.section-title span{color: var(--ochre-glow); font-style: italic;}\n.tech-card{position: relative; flex: 1 1 280px; max-width: 360px; padding: 2.2rem 2rem; background: oklch(0.18 0.04 45 / 0.7); backdrop-filter: var(--blur-glass); border: 1px solid oklch(0.85 0.12 70 / 0.08); border-radius: var(--r-card); overflow: hidden; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s; cursor: none; will-change: transform;}\n.tech-card::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(at 30% 0%, oklch(0.85 0.12 70 / 0.08) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; pointer-events: none;}\n.tech-card::after{content: \"\"; position: absolute; top: 0px; left: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, oklch(0.85 0.12 70 / 0.3), transparent); opacity: 0.5;}\n.tech-card:hover{transform: translateY(-8px) rotate(0.5deg); box-shadow: oklch(0.12 0.03 40 / 0.5) 0px 32px 80px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px;}\n.tech-card:hover::before{opacity: 1;}\n.card-kicker{font-family: var(--font-data); font-size: 0.56rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 0.5rem;}\n.acoustic-bar-wrap{display: flex; align-items: flex-end; gap: 4px; height: 80px; margin: 1rem 0px;}\n.acoustic-bar{flex: 1 1 0%; background: linear-gradient(to top, var(--ochre-glow), oklch(85% 0.12 70 / 0.3)); border-radius: 99px 99px 0px 0px; animation: 1.4s ease-in-out 0s infinite normal none running wave-pulse; min-height: 4px;}\n.stalk{opacity: 0; transform: translateY(32px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity;}\n.stalk-delay-1{transition-delay: 0.1s;}\n.stalk-delay-2{transition-delay: 0.2s;}\n.stalk-delay-3{transition-delay: 0.3s;}\n@media (max-width: 900px){.section-glow{padding: 4rem 1.5rem;}}",
+          "computed": {
+            "color": "oklch(0.96 0.03 75)",
+            "padding": "112px 64px",
+            "fontFamily": "Syne, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "   <div class=\"section-label stalk\">     <div class=\"section-label-line\"></div>     Acoustic Monitoring Arrays   </div>   <h2 class=\"section-title stalk stalk-delay-1\">     Listen to the<br><span>frequency</span><br>of life.   </h2>   <div style=\"display:grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 1rem;\">     <div class=\"stalk stalk-delay-2\">       <p style=\"font-size:0.88rem;line-height:1.8;color:oklch(85% 0.12 70 / 0.5);margin-bottom:2rem;max-width:40ch;\">         Passive acoustic networks capture 24/7 bioacoustic signatures. AI classifies 4,200+ species calls, detects poaching events, and monitors stress vocalizations as behavioral health indicators.       </p>       <div style=\"margin-bottom:0.5rem;font-family:var(--font-data);font-size:0.58rem;color:oklch(85% 0.12 70 / 0.35);letter-spacing:0.2em;text-transform:uppercase\">Live Signal · Array 07 · Serengeti North</div>       <div class=\"acoustic-bar-wrap\" id=\"acousticBars\"><div class=\"acoustic-bar\" style=\"--bar-h: 73.15302572560087%; --bar-h2: 80.29235305098986%; animation-delay: 0s; animation-duration: 1.65831s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 35.66767002992229%; --bar-h2: 11.634541803466503%; animation-delay: 0.04s; animation-duration: 1.22865s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 33.22377015421824%; --bar-h2: 18.246380535909754%; animation-delay: 0.08s; animation-duration: 1.66152s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.26261992927627%; --bar-h2: 42.32653845037272%; animation-delay: 0.12s; animation-duration: 0.989722s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 65.91761585038789%; --bar-h2: 59.398110494723994%; animation-delay: 0.16s; animation-duration: 1.20076s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 53.735726084028734%; --bar-h2: 45.47534488963669%; animation-delay: 0.2s; animation-duration: 1.44304s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 26.833770858665172%; --bar-h2: 35.725486322118705%; animation-delay: 0.24s; animation-duration: 1.07064s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 74.0241922260002%; --bar-h2: 78.09494184449497%; animation-delay: 0.28s; animation-duration: 1.18257s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 48.67624414905712%; --bar-h2: 40.04159491242791%; animation-delay: 0.32s; animation-duration: 1.51435s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.46690849941888%; --bar-h2: 82.33211920082833%; animation-delay: 0.36s; animation-duration: 1.32102s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 61.38182938390101%; --bar-h2: 45.16358824977572%; animation-delay: 0.4s; animation-duration: 1.34205s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.40094466503171%; --bar-h2: 33.99563828169978%; animation-delay: 0.44s; animation-duration: 1.51731s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 67.30495879297855%; --bar-h2: 57.89319972338418%; animation-delay: 0.48s; animation-duration: 0.95628s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.44085408250706%; --bar-h2: 67.19093601972624%; animation-delay: 0.52s; animation-duration: 1.04182s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 32.081899096165735%; --bar-h2: 45.2570312762421%; animation-delay: 0.56s; animation-duration: 1.18635s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.4634132619801%; --bar-h2: 12.25153562628031%; animation-delay: 0.6s; animation-duration: 0.933636s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 31.716641818577912%; --bar-h2: 72.80028017771633%; animation-delay: 0.64s; animation-duration: 1.40813s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.090592235928657%; --bar-h2: 34.68366111142592%; animation-delay: 0.68s; animation-duration: 1.11587s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 22.243668578126517%; --bar-h2: 31.612969525260652%; animation-delay: 0.72s; animation-duration: 1.53773s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 12.487555433865772%; --bar-h2: 60.274254940268754%; animation-delay: 0.76s; animation-duration: 1.25389s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.66610572275248%; --bar-h2: 19.336039359307104%; animation-delay: 0.8s; animation-duration: 1.02157s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 29.707471992236805%; --bar-h2: 38.73838099258337%; animation-delay: 0.84s; animation-duration: 1.34371s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.72551626389469%; --bar-h2: 24.065552449247008%; animation-delay: 0.88s; animation-duration: 1.52025s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 28.808605858884484%; --bar-h2: 21.35614999665071%; animation-delay: 0.92s; animation-duration: 1.35158s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 17.500757434531916%; --bar-h2: 54.17497957875085%; animation-delay: 0.96s; animation-duration: 1.08392s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 50.3253419016749%; --bar-h2: 69.78929676375523%; animation-delay: 1s; animation-duration: 1.32922s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.27920568948096%; --bar-h2: 37.520940894256654%; animation-delay: 1.04s; animation-duration: 1.18506s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 77.02380872555815%; --bar-h2: 84.04040100393871%; animation-delay: 1.08s; animation-duration: 1.61639s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.33080820080552%; --bar-h2: 69.87054527836551%; animation-delay: 1.12s; animation-duration: 1.37036s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 75.95445494520283%; --bar-h2: 50.41859836290462%; animation-delay: 1.16s; animation-duration: 1.27229s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.80971573960963%; --bar-h2: 70.3684418660009%; animation-delay: 1.2s; animation-duration: 1.26768s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 78.28389373178581%; --bar-h2: 32.03496648758779%; animation-delay: 1.24s; animation-duration: 1.00504s;\"></div></div>       <div style=\"display:flex;justify-content:space-between;font-family:var(--font-data);font-size:0.52rem;color:oklch(85% 0.12 70 / 0.25);margin-top:0.3rem\">         <span>20Hz</span><span>500Hz</span><span>4kHz</span><span>16kHz</span><span>40kHz</span>       </div>     </div>     <div class=\"stalk stalk-delay-3\">       <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:1rem;\">         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Detection</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">4,213</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Species Classified</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Response</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--grass-green);font-weight:900;margin-bottom:0.2rem\">1.2s</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Threat Alert Latency</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Uptime</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">99.7%</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Array Availability</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Range</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--sienna-mid);font-weight:900;margin-bottom:0.2rem\">8km</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Hydrophone Radius</div>         </div>       </div>     </div>   </div> ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Listen to the<br><span style=\"color:oklch(0.78 0.18 68)\"><em>frequency</em></span><br>of life.",
+              "text": "Listen to thefrequencyof life.",
+              "tag": "h2",
+              "cls": "section-title stalk stalk-delay-1",
+              "wrapCls": "",
+              "fontSize": "57.6px",
+              "fontWeight": "700",
+              "color": "oklch(0.96 0.03 75)",
+              "marginBottom": "64px",
+              "marginTop": "0px",
+              "lineHeight": "57.6px",
+              "letterSpacing": "-1.152px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "stalk stalk-delay-2",
+                  "colId": "sccol-4",
+                  "cw": 6,
+                  "html": "       <p style=\"font-size:0.88rem;line-height:1.8;color:oklch(85% 0.12 70 / 0.5);margin-bottom:2rem;max-width:40ch;\">         Passive acoustic networks capture 24/7 bioacoustic signatures. AI classifies 4,200+ species calls, detects poaching events, and monitors stress vocalizations as behavioral health indicators.       </p>       <div style=\"margin-bottom:0.5rem;font-family:var(--font-data);font-size:0.58rem;color:oklch(85% 0.12 70 / 0.35);letter-spacing:0.2em;text-transform:uppercase\">Live Signal · Array 07 · Serengeti North</div>       <div class=\"acoustic-bar-wrap\" id=\"acousticBars\"><div class=\"acoustic-bar\" style=\"--bar-h: 73.15302572560087%; --bar-h2: 80.29235305098986%; animation-delay: 0s; animation-duration: 1.65831s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 35.66767002992229%; --bar-h2: 11.634541803466503%; animation-delay: 0.04s; animation-duration: 1.22865s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 33.22377015421824%; --bar-h2: 18.246380535909754%; animation-delay: 0.08s; animation-duration: 1.66152s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.26261992927627%; --bar-h2: 42.32653845037272%; animation-delay: 0.12s; animation-duration: 0.989722s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 65.91761585038789%; --bar-h2: 59.398110494723994%; animation-delay: 0.16s; animation-duration: 1.20076s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 53.735726084028734%; --bar-h2: 45.47534488963669%; animation-delay: 0.2s; animation-duration: 1.44304s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 26.833770858665172%; --bar-h2: 35.725486322118705%; animation-delay: 0.24s; animation-duration: 1.07064s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 74.0241922260002%; --bar-h2: 78.09494184449497%; animation-delay: 0.28s; animation-duration: 1.18257s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 48.67624414905712%; --bar-h2: 40.04159491242791%; animation-delay: 0.32s; animation-duration: 1.51435s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.46690849941888%; --bar-h2: 82.33211920082833%; animation-delay: 0.36s; animation-duration: 1.32102s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 61.38182938390101%; --bar-h2: 45.16358824977572%; animation-delay: 0.4s; animation-duration: 1.34205s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.40094466503171%; --bar-h2: 33.99563828169978%; animation-delay: 0.44s; animation-duration: 1.51731s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 67.30495879297855%; --bar-h2: 57.89319972338418%; animation-delay: 0.48s; animation-duration: 0.95628s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.44085408250706%; --bar-h2: 67.19093601972624%; animation-delay: 0.52s; animation-duration: 1.04182s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 32.081899096165735%; --bar-h2: 45.2570312762421%; animation-delay: 0.56s; animation-duration: 1.18635s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.4634132619801%; --bar-h2: 12.25153562628031%; animation-delay: 0.6s; animation-duration: 0.933636s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 31.716641818577912%; --bar-h2: 72.80028017771633%; animation-delay: 0.64s; animation-duration: 1.40813s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.090592235928657%; --bar-h2: 34.68366111142592%; animation-delay: 0.68s; animation-duration: 1.11587s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 22.243668578126517%; --bar-h2: 31.612969525260652%; animation-delay: 0.72s; animation-duration: 1.53773s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 12.487555433865772%; --bar-h2: 60.274254940268754%; animation-delay: 0.76s; animation-duration: 1.25389s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.66610572275248%; --bar-h2: 19.336039359307104%; animation-delay: 0.8s; animation-duration: 1.02157s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 29.707471992236805%; --bar-h2: 38.73838099258337%; animation-delay: 0.84s; animation-duration: 1.34371s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.72551626389469%; --bar-h2: 24.065552449247008%; animation-delay: 0.88s; animation-duration: 1.52025s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 28.808605858884484%; --bar-h2: 21.35614999665071%; animation-delay: 0.92s; animation-duration: 1.35158s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 17.500757434531916%; --bar-h2: 54.17497957875085%; animation-delay: 0.96s; animation-duration: 1.08392s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 50.3253419016749%; --bar-h2: 69.78929676375523%; animation-delay: 1s; animation-duration: 1.32922s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.27920568948096%; --bar-h2: 37.520940894256654%; animation-delay: 1.04s; animation-duration: 1.18506s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 77.02380872555815%; --bar-h2: 84.04040100393871%; animation-delay: 1.08s; animation-duration: 1.61639s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.33080820080552%; --bar-h2: 69.87054527836551%; animation-delay: 1.12s; animation-duration: 1.37036s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 75.95445494520283%; --bar-h2: 50.41859836290462%; animation-delay: 1.16s; animation-duration: 1.27229s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.80971573960963%; --bar-h2: 70.3684418660009%; animation-delay: 1.2s; animation-duration: 1.26768s;\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 78.28389373178581%; --bar-h2: 32.03496648758779%; animation-delay: 1.24s; animation-duration: 1.00504s;\"></div></div>       <div style=\"display:flex;justify-content:space-between;font-family:var(--font-data);font-size:0.52rem;color:oklch(85% 0.12 70 / 0.25);margin-top:0.3rem\">         <span>20Hz</span><span>500Hz</span><span>4kHz</span><span>16kHz</span><span>40kHz</span>       </div>     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 5,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "stalk stalk-delay-3",
+                  "colId": "sccol-37",
+                  "cw": 6,
+                  "html": "       <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:1rem;\">         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Detection</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">4,213</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Species Classified</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Response</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--grass-green);font-weight:900;margin-bottom:0.2rem\">1.2s</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Threat Alert Latency</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Uptime</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">99.7%</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Array Availability</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Range</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--sienna-mid);font-weight:900;margin-bottom:0.2rem\">8km</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Hydrophone Radius</div>         </div>       </div>     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 5,
+                    "tablet": 5,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div style=\"display:grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 1rem;\">     <div class=\"stalk stalk-delay-2\" data-sc-col=\"sccol-4\">       <p style=\"font-size:0.88rem;line-height:1.8;color:oklch(85% 0.12 70 / 0.5);margin-bottom:2rem;max-width:40ch;\">         Passive acoustic networks capture 24/7 bioacoustic signatures. AI classifies 4,200+ species calls, detects poaching events, and monitors stress vocalizations as behavioral health indicators.       </p>       <div style=\"margin-bottom:0.5rem;font-family:var(--font-data);font-size:0.58rem;color:oklch(85% 0.12 70 / 0.35);letter-spacing:0.2em;text-transform:uppercase\">Live Signal · Array 07 · Serengeti North</div>       <div class=\"acoustic-bar-wrap\" id=\"acousticBars\"><div class=\"acoustic-bar\" style=\"--bar-h: 73.15302572560087%; --bar-h2: 80.29235305098986%; animation-delay: 0s; animation-duration: 1.65831s;\" data-sc-col=\"sccol-5\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 35.66767002992229%; --bar-h2: 11.634541803466503%; animation-delay: 0.04s; animation-duration: 1.22865s;\" data-sc-col=\"sccol-6\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 33.22377015421824%; --bar-h2: 18.246380535909754%; animation-delay: 0.08s; animation-duration: 1.66152s;\" data-sc-col=\"sccol-7\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.26261992927627%; --bar-h2: 42.32653845037272%; animation-delay: 0.12s; animation-duration: 0.989722s;\" data-sc-col=\"sccol-8\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 65.91761585038789%; --bar-h2: 59.398110494723994%; animation-delay: 0.16s; animation-duration: 1.20076s;\" data-sc-col=\"sccol-9\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 53.735726084028734%; --bar-h2: 45.47534488963669%; animation-delay: 0.2s; animation-duration: 1.44304s;\" data-sc-col=\"sccol-10\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 26.833770858665172%; --bar-h2: 35.725486322118705%; animation-delay: 0.24s; animation-duration: 1.07064s;\" data-sc-col=\"sccol-11\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 74.0241922260002%; --bar-h2: 78.09494184449497%; animation-delay: 0.28s; animation-duration: 1.18257s;\" data-sc-col=\"sccol-12\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 48.67624414905712%; --bar-h2: 40.04159491242791%; animation-delay: 0.32s; animation-duration: 1.51435s;\" data-sc-col=\"sccol-13\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.46690849941888%; --bar-h2: 82.33211920082833%; animation-delay: 0.36s; animation-duration: 1.32102s;\" data-sc-col=\"sccol-14\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 61.38182938390101%; --bar-h2: 45.16358824977572%; animation-delay: 0.4s; animation-duration: 1.34205s;\" data-sc-col=\"sccol-15\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.40094466503171%; --bar-h2: 33.99563828169978%; animation-delay: 0.44s; animation-duration: 1.51731s;\" data-sc-col=\"sccol-16\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 67.30495879297855%; --bar-h2: 57.89319972338418%; animation-delay: 0.48s; animation-duration: 0.95628s;\" data-sc-col=\"sccol-17\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.44085408250706%; --bar-h2: 67.19093601972624%; animation-delay: 0.52s; animation-duration: 1.04182s;\" data-sc-col=\"sccol-18\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 32.081899096165735%; --bar-h2: 45.2570312762421%; animation-delay: 0.56s; animation-duration: 1.18635s;\" data-sc-col=\"sccol-19\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 64.4634132619801%; --bar-h2: 12.25153562628031%; animation-delay: 0.6s; animation-duration: 0.933636s;\" data-sc-col=\"sccol-20\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 31.716641818577912%; --bar-h2: 72.80028017771633%; animation-delay: 0.64s; animation-duration: 1.40813s;\" data-sc-col=\"sccol-21\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 24.090592235928657%; --bar-h2: 34.68366111142592%; animation-delay: 0.68s; animation-duration: 1.11587s;\" data-sc-col=\"sccol-22\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 22.243668578126517%; --bar-h2: 31.612969525260652%; animation-delay: 0.72s; animation-duration: 1.53773s;\" data-sc-col=\"sccol-23\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 12.487555433865772%; --bar-h2: 60.274254940268754%; animation-delay: 0.76s; animation-duration: 1.25389s;\" data-sc-col=\"sccol-24\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.66610572275248%; --bar-h2: 19.336039359307104%; animation-delay: 0.8s; animation-duration: 1.02157s;\" data-sc-col=\"sccol-25\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 29.707471992236805%; --bar-h2: 38.73838099258337%; animation-delay: 0.84s; animation-duration: 1.34371s;\" data-sc-col=\"sccol-26\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.72551626389469%; --bar-h2: 24.065552449247008%; animation-delay: 0.88s; animation-duration: 1.52025s;\" data-sc-col=\"sccol-27\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 28.808605858884484%; --bar-h2: 21.35614999665071%; animation-delay: 0.92s; animation-duration: 1.35158s;\" data-sc-col=\"sccol-28\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 17.500757434531916%; --bar-h2: 54.17497957875085%; animation-delay: 0.96s; animation-duration: 1.08392s;\" data-sc-col=\"sccol-29\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 50.3253419016749%; --bar-h2: 69.78929676375523%; animation-delay: 1s; animation-duration: 1.32922s;\" data-sc-col=\"sccol-30\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 66.27920568948096%; --bar-h2: 37.520940894256654%; animation-delay: 1.04s; animation-duration: 1.18506s;\" data-sc-col=\"sccol-31\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 77.02380872555815%; --bar-h2: 84.04040100393871%; animation-delay: 1.08s; animation-duration: 1.61639s;\" data-sc-col=\"sccol-32\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 40.33080820080552%; --bar-h2: 69.87054527836551%; animation-delay: 1.12s; animation-duration: 1.37036s;\" data-sc-col=\"sccol-33\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 75.95445494520283%; --bar-h2: 50.41859836290462%; animation-delay: 1.16s; animation-duration: 1.27229s;\" data-sc-col=\"sccol-34\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 47.80971573960963%; --bar-h2: 70.3684418660009%; animation-delay: 1.2s; animation-duration: 1.26768s;\" data-sc-col=\"sccol-35\"></div><div class=\"acoustic-bar\" style=\"--bar-h: 78.28389373178581%; --bar-h2: 32.03496648758779%; animation-delay: 1.24s; animation-duration: 1.00504s;\" data-sc-col=\"sccol-36\"></div></div>       <div style=\"display:flex;justify-content:space-between;font-family:var(--font-data);font-size:0.52rem;color:oklch(85% 0.12 70 / 0.25);margin-top:0.3rem\">         <span>20Hz</span><span>500Hz</span><span>4kHz</span><span>16kHz</span><span>40kHz</span>       </div>     </div>     <div class=\"stalk stalk-delay-3\" data-sc-col=\"sccol-37\">       <div style=\"display:grid;grid-template-columns:1fr 1fr;gap:1rem;\">         <div class=\"tech-card\" style=\"padding:1.2rem\" data-sc-col=\"sccol-38\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Detection</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">4,213</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Species Classified</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\" data-sc-col=\"sccol-39\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Response</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--grass-green);font-weight:900;margin-bottom:0.2rem\">1.2s</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Threat Alert Latency</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\" data-sc-col=\"sccol-40\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Uptime</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--ochre-glow);font-weight:900;margin-bottom:0.2rem\">99.7%</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Array Availability</div>         </div>         <div class=\"tech-card\" style=\"padding:1.2rem\" data-sc-col=\"sccol-41\">           <div class=\"card-kicker\" style=\"margin-bottom:0.5rem\">Range</div>           <div style=\"font-family:var(--font-title);font-size:2rem;color:var(--sienna-mid);font-weight:900;margin-bottom:0.2rem\">8km</div>           <div style=\"font-size:0.72rem;color:oklch(85% 0.12 70 / 0.4)\">Hydrophone Radius</div>         </div>       </div>     </div>   </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "genomic-section",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".section-label{display: flex; align-items: center; gap: 1rem; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 1rem;}\n.section-label-line{width: 32px; height: 1px; background: var(--sienna-mid);}\n.section-title{font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 4.5rem); font-weight: 700; line-height: 1; color: var(--ivory-mist); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 4rem;}\n.section-title span{color: var(--ochre-glow); font-style: italic;}\n.genomic-section{padding: 7rem 4rem; position: relative;}\n.genomic-grid{display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;}\n.genome-node{position: relative; padding: 1.5rem; background: oklch(0.16 0.04 45 / 0.6); border: 1px solid oklch(0.85 0.12 70 / 0.07); border-radius: var(--r-squircle); backdrop-filter: blur(20px); transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1); cursor: none; overflow: hidden;}\n.genome-node::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%), oklch(85% 0.12 70 / 0.07) 0%, transparent 60%); pointer-events: none;}\n.genome-node:hover{transform: scale(1.03) rotate(-0.5deg); border-color: oklch(0.85 0.12 70 / 0.2); box-shadow: oklch(0.12 0.03 40 / 0.4) 0px 20px 60px;}\n.genome-code{font-family: var(--font-data); font-size: 0.55rem; color: oklch(0.55 0.14 50 / 0.6); letter-spacing: 0.2em; margin-bottom: 0.5rem;}\n.genome-name{font-family: var(--font-title); font-size: 1rem; font-weight: 700; color: var(--ivory-mist); margin-bottom: 0.3rem;}\n.genome-sci{font-family: var(--font-data); font-size: 0.6rem; font-style: italic; color: oklch(0.85 0.12 70 / 0.35); margin-bottom: 1rem;}\n.genome-bar{height: 3px; border-radius: 99px; background: oklch(0.85 0.12 70 / 0.1); overflow: hidden; margin-bottom: 0.4rem;}\n.genome-bar-fill{height: 100%; background: linear-gradient(to right, var(--ochre-glow), var(--sienna-mid)); border-radius: 99px; animation: 2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s 1 normal both running fill-expand; transform-origin: left center;}\n.genome-pct{font-family: var(--font-data); font-size: 0.6rem; color: oklch(0.85 0.12 70 / 0.4); text-align: right;}\n.stalk{opacity: 0; transform: translateY(32px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity;}\n.stalk-delay-1{transition-delay: 0.1s;}\n.stalk-delay-2{transition-delay: 0.2s;}\n.stalk-delay-3{transition-delay: 0.3s;}\n@media (max-width: 900px){.genomic-section{padding: 4rem 1.5rem;}}\n@media (max-width: 900px){.genomic-grid{grid-template-columns: 1fr 1fr;}}",
+          "computed": {
+            "color": "oklch(0.96 0.03 75)",
+            "padding": "112px 64px",
+            "fontFamily": "Syne, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "   <div class=\"section-label stalk\">     <div class=\"section-label-line\"></div>     Non-Invasive Genomic Sampling   </div>   <h2 class=\"section-title stalk stalk-delay-1\">     DNA reveals<br>what eyes<br><span>cannot.</span>   </h2>   <div class=\"genomic-grid\">     <div class=\"genome-node stalk stalk-delay-1\">       <div class=\"genome-code\">SPEC-001 · PANTHERA LEO</div>       <div class=\"genome-name\">African Lion</div>       <div class=\"genome-sci\">Panthera leo massaica</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:82%\"></div></div>       <div class=\"genome-pct\">82% genome mapped</div>     </div>     <div class=\"genome-node stalk stalk-delay-2\">       <div class=\"genome-code\">SPEC-002 · ACINONYX JUBATUS</div>       <div class=\"genome-name\">Cheetah</div>       <div class=\"genome-sci\">Acinonyx jubatus jubatus</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:91%\"></div></div>       <div class=\"genome-pct\">91% genome mapped</div>     </div>     <div class=\"genome-node stalk stalk-delay-3\">       <div class=\"genome-code\">SPEC-003 · LOXODONTA AFRICANA</div>       <div class=\"genome-name\">Bush Elephant</div>       <div class=\"genome-sci\">Loxodonta africana</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:67%\"></div></div>       <div class=\"genome-pct\">67% genome mapped</div>     </div>     <div class=\"genome-node stalk stalk-delay-1\">       <div class=\"genome-code\">SPEC-004 · PANTHERA PARDUS</div>       <div class=\"genome-name\">Leopard</div>       <div class=\"genome-sci\">Panthera pardus pardus</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:78%\"></div></div>       <div class=\"genome-pct\">78% genome mapped</div>     </div>     <div class=\"genome-node stalk stalk-delay-2\">       <div class=\"genome-code\">SPEC-005 · CROCUTA CROCUTA</div>       <div class=\"genome-name\">Spotted Hyena</div>       <div class=\"genome-sci\">Crocuta crocuta</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:55%\"></div></div>       <div class=\"genome-pct\">55% genome mapped</div>     </div>     <div class=\"genome-node stalk stalk-delay-3\">       <div class=\"genome-code\">SPEC-006 · LYCAON PICTUS</div>       <div class=\"genome-name\">African Wild Dog</div>       <div class=\"genome-sci\">Lycaon pictus lupinus</div>       <div class=\"genome-bar\"><div class=\"genome-bar-fill\" style=\"width:93%\"></div></div>       <div class=\"genome-pct\">93% genome mapped</div>     </div>   </div> ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "DNA reveals<br>what eyes<br><span style=\"color:oklch(0.78 0.18 68)\"><em>cannot.</em></span>",
+              "text": "DNA revealswhat eyescannot.",
+              "tag": "h2",
+              "cls": "section-title stalk stalk-delay-1",
+              "wrapCls": "genomic-section",
+              "fontSize": "57.6px",
+              "fontWeight": "700",
+              "color": "oklch(0.96 0.03 75)",
+              "marginBottom": "64px",
+              "marginTop": "0px",
+              "lineHeight": "57.6px",
+              "letterSpacing": "-1.152px",
+              "align": "left"
+            },
+            {
+              "t": "progress",
+              "bars": [
+                {
+                  "label": "African Lion",
+                  "percent": 82
+                },
+                {
+                  "label": "Cheetah",
+                  "percent": 91
+                },
+                {
+                  "label": "Bush Elephant",
+                  "percent": 67
+                },
+                {
+                  "label": "Leopard",
+                  "percent": 78
+                },
+                {
+                  "label": "Spotted Hyena",
+                  "percent": 55
+                },
+                {
+                  "label": "African Wild Dog",
+                  "percent": 93
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,583 @@
+<!DOCTYPE html><html lang="en" class="dark" data-sc-cs="color:rgb(255, 255, 255)" data-sc-content-width="1360"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ares Logistics | Red Planet Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --space: oklch(7% 0.02 280);
+            --dust: oklch(70% 0.16 40);
+            --iron: oklch(58% 0.05 35);
+            --violet: oklch(57% 0.12 295);
+            --ember: oklch(76% 0.16 55);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            color: white;
+            font-family: 'Inter Tight', sans-serif;
+            background: radial-gradient(circle at 20% 10%, rgba(255, 148, 70, .14), transparent 18%), radial-gradient(circle at 80% 15%, rgba(125, 88, 255, .11), transparent 18%), linear-gradient(180deg, oklch(8% 0.02 280) 0%, oklch(6% 0.02 280) 50%, oklch(5% 0.02 280) 100%);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, .028) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .028) 1px, transparent 1px);
+            background-size: 112px 112px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 84%);
+            opacity: .28;
+            z-index: -2;
+        }
+
+        .copy {
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -0.06em;
+        }
+
+        .mono {
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        .hud {
+            background: rgba(255, 255, 255, .035);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(40px) contrast(1.1);
+            -webkit-backdrop-filter: blur(40px) contrast(1.1);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 18px 60px rgba(0, 0, 0, .46);
+        }
+
+        .aero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .04));
+            border: 1px solid rgba(255, 255, 255, .12);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 0 0 1px rgba(255, 255, 255, .04), 0 20px 60px rgba(255, 148, 70, .08);
+            transition: transform .55s cubic-bezier(.16, 1, .3, 1), box-shadow .55s ease;
+        }
+
+        .aero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(110deg, rgba(255, 255, 255, .12), rgba(255, 148, 70, .45), rgba(125, 88, 255, .25), rgba(255, 255, 255, .08));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .aero::after {
+            content: '';
+            position: absolute;
+            inset: -120%;
+            background: linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, .32) 50%, transparent 56%);
+            transform: translateX(-140%) rotate(12deg);
+            animation: sheen 8s ease-in-out infinite;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .aero:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 0 0 1px rgba(255, 148, 70, .16), 0 24px 70px rgba(0, 0, 0, .48);
+        }
+
+        .squircle {
+            border-radius: 2.1rem;
+        }
+
+        .bloom {
+            opacity: 0;
+            transform: translateY(22px) scale(.98);
+            animation: bloom .9s cubic-bezier(.16, 1, .3, 1) forwards;
+            animation-timeline: view();
+            animation-range: entry 10% cover 28%;
+        }
+
+        .pulse-text {
+            display: inline-block;
+            animation: pulsar 7s ease-in-out infinite;
+            transform-origin: center bottom;
+        }
+
+        .hero-shell {
+            position: relative;
+            will-change: transform, filter;
+            overflow: hidden;
+            filter: drop-shadow(0 0 95px rgba(255, 148, 70, .16)) drop-shadow(0 0 80px rgba(125, 88, 255, .12));
+        }
+
+        .hero-shell::before {
+            content: '';
+            position: absolute;
+            inset: -10%;
+            background: radial-gradient(circle at 25% 30%, rgba(255, 148, 70, .18), transparent 22%), radial-gradient(circle at 70% 40%, rgba(125, 88, 255, .16), transparent 22%), radial-gradient(circle at 55% 60%, rgba(255, 255, 255, .05), transparent 28%);
+            filter: blur(55px);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .hero-video {
+            transform-origin: center center;
+            will-change: transform, filter;
+        }
+
+        .orbtag {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(26px) contrast(1.08);
+            -webkit-backdrop-filter: blur(26px) contrast(1.08);
+        }
+
+        .ridges {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .ridges::before {
+            content: '';
+            position: absolute;
+            inset: auto 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 148, 70, .5), rgba(125, 88, 255, .55), transparent);
+            filter: blur(.2px);
+        }
+
+        .hex {
+            border-radius: 1.5rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 40px rgba(0, 0, 0, .3);
+        }
+
+        .fracture {
+            border-radius: 1.5rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 40px rgba(0, 0, 0, .3);
+        }
+
+        .fade-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 148, 70, .32), rgba(125, 88, 255, .32), transparent);
+        }
+
+        .scroll-strip {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 84%;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .scroll-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .strip-card {
+            scroll-snap-align: start;
+            min-height: 320px;
+        }
+
+        .core-ring {
+            width: min(72vw, 42rem);
+            aspect-ratio: 1;
+            border-radius: 999px;
+            position: relative;
+            background: radial-gradient(circle, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03) 52%, transparent 70%);
+            border: 1px solid rgba(255, 255, 255, .08);
+            box-shadow: 0 0 120px rgba(125, 88, 255, .12), inset 0 0 80px rgba(255, 255, 255, .03);
+        }
+
+        .core-ring::before {
+            content: '';
+            position: absolute;
+            inset: 12%;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            box-shadow: inset 0 0 60px rgba(255, 148, 70, .08);
+        }
+
+        .float-label {
+            position: absolute;
+            padding: 12px 16px;
+            border-radius: 999px;
+            font-size: 11px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, .035);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(40px) contrast(1.1);
+            -webkit-backdrop-filter: blur(40px) contrast(1.1);
+        }
+
+        .mega-title {
+            text-shadow: 0 0 30px rgba(255, 255, 255, .08);
+        }
+
+        @keyframes bloom {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes sheen {
+            to {
+                transform: translateX(240%) rotate(12deg);
+            }
+        }
+
+        @keyframes pulsar {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes heroScale {
+            from {
+                transform: scale(1.02);
+            }
+
+            to {
+                transform: scale(1.14);
+            }
+        }
+
+        .hero-scale {
+            animation: heroScale linear both;
+            animation-timeline: scroll(root);
+            transform-origin: center center;
+        }
+
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: .72s;
+            animation-timing-function: cubic-bezier(.16, 1, .3, 1);
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.bottom-\[-12rem\]{bottom:-12rem}.left-\[8\%\]{left:8%}.right-\[10\%\]{right:10%}.top-0{top:0px}.top-\[-10rem\]{top:-10rem}.bottom-\[12\%\]{bottom:12%}.left-0{left:0px}.left-\[12\%\]{left:12%}.right-0{right:0px}.right-\[12\%\]{right:12%}.top-28{top:7rem}.top-32{top:8rem}.top-\[12\%\]{top:12%}.z-50{z-index:50}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mt-10{margin-top:2.5rem}.mt-14{margin-top:3.5rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-12{height:3rem}.h-\[28rem\]{height:28rem}.h-\[32rem\]{height:32rem}.h-2{height:0.5rem}.h-20{height:5rem}.h-40{height:10rem}.h-72{height:18rem}.h-full{height:100%}.min-h-\[100svh\]{min-height:100svh}.min-h-\[220px\]{min-height:220px}.min-h-\[calc\(100svh-94px\)\]{min-height:calc(100svh - 94px)}.w-12{width:3rem}.w-\[28rem\]{width:28rem}.w-\[32rem\]{width:32rem}.w-2{width:0.5rem}.w-20{width:5rem}.w-72{width:18rem}.w-full{width:100%}.w-px{width:1px}.max-w-\[1700px\]{max-width:1700px}.max-w-2xl{max-width:42rem}.max-w-3xl{max-width:48rem}.max-w-4xl{max-width:56rem}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.grid-cols-\[1fr_auto_1fr\]{grid-template-columns:1fr auto 1fr}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.place-items-center{place-items:center}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-0{gap:0px}.gap-10{gap:2.5rem}.gap-3{gap:0.75rem}.gap-6{gap:1.5rem}.self-start{align-self:flex-start}.overflow-hidden{overflow:hidden}.rounded-\[2rem\]{border-radius:2rem}.rounded-full{border-radius:9999px}.rounded-\[3rem\]{border-radius:3rem}.rounded-\[999px\]{border-radius:999px}.rounded-b-\[1\.5rem\]{border-bottom-right-radius:1.5rem;border-bottom-left-radius:1.5rem}.rounded-r-\[1\.5rem\]{border-top-right-radius:1.5rem;border-bottom-right-radius:1.5rem}.border{border-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.bg-\[\#ff9b52\]{--tw-bg-opacity:1;background-color:rgb(255 155 82 / var(--tw-bg-opacity, 1))}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\/\[0\.03\]{background-color:rgb(255 255 255 / 0.03)}.bg-white\/\[0\.04\]{background-color:rgb(255 255 255 / 0.04)}.bg-white\/\[0\.05\]{background-color:rgb(255 255 255 / 0.05)}.bg-\[radial-gradient\(circle\2c rgba\(125\2c 88\2c 255\2c \.12\)\2c transparent_72\%\)\]{background-image:radial-gradient(circle,rgba(125,88,255,.12),transparent 72%)}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 148\2c 70\2c \.14\)\2c transparent_72\%\)\]{background-image:radial-gradient(circle,rgba(255,148,70,.14),transparent 72%)}.bg-\[radial-gradient\(circle\2c rgba\(125\2c 88\2c 255\2c \.14\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(125,88,255,.14),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(125\2c 88\2c 255\2c \.22\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(125,88,255,.22),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 148\2c 70\2c \.16\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,148,70,.16),transparent 70%)}.bg-\[radial-gradient\(circle\2c rgba\(255\2c 148\2c 70\2c \.24\)\2c transparent_70\%\)\]{background-image:radial-gradient(circle,rgba(255,148,70,.24),transparent 70%)}.bg-\[radial-gradient\(circle_at_30\%_30\%\2c rgba\(125\2c 88\2c 255\2c \.22\)\2c transparent_18\%\)\2c radial-gradient\(circle_at_70\%_40\%\2c rgba\(255\2c 148\2c 70\2c \.20\)\2c transparent_20\%\)\2c linear-gradient\(180deg\2c rgba\(255\2c 255\2c 255\2c \.04\)\2c rgba\(0\2c 0\2c 0\2c \.22\)\)\]{background-image:radial-gradient(circle at 30% 30%,rgba(125,88,255,.22),transparent 18%),radial-gradient(circle at 70% 40%,rgba(255,148,70,.20),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.22))}.bg-\[radial-gradient\(circle_at_30\%_30\%\2c rgba\(255\2c 148\2c 70\2c \.28\)\2c transparent_18\%\)\2c radial-gradient\(circle_at_70\%_40\%\2c rgba\(125\2c 88\2c 255\2c \.22\)\2c transparent_20\%\)\2c linear-gradient\(180deg\2c rgba\(255\2c 255\2c 255\2c \.04\)\2c rgba\(0\2c 0\2c 0\2c \.22\)\)\]{background-image:radial-gradient(circle at 30% 30%,rgba(255,148,70,.28),transparent 18%),radial-gradient(circle at 70% 40%,rgba(125,88,255,.22),transparent 20%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.22))}.bg-\[radial-gradient\(circle_at_50\%_35\%\2c rgba\(255\2c 255\2c 255\2c \.03\)\2c rgba\(0\2c 0\2c 0\2c \.36\)_44\%\2c rgba\(0\2c 0\2c 0\2c \.72\)_100\%\)\]{background-image:radial-gradient(circle at 50% 35%,rgba(255,255,255,.03),rgba(0,0,0,.36) 44%,rgba(0,0,0,.72) 100%)}.object-cover{object-fit:cover}.p-0{padding:0px}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-24{padding-top:6rem;padding-bottom:6rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.pb-4{padding-bottom:1rem}.pt-\[94px\]{padding-top:94px}.text-center{text-align:center}.text-right{text-align:right}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[clamp\(2\.6rem\2c 5vw\2c 5rem\)\]{font-size:clamp(2.6rem,5vw,5rem)}.text-\[clamp\(2\.7rem\2c 5vw\2c 5\.2rem\)\]{font-size:clamp(2.7rem,5vw,5.2rem)}.text-\[clamp\(2\.8rem\2c 5vw\2c 5\.8rem\)\]{font-size:clamp(2.8rem,5vw,5.8rem)}.text-\[clamp\(3rem\2c 5vw\2c 5\.4rem\)\]{font-size:clamp(3rem,5vw,5.4rem)}.text-\[clamp\(4rem\2c 10vw\2c 9rem\)\]{font-size:clamp(4rem,10vw,9rem)}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-7{line-height:1.75rem}.leading-8{line-height:2rem}.leading-9{line-height:2.25rem}.leading-\[\.84\]{line-height:.84}.leading-\[\.9\]{line-height:.9}.leading-tight{line-height:1.25}.tracking-\[0\.24em\]{letter-spacing:0.24em}.tracking-\[0\.25em\]{letter-spacing:0.25em}.tracking-\[0\.28em\]{letter-spacing:0.28em}.tracking-\[0\.32em\]{letter-spacing:0.32em}.tracking-\[0\.34em\]{letter-spacing:0.34em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.text-\[\#ff9b52\]{--tw-text-opacity:1;color:rgb(255 155 82 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/40{color:rgb(255 255 255 / 0.4)}.text-white\/45{color:rgb(255 255 255 / 0.45)}.text-white\/55{color:rgb(255 255 255 / 0.55)}.text-white\/60{color:rgb(255 255 255 / 0.6)}.text-white\/65{color:rgb(255 255 255 / 0.65)}.text-white\/70{color:rgb(255 255 255 / 0.7)}.text-white\/75{color:rgb(255 255 255 / 0.75)}.text-white\/90{color:rgb(255 255 255 / 0.9)}.shadow-\[0_0_18px_rgba\(255\2c 155\2c 82\2c \.8\)\]{--tw-shadow:0 0 18px rgba(255,155,82,.8);--tw-shadow-colored:0 0 18px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-2xl{--tw-blur:blur(40px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.contrast-\[1\.1\]{--tw-contrast:contrast(1.1);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-\[30px\]{--tw-backdrop-blur:blur(30px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-\[40px\]{--tw-backdrop-blur:blur(40px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-white\/\[0\.05\]:hover{background-color:rgb(255 255 255 / 0.05)}@media (min-width: 640px){.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}@media (min-width: 768px){.md\:block{display:block}.md\:flex{display:flex}.md\:px-8{padding-left:2rem;padding-right:2rem}.md\:px-10{padding-left:2.5rem;padding-right:2.5rem}}@media (min-width: 1024px){.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:block{display:block}.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\:grid-cols-\[\.88fr_1\.12fr\]{grid-template-columns:.88fr 1.12fr}.lg\:grid-cols-\[\.8fr_1\.2fr\]{grid-template-columns:.8fr 1.2fr}.lg\:grid-cols-\[\.95fr_1\.05fr\]{grid-template-columns:.95fr 1.05fr}.lg\:grid-cols-\[\.9fr_1\.1fr\]{grid-template-columns:.9fr 1.1fr}.lg\:grid-cols-\[1fr_1fr\]{grid-template-columns:1fr 1fr}.lg\:grid-cols-\[1fr_auto_1fr\]{grid-template-columns:1fr auto 1fr}.lg\:items-start{align-items:flex-start}.lg\:items-center{align-items:center}.lg\:rounded-l-none{border-top-left-radius:0px;border-bottom-left-radius:0px}.lg\:rounded-tr-\[1\.5rem\]{border-top-right-radius:1.5rem}.lg\:p-8{padding:2rem}}</style></head>
+
+<body data-sc-cs="color:rgb(255, 255, 255)">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="absolute top-[-10rem] left-[8%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(255,148,70,.14),transparent_72%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 148, 70, 0.14), rgba(0, 0, 0, 0) 72%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+        <div class="absolute bottom-[-12rem] right-[10%] h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgba(125,88,255,.12),transparent_72%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(125, 88, 255, 0.12), rgba(0, 0, 0, 0) 72%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+    </div>
+    <header class="fixed inset-x-0 top-0 z-50 px-4 py-4 md:px-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="hud mx-auto grid max-w-[1700px] grid-cols-[1fr_auto_1fr] items-center rounded-[2rem] px-5 py-4" data-sc-cs="background-color:rgba(255, 255, 255, 0.035);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.46) 0px 18px 60px 0px;backdrop-filter:blur(40px) contrast(1.1);max-width:1700px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <div class="flex items-center gap-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <div class="hex grid h-12 w-12 place-items-center" data-sc-logo-svg="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 48 48&quot; width=&quot;48&quot; height=&quot;48&quot; fill=&quot;none&quot; role=&quot;img&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;&lt;linearGradient id=&quot;g0&quot; x1=&quot;0.5&quot; y1=&quot;0&quot; x2=&quot;0.5&quot; y2=&quot;1&quot;&gt;&lt;stop offset=&quot;0.0%&quot; stop-color=&quot;rgba(255, 255, 255, 0.06)&quot;/&gt;&lt;stop offset=&quot;100.0%&quot; stop-color=&quot;rgba(255, 255, 255, 0.02)&quot;/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;48&quot; height=&quot;48&quot; rx=&quot;24.00&quot; fill=&quot;url(#g0)&quot;/&gt;&lt;/svg&gt;" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                    <iconify-icon icon="ph:rocket-launch-bold" class="text-2xl text-[#ff9b52]" data-sc-cs="color:rgb(255, 155, 82);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+                </div>
+                <div class="leading-tight" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="mono text-[11px] uppercase tracking-[0.34em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:13.75px;letter-spacing:3.74px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Ares Logistics</div>
+                    <div class="copy text-sm text-white/72" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Red Planet Infrastructure</div>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-3 orbtag rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-white/55" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.55);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;padding:8px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;backdrop-filter:blur(26px) contrast(1.08);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <span class="h-2 w-2 rounded-full bg-[#ff9b52] shadow-[0_0_18px_rgba(255,155,82,.8)]" data-sc-cs="background-color:rgb(255, 155, 82);color:rgba(255, 255, 255, 0.55);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 155, 82, 0.8) 0px 0px 18px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></span>
+                Orbital resonance stable · Ion-propulsion telemetry live
+            </div>
+            <div class="flex items-center justify-end gap-3" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:flex-end;align-items:center;flex-direction:row;transition:all">
+                <button class="aero px-5 py-2.5 text-[11px] uppercase tracking-[0.24em] text-white/90" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));color:rgba(255, 255, 255, 0.9);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:center;text-transform:uppercase;padding:10px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.12);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.16) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.04) 0px 0px 0px 1px, rgba(255, 148, 70, 0.08) 0px 20px 60px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;background-color:initial;background-image:linear-gradient(110deg, rgba(255, 255, 255, 0.12), rgba(255, 148, 70, 0.45), rgba(125, 88, 255, 0.25), rgba(255, 255, 255, 0.08))}|after{content:&quot;&quot;;position:absolute;top:-120%;right:-120%;bottom:-120%;left:-120%;inset:-120%;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.32) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-4px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.16) 0px 1px 0px inset, rgba(255, 148, 70, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.48) 0px 24px 70px}">Mission
+                    feed</button>
+                <button class="aero px-5 py-2.5 text-[11px] uppercase tracking-[0.24em] text-white/90" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));color:rgba(255, 255, 255, 0.9);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.64px;text-align:center;text-transform:uppercase;padding:10px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.12);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.16) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.04) 0px 0px 0px 1px, rgba(255, 148, 70, 0.08) 0px 20px 60px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;background-color:initial;background-image:linear-gradient(110deg, rgba(255, 255, 255, 0.12), rgba(255, 148, 70, 0.45), rgba(125, 88, 255, 0.25), rgba(255, 255, 255, 0.08))}|after{content:&quot;&quot;;position:absolute;top:-120%;right:-120%;bottom:-120%;left:-120%;inset:-120%;transform:translateX(-140%) rotate(12deg);background-color:initial;background-image:linear-gradient(120deg, transparent 44%, rgba(255, 255, 255, 0.32) 50%, transparent 56%);animation:8s ease-in-out 0s infinite normal none running sheen;animation-name:sheen}|hover-self{transform:translateY(-4px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.16) 0px 1px 0px inset, rgba(255, 148, 70, 0.16) 0px 0px 0px 1px, rgba(0, 0, 0, 0.48) 0px 24px 70px}">Launch
+                    window</button>
+            </div>
+        </div>
+    </header>
+    <main class="relative pt-[94px]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:94px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <section class="relative min-h-[100svh] overflow-hidden" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,.03),rgba(0,0,0,.36)_44%,rgba(0,0,0,.72)_100%)]" data-sc-cs="background-image:radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.36) 44%, rgba(0, 0, 0, 0.72) 100%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+            </div>
+            <div class="absolute inset-0 hero-shell hero-scale" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.02, 0, 0, 1.02, 0, 0);position:absolute">
+                <video id="heroVideo" autoplay="" muted="" loop="" playsinline="" class="hero-video absolute inset-0 h-full w-full object-cover" style="transform: scale(1.08) translateY(0px);" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.08, 0, 0, 1.08, 0, 0);position:absolute">
+                    <source src="https://videos.openhero.art/downloads/tech/red-planet-architecture/video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="relative z-10 mx-auto flex min-h-[calc(100svh-94px)] max-w-[1700px] items-center px-6 md:px-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1700px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                <div class="max-w-3xl" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="bloom inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-white/65 backdrop-blur-[40px] contrast-[1.1] active" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;padding:8px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;backdrop-filter:blur(40px);display:inline-flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <span class="h-2 w-2 rounded-full bg-[#ff9b52] shadow-[0_0_18px_rgba(255,155,82,.8)]" data-sc-cs="background-color:rgb(255, 155, 82);color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 155, 82, 0.8) 0px 0px 18px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></span>
+                        Martian habitation systems online
+                    </div>
+                    <h1 class="bloom mega-title serif mt-8 text-[clamp(4rem,10vw,9rem)] leading-[.84] text-white active" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:120.96px;letter-spacing:-8.64px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <span class="pulse-text block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:120.96px;letter-spacing:-8.64px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.00719, 0, 0, 1.00719, 0, 0)">Ares</span>
+                        <span class="pulse-text block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:120.96px;letter-spacing:-8.64px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.00719, 0, 0, 1.00719, 0, 0)">Logistics</span>
+                    </h1>
+                    <p class="bloom copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/70 backdrop-blur-[40px] contrast-[1.1] active" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;padding:24px;margin:32px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;backdrop-filter:blur(40px);max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        An interplanetary operations platform for regolith 3D printing, atmospheric scrubbers,
+                        perchlorate remediation, and ion-propulsion telemetry.
+                    </p>
+                    <div class="bloom mt-10 flex flex-wrap gap-4 active" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <button class="aero rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.12);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.16) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.04) 0px 0px 0px 1px, rgba(255, 148, 70, 0.08) 0px 20px 60px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s">Deploy
+                            habitat</button>
+                        <button class="rounded-full border border-white/10 bg-white/[0.03] px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/75 backdrop-blur-[40px] transition hover:bg-white/[0.05]" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgba(255, 255, 255, 0.75);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;backdrop-filter:blur(40px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)">View
+                            logistics map</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ridges relative px-6 py-24 md:px-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="mx-auto grid max-w-[1700px] gap-10 lg:grid-cols-[.88fr_1.12fr] lg:items-start" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1700px;display:grid;gap:40px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:all">
+                <div class="bloom sticky top-28 self-start active" data-sc-col="sccol-0" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22);position:sticky">
+                    <div class="text-[11px] uppercase tracking-[0.32em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Side-scrub</div>
+                    <h2 class="serif mt-5 max-w-lg text-[clamp(2.7rem,5vw,5.2rem)] leading-[.9] text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Edge-fed telemetry for long-duration Martian operations.
+                    </h2>
+                    <p class="copy mt-6 max-w-md text-base leading-8 text-white/66" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        The first terrain layer focuses on critical logistics: air, water, power, and fabrication across
+                        unstable orbital windows.
+                    </p>
+                </div>
+                <div class="relative" data-sc-col="sccol-1" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="absolute left-0 top-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(255,148,70,.16),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 148, 70, 0.16), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                    </div>
+                    <div class="absolute right-0 top-32 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(125,88,255,.14),transparent_70%)] blur-3xl" data-sc-cs="background-image:radial-gradient(circle, rgba(125, 88, 255, 0.14), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                    </div>
+                    <div class="grid gap-4 lg:grid-cols-2 mt-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <article class="bloom hex overflow-hidden p-0 lg:col-span-2 active" data-sc-col="sccol-2" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                            <div class="grid gap-0 lg:grid-cols-[.95fr_1.05fr]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="p-6 lg:p-8" data-sc-col="sccol-3" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.28em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Perchlorate
+                                        remediation</div>
+                                    <h3 class="mt-4 text-3xl font-semibold text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:600;line-height:36px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Soil recovery systems</h3>
+                                    <p class="mt-4 text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Restoring local terrain for safe
+                                        cultivation, surface work, and modular settlement expansion.</p>
+                                </div>
+                                <div class="min-h-[220px] bg-[radial-gradient(circle_at_30%_30%,rgba(255,148,70,.28),transparent_18%),radial-gradient(circle_at_70%_40%,rgba(125,88,255,.22),transparent_20%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.22))] rounded-r-[1.5rem] lg:rounded-l-none rounded-b-[1.5rem] lg:rounded-tr-[1.5rem]" data-sc-col="sccol-4" data-sc-cs="background-image:radial-gradient(circle at 30% 30%, rgba(255, 148, 70, 0.28), rgba(0, 0, 0, 0) 18%), radial-gradient(circle at 70% 40%, rgba(125, 88, 255, 0.22), rgba(0, 0, 0, 0) 20%), linear-gradient(rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.22));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px 24px 24px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                </div>
+                            </div>
+                        </article>
+                        <article class="bloom fracture overflow-hidden p-6 active" data-sc-col="sccol-5" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                            <div class="text-[10px] uppercase tracking-[0.28em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Habitat pressure</div>
+                            <div class="mt-5 text-5xl font-semibold text-[#ff9b52]" data-sc-cs="color:rgb(255, 155, 82);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:600;line-height:48px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">1.2 bar</div>
+                            <p class="mt-4 text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A stable interior climate for sealed living
+                                volumes and industrial corridors.</p>
+                        </article>
+                        <article class="bloom fracture overflow-hidden p-6 active" data-sc-col="sccol-6" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                            <div class="text-[10px] uppercase tracking-[0.28em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Water reserve</div>
+                            <div class="mt-5 text-5xl font-semibold text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:600;line-height:48px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">86%</div>
+                            <p class="mt-4 text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Closed-loop storage with scrubbed intake and
+                                monitored redistribution.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ridges relative px-6 py-24 md:px-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="mx-auto max-w-[1700px]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1700px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="bloom mx-auto flex max-w-4xl flex-col items-center text-center active" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 232px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                    <div class="text-[11px] uppercase tracking-[0.32em] text-white/40 mt-4" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:center;text-transform:uppercase;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Core-focus</div>
+                    <h2 class="serif mt-5 text-[clamp(2.8rem,5vw,5.8rem)] leading-[.9] text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-4.32px;text-align:center;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Central systems with a circular reveal.
+                    </h2>
+                    <p class="copy mt-6 max-w-2xl text-base leading-8 text-white/66" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:center;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        A single habitat core orchestrates energy, logistics, and atmospheric support through a focused
+                        radial interface.
+                    </p>
+                </div>
+                <div class="mt-14 flex justify-center" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:56px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:row;transition:all">
+                    <div class="core-ring bloom active" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03) 52%, rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;box-shadow:rgba(125, 88, 255, 0.12) 0px 0px 120px 0px, rgba(255, 255, 255, 0.03) 0px 0px 80px 0px inset;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                        <div class="absolute inset-0 grid place-items-center p-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all;position:absolute">
+                            <div class="hud w-full rounded-[999px] p-8 text-center" data-sc-cs="background-color:rgba(255, 255, 255, 0.035);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.46) 0px 18px 60px 0px;backdrop-filter:blur(40px) contrast(1.1);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Habitat Core 03</div>
+                                <div class="serif mt-4 text-5xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:48px;font-weight:400;line-height:48px;letter-spacing:-2.88px;text-align:center;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Central Command</div>
+                                <div class="mt-4 grid gap-3 sm:grid-cols-3" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="orbtag rounded-full px-4 py-3 text-sm text-white/75" data-sc-col="sccol-7" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.75);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;backdrop-filter:blur(26px) contrast(1.08);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Oxygen 99.8%</div>
+                                    <div class="orbtag rounded-full px-4 py-3 text-sm text-white/75" data-sc-col="sccol-8" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.75);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;backdrop-filter:blur(26px) contrast(1.08);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Thermal 21°C</div>
+                                    <div class="orbtag rounded-full px-4 py-3 text-sm text-white/75" data-sc-col="sccol-9" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.75);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:center;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;backdrop-filter:blur(26px) contrast(1.08);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Resonance stable
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute left-[12%] top-[12%] h-20 w-20 rounded-full bg-[radial-gradient(circle,rgba(255,148,70,.24),transparent_70%)] blur-2xl" data-sc-cs="background-image:radial-gradient(circle, rgba(255, 148, 70, 0.24), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                        </div>
+                        <div class="absolute right-[12%] bottom-[12%] h-20 w-20 rounded-full bg-[radial-gradient(circle,rgba(125,88,255,.22),transparent_70%)] blur-2xl" data-sc-cs="background-image:radial-gradient(circle, rgba(125, 88, 255, 0.22), rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="ridges relative px-6 py-24 md:px-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="mx-auto max-w-[1700px]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1700px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="bloom flex items-end justify-between gap-6" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 22)">
+                    <div data-sc-col="sccol-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="text-[11px] uppercase tracking-[0.32em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Telemetric-slider</div>
+                        <h2 class="serif mt-5 text-[clamp(2.6rem,5vw,5rem)] leading-[.9] text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Horizontal mission states across the planet’s surface.
+                        </h2>
+                    </div>
+                    <div class="hidden md:block max-w-sm text-right text-white/60 leading-7" data-sc-col="sccol-11" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:28px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Each terrain slice communicates a different operational layer: supply, maintenance, and launch
+                        cadence.
+                    </div>
+                </div>
+                <div class="scroll-strip mt-10 pb-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 0px 16px;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <article class="strip-card bloom rounded-[3rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-[30px]" data-sc-col="sccol-12" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:48px;backdrop-filter:blur(30px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <div class="grid h-full gap-4 lg:grid-cols-[.8fr_1.2fr]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="hex flex items-center justify-center p-6" data-sc-col="sccol-13" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                                <div class="text-center" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Ion telemetry
+                                    </div>
+                                    <div class="mt-4 text-5xl font-semibold text-[#ff9b52]" data-sc-cs="color:rgb(255, 155, 82);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:600;line-height:48px;text-align:center;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">07</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-between" data-sc-col="sccol-14" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Launch corridor
+                                    </div>
+                                    <h3 class="serif mt-4 text-4xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Supply pulse across the equatorial ridge.
+                                    </h3>
+                                </div>
+                                <p class="copy max-w-2xl text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Cargo streams aligned to
+                                    orbital resonance, with automation tuned for dust storm contingencies and fuel
+                                    economy.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="strip-card bloom rounded-[3rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-[30px]" data-sc-col="sccol-15" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:48px;backdrop-filter:blur(30px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <div class="grid h-full gap-4 lg:grid-cols-[1fr_1fr]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="fracture bg-[radial-gradient(circle_at_30%_30%,rgba(125,88,255,.22),transparent_18%),radial-gradient(circle_at_70%_40%,rgba(255,148,70,.20),transparent_20%),linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.22))]" data-sc-col="sccol-16" data-sc-cs="background-image:radial-gradient(circle at 30% 30%, rgba(125, 88, 255, 0.22), rgba(0, 0, 0, 0) 18%), radial-gradient(circle at 70% 40%, rgba(255, 148, 70, 0.2), rgba(0, 0, 0, 0) 20%), linear-gradient(rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.22));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            </div>
+                            <div class="flex flex-col justify-between" data-sc-col="sccol-17" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Atmospheric
+                                        scrubbers</div>
+                                    <h3 class="serif mt-4 text-4xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Air systems for sealed living.</h3>
+                                </div>
+                                <p class="copy text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Respiration, pressure, and filtration
+                                    maintained by modular environmental rails.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="strip-card bloom rounded-[3rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-[30px]" data-sc-col="sccol-18" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:48px;backdrop-filter:blur(30px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+                        <div class="grid h-full gap-4 lg:grid-cols-[.9fr_1.1fr]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="hex flex items-center justify-center p-6" data-sc-col="sccol-19" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 12px 40px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                                <div class="text-center" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Habitat shell
+                                    </div>
+                                    <div class="mt-4 text-5xl font-semibold text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:48px;font-weight:600;line-height:48px;text-align:center;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">A-12</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-between" data-sc-col="sccol-20" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+                                <div data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                    <div class="text-[10px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Regolith 3D
+                                        printing</div>
+                                    <h3 class="serif mt-4 text-4xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-2.16px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Printed infrastructure built from local
+                                        ground.</h3>
+                                </div>
+                                <p class="copy text-sm leading-7 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Terrain transformed into load-bearing
+                                    modules, shielding, and structural corridors.</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section class="px-6 py-24 md:px-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="mx-auto max-w-[1700px] rounded-[3rem] border border-white/10 bg-white/[0.03] p-8 backdrop-blur-[30px]" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:48px;backdrop-filter:blur(30px);max-width:1700px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <div class="grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-center" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:40px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                    <div data-sc-col="sccol-21" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <div class="text-[11px] uppercase tracking-[0.32em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.52px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Mission statement</div>
+                        <h2 class="serif mt-5 text-[clamp(3rem,5vw,5.4rem)] leading-[.9] text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:72px;font-weight:400;line-height:64.8px;letter-spacing:-4.32px;text-align:start;margin:20px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Built on Mars, for
+                            Mars.</h2>
+                    </div>
+                    <div class="hidden lg:block h-40 w-px bg-white/10" data-sc-cs="background-color:rgba(255, 255, 255, 0.1);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                    <div class="copy max-w-2xl text-lg leading-9 text-white/68" data-sc-col="sccol-22" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        The interface behaves like terrain: ridges overlap, craters open into systems, and every
+                        operational layer reads like a piece of the planet rather than a generic web page.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const heroVideo = document.getElementById('heroVideo');
+        const supportsViewTransitions = typeof document.startViewTransition === 'function';
+        let raf = 0;
+        const updateHero = () => {
+            const max = window.innerHeight * 1.2;
+            const progress = Math.min(Math.max(window.scrollY / max, 0), 1);
+            const scale = 1.08 + progress * 0.16;
+            const translateY = progress * 16;
+            if (heroVideo) {
+                heroVideo.style.transform = `scale(${scale}) translateY(${translateY}px)`;
+            }
+        };
+        updateHero();
+        window.addEventListener('scroll', () => {
+            if (raf) return;
+            raf = window.requestAnimationFrame(() => {
+                updateHero();
+                raf = 0;
+            });
+        }, { passive: true });
+        window.addEventListener('resize', updateHero);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.16 });
+        document.querySelectorAll('.bloom').forEach((el) => observer.observe(el));
+        document.querySelectorAll('a, button').forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+                el.animate([{ transform: 'translateY(0px)' }, { transform: 'translateY(-2px)' }], {
+                    duration: 220,
+                    easing: 'cubic-bezier(.16,1,.3,1)',
+                    fill: 'forwards'
+                });
+            });
+            el.addEventListener('mouseleave', () => {
+                el.animate([{ transform: 'translateY(-2px)' }, { transform: 'translateY(0px)' }], {
+                    duration: 220,
+                    easing: 'cubic-bezier(.16,1,.3,1)',
+                    fill: 'forwards'
+                });
+            });
+        });
+        if (supportsViewTransitions) {
+            document.querySelectorAll('button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    document.startViewTransition(() => { });
+                });
+            });
+        }
+    </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+<div class="bg-white/[0.05]" style="position: absolute; left: -99999px; top: -99999px;" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div></body></html>

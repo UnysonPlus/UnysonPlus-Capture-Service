@@ -1,0 +1,564 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "corridor-breathe",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "dust-drift",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse-live",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "lens-drift",
+      "props": [
+        "transform",
+        "right"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "fade-up",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "scroll-pulse",
+      "props": [
+        "transform",
+        "transform-origin",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "orb-float",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "wave-pulse",
+      "props": [
+        "height"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "fill-expand",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".light-corridor",
+      "name": "corridor-breathe",
+      "duration": "8s",
+      "infinite": true
+    },
+    {
+      "selector": ".dust-field span",
+      "name": "dust-drift",
+      "duration": "auto",
+      "infinite": true
+    },
+    {
+      "selector": ".status-pulse",
+      "name": "pulse-live",
+      "duration": "2s",
+      "infinite": true
+    },
+    {
+      "selector": ".savanna-portal",
+      "name": "lens-drift",
+      "duration": "12s",
+      "infinite": true
+    },
+    {
+      "selector": ".hero-eyebrow",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-title",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-body",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-ctas",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".telemetry-hud",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".scroll-hint",
+      "name": "fade-up",
+      "duration": "1s",
+      "infinite": false
+    },
+    {
+      "selector": ".scroll-track",
+      "name": "scroll-pulse",
+      "duration": "2.5s",
+      "infinite": true
+    },
+    {
+      "selector": ".biome-orb",
+      "name": "orb-float",
+      "duration": "auto",
+      "infinite": true
+    },
+    {
+      "selector": ".acoustic-bar",
+      "name": "wave-pulse",
+      "duration": "1.4s",
+      "infinite": true
+    },
+    {
+      "selector": ".genome-bar-fill",
+      "name": "fill-expand",
+      "duration": "2s",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": "body:has(a) #cursor-ring, body:has(button) #cursor-ring",
+      "changed": {
+        "width": "64px",
+        "height": "64px",
+        "border-top-color": "",
+        "border-right-color": "",
+        "border-bottom-color": "",
+        "border-left-color": "",
+        "border-top-left-radius": "40%",
+        "border-top-right-radius": "40%",
+        "border-bottom-right-radius": "40%",
+        "border-bottom-left-radius": "40%"
+      }
+    },
+    {
+      "selector": ".nav-links a",
+      "changed": {
+        "color": "var(--ochre-glow)"
+      }
+    },
+    {
+      "selector": ".nav-links a::after",
+      "changed": {
+        "right": "0px"
+      }
+    },
+    {
+      "selector": ".btn-primary",
+      "changed": {
+        "transform": "translateY(-2px) scale(1.02)"
+      }
+    },
+    {
+      "selector": ".btn-primary::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".btn-ghost",
+      "changed": {
+        "color": "var(--ochre-glow)"
+      }
+    },
+    {
+      "selector": ".btn-ghost::after",
+      "changed": {
+        "transform": "translateX(6px)"
+      }
+    },
+    {
+      "selector": ".tech-card",
+      "changed": {
+        "transform": "translateY(-8px) rotate(0.5deg)",
+        "box-shadow": "oklch(0.12 0.03 40 / 0.5) 0px 32px 80px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px"
+      }
+    },
+    {
+      "selector": ".tech-card::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".data-cell",
+      "changed": {
+        "background-color": "oklch(0.2 0.05 50 / 0.7)"
+      }
+    },
+    {
+      "selector": ".data-cell::before",
+      "changed": {
+        "transform": "scaleX(1)"
+      }
+    },
+    {
+      "selector": ".genome-node",
+      "changed": {
+        "transform": "scale(1.03) rotate(-0.5deg)",
+        "border-top-color": "oklch(0.85 0.12 70 / 0.2)",
+        "border-right-color": "oklch(0.85 0.12 70 / 0.2)",
+        "border-bottom-color": "oklch(0.85 0.12 70 / 0.2)",
+        "border-left-color": "oklch(0.85 0.12 70 / 0.2)",
+        "box-shadow": "oklch(0.12 0.03 40 / 0.4) 0px 20px 60px"
+      }
+    },
+    {
+      "selector": ".footer-links a",
+      "changed": {
+        "color": "var(--ochre-glow)"
+      }
+    },
+    {
+      "selector": "btn-primary",
+      "changed": {
+        "transform": "matrix(1.01989, 0, 0, 1.01989, 0, -1.98947)"
+      },
+      "live": true
+    },
+    {
+      "selector": "btn-ghost",
+      "changed": {
+        "color": "oklab(0.780065 0.0674047 0.166843 / 0.999243)",
+        "borderColor": "oklab(0.780065 0.0674047 0.166843 / 0.999243)"
+      },
+      "live": true
+    },
+    {
+      "selector": "tech-card stalk stalk-delay-1 in-view",
+      "changed": {
+        "boxShadow": "oklch(0.12 0.03 40 / 0.5) 0px 32px 80px 0px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px"
+      },
+      "live": true
+    },
+    {
+      "selector": "tech-card stalk stalk-delay-2 in-view",
+      "changed": {
+        "boxShadow": "oklch(0.12 0.03 40 / 0.5) 0px 32px 80px 0px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px"
+      },
+      "live": true
+    },
+    {
+      "selector": "tech-card stalk stalk-delay-3 in-view",
+      "changed": {
+        "boxShadow": "oklch(0.12 0.03 40 / 0.5) 0px 32px 80px 0px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px"
+      },
+      "live": true
+    },
+    {
+      "selector": "tech-card",
+      "changed": {
+        "transform": "matrix(0.999964, 0.00853398, -0.00853398, 0.999964, 0, -7.82347)",
+        "boxShadow": "oklab(0.12 0.0229813 0.0192836 / 0.430535) 0px 27.5543px 68.8856px 0px, oklab(0.85 0.0410424 0.112763 / 0.129161) 0px 0px 0px 0.861071px"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": "#cursor-ring",
+      "props": "width, height, border-color, border-radius",
+      "duration": "0.3s, 0.3s, 0.3s, 0.3s"
+    },
+    {
+      "selector": ".nav-links a",
+      "props": "color",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".nav-links a::after",
+      "props": "right",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".btn-primary::before",
+      "props": "opacity",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".btn-ghost",
+      "props": "color",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".btn-ghost::after",
+      "props": "transform",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".tech-card",
+      "props": "transform, box-shadow",
+      "duration": "0.5s, 0.5s"
+    },
+    {
+      "selector": ".tech-card::before",
+      "props": "opacity",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".data-cell",
+      "props": "background, transform",
+      "duration": "0.4s, 0.4s"
+    },
+    {
+      "selector": ".data-cell::before",
+      "props": "transform",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".spec-list li",
+      "props": "background",
+      "duration": "0.2s"
+    },
+    {
+      "selector": ".footer-links a",
+      "props": "color",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".stalk",
+      "props": "opacity, transform",
+      "duration": "0.9s, 0.9s"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 4683,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 2,
+    "fixedCanvas": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~1561px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~1561px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".light-corridor",
+      "evidence": "infinite keyframes 'corridor-breathe' (opacity,transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".dust-field span",
+      "evidence": "infinite keyframes 'dust-drift' (transform,opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".status-pulse",
+      "evidence": "infinite keyframes 'pulse-live' (transform,opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".savanna-portal",
+      "evidence": "infinite keyframes 'lens-drift' (transform,right)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-eyebrow",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-title",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-body",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-ctas",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".telemetry-hud",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".scroll-hint",
+      "evidence": "keyframes 'fade-up' 1s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".scroll-track",
+      "evidence": "infinite keyframes 'scroll-pulse' (transform,transform-origin,opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".biome-orb",
+      "evidence": "infinite keyframes 'orb-float' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".acoustic-bar",
+      "evidence": "infinite keyframes 'wave-pulse' (height)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".genome-bar-fill",
+      "evidence": "keyframes 'fill-expand' 2s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": "body:has(a) #cursor-ring, body:has(button) #cursor-ring",
+      "evidence": "width, height, border-top-color, border-right-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".nav-links a",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".btn-primary",
+      "evidence": "transform change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".btn-ghost",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".tech-card",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".data-cell",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".genome-node",
+      "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".footer-links a",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "btn-ghost",
+      "evidence": "color, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,background-image,3,no
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,background-color,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,backdrop-filter,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,box-shadow,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,border,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,border-radius,4,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,padding,4,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,margin,6,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,transform,5,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,position-absolute,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,display-flex,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,0,flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 relative z-20 order-2 lg:order-1,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,1,relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10,border,1,no
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,1,relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10,max-width,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,1,relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10,transform,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,1,relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10,position-absolute,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,1,relative h-[60vh] lg:h-screen w-full flex items-center justify-center order-1 lg:order-2 z-10,display-flex,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,background-image,3,no
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,background-color,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,backdrop-filter,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,box-shadow,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,border,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,border-radius,6,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,padding,5,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,margin,8,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,transform,7,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,position-absolute,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,display-flex,7,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,2,relative z-20 py-32 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,background-image,2,no
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,border,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,padding,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,margin,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,transform,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,position-absolute,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-light-technology,home,3,relative z-20 py-40 border-t border-white/10 flex flex-col items-center justify-center text-center px-8,display-flex,1,yes

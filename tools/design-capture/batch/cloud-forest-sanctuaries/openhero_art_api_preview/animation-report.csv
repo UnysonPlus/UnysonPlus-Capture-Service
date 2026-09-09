@@ -1,0 +1,9 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~3577px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+css-animation,.hero-video,infinite keyframes 'zoom' (transform),physics float/pulse or backgrounds module,low
+css-animation,.condense,keyframes 'condense' 1.4s,entrance animation (Animate.css picker),low
+css-animation,.canopy,infinite keyframes 'float' (transform),physics float/pulse or backgrounds module,low
+hover,.mist-button,"transform, background-image, background-position-x, background-position-y change on hover",interaction: {effect:'lift'},medium
+hover,.mist-button::before,"opacity, transform change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,mist-button px-8 py-5 text-[11px] uppercase tracking-[0.24em,"transform, background change on hover",interaction: {effect:'color_shift'},medium

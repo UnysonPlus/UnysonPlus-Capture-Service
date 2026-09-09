@@ -1,0 +1,783 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-[100svh] overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".copy{font-family: \"Inter Tight\", sans-serif;}\n.serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.06em;}\n.shell{background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(28px) saturate(1.18); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px;}\n.shell-mist{background: linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)); border: 1px solid rgba(255, 255, 255, 0.09); backdrop-filter: blur(80px) contrast(0.85) saturate(1.3); box-shadow: rgba(255, 255, 255, 0.06) 0px 1px 0px inset, rgba(0, 0, 0, 0.36) 0px 30px 100px;}\n.dew{position: relative; overflow: hidden; border-radius: 999px;}\n.dew::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.16)); mask: linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px); pointer-events: none;}\n.dew::after{content: \"\"; position: absolute; inset: -120%; background: linear-gradient(120deg, transparent 45%, rgba(255, 255, 255, 0.22) 50%, transparent 56%); transform: translateX(-140%) rotate(12deg); animation: 8s ease-in-out 0s infinite normal none running sheen; pointer-events: none; mix-blend-mode: screen;}\n.squircle{border-radius: 2rem;}\n.bloom{opacity: 0; transform: translateY(28px) scale(0.98); animation-duration: 0.9s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: bloom; animation-timeline: view(); animation-range: entry 8% cover 30%;}\n.wind{display: inline-block; animation: 9s ease-in-out 0s infinite normal none running wind; transform-origin: center bottom;}\n.lift{transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s, background 0.35s;}\n.lift:hover{transform: translateY(-7px); border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.5) 0px 30px 90px;}\n.portal-shell{mask-image: radial-gradient(circle at 50% 44%, black 0px, black 24%, rgba(0, 0, 0, 0.96) 31%, rgba(0, 0, 0, 0.72) 48%, transparent 72%), radial-gradient(circle at 18% 18%, rgba(0, 0, 0, 0.9) 0px, rgba(0, 0, 0, 0.9) 8%, transparent 24%), radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.9) 0px, rgba(0, 0, 0, 0.9) 10%, transparent 25%), radial-gradient(circle at 50% 82%, rgba(0, 0, 0, 0.82) 0px, rgba(0, 0, 0, 0.82) 12%, transparent 28%); mask-composite: add; will-change: transform;}\n.portal-video{transform: scale(1.04); transform-origin: center center; will-change: transform, filter;}\n.fade-mask{mask-image: linear-gradient(black 78%, transparent 100%);}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-6{margin-top: 1.5rem;}\n.mt-9{margin-top: 2.25rem;}\n.block{display: block;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-2{height: 0.5rem;}\n.h-full{height: 100%;}\n.min-h-\\[100svh\\]{min-height: 100svh;}\n.min-h-\\[calc\\(100svh-72px\\)\\]{min-height: calc(-72px + 100svh);}\n.w-full{width: 100%;}\n.w-2{width: 0.5rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-3xl{max-width: 48rem;}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.gap-3{gap: 0.75rem;}\n.gap-10{gap: 2.5rem;}\n.gap-2{gap: 0.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/20{background-color: rgba(255, 255, 255, 0.2);}\n.bg-black\\/50{background-color: rgba(0, 0, 0, 0.5);}\n.bg-emerald-300{--tw-bg-opacity: 1; background-color: rgb(110 231 183 / var(--tw-bg-opacity, 1));}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-10{padding-top: 2.5rem; padding-bottom: 2.5rem;}\n.py-2{padding-top: 0.5rem; padding-bottom: 0.5rem;}\n.py-3\\.5{padding-top: 0.875rem; padding-bottom: 0.875rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.uppercase{text-transform: uppercase;}\n.leading-8{line-height: 2rem;}\n.leading-\\[0\\.88\\]{line-height: 0.88;}\n.tracking-\\[0\\.22em\\]{letter-spacing: 0.22em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/85{color: rgba(255, 255, 255, 0.85);}\n.brightness-90{--tw-brightness: brightness(.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[1\\.08\\]{--tw-contrast: contrast(1.08); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-xl{--tw-backdrop-blur: blur(24px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:bg-white\\/\\[0\\.05\\]:hover{background-color: rgba(255, 255, 255, 0.05);}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[1\\.05fr_\\.95fr\\]{grid-template-columns: 1.05fr 0.95fr;}}\n@media (min-width: 1024px){.lg\\:items-center{align-items: center;}}\n@media (min-width: 1024px){.lg\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "       <div class=\"absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,.08),transparent_28%),radial-gradient(circle_at_20%_12%,rgba(234,179,8,.12),transparent_18%),radial-gradient(circle_at_82%_18%,rgba(34,197,94,.12),transparent_18%),linear-gradient(180deg,rgba(6,10,7,.2),rgba(5,8,6,.72))]\">       </div>       <div class=\"absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_48%,transparent_0_24%,rgba(0,0,0,.28)_45%,rgba(0,0,0,.58)_100%)]\">       </div>       <div class=\"absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.28))]\">       </div>       <div class=\"absolute inset-0 portal-shell fade-mask\">         <video id=\"heroVideo\" autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"portal-video absolute inset-0 h-full w-full object-cover brightness-90 contrast-[1.08] saturate-110\" style=\"transform: scale(1.02) translateY(0px);\">           <source src=\"https://videos.openhero.art/downloads/enterprice/regenerative-living-architecture/video.mp4\" type=\"video/mp4\">         </video>       </div>       <div class=\"relative z-10 mx-auto flex min-h-[calc(100svh-72px)] max-w-[1600px] items-center px-6 py-10 lg:px-10\">         <div class=\"grid w-full gap-10 lg:grid-cols-[1.05fr_.95fr] lg:items-center\">           <div class=\"hero-copy bloom container-type:inline-size\">             <div class=\"mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-4 py-2 shell-mist copy text-[11px] text-white/68\">               <span class=\"h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(134,239,172,.55)]\"></span>               Biophilic integration · Photovoltaic envelopes · Geothermal equilibrium             </div>             <h1 class=\"serif max-w-3xl text-[clamp(3.9rem,8vw,7.5rem)] leading-[0.88] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]\">               <span class=\"wind block\">Terraform</span>               <span class=\"wind block text-white/92\">Estates</span>             </h1>             <p class=\"mt-6 max-w-2xl copy text-[clamp(1rem,1.7vw,1.22rem)] leading-8 text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]\">               A next-gen luxury brokerage for solar villas, biophilic urbanism, and net-positive habitation designed to               feel calm, intelligent, and alive.             </p>             <div class=\"mt-9 flex flex-wrap gap-3\">               <button class=\"dew lift shell squircle px-6 py-3.5 copy text-sm text-white\">Explore residences</button>               <button class=\"squircle border border-white/10 bg-white/20 px-6 py-3.5 copy text-sm text-white/78 backdrop-blur-xl transition hover:bg-white/[0.05] hover:text-white\">View                 portfolio</button>             </div>             <div class=\"mt-10 flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.22em] text-white/48\">               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Solar villas</span>               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Urban sanctuaries</span>               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Regenerative portfolios</span>             </div>           </div>         </div>       </div>            ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,.08),transparent_28%),radial-gradient(circle_at_20%_12%,rgba(234,179,8,.12),transparent_18%),radial-gradient(circle_at_82%_18%,rgba(34,197,94,.12),transparent_18%),linear-gradient(180deg,rgba(6,10,7,.2),rgba(5,8,6,.72))]\">       </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0) 28%), radial-gradient(circle at 20% 12%, rgba(234, 179, 8, 0.12), rgba(0, 0, 0, 0) 18%), radial-gradient(circle at 82% 18%, rgba(34, 197, 94, 0.12), rgba(0, 0, 0, 0) 18%), linear-gradient(rgba(6, 10, 7, 0.2), rgba(5, 8, 6, 0.72))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_48%,transparent_0_24%,rgba(0,0,0,.28)_45%,rgba(0,0,0,.58)_100%)]\">       </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle at 50% 48%, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 24%, rgba(0, 0, 0, 0.28) 45%, rgba(0, 0, 0, 0.58) 100%)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.28))]\">       </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.28))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/enterprice/regenerative-living-architecture/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=enterprice&slug=regenerative-living-architecture",
+              "poster": "https://openhero.art/api/preview?category=enterprice&slug=regenerative-living-architecture",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " portal-video absolute inset-0 h-full w-full object-cover brightness-90 contrast-[1.08] saturate-110 absolute inset-0 portal-shell fade-mask relative min-h-[100svh] overflow-hidden relative pt-[72px]",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-4 py-2 shell-mist copy text-[11px] text-white/68\">               <span class=\"h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(134,239,172,.55)]\"></span>               Biophilic integration · Photovoltaic envelopes · Geothermal equilibrium             </div>",
+              "text": "Biophilic integration · Photovoltaic envelopes · Geothermal equilibrium",
+              "tag": "div",
+              "cls": "mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/50 px-4 py-2 shell-mist copy text-[11px] text-white/68",
+              "fontSize": "11px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "16.5px",
+              "letterSpacing": "normal",
+              "marginBottom": "24px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Terraform Estates",
+              "text": "Terraform Estates",
+              "tag": "h1",
+              "cls": "serif max-w-3xl text-[clamp(3.9rem,8vw,7.5rem)] leading-[0.88] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]",
+              "wrapCls": "",
+              "fontSize": "115.2px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "101.376px",
+              "letterSpacing": "-6.912px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-6 max-w-2xl copy text-[clamp(1rem,1.7vw,1.22rem)] leading-8 text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]\">               A next-gen luxury brokerage for solar villas, biophilic urbanism, and net-positive habitation designed to               feel calm, intelligent, and alive.             </p>",
+              "text": "A next-gen luxury brokerage for solar villas, biophilic urbanism, and net-positive habitation designed to feel calm, intelligent, and alive.",
+              "tag": "p",
+              "cls": "mt-6 max-w-2xl copy text-[clamp(1rem,1.7vw,1.22rem)] leading-8 text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]",
+              "fontSize": "19.52px",
+              "color": "rgba(255, 255, 255, 0.85)",
+              "lineHeight": "32px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Explore residences",
+              "href": "https://openhero.art/api/preview?category=enterprice&slug=regenerative-living-architecture",
+              "tag": "button",
+              "cls": "dew lift shell squircle px-6 py-3.5 copy text-sm text-white",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "14px 24px",
+              "height": "50px",
+              "radius": "32px",
+              "lineHeight": "20px",
+              "fontSize": "14px",
+              "fontWeight": "400",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "fg": "rgb(255, 255, 255)",
+                "bd": "rgba(255, 255, 255, 0.08)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "View portfolio",
+              "href": "https://openhero.art/api/preview?category=enterprice&slug=regenerative-living-architecture",
+              "tag": "button",
+              "cls": "squircle border border-white/10 bg-white/20 px-6 py-3.5 copy text-sm text-white/78 backdrop-blur-xl transition hover:bg-white/[0.05] hover:text-white",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "14px 24px",
+              "height": "50px",
+              "radius": "32px",
+              "lineHeight": "20px",
+              "fontSize": "14px",
+              "fontWeight": "400",
+              "hover": {
+                "color": "rgb(255, 255, 255)"
+              },
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(255, 255, 255, 0.2)",
+                "fg": "rgb(255, 255, 255)",
+                "bd": "rgba(255, 255, 255, 0.1)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"mt-10 flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.22em] text-white/48\">               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Solar villas</span>               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Urban sanctuaries</span>               <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Regenerative portfolios</span>             </div>",
+              "text": "Solar villas Urban sanctuaries Regenerative portfolios",
+              "tag": "div",
+              "cls": "mt-10 flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.22em] text-white/48",
+              "fontSize": "11px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "16.5px",
+              "letterSpacing": "2.42px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".copy{font-family: \"Inter Tight\", sans-serif;}\n.serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.06em;}\n.shell{background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(28px) saturate(1.18); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px;}\n.squircle{border-radius: 2rem;}\n.bloom{opacity: 0; transform: translateY(28px) scale(0.98); animation-duration: 0.9s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: bloom; animation-timeline: view(); animation-range: entry 8% cover 30%;}\n.lift{transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s, background 0.35s;}\n.lift:hover{transform: translateY(-7px); border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.5) 0px 30px 90px;}\n.divider{position: relative;}\n.divider::before{content: \"\"; position: absolute; left: 0px; top: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);}\n.feature-line{position: relative;}\n.feature-line::after{content: \"\"; position: absolute; left: 50%; top: -1.75rem; width: 18rem; height: 1rem; transform: translateX(-50%); background: radial-gradient(circle, rgba(234, 179, 8, 0.28), transparent 70%); filter: blur(18px); pointer-events: none;}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mt-4{margin-top: 1rem;}\n.flex{display: flex;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-3xl{max-width: 48rem;}\n.flex-1{flex: 1 1 0%;}\n.flex-col{flex-direction: column;}\n.gap-4{gap: 1rem;}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.uppercase{text-transform: uppercase;}\n.leading-7{line-height: 1.75rem;}\n.leading-\\[0\\.92\\]{line-height: 0.92;}\n.tracking-\\[0\\.26em\\]{letter-spacing: 0.26em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n@media (min-width: 1024px){.lg\\:flex-row{flex-direction: row;}}\n@media (min-width: 1024px){.lg\\:p-7{padding: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "80px 40px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1600px"
+          },
+          "assets": [],
+          "raw": "       <div class=\"feature-line mb-12\">         <div class=\"max-w-3xl\">           <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Concept</div>           <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white\">             Luxury brokerage shaped by light, ecology, and quiet precision.           </h2>         </div>       </div>       <div class=\"flex flex-col gap-4 lg:flex-row\">         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Biophilic integration</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Homes where living systems, natural airflow, and             curated landscapes are part of the architecture, not decoration.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Photovoltaic envelopes</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Façades that generate power while preserving the calm             visual language of a premium residence.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Net-positive habitation</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Residences designed to return more energy, comfort, and             ecological value than they consume.</p>         </article>       </div>     ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Concept",
+              "text": "Concept",
+              "cls": "copy text-[11px] uppercase tracking-[0.3em] text-white/42",
+              "pill": false,
+              "color": "rgb(255, 255, 255)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "11px",
+              "letterSpacing": "3.3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16.5px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Luxury brokerage shaped by light, ecology, and quiet precision.",
+              "text": "Luxury brokerage shaped by light, ecology, and quiet precision.",
+              "tag": "h2",
+              "cls": "serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white",
+              "wrapCls": "max-w-3xl",
+              "fontSize": "72px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "66.24px",
+              "letterSpacing": "-4.32px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-0",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Biophilic integration</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Homes where living systems, natural airflow, and             curated landscapes are part of the architecture, not decoration.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-1",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Photovoltaic envelopes</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Façades that generate power while preserving the calm             visual language of a premium residence.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-2",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Net-positive habitation</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Residences designed to return more energy, comfort, and             ecological value than they consume.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col gap-4 lg:flex-row\">         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-0\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Biophilic integration</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Homes where living systems, natural airflow, and             curated landscapes are part of the architecture, not decoration.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-1\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Photovoltaic envelopes</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Façades that generate power while preserving the calm             visual language of a premium residence.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-2\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Net-positive habitation</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Residences designed to return more energy, comfort, and             ecological value than they consume.</p>         </article>       </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".copy{font-family: \"Inter Tight\", sans-serif;}\n.serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.06em;}\n.shell{background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(28px) saturate(1.18); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px;}\n.squircle{border-radius: 2rem;}\n.bloom{opacity: 0; transform: translateY(28px) scale(0.98); animation-duration: 0.9s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: bloom; animation-timeline: view(); animation-range: entry 8% cover 30%;}\n.lift{transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s, background 0.35s;}\n.lift:hover{transform: translateY(-7px); border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.5) 0px 30px 90px;}\n.divider{position: relative;}\n.divider::before{content: \"\"; position: absolute; left: 0px; top: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);}\n.feature-line{position: relative;}\n.feature-line::after{content: \"\"; position: absolute; left: 50%; top: -1.75rem; width: 18rem; height: 1rem; transform: translateX(-50%); background: radial-gradient(circle, rgba(234, 179, 8, 0.28), transparent 70%); filter: blur(18px); pointer-events: none;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mt-3{margin-top: 0.75rem;}\n.mt-4{margin-top: 1rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.aspect-\\[16\\/10\\]{aspect-ratio: 16 / 10;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-3xl{max-width: 48rem;}\n.flex-col{flex-direction: column;}\n.flex-wrap{flex-wrap: wrap;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/20{background-color: rgba(255, 255, 255, 0.2);}\n.bg-white\\/\\[0\\.04\\]{background-color: rgba(255, 255, 255, 0.04);}\n.object-cover{object-fit: cover;}\n.p-5{padding: 1.25rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-2{padding-top: 0.5rem; padding-bottom: 0.5rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.uppercase{text-transform: uppercase;}\n.leading-7{line-height: 1.75rem;}\n.leading-\\[0\\.92\\]{line-height: 0.92;}\n.tracking-\\[0\\.26em\\]{letter-spacing: 0.26em;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[\\.9fr_1\\.1fr\\]{grid-template-columns: 0.9fr 1.1fr;}}\n@media (min-width: 1024px){.lg\\:p-6{padding: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "80px 40px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1600px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1400&q=80",
+            "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1400&q=80"
+          ],
+          "raw": "       <div class=\"feature-line mb-12\">         <div class=\"max-w-3xl\">           <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Portfolio</div>           <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white\">             Selected estates with a river-like flow, no rigid box.           </h2>         </div>       </div>       <div class=\"space-y-4\">         <article class=\"bloom lift shell squircle overflow-hidden\">           <div class=\"grid gap-4 p-5 lg:grid-cols-[.9fr_1.1fr] lg:p-6\">             <div class=\"aspect-[16/10] overflow-hidden squircle bg-white/[0.04]\">               <img src=\"https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Solar villa\" class=\"h-full w-full object-cover\">             </div>             <div class=\"flex flex-col justify-between gap-6\">               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Solar villa</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">The Orchard Residence</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A secluded villa with photovoltaic skin, thermal                   mass, and native planting for passive cooling.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Net-positive</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Solar-ready</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Biophilic</span>               </div>             </div>           </div>         </article>         <article class=\"bloom lift shell squircle overflow-hidden\">           <div class=\"grid gap-4 p-5 lg:grid-cols-[.9fr_1.1fr] lg:p-6\">             <div class=\"aspect-[16/10] overflow-hidden squircle bg-white/[0.04]\">               <img src=\"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Urban biophilic development\" class=\"h-full w-full object-cover\">             </div>             <div class=\"flex flex-col justify-between gap-6\">               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Urban biophilic</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">Canopy District</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A mixed-use living block where terraces, trees,                   and daylight choreograph a softer city rhythm.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Geothermal</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Airflow tuned</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Low impact</span>               </div>             </div>           </div>         </article>       </div>     ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Portfolio",
+              "text": "Portfolio",
+              "cls": "copy text-[11px] uppercase tracking-[0.3em] text-white/42",
+              "pill": false,
+              "color": "rgb(255, 255, 255)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "11px",
+              "letterSpacing": "3.3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16.5px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Selected estates with a river-like flow, no rigid box.",
+              "text": "Selected estates with a river-like flow, no rigid box.",
+              "tag": "h2",
+              "cls": "serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white",
+              "wrapCls": "max-w-3xl",
+              "fontSize": "72px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "66.24px",
+              "letterSpacing": "-4.32px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "aspect-[16/10] overflow-hidden squircle bg-white/[0.04]",
+                  "colId": "sccol-3",
+                  "cw": 5,
+                  "html": "               <img src=\"https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Solar villa\" class=\"h-full w-full object-cover\">             ",
+                  "wrap": {
+                    "bg": "rgba(255, 255, 255, 0.04)",
+                    "radius": "32px",
+                    "borderW": "0px",
+                    "borderColor": "rgb(229, 231, 235)",
+                    "borderStyle": "solid",
+                    "shadow": "",
+                    "hoverShadow": "",
+                    "hoverLift": ""
+                  },
+                  "counter": null,
+                  "card": null,
+                  "image": {
+                    "src": "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=1400&q=80",
+                    "alt": "Solar villa",
+                    "objectFit": "cover",
+                    "maxWidth": "100%",
+                    "aspect": "16 / 10"
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex flex-col justify-between gap-6",
+                  "colId": "sccol-4",
+                  "cw": 6,
+                  "html": "               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Solar villa</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">The Orchard Residence</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A secluded villa with photovoltaic skin, thermal                   mass, and native planting for passive cooling.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Net-positive</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Solar-ready</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Biophilic</span>               </div>             ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "24px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Solar villa",
+                    "overlineClass": "copy text-[10px] uppercase tracking-[0.26em] text-white/42",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Orchard Residence",
+                    "titleTag": "h3",
+                    "titleClass": "serif mt-3 text-4xl text-white",
+                    "subtitle": "A secluded villa with photovoltaic skin, thermal mass, and native planting for passive cooling.",
+                    "subtitleClass": "mt-4 copy text-base leading-7 text-white/68",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 11,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid gap-4 p-5 lg:grid-cols-[.9fr_1.1fr] lg:p-6\">             <div class=\"aspect-[16/10] overflow-hidden squircle bg-white/[0.04]\" data-sc-col=\"sccol-3\">               <img src=\"https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Solar villa\" class=\"h-full w-full object-cover\">             </div>             <div class=\"flex flex-col justify-between gap-6\" data-sc-col=\"sccol-4\">               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Solar villa</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">The Orchard Residence</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A secluded villa with photovoltaic skin, thermal                   mass, and native planting for passive cooling.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-5\">Net-positive</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-6\">Solar-ready</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-7\">Biophilic</span>               </div>             </div>           </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "aspect-[16/10] overflow-hidden squircle bg-white/[0.04]",
+                  "colId": "sccol-8",
+                  "cw": 5,
+                  "html": "               <img src=\"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Urban biophilic development\" class=\"h-full w-full object-cover\">             ",
+                  "wrap": {
+                    "bg": "rgba(255, 255, 255, 0.04)",
+                    "radius": "32px",
+                    "borderW": "0px",
+                    "borderColor": "rgb(229, 231, 235)",
+                    "borderStyle": "solid",
+                    "shadow": "",
+                    "hoverShadow": "",
+                    "hoverLift": ""
+                  },
+                  "counter": null,
+                  "card": null,
+                  "image": {
+                    "src": "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1400&q=80",
+                    "alt": "Urban biophilic development",
+                    "objectFit": "cover",
+                    "maxWidth": "100%",
+                    "aspect": "16 / 10"
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex flex-col justify-between gap-6",
+                  "colId": "sccol-9",
+                  "cw": 6,
+                  "html": "               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Urban biophilic</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">Canopy District</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A mixed-use living block where terraces, trees,                   and daylight choreograph a softer city rhythm.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Geothermal</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Airflow tuned</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\">Low impact</span>               </div>             ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "24px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Urban biophilic",
+                    "overlineClass": "copy text-[10px] uppercase tracking-[0.26em] text-white/42",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Canopy District",
+                    "titleTag": "h3",
+                    "titleClass": "serif mt-3 text-4xl text-white",
+                    "subtitle": "A mixed-use living block where terraces, trees, and daylight choreograph a softer city rhythm.",
+                    "subtitleClass": "mt-4 copy text-base leading-7 text-white/68",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 11,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid gap-4 p-5 lg:grid-cols-[.9fr_1.1fr] lg:p-6\">             <div class=\"aspect-[16/10] overflow-hidden squircle bg-white/[0.04]\" data-sc-col=\"sccol-8\">               <img src=\"https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&amp;fit=crop&amp;w=1400&amp;q=80\" alt=\"Urban biophilic development\" class=\"h-full w-full object-cover\">             </div>             <div class=\"flex flex-col justify-between gap-6\" data-sc-col=\"sccol-9\">               <div>                 <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Urban biophilic</div>                 <h3 class=\"serif mt-3 text-4xl text-white\">Canopy District</h3>                 <p class=\"mt-4 copy text-base leading-7 text-white/68\">A mixed-use living block where terraces, trees,                   and daylight choreograph a softer city rhythm.</p>               </div>               <div class=\"flex flex-wrap gap-3 text-[11px] uppercase tracking-[0.2em] text-white/55\">                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-10\">Geothermal</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-11\">Airflow tuned</span>                 <span class=\"rounded-full border border-white/10 bg-white/20 px-4 py-2\" data-sc-col=\"sccol-12\">Low impact</span>               </div>             </div>           </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".copy{font-family: \"Inter Tight\", sans-serif;}\n.serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.06em;}\n.shell{background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(28px) saturate(1.18); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px;}\n.squircle{border-radius: 2rem;}\n.bloom{opacity: 0; transform: translateY(28px) scale(0.98); animation-duration: 0.9s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: bloom; animation-timeline: view(); animation-range: entry 8% cover 30%;}\n.lift{transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s, background 0.35s;}\n.lift:hover{transform: translateY(-7px); border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.5) 0px 30px 90px;}\n.divider{position: relative;}\n.divider::before{content: \"\"; position: absolute; left: 0px; top: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);}\n.feature-line{position: relative;}\n.feature-line::after{content: \"\"; position: absolute; left: 50%; top: -1.75rem; width: 18rem; height: 1rem; transform: translateX(-50%); background: radial-gradient(circle, rgba(234, 179, 8, 0.28), transparent 70%); filter: blur(18px); pointer-events: none;}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mt-4{margin-top: 1rem;}\n.flex{display: flex;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-3xl{max-width: 48rem;}\n.flex-1{flex: 1 1 0%;}\n.flex-col{flex-direction: column;}\n.gap-4{gap: 1rem;}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.uppercase{text-transform: uppercase;}\n.leading-7{line-height: 1.75rem;}\n.leading-\\[0\\.92\\]{line-height: 0.92;}\n.tracking-\\[0\\.26em\\]{letter-spacing: 0.26em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n@media (min-width: 1024px){.lg\\:flex-row{flex-direction: row;}}\n@media (min-width: 1024px){.lg\\:p-7{padding: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "80px 40px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1600px"
+          },
+          "assets": [],
+          "raw": "       <div class=\"feature-line mb-12\">         <div class=\"max-w-3xl\">           <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Principles</div>           <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white\">             Mist, transparency, and the quiet rhythm of the forest.           </h2>         </div>       </div>       <div class=\"flex flex-col gap-4 lg:flex-row\">         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Geothermal equilibrium</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Cooling and heating that feel invisible, stable, and             deeply efficient.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Subsurface scattering</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Soft inner glows and translucent surfaces that suggest             organic matter rather than hard product UI.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Bloom motion</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Viewport reveals that feel like vegetation opening to             light rather than generic animation.</p>         </article>       </div>     ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Principles",
+              "text": "Principles",
+              "cls": "copy text-[11px] uppercase tracking-[0.3em] text-white/42",
+              "pill": false,
+              "color": "rgb(255, 255, 255)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "11px",
+              "letterSpacing": "3.3px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16.5px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Mist, transparency, and the quiet rhythm of the forest.",
+              "text": "Mist, transparency, and the quiet rhythm of the forest.",
+              "tag": "h2",
+              "cls": "serif mt-4 text-[clamp(2.5rem,5vw,4.8rem)] leading-[0.92] text-white",
+              "wrapCls": "max-w-3xl",
+              "fontSize": "72px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "66.24px",
+              "letterSpacing": "-4.32px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-13",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Geothermal equilibrium</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Cooling and heating that feel invisible, stable, and             deeply efficient.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-14",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Subsurface scattering</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Soft inner glows and translucent surfaces that suggest             organic matter rather than hard product UI.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "bloom lift shell squircle flex-1 p-6 lg:p-7",
+                  "colId": "sccol-15",
+                  "cw": 4,
+                  "html": "           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Bloom motion</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Viewport reveals that feel like vegetation opening to             light rather than generic animation.</p>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col gap-4 lg:flex-row\">         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-13\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Geothermal equilibrium</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Cooling and heating that feel invisible, stable, and             deeply efficient.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-14\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Subsurface scattering</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Soft inner glows and translucent surfaces that suggest             organic matter rather than hard product UI.</p>         </article>         <article class=\"bloom lift shell squircle flex-1 p-6 lg:p-7\" data-sc-col=\"sccol-15\">           <div class=\"copy text-[10px] uppercase tracking-[0.26em] text-white/42\">Bloom motion</div>           <p class=\"mt-4 copy text-base leading-7 text-white/70\">Viewport reveals that feel like vegetation opening to             light rather than generic animation.</p>         </article>       </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".copy{font-family: \"Inter Tight\", sans-serif;}\n.serif{font-family: \"Cormorant Garamond\", serif; letter-spacing: -0.06em;}\n.shell{background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(28px) saturate(1.18); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px;}\n.shell-mist{background: linear-gradient(rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)); border: 1px solid rgba(255, 255, 255, 0.09); backdrop-filter: blur(80px) contrast(0.85) saturate(1.3); box-shadow: rgba(255, 255, 255, 0.06) 0px 1px 0px inset, rgba(0, 0, 0, 0.36) 0px 30px 100px;}\n.dew{position: relative; overflow: hidden; border-radius: 999px;}\n.dew::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.16)); mask: linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px); pointer-events: none;}\n.dew::after{content: \"\"; position: absolute; inset: -120%; background: linear-gradient(120deg, transparent 45%, rgba(255, 255, 255, 0.22) 50%, transparent 56%); transform: translateX(-140%) rotate(12deg); animation: 8s ease-in-out 0s infinite normal none running sheen; pointer-events: none; mix-blend-mode: screen;}\n.squircle{border-radius: 2rem;}\n.lift{transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s, border-color 0.35s, background 0.35s;}\n.lift:hover{transform: translateY(-7px); border-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); box-shadow: rgba(255, 255, 255, 0.05) 0px 1px 0px inset, rgba(0, 0, 0, 0.5) 0px 30px 90px;}\n.divider{position: relative;}\n.divider::before{content: \"\"; position: absolute; left: 0px; top: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-4{margin-top: 1rem;}\n.mt-5{margin-top: 1.25rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.w-full{width: 100%;}\n.min-w-0{min-width: 0px;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-2xl{max-width: 42rem;}\n.flex-1{flex: 1 1 0%;}\n.items-center{align-items: center;}\n.gap-3{gap: 0.75rem;}\n.gap-8{gap: 2rem;}\n.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));}\n.bg-transparent{background-color: transparent;}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.py-3\\.5{padding-top: 0.875rem; padding-bottom: 0.875rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.uppercase{text-transform: uppercase;}\n.leading-7{line-height: 1.75rem;}\n.leading-\\[0\\.92\\]{line-height: 0.92;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n.outline-none{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[1\\.15fr_\\.85fr\\]{grid-template-columns: 1.15fr 0.85fr;}}\n@media (min-width: 1024px){.lg\\:items-end{align-items: flex-end;}}\n@media (min-width: 1024px){.lg\\:p-8{padding: 2rem;}}\n@media (min-width: 1024px){.lg\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "80px 40px",
+            "fontFamily": "\"Inter Tight\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1600px"
+          },
+          "assets": [],
+          "raw": "       <div class=\"shell-mist squircle p-6 lg:p-8\">         <div class=\"grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end\">           <div>             <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Contact</div>             <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.6rem)] leading-[0.92] text-white\">               Request a private showing.             </h2>             <p class=\"mt-5 max-w-2xl copy text-base leading-7 text-white/68\">Private tours, development opportunities,               and curated introductions for buyers seeking regenerative luxury.</p>           </div>           <div class=\"space-y-3\">             <div class=\"shell squircle flex items-center gap-3 px-4 py-3\">               <iconify-icon icon=\"ph:envelope-simple\" class=\"text-white/55\"></iconify-icon>               <input type=\"email\" placeholder=\"Email address\" class=\"min-w-0 flex-1 bg-transparent outline-none copy text-white placeholder:text-white/28\">             </div>             <button class=\"dew lift shell squircle w-full px-5 py-3.5 copy text-sm text-white\">Schedule               consultation</button>           </div>         </div>       </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-16",
+                  "cw": 7,
+                  "html": "             <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Contact</div>             <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.6rem)] leading-[0.92] text-white\">               Request a private showing.             </h2>             <p class=\"mt-5 max-w-2xl copy text-base leading-7 text-white/68\">Private tours, development opportunities,               and curated introductions for buyers seeking regenerative luxury.</p>           ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Contact",
+                    "overlineClass": "copy text-[11px] uppercase tracking-[0.3em] text-white/42",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Request a private showing.",
+                    "titleTag": "h2",
+                    "titleClass": "serif mt-4 text-[clamp(2.5rem,5vw,4.6rem)] leading-[0.92] text-white",
+                    "subtitle": "Private tours, development opportunities, and curated introductions for buyers seeking regenerative luxury.",
+                    "subtitleClass": "mt-5 max-w-2xl copy text-base leading-7 text-white/68",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "space-y-3",
+                  "colId": "sccol-17",
+                  "cw": 5,
+                  "html": "             <div class=\"shell squircle flex items-center gap-3 px-4 py-3\">               <iconify-icon icon=\"ph:envelope-simple\" class=\"text-white/55\"></iconify-icon>               <input type=\"email\" placeholder=\"Email address\" class=\"min-w-0 flex-1 bg-transparent outline-none copy text-white placeholder:text-white/28\">             </div>             <button class=\"dew lift shell squircle w-full px-5 py-3.5 copy text-sm text-white\">Schedule               consultation</button>           ",
+                  "counter": null,
+                  "card": null,
+                  "buttons": [
+                    {
+                      "t": "button",
+                      "label": "Schedule consultation",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=regenerative-living-architecture",
+                      "tag": "button",
+                      "cls": "dew lift shell squircle w-full px-5 py-3.5 copy text-sm text-white",
+                      "align": "center",
+                      "icon": "",
+                      "iconPos": "after",
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgb(255, 255, 255)",
+                        "bd": "rgba(255, 255, 255, 0.08)",
+                        "bds": "solid"
+                      },
+                      "sh": "rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.42) 0px 24px 90px 0px",
+                      "rad": "32px",
+                      "bw": "1px",
+                      "bwStyle": "solid",
+                      "pad": "14px 20px",
+                      "height": "50px",
+                      "radius": "32px",
+                      "fw": "400",
+                      "fs": "14px",
+                      "lh": "20px",
+                      "tw": {
+                        "px": "20px",
+                        "py": "14px",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      },
+                      "hover": null
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end\">           <div data-sc-col=\"sccol-16\">             <div class=\"copy text-[11px] uppercase tracking-[0.3em] text-white/42\">Contact</div>             <h2 class=\"serif mt-4 text-[clamp(2.5rem,5vw,4.6rem)] leading-[0.92] text-white\">               Request a private showing.             </h2>             <p class=\"mt-5 max-w-2xl copy text-base leading-7 text-white/68\">Private tours, development opportunities,               and curated introductions for buyers seeking regenerative luxury.</p>           </div>           <div class=\"space-y-3\" data-sc-col=\"sccol-17\">             <div class=\"shell squircle flex items-center gap-3 px-4 py-3\">               <iconify-icon icon=\"ph:envelope-simple\" class=\"text-white/55\" data-sc-col=\"sccol-18\"></iconify-icon>               <input type=\"email\" placeholder=\"Email address\" class=\"min-w-0 flex-1 bg-transparent outline-none copy text-white placeholder:text-white/28\" data-sc-col=\"sccol-19\">             </div>             <button class=\"dew lift shell squircle w-full px-5 py-3.5 copy text-sm text-white\">Schedule               consultation</button>           </div>         </div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

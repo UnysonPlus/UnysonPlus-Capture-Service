@@ -1,0 +1,25 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1561px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+css-animation,.light-corridor,"infinite keyframes 'corridor-breathe' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.dust-field span,"infinite keyframes 'dust-drift' (transform,opacity)",physics float/pulse or backgrounds module,low
+css-animation,.status-pulse,"infinite keyframes 'pulse-live' (transform,opacity)",physics float/pulse or backgrounds module,low
+css-animation,.savanna-portal,"infinite keyframes 'lens-drift' (transform,right)",physics float/pulse or backgrounds module,low
+css-animation,.hero-eyebrow,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.hero-title,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.hero-body,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.hero-ctas,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.telemetry-hud,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.scroll-hint,keyframes 'fade-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.scroll-track,"infinite keyframes 'scroll-pulse' (transform,transform-origin,opacity)",physics float/pulse or backgrounds module,low
+css-animation,.biome-orb,infinite keyframes 'orb-float' (transform),physics float/pulse or backgrounds module,low
+css-animation,.acoustic-bar,infinite keyframes 'wave-pulse' (height),physics float/pulse or backgrounds module,low
+css-animation,.genome-bar-fill,keyframes 'fill-expand' 2s,entrance animation (Animate.css picker),low
+hover,"body:has(a) #cursor-ring, body:has(button) #cursor-ring","width, height, border-top-color, border-right-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.nav-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.btn-primary,transform change on hover,interaction: {effect:'lift'},medium
+hover,.btn-ghost,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.tech-card,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,.data-cell,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.genome-node,"transform, border-top-color, border-right-color, border-bottom-color change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.footer-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,btn-ghost,"color, borderColor change on hover",interaction: {effect:'color_shift'},medium

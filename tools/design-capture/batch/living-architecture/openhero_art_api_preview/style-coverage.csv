@@ -1,0 +1,27 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,background-image,2,no
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,box-shadow,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,border,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,border-radius,6,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,max-width,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,padding,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,margin,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,transform,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,position-absolute,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,0,relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none,display-flex,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,background-image,3,no
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,background-color,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,backdrop-filter,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,box-shadow,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,border,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,border-radius,18,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,max-width,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,padding,3,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,margin,10,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,transform,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,position-absolute,1,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,display-flex,2,yes
+https://openhero.art/api/preview?category=nature&slug=living-architecture,home,1,rhizome-section,display-grid,1,yes

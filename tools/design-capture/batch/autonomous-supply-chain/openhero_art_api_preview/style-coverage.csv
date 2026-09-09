@@ -1,0 +1,14 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,background-image,4,no
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,background-color,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,box-shadow,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,border,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,border-radius,7,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,max-width,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,padding,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,margin,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,gap,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,position-absolute,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,display-flex,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=autonomous-supply-chain,home,0,grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto,display-grid,1,yes

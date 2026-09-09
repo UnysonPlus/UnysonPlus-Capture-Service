@@ -1,0 +1,437 @@
+{
+  "url": "https://openhero.art/api/preview?category=abstract&slug=high-performance-automotive-dynamics",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"es\" class=\"dark\" data-sc-cs=\"background-color:rgb(5, 5, 5);color:rgb(0, 0, 0)\" data-sc-content-width=\"1200\"><head> \n<meta charset=\"UTF-8\"> \n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"> \n<meta name=\"view-transition\" content=\"same-origin\"> \n<title>High-Performance Automotive Dynamics</title> \n<script src=\"https://unpkg.com/@tailwindcss/browser@4\"></script><style>/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */\n@layer properties;\n@layer theme, base, components, utilities;\n@layer theme {\n  :root, :host {\n    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', Arial,\n    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';\n    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',\n    monospace;\n    --color-zinc-100: oklch(96.7% 0.001 286.375);\n    --color-zinc-400: oklch(70.5% 0.015 286.067);\n    --color-zinc-500: oklch(55.2% 0.016 285.938);\n    --color-zinc-600: oklch(44.2% 0.017 285.786);\n    --color-zinc-700: oklch(37% 0.013 285.805);\n    --color-zinc-800: oklch(27.4% 0.006 286.033);\n    --color-zinc-900: oklch(21% 0.006 285.885);\n    --color-black: #000;\n    --color-white: #fff;\n    --spacing: 0.25rem;\n    --container-2xl: 42rem;\n    --container-5xl: 64rem;\n    --container-7xl: 80rem;\n    --text-xs: 0.75rem;\n    --text-xs--line-height: calc(1 / 0.75);\n    --text-sm: 0.875rem;\n    --text-sm--line-height: calc(1.25 / 0.875);\n    --text-xl: 1.25rem;\n    --text-xl--line-height: calc(1.75 / 1.25);\n    --text-2xl: 1.5rem;\n    --text-2xl--line-height: calc(2 / 1.5);\n    --text-4xl: 2.25rem;\n    --text-4xl--line-height: calc(2.5 / 2.25);\n    --text-5xl: 3rem;\n    --text-5xl--line-height: 1;\n    --text-6xl: 3.75rem;\n    --text-6xl--line-height: 1;\n    --text-7xl: 4.5rem;\n    --text-7xl--line-height: 1;\n    --text-9xl: 8rem;\n    --text-9xl--line-height: 1;\n    --font-weight-light: 300;\n    --font-weight-medium: 500;\n    --font-weight-semibold: 600;\n    --font-weight-bold: 700;\n    --font-weight-black: 900;\n    --tracking-tighter: -0.05em;\n    --tracking-tight: -0.025em;\n    --leading-relaxed: 1.625;\n    --default-font-family: var(--font-sans);\n    --default-mono-font-family: var(--font-mono);\n  }\n}\n@layer base {\n  *, ::after, ::before, ::backdrop, ::file-selector-button {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    border: 0 solid;\n  }\n  html, :host {\n    line-height: 1.5;\n    -webkit-text-size-adjust: 100%;\n    tab-size: 4;\n    font-family: var(--default-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');\n    font-feature-settings: var(--default-font-feature-settings, normal);\n    font-variation-settings: var(--default-font-variation-settings, normal);\n    -webkit-tap-highlight-color: transparent;\n  }\n  hr {\n    height: 0;\n    color: inherit;\n    border-top-width: 1px;\n  }\n  abbr:where([title]) {\n    -webkit-text-decoration: underline dotted;\n    text-decoration: underline dotted;\n  }\n  h1, h2, h3, h4, h5, h6 {\n    font-size: inherit;\n    font-weight: inherit;\n  }\n  a {\n    color: inherit;\n    -webkit-text-decoration: inherit;\n    text-decoration: inherit;\n  }\n  b, strong {\n    font-weight: bolder;\n  }\n  code, kbd, samp, pre {\n    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);\n    font-feature-settings: var(--default-mono-font-feature-settings, normal);\n    font-variation-settings: var(--default-mono-font-variation-settings, normal);\n    font-size: 1em;\n  }\n  small {\n    font-size: 80%;\n  }\n  sub, sup {\n    font-size: 75%;\n    line-height: 0;\n    position: relative;\n    vertical-align: baseline;\n  }\n  sub {\n    bottom: -0.25em;\n  }\n  sup {\n    top: -0.5em;\n  }\n  table {\n    text-indent: 0;\n    border-color: inherit;\n    border-collapse: collapse;\n  }\n  :-moz-focusring:where(:not(iframe)) {\n    outline: auto;\n  }\n  progress {\n    vertical-align: baseline;\n  }\n  summary {\n    display: list-item;\n  }\n  ol, ul, menu {\n    list-style: none;\n  }\n  img, svg, video, canvas, audio, iframe, embed, object {\n    display: block;\n    vertical-align: middle;\n  }\n  img, video {\n    max-width: 100%;\n    height: auto;\n  }\n  button, input, select, optgroup, textarea, ::file-selector-button {\n    font: inherit;\n    font-feature-settings: inherit;\n    font-variation-settings: inherit;\n    letter-spacing: inherit;\n    color: inherit;\n    border-radius: 0;\n    background-color: transparent;\n    opacity: 1;\n  }\n  :where(select:is([multiple], [size])) optgroup {\n    font-weight: bolder;\n  }\n  :where(select:is([multiple], [size])) optgroup option {\n    padding-inline-start: 20px;\n  }\n  ::file-selector-button {\n    margin-inline-end: 4px;\n  }\n  ::placeholder {\n    opacity: 1;\n  }\n  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {\n    ::placeholder {\n      color: currentcolor;\n      @supports (color: color-mix(in lab, red, red)) {\n        color: color-mix(in oklab, currentcolor 50%, transparent);\n      }\n    }\n  }\n  textarea {\n    resize: vertical;\n  }\n  ::-webkit-search-decoration {\n    -webkit-appearance: none;\n  }\n  ::-webkit-date-and-time-value {\n    min-height: 1lh;\n    text-align: inherit;\n  }\n  ::-webkit-datetime-edit {\n    display: inline-flex;\n  }\n  ::-webkit-datetime-edit-fields-wrapper {\n    padding: 0;\n  }\n  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {\n    padding-block: 0;\n  }\n  ::-webkit-calendar-picker-indicator {\n    line-height: 1;\n  }\n  :-moz-ui-invalid {\n    box-shadow: none;\n  }\n  button, input:where([type='button'], [type='reset'], [type='submit']), ::file-selector-button {\n    appearance: button;\n  }\n  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {\n    height: auto;\n  }\n  [hidden]:where(:not([hidden='until-found'])) {\n    display: none !important;\n  }\n}\n@layer utilities {\n  .absolute {\n    position: absolute;\n  }\n  .relative {\n    position: relative;\n  }\n  .inset-0 {\n    inset: 0px;\n  }\n  .z-10 {\n    z-index: 10;\n  }\n  .col-span-4 {\n    grid-column: span 4 / span 4;\n  }\n  .col-span-8 {\n    grid-column: span 8 / span 8;\n  }\n  .mx-auto {\n    margin-inline: auto;\n  }\n  .mt-8 {\n    margin-top: calc(var(--spacing) * 8);\n  }\n  .mb-2 {\n    margin-bottom: calc(var(--spacing) * 2);\n  }\n  .mb-4 {\n    margin-bottom: calc(var(--spacing) * 4);\n  }\n  .mb-6 {\n    margin-bottom: calc(var(--spacing) * 6);\n  }\n  .mb-8 {\n    margin-bottom: calc(var(--spacing) * 8);\n  }\n  .mb-12 {\n    margin-bottom: calc(var(--spacing) * 12);\n  }\n  .mb-24 {\n    margin-bottom: calc(var(--spacing) * 24);\n  }\n  .flex {\n    display: flex;\n  }\n  .h-1 {\n    height: var(--spacing);\n  }\n  .h-32 {\n    height: calc(var(--spacing) * 32);\n  }\n  .h-48 {\n    height: calc(var(--spacing) * 48);\n  }\n  .h-full {\n    height: 100%;\n  }\n  .min-h-\\[300px\\] {\n    min-height: 300px;\n  }\n  .min-h-\\[400px\\] {\n    min-height: 400px;\n  }\n  .min-h-screen {\n    min-height: 100vh;\n  }\n  .w-32 {\n    width: calc(var(--spacing) * 32);\n  }\n  .w-48 {\n    width: calc(var(--spacing) * 48);\n  }\n  .w-\\[78\\%\\] {\n    width: 78%;\n  }\n  .w-full {\n    width: 100%;\n  }\n  .max-w-2xl {\n    max-width: var(--container-2xl);\n  }\n  .max-w-5xl {\n    max-width: var(--container-5xl);\n  }\n  .max-w-7xl {\n    max-width: var(--container-7xl);\n  }\n  .flex-1 {\n    flex: 1;\n  }\n  .flex-col {\n    flex-direction: column;\n  }\n  .items-center {\n    align-items: center;\n  }\n  .items-end {\n    align-items: flex-end;\n  }\n  .items-start {\n    align-items: flex-start;\n  }\n  .justify-between {\n    justify-content: space-between;\n  }\n  .justify-center {\n    justify-content: center;\n  }\n  .gap-4 {\n    gap: calc(var(--spacing) * 4);\n  }\n  .overflow-hidden {\n    overflow: hidden;\n  }\n  .rounded-full {\n    border-radius: calc(infinity * 1px);\n  }\n  .border {\n    border-style: var(--tw-border-style);\n    border-width: 1px;\n  }\n  .border-zinc-700 {\n    border-color: var(--color-zinc-700);\n  }\n  .border-zinc-800 {\n    border-color: var(--color-zinc-800);\n  }\n  .bg-zinc-900 {\n    background-color: var(--color-zinc-900);\n  }\n  .bg-gradient-to-b {\n    --tw-gradient-position: to bottom in oklab;\n    background-image: linear-gradient(var(--tw-gradient-stops));\n  }\n  .bg-gradient-to-r {\n    --tw-gradient-position: to right in oklab;\n    background-image: linear-gradient(var(--tw-gradient-stops));\n  }\n  .bg-\\[radial-gradient\\(ellipse_at_center\\,rgba\\(255\\,255\\,255\\,0\\.03\\)_0\\%\\,transparent_70\\%\\)\\] {\n    background-image: radial-gradient(ellipse at center,rgba(255,255,255,0.03) 0%,transparent 70%);\n  }\n  .from-\\[var\\(--neon-blue\\)\\] {\n    --tw-gradient-from: var(--neon-blue);\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .from-zinc-100 {\n    --tw-gradient-from: var(--color-zinc-100);\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .to-\\[var\\(--flame-red\\)\\] {\n    --tw-gradient-to: var(--flame-red);\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .to-zinc-800 {\n    --tw-gradient-to: var(--color-zinc-800);\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .bg-clip-text {\n    background-clip: text;\n  }\n  .object-cover {\n    object-fit: cover;\n  }\n  .p-10 {\n    padding: calc(var(--spacing) * 10);\n  }\n  .px-3 {\n    padding-inline: calc(var(--spacing) * 3);\n  }\n  .px-8 {\n    padding-inline: calc(var(--spacing) * 8);\n  }\n  .py-1 {\n    padding-block: var(--spacing);\n  }\n  .pt-32 {\n    padding-top: calc(var(--spacing) * 32);\n  }\n  .pb-16 {\n    padding-bottom: calc(var(--spacing) * 16);\n  }\n  .text-center {\n    text-align: center;\n  }\n  .font-mono {\n    font-family: var(--font-mono);\n  }\n  .text-2xl {\n    font-size: var(--text-2xl);\n    line-height: var(--tw-leading, var(--text-2xl--line-height));\n  }\n  .text-4xl {\n    font-size: var(--text-4xl);\n    line-height: var(--tw-leading, var(--text-4xl--line-height));\n  }\n  .text-5xl {\n    font-size: var(--text-5xl);\n    line-height: var(--tw-leading, var(--text-5xl--line-height));\n  }\n  .text-6xl {\n    font-size: var(--text-6xl);\n    line-height: var(--tw-leading, var(--text-6xl--line-height));\n  }\n  .text-7xl {\n    font-size: var(--text-7xl);\n    line-height: var(--tw-leading, var(--text-7xl--line-height));\n  }\n  .text-sm {\n    font-size: var(--text-sm);\n    line-height: var(--tw-leading, var(--text-sm--line-height));\n  }\n  .text-xl {\n    font-size: var(--text-xl);\n    line-height: var(--tw-leading, var(--text-xl--line-height));\n  }\n  .text-xs {\n    font-size: var(--text-xs);\n    line-height: var(--tw-leading, var(--text-xs--line-height));\n  }\n  .leading-none {\n    --tw-leading: 1;\n    line-height: 1;\n  }\n  .leading-relaxed {\n    --tw-leading: var(--leading-relaxed);\n    line-height: var(--leading-relaxed);\n  }\n  .font-black {\n    --tw-font-weight: var(--font-weight-black);\n    font-weight: var(--font-weight-black);\n  }\n  .font-bold {\n    --tw-font-weight: var(--font-weight-bold);\n    font-weight: var(--font-weight-bold);\n  }\n  .font-light {\n    --tw-font-weight: var(--font-weight-light);\n    font-weight: var(--font-weight-light);\n  }\n  .font-medium {\n    --tw-font-weight: var(--font-weight-medium);\n    font-weight: var(--font-weight-medium);\n  }\n  .font-semibold {\n    --tw-font-weight: var(--font-weight-semibold);\n    font-weight: var(--font-weight-semibold);\n  }\n  .tracking-\\[0\\.3em\\] {\n    --tw-tracking: 0.3em;\n    letter-spacing: 0.3em;\n  }\n  .tracking-tight {\n    --tw-tracking: var(--tracking-tight);\n    letter-spacing: var(--tracking-tight);\n  }\n  .tracking-tighter {\n    --tw-tracking: var(--tracking-tighter);\n    letter-spacing: var(--tracking-tighter);\n  }\n  .text-transparent {\n    color: transparent;\n  }\n  .text-white {\n    color: var(--color-white);\n  }\n  .text-zinc-400 {\n    color: var(--color-zinc-400);\n  }\n  .text-zinc-500 {\n    color: var(--color-zinc-500);\n  }\n  .text-zinc-600 {\n    color: var(--color-zinc-600);\n  }\n  .uppercase {\n    text-transform: uppercase;\n  }\n  .antialiased {\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n  }\n  .opacity-50 {\n    opacity: 50%;\n  }\n  .shadow-\\[0_0_30px_var\\(--flame-red\\)\\] {\n    --tw-shadow: 0 0 30px var(--tw-shadow-color, var(--flame-red));\n    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);\n  }\n  .shadow-inner {\n    --tw-shadow: inset 0 2px 4px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));\n    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);\n  }\n  .selection\\:bg-white ::selection {\n    background-color: var(--color-white);\n  }\n  .selection\\:bg-white::selection {\n    background-color: var(--color-white);\n  }\n  .selection\\:text-black ::selection {\n    color: var(--color-black);\n  }\n  .selection\\:text-black::selection {\n    color: var(--color-black);\n  }\n  @media (width >= 48rem) {\n    .md\\:px-24 {\n      padding-inline: calc(var(--spacing) * 24);\n    }\n    .md\\:text-6xl {\n      font-size: var(--text-6xl);\n      line-height: var(--tw-leading, var(--text-6xl--line-height));\n    }\n    .md\\:text-9xl {\n      font-size: var(--text-9xl);\n      line-height: var(--tw-leading, var(--text-9xl--line-height));\n    }\n  }\n}\n@property --tw-border-style {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: solid;\n}\n@property --tw-gradient-position {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-from {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-via {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-to {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-stops {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-via-stops {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-from-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 0%;\n}\n@property --tw-gradient-via-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 50%;\n}\n@property --tw-gradient-to-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-leading {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-font-weight {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-tracking {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-shadow-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-shadow-alpha {\n  syntax: \"<percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-inset-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-inset-shadow-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-inset-shadow-alpha {\n  syntax: \"<percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-ring-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-ring-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-inset-ring-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-inset-ring-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-ring-inset {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-ring-offset-width {\n  syntax: \"<length>\";\n  inherits: false;\n  initial-value: 0px;\n}\n@property --tw-ring-offset-color {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: #fff;\n}\n@property --tw-ring-offset-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@layer properties {\n  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {\n    *, ::before, ::after, ::backdrop {\n      --tw-border-style: solid;\n      --tw-gradient-position: initial;\n      --tw-gradient-from: #0000;\n      --tw-gradient-via: #0000;\n      --tw-gradient-to: #0000;\n      --tw-gradient-stops: initial;\n      --tw-gradient-via-stops: initial;\n      --tw-gradient-from-position: 0%;\n      --tw-gradient-via-position: 50%;\n      --tw-gradient-to-position: 100%;\n      --tw-leading: initial;\n      --tw-font-weight: initial;\n      --tw-tracking: initial;\n      --tw-shadow: 0 0 #0000;\n      --tw-shadow-color: initial;\n      --tw-shadow-alpha: 100%;\n      --tw-inset-shadow: 0 0 #0000;\n      --tw-inset-shadow-color: initial;\n      --tw-inset-shadow-alpha: 100%;\n      --tw-ring-color: initial;\n      --tw-ring-shadow: 0 0 #0000;\n      --tw-inset-ring-color: initial;\n      --tw-inset-ring-shadow: 0 0 #0000;\n      --tw-ring-inset: initial;\n      --tw-ring-offset-width: 0px;\n      --tw-ring-offset-color: #fff;\n      --tw-ring-offset-shadow: 0 0 #0000;\n    }\n  }\n}\n</style> \n<style> \n:root { \n  --neon-blue: oklch(65% 0.3 260); \n  --flame-red: oklch(60% 0.3 20); \n  --carbon-base: oklch(15% 0.01 260); \n  --glass-edge: rgba(255, 255, 255, 0.05); \n} \n\nbody { \n  background-color: #050505; \n  color: #fff; \n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; \n  overflow-x: hidden; \n  overscroll-behavior: none; \n} \n\n::view-transition-old(root), \n::view-transition-new(root) { \n  animation-duration: 0.8s; \n  animation-timing-function: cubic-bezier(0.25, 1, 0, 1); \n} \n\n.portal-container { \n  position: fixed; \n  inset: -10vh -10vw; \n  z-index: 0; \n  clip-path: polygon(0 0, 88% 8%, 100% 100%, 12% 92%); \n  pointer-events: none; \n  transform: scale(1.05); \n} \n\n/* CORRECCIÓN APLICADA AQUÍ */\n.portal-backdrop { \n  position: absolute; \n  inset: 0; \n  /* Se reemplaza el blur destructivo por un gradiente radial que funde los bordes pero deja el centro nítido */\n  background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(5,5,5,0.8) 60%, rgba(5,5,5,1) 100%);\n} \n\n@keyframes kinetic-shimmer { \n  0% { background-position: 200% center; } \n  100% { background-position: -200% center; } \n} \n\n.text-kinetic { \n  background: linear-gradient( \n    90deg, \n    var(--neon-blue) 0%, \n    #ffffff 25%, \n    var(--flame-red) 50%, \n    #ffffff 75%, \n    var(--neon-blue) 100% \n  ); \n  background-size: 200% auto; \n  color: transparent; \n  -webkit-background-clip: text; \n  background-clip: text; \n  animation: kinetic-shimmer 6s cubic-bezier(0.4, 0, 0.2, 1) infinite; \n} \n\n.debossed-surface { \n  background: linear-gradient(145deg, var(--carbon-base), #020202); \n  box-shadow: \n    inset 3px 3px 8px rgba(0, 0, 0, 0.9), \n    inset -2px -2px 6px rgba(255, 255, 255, 0.03), \n    0 10px 30px rgba(0,0,0,0.5); \n  border-radius: 24px; \n  position: relative; \n  overflow: hidden; \n} \n\n.debossed-surface::before { \n  content: \"\"; \n  position: absolute; \n  inset: 0; \n  border-radius: inherit; \n  padding: 1px; \n  background: linear-gradient( \n    135deg, \n    rgba(255,255,255,0.05) 0%, \n    transparent 40%, \n    transparent 60%, \n    rgba(255,255,255,0.02) 100% \n  ); \n  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); \n  -webkit-mask-composite: xor; \n  mask-composite: exclude; \n  pointer-events: none; \n} \n\n.glow-edge { \n  position: absolute; \n  inset: 0; \n  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), var(--neon-blue) 0%, transparent 50%); \n  opacity: 0; \n  transition: opacity 0.3s; \n  mix-blend-mode: screen; \n  pointer-events: none; \n} \n\n.debossed-surface:hover .glow-edge { \n  opacity: 0.15; \n} \n\n.liquid-mercury-btn { \n  background: linear-gradient(135deg, #d4d4d4 0%, #8a8a8a 50%, #e5e5e5 100%); \n  color: #000; \n  font-weight: 600; \n  padding: 1rem 2.5rem; \n  border-radius: 9999px; \n  box-shadow: \n    0 10px 20px rgba(0,0,0,0.5), \n    inset 0 2px 4px rgba(255,255,255,0.9), \n    inset 0 -2px 4px rgba(0,0,0,0.3); \n  transform-style: preserve-3d; \n  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); \n  position: relative; \n} \n\n.liquid-mercury-btn:hover { \n  transform: translateY(-4px) translateZ(32px) scale(1.02); \n  box-shadow: \n    0 25px 40px rgba(0,0,0,0.6), \n    0 0 30px var(--neon-blue), \n    inset 0 2px 4px rgba(255,255,255,0.9), \n    inset 0 -2px 4px rgba(0,0,0,0.3); \n} \n\n@keyframes scroll-reveal { \n  from { \n    opacity: 0; \n    transform: translateY(80px) scale(0.95); \n  } \n  to { \n    opacity: 1; \n    transform: translateY(0) scale(1); \n  } \n} \n\n.native-scroll-timeline { \n  animation: scroll-reveal linear both; \n  animation-timeline: view(); \n  animation-range: entry 10% cover 30%; \n} \n\n.bento-grid { \n  display: grid; \n  grid-template-columns: repeat(12, 1fr); \n  grid-auto-rows: minmax(100px, auto); \n  gap: 1.5rem; \n} \n\n.col-span-8 { grid-column: span 8; } \n.col-span-4 { grid-column: span 4; } \n.col-span-12 { grid-column: span 12; } \n\n@media (max-width: 1024px) { \n  .col-span-8, .col-span-4 { grid-column: span 12; } \n} \n</style> \n</head> \n<body class=\"antialiased selection:bg-white selection:text-black\" data-sc-cs=\"background-color:rgb(5, 5, 5);color:rgb(255, 255, 255)\"> \n\n<div class=\"portal-container\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.05, 0, 0, 1.05, 0, 0);position:fixed\"> \n  <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"> \n    <source src=\"https://videos.openhero.art/downloads/abstract/high-performance-automotive-dynamics/video.mp4\" type=\"video/mp4\"> \n  </video> \n  <div class=\"portal-backdrop\" data-sc-cs=\"background-image:radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 5, 0.8) 60%, rgb(5, 5, 5) 100%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div> </div> \n  <div class=\"relative z-10 w-full min-h-screen flex flex-col justify-center px-8 md:px-24 pt-32 pb-16\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:128px 96px 64px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all\"> \n    \n    <header class=\"mb-24 max-w-5xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 96px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;max-width:1024px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"> \n      <h2 class=\"text-sm tracking-[0.3em] uppercase text-zinc-500 mb-4 font-semibold\" data-sc-cs=\"color:oklch(0.552 0.016 285.938);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:600;line-height:20px;letter-spacing:4.2px;text-align:start;text-transform:uppercase;margin:0px 0px 16px;border-top-style:solid;border-top-color:oklch(0.552 0.016 285.938);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">AERO – Precision Engineering</h2> \n      <h1 class=\"text-6xl md:text-9xl font-bold tracking-tighter leading-none mb-8 text-kinetic\" data-sc-cs=\"background-image:linear-gradient(90deg, oklch(0.65 0.3 260) 0%, rgb(255, 255, 255) 25%, oklch(0.6 0.3 20) 50%, rgb(255, 255, 255) 75%, oklch(0.65 0.3 260) 100%);color:rgba(0, 0, 0, 0);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:128px;font-weight:700;line-height:128px;letter-spacing:-6.4px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgba(0, 0, 0, 0);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\"> \n        AERODYNAMIC<br>DYNAMICS \n      </h1> \n      <p class=\"text-xl text-zinc-400 max-w-2xl leading-relaxed mb-12\" data-sc-cs=\"color:oklch(0.705 0.015 286.067);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:20px;font-weight:400;line-height:32.5px;text-align:start;margin:0px 0px 48px;border-top-style:solid;border-top-color:oklch(0.705 0.015 286.067);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"> \n        Fluid engineering meeting liquid asphalt. The culmination of aerodynamic downforce and raw kinetic energy seamlessly forged into high-fidelity chassis architecture. \n      </p> \n      <button class=\"liquid-mercury-btn\" data-sc-cs=\"background-image:linear-gradient(135deg, rgb(212, 212, 212) 0%, rgb(138, 138, 138) 50%, rgb(229, 229, 229) 100%);color:rgb(0, 0, 0);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:600;line-height:24px;text-align:center;padding:16px 40px;border-top-style:solid;border-top-color:rgb(0, 0, 0);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0.5) 0px 10px 20px 0px, rgba(255, 255, 255, 0.9) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px -2px 4px 0px inset;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)\" data-sc-hover=\"hover-self{transform:translateY(-4px) translateZ(32px) scale(1.02);box-shadow:0 25px 40px rgba(0,0,0,0.6), \n    0 0 30px var(--neon-blue), \n    inset 0 2px 4px rgba(255,255,255,0.9), \n    inset 0 -2px 4px rgba(0,0,0,0.3)}\"> Initiate Sequence </button> \n    </header> \n    \n    <main class=\"w-full max-w-7xl mx-auto bento-grid native-scroll-timeline\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;max-width:1280px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.959415, 0, 0, 0.959415, 0, 64.9354)\"> \n      \n      <div class=\"debossed-surface col-span-8 p-10 flex flex-col justify-between min-h-[400px]\" data-sc-cs=\"background-image:linear-gradient(145deg, oklch(0.15 0.01 260), rgb(2, 2, 2));color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.9) 3px 3px 8px 0px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px 0px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px 0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\"> \n        <div class=\"glow-edge\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.65 0.3 260) 0%, rgba(0, 0, 0, 0) 50%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute\"></div> \n        <div class=\"flex justify-between items-start\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\"> \n          <h3 class=\"text-2xl font-medium tracking-tight text-white\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:500;line-height:32px;letter-spacing:-0.6px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Torque Vectoring</h3> \n          <span class=\"text-xs font-mono text-zinc-500 border border-zinc-800 rounded-full px-3 py-1\" data-sc-cs=\"color:oklch(0.552 0.016 285.938);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;padding:4px 12px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.274 0.006 286.033);border-radius:3.35544e+07px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">SYS.ACTIVE</span> \n        </div> \n        <div class=\"mt-8 flex gap-4 items-end\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:flex-end;flex-direction:row;transition:all\"> \n          <div class=\"text-7xl font-light tracking-tighter\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:72px;font-weight:300;line-height:72px;letter-spacing:-3.6px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">840</div> \n          <div class=\"text-xl text-zinc-500 mb-2 font-mono\" data-sc-cs=\"color:oklch(0.552 0.016 285.938);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:20px;font-weight:400;line-height:28px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:oklch(0.552 0.016 285.938);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Nm</div> \n        </div> \n        <div class=\"w-full h-1 bg-zinc-900 rounded-full mt-8 overflow-hidden shadow-inner\" data-sc-cs=\"background-color:oklch(0.21 0.006 285.885);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:3.35544e+07px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 2px 4px 0px inset;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"> \n          <div class=\"h-full bg-gradient-to-r from-[var(--neon-blue)] to-[var(--flame-red)] w-[78%]\" data-sc-cs=\"background-image:linear-gradient(to right, oklch(0.65 0.3 260) 0%, oklch(0.6 0.3 20) 100%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> \n        </div> \n      </div> \n      \n      <div class=\"debossed-surface col-span-4 p-10 flex flex-col justify-between min-h-[400px]\" data-sc-cs=\"background-image:linear-gradient(145deg, oklch(0.15 0.01 260), rgb(2, 2, 2));color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.9) 3px 3px 8px 0px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px 0px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px 0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\"> \n        <div class=\"glow-edge\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.65 0.3 260) 0%, rgba(0, 0, 0, 0) 50%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute\"></div> \n        <h3 class=\"text-2xl font-medium tracking-tight text-white mb-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:500;line-height:32px;letter-spacing:-0.6px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Core Temp</h3> \n        <div class=\"flex-1 flex items-center justify-center relative\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\"> \n          <div class=\"absolute w-48 h-48 rounded-full border border-zinc-800 opacity-50\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.274 0.006 286.033);border-radius:3.35544e+07px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div> \n          <div class=\"absolute w-32 h-32 rounded-full border border-zinc-700 shadow-[0_0_30px_var(--flame-red)]\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.37 0.013 285.805);border-radius:3.35544e+07px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.6 0.3 20) 0px 0px 30px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div> \n          <div class=\"text-5xl font-light z-10 text-kinetic\" data-sc-cs=\"background-image:linear-gradient(90deg, oklch(0.65 0.3 260) 0%, rgb(255, 255, 255) 25%, oklch(0.6 0.3 20) 50%, rgb(255, 255, 255) 75%, oklch(0.65 0.3 260) 100%);color:rgba(0, 0, 0, 0);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:48px;font-weight:300;line-height:48px;text-align:start;border-top-style:solid;border-top-color:rgba(0, 0, 0, 0);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\">98°</div> \n        </div> \n      </div> \n      \n      <div class=\"debossed-surface col-span-4 p-10 min-h-[300px]\" data-sc-cs=\"background-image:linear-gradient(145deg, oklch(0.15 0.01 260), rgb(2, 2, 2));color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.9) 3px 3px 8px 0px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px 0px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"> \n        <div class=\"glow-edge\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.65 0.3 260) 0%, rgba(0, 0, 0, 0) 50%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute\"></div> \n        <h3 class=\"text-xl text-zinc-400 mb-2\" data-sc-cs=\"color:oklch(0.705 0.015 286.067);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:oklch(0.705 0.015 286.067);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Downforce</h3> \n        <div class=\"text-4xl font-semibold mb-6\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:36px;font-weight:600;line-height:40px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">1.2G</div> \n        <p class=\"text-sm text-zinc-600\" data-sc-cs=\"color:oklch(0.442 0.017 285.786);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:oklch(0.442 0.017 285.786);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Active aero deployment maintaining absolute surface adhesion during high-velocity cornering.</p> \n      </div> \n      \n      <div class=\"debossed-surface col-span-8 p-10 min-h-[300px] flex items-center justify-center relative overflow-hidden\" data-sc-cs=\"background-image:linear-gradient(145deg, oklch(0.15 0.01 260), rgb(2, 2, 2));color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.9) 3px 3px 8px 0px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px 0px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\"> \n        <div class=\"glow-edge\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.65 0.3 260) 0%, rgba(0, 0, 0, 0) 50%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute\"></div> \n        <div class=\"absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]\" data-sc-cs=\"background-image:radial-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div> \n        <h2 class=\"text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-zinc-100 to-zinc-800 text-center tracking-tighter\" data-sc-cs=\"background-image:linear-gradient(oklch(0.967 0.001 286.375) 0%, oklch(0.274 0.006 286.033) 100%);color:rgba(0, 0, 0, 0);font-family:-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;font-size:60px;font-weight:900;line-height:60px;letter-spacing:-3px;text-align:center;border-top-style:solid;border-top-color:rgba(0, 0, 0, 0);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\"> \n          DEFY<br>RESISTANCE \n        </h2> \n      </div> \n      \n    </main> \n</div> \n\n<script> \n  document.querySelectorAll('.debossed-surface').forEach(surface => { \n    surface.addEventListener('mousemove', e => { \n      const rect = surface.getBoundingClientRect(); \n      const x = e.clientX - rect.left; \n      const y = e.clientY - rect.top; \n      surface.style.setProperty('--x', `${x}px`); \n      surface.style.setProperty('--y', `${y}px`); \n    }); \n  }); \n</script> \n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n \n</body></html>",
+  "megaMenus": [],
+  "title": "High-Performance Automotive Dynamics",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 20,
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 128,
+      "weight": "700",
+      "line-height": "1",
+      "letter-spacing": "-6.4"
+    },
+    "h2": {
+      "size": 14,
+      "weight": "600",
+      "line-height": "1.43",
+      "letter-spacing": "4.2",
+      "text-transform": "uppercase"
+    },
+    "h3": {
+      "size": 24,
+      "weight": "500",
+      "line-height": "1.33",
+      "letter-spacing": "-0.6"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "128",
+        "weight": "700",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "60",
+        "weight": "900",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "24",
+        "weight": "500",
+        "line_height": "1.33",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Display 4",
+        "size": "20",
+        "weight": "400",
+        "line_height": "1.4",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-4"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "14",
+        "weight": "",
+        "line_height": "1.43",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "14",
+        "weight": "600",
+        "line_height": "",
+        "letter_spacing": "4.2",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tracking-tight": "-0.025em",
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-gradient-from": "rgba(0, 0, 0, 0)",
+      "--color-white": "#fff",
+      "--tw-inset-shadow-alpha": "100%",
+      "--color-zinc-100": "oklch(96.7% 0.001 286.375)",
+      "--carbon-base": "oklch(15% 0.01 260)",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--text-2xl": "1.5rem",
+      "--color-zinc-600": "oklch(44.2% 0.017 285.786)",
+      "--tw-shadow-alpha": "100%",
+      "--tw-gradient-to": "rgba(0, 0, 0, 0)",
+      "--leading-relaxed": "1.625",
+      "--color-zinc-400": "oklch(70.5% 0.015 286.067)",
+      "--text-9xl": "8rem",
+      "--text-4xl": "2.25rem",
+      "--tracking-tighter": "-0.05em",
+      "--color-zinc-500": "oklch(55.2% 0.016 285.938)",
+      "--text-7xl": "4.5rem",
+      "--tw-border-style": "solid",
+      "--font-weight-bold": "700",
+      "--neon-blue": "oklch(65% 0.3 260)",
+      "--font-weight-black": "900",
+      "--color-zinc-900": "oklch(21% 0.006 285.885)",
+      "--container-2xl": "42rem",
+      "--tw-shadow": "0 0 #0000",
+      "--color-zinc-800": "oklch(27.4% 0.006 286.033)",
+      "--text-sm--line-height": "calc(1.25 / 0.875)",
+      "--tw-ring-offset-width": "0px",
+      "--tw-gradient-via-position": "50%",
+      "--text-5xl": "3rem",
+      "--text-6xl": "3.75rem",
+      "--text-5xl--line-height": "1",
+      "--text-xs": "0.75rem",
+      "--text-xs--line-height": "calc(1 / 0.75)",
+      "--text-2xl--line-height": "calc(2 / 1.5)",
+      "--font-weight-light": "300",
+      "--tw-inset-ring-shadow": "0 0 #0000",
+      "--color-black": "#000",
+      "--spacing": "0.25rem",
+      "--flame-red": "oklch(60% 0.3 20)",
+      "--font-weight-medium": "500",
+      "--color-zinc-700": "oklch(37% 0.013 285.805)",
+      "--container-5xl": "64rem",
+      "--tw-gradient-to-position": "100%",
+      "--tw-gradient-via": "rgba(0, 0, 0, 0)",
+      "--text-xl--line-height": "calc(1.75 / 1.25)",
+      "--text-6xl--line-height": "1",
+      "--font-weight-semibold": "600",
+      "--text-7xl--line-height": "1",
+      "--text-4xl--line-height": "calc(2.5 / 2.25)",
+      "--text-xl": "1.25rem",
+      "--text-sm": "0.875rem",
+      "--container-7xl": "80rem",
+      "--glass-edge": "rgba(255, 255, 255, 0.05)",
+      "--tw-gradient-from-position": "0%",
+      "--text-9xl--line-height": "1",
+      "--tw-inset-shadow": "0 0 #0000",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(5, 5, 5)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1280px"
+  },
+  "baseHeading": {
+    "fontFamily": "-apple-system",
+    "color": "rgba(0, 0, 0, 0)",
+    "weight": "700"
+  },
+  "header": {
+    "element": {
+      "display": "block",
+      "justifyContent": "normal",
+      "alignItems": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "static",
+      "padding": "0px"
+    },
+    "bar": {
+      "display": "block",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid oklch(0.552 0.016 285.938)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": null,
+    "nav": [],
+    "cta": {
+      "label": "Initiate Sequence",
+      "href": "https://openhero.art/api/preview?category=abstract&slug=high-performance-automotive-dynamics",
+      "computed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(0, 0, 0)",
+        "borderRadius": "9999px",
+        "padding": "16px 40px",
+        "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+        "fontWeight": "600"
+      },
+      "hover": null
+    }
+  },
+  "footer": null,
+  "sections": [],
+  "chrome": {
+    "header_html": "<header class=\"mb-24 max-w-5xl\">        <h2 class=\"text-sm tracking-[0.3em] uppercase text-zinc-500 mb-4 font-semibold\">AERO – Precision Engineering</h2>        <h1 class=\"text-6xl md:text-9xl font-bold tracking-tighter leading-none mb-8 text-kinetic\">          AERODYNAMIC<br>DYNAMICS        </h1>        <p class=\"text-xl text-zinc-400 max-w-2xl leading-relaxed mb-12\">          Fluid engineering meeting liquid asphalt. The culmination of aerodynamic downforce and raw kinetic energy seamlessly forged into high-fidelity chassis architecture.        </p>        <button class=\"liquid-mercury-btn\"> Initiate Sequence </button>      </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{--neon-blue: oklch(65% 0.3 260); --flame-red: oklch(60% 0.3 20); --carbon-base: oklch(15% 0.01 260); --glass-edge: rgba(255, 255, 255, 0.05);}\nbody{background-color: rgb(5, 5, 5); color: rgb(255, 255, 255); font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; overflow-x: hidden; overscroll-behavior: none;}\n::view-transition-old(root), ::view-transition-new(root){animation-duration: 0.8s; animation-timing-function: cubic-bezier(0.25, 1, 0, 1);}",
+    "util_css": ".portal-container{position: fixed; inset: -10vh -10vw; z-index: 0; clip-path: polygon(0px 0px, 88% 8%, 100% 100%, 12% 92%); pointer-events: none; transform: scale(1.05);}\n.portal-backdrop{position: absolute; inset: 0px; background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(5, 5, 5, 0.8) 60%, rgb(5, 5, 5) 100%);}\n@keyframes kinetic-shimmer { \n  0% { background-position: 200% center; }\n  100% { background-position: -200% center; }\n}\n.debossed-surface{background: linear-gradient(145deg, var(--carbon-base), #020202); box-shadow: rgba(0, 0, 0, 0.9) 3px 3px 8px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px; border-radius: 24px; position: relative; overflow: hidden;}\n.debossed-surface::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%, transparent 60%, rgba(255, 255, 255, 0.02) 100%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.glow-edge{position: absolute; inset: 0px; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), var(--neon-blue) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; mix-blend-mode: screen; pointer-events: none;}\n.debossed-surface:hover .glow-edge{opacity: 0.15;}\n@keyframes scroll-reveal { \n  0% { opacity: 0; transform: translateY(80px) scale(0.95); }\n  100% { opacity: 1; transform: translateY(0px) scale(1); }\n}\n.native-scroll-timeline{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: scroll-reveal; animation-timeline: view(); animation-range: entry 10% cover 30%;}\n.bento-grid{display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: minmax(100px, auto); gap: 1.5rem;}\n.col-span-8{grid-column: span 8;}\n.col-span-4{grid-column: span 4;}\n@media (max-width: 1024px){.col-span-8, .col-span-4{grid-column: span 12;}}",
+    "header_css": ".text-kinetic{background-image: ; background-position-x: ; background-position-y: ; background-repeat: ; background-attachment: ; background-origin: ; background-color: ; background-size: 200% auto; color: transparent; background-clip: text; animation: 6s cubic-bezier(0.4, 0, 0.2, 1) 0s infinite normal none running kinetic-shimmer;}\n.liquid-mercury-btn{background: linear-gradient(135deg, rgb(212, 212, 212) 0%, rgb(138, 138, 138) 50%, rgb(229, 229, 229) 100%); color: rgb(0, 0, 0); font-weight: 600; padding: 1rem 2.5rem; border-radius: 9999px; box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 20px, rgba(255, 255, 255, 0.9) 0px 2px 4px inset, rgba(0, 0, 0, 0.3) 0px -2px 4px inset; transform-style: preserve-3d; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;}\n.liquid-mercury-btn:hover{transform: translateY(-4px) translateZ(32px) scale(1.02); box-shadow: 0 25px 40px rgba(0,0,0,0.6), \n    0 0 30px var(--neon-blue), \n    inset 0 2px 4px rgba(255,255,255,0.9), \n    inset 0 -2px 4px rgba(0,0,0,0.3);}",
+    "footer_css": "",
+    "linked_css": []
+  },
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "rgb(0, 0, 0)",
+      "bd": "",
+      "bw": "",
+      "shadow": "rgba(0, 0, 0, 0.5) 0px 10px 20px 0px, rgba(255, 255, 255, 0.9) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px -2px 4px 0px inset",
+      "radius": "9999px",
+      "px": "40px",
+      "py": "16px",
+      "height": "",
+      "fs": "16px",
+      "lh": "24px",
+      "ff": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+      "ls": "normal",
+      "tt": "none",
+      "fw": "600",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(255, 255, 255)",
+      "shadow": "rgba(0, 0, 0, 0.9) 3px 3px 8px 0px inset, rgba(255, 255, 255, 0.03) -2px -2px 6px 0px inset, rgba(0, 0, 0, 0.5) 0px 10px 30px 0px",
+      "backdrop": "",
+      "padding": "40px",
+      "hoverLift": false,
+      "count": 4
+    },
+    {
+      "fill": "",
+      "radius": "3.35544e+07px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.274 0.006 286.033)",
+      "shadow": "",
+      "backdrop": "",
+      "padding": "4px 12px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "",
+      "radius": "3.35544e+07px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.37 0.013 285.805)",
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.6 0.3 20) 0px 0px 30px 0px",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": []
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "kinetic-shimmer",
+        "props": [
+          "background-position-x",
+          "background-position-y"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "scroll-reveal",
+        "props": [
+          "opacity",
+          "transform"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".text-kinetic",
+        "name": "kinetic-shimmer",
+        "duration": "6s",
+        "infinite": true
+      },
+      {
+        "selector": ".native-scroll-timeline",
+        "name": "scroll-reveal",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".debossed-surface .glow-edge",
+        "changed": {
+          "opacity": "0.15"
+        }
+      },
+      {
+        "selector": ".liquid-mercury-btn",
+        "changed": {
+          "transform": "translateY(-4px) translateZ(32px) scale(1.02)",
+          "box-shadow": "0 25px 40px rgba(0,0,0,0.6), \n    0 0 30px var(--neon-blue), \n    inset 0 2px 4px rgba(255,255,255,0.9), \n    inset 0 -2px 4px rgba(0,0,0,0.3)"
+        }
+      },
+      {
+        "selector": "liquid-mercury-btn",
+        "changed": {
+          "transform": "matrix3d(1.02165, 0, 0, 0, 0, 1.02165, 0, 0, 0, 0, 1, 0, 0, -4.32959, 34.6367, 1)",
+          "boxShadow": "rgba(0, 0, 0, 0.6) 0px 25px 40px 0px, oklch(0.65 0.3 260) 0px 0px 30px 0px, rgba(255, 255, 255, 0.9) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px -2px 4px 0px inset"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".glow-edge",
+        "props": "opacity",
+        "duration": "0.3s"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 1538,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 4,
+        "kind": "parallax",
+        "evidence": "document position drifts -79px over 638px of scroll",
+        "ratio": -0.12
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#4",
+        "evidence": "document position drifts -79px over 638px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.12)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".text-kinetic",
+        "evidence": "infinite keyframes 'kinetic-shimmer' (background-position-x,background-position-y)",
+        "suggest": "physics float/pulse or backgrounds module",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".native-scroll-timeline",
+        "evidence": "keyframes 'scroll-reveal' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".liquid-mercury-btn",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1594px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#34,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.glow-bleed,infinite keyframes 'organicPulse' (filter),physics float/pulse or backgrounds module,low
+css-animation,.animate-\[organicPulse_4s_ease-in-out_infinite_alternate\],infinite keyframes 'organicPulse' (filter),physics float/pulse or backgrounds module,low
+css-animation,.animate-\[organicPulse_2s_ease-in-out_infinite_alternate\],infinite keyframes 'organicPulse' (filter),physics float/pulse or backgrounds module,low
+hover,.radial-portal,transform change on hover,"interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.apple-sharpness,"background-color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.sss-btn,"box-shadow, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.sss-card::after,box-shadow change on hover,interaction: {effect:'lift'} or glow_border,medium
+hover,.hover\:text-lumina,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-lumina,color change on hover,interaction: {effect:'color_shift'},medium
+hover,sss-btn px-6 py-2.5 font-sans text-[10px] tracking-[0.15em] ,"transform, boxShadow, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,apple-sharpness sss-card p-6 flex flex-col justify-between a,"background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-revea,"background, borderColor change on hover",interaction: {effect:'color_shift'},medium

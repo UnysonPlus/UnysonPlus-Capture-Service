@@ -1,0 +1,3 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,1,py-32 px-6 container mx-auto max-w-7xl,background-image,4,yes,
+home,1,py-32 px-6 container mx-auto max-w-7xl,transform,4,no,

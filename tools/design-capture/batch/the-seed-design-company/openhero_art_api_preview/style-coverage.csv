@@ -1,0 +1,27 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,background-image,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,background-color,2,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,box-shadow,2,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,border,1,no
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,border-radius,2,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,max-width,4,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,padding,2,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,margin,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,gap,5,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,transform,6,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,position-absolute,2,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,display-flex,6,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,0,min-h-[85vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative bg-black!,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,background-color,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,backdrop-filter,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,box-shadow,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,border,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,border-radius,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,max-width,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,padding,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,margin,6,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,transform,3,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,display-flex,6,yes
+https://openhero.art/api/preview?category=nature&slug=the-seed-design-company,home,1,py-32 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20,display-grid,1,yes

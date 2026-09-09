@@ -1,0 +1,141 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "reveal-fade",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "grow-line",
+      "props": [
+        "height"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".reveal-text",
+      "name": "reveal-fade",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".timeline-line",
+      "name": "grow-line",
+      "duration": "auto",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".matte-silk",
+      "changed": {
+        "transform": "translateY(-2px) scale(1.02)",
+        "box-shadow": "rgba(0, 0, 0, 0.04) 0px 20px 40px"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-50",
+      "changed": {
+        "opacity": "0.5"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-70",
+      "changed": {
+        "opacity": "0.7"
+      }
+    },
+    {
+      "selector": "matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] up",
+      "changed": {
+        "transform": "matrix(1.01938, 0, 0, 1.01938, 0, -1.93754)",
+        "boxShadow": "rgba(0, 0, 0, 0.04) 0px 19.5003px 38.7508px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "matte-silk border border-charcoal/10 px-10 py-5 text-[10px] ",
+      "changed": {
+        "transform": "matrix(1.0193, 0, 0, 1.0193, 0, -1.92972)",
+        "boxShadow": "rgba(0, 0, 0, 0.04) 0px 19.4377px 38.5943px 0px"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3325,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~2425px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~2425px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".reveal-text",
+      "evidence": "keyframes 'reveal-fade' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".timeline-line",
+      "evidence": "keyframes 'grow-line' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".matte-silk",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    }
+  ]
+}

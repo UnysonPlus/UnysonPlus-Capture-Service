@@ -1,0 +1,21 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,background-image,1,no
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,border,1,no
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,max-width,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,padding,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,margin,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,gap,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,transform,7,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,position-absolute,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,display-flex,7,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,display-grid,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,background-image,4,no
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,box-shadow,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,border,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,max-width,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,padding,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,margin,12,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,transform,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,display-flex,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=colosseum-engineering-the-empire,home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,display-grid,1,yes

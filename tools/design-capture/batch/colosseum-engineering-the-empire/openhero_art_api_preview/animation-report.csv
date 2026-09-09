@@ -1,0 +1,9 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1592px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#6,document position drifts -514px over 1629px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.32),medium
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+css-animation,.animate-\[spin_30s_linear_infinite\],infinite keyframes 'spin' (transform),physics float/pulse or backgrounds module,low
+hover,.subsurface-mass,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,.monument-link,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-gold,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-gold,color change on hover,interaction: {effect:'color_shift'},medium

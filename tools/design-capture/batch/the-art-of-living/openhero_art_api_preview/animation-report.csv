@@ -1,0 +1,8 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~3231px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~3231px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+css-animation,.kinetic-title span,keyframes 'reveal' 0.8s,entrance animation (Animate.css picker),low
+css-animation,.section-rise,keyframes 'rise' auto,entrance animation (Animate.css picker),low
+css-animation,.float-slow,infinite keyframes 'floaty' (transform),physics float/pulse or backgrounds module,low
+css-animation,.hero-video,keyframes 'zoomVideo' auto,entrance animation (Animate.css picker),low
+hover,.silk-touch,"transform, box-shadow change on hover",interaction: {effect:'lift'} or glow_border,medium

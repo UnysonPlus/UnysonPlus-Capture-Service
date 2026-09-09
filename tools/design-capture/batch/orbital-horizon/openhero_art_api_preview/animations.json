@@ -1,0 +1,345 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "sway",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": true
+    },
+    {
+      "name": "ambient-pulse",
+      "props": [
+        "opacity",
+        "transform",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "bloom-anim",
+      "props": [
+        "opacity",
+        "transform",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".sway-text",
+      "name": "sway",
+      "duration": "8s",
+      "infinite": true
+    },
+    {
+      "selector": ".bloom-scroll",
+      "name": "bloom-anim",
+      "duration": "auto",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".group-hover\\:scale-150:is(:where(.group) *)",
+      "changed": {
+        "--tw-scale-x": "150%",
+        "--tw-scale-y": "150%",
+        "--tw-scale-z": "150%",
+        "scale": "var(--tw-scale-x) var(--tw-scale-y)"
+      }
+    },
+    {
+      "selector": ".group-hover\\:text-white:is(:where(.group) *)",
+      "changed": {
+        "color": "var(--color-white)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-sunset-amber",
+      "changed": {
+        "color": "var(--color-sunset-amber)"
+      }
+    },
+    {
+      "selector": ".dew-btn",
+      "changed": {
+        "box-shadow": "rgba(255, 255, 255, 0.3) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px -2px 8px inset, rgba(0, 0, 0, 0.4) 0px 15px 30px, oklch(0.7 0.15 45 / 0.3) 0px 0px 30px",
+        "transform": "translateY(-2px) scale(1.01)"
+      }
+    },
+    {
+      "selector": ".dew-btn::after",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".bento-card::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".bento-card",
+      "changed": {
+        "transform": "translateY(-4px)",
+        "mask-image": "linear-gradient(135deg, black 70%, rgba(0, 0, 0, 0.3) 100%)"
+      }
+    },
+    {
+      "selector": "flex items-center gap-8 dew-btn px-8 py-4",
+      "changed": {
+        "transform": "matrix(1.00981, 0, 0, 1.00981, 0, -1.96249)",
+        "boxShadow": "rgba(255, 255, 255, 0.3) 0px 1.98125px 3.94374px 0px inset, rgba(255, 255, 255, 0.1) 0px -1.98125px 7.92499px 0px inset, rgba(0, 0, 0, 0.4) 0px 14.9062px 29.8125px 0px, oklab(0.7 0.106066 0.106066 / 0.294374) 0px 0px 29.4374px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, 0)",
+        "filter": "blur(0px)"
+      },
+      "live": true
+    },
+    {
+      "selector": "dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] up",
+      "changed": {
+        "transform": "matrix(1.00984, 0, 0, 1.00984, 0, -1.96761)",
+        "boxShadow": "rgba(255, 255, 255, 0.3) 0px 1.98381px 3.95142px 0px inset, rgba(255, 255, 255, 0.1) 0px -1.98381px 7.93522px 0px inset, rgba(0, 0, 0, 0.4) 0px 14.919px 29.8381px 0px, oklab(0.7 0.106066 0.106066 / 0.295142) 0px 0px 29.5142px 0px"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, outline-color, text-decoration-color, fil",
+      "duration": "var(--tw-duration, var(--default-transition-duration))"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform, translate, scale, rotate",
+      "duration": "var(--tw-duration, var(--default-transition-duration))"
+    },
+    {
+      "selector": ".dew-btn::after",
+      "props": "opacity",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".bento-card",
+      "props": "transform",
+      "duration": "0.6s"
+    },
+    {
+      "selector": ".bento-card::before",
+      "props": "opacity",
+      "duration": "0.4s"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 2106,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~1164px of scroll"
+    },
+    {
+      "i": 8,
+      "kind": "parallax",
+      "evidence": "document position drifts -247px over 1185px of scroll",
+      "ratio": -0.21
+    },
+    {
+      "i": 9,
+      "kind": "parallax",
+      "evidence": "document position drifts -275px over 1185px of scroll",
+      "ratio": -0.23
+    },
+    {
+      "i": 13,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 51,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.85,
+        "tx": 0,
+        "ty": 51,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 16,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 51,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.85,
+        "tx": 0,
+        "ty": 51,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 18,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 51,
+        "ease": "power2.out",
+        "scaled": true,
+        "sx": 0.85,
+        "tx": 0,
+        "ty": 51,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~1164px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#8",
+      "evidence": "document position drifts -247px over 1185px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.21)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#9",
+      "evidence": "document position drifts -275px over 1185px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.23)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#13",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#16",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#18",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".sway-text",
+      "evidence": "infinite keyframes 'sway' translating X",
+      "suggest": "marquee fx: {mode:'left'}",
+      "confidence": "high"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".bloom-scroll",
+      "evidence": "keyframes 'bloom-anim' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".group-hover\\:text-white:is(:where(.group) *)",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-sunset-amber",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".dew-btn",
+      "evidence": "box-shadow, transform change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".bento-card",
+      "evidence": "transform, mask-image change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min",
+      "evidence": "transform, filter change on hover",
+      "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [],
+  "animated": [],
+  "hovers": [
+    {
+      "selector": ".stealth-btn",
+      "changed": {
+        "background-image": "",
+        "background-position-x": "",
+        "background-position-y": "",
+        "background-size": "",
+        "background-repeat": "",
+        "background-attachment": "",
+        "background-origin": "",
+        "background-clip": "",
+        "background-color": "",
+        "color": "rgb(0, 0, 0)",
+        "box-shadow": "rgba(217, 119, 66, 0.4) 0px 0px 30px"
+      }
+    },
+    {
+      "selector": ".hover\\:scale-110",
+      "changed": {
+        "--tw-scale-x": "1.1",
+        "--tw-scale-y": "1.1",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-70",
+      "changed": {
+        "opacity": "0.7"
+      }
+    },
+    {
+      "selector": "stealth-btn",
+      "changed": {
+        "boxShadow": "rgba(217, 119, 66, 0.38) 0px 0px 28.6016px 0px",
+        "background": "oklab(0.619702 0.101122 0.101122)",
+        "color": "oklab(0.0302984 0.00494405 0.00494405)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3600,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~2667px of scroll"
+    },
+    {
+      "i": 1,
+      "kind": "pin",
+      "evidence": "pinned for ~2667px of scroll"
+    },
+    {
+      "i": 4,
+      "kind": "pin",
+      "evidence": "pinned for ~1734px of scroll"
+    },
+    {
+      "i": 5,
+      "kind": "pin",
+      "evidence": "pinned for ~1734px of scroll"
+    },
+    {
+      "i": 6,
+      "kind": "pin",
+      "evidence": "pinned for ~1734px of scroll"
+    },
+    {
+      "i": 7,
+      "kind": "pin",
+      "evidence": "pinned for ~1734px of scroll"
+    },
+    {
+      "i": 8,
+      "kind": "pin",
+      "evidence": "pinned for ~1734px of scroll"
+    },
+    {
+      "i": 14,
+      "kind": "pin",
+      "evidence": "pinned for ~800px of scroll"
+    },
+    {
+      "i": 15,
+      "kind": "pin",
+      "evidence": "pinned for ~800px of scroll"
+    },
+    {
+      "i": 16,
+      "kind": "pin",
+      "evidence": "pinned for ~800px of scroll"
+    },
+    {
+      "i": 19,
+      "kind": "pin",
+      "evidence": "pinned for ~800px of scroll"
+    },
+    {
+      "i": 20,
+      "kind": "pin",
+      "evidence": "pinned for ~800px of scroll"
+    },
+    {
+      "i": 21,
+      "kind": "parallax",
+      "evidence": "document position drifts 900px over 2700px of scroll",
+      "ratio": 0.33
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~2667px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#1",
+      "evidence": "pinned for ~2667px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#4",
+      "evidence": "pinned for ~1734px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#5",
+      "evidence": "pinned for ~1734px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#6",
+      "evidence": "pinned for ~1734px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#7",
+      "evidence": "pinned for ~1734px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#8",
+      "evidence": "pinned for ~1734px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#14",
+      "evidence": "pinned for ~800px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#15",
+      "evidence": "pinned for ~800px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#16",
+      "evidence": "pinned for ~800px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#19",
+      "evidence": "pinned for ~800px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#20",
+      "evidence": "pinned for ~800px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#21",
+      "evidence": "document position drifts 900px over 2700px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ 0.33)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".stealth-btn",
+      "evidence": "background-image, background-position-x, background-position-y, background-size change on hover",
+      "suggest": "interaction: {effect:'lift'} or glow_border",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "stealth-btn",
+      "evidence": "boxShadow, background, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

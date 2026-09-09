@@ -1,0 +1,408 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "swirl",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "bounce",
+      "props": [
+        "transform",
+        "animation-timing-function"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".animate-bounce",
+      "name": "bounce",
+      "duration": "1s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".clan-border",
+      "changed": {
+        "border-top-color": "rgba(251, 191, 36, 0.3)",
+        "border-right-color": "rgba(251, 191, 36, 0.3)",
+        "border-bottom-color": "rgba(251, 191, 36, 0.3)",
+        "border-left-color": "rgba(251, 191, 36, 0.3)",
+        "box-shadow": "rgba(74, 222, 128, 0.03) 0px 0px 40px"
+      }
+    },
+    {
+      "selector": ".hover\\:border-spirit-sun",
+      "changed": {
+        "--tw-border-opacity": "1",
+        "border-top-color": "",
+        "border-right-color": "",
+        "border-bottom-color": "",
+        "border-left-color": ""
+      }
+    },
+    {
+      "selector": ".hover\\:bg-spirit-sun",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(251 191 36 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-spirit-sun",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(251 191 36 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-spirit-void",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(3 7 8 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:rotate-180",
+      "changed": {
+        "--tw-rotate": "180deg",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-20",
+      "changed": {
+        "opacity": "0.2"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-50",
+      "changed": {
+        "opacity": "0.5"
+      }
+    },
+    {
+      "selector": "hover:text-spirit-sun transition-colors",
+      "changed": {
+        "color": "rgb(251, 191, 36)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-16 h-16 rounded-full border border-white/10 flex items-cen",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -9.94318)"
+      },
+      "live": true
+    },
+    {
+      "selector": "px-8 py-4 bg-white text-spirit-void font-marcellus text-xs u",
+      "changed": {
+        "background": "rgb(251, 191, 36)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void f",
+      "changed": {
+        "background": "rgb(251, 191, 36)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 5538,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~4638px of scroll"
+    },
+    {
+      "i": 30,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 29,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.97,
+        "tx": 0,
+        "ty": 29,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 33,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 29,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.97,
+        "tx": 0,
+        "ty": 29,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 36,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 29,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.97,
+        "tx": 0,
+        "ty": 29,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 43,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 29,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.97,
+        "tx": 0,
+        "ty": 29,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 47,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 29,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.97,
+        "tx": 0,
+        "ty": 29,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~4638px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#30",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#33",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#36",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#43",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#47",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-bounce",
+      "evidence": "infinite keyframes 'bounce' (transform,animation-timing-function)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".clan-border",
+      "evidence": "border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",
+      "suggest": "interaction: {effect:'lift'} or glow_border",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:border-spirit-sun",
+      "evidence": "--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-spirit-sun",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-spirit-sun",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-spirit-void",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hover:text-spirit-sun transition-colors",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "px-8 py-4 bg-white text-spirit-void font-marcellus text-xs u",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void f",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

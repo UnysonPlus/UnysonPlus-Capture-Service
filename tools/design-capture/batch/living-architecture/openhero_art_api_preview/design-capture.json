@@ -1,0 +1,1242 @@
+{
+  "url": "https://openhero.art/api/preview?category=nature&slug=living-architecture",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:rgb(0, 0, 0)\" data-sc-content-width=\"1280\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>The Line | Living Architecture</title>\n<script src=\"https://cdn.tailwindcss.com\"></script>\n<script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n<link href=\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&amp;family=DM+Sans:wght@300;400;500&amp;display=swap\" rel=\"stylesheet\">\n<style>\n  :root {\n    --color-bg: oklch(98% 0.01 240);\n    --color-moss: oklch(88% 0.1 150);\n    --color-text: oklch(15% 0.02 240);\n    --font-hero: 'Cormorant Garamond', serif;\n    --font-tech: 'DM Sans', sans-serif;\n  }\n\n  * {\n    margin: 0;\n    padding: 0;\n    box-sizing: border-box;\n    border-radius: 24px;\n  }\n\n  body {\n    background-color: var(--color-bg);\n    color: var(--color-text);\n    font-family: var(--font-tech);\n    overflow-x: hidden;\n    line-height: 1.6;\n    border-radius: 0;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    text-rendering: optimizeLegibility;\n  }\n\n  ::selection {\n    background: var(--color-moss);\n    color: white;\n  }\n\n  h1, h2, h3 {\n    font-family: var(--font-hero);\n    font-weight: 500;\n    letter-spacing: -0.02em;\n  }\n\n  .fullscreen-video-container {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100vw;\n    height: 100vh;\n    z-index: 0;\n    overflow: hidden;\n    border-radius: 0;\n  }\n\n  .fullscreen-video-container video {\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n    filter: saturate(1.2) contrast(1.1) brightness(0.85);\n    border-radius: 0;\n  }\n\n  .video-vignette {\n    position: absolute;\n    inset: 0;\n    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 60%, var(--color-bg) 100%);\n    border-radius: 0;\n    z-index: 1;\n    pointer-events: none;\n  }\n\n  .hero-typography {\n    position: relative;\n    z-index: 20;\n    padding: 3rem;\n    transform: translate3d(0, 0, 0);\n    will-change: transform, opacity;\n  }\n\n  .dew-drop {\n    display: inline-flex;\n    align-items: center;\n    gap: 12px;\n    padding: 16px 36px;\n    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);\n    backdrop-filter: blur(24px) saturate(1.8);\n    -webkit-backdrop-filter: blur(24px) saturate(1.8);\n    border: 0.5px solid rgba(255,255,255,0.4);\n    box-shadow: \n      inset 0 1px 2px rgba(255,255,255,0.5),\n      inset 0 -1px 4px rgba(255,255,255,0.1),\n      0 12px 32px rgba(0,0,0,0.2);\n    border-radius: 100px;\n    color: white;\n    text-decoration: none;\n    font-weight: 500;\n    font-size: 0.9rem;\n    letter-spacing: 0.05em;\n    text-transform: uppercase;\n    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);\n    cursor: pointer;\n    position: relative;\n    overflow: hidden;\n  }\n\n  .dew-drop::before {\n    content: '';\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    border-radius: 100px;\n    box-shadow: inset 0 0 20px rgba(255,255,255,0.4);\n    opacity: 0;\n    transition: opacity 0.5s ease;\n  }\n\n  .dew-drop:hover {\n    transform: translateY(-4px) scale(1.02);\n    box-shadow: \n      inset 0 1px 2px rgba(255,255,255,0.8),\n      inset 0 -1px 4px rgba(255,255,255,0.2),\n      0 20px 48px rgba(0,0,0,0.4);\n    background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%);\n  }\n\n  .dew-drop:hover::before {\n    opacity: 1;\n  }\n\n  .rhizome-section {\n    position: relative;\n    padding: 12vh 5vw;\n    container-type: inline-size;\n    container-name: rhizome;\n    background: var(--color-bg);\n    border-radius: 0;\n    z-index: 10;\n  }\n\n  .radial-leak {\n    position: absolute;\n    width: 60vw;\n    height: 60vw;\n    background: radial-gradient(circle, oklch(88% 0.1 150 / 0.15) 0%, transparent 60%);\n    border-radius: 50%;\n    filter: blur(50px);\n    z-index: 0;\n    pointer-events: none;\n  }\n\n  .bionic-bloom {\n    animation: bloom-scroll linear both;\n    animation-timeline: view();\n    animation-range: entry 5% cover 35%;\n  }\n\n  @keyframes bloom-scroll {\n    from {\n      opacity: 0;\n      transform: translateY(40px) scale(0.98);\n      filter: blur(8px);\n    }\n    to {\n      opacity: 1;\n      transform: translateY(0) scale(1);\n      filter: none;\n    }\n  }\n\n  .hero-fade-in {\n    animation: fadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;\n    opacity: 0;\n    transform: translateY(20px);\n  }\n\n  @keyframes fadeIn {\n    to {\n      opacity: 1;\n      transform: translateY(0);\n    }\n  }\n\n  .glass-card {\n    background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.4) 100%);\n    backdrop-filter: blur(40px);\n    -webkit-backdrop-filter: blur(40px);\n    border: 0.5px solid rgba(255,255,255,0.7);\n    box-shadow: 0 24px 64px rgba(0,0,0,0.03), inset 0 1px 1px rgba(255,255,255,0.5);\n    padding: 3.5rem;\n    position: relative;\n    z-index: 1;\n    transition: transform 0.4s ease, box-shadow 0.4s ease;\n  }\n\n  .glass-card:hover {\n    transform: translateY(-5px);\n    box-shadow: 0 32px 80px rgba(0,0,0,0.06), inset 0 1px 1px rgba(255,255,255,0.8);\n  }\n\n  ::view-transition-old(root),\n  ::view-transition-new(root) {\n    animation-duration: 1.2s;\n    animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);\n  }\n</style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.relative{position:relative}.left-0{left:0px}.top-0{top:0px}.left-\\[-10vw\\]{left:-10vw}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mb-10{margin-bottom:2.5rem}.mb-4{margin-bottom:1rem}.mt-0{margin-top:0px}.flex{display:flex}.grid{display:grid}.h-px{height:1px}.min-h-screen{min-height:100vh}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-7xl{max-width:80rem}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-10{gap:2.5rem}.gap-16{gap:4rem}.overflow-hidden{overflow:hidden}.rounded-none{border-radius:0px}.rounded-full{border-radius:9999px}.border-b{border-bottom-width:1px}.border-white\\/10{border-color:rgb(255 255 255 / 0.1)}.bg-black\\/10{background-color:rgb(0 0 0 / 0.1)}.bg-slate-900\\/10{background-color:rgb(15 23 42 / 0.1)}.p-6{padding:1.5rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.px-8{padding-left:2rem;padding-right:2rem}.pt-28{padding-top:7rem}.text-center{text-align:center}.text-7xl{font-size:4.5rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-5xl{font-size:3rem;line-height:1}.text-4xl{font-size:2.25rem;line-height:2.5rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.tracking-wide{letter-spacing:0.025em}.tracking-widest{letter-spacing:0.1em}.text-gray-100{--tw-text-opacity:1;color:rgb(243 244 246 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\\:bg-emerald-200 *::selection{--tw-bg-opacity:1;background-color:rgb(167 243 208 / var(--tw-bg-opacity, 1))}.selection\\:bg-emerald-200::selection{--tw-bg-opacity:1;background-color:rgb(167 243 208 / var(--tw-bg-opacity, 1))}.hover\\:opacity-60:hover{opacity:0.6}@media (min-width: 768px){.md\\:mt-24{margin-top:6rem}.md\\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\\:text-8xl{font-size:6rem;line-height:1}.md\\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\\:text-9xl{font-size:8rem;line-height:1}}</style></head>\n<body class=\"antialiased selection:bg-emerald-200\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.15 0.02 240)\">\n\n  <nav class=\"fixed top-0 left-0 w-full p-6 px-10 flex justify-between items-center z-50 bg-black/10 backdrop-blur-md border-b border-white/10 text-white\" data-sc-cs=\"background-color:rgba(0, 0, 0, 0.1);color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px 40px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:24px;backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all;position:fixed\">\n    <div class=\"text-xs uppercase tracking-widest font-semibold\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">NEOM | The Line</div>\n    <div class=\"flex gap-10 text-xs uppercase tracking-widest font-medium\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:flex;gap:40px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.6}\">Architecture</a>\n      <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.6}\">Ecology</a>\n      <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.6}\">Systems</a>\n    </div>\n  </nav>\n\n  <main id=\"app-root\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <section class=\"relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:112px 32px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n      \n      <div class=\"fullscreen-video-container\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n        <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <source src=\"https://videos.openhero.art/downloads/nature/living-architecture/video.mp4\" type=\"video/mp4\">\n        </video>\n        <div class=\"video-vignette\" data-sc-cs=\"background-image:radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 60%, oklch(0.98 0.01 240) 100%);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      </div>\n      \n      <div class=\"w-full max-w-7xl relative z-10 flex flex-col items-center\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;max-width:1280px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all\">\n        <div class=\"text-center hero-typography hero-fade-in\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)\">\n          <h1 class=\"text-7xl md:text-8xl lg:text-9xl mb-6 text-white\" style=\"text-shadow: 0 4px 24px rgba(0,0,0,0.4);\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:128px;letter-spacing:-2.56px;text-align:center;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Living Architecture</h1>\n          <p class=\"text-lg md:text-xl max-w-2xl mx-auto mb-12 text-gray-100 font-medium tracking-wide\" style=\"text-shadow: 0 2px 12px rgba(0,0,0,0.5);\" data-sc-cs=\"color:rgb(243, 244, 246);font-family:&quot;DM Sans&quot;, sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:0.5px;text-align:center;margin:0px 131.719px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">A symbiotic future synthesized through biophilic engineering and organic transparency.</p>\n          <a href=\"#explore\" class=\"dew-drop\" data-sc-cs=\"background-image:linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:14.4px;font-weight:500;line-height:21.6px;letter-spacing:0.72px;text-align:center;text-transform:uppercase;padding:16px 36px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.4);border-radius:100px;box-shadow:rgba(255, 255, 255, 0.5) 0px 1px 2px 0px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px 0px;backdrop-filter:blur(24px) saturate(1.8);display:inline-flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.25, 1, 0.5, 1)\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transition:opacity 0.5s;transition-property:opacity;transition-duration:0.5s;transition-timing-function:ease;opacity:0;box-shadow:rgba(255, 255, 255, 0.4) 0px 0px 20px inset}|hover-self{transform:translateY(-4px) scale(1.02);background-color:initial;background-image:linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);box-shadow:rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px}|hover-before{opacity:1}\">\n            <iconify-icon icon=\"ph:plant-light\" style=\"stroke-width: 1.2px;\" width=\"22\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;DM Sans&quot;, sans-serif;font-size:14.4px;font-weight:500;line-height:21.6px;letter-spacing:0.72px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            Initiate Sequence\n          </a>\n        </div>\n      </div>\n    </section>\n\n    <section id=\"explore\" class=\"rhizome-section\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:108px 72px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <div class=\"radial-leak top-0 left-[-10vw]\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, rgba(0, 0, 0, 0) 60%);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      \n      <div class=\"max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10 @container\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;max-width:1280px;display:grid;gap:64px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        \n        <div class=\"glass-card bionic-bloom\" data-sc-col=\"sccol-0\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.7);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.03) 0px 24px 64px 0px, rgba(255, 255, 255, 0.5) 0px 1px 1px 0px inset;backdrop-filter:blur(40px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.4s, box-shadow 0.4s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)\">\n          <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\" data-sc-cs=\"color:rgb(30, 41, 59);font-family:&quot;DM Sans&quot;, sans-serif;font-size:48px;font-weight:400;line-height:48px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          <h2 class=\"text-4xl mb-4 text-slate-900\" data-sc-cs=\"color:rgb(15, 23, 42);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-0.72px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Hydro-Neural Systems</h2>\n          <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\" data-sc-cs=\"color:rgb(51, 65, 85);font-family:&quot;DM Sans&quot;, sans-serif;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>\n          <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\" data-sc-cs=\"background-color:rgba(15, 23, 42, 0.1);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:flex;justify-content:space-between;align-items:normal;flex-direction:row;transition:all\">\n            <span data-sc-col=\"sccol-1\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Status: Active</span>\n            <span data-sc-col=\"sccol-2\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Flow: Optimal</span>\n          </div>\n        </div>\n\n        <div class=\"glass-card bionic-bloom mt-0 md:mt-24\" data-sc-col=\"sccol-3\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;margin:96px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.7);border-radius:24px;box-shadow:rgba(0, 0, 0, 0.03) 0px 24px 64px 0px, rgba(255, 255, 255, 0.5) 0px 1px 1px 0px inset;backdrop-filter:blur(40px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.4s, box-shadow 0.4s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)\">\n          <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\" data-sc-cs=\"color:rgb(30, 41, 59);font-family:&quot;DM Sans&quot;, sans-serif;font-size:48px;font-weight:400;line-height:48px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          <h2 class=\"text-4xl mb-4 text-slate-900\" data-sc-cs=\"color:rgb(15, 23, 42);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-0.72px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Mycelium Networks</h2>\n          <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\" data-sc-cs=\"color:rgb(51, 65, 85);font-family:&quot;DM Sans&quot;, sans-serif;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>\n          <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\" data-sc-cs=\"background-color:rgba(15, 23, 42, 0.1);color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:flex;justify-content:space-between;align-items:normal;flex-direction:row;transition:all\">\n            <span data-sc-col=\"sccol-4\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Integration: 98%</span>\n            <span data-sc-col=\"sccol-5\" data-sc-cs=\"color:rgb(100, 116, 139);font-family:&quot;DM Sans&quot;, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Latency: 0.2ms</span>\n          </div>\n        </div>\n\n      </div>\n    </section>\n  </main>\n\n  <script>\n    document.querySelectorAll('.spa-link').forEach(link => {\n      link.addEventListener('click', (e) => {\n        e.preventDefault();\n        \n        if (!document.startViewTransition) {\n          window.scrollTo({ top: 0, behavior: 'smooth' });\n          return;\n        }\n\n        document.startViewTransition(() => {\n          const root = document.getElementById('app-root');\n          root.style.opacity = '0.8';\n          setTimeout(() => {\n             window.scrollTo(0, 0);\n             root.style.opacity = '1';\n          }, 50);\n        });\n      });\n    });\n  </script>\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n<div style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:oklch(0.15 0.02 240);font-family:&quot;DM Sans&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "The Line | Living Architecture",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 18,
+      "family": "DM Sans",
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 128,
+      "weight": "400",
+      "family": "Cormorant Garamond",
+      "line-height": "1",
+      "letter-spacing": "-2.56"
+    },
+    "h2": {
+      "size": 36,
+      "weight": "400",
+      "family": "Cormorant Garamond",
+      "line-height": "1.11",
+      "letter-spacing": "-0.72"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "128",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "36",
+        "weight": "400",
+        "line_height": "1.11",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "500",
+        "line_height": "1.4",
+        "letter_spacing": "0.5",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "12",
+        "weight": "600",
+        "line_height": "",
+        "letter_spacing": "1.2",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-color": "#fff",
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--color-moss": "oklch(88% 0.1 150)",
+      "--tw-skew-x": "0",
+      "--color-text": "oklch(15% 0.02 240)",
+      "--tw-shadow": "0 0 #0000",
+      "--color-bg": "oklch(98% 0.01 240)",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--font-hero": "'Cormorant Garamond', serif",
+      "--font-tech": "'DM Sans', sans-serif"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "\"DM Sans\", sans-serif",
+      "color": "oklch(0.15 0.02 240)",
+      "backgroundColor": "oklch(0.98 0.01 240)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1280px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Cormorant Garamond",
+    "color": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0.1)",
+      "position": "fixed",
+      "padding": "24px 40px"
+    },
+    "bar": {
+      "display": "block",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "24px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Architecture",
+      "icon": "",
+      "computed": {
+        "fontFamily": "\"DM Sans\", sans-serif",
+        "fontSize": "12px",
+        "fontWeight": "500",
+        "color": "rgb(255, 255, 255)",
+        "letterSpacing": "1.2px"
+      },
+      "detail": {
+        "text": "Architecture",
+        "icon": "",
+        "image": "",
+        "svg": "",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "rgb(255, 255, 255)",
+        "title_size": "",
+        "title_weight": "",
+        "title_font": "\"DM Sans\", sans-serif",
+        "title_ls": "1.2px",
+        "title_hover": "",
+        "icon_size": "",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Ecology",
+        "href": "https://openhero.art/api/preview?category=nature&slug=living-architecture#",
+        "computed": {
+          "fontFamily": "\"DM Sans\", sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Systems",
+        "href": "https://openhero.art/api/preview?category=nature&slug=living-architecture#",
+        "computed": {
+          "fontFamily": "\"DM Sans\", sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)"
+        },
+        "hover": null
+      }
+    ],
+    "cta": null
+  },
+  "footer": null,
+  "sections": [
+    {
+      "heading": "Living Architecture",
+      "headingHtml": "",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "\"Cormorant Garamond\", serif",
+        "fontSize": "128px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "A symbiotic future synthesized through biophilic engineering and organic transparency.",
+      "paragraphs": [
+        "A symbiotic future synthesized through biophilic engineering and organic transparency."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.15 0.02 240)",
+        "padding": "112px 32px 0px",
+        "fontFamily": "\"DM Sans\", sans-serif",
+        "fontSize": "16px",
+        "minHeight": "900px"
+      },
+      "text": "Living Architecture A symbiotic future synthesized through biophilic engineering and organic transparency. Initiate Sequence",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "112px 32px 0px",
+          "flex": {
+            "dir": "row",
+            "justify": "center",
+            "align": "center",
+            "gap": "normal",
+            "wrap": "nowrap"
+          },
+          "transition": "all",
+          "tw": {
+            "radius": "0px",
+            "px": "32px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "borderRadius": "24px",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "center",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "maxWidth": "1280px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "textAlign": "center",
+                  "padding": "48px",
+                  "borderRadius": "24px",
+                  "animation": "fadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) 1",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 1,
+                    "html": "Living Architecture",
+                    "text": "Living Architecture",
+                    "styles": {
+                      "textAlign": "center",
+                      "borderRadius": "24px",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "128px",
+                      "letterSpacing": "-2.56px",
+                      "lineHeight": "128px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "72px",
+                        "lineHeight": "1"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "A symbiotic future synthesized through biophilic engineering and organic transparency.",
+                    "text": "A symbiotic future synthesized through biophilic engineering and organic transparency.",
+                    "styles": {
+                      "textAlign": "center",
+                      "borderRadius": "24px",
+                      "color": "rgb(243, 244, 246)",
+                      "fontFamily": "\"DM Sans\", sans-serif",
+                      "fontSize": "20px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.5px",
+                      "lineHeight": "28px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "500",
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Initiate Sequence",
+                    "text": "Initiate Sequence",
+                    "styles": {
+                      "textAlign": "center",
+                      "bgImage": "linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%)",
+                      "padding": "16px 36px",
+                      "borderRadius": "100px",
+                      "boxShadow": "rgba(255, 255, 255, 0.5) 0px 1px 2px 0px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px 0px",
+                      "border": "1px solid rgba(255, 255, 255, 0.4)",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"DM Sans\", sans-serif",
+                      "fontSize": "14.4px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.72px",
+                      "lineHeight": "21.6px",
+                      "textTransform": "uppercase",
+                      "transition": "0.5s cubic-bezier(0.25, 1, 0.5, 1)"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none\">              <div class=\"fullscreen-video-container\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\">           <source src=\"https://videos.openhero.art/downloads/nature/living-architecture/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"video-vignette\"></div>       </div>              <div class=\"w-full max-w-7xl relative z-10 flex flex-col items-center\">         <div class=\"text-center hero-typography hero-fade-in\">           <h1 class=\"text-7xl md:text-8xl lg:text-9xl mb-6 text-white\" style=\"text-shadow: 0 4px 24px rgba(0,0,0,0.4);\">Living Architecture</h1>           <p class=\"text-lg md:text-xl max-w-2xl mx-auto mb-12 text-gray-100 font-medium tracking-wide\" style=\"text-shadow: 0 2px 12px rgba(0,0,0,0.5);\">A symbiotic future synthesized through biophilic engineering and organic transparency.</p>           <a href=\"#explore\" class=\"dew-drop\">             <iconify-icon icon=\"ph:plant-light\" style=\"stroke-width: 1.2px;\" width=\"22\"></iconify-icon>             Initiate Sequence           </a>         </div>       </div>     </section>",
+      "rawInner": "              <div class=\"fullscreen-video-container\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\">           <source src=\"https://videos.openhero.art/downloads/nature/living-architecture/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"video-vignette\"></div>       </div>              <div class=\"w-full max-w-7xl relative z-10 flex flex-col items-center\">         <div class=\"text-center hero-typography hero-fade-in\">           <h1 class=\"text-7xl md:text-8xl lg:text-9xl mb-6 text-white\" style=\"text-shadow: 0 4px 24px rgba(0,0,0,0.4);\">Living Architecture</h1>           <p class=\"text-lg md:text-xl max-w-2xl mx-auto mb-12 text-gray-100 font-medium tracking-wide\" style=\"text-shadow: 0 2px 12px rgba(0,0,0,0.5);\">A symbiotic future synthesized through biophilic engineering and organic transparency.</p>           <a href=\"#explore\" class=\"dew-drop\">             <iconify-icon icon=\"ph:plant-light\" style=\"stroke-width: 1.2px;\" width=\"22\"></iconify-icon>             Initiate Sequence           </a>         </div>       </div>     ",
+      "sectionClass": "relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "display-flex": 2,
+        "padding": 3,
+        "position-absolute": 2,
+        "max-width": 3,
+        "border": 2,
+        "background-image": 2,
+        "border-radius": 6,
+        "transform": 1,
+        "margin": 2,
+        "backdrop-filter": 1,
+        "box-shadow": 1,
+        "gap": 1
+      },
+      "h": 900,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/nature/living-architecture/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=nature&slug=living-architecture",
+          "poster": "https://openhero.art/api/preview?category=nature&slug=living-architecture",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": "  fullscreen-video-container relative min-h-screen flex items-center justify-center pt-28 px-8 overflow-hidden rounded-none ",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"video-vignette\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "radial-gradient(circle, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 60%, oklch(0.98 0.01 240) 100%)",
+            "blur": "",
+            "blend": "",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "1",
+            "w": 1440,
+            "h": 900
+          }
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Living Architecture",
+          "text": "Living Architecture",
+          "tag": "h1",
+          "cls": "text-7xl md:text-8xl lg:text-9xl mb-6 text-white",
+          "wrapCls": "",
+          "fontSize": "128px",
+          "fontWeight": "400",
+          "color": "rgb(255, 255, 255)",
+          "marginBottom": "24px",
+          "marginTop": "0px",
+          "lineHeight": "128px",
+          "letterSpacing": "-2.56px",
+          "align": "center"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"text-lg md:text-xl max-w-2xl mx-auto mb-12 text-gray-100 font-medium tracking-wide\" style=\"text-shadow: 0 2px 12px rgba(0,0,0,0.5);\">A symbiotic future synthesized through biophilic engineering and organic transparency.</p>",
+          "text": "A symbiotic future synthesized through biophilic engineering and organic transparency.",
+          "tag": "p",
+          "cls": "text-lg md:text-xl max-w-2xl mx-auto mb-12 text-gray-100 font-medium tracking-wide",
+          "fontSize": "20px",
+          "color": "rgb(243, 244, 246)",
+          "lineHeight": "28px",
+          "letterSpacing": "0.5px",
+          "marginBottom": "48px",
+          "textAlign": "center",
+          "fontWeight": "500",
+          "textTransform": "none"
+        },
+        {
+          "t": "html",
+          "html": "<iconify-icon icon=\"ph:plant-light\" style=\"stroke-width: 1.2px;\" width=\"22\"></iconify-icon>"
+        }
+      ],
+      "css": "h1{font-family: var(--font-hero); font-weight: 500; letter-spacing: -0.02em;}\n.fullscreen-video-container{position: absolute; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; border-radius: 0px;}\n.fullscreen-video-container video{width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1) brightness(0.85); border-radius: 0px;}\n.video-vignette{position: absolute; inset: 0px; background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 60%, var(--color-bg) 100%); border-radius: 0px; z-index: 1; pointer-events: none;}\n.hero-typography{position: relative; z-index: 20; padding: 3rem; transform: translate3d(0px, 0px, 0px); will-change: transform, opacity;}\n.dew-drop{display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(24px) saturate(1.8); border: 0.5px solid rgba(255, 255, 255, 0.4); box-shadow: rgba(255, 255, 255, 0.5) 0px 1px 2px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px; border-radius: 100px; color: white; text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; position: relative; overflow: hidden;}\n.dew-drop::before{content: \"\"; position: absolute; inset: 0px; border-radius: 100px; box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 20px inset; opacity: 0; transition: opacity 0.5s;}\n.dew-drop:hover{transform: translateY(-4px) scale(1.02); box-shadow: rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);}\n.dew-drop:hover::before{opacity: 1;}\n.hero-fade-in{animation: 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0s 1 normal forwards running fadeIn; opacity: 0; transform: translateY(20px);}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.relative{position: relative;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.flex{display: flex;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-7xl{max-width: 80rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.overflow-hidden{overflow: hidden;}\n.rounded-none{border-radius: 0px;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.pt-28{padding-top: 7rem;}\n.text-center{text-align: center;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-medium{font-weight: 500;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-gray-100{--tw-text-opacity: 1; color: rgb(243 244 246 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:text-9xl{font-size: 8rem; line-height: 1;}}"
+    },
+    {
+      "heading": "Hydro-Neural Systems",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "\"Cormorant Garamond\", serif",
+        "fontSize": "36px",
+        "fontWeight": "400",
+        "color": "rgb(15, 23, 42)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+      "paragraphs": [
+        "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+        "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [
+        {
+          "cols": 2,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "background": "oklch(0.98 0.01 240)",
+        "color": "oklch(0.15 0.02 240)",
+        "padding": "108px 72px",
+        "fontFamily": "\"DM Sans\", sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "Hydro-Neural Systems Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs. Status: Active Flow: Optimal Mycelium Networks Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation. Integration: 98% Latency: 0.2ms",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "bg": "oklch(0.98 0.01 240)",
+          "padding": "108px 72px",
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "borderRadius": "24px",
+              "grid": {
+                "cols": "608px 608px",
+                "gap": "64px"
+              },
+              "maxWidth": "1280px",
+              "transition": "all",
+              "tw": {
+                "gap": "64px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%)",
+                  "padding": "56px",
+                  "borderRadius": "24px",
+                  "boxShadow": "rgba(0, 0, 0, 0.03) 0px 24px 64px 0px, rgba(255, 255, 255, 0.5) 0px 1px 1px 0px inset",
+                  "border": "1px solid rgba(255, 255, 255, 0.7)",
+                  "animation": "bloom-scroll auto linear 1",
+                  "transform": "matrix(0.98, 0, 0, 0.98, 0, 40)",
+                  "transition": "transform 0.4s, box-shadow 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Hydro-Neural Systems",
+                    "text": "Hydro-Neural Systems",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "color": "rgb(15, 23, 42)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "36px",
+                      "letterSpacing": "-0.72px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+                    "text": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "color": "rgb(51, 65, 85)",
+                      "fontFamily": "\"DM Sans\", sans-serif",
+                      "fontSize": "18px",
+                      "lineHeight": "29.25px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "flex": {
+                        "dir": "row",
+                        "justify": "space-between",
+                        "align": "normal",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "600",
+                        "fontSize": "12px",
+                        "lineHeight": "16px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "Status: Active",
+                        "text": "Status: Active",
+                        "styles": {
+                          "borderRadius": "24px",
+                          "color": "rgb(100, 116, 139)",
+                          "fontFamily": "\"DM Sans\", sans-serif",
+                          "fontSize": "12px",
+                          "fontWeight": "600",
+                          "letterSpacing": "1.2px",
+                          "lineHeight": "16px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Flow: Optimal",
+                        "text": "Flow: Optimal",
+                        "styles": {
+                          "borderRadius": "24px",
+                          "color": "rgb(100, 116, 139)",
+                          "fontFamily": "\"DM Sans\", sans-serif",
+                          "fontSize": "12px",
+                          "fontWeight": "600",
+                          "letterSpacing": "1.2px",
+                          "lineHeight": "16px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%)",
+                  "padding": "56px",
+                  "borderRadius": "24px",
+                  "boxShadow": "rgba(0, 0, 0, 0.03) 0px 24px 64px 0px, rgba(255, 255, 255, 0.5) 0px 1px 1px 0px inset",
+                  "border": "1px solid rgba(255, 255, 255, 0.7)",
+                  "animation": "bloom-scroll auto linear 1",
+                  "transform": "matrix(0.98, 0, 0, 0.98, 0, 40)",
+                  "transition": "transform 0.4s, box-shadow 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Mycelium Networks",
+                    "text": "Mycelium Networks",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "color": "rgb(15, 23, 42)",
+                      "fontFamily": "\"Cormorant Garamond\", serif",
+                      "fontSize": "36px",
+                      "letterSpacing": "-0.72px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.",
+                    "text": "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "color": "rgb(51, 65, 85)",
+                      "fontFamily": "\"DM Sans\", sans-serif",
+                      "fontSize": "18px",
+                      "lineHeight": "29.25px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "borderRadius": "24px",
+                      "flex": {
+                        "dir": "row",
+                        "justify": "space-between",
+                        "align": "normal",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "600",
+                        "fontSize": "12px",
+                        "lineHeight": "16px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "Integration: 98%",
+                        "text": "Integration: 98%",
+                        "styles": {
+                          "borderRadius": "24px",
+                          "color": "rgb(100, 116, 139)",
+                          "fontFamily": "\"DM Sans\", sans-serif",
+                          "fontSize": "12px",
+                          "fontWeight": "600",
+                          "letterSpacing": "1.2px",
+                          "lineHeight": "16px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Latency: 0.2ms",
+                        "text": "Latency: 0.2ms",
+                        "styles": {
+                          "borderRadius": "24px",
+                          "color": "rgb(100, 116, 139)",
+                          "fontFamily": "\"DM Sans\", sans-serif",
+                          "fontSize": "12px",
+                          "fontWeight": "600",
+                          "letterSpacing": "1.2px",
+                          "lineHeight": "16px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section id=\"explore\" class=\"rhizome-section\">       <div class=\"radial-leak top-0 left-[-10vw]\"></div>              <div class=\"max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10 @container\">                  <div class=\"glass-card bionic-bloom\">           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Status: Active</span>             <span>Flow: Optimal</span>           </div>         </div>         <div class=\"glass-card bionic-bloom mt-0 md:mt-24\">           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Integration: 98%</span>             <span>Latency: 0.2ms</span>           </div>         </div>       </div>     </section>",
+      "rawInner": "       <div class=\"radial-leak top-0 left-[-10vw]\"></div>              <div class=\"max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10 @container\">                  <div class=\"glass-card bionic-bloom\">           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Status: Active</span>             <span>Flow: Optimal</span>           </div>         </div>         <div class=\"glass-card bionic-bloom mt-0 md:mt-24\">           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Integration: 98%</span>             <span>Latency: 0.2ms</span>           </div>         </div>       </div>     ",
+      "sectionClass": "rhizome-section",
+      "sectionId": "explore",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "background-color": 3,
+        "padding": 3,
+        "background-image": 3,
+        "border-radius": 18,
+        "position-absolute": 1,
+        "max-width": 1,
+        "display-grid": 1,
+        "gap": 1,
+        "margin": 10,
+        "backdrop-filter": 2,
+        "box-shadow": 2,
+        "border": 2,
+        "transform": 2,
+        "display-flex": 2
+      },
+      "h": 775,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "html",
+          "html": "<div class=\"radial-leak top-0 left-[-10vw]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, rgba(0, 0, 0, 0) 60%)",
+            "blur": "50px",
+            "blend": "",
+            "radius": "50%",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "720px",
+            "bottom": "-89px",
+            "left": "-144px",
+            "zIndex": "0",
+            "w": 864,
+            "h": 864
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "glass-card bionic-bloom",
+              "colId": "sccol-0",
+              "cw": 6,
+              "html": "           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Status: Active</span>             <span>Flow: Optimal</span>           </div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Hydro-Neural Systems",
+                "titleTag": "h2",
+                "titleClass": "text-4xl mb-4 text-slate-900",
+                "subtitle": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+                "subtitleClass": "text-slate-700 mb-10 text-lg leading-relaxed",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 6
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "glass-card bionic-bloom mt-0 md:mt-24",
+              "colId": "sccol-3",
+              "cw": 6,
+              "html": "           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Integration: 98%</span>             <span>Latency: 0.2ms</span>           </div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Mycelium Networks",
+                "titleTag": "h2",
+                "titleClass": "text-4xl mb-4 text-slate-900",
+                "subtitle": "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.",
+                "subtitleClass": "text-slate-700 mb-10 text-lg leading-relaxed",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 6
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 64,
+          "gapResp": {
+            "base": 64,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10 @container\">                  <div class=\"glass-card bionic-bloom\" data-sc-col=\"sccol-0\">           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span data-sc-col=\"sccol-1\">Status: Active</span>             <span data-sc-col=\"sccol-2\">Flow: Optimal</span>           </div>         </div>         <div class=\"glass-card bionic-bloom mt-0 md:mt-24\" data-sc-col=\"sccol-3\">           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span data-sc-col=\"sccol-4\">Integration: 98%</span>             <span data-sc-col=\"sccol-5\">Latency: 0.2ms</span>           </div>         </div>       </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "html",
+          "html": "<div class=\"radial-leak top-0 left-[-10vw]\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, rgba(0, 0, 0, 0) 60%)",
+            "blur": "50px",
+            "blend": "",
+            "radius": "50%",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "720px",
+            "bottom": "-89px",
+            "left": "-144px",
+            "zIndex": "0",
+            "w": 864,
+            "h": 864
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "glass-card bionic-bloom",
+              "colId": "sccol-0",
+              "cw": 6,
+              "html": "           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Status: Active</span>             <span>Flow: Optimal</span>           </div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Hydro-Neural Systems",
+                "titleTag": "h2",
+                "titleClass": "text-4xl mb-4 text-slate-900",
+                "subtitle": "Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.",
+                "subtitleClass": "text-slate-700 mb-10 text-lg leading-relaxed",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 6
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "glass-card bionic-bloom mt-0 md:mt-24",
+              "colId": "sccol-3",
+              "cw": 6,
+              "html": "           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span>Integration: 98%</span>             <span>Latency: 0.2ms</span>           </div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Mycelium Networks",
+                "titleTag": "h2",
+                "titleClass": "text-4xl mb-4 text-slate-900",
+                "subtitle": "Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.",
+                "subtitleClass": "text-slate-700 mb-10 text-lg leading-relaxed",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 6
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 64,
+          "gapResp": {
+            "base": 64,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10 @container\">                  <div class=\"glass-card bionic-bloom\" data-sc-col=\"sccol-0\">           <iconify-icon icon=\"ph:network-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Hydro-Neural Systems</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Adaptive hydration routing utilizing machine intelligence to mimic capillary action within structural membranes. Water flows dynamically based on atmospheric needs.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span data-sc-col=\"sccol-1\">Status: Active</span>             <span data-sc-col=\"sccol-2\">Flow: Optimal</span>           </div>         </div>         <div class=\"glass-card bionic-bloom mt-0 md:mt-24\" data-sc-col=\"sccol-3\">           <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-5xl mb-8 text-slate-800\" style=\"stroke-width: 1.2px;\"></iconify-icon>           <h2 class=\"text-4xl mb-4 text-slate-900\">Mycelium Networks</h2>           <p class=\"text-slate-700 mb-10 text-lg leading-relaxed\">Subterranean data and nutrient distribution using engineered fungal logic gates. The city communicates through biochemical synapses embedded in the foundation.</p>           <div class=\"h-px w-full bg-slate-900/10 mb-8 rounded-full\"></div>           <div class=\"flex justify-between text-xs uppercase tracking-widest font-semibold text-slate-500\">             <span data-sc-col=\"sccol-4\">Integration: 98%</span>             <span data-sc-col=\"sccol-5\">Latency: 0.2ms</span>           </div>         </div>       </div>"
+        }
+      ],
+      "css": "h2{font-family: var(--font-hero); font-weight: 500; letter-spacing: -0.02em;}\n.rhizome-section{position: relative; padding: 12vh 5vw; container: rhizome / inline-size; background: var(--color-bg); border-radius: 0px; z-index: 10;}\n.radial-leak{position: absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); z-index: 0; pointer-events: none;}\n.bionic-bloom{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: bloom-scroll; animation-timeline: view(); animation-range: entry 5% cover 35%;}\n.glass-card{background: linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%); backdrop-filter: blur(40px); border: 0.5px solid rgba(255, 255, 255, 0.7); box-shadow: rgba(0, 0, 0, 0.03) 0px 24px 64px, rgba(255, 255, 255, 0.5) 0px 1px 1px inset; padding: 3.5rem; position: relative; z-index: 1; transition: transform 0.4s, box-shadow 0.4s;}\n.glass-card:hover{transform: translateY(-5px); box-shadow: rgba(0, 0, 0, 0.06) 0px 32px 80px, rgba(255, 255, 255, 0.8) 0px 1px 1px inset;}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.relative{position: relative;}\n.top-0{top: 0px;}\n.left-\\[-10vw\\]{left: -10vw;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mt-0{margin-top: 0px;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-px{height: 1px;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.justify-between{justify-content: space-between;}\n.gap-16{gap: 4rem;}\n.rounded-full{border-radius: 9999px;}\n.bg-slate-900\\/10{background-color: rgba(15, 23, 42, 0.1);}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-slate-800{--tw-text-opacity: 1; color: rgb(30 41 59 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-slate-700{--tw-text-opacity: 1; color: rgb(51 65 85 / var(--tw-text-opacity, 1));}\n.text-slate-900{--tw-text-opacity: 1; color: rgb(15 23 42 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:mt-24{margin-top: 6rem;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 left-0 w-full p-6 px-10 flex justify-between items-center z-50 bg-black/10 backdrop-blur-md border-b border-white/10 text-white\">     <div class=\"text-xs uppercase tracking-widest font-semibold\">NEOM | The Line</div>     <div class=\"flex gap-10 text-xs uppercase tracking-widest font-medium\">       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Architecture</a>       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Ecology</a>       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Systems</a>     </div>   </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{--color-bg: oklch(98% 0.01 240); --color-moss: oklch(88% 0.1 150); --color-text: oklch(15% 0.02 240); --font-hero: 'Cormorant Garamond', serif; --font-tech: 'DM Sans', sans-serif;}\n*{margin: 0px; padding: 0px; box-sizing: border-box; border-radius: 24px;}\nbody{background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-tech); overflow-x: hidden; line-height: 1.6; border-radius: 0px; -webkit-font-smoothing: antialiased; text-rendering: optimizelegibility;}\n::selection{background: var(--color-moss); color: white;}\n::view-transition-old(root), ::view-transition-new(root){animation-duration: 1.2s; animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\na{color: inherit; text-decoration: inherit;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\n:disabled{cursor: default;}",
+    "util_css": "h1, h2{font-family: var(--font-hero); font-weight: 500; letter-spacing: -0.02em;}\n.fullscreen-video-container{position: absolute; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; border-radius: 0px;}\n.fullscreen-video-container video{width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1) brightness(0.85); border-radius: 0px;}\n.video-vignette{position: absolute; inset: 0px; background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 60%, var(--color-bg) 100%); border-radius: 0px; z-index: 1; pointer-events: none;}\n.hero-typography{position: relative; z-index: 20; padding: 3rem; transform: translate3d(0px, 0px, 0px); will-change: transform, opacity;}\n.dew-drop{display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(24px) saturate(1.8); border: 0.5px solid rgba(255, 255, 255, 0.4); box-shadow: rgba(255, 255, 255, 0.5) 0px 1px 2px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px; border-radius: 100px; color: white; text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; position: relative; overflow: hidden;}\n.dew-drop::before{content: \"\"; position: absolute; inset: 0px; border-radius: 100px; box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 20px inset; opacity: 0; transition: opacity 0.5s;}\n.dew-drop:hover{transform: translateY(-4px) scale(1.02); box-shadow: rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);}\n.dew-drop:hover::before{opacity: 1;}\n.rhizome-section{position: relative; padding: 12vh 5vw; container: rhizome / inline-size; background: var(--color-bg); border-radius: 0px; z-index: 10;}\n.radial-leak{position: absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); z-index: 0; pointer-events: none;}\n.bionic-bloom{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: bloom-scroll; animation-timeline: view(); animation-range: entry 5% cover 35%;}\n@keyframes bloom-scroll { \n  0% { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(8px); }\n  100% { opacity: 1; transform: translateY(0px) scale(1); filter: none; }\n}\n.hero-fade-in{animation: 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0s 1 normal forwards running fadeIn; opacity: 0; transform: translateY(20px);}\n@keyframes fadeIn { \n  100% { opacity: 1; transform: translateY(0px); }\n}\n.glass-card{background: linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%); backdrop-filter: blur(40px); border: 0.5px solid rgba(255, 255, 255, 0.7); box-shadow: rgba(0, 0, 0, 0.03) 0px 24px 64px, rgba(255, 255, 255, 0.5) 0px 1px 1px inset; padding: 3.5rem; position: relative; z-index: 1; transition: transform 0.4s, box-shadow 0.4s;}\n.glass-card:hover{transform: translateY(-5px); box-shadow: rgba(0, 0, 0, 0.06) 0px 32px 80px, rgba(255, 255, 255, 0.8) 0px 1px 1px inset;}\nh1, h2{font-size: inherit; font-weight: inherit;}\nh1, h2, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.relative{position: relative;}\n.left-\\[-10vw\\]{left: -10vw;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mt-0{margin-top: 0px;}\n.grid{display: grid;}\n.h-px{height: 1px;}\n.min-h-screen{min-height: 100vh;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-7xl{max-width: 80rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.gap-16{gap: 4rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-none{border-radius: 0px;}\n.rounded-full{border-radius: 9999px;}\n.bg-slate-900\\/10{background-color: rgba(15, 23, 42, 0.1);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.pt-28{padding-top: 7rem;}\n.text-center{text-align: center;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-gray-100{--tw-text-opacity: 1; color: rgb(243 244 246 / var(--tw-text-opacity, 1));}\n.text-slate-800{--tw-text-opacity: 1; color: rgb(30 41 59 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-slate-700{--tw-text-opacity: 1; color: rgb(51 65 85 / var(--tw-text-opacity, 1));}\n.text-slate-900{--tw-text-opacity: 1; color: rgb(15 23 42 / var(--tw-text-opacity, 1));}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.selection\\:bg-emerald-200 ::selection{--tw-bg-opacity: 1; background-color: rgb(167 243 208 / var(--tw-bg-opacity, 1));}\n.selection\\:bg-emerald-200::selection{--tw-bg-opacity: 1; background-color: rgb(167 243 208 / var(--tw-bg-opacity, 1));}\n@media (min-width: 768px){.md\\:mt-24{margin-top: 6rem;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+    "header_css": ".fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-10{gap: 2.5rem;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-black\\/10{background-color: rgba(0, 0, 0, 0.1);}\n.p-6{padding: 1.5rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-medium{font-weight: 500;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:opacity-60:hover{opacity: 0.6;}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "rgb(255, 255, 255)",
+      "bd": "rgba(255, 255, 255, 0.4)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.5) 0px 1px 2px 0px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px 0px",
+      "radius": "100px",
+      "px": "36px",
+      "py": "16px",
+      "height": "",
+      "fs": "14.4px",
+      "lh": "21.6px",
+      "ff": "\"DM Sans\", sans-serif",
+      "ls": "0.72px",
+      "tt": "uppercase",
+      "fw": "500",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "108px",
+      "px": 108
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.7)",
+      "shadow": "rgba(0, 0, 0, 0.03) 0px 24px 64px 0px, rgba(255, 255, 255, 0.5) 0px 1px 1px 0px inset",
+      "backdrop": "blur(40px)",
+      "padding": "56px",
+      "hoverLift": false,
+      "count": 2
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "bloom-scroll",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "fadeIn",
+        "props": [
+          "opacity",
+          "transform"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".bionic-bloom",
+        "name": "bloom-scroll",
+        "duration": "auto",
+        "infinite": false
+      },
+      {
+        "selector": ".hero-fade-in",
+        "name": "fadeIn",
+        "duration": "1.5s",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".dew-drop",
+        "changed": {
+          "transform": "translateY(-4px) scale(1.02)",
+          "box-shadow": "rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px",
+          "background-image": "linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%)",
+          "background-position-x": "initial",
+          "background-position-y": "initial",
+          "background-size": "initial",
+          "background-repeat": "initial",
+          "background-attachment": "initial",
+          "background-origin": "initial",
+          "background-clip": "initial",
+          "background-color": "initial"
+        }
+      },
+      {
+        "selector": ".dew-drop::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".glass-card",
+        "changed": {
+          "transform": "translateY(-5px)",
+          "box-shadow": "rgba(0, 0, 0, 0.06) 0px 32px 80px, rgba(255, 255, 255, 0.8) 0px 1px 1px inset"
+        }
+      },
+      {
+        "selector": ".hover\\:opacity-60",
+        "changed": {
+          "opacity": "0.6"
+        }
+      },
+      {
+        "selector": "dew-drop",
+        "changed": {
+          "transform": "matrix(1.01941, 0, 0, 1.01941, 0, -3.88116)",
+          "boxShadow": "rgba(255, 255, 255, 0.792) 0px 1px 2px 0px inset, rgba(255, 255, 255, 0.196) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.392) 0px 19.7623px 47.5246px 0px"
+        },
+        "live": true
+      },
+      {
+        "selector": "glass-card bionic-bloom",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "boxShadow": "rgba(0, 0, 0, 0.06) 0px 31.6229px 79.2459px 0px, rgba(255, 255, 255, 0.784) 0px 1px 1px 0px inset",
+          "filter": "blur(0px)"
+        },
+        "live": true
+      },
+      {
+        "selector": "glass-card bionic-bloom mt-0 md:mt-24",
+        "changed": {
+          "boxShadow": "rgba(0, 0, 0, 0.06) 0px 31.6222px 79.2443px 0px, rgba(255, 255, 255, 0.784) 0px 1px 1px 0px inset"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".dew-drop::before",
+        "props": "opacity",
+        "duration": "0.5s"
+      },
+      {
+        "selector": ".glass-card",
+        "props": "transform, box-shadow",
+        "duration": "0.4s, 0.4s"
+      },
+      {
+        "selector": ".transition-opacity",
+        "props": "opacity",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 1764,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 0,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 7,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 40,
+          "ease": "",
+          "scaled": false,
+          "sx": 0.98,
+          "tx": 0,
+          "ty": 40,
+          "complex": false,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 9,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 40,
+          "ease": "",
+          "scaled": false,
+          "sx": 0.98,
+          "tx": 0,
+          "ty": 40,
+          "complex": false,
+          "noisy": false,
+          "scrub": false
+        }
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#7",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#9",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".bionic-bloom",
+        "evidence": "keyframes 'bloom-scroll' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".hero-fade-in",
+        "evidence": "keyframes 'fadeIn' 1.5s",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".dew-drop",
+        "evidence": "transform, box-shadow, background-image, background-position-x change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".glass-card",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "glass-card bionic-bloom",
+        "evidence": "transform, boxShadow, filter change on hover",
+        "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

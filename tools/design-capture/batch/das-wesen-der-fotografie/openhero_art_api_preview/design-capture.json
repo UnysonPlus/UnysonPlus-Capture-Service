@@ -1,0 +1,513 @@
+{
+  "url": "https://openhero.art/api/preview?category=tech&slug=das-wesen-der-fotografie",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:rgb(0, 0, 0)\" data-sc-content-width=\"1280\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Leica | Das Wesen der Fotografie</title>\n<script src=\"https://cdn.tailwindcss.com\"></script>\n<script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n<link href=\"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&amp;display=swap\" rel=\"stylesheet\">\n<style>\n@font-face {\n    font-family: 'PP Neue Montreal';\n    src: local('-apple-system'), local('BlinkMacSystemFont'), local('Helvetica Neue'), local('Arial');\n    font-weight: 400;\n}\n:root {\n    --hyper-light: oklch(98% 0.01 240 / 0.65);\n    --anodized-silver: oklch(94% 0.01 240 / 0.4);\n    --industrial-edge: oklch(20% 0.02 240 / 0.15);\n}\nbody {\n    font-family: 'PP Neue Montreal', sans-serif;\n    background-color: oklch(98% 0.01 240);\n    color: oklch(12% 0.01 240);\n    overflow-x: hidden;\n    margin: 0;\n    padding: 0;\n}\n.tech-spec {\n    font-family: 'Inter Tight', sans-serif;\n    letter-spacing: -0.02em;\n}\n.light-corridor {\n    position: absolute;\n    width: 100vw;\n    height: 100vh;\n    background: radial-gradient(circle at 70% 40%, transparent 0%, oklch(98% 0.01 240 / 0.8) 80%, oklch(98% 0.01 240 / 1) 100%);\n    pointer-events: none;\n    z-index: 1;\n    top: 0;\n    left: 0;\n}\n.geometric-breach {\n    position: absolute;\n    inset: 0;\n    width: 100vw;\n    height: 100vh;\n    object-fit: cover;\n    z-index: 0;\n    filter: grayscale(15%) contrast(1.1) brightness(0.95);\n}\n.glass-morphism-2 {\n    background: linear-gradient(135deg, var(--hyper-light), var(--anodized-silver));\n    backdrop-filter: blur(20px) saturate(1.2);\n    -webkit-backdrop-filter: blur(20px) saturate(1.2);\n    border: 1px solid var(--industrial-edge);\n    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6), 0 24px 40px -8px rgba(0,0,0,0.05);\n}\n.hub-nav {\n    background: linear-gradient(to bottom, oklch(98% 0.01 240 / 0.9) 0%, transparent 100%);\n    backdrop-filter: blur(10px);\n    -webkit-backdrop-filter: blur(10px);\n}\n@keyframes atomic-assemble {\n    0% {\n        opacity: 0;\n        transform: translateY(60px) scale(0.96);\n        filter: blur(8px);\n    }\n    100% {\n        opacity: 1;\n        transform: translateY(0) scale(1);\n        filter: blur(0);\n    }\n}\n.assemble-on-scroll {\n    animation: atomic-assemble linear both;\n    animation-timeline: view();\n    animation-range: entry 10% cover 30%;\n}\n::view-transition-old(root),\n::view-transition-new(root) {\n    animation-duration: 0.8s;\n    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);\n}\n</style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.relative{position:relative}.left-0{left:0px}.top-0{top:0px}.top-40{top:10rem}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-6{margin-bottom:1.5rem}.mb-3{margin-bottom:0.75rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-screen{height:100vh}.w-full{width:100%}.max-w-3xl{max-width:48rem}.max-w-7xl{max-width:80rem}.max-w-xl{max-width:36rem}.shrink-0{flex-shrink:0}.transform-gpu{transform:translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.justify-start{justify-content:flex-start}.justify-end{justify-content:flex-end}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-16{gap:4rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.overflow-hidden{overflow:hidden}.rounded-3xl{border-radius:1.5rem}.rounded-\\[2rem\\]{border-radius:2rem}.p-10{padding:2.5rem}.p-8{padding:2rem}.px-8{padding-left:2rem;padding-right:2rem}.py-32{padding-top:8rem;padding-bottom:8rem}.pb-16{padding-bottom:4rem}.pt-8{padding-top:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-light{font-weight:300}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.leading-\\[1\\.05\\]{line-height:1.05}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.tracking-widest{letter-spacing:0.1em}.text-\\[oklch\\(25\\%_0\\.02_240\\)\\]{color:oklch(25% 0.02 240)}.text-\\[oklch\\(30\\%_0\\.01_240\\)\\]{color:oklch(30% 0.01 240)}.text-\\[oklch\\(35\\%_0\\.01_240\\)\\]{color:oklch(35% 0.01 240)}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-\\[oklch\\(40\\%_0\\.01_240\\)\\]{color:oklch(40% 0.01 240)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-500{transition-duration:500ms}.selection\\:bg-black *::selection{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.selection\\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\\:bg-black::selection{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.selection\\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\\:scale-\\[1\\.02\\]:hover{--tw-scale-x:1.02;--tw-scale-y:1.02;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\\:text-black:hover{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\\:flex{display:flex}.md\\:translate-x-12{--tw-translate-x:3rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.md\\:p-10{padding:2.5rem}.md\\:p-14{padding:3.5rem}.md\\:px-16{padding-left:4rem;padding-right:4rem}.md\\:py-48{padding-top:12rem;padding-bottom:12rem}.md\\:text-2xl{font-size:1.5rem;line-height:2rem}.md\\:text-5xl{font-size:3rem;line-height:1}.md\\:text-7xl{font-size:4.5rem;line-height:1}.md\\:text-xl{font-size:1.25rem;line-height:1.75rem}.md\\:text-base{font-size:1rem;line-height:1.5rem}}@media (min-width: 1024px){.lg\\:sticky{position:sticky}.lg\\:col-span-5{grid-column:span 5 / span 5}.lg\\:col-span-6{grid-column:span 6 / span 6}.lg\\:col-start-7{grid-column-start:7}.lg\\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.lg\\:gap-8{gap:2rem}}</style></head>\n<body class=\"antialiased selection:bg-black selection:text-white\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.12 0.01 240)\">\n\n<nav class=\"fixed top-0 left-0 w-full z-50 hub-nav pt-8 pb-16 px-8 md:px-16 flex justify-between items-start transition-trigger\" data-sc-cs=\"background-image:linear-gradient(oklch(0.98 0.01 240 / 0.9) 0%, rgba(0, 0, 0, 0) 100%);color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px 64px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all;position:fixed\">\n    <div class=\"text-xl md:text-2xl tracking-tight font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:24px;font-weight:500;line-height:32px;letter-spacing:-0.6px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">LEICA</div>\n    <div class=\"hidden md:flex gap-12 text-xs uppercase tracking-widest tech-spec font-medium text-[oklch(30%_0.01_240)]\" data-sc-cs=\"color:oklch(0.3 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <a href=\"#\" class=\"hover:text-black transition-colors\" data-sc-cs=\"color:oklch(0.3 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(0 0 0 / var(--tw-text-opacity, 1))}\">Architecture</a>\n        <a href=\"#\" class=\"hover:text-black transition-colors\" data-sc-cs=\"color:oklch(0.3 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(0 0 0 / var(--tw-text-opacity, 1))}\">Optics</a>\n        <a href=\"#\" class=\"hover:text-black transition-colors\" data-sc-cs=\"color:oklch(0.3 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(0 0 0 / var(--tw-text-opacity, 1))}\">Telemetry</a>\n    </div>\n</nav>\n\n<main class=\"relative w-full h-screen flex flex-col justify-end pb-16 px-8 md:px-16 overflow-hidden\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 64px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:flex-end;align-items:normal;flex-direction:column;transition:all\">\n    <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"geometric-breach\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n        <source src=\"https://videos.openhero.art/downloads/tech/das-wesen-der-fotografie/video.mp4\" type=\"video/mp4\">\n    </video>\n    <div class=\"light-corridor\" data-sc-cs=\"background-image:radial-gradient(circle at 70% 40%, rgba(0, 0, 0, 0) 0%, oklch(0.98 0.01 240 / 0.8) 80%, oklch(0.98 0.01 240) 100%);color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n\n    <div class=\"relative z-10 w-full max-w-7xl mx-auto flex justify-start\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:flex;justify-content:flex-start;align-items:normal;flex-direction:row;transition:all\">\n        <div class=\"glass-morphism-2 rounded-[2rem] p-10 md:p-14 w-full max-w-3xl assemble-on-scroll transform-gpu\" data-sc-cs=\"background-image:linear-gradient(135deg, oklch(0.98 0.01 240 / 0.65), oklch(0.94 0.01 240 / 0.4));color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.2 0.02 240 / 0.15);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;backdrop-filter:blur(20px) saturate(1.2);max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)\">\n            <h1 class=\"text-5xl md:text-7xl tracking-tighter leading-[1.05] mb-6 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:72px;font-weight:500;line-height:72px;letter-spacing:-3.6px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Das Wesen der Fotografie.</h1>\n            <p class=\"text-lg md:text-xl tech-spec font-light text-[oklch(25%_0.02_240)] max-w-xl\" data-sc-cs=\"color:oklch(0.25 0.02 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:300;line-height:28px;letter-spacing:-0.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                Absolute fidelity. Zero refraction loss. An interface forged from the mathematical boundaries of light gathering.\n            </p>\n        </div>\n    </div>\n</main>\n\n<section class=\"w-full max-w-7xl mx-auto px-8 md:px-16 py-32 md:py-48 @container\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:192px 64px;margin:0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <div class=\"grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-start\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:32px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:all\">\n        <div class=\"lg:col-span-5 lg:sticky top-40 assemble-on-scroll\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.96, 0, 0, 0.96, 0, 60);position:sticky\">\n            <h2 class=\"text-4xl md:text-5xl tracking-tight mb-6 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:48px;font-weight:500;line-height:48px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Hardware Topology</h2>\n            <p class=\"tech-spec text-[oklch(35%_0.01_240)] leading-relaxed font-light text-lg\" data-sc-cs=\"color:oklch(0.35 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:300;line-height:29.25px;letter-spacing:-0.36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                The optical block is uncompromised. Every module exists to serve the signal path, creating a sensory experience of technical disruption mapped directly to human perception.\n            </p>\n        </div>\n        \n        <div class=\"lg:col-span-6 lg:col-start-7 flex flex-col gap-8\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n            <div class=\"glass-morphism-2 rounded-3xl p-8 md:p-10 flex gap-6 items-start assemble-on-scroll transition-transform hover:scale-[1.02] duration-500\" data-sc-cs=\"background-image:linear-gradient(135deg, oklch(0.98 0.01 240 / 0.65), oklch(0.94 0.01 240 / 0.4));color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.2 0.02 240 / 0.15);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;backdrop-filter:blur(20px) saturate(1.2);display:flex;gap:24px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.96, 0, 0, 0.96, 0, 60)\">\n                <iconify-icon icon=\"ph:aperture-thin\" width=\"44\" height=\"44\" class=\"text-black shrink-0\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                <div data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <h3 class=\"text-xl md:text-2xl mb-3 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:24px;font-weight:500;line-height:32px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Optical resolution</h3>\n                    <p class=\"tech-spec font-light text-sm md:text-base text-[oklch(40%_0.01_240)] leading-relaxed\" data-sc-cs=\"color:oklch(0.4 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:300;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Edge-to-edge algorithmic sharpness. Micro-contrast optimized for anomalous dispersion glass variants.</p>\n                </div>\n            </div>\n\n            <div class=\"glass-morphism-2 rounded-3xl p-8 md:p-10 flex gap-6 items-start assemble-on-scroll md:translate-x-12 transition-transform hover:scale-[1.02] duration-500\" data-sc-cs=\"background-image:linear-gradient(135deg, oklch(0.98 0.01 240 / 0.65), oklch(0.94 0.01 240 / 0.4));color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.2 0.02 240 / 0.15);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;backdrop-filter:blur(20px) saturate(1.2);display:flex;gap:24px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.96, 0, 0, 0.96, 0, 60)\">\n                <iconify-icon icon=\"ph:faders-thin\" width=\"44\" height=\"44\" class=\"text-black shrink-0\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                <div data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <h3 class=\"text-xl md:text-2xl mb-3 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:24px;font-weight:500;line-height:32px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Mechanical tolerance</h3>\n                    <p class=\"tech-spec font-light text-sm md:text-base text-[oklch(40%_0.01_240)] leading-relaxed\" data-sc-cs=\"color:oklch(0.4 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:300;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Machined to 0.001mm variance. Tactile feedback generated through solid brass helicoids.</p>\n                </div>\n            </div>\n\n            <div class=\"glass-morphism-2 rounded-3xl p-8 md:p-10 flex gap-6 items-start assemble-on-scroll transition-transform hover:scale-[1.02] duration-500\" data-sc-cs=\"background-image:linear-gradient(135deg, oklch(0.98 0.01 240 / 0.65), oklch(0.94 0.01 240 / 0.4));color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.2 0.02 240 / 0.15);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;backdrop-filter:blur(20px) saturate(1.2);display:flex;gap:24px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.96, 0, 0, 0.96, 0, 60)\">\n                <iconify-icon icon=\"ph:cube-thin\" width=\"44\" height=\"44\" class=\"text-black shrink-0\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                <div data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <h3 class=\"text-xl md:text-2xl mb-3 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:24px;font-weight:500;line-height:32px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Light-path architecture</h3>\n                    <p class=\"tech-spec font-light text-sm md:text-base text-[oklch(40%_0.01_240)] leading-relaxed\" data-sc-cs=\"color:oklch(0.4 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:300;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Non-linear spatial plotting ensures geometric fidelity prior to digital conversion.</p>\n                </div>\n            </div>\n\n            <div class=\"glass-morphism-2 rounded-3xl p-8 md:p-10 flex gap-6 items-start assemble-on-scroll md:translate-x-12 transition-transform hover:scale-[1.02] duration-500\" data-sc-cs=\"background-image:linear-gradient(135deg, oklch(0.98 0.01 240 / 0.65), oklch(0.94 0.01 240 / 0.4));color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(0.2 0.02 240 / 0.15);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;backdrop-filter:blur(20px) saturate(1.2);display:flex;gap:24px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.96, 0, 0, 0.96, 0, 60)\">\n                <iconify-icon icon=\"ph:cpu-thin\" width=\"44\" height=\"44\" class=\"text-black shrink-0\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                <div data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <h3 class=\"text-xl md:text-2xl mb-3 font-medium\" data-sc-cs=\"color:oklch(0.12 0.01 240);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:24px;font-weight:500;line-height:32px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Image signal processing</h3>\n                    <p class=\"tech-spec font-light text-sm md:text-base text-[oklch(40%_0.01_240)] leading-relaxed\" data-sc-cs=\"color:oklch(0.4 0.01 240);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:300;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Maestro III silicon running parallel vector math to render photorealistic grain density at 120fps.</p>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>\n\n<script>\ndocument.querySelectorAll('.transition-trigger a').forEach(link => {\n    link.addEventListener('click', (e) => {\n        e.preventDefault();\n        if (!document.startViewTransition) {\n            window.location.href = e.target.href;\n            return;\n        }\n        document.startViewTransition(() => {\n            document.body.style.opacity = '0.98';\n            setTimeout(() => {\n                document.body.style.opacity = '1';\n            }, 30);\n        });\n    });\n});\n</script>\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n<div class=\"text-black\" style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;PP Neue Montreal&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "Leica | Das Wesen der Fotografie",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 18,
+      "family": "Inter Tight",
+      "line-height": "1.63",
+      "letter-spacing": "-0.36"
+    },
+    "h1": {
+      "size": 72,
+      "weight": "500",
+      "family": "PP Neue Montreal",
+      "line-height": "1",
+      "letter-spacing": "-3.6"
+    },
+    "h2": {
+      "size": 48,
+      "weight": "500",
+      "family": "PP Neue Montreal",
+      "line-height": "1",
+      "letter-spacing": "-1.2"
+    },
+    "h3": {
+      "size": 24,
+      "weight": "500",
+      "family": "PP Neue Montreal",
+      "line-height": "1.33"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "72",
+        "weight": "500",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "48",
+        "weight": "500",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "24",
+        "weight": "500",
+        "line_height": "1.33",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "300",
+        "line_height": "1.4",
+        "letter_spacing": "-0.4",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Subtitle",
+        "size": "18",
+        "weight": "300",
+        "line_height": "1.63",
+        "letter_spacing": "-0.36",
+        "transform": "",
+        "class": "font-subtitle"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "12",
+        "weight": "500",
+        "line_height": "",
+        "letter_spacing": "1.2",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-border-spacing-x": "0",
+      "--tw-scale-x": "1",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--anodized-silver": "oklch(94% 0.01 240 / 0.4)",
+      "--tw-translate-y": "0",
+      "--hyper-light": "oklch(98% 0.01 240 / 0.65)",
+      "--industrial-edge": "oklch(20% 0.02 240 / 0.15)",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "\"PP Neue Montreal\", sans-serif",
+      "color": "oklch(0.12 0.01 240)",
+      "backgroundColor": "oklch(0.98 0.01 240)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1280px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "PP Neue Montreal",
+    "color": "oklch(0.12 0.01 240)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "flex-start",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "32px 64px 64px"
+    },
+    "bar": {
+      "display": "block",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Architecture",
+      "icon": "",
+      "computed": {
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "12px",
+        "fontWeight": "500",
+        "color": "oklch(0.3 0.01 240)",
+        "letterSpacing": "1.2px"
+      },
+      "detail": {
+        "text": "Architecture",
+        "icon": "",
+        "image": "",
+        "svg": "",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "oklch(0.3 0.01 240)",
+        "title_size": "",
+        "title_weight": "",
+        "title_font": "\"Inter Tight\", sans-serif",
+        "title_ls": "1.2px",
+        "title_hover": "black",
+        "icon_size": "",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Optics",
+        "href": "https://openhero.art/api/preview?category=tech&slug=das-wesen-der-fotografie#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "color": "oklch(0.3 0.01 240)"
+        },
+        "hover": {
+          "color": "rgb(0, 0, 0)"
+        }
+      },
+      {
+        "label": "Telemetry",
+        "href": "https://openhero.art/api/preview?category=tech&slug=das-wesen-der-fotografie#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "color": "oklch(0.3 0.01 240)"
+        },
+        "hover": {
+          "color": "rgb(0, 0, 0)"
+        }
+      }
+    ],
+    "cta": null
+  },
+  "footer": null,
+  "sections": [],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 left-0 w-full z-50 hub-nav pt-8 pb-16 px-8 md:px-16 flex justify-between items-start transition-trigger\">     <div class=\"text-xl md:text-2xl tracking-tight font-medium\">LEICA</div>     <div class=\"hidden md:flex gap-12 text-xs uppercase tracking-widest tech-spec font-medium text-[oklch(30%_0.01_240)]\">         <a href=\"#\" class=\"hover:text-black transition-colors\">Architecture</a>         <a href=\"#\" class=\"hover:text-black transition-colors\">Optics</a>         <a href=\"#\" class=\"hover:text-black transition-colors\">Telemetry</a>     </div> </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": "@font-face { font-family: \"PP Neue Montreal\"; src: local(\"-apple-system\"), local(\"BlinkMacSystemFont\"), local(\"Helvetica Neue\"), local(\"Arial\"); font-weight: 400; }\n:root{--hyper-light: oklch(98% 0.01 240 / 0.65); --anodized-silver: oklch(94% 0.01 240 / 0.4); --industrial-edge: oklch(20% 0.02 240 / 0.15);}\nbody{font-family: \"PP Neue Montreal\", sans-serif; background-color: oklch(0.98 0.01 240); color: oklch(0.12 0.01 240); overflow-x: hidden; margin: 0px; padding: 0px;}\n::view-transition-old(root), ::view-transition-new(root){animation-duration: 0.8s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\na{color: inherit; text-decoration: inherit;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\n:disabled{cursor: default;}",
+    "util_css": ".light-corridor{position: absolute; width: 100vw; height: 100vh; background: radial-gradient(circle at 70% 40%, transparent 0%, oklch(0.98 0.01 240 / 0.8) 80%, oklch(0.98 0.01 240) 100%); pointer-events: none; z-index: 1; top: 0px; left: 0px;}\n.geometric-breach{position: absolute; inset: 0px; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; filter: grayscale(15%) contrast(1.1) brightness(0.95);}\n.glass-morphism-2{background: linear-gradient(135deg, var(--hyper-light), var(--anodized-silver)); backdrop-filter: blur(20px) saturate(1.2); border: 1px solid var(--industrial-edge); box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px;}\n@keyframes atomic-assemble { \n  0% { opacity: 0; transform: translateY(60px) scale(0.96); filter: blur(8px); }\n  100% { opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px); }\n}\n.assemble-on-scroll{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: atomic-assemble; animation-timeline: view(); animation-range: entry 10% cover 30%;}\nh1, h2, h3{font-size: inherit; font-weight: inherit;}\nh1, h2, h3, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.relative{position: relative;}\n.top-40{top: 10rem;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.grid{display: grid;}\n.h-screen{height: 100vh;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.shrink-0{flex-shrink: 0;}\n.transform-gpu{transform: translate3d(var(--tw-translate-x), var(--tw-translate-y), 0) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-start{justify-content: flex-start;}\n.justify-end{justify-content: flex-end;}\n.gap-16{gap: 4rem;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-3xl{border-radius: 1.5rem;}\n.rounded-\\[2rem\\]{border-radius: 2rem;}\n.p-10{padding: 2.5rem;}\n.p-8{padding: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.leading-\\[1\\.05\\]{line-height: 1.05;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-\\[oklch\\(25\\%_0\\.02_240\\)\\]{color: oklch(0.25 0.02 240);}\n.text-\\[oklch\\(35\\%_0\\.01_240\\)\\]{color: oklch(0.35 0.01 240);}\n.text-black{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.text-\\[oklch\\(40\\%_0\\.01_240\\)\\]{color: oklch(0.4 0.01 240);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.selection\\:bg-black ::selection{--tw-bg-opacity: 1; background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));}\n.selection\\:text-white ::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.selection\\:bg-black::selection{--tw-bg-opacity: 1; background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));}\n.selection\\:text-white::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.hover\\:scale-\\[1\\.02\\]:hover{--tw-scale-x: 1.02; --tw-scale-y: 1.02; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:translate-x-12{--tw-translate-x: 3rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}}\n@media (min-width: 768px){.md\\:p-10{padding: 2.5rem;}}\n@media (min-width: 768px){.md\\:p-14{padding: 3.5rem;}}\n@media (min-width: 768px){.md\\:py-48{padding-top: 12rem; padding-bottom: 12rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:sticky{position: sticky;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-6{grid-column: span 6 / span 6;}}\n@media (min-width: 1024px){.lg\\:col-start-7{grid-column-start: 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:gap-8{gap: 2rem;}}",
+    "header_css": ".tech-spec{font-family: \"Inter Tight\", sans-serif; letter-spacing: -0.02em;}\n.hub-nav{background: linear-gradient(oklch(0.98 0.01 240 / 0.9) 0%, transparent 100%); backdrop-filter: blur(10px);}\n.fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.w-full{width: 100%;}\n.items-start{align-items: flex-start;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.pb-16{padding-bottom: 4rem;}\n.pt-8{padding-top: 2rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-\\[oklch\\(30\\%_0\\.01_240\\)\\]{color: oklch(0.3 0.01 240);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:text-black:hover{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:flex{display: flex;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-2xl{font-size: 1.5rem; line-height: 2rem;}}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&display=swap"
+    ]
+  },
+  "buttonSkins": [],
+  "mobileBreakpoint": "md",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "192px",
+      "px": 192
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.2 0.02 240 / 0.15)",
+      "shadow": "rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px",
+      "backdrop": "blur(20px) saturate(1.2)",
+      "padding": "40px",
+      "hoverLift": false,
+      "count": 4
+    },
+    {
+      "fill": "",
+      "radius": "32px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.2 0.02 240 / 0.15)",
+      "shadow": "rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.05) 0px 24px 40px -8px",
+      "backdrop": "blur(20px) saturate(1.2)",
+      "padding": "56px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "atomic-assemble",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".assemble-on-scroll",
+        "name": "atomic-assemble",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".hover\\:scale-\\[1\\.02\\]",
+        "changed": {
+          "--tw-scale-x": "1.02",
+          "--tw-scale-y": "1.02",
+          "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+        }
+      },
+      {
+        "selector": ".hover\\:text-black",
+        "changed": {
+          "--tw-text-opacity": "1",
+          "color": "rgb(0 0 0 / var(--tw-text-opacity, 1))"
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".transition-colors",
+        "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+        "duration": "150ms"
+      },
+      {
+        "selector": ".transition-transform",
+        "props": "transform",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 2076,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 0,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~1153px of scroll"
+      },
+      {
+        "i": 6,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 60,
+          "ease": "",
+          "scaled": true,
+          "sx": 0.96,
+          "tx": 0,
+          "ty": 60,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 9,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 60,
+          "ease": "power2.in",
+          "scaled": true,
+          "sx": 0.96,
+          "tx": 0,
+          "ty": 60,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 10,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 60,
+          "ease": "power2.out",
+          "scaled": true,
+          "sx": 0.96,
+          "tx": 0,
+          "ty": 60,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 11,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 60,
+          "ease": "",
+          "scaled": true,
+          "sx": 0.96,
+          "tx": 0,
+          "ty": 60,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 12,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 60,
+          "ease": "power2.in",
+          "scaled": true,
+          "sx": 0.96,
+          "tx": 0,
+          "ty": 60,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~1153px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#6",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#9",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#10",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#11",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#12",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".assemble-on-scroll",
+        "evidence": "keyframes 'atomic-assemble' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".hover\\:text-black",
+        "evidence": "--tw-text-opacity, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

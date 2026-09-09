@@ -1,0 +1,32 @@
+{"t":1788702908778,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702915942,"elapsed":7.3,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702918993,"elapsed":10.4,"msg":"extracted 5 sections"}
+{"t":1788702918995,"elapsed":10.4,"msg":"  chrome · header → nav (4 menu items)"}
+{"t":1788702918996,"elapsed":10.4,"msg":"  §1 hero · “The Wild Never Sleeps.” (3 elements)"}
+{"t":1788702918997,"elapsed":10.4,"msg":"  §2 section · “Intelligenceborn from silence.” (3 elements)"}
+{"t":1788702918998,"elapsed":10.4,"msg":"  §3 section · “The landbreathesdata.” (1 element)"}
+{"t":1788702918999,"elapsed":10.4,"msg":"  §4 section · “Listen to thefrequencyof life.” (3 elements)"}
+{"t":1788702919000,"elapsed":10.4,"msg":"  §5 section · “DNA revealswhat eyescannot.” (3 elements)"}
+{"t":1788702919001,"elapsed":10.4,"msg":"  chrome · footer → 0 columns"}
+{"t":1788702922437,"elapsed":13.8,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702925411,"elapsed":16.8,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702926187,"elapsed":17.6,"msg":"brand tokens → heading=DM Serif Display · body=Space Mono · brand=oklch(0.85 0.12 70 / 0.12)"}
+{"t":1788702926188,"elapsed":17.6,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702942853,"elapsed":34.2,"msg":"animations → 24 finding(s)"}
+{"t":1788702942854,"elapsed":34.2,"msg":"building theme, pages & conversion report…"}
+{"t":1788702942862,"elapsed":34.2,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702942863,"elapsed":34.3,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702942864,"elapsed":34.3,"msg":"  🔤 Text Styles → 5 size(s)"}
+{"t":1788702942865,"elapsed":34.3,"msg":"  📏 Spacing Scale → 15 step(s)"}
+{"t":1788702942865,"elapsed":34.3,"msg":"  🔘 Button Presets → 2 style(s), 2 size(s)"}
+{"t":1788702943118,"elapsed":34.5,"msg":"motion profile → reveal×0 · button-hover×2 · card-hover×0"}
+{"t":1788702943119,"elapsed":34.5,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702943123,"elapsed":34.5,"msg":"  🎨 Box Presets → 11 kind(s) [Glass, Elevated, Outline] from 12 box(es); 0 with hover, 6 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788702943124,"elapsed":34.5,"msg":"🛡️ Self-containment guard → 10 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702943145,"elapsed":34.5,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702943148,"elapsed":34.5,"msg":"  class coverage → 4 significant gap(s) flagged across 4 section(s) (see coverage-verification.csv)"}
+{"t":1788702943150,"elapsed":34.5,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702943150,"elapsed":34.5,"msg":"writing files & bundle…"}
+{"t":1788702943300,"elapsed":34.7,"msg":"visual font match: DM Serif Display → Abril Fatface"}
+{"t":1788702944806,"elapsed":36.2,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702944819,"elapsed":36.2,"msg":"saving full-page screenshot…"}

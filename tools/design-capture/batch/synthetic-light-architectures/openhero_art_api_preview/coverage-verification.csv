@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,1,relative overflow-hidden px-8 py-40,background-image,1,yes,
+home,2,px-8 py-20,background-image,1,yes,
+home,3,overflow-hidden py-40,transform,1,no,

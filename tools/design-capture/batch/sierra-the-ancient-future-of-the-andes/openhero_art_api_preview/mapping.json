@@ -1,0 +1,268 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "min-h-[88vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".crystal-btn{position: relative; background: oklch(0.95 0.01 240 / 0.03); border: 0.5px solid oklch(0.95 0.01 240 / 0.1); box-shadow: oklch(0.8 0.25 75 / 0.1) 0px 0px 10px inset, rgba(0, 0, 0, 0.2) 0px 4px 15px; backdrop-filter: blur(10px); border-radius: 99px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.crystal-btn:hover{background: oklch(0.95 0.01 240 / 0.08); box-shadow: oklch(0.8 0.25 75 / 0.3) 0px 0px 15px inset, rgba(0, 0, 0, 0.3) 0px 8px 25px; border-color: oklch(0.8 0.25 75 / 0.4); transform: translateY(-1px);}\n.radial-portal{mask-image: radial-gradient(circle, black 30%, transparent 75%); will-change: transform;}\n.sun-bleed{background: linear-gradient(135deg, oklch(0.8 0.25 75) 0%, oklch(0.95 0.01 240) 100%) text; -webkit-text-fill-color: transparent; text-shadow: oklch(0.8 0.25 75 / 0.35) 0px 0px 35px, oklch(0.8 0.25 75 / 0.15) 0px 0px 80px;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.-left-\\[20\\%\\]{left: -20%;}\n.-top-\\[20\\%\\]{top: -20%;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-14{margin-top: 3.5rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.h-6{height: 1.5rem;}\n.h-8{height: 2rem;}\n.h-\\[140\\%\\]{height: 140%;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-\\[88vh\\]{min-height: 88vh;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.w-\\[1px\\]{width: 1px;}\n.w-\\[140\\%\\]{width: 140%;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-md{max-width: 28rem;}\n.max-w-xl{max-width: 36rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.gap-1{gap: 0.25rem;}\n.gap-12{gap: 3rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.object-contain{object-fit: contain;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.not-italic{font-style: normal;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-glacier{color: oklch(0.95 0.01 240);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-inkagold{color: oklch(0.8 0.25 75);}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.contrast-\\[1\\.1\\]{--tw-contrast: contrast(1.1); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.sepia-\\[0\\.1\\]{--tw-sepia: sepia(0.1); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.group:hover .group-hover\\:translate-y-1{--tw-translate-y: 0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:h-full{height: 100%;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:justify-end{justify-content: flex-end;}}\n@media (min-width: 1024px){.lg\\:text-\\[6\\.5rem\\]{font-size: 6.5rem;}}",
+          "computed": {
+            "color": "oklch(0.95 0.01 240)",
+            "padding": "0px 64px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px",
+            "minHeight": "792px",
+            "maxWidth": "1800px"
+          },
+          "assets": [],
+          "raw": "          <div class=\"flex flex-col justify-center max-w-xl z-20\" id=\"hero-text\" style=\"transform: translateY(0px);\">       <div class=\"reveal-up active flex items-center gap-4 mb-8\">         <div class=\"w-[1px] h-6 bg-inkagold/60\"></div>         <span class=\"font-sans text-[10px] tracking-[0.4em] uppercase text-glacier/60\">4,000 Meters Above</span>         <div class=\"w-[1px] h-6 bg-inkagold/60\"></div>       </div>       <h1 class=\"font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.9] tracking-tighter reveal-up active delay-100\">         <span class=\"sun-bleed\">Floating</span> <br>         <i class=\"not-italic text-glacier/90\">Sanctuaries</i>       </h1>       <p class=\"mt-10 font-sans text-sm text-white/50 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\">         Experience extreme Andean orography where tectonic levitation meets cloud-forest biodiversity. A luxury archeo-tourism expedition bridging the ancient stone with infinite light.       </p>       <div class=\"mt-14 flex items-center gap-8 reveal-up active delay-300\">         <div class=\"flex flex-col gap-1\">           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Elevation</span>           <span class=\"font-serif text-xl text-inkagold\">13,123 ft</span>         </div>         <div class=\"w-[1px] h-8 bg-glacier/10\"></div>         <div class=\"flex flex-col gap-1\">           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Atmosphere</span>           <span class=\"font-serif text-xl text-inkagold\">Pristine</span>         </div>         <div class=\"w-[1px] h-8 bg-glacier/10\"></div>         <button class=\"w-12 h-12 rounded-full crystal-btn flex items-center justify-center text-glacier group\">           <iconify-icon icon=\"ph:arrow-down-light\" class=\"text-lg group-hover:translate-y-1 transition-transform\"></iconify-icon>         </button>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 pointer-events-none\">       <div class=\"absolute inset-0 w-[140%] h-[140%] -top-[20%] -left-[20%] radial-portal\" id=\"portal-container\">         <video id=\"portal-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-contain filter contrast-[1.1] saturate-110 sepia-[0.1]\" style=\"transform: scale(1.02) translateY(0px);\">           <source src=\"https://videos.openhero.art/downloads/nature/sierra-the-ancient-future-of-the-andes/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"absolute inset-0 bg-obsidian/20 mix-blend-multiply\"></div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "text",
+              "html": "<span class=\"font-sans text-[10px] tracking-[0.4em] uppercase text-glacier/60\">4,000 Meters Above</span>",
+              "text": "4,000 Meters Above",
+              "tag": "span",
+              "cls": "font-sans text-[10px] tracking-[0.4em] uppercase text-glacier/60",
+              "fontSize": "10px",
+              "color": "oklch(0.95 0.01 240)",
+              "lineHeight": "15px",
+              "letterSpacing": "4px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Floating <br> <em>Sanctuaries</em>",
+              "text": "Floating Sanctuaries",
+              "tag": "h1",
+              "cls": "font-serif text-6xl md:text-7xl lg:text-[6.5rem] leading-[0.9] tracking-tighter reveal-up active delay-100",
+              "wrapCls": "flex flex-col justify-center max-w-xl z-20",
+              "fontSize": "104px",
+              "fontWeight": "400",
+              "color": "oklch(0.95 0.01 240)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "104px",
+              "letterSpacing": "-5.2px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-10 font-sans text-sm text-white/50 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200\">         Experience extreme Andean orography where tectonic levitation meets cloud-forest biodiversity. A luxury archeo-tourism expedition bridging the ancient stone with infinite light.       </p>",
+              "text": "Experience extreme Andean orography where tectonic levitation meets cloud-forest biodiversity. A luxury archeo-tourism expedition bridging the ancient stone with infinite light.",
+              "tag": "p",
+              "cls": "mt-10 font-sans text-sm text-white/50 max-w-md font-light leading-relaxed tracking-wide reveal-up active delay-200",
+              "fontSize": "14px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "22.75px",
+              "letterSpacing": "0.35px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "flex flex-col gap-1",
+                  "colId": "sccol-0",
+                  "cw": 1,
+                  "html": "           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Elevation</span>           <span class=\"font-serif text-xl text-inkagold\">13,123 ft</span>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "4px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 1,
+                    "desktop": 1
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "flex flex-col gap-1",
+                  "colId": "sccol-1",
+                  "cw": 2,
+                  "html": "           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Atmosphere</span>           <span class=\"font-serif text-xl text-inkagold\">Pristine</span>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "4px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 2,
+                    "desktop": 2
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "w-12 h-12 rounded-full crystal-btn flex items-center justify-center text-glacier group",
+                  "colId": "sccol-2",
+                  "cw": 1,
+                  "html": "           <iconify-icon icon=\"ph:arrow-down-light\" class=\"text-lg group-hover:translate-y-1 transition-transform\"></iconify-icon>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 1,
+                    "tablet": 1,
+                    "desktop": 1
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"mt-14 flex items-center gap-8 reveal-up active delay-300\">         <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-0\">           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Elevation</span>           <span class=\"font-serif text-xl text-inkagold\">13,123 ft</span>         </div>         <div class=\"w-[1px] h-8 bg-glacier/10\"></div>         <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-1\">           <span class=\"font-sans text-[9px] text-glacier/40 uppercase tracking-[0.2em]\">Atmosphere</span>           <span class=\"font-serif text-xl text-inkagold\">Pristine</span>         </div>         <div class=\"w-[1px] h-8 bg-glacier/10\"></div>         <button class=\"w-12 h-12 rounded-full crystal-btn flex items-center justify-center text-glacier group\" data-sc-col=\"sccol-2\">           <iconify-icon icon=\"ph:arrow-down-light\" class=\"text-lg group-hover:translate-y-1 transition-transform\"></iconify-icon>         </button>       </div>"
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/sierra-the-ancient-future-of-the-andes/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=sierra-the-ancient-future-of-the-andes",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=sierra-the-ancient-future-of-the-andes",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-contain filter contrast-[1.1] saturate-110 sepia-[0.1] absolute inset-0 w-[140%] h-[140%] -top-[20%] -left-[20%] radial-portal relative h-[60vh] lg:h-full w-full flex items-center justify-center lg:justify-end z-10 pointer-events-none min-h-[88vh] w-full max-w-[1800px] mx-auto px-8 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 relative overflow-hidden",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-obsidian/20 mix-blend-multiply\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "multiply",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 885,
+                "h": 1109
+              }
+            }
+          ],
+          "css_id": "content"
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-40 px-8 md:px-16 w-full max-w-[1800px] mx-auto border-t border-white/5 relative z-20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".andenes-clip{clip-path: polygon(0px 3%, 100% 0px, 97% 100%, 3% 97%); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\n.subsurface-glow{background: linear-gradient(160deg, oklch(0.15 0.02 240), oklch(0.12 0.02 240)); box-shadow: oklch(0.8 0.25 75 / 0.08) 0px 0px 30px inset, oklch(0.95 0.01 240 / 0.2) 0.5px 0.5px 0px inset;}\n.subsurface-glow:hover{box-shadow: oklch(0.8 0.25 75 / 0.15) 0px 0px 40px inset, oklch(0.8 0.25 75 / 0.4) 0.5px 0.5px 0px inset;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.top-0{top: 0px;}\n.right-0{right: 0px;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-24{margin-bottom: 6rem;}\n.mt-6{margin-top: 1.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mt-0{margin-top: 0px;}\n.mt-12{margin-top: 3rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[1px\\]{height: 1px;}\n.min-h-\\[450px\\]{min-height: 450px;}\n.w-full{width: 100%;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-md{max-width: 28rem;}\n.max-w-sm{max-width: 24rem;}\n.animate-\\[spin_40s_linear_infinite\\]{animation: 40s linear 0s infinite normal none running spin;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.overflow-hidden{overflow: hidden;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-12{padding: 3rem;}\n.p-8{padding: 2rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.not-italic{font-style: normal;}\n.leading-relaxed{line-height: 1.625;}\n.leading-\\[1\\.1\\]{line-height: 1.1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-glacier{color: oklch(0.95 0.01 240);}\n.text-inkagold{color: oklch(0.8 0.25 75);}\n.text-ichugreen{color: oklch(0.65 0.2 150);}\n.opacity-20{opacity: 0.2;}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:opacity-100{opacity: 1;}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:mt-24{margin-top: 6rem;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:gap-24{gap: 6rem;}}",
+          "computed": {
+            "color": "oklch(0.95 0.01 240)",
+            "padding": "160px 64px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1800px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"flex flex-col md:flex-row justify-between items-end mb-24 reveal-up active\">       <h2 class=\"font-serif text-4xl md:text-6xl text-glacier tracking-tight leading-[1.1]\">         Tectonic <br> <i class=\"text-inkagold not-italic font-light\">Levitation</i>       </h2>       <p class=\"font-sans text-xs text-glacier/40 max-w-sm font-light mt-6 md:mt-0 leading-relaxed tracking-wide\">         Glacial runoff dynamics carve through the monolithic stone, creating ecosystems suspended between the earth and the Andean sky.       </p>     </div>     <div class=\"grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24\">              <div class=\"andenes-clip subsurface-glow p-12 md:p-16 flex flex-col justify-between min-h-[450px] relative overflow-hidden group reveal-up delay-100 parallax-card active\" style=\"transform: translateY(-0.599744px);\">         <div class=\"absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-100 transition-opacity duration-700\">           <iconify-icon icon=\"ph:sun-horizon-light\" class=\"text-6xl text-inkagold animate-[spin_40s_linear_infinite]\"></iconify-icon>         </div>         <div>           <span class=\"font-sans text-[10px] text-ichugreen tracking-[0.3em] uppercase mb-6 block\">01. Lithic Precision</span>           <h3 class=\"font-serif text-3xl text-glacier mb-4\">Sacsayhuamán Scale</h3>           <p class=\"font-sans text-sm text-glacier/40 leading-relaxed font-light max-w-md\">             Polygonal masonry engineered with millimeter precision. The massive interlocking blocks required zero mortar, relying on gravity and absolute mathematical exactitude to withstand centuries of seismic activity.           </p>         </div>         <div class=\"w-full h-[1px] bg-gradient-to-r from-inkagold/50 to-transparent mt-12\"></div>       </div>       <div class=\"andenes-clip subsurface-glow p-12 md:p-16 flex flex-col justify-between min-h-[450px] relative overflow-hidden group reveal-up delay-200 parallax-card mt-0 md:mt-24 active\" style=\"transform: translateY(-0.705298px);\">         <div class=\"absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-100 transition-opacity duration-700 text-ichugreen\">           <iconify-icon icon=\"ph:leaf-light\" class=\"text-6xl\"></iconify-icon>         </div>         <div>           <span class=\"font-sans text-[10px] text-ichugreen tracking-[0.3em] uppercase mb-6 block\">02. Biological Altitudes</span>           <h3 class=\"font-serif text-3xl text-glacier mb-4\">Cloud-Forest Flora</h3>           <p class=\"font-sans text-sm text-glacier/40 leading-relaxed font-light max-w-md\">             The agricultural terraces (Andenes) act as vast open-air laboratories. Microclimates generated by the stepped architecture allow exotic biodiversity to thrive in the thinnest of atmospheres.           </p>         </div>         <div class=\"w-full h-[1px] bg-gradient-to-r from-ichugreen/50 to-transparent mt-12\"></div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-serif text-4xl md:text-6xl text-glacier tracking-tight leading-[1.1]",
+                  "colId": "sccol-3",
+                  "cw": 2,
+                  "html": "         Tectonic <br> <i class=\"text-inkagold not-italic font-light\">Levitation</i>       ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 5,
+                    "desktop": 2
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-sans text-xs text-glacier/40 max-w-sm font-light mt-6 md:mt-0 leading-relaxed tracking-wide",
+                  "colId": "sccol-4",
+                  "cw": 4,
+                  "html": "         Glacial runoff dynamics carve through the monolithic stone, creating ecosystems suspended between the earth and the Andean sky.       ",
+                  "maxw": "384px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col md:flex-row justify-between items-end mb-24 reveal-up active\">       <h2 class=\"font-serif text-4xl md:text-6xl text-glacier tracking-tight leading-[1.1]\" data-sc-col=\"sccol-3\">         Tectonic <br> <i class=\"text-inkagold not-italic font-light\">Levitation</i>       </h2>       <p class=\"font-sans text-xs text-glacier/40 max-w-sm font-light mt-6 md:mt-0 leading-relaxed tracking-wide\" data-sc-col=\"sccol-4\">         Glacial runoff dynamics carve through the monolithic stone, creating ecosystems suspended between the earth and the Andean sky.       </p>     </div>"
+            },
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Sacsayhuamán Scale",
+                  "content": "Polygonal masonry engineered with millimeter precision. The massive interlocking blocks required zero mortar, relying on gravity and absolute mathematical exactitude to withstand centuries of seismic activity.",
+                  "number": "01",
+                  "icon": null
+                },
+                {
+                  "title": "Cloud-Forest Flora",
+                  "content": "The agricultural terraces (Andenes) act as vast open-air laboratories. Microclimates generated by the stepped architecture allow exotic biodiversity to thrive in the thinnest of atmospheres.",
+                  "number": "02",
+                  "icon": null
+                }
+              ],
+              "design": {
+                "design": "vertical",
+                "connector": "none"
+              }
+            }
+          ],
+          "css_id": "features"
+        }
+      ]
+    }
+  ]
+}

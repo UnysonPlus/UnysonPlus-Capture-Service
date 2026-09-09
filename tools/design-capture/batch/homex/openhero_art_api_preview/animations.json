@@ -1,0 +1,29 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 0
+  },
+  "scrollTriggers": [],
+  "keyframes": [],
+  "animated": [],
+  "hovers": [],
+  "transitions": [],
+  "hijack": {
+    "bodyScrollHeight": 900,
+    "viewport": 900,
+    "virtualScroll": true,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "traces": [],
+  "sequences": [],
+  "suggestions": []
+}

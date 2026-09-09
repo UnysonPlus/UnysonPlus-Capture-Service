@@ -1,0 +1,853 @@
+<!DOCTYPE html><html lang="en" class="supports-view-transitions" data-sc-cs="background-color:oklch(0.09 0.012 250);color:rgb(255, 255, 255)" data-sc-content-width="1280"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notion AI — The connected workspace for modern teams</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            base: "oklch(11% .015 250)",
+            panel: "oklch(17% .02 250)",
+            line: "oklch(100% 0 0 / .08)",
+            text: "oklch(96% .01 250)",
+            muted: "oklch(72% .02 250)",
+            primary: "oklch(78% .18 250)",
+            cyan: "oklch(82% .13 200)",
+            pink: "oklch(74% .18 340)"
+          },
+          boxShadow: {
+            liquid: `
+              0 1px 0 rgba(255,255,255,.06) inset,
+              0 -1px 0 rgba(255,255,255,.03) inset,
+              0 30px 120px rgba(0,0,0,.65)
+            `
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: dark;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top right, oklch(26% .08 250 / .25), transparent 24%),
+        radial-gradient(circle at bottom left, oklch(28% .08 200 / .18), transparent 28%),
+        oklch(9% .012 250);
+      color: white;
+      font-family: Inter, ui-sans-serif, system-ui;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 120px 120px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+      pointer-events: none;
+      opacity: .4;
+    }
+
+    .glass {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg,
+          rgba(255,255,255,.08),
+          rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(26px) saturate(180%);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.05) inset,
+        0 -1px 0 rgba(255,255,255,.02) inset,
+        0 30px 90px rgba(0,0,0,.45);
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          130deg,
+          transparent 20%,
+          rgba(255,255,255,.14),
+          transparent 80%
+        );
+      transform: translateX(-120%);
+      animation: shine 10s linear infinite;
+    }
+
+    @keyframes shine {
+      to {
+        transform: translateX(120%);
+      }
+    }
+
+    .noise::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .05;
+      background-image:
+        radial-gradient(circle, white 1px, transparent 1px);
+      background-size: 14px 14px;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(90px);
+      pointer-events: none;
+      mix-blend-mode: plus-lighter;
+    }
+
+    .portal {
+      transform-style: preserve-3d;
+      animation: portalFloat 12s ease-in-out infinite;
+    }
+
+    @keyframes portalFloat {
+      0%,100% {
+        transform: translateY(0px) rotate(-6deg);
+      }
+
+      50% {
+        transform: translateY(-22px) rotate(-3deg);
+      }
+    }
+
+    .kinetic {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.5),
+          white,
+          rgba(255,255,255,.5)
+        );
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      animation: shimmer 5s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .liquid-btn {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .liquid-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left,
+          rgba(255,255,255,.35),
+          transparent 35%),
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.18),
+          rgba(255,255,255,.02)
+        );
+      mix-blend-mode: overlay;
+    }
+
+    .tilt {
+      transition:
+        transform .5s cubic-bezier(.16,1,.3,1),
+        box-shadow .5s cubic-bezier(.16,1,.3,1);
+    }
+
+    .tilt:hover {
+      transform:
+        perspective(1200px)
+        rotateX(5deg)
+        rotateY(-5deg)
+        translateY(-10px);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px) scale(.98);
+      filter: blur(12px);
+      transition:
+        opacity 1s cubic-bezier(.16,1,.3,1),
+        transform 1s cubic-bezier(.16,1,.3,1),
+        filter 1s cubic-bezier(.16,1,.3,1);
+      transition-timeline: view();
+      transition-range: entry 10% cover 32%;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .mask-video {
+      mask-image:
+        radial-gradient(circle at 70% 50%, black 40%, transparent 88%);
+      -webkit-mask-image:
+        radial-gradient(circle at 70% 50%, black 40%, transparent 88%);
+    }
+
+    .floating-card {
+      animation: drift 8s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0%,100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    .border-flow {
+      position: relative;
+    }
+
+    .border-flow::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background:
+        linear-gradient(
+          130deg,
+          rgba(255,255,255,.14),
+          transparent,
+          rgba(255,255,255,.05)
+        );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    ::selection {
+      background: rgba(110,140,255,.35);
+      color: white;
+    }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.bottom-\[-160px\]{bottom:-160px}.left-\[-80px\]{left:-80px}.right-\[-100px\]{right:-100px}.top-0{top:0px}.top-\[-200px\]{top:-200px}.left-\[-60px\]{left:-60px}.right-\[-80px\]{right:-80px}.top-20{top:5rem}.top-\[-40px\]{top:-40px}.bottom-10{bottom:2.5rem}.left-\[-100px\]{left:-100px}.right-10{right:2.5rem}.top-10{top:2.5rem}.top-\[-100px\]{top:-100px}.z-50{z-index:50}.z-10{z-index:10}.z-30{z-index:30}.z-20{z-index:20}.mx-auto{margin-left:auto;margin-right:auto}.mb-8{margin-bottom:2rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-20{margin-top:5rem}.mt-8{margin-top:2rem}.mb-10{margin-bottom:2.5rem}.mb-20{margin-bottom:5rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-11{height:2.75rem}.h-\[400px\]{height:400px}.h-\[500px\]{height:500px}.h-14{height:3.5rem}.h-2{height:0.5rem}.h-\[760px\]{height:760px}.h-3{height:0.75rem}.h-full{height:100%}.h-12{height:3rem}.h-44{height:11rem}.h-\[30\%\]{height:30%}.h-\[55\%\]{height:55%}.h-\[76\%\]{height:76%}.h-\[320px\]{height:320px}.h-10{height:2.5rem}.min-h-\[860px\]{min-height:860px}.min-h-screen{min-height:100vh}.w-11{width:2.75rem}.w-\[400px\]{width:400px}.w-\[500px\]{width:500px}.w-14{width:3.5rem}.w-2{width:0.5rem}.w-\[760px\]{width:760px}.w-full{width:100%}.w-3{width:0.75rem}.w-\[260px\]{width:260px}.w-\[74\%\]{width:74%}.w-\[88\%\]{width:88%}.w-\[92\%\]{width:92%}.w-12{width:3rem}.w-\[320px\]{width:320px}.w-10{width:2.5rem}.max-w-7xl{max-width:80rem}.max-w-4xl{max-width:56rem}.max-w-xl{max-width:36rem}.max-w-5xl{max-width:64rem}.max-w-3xl{max-width:48rem}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-2{gap:0.5rem}.gap-20{gap:5rem}.gap-3{gap:0.75rem}.gap-5{gap:1.25rem}.gap-7{gap:1.75rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.gap-12{gap:3rem}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-2xl{border-radius:1rem}.rounded-\[2rem\]{border-radius:2rem}.rounded-full{border-radius:9999px}.rounded-\[3rem\]{border-radius:3rem}.rounded-\[4rem\]{border-radius:4rem}.rounded-\[2\.5rem\]{border-radius:2.5rem}.rounded-t-\[1\.5rem\]{border-top-left-radius:1.5rem;border-top-right-radius:1.5rem}.border{border-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/\[\.06\]{border-color:rgb(255 255 255 / .06)}.bg-cyan{background-color:oklch(82% .13 200)}.bg-white\/\[\.03\]{background-color:rgb(255 255 255 / .03)}.bg-white\/\[\.05\]{background-color:rgb(255 255 255 / .05)}.bg-primary{background-color:oklch(78% .18 250)}.bg-white\/\[\.04\]{background-color:rgb(255 255 255 / .04)}.bg-white\/\[\.06\]{background-color:rgb(255 255 255 / .06)}.bg-white\/\[\.08\]{background-color:rgb(255 255 255 / .08)}.bg-white\/\[\.1\]{background-color:rgb(255 255 255 / .1)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-l{background-image:linear-gradient(to left, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-t{background-image:linear-gradient(to top, var(--tw-gradient-stops))}.from-black{--tw-gradient-from:#000 var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-cyan{--tw-gradient-from:oklch(82% .13 200) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-pink{--tw-gradient-from:oklch(74% .18 340) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-primary{--tw-gradient-from:oklch(78% .18 250) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-white\/\[\.08\]{--tw-gradient-from:rgb(255 255 255 / .08) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-black\/10{--tw-gradient-to:rgb(0 0 0 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), rgb(0 0 0 / 0.1) var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-cyan{--tw-gradient-to:oklch(82% .13 200) var(--tw-gradient-to-position)}.to-primary{--tw-gradient-to:oklch(78% .18 250) var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.to-white{--tw-gradient-to:#fff var(--tw-gradient-to-position)}.object-cover{object-fit:cover}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.p-7{padding:1.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-7{padding-left:1.75rem;padding-right:1.75rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-40{padding-top:10rem;padding-bottom:10rem}.py-36{padding-top:9rem;padding-bottom:9rem}.pt-32{padding-top:8rem}.pb-10{padding-bottom:2.5rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[3\.5rem\]{font-size:3.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-5xl{font-size:3rem;line-height:1}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-\[\.9\]{line-height:.9}.leading-relaxed{line-height:1.625}.leading-none{line-height:1}.leading-\[\.95\]{line-height:.95}.tracking-\[-\.08em\]{letter-spacing:-.08em}.tracking-tight{letter-spacing:-0.025em}.tracking-\[-\.07em\]{letter-spacing:-.07em}.tracking-\[\.25em\]{letter-spacing:.25em}.tracking-wide{letter-spacing:0.025em}.text-text{color:oklch(96% .01 250)}.text-primary{color:oklch(78% .18 250)}.text-muted{color:oklch(72% .02 250)}.text-cyan{color:oklch(82% .13 200)}.text-pink{color:oklch(74% .18 340)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-90{opacity:0.9}.shadow-liquid{--tw-shadow:
+              0 1px 0 rgba(255,255,255,.06) inset,
+              0 -1px 0 rgba(255,255,255,.03) inset,
+              0 30px 120px rgba(0,0,0,.65)
+            ;--tw-shadow-colored:inset 0 1px 0 var(--tw-shadow-color), inset 0 -1px 0 var(--tw-shadow-color), 0 30px 120px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-\[120px\]{--tw-blur:blur(120px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-white\/\[\.06\]:hover{background-color:rgb(255 255 255 / .06)}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:text-\[5rem\]{font-size:5rem}}@media (min-width: 768px){.md\:flex-row{flex-direction:row}.md\:p-10{padding:2.5rem}.md\:p-14{padding:3.5rem}.md\:px-8{padding-left:2rem;padding-right:2rem}.md\:text-7xl{font-size:4.5rem;line-height:1}.md\:text-6xl{font-size:3.75rem;line-height:1}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:grid-cols-\[1\.1fr_\.9fr\]{grid-template-columns:1.1fr .9fr}.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\:grid-cols-\[1fr_\.8fr\]{grid-template-columns:1fr .8fr}.lg\:text-\[7rem\]{font-size:7rem}}@media (min-width: 1280px){.xl\:block{display:block}.xl\:grid-cols-\[\.8fr_1\.2fr\]{grid-template-columns:.8fr 1.2fr}}</style></head>
+
+<body class="antialiased text-text" data-sc-cs="background-color:oklch(0.09 0.012 250);color:oklch(0.96 0.01 250)">
+
+  <div class="orb bg-primary/30 w-[500px] h-[500px] top-[-200px] right-[-100px]" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+  <div class="orb bg-cyan/20 w-[400px] h-[400px] bottom-[-160px] left-[-80px]" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+  <header class="fixed top-0 inset-x-0 z-50 px-4 md:px-8 py-5" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+    <div class="max-w-7xl mx-auto" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      <div class="glass border-flow rounded-[2rem] px-6 py-4 flex items-center justify-between" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+        <div class="flex items-center gap-4" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+          <div class="w-11 h-11 rounded-2xl glass flex items-center justify-center" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:16px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+            <iconify-icon icon="solar:notes-bold-duotone" class="text-2xl text-primary" data-sc-cs="color:oklch(0.78 0.18 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+          </div>
+
+          <div data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <p class="font-semibold tracking-tight" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Notion AI
+            </p>
+
+            <p class="text-xs text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Unified intelligence for modern workspaces
+            </p>
+          </div>
+        </div>
+
+        <nav class="hidden lg:flex items-center gap-2" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+          <a href="#workspace" class="px-4 py-2 rounded-full text-sm text-muted hover:text-white transition" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">
+            Workspace
+          </a>
+
+          <a href="#intelligence" class="px-4 py-2 rounded-full text-sm text-muted hover:text-white transition" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">
+            Intelligence
+          </a>
+
+          <a href="#system" class="px-4 py-2 rounded-full text-sm text-muted hover:text-white transition" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">
+            System
+          </a>
+        </nav>
+
+        <button class="liquid-btn glass rounded-full px-6 py-3 text-sm font-medium hover:scale-105 transition" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:500;line-height:20px;text-align:center;padding:12px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-120%);background-color:initial;background-image:linear-gradient(130deg, transparent 20%, rgba(255, 255, 255, 0.14), transparent 80%);animation:10s linear 0s infinite normal none running shine;animation-name:shine}|before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;background-color:initial;background-image:radial-gradient(circle at left top, rgba(255, 255, 255, 0.35), transparent 35%), linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02))}|hover-self{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-scale-x:1.05;--tw-scale-y:1.05}">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+    <section class="min-h-screen relative flex items-center px-5 md:px-8 overflow-hidden" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+      <div class="max-w-7xl mx-auto w-full grid xl:grid-cols-[.8fr_1.2fr] gap-20 items-center" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:grid;gap:80px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+        <div class="relative z-10 pt-32" data-sc-col="sccol-0" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:128px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+          <div class="glass inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8 border-flow" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:8px 16px;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:inline-flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <div class="w-2 h-2 rounded-full bg-cyan" data-sc-col="sccol-1" data-sc-cs="background-color:oklch(0.82 0.13 200);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+
+            <span class="text-sm text-muted" data-sc-col="sccol-2" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              AI-powered collaborative systems
+            </span>
+          </div>
+
+          <h1 class="text-[3.5rem] sm:text-[5rem] lg:text-[7rem] leading-[.9] tracking-[-.08em] font-semibold max-w-4xl" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:112px;font-weight:600;line-height:100.8px;letter-spacing:-8.96px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            Ideas move
+            <span class="kinetic" data-sc-cs="background-image:linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgb(255, 255, 255), rgba(255, 255, 255, 0.5));color:rgba(0, 0, 0, 0);font-family:Inter, ui-sans-serif, system-ui;font-size:112px;font-weight:600;line-height:100.8px;letter-spacing:-8.96px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">faster</span>
+            when knowledge flows.
+          </h1>
+
+          <p class="mt-8 max-w-xl text-lg text-muted leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            An immersive workspace built around adaptive thinking,
+            realtime collaboration and sensory interface systems
+            engineered for modern product teams.
+          </p>
+
+          <div class="mt-12 flex flex-wrap gap-4" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <button class="liquid-btn glass border-flow rounded-full px-7 py-4 font-medium hover:scale-105 transition" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:500;line-height:24px;text-align:center;padding:16px 28px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transform:translateX(-120%);background-color:initial;background-image:linear-gradient(130deg, transparent 20%, rgba(255, 255, 255, 0.14), transparent 80%);animation:10s linear 0s infinite normal none running shine;animation-name:shine}|before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;background-color:initial;background-image:radial-gradient(circle at left top, rgba(255, 255, 255, 0.35), transparent 35%), linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02))}|after{content:&quot;&quot;;position:absolute;top:-1px;right:-1px;bottom:-1px;left:-1px;inset:-1px;background-color:initial;background-image:linear-gradient(130deg, rgba(255, 255, 255, 0.14), transparent, rgba(255, 255, 255, 0.05))}|hover-self{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));--tw-scale-x:1.05;--tw-scale-y:1.05}">
+              Explore Workspace
+            </button>
+
+            <button class="rounded-full px-7 py-4 border border-white/10 bg-white/[.03] hover:bg-white/[.06] transition" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:16px 28px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{background-color:rgba(255, 255, 255, 0.06)}">
+              Watch Demo
+            </button>
+
+          </div>
+
+          <div class="mt-20 grid sm:grid-cols-3 gap-5" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:80px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:20px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="glass border-flow rounded-[2rem] p-5" data-sc-col="sccol-3" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              <p class="text-4xl font-semibold tracking-tight" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:600;line-height:40px;letter-spacing:-0.9px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                120+
+              </p>
+
+              <p class="text-sm text-muted mt-2" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                integrated knowledge systems
+              </p>
+            </div>
+
+            <div class="glass border-flow rounded-[2rem] p-5" data-sc-col="sccol-4" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              <p class="text-4xl font-semibold tracking-tight" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:600;line-height:40px;letter-spacing:-0.9px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                14ms
+              </p>
+
+              <p class="text-sm text-muted mt-2" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                realtime sync response
+              </p>
+            </div>
+
+            <div class="glass border-flow rounded-[2rem] p-5" data-sc-col="sccol-5" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              <p class="text-4xl font-semibold tracking-tight" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:600;line-height:40px;letter-spacing:-0.9px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                AI
+              </p>
+
+              <p class="text-sm text-muted mt-2" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                contextual semantic memory
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="relative hidden xl:block min-h-[860px]" data-sc-col="sccol-6" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+          <div class="portal absolute right-[-80px] top-20 w-[760px] h-[760px]" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.998562, -0.0536144, 0.0536144, 0.998562, 0, -21.4621);position:absolute">
+
+            <div class="absolute top-[-40px] left-[-60px] glass border-flow rounded-[2rem] p-5 z-30 floating-card" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, -3.24512);position:absolute">
+
+              <div class="flex items-center gap-5" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:20px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+                <div class="w-14 h-14 rounded-2xl bg-white/[.05] flex items-center justify-center" data-sc-col="sccol-7" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                  <iconify-icon icon="solar:widget-bold-duotone" class="text-3xl text-cyan" data-sc-cs="color:oklch(0.82 0.13 200);font-family:Inter, ui-sans-serif, system-ui;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+                </div>
+
+                <div data-sc-col="sccol-8" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Neural Workspace
+                  </p>
+
+                  <p class="text-2xl font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    +38% focus efficiency
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="absolute bottom-10 left-[-100px] w-[260px] glass border-flow rounded-[2rem] p-6 z-30" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+
+              <div class="flex items-center justify-between mb-6" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+                <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Knowledge Mapping
+                </p>
+
+                <div class="w-3 h-3 rounded-full bg-cyan animate-pulse" data-sc-cs="background-color:oklch(0.82 0.13 200);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+              </div>
+
+              <div class="space-y-4" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <div class="h-3 rounded-full bg-white/[.06] overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  <div class="h-full w-[92%] rounded-full bg-gradient-to-r from-primary to-cyan" data-sc-cs="background-image:linear-gradient(to right, oklch(0.78 0.18 250), oklch(0.82 0.13 200));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                </div>
+
+                <div class="h-3 rounded-full bg-white/[.06] overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  <div class="h-full w-[74%] rounded-full bg-gradient-to-r from-pink to-primary" data-sc-cs="background-image:linear-gradient(to right, oklch(0.74 0.18 340), oklch(0.78 0.18 250));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                </div>
+
+                <div class="h-3 rounded-full bg-white/[.06] overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  <div class="h-full w-[88%] rounded-full bg-gradient-to-r from-cyan to-white" data-sc-cs="background-image:linear-gradient(to right, oklch(0.82 0.13 200), rgb(255, 255, 255));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="glass border-flow noise rounded-[4rem] overflow-hidden absolute inset-0 shadow-liquid" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:64px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 255, 0.06) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.03) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.65) 0px 30px 120px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+
+              <div class="absolute inset-0 bg-gradient-to-br from-white/[.08] via-transparent to-transparent z-10" data-sc-cs="background-image:linear-gradient(to right bottom, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+              <video autoplay="" muted="" loop="" playsinline="" class="w-full h-full object-cover opacity-90 mask-video" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <source src="https://videos.openhero.art/downloads/abstract/financial-infrastructure-for-internet-businesses/video.mp4" type="video/mp4">
+              </video>
+
+              <div class="absolute inset-0 bg-gradient-to-l from-black via-black/10 to-transparent" data-sc-cs="background-image:linear-gradient(to left, rgb(0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+              <div class="absolute top-10 right-10 z-20" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                <div class="glass rounded-full px-5 py-3 flex items-center gap-3" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:12px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                  <div class="w-2 h-2 rounded-full bg-primary" data-sc-cs="background-color:oklch(0.78 0.18 250);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+
+                  <span class="text-xs tracking-wide text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;letter-spacing:0.3px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Adaptive intelligence layer
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="workspace" class="relative py-40 px-5 md:px-8" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+      <div class="max-w-7xl mx-auto" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+        <div class="mb-20 reveal active" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+
+          <p class="uppercase tracking-[.25em] text-xs text-muted mb-5" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 20px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            Spatial Collaboration
+          </p>
+
+          <h2 class="text-5xl md:text-7xl tracking-[-.07em] leading-none font-semibold max-w-5xl" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:72px;font-weight:600;line-height:72px;letter-spacing:-5.04px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1024px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            Information shaped
+            as a living system.
+          </h2>
+
+        </div>
+
+        <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-7" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:28px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+          <div class="glass border-flow rounded-[3rem] p-8 md:p-10 tilt reveal active" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:48px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+
+            <div class="flex items-center justify-between mb-10" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+
+              <div data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Workspace Fabric
+                </p>
+
+                <h3 class="text-3xl font-semibold mt-2" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:30px;font-weight:600;line-height:36px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Contextual operational memory
+                </h3>
+              </div>
+
+              <div class="w-14 h-14 rounded-2xl bg-white/[.04] flex items-center justify-center" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                <iconify-icon icon="solar:layers-bold-duotone" class="text-3xl text-primary" data-sc-cs="color:oklch(0.78 0.18 250);font-family:Inter, ui-sans-serif, system-ui;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+              </div>
+
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-6" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+              <div class="rounded-[2rem] bg-white/[.03] border border-white/[.06] p-6" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.06);border-radius:32px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <p class="text-muted text-sm" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Semantic indexing
+                </p>
+
+                <p class="mt-4 text-4xl tracking-tight font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:600;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  8.4x
+                </p>
+
+                <p class="mt-3 text-sm text-muted leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Faster retrieval across distributed collaborative systems.
+                </p>
+
+              </div>
+
+              <div class="rounded-[2rem] bg-white/[.03] border border-white/[.06] p-6" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.06);border-radius:32px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <p class="text-muted text-sm" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Neural organization
+                </p>
+
+                <p class="mt-4 text-4xl tracking-tight font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:600;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  92%
+                </p>
+
+                <p class="mt-3 text-sm text-muted leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Automated workspace structure prediction accuracy.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="grid gap-7" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:28px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="glass border-flow rounded-[2.5rem] p-8 reveal active" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:40px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+
+              <div class="flex items-start justify-between" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all">
+
+                <div data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  <p class="text-muted text-sm" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Live Collaboration
+                  </p>
+
+                  <h4 class="mt-3 text-2xl font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;margin:12px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Multi-user sensory editing
+                  </h4>
+                </div>
+
+                <div class="w-12 h-12 rounded-2xl bg-white/[.04] flex items-center justify-center" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                  <iconify-icon icon="solar:users-group-rounded-bold-duotone" class="text-2xl text-cyan" data-sc-cs="color:oklch(0.82 0.13 200);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+                </div>
+
+              </div>
+
+              <p class="mt-6 text-muted leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:26px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Dynamic editing environments powered by adaptive synchronization and AI contextual awareness.
+              </p>
+
+            </div>
+
+            <div class="glass border-flow rounded-[2.5rem] p-8 reveal active" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:40px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+
+              <div class="flex items-center justify-between mb-8" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+
+                <p class="text-muted text-sm" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  Team Productivity
+                </p>
+
+                <p class="text-sm text-cyan" data-sc-cs="color:oklch(0.82 0.13 200);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                  +24% monthly
+                </p>
+
+              </div>
+
+              <div class="h-44 flex items-end gap-3" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:flex-end;flex-direction:row;transition:all">
+
+                <div class="w-full rounded-t-[1.5rem] bg-white/[.06] h-[30%]" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px 24px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                <div class="w-full rounded-t-[1.5rem] bg-white/[.08] h-[55%]" data-sc-cs="background-color:rgba(255, 255, 255, 0.08);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px 24px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                <div class="w-full rounded-t-[1.5rem] bg-white/[.1] h-[76%]" data-sc-cs="background-color:rgba(255, 255, 255, 0.1);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px 24px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                <div class="w-full rounded-t-[1.5rem] bg-gradient-to-t from-primary/70 to-cyan/70 h-full" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px 24px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="intelligence" class="relative py-36 px-5 md:px-8" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:144px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+      <div class="max-w-7xl mx-auto" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+        <div class="grid lg:grid-cols-2 gap-8 items-center" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:32px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+          <div class="reveal" data-sc-col="sccol-9" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 50)">
+
+            <p class="uppercase tracking-[.25em] text-xs text-muted mb-5" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 20px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Native Intelligence
+            </p>
+
+            <h2 class="text-5xl md:text-6xl tracking-[-.07em] leading-[.95] font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:60px;font-weight:600;line-height:60px;letter-spacing:-4.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Systems designed
+              around cognition.
+            </h2>
+
+            <p class="mt-8 max-w-xl text-muted leading-relaxed text-lg" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Every interaction responds with fluidity, contextual adaptation
+              and material depth engineered for premium human-computer workflows.
+            </p>
+
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6 reveal" data-sc-col="sccol-10" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 50)">
+
+            <div class="glass border-flow rounded-[2rem] p-7" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:28px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+              <div class="w-14 h-14 rounded-2xl bg-white/[.05] flex items-center justify-center mb-8" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                <iconify-icon icon="logos:javascript" class="text-3xl" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+              </div>
+
+              <h4 class="text-2xl font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Native Motion
+              </h4>
+
+              <p class="mt-4 text-muted text-sm leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Scroll-linked interaction systems built without animation libraries.
+              </p>
+
+            </div>
+
+            <div class="glass border-flow rounded-[2rem] p-7" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:28px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+              <div class="w-14 h-14 rounded-2xl bg-white/[.05] flex items-center justify-center mb-8" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+                <iconify-icon icon="logos:tailwindcss-icon" class="text-3xl" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+              </div>
+
+              <h4 class="text-2xl font-semibold" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Container Logic
+              </h4>
+
+              <p class="mt-4 text-muted text-sm leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Responsive architecture driven through intrinsic container systems.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="system" class="relative py-40 px-5 md:px-8" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+      <div class="max-w-7xl mx-auto" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+        <div class="glass border-flow rounded-[3rem] p-8 md:p-14 overflow-hidden relative" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:48px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+          <div class="absolute top-[-100px] left-[-60px] w-[320px] h-[320px] rounded-full bg-primary/10 blur-[120px]" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+          <div class="grid lg:grid-cols-[1fr_.8fr] gap-12 items-center relative z-10" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:48px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+            <div data-sc-col="sccol-11" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+              <p class="uppercase tracking-[.25em] text-xs text-muted mb-5" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 20px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Intelligent Workspace
+              </p>
+
+              <h2 class="text-5xl md:text-7xl tracking-[-.07em] leading-none font-semibold max-w-3xl" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:72px;font-weight:600;line-height:72px;letter-spacing:-5.04px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Design interfaces
+                people can feel.
+              </h2>
+
+              <p class="mt-8 text-lg text-muted max-w-xl leading-relaxed" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                Light diffusion, sensory depth and adaptive movement combine
+                into a liquid interface architecture optimized for focus.
+              </p>
+
+            </div>
+
+            <div class="space-y-5" data-sc-col="sccol-12" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+              <div class="glass rounded-[2rem] p-6" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <div class="flex items-center justify-between" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+
+                  <div data-sc-col="sccol-13" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                      AI Writing Layer
+                    </p>
+
+                    <h4 class="text-2xl font-semibold mt-2" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                      Generative workflow orchestration
+                    </h4>
+                  </div>
+
+                  <iconify-icon icon="solar:pen-new-square-bold-duotone" class="text-4xl text-cyan" data-sc-col="sccol-14" data-sc-cs="color:oklch(0.82 0.13 200);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:400;line-height:40px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+
+                </div>
+
+              </div>
+
+              <div class="glass rounded-[2rem] p-6" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;margin:20px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <div class="flex items-center justify-between" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+
+                  <div data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                      Workspace Graph
+                    </p>
+
+                    <h4 class="text-2xl font-semibold mt-2" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:600;line-height:32px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                      Connected operational memory
+                    </h4>
+                  </div>
+
+                  <iconify-icon icon="solar:share-circle-bold-duotone" class="text-4xl text-pink" data-sc-cs="color:oklch(0.74 0.18 340);font-family:Inter, ui-sans-serif, system-ui;font-size:36px;font-weight:400;line-height:40px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="px-5 md:px-8 pb-10" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 32px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+    <div class="max-w-7xl mx-auto" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+      <div class="glass border-flow rounded-[2rem] px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-5" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.05) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.45) 0px 30px 90px 0px;backdrop-filter:blur(26px) saturate(1.8);display:flex;gap:20px;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+
+        <div class="flex items-center gap-3" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+          <div class="w-10 h-10 rounded-2xl bg-white/[.05] flex items-center justify-center" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+            <iconify-icon icon="solar:notes-bold-duotone" class="text-2xl text-primary" data-sc-cs="color:oklch(0.78 0.18 250);font-family:Inter, ui-sans-serif, system-ui;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+          </div>
+
+          <div data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <p class="font-medium" data-sc-cs="color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:500;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Notion AI
+            </p>
+
+            <p class="text-xs text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Connected systems for intelligent teams
+            </p>
+          </div>
+
+        </div>
+
+        <p class="text-sm text-muted" data-sc-cs="color:oklch(0.72 0.02 250);font-family:Inter, ui-sans-serif, system-ui;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          © 2026 Notion AI — Adaptive collaboration architecture.
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script>
+    if ("startViewTransition" in document) {
+      document.documentElement.classList.add("supports-view-transitions")
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active")
+        }
+      })
+    }, {
+      threshold: 0.1
+    })
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el))
+
+    document.querySelectorAll(".liquid-btn").forEach((button) => {
+
+      button.addEventListener("mousemove", (e) => {
+
+        const rect = button.getBoundingClientRect()
+
+        const x = e.clientX - rect.left - rect.width / 2
+        const y = e.clientY - rect.top - rect.height / 2
+
+        button.style.transform = `
+          translate(${x * .08}px, ${y * .08}px)
+          scale(1.04)
+        `
+      })
+
+      button.addEventListener("mouseleave", () => {
+        button.style.transform = ""
+      })
+
+    })
+
+    document.documentElement.animate(
+      {
+        opacity: [0, 1],
+        transform: ["translateY(10px)", "translateY(0px)"]
+      },
+      {
+        duration: 1200,
+        easing: "cubic-bezier(.16,1,.3,1)"
+      }
+    )
+  </script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+<div class="bg-white/[.06]" style="position: absolute; left: -99999px; top: -99999px;" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:oklch(0.96 0.01 250);font-family:Inter, ui-sans-serif, system-ui;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div></body></html>

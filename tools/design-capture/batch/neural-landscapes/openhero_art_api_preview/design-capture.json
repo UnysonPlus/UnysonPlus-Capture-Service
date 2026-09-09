@@ -1,0 +1,1797 @@
+{
+  "url": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.1 0.01 150);color:rgb(0, 0, 0)\" data-sc-content-width=\"1248\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>The Line | Living Architecture &amp; Neural Landscapes</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n<link href=\"https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&amp;family=Space+Grotesk:wght@300;400;500&amp;display=swap\" rel=\"stylesheet\">\n<script src=\"https://cdn.tailwindcss.com\"></script>\n<script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n<script>\ntailwind.config = {\n  theme: {\n    extend: {\n      colors: {\n        abyss: \"oklch(10% 0.01 150)\",\n        emerald: \"oklch(60% 0.15 150)\",\n        sun: \"oklch(85% 0.15 70)\",\n      },\n      fontFamily: {\n        data: ['\"Space Grotesk\"', 'sans-serif'],\n        hero: ['\"Oswald\"', 'sans-serif'],\n      }\n    }\n  }\n}\n</script>\n<style>\n  html {\n    scroll-behavior: smooth;\n    background-color: oklch(10% 0.01 150);\n  }\n  \n  body {\n    margin: 0;\n    overflow-x: hidden;\n    color: white;\n    background-color: oklch(10% 0.01 150);\n  }\n\n  ::-webkit-scrollbar {\n    width: 2px;\n  }\n  ::-webkit-scrollbar-track {\n    background: transparent;\n  }\n  ::-webkit-scrollbar-thumb {\n    background: oklch(60% 0.15 150 / 0.5);\n  }\n\n  .vercel-grain {\n    position: fixed;\n    inset: 0;\n    z-index: 9999;\n    pointer-events: none;\n    background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\");\n    opacity: 0.04;\n    mix-blend-mode: screen;\n  }\n\n  .radial-portal {\n    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 70%);\n    mask-image: radial-gradient(circle at center, black 30%, transparent 70%);\n    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), mask-size 1.5s ease;\n    will-change: transform, mask-image;\n  }\n\n  .radial-portal:hover {\n    transform: scale(1.05);\n  }\n\n  .kinetic-sway {\n    display: inline-block;\n    animation: sway 6s ease-in-out infinite alternate;\n    transform-origin: bottom center;\n  }\n\n  @keyframes sway {\n    0% { transform: rotate(-1.5deg) translateX(-2px); }\n    100% { transform: rotate(1.5deg) translateX(2px); }\n  }\n\n  .morning-sun-text {\n    background: linear-gradient(110deg, oklch(90% 0.1 70) 0%, oklch(85% 0.15 70) 40%, oklch(60% 0.15 150) 100%);\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n  }\n\n  .apple-sharpness {\n    backdrop-filter: blur(20px);\n    -webkit-backdrop-filter: blur(20px);\n    background: oklch(100% 0 0 / 0.02);\n    border: 0.5px solid oklch(100% 0 0 / 0.1);\n    box-shadow: inset 0 1px 1px oklch(100% 0 0 / 0.05), 0 20px 40px rgba(0,0,0,0.4);\n    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n  }\n\n  .dew-drop {\n    position: relative;\n    overflow: hidden;\n    backdrop-filter: blur(20px) saturate(1.5);\n    -webkit-backdrop-filter: blur(20px) saturate(1.5);\n    background: oklch(100% 0 0 / 0.03);\n    border: 0.5px solid oklch(100% 0 0 / 0.08);\n    box-shadow: inset 0 1px 2px oklch(100% 0 0 / 0.1);\n    border-radius: 99px;\n    transition: all 0.3s ease;\n  }\n\n  .dew-drop::before {\n    content: '';\n    position: absolute;\n    top: 0; left: 20%; right: 20%; height: 1px;\n    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);\n    opacity: 0;\n    transition: opacity 0.3s ease;\n  }\n\n  .dew-drop:hover {\n    background: oklch(100% 0 0 / 0.06);\n    transform: translateY(-2px);\n    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 1px 2px oklch(100% 0 0 / 0.2);\n  }\n\n  .dew-drop:hover::before {\n    opacity: 1;\n  }\n\n  .sss-card {\n    position: relative;\n  }\n\n  .sss-card::before {\n    content: '';\n    position: absolute;\n    inset: -1px;\n    border-radius: inherit;\n    padding: 1px;\n    background: linear-gradient(145deg, oklch(60% 0.15 150 / 0.4), transparent 40%);\n    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n    -webkit-mask-composite: xor;\n    mask-composite: exclude;\n    pointer-events: none;\n  }\n\n  .sss-card::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    border-radius: inherit;\n    box-shadow: inset 0 0 40px oklch(60% 0.15 150 / 0.05);\n    pointer-events: none;\n    transition: box-shadow 0.4s ease;\n  }\n\n  .sss-card:hover::after {\n    box-shadow: inset 0 0 60px oklch(60% 0.15 150 / 0.15);\n  }\n\n  .subsurface-glow {\n    position: absolute;\n    width: 150px;\n    height: 150px;\n    background: radial-gradient(circle, oklch(60% 0.15 150 / 0.4) 0%, transparent 70%);\n    border-radius: 50%;\n    filter: blur(20px);\n    opacity: 0;\n    transition: opacity 0.5s ease;\n    pointer-events: none;\n    transform: translate(-50%, -50%);\n    z-index: 0;\n  }\n\n  .sss-card:hover .subsurface-glow {\n    opacity: 1;\n  }\n\n  .ambient-light {\n    position: absolute;\n    border-radius: 50%;\n    filter: blur(140px);\n    pointer-events: none;\n    z-index: -1;\n    mix-blend-mode: screen;\n  }\n\n  .bloom-reveal {\n    opacity: 0;\n    transform: translateY(30px) scale(0.98);\n    filter: blur(10px);\n    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s ease;\n  }\n\n  .bloom-reveal.active {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n    filter: blur(0px);\n  }\n\n  .delay-100 { transition-delay: 0.1s; }\n  .delay-200 { transition-delay: 0.2s; }\n  .delay-300 { transition-delay: 0.3s; }\n</style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.pointer-events-auto{pointer-events:auto}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.top-0{top:0px}.bottom-\\[10\\%\\]{bottom:10%}.left-\\[10\\%\\]{left:10%}.right-\\[10\\%\\]{right:10%}.top-\\[10\\%\\]{top:10%}.top-40{top:10rem}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.mx-auto{margin-left:auto;margin-right:auto}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-12{margin-top:3rem}.mb-3{margin-bottom:0.75rem}.ml-1{margin-left:0.25rem}.mb-32{margin-bottom:8rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-1\\.5{height:0.375rem}.h-\\[40vw\\]{height:40vw}.h-\\[50vw\\]{height:50vw}.h-16{height:4rem}.h-\\[60vh\\]{height:60vh}.h-full{height:100%}.h-px{height:1px}.h-24{height:6rem}.h-\\[50vh\\]{height:50vh}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-full{width:100%}.w-1\\.5{width:0.375rem}.w-\\[40vw\\]{width:40vw}.w-\\[50vw\\]{width:50vw}.w-16{width:4rem}.w-px{width:1px}.max-w-md{max-width:28rem}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.cursor-default{cursor:default}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-white\\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\\/5{border-color:rgb(255 255 255 / 0.05)}.bg-emerald{background-color:oklch(60% 0.15 150)}.bg-white\\/5{background-color:rgb(255 255 255 / 0.05)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.from-emerald{--tw-gradient-from:oklch(60% 0.15 150) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-sun{--tw-gradient-to:rgb(255 255 255 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), oklch(85% 0.15 70) var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-emerald{--tw-gradient-to:rgb(255 255 255 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), oklch(60% 0.15 150) var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.object-cover{object-fit:cover}.p-8{padding:2rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-40{padding-top:10rem;padding-bottom:10rem}.pb-20{padding-bottom:5rem}.pt-32{padding-top:8rem}.pb-1{padding-bottom:0.25rem}.pt-4{padding-top:1rem}.text-center{text-align:center}.font-data{font-family:\"Space Grotesk\", sans-serif}.font-hero{font-family:\"Oswald\", sans-serif}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\\[10px\\]{font-size:10px}.text-xs{font-size:0.75rem;line-height:1rem}.text-7xl{font-size:4.5rem;line-height:1}.text-\\[9px\\]{font-size:9px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-5xl{font-size:3rem;line-height:1}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-light{font-weight:300}.uppercase{text-transform:uppercase}.leading-\\[0\\.85\\]{line-height:0.85}.leading-relaxed{line-height:1.625}.leading-none{line-height:1}.tracking-\\[0\\.2em\\]{letter-spacing:0.2em}.tracking-widest{letter-spacing:0.1em}.tracking-\\[0\\.4em\\]{letter-spacing:0.4em}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\\/70{color:rgb(255 255 255 / 0.7)}.text-white\\/80{color:rgb(255 255 255 / 0.8)}.text-emerald{color:oklch(60% 0.15 150)}.text-sun{color:oklch(85% 0.15 70)}.text-white\\/50{color:rgb(255 255 255 / 0.5)}.text-white\\/30{color:rgb(255 255 255 / 0.3)}.text-white\\/40{color:rgb(255 255 255 / 0.4)}.text-white\\/20{color:rgb(255 255 255 / 0.2)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-0{opacity:0}.opacity-20{opacity:0.2}.mix-blend-multiply{mix-blend-mode:multiply}.mix-blend-overlay{mix-blend-mode:overlay}.mix-blend-plus-lighter{mix-blend-mode:plus-lighter}.shadow-\\[0_0_12px_oklch\\(60\\%_0\\.15_150\\)\\]{--tw-shadow:0 0 12px oklch(60% 0.15 150);--tw-shadow-colored:0 0 12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.delay-100{transition-delay:100ms}.delay-200{transition-delay:200ms}.delay-300{transition-delay:300ms}.duration-700{transition-duration:700ms}.selection\\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.group:hover .group-hover\\:opacity-100{opacity:1}@media (min-width: 768px){.md\\:sticky{position:sticky}.md\\:col-span-5{grid-column:span 5 / span 5}.md\\:col-span-7{grid-column:span 7 / span 7}.md\\:flex{display:flex}.md\\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.md\\:flex-row{flex-direction:row}.md\\:gap-16{gap:4rem}.md\\:p-10{padding:2.5rem}.md\\:px-16{padding-left:4rem;padding-right:4rem}.md\\:text-8xl{font-size:6rem;line-height:1}.md\\:text-base{font-size:1rem;line-height:1.5rem}.md\\:text-7xl{font-size:4.5rem;line-height:1}.md\\:text-5xl{font-size:3rem;line-height:1}}@media (min-width: 1024px){.lg\\:h-screen{height:100vh}.lg\\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\\:px-24{padding-left:6rem;padding-right:6rem}.lg\\:py-0{padding-top:0px;padding-bottom:0px}.lg\\:text-\\[9rem\\]{font-size:9rem}}</style></head>\n<body class=\"antialiased selection:bg-emerald/30 selection:text-white\" data-sc-cs=\"background-color:oklch(0.1 0.01 150);color:rgb(255, 255, 255)\">\n\n<div class=\"vercel-grain\" data-sc-cs=\"background-image:url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\"></div>\n\n<nav class=\"fixed top-0 inset-x-0 z-50 px-6 py-6 flex justify-between items-center w-full mix-blend-plus-lighter pointer-events-none\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all;position:fixed\">\n  <div class=\"flex items-center gap-4 pointer-events-auto group\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n    <div class=\"w-10 h-10 rounded-full apple-sharpness flex items-center justify-center relative overflow-hidden\" data-sc-logo-svg=\"&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 40 40&quot; width=&quot;40&quot; height=&quot;40&quot; fill=&quot;none&quot; role=&quot;img&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;40&quot; height=&quot;40&quot; rx=&quot;20.00&quot; fill=&quot;oklch(1 0 0 / 0.02)&quot;/&gt;&lt;/svg&gt;\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.02);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.1);border-radius:9999px;box-shadow:oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px;backdrop-filter:blur(20px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:0.4s cubic-bezier(0.16, 1, 0.3, 1)\">\n      <div class=\"absolute inset-0 bg-emerald/20 opacity-0 group-hover:opacity-100 transition-opacity\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);position:absolute\"></div>\n      <iconify-icon icon=\"ph:infinity-light\" class=\"text-xl text-white relative z-10\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n    </div>\n    <span class=\"font-data text-xs tracking-[0.2em] uppercase text-white/80\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">The Line</span>\n  </div>\n  \n  <div class=\"hidden md:flex gap-4 pointer-events-auto\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <button class=\"dew-drop px-5 py-2 font-data text-[10px] tracking-widest uppercase text-white/70 hover:text-white flex items-center gap-2\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.03);color:rgba(255, 255, 255, 0.7);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;padding:8px 20px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.08);border-radius:99px;box-shadow:oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset;backdrop-filter:blur(20px) saturate(1.5);display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:0.3s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:0px;right:20%;left:20%;transition:opacity 0.3s;transition-property:opacity;transition-duration:0.3s;transition-timing-function:ease;background-color:initial;background-image:linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);opacity:0;height:1px}|hover-self{transform:translateY(-2px);background-color:oklch(1 0 0 / 0.06);background-image:initial;box-shadow:rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset}|hover-before{opacity:1}|hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">\n      <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-emerald\" data-sc-cs=\"color:oklch(0.6 0.15 150);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n      Neural Architecture\n    </button>\n    <button class=\"dew-drop px-5 py-2 font-data text-[10px] tracking-widest uppercase text-white/70 hover:text-white flex items-center gap-2\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.03);color:rgba(255, 255, 255, 0.7);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;padding:8px 20px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.08);border-radius:99px;box-shadow:oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset;backdrop-filter:blur(20px) saturate(1.5);display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:0.3s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:0px;right:20%;left:20%;transition:opacity 0.3s;transition-property:opacity;transition-duration:0.3s;transition-timing-function:ease;background-color:initial;background-image:linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);opacity:0;height:1px}|hover-self{transform:translateY(-2px);background-color:oklch(1 0 0 / 0.06);background-image:initial;box-shadow:rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset}|hover-before{opacity:1}|hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">\n      <iconify-icon icon=\"ph:cloud-fog-light\" class=\"text-sun\" data-sc-cs=\"color:oklch(0.85 0.15 70);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n      Cloud Server Protocol\n    </button>\n  </div>\n</nav>\n\n<main class=\"relative w-full\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n  <div class=\"fixed top-[10%] left-[10%] w-[40vw] h-[40vw] ambient-light bg-sun/5\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\"></div>\n  <div class=\"fixed bottom-[10%] right-[10%] w-[50vw] h-[50vw] ambient-light bg-emerald/10\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\"></div>\n\n  <section class=\"min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <div class=\"flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all\">\n      <div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n        <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\" data-sc-cs=\"background-color:oklch(0.6 0.15 150);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.6 0.15 150) 0px 0px 12px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></span>\n        <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Andean Bio-Digitalism</span>\n      </div>\n\n      <h1 class=\"font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-3.6px;text-align:start;text-transform:uppercase;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, filter 1.2s 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n        <span class=\"block kinetic-sway morning-sun-text\" data-sc-cs=\"background-image:linear-gradient(110deg, oklch(0.9 0.1 70) 0%, oklch(0.85 0.15 70) 40%, oklch(0.6 0.15 150) 100%);color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999671, 0.0256441, -0.0256441, 0.999671, 1.95863, 0.0502439);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\">Living</span>\n        <span class=\"block text-white\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Architecture</span>\n      </h1>\n\n      <p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\" data-sc-cs=\"color:rgba(255, 255, 255, 0.5);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, filter 1.2s 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n        Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.\n      </p>\n\n      <div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, filter 1.2s 0.3s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n        <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\" data-sc-col=\"sccol-0\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.03);color:rgb(255, 255, 255);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:center;text-transform:uppercase;padding:16px 32px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.08);border-radius:99px;box-shadow:oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset;backdrop-filter:blur(20px) saturate(1.5);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:0.3s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:0px;right:20%;left:20%;transition:opacity 0.3s;transition-property:opacity;transition-duration:0.3s;transition-timing-function:ease;background-color:initial;background-image:linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);opacity:0;height:1px}|hover-self{transform:translateY(-2px);background-color:oklch(1 0 0 / 0.06);background-image:initial;box-shadow:rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset}|hover-before{opacity:1}\">\n          Initiate Synthesis\n          <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\" data-sc-cs=\"color:oklch(0.6 0.15 150);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:2px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n        </button>\n        <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\" data-sc-col=\"sccol-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;padding:0px 0px 4px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Data Yield: 99.8%</span>\n      </div>\n    </div>\n\n    <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n      <div class=\"absolute inset-0 w-full h-full radial-portal\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), mask-size 1.5s;position:absolute\">\n        <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <source src=\"https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4\" type=\"video/mp4\">\n        </video>\n        <div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n        <div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      </div>\n    </div>\n  </section>\n\n  <section class=\"py-40 px-6 md:px-16 lg:px-24 w-full relative z-20\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <div class=\"max-w-7xl mx-auto\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:64px;justify-content:normal;align-items:flex-start;flex-direction:row;transition:all\">\n        \n        <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\" data-sc-col=\"sccol-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;transform:matrix(1, 0, 0, 1, 0, 0);position:sticky\">\n          <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:72px;font-weight:400;line-height:72px;letter-spacing:-1.8px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Cloud-Forest <br>\n            <span class=\"text-white/30\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Oswald, sans-serif;font-size:72px;font-weight:400;line-height:72px;letter-spacing:-1.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Cooling</span>\n          </h2>\n          <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\" data-sc-cs=\"color:rgba(255, 255, 255, 0.5);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.\n          </p>\n          <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\" data-sc-cs=\"background-image:linear-gradient(to right, oklch(0.6 0.15 150), oklch(0.85 0.15 70), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n        </div>\n\n        <div class=\"md:col-span-7 flex flex-col gap-6\" data-sc-col=\"sccol-3\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n          \n          <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.02);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.1);border-radius:24px;box-shadow:oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, filter 1.2s 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n            <div class=\"subsurface-glow\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.6 0.15 150 / 0.4) 0%, rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.5s;transform:matrix(1, 0, 0, 1, -75, -75);position:absolute\"></div>\n            <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\">\n              <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\" data-sc-col=\"sccol-4\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(12px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n                <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\" data-sc-cs=\"color:oklch(0.6 0.15 150);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n              </div>\n              <div class=\"flex-1\" data-sc-col=\"sccol-5\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:20px;font-weight:400;line-height:28px;letter-spacing:0.5px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Atmospheric Extraction</h3>\n                <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:12px;font-weight:300;line-height:19.5px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                  Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.\n                </p>\n                <div class=\"flex items-center justify-between border-t border-white/5 pt-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all\">\n                  <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\" data-sc-col=\"sccol-6\" data-sc-cs=\"color:oklch(0.6 0.15 150);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Status: Active</span>\n                  <span class=\"font-hero text-2xl text-white tracking-wider\" data-sc-col=\"sccol-7\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:24px;font-weight:400;line-height:32px;letter-spacing:1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">14.2<span class=\"text-sm text-white/30 ml-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Oswald, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:1.2px;text-align:start;margin:0px 0px 0px 4px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">L/s</span></span>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.02);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.1);border-radius:24px;box-shadow:oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, filter 1.2s 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n            <div class=\"subsurface-glow\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.6 0.15 150 / 0.4) 0%, rgba(0, 0, 0, 0) 70%);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.5s;transform:matrix(1, 0, 0, 1, -75, -75);position:absolute\"></div>\n            <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\">\n              <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(12px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n                <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\" data-sc-cs=\"color:oklch(0.85 0.15 70);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n              </div>\n              <div class=\"flex-1\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:20px;font-weight:400;line-height:28px;letter-spacing:0.5px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Mycelium Structural Integrity</h3>\n                <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:12px;font-weight:300;line-height:19.5px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                  Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.\n                </p>\n                <div class=\"flex items-center justify-between border-t border-white/5 pt-4\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all\">\n                  <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\" data-sc-cs=\"color:oklch(0.85 0.15 70);font-family:&quot;Space Grotesk&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Growth Phase: 4</span>\n                  <span class=\"font-hero text-2xl text-white tracking-wider\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Oswald, sans-serif;font-size:24px;font-weight:400;line-height:32px;letter-spacing:1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">98.5<span class=\"text-sm text-white/30 ml-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.3);font-family:Oswald, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:1.2px;text-align:start;margin:0px 0px 0px 4px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">%</span></span>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </div>\n  </section>\n  \n  <section class=\"h-[50vh] w-full flex items-center justify-center relative z-20 mb-32\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n    <div class=\"text-center bloom-reveal active\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n      <div class=\"w-px h-24 bg-gradient-to-b from-transparent via-emerald to-transparent mx-auto mb-8\" data-sc-cs=\"background-image:linear-gradient(rgba(0, 0, 0, 0), oklch(0.6 0.15 150), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 262.047px 32px 262.031px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n      <h2 class=\"font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default\" data-sc-cs=\"color:rgba(255, 255, 255, 0.2);font-family:Oswald, sans-serif;font-size:48px;font-weight:400;line-height:48px;letter-spacing:4.8px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), fill 0.7s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.7s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.7s cubic-bezier(0.4, 0, 0.2, 1)\">\n        Return to the source\n      </h2>\n    </div>\n  </section>\n\n</main>\n\n<script>\n  document.querySelectorAll('.sss-card').forEach(card => {\n    const glow = card.querySelector('.subsurface-glow');\n    if (!glow) return;\n    \n    card.addEventListener('mousemove', (e) => {\n      const rect = card.getBoundingClientRect();\n      const x = e.clientX - rect.left;\n      const y = e.clientY - rect.top;\n      \n      glow.style.left = `${x}px`;\n      glow.style.top = `${y}px`;\n    });\n  });\n\n  const observerOptions = {\n    root: null,\n    rootMargin: '0px 0px -15% 0px',\n    threshold: 0.1\n  };\n\n  const observer = new IntersectionObserver((entries) => {\n    entries.forEach(entry => {\n      if (entry.isIntersecting) {\n        entry.target.classList.add('active');\n        observer.unobserve(entry.target);\n      }\n    });\n  }, observerOptions);\n\n  document.querySelectorAll('.bloom-reveal').forEach(el => {\n    observer.observe(el);\n  });\n</script>\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n<div class=\"text-white\" style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:ui-sans-serif, system-ui, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "The Line | Living Architecture & Neural Landscapes",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 14,
+      "family": "Space Grotesk",
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 144,
+      "weight": "400",
+      "family": "Oswald",
+      "line-height": "1",
+      "letter-spacing": "-3.6",
+      "text-transform": "uppercase"
+    },
+    "h2": {
+      "size": 72,
+      "weight": "400",
+      "family": "Oswald",
+      "line-height": "1",
+      "letter-spacing": "-1.8",
+      "text-transform": "uppercase"
+    },
+    "h3": {
+      "size": 20,
+      "weight": "400",
+      "family": "Space Grotesk",
+      "line-height": "1.4",
+      "letter-spacing": "0.5"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "144",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "72",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "48",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Display 4",
+        "size": "20",
+        "weight": "400",
+        "line_height": "1.4",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-4"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "14",
+        "weight": "300",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "9",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "3.6",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "oklch(0.1 0.01 150)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1280px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Oswald",
+    "color": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "24px"
+    },
+    "bar": {
+      "display": "flex",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Neural Architecture",
+      "icon": "",
+      "computed": {
+        "fontFamily": "\"Space Grotesk\", sans-serif",
+        "fontSize": "10px",
+        "fontWeight": "400",
+        "color": "rgba(255, 255, 255, 0.7)",
+        "letterSpacing": "1px"
+      },
+      "detail": {
+        "text": "The Line",
+        "icon": "",
+        "image": "",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 40 40\" width=\"40\" height=\"40\" fill=\"none\" role=\"img\" aria-hidden=\"true\"><rect x=\"0\" y=\"0\" width=\"40\" height=\"40\" rx=\"20.00\" fill=\"oklch(1 0 0 / 0.02)\"/></svg>",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "rgba(255, 255, 255, 0.8)",
+        "title_size": "12px",
+        "title_weight": "400",
+        "title_font": "\"Space Grotesk\", sans-serif",
+        "title_ls": "2.4px",
+        "title_hover": "",
+        "icon_size": "40px",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [],
+    "cta": {
+      "label": "Cloud Server Protocol",
+      "href": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+      "computed": {
+        "backgroundColor": "oklch(1 0 0 / 0.03)",
+        "color": "rgba(255, 255, 255, 0.7)",
+        "borderRadius": "99px",
+        "padding": "8px 20px",
+        "fontFamily": "\"Space Grotesk\", sans-serif",
+        "fontWeight": "400"
+      },
+      "hover": {
+        "color": "rgb(255, 255, 255)"
+      }
+    }
+  },
+  "footer": null,
+  "sections": [
+    {
+      "heading": "Living Architecture",
+      "headingHtml": "",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "Oswald, sans-serif",
+        "fontSize": "144px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "Andean Bio-Digitalism",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(255, 255, 255)",
+        "textTransform": "none",
+        "letterSpacing": "normal",
+        "borderRadius": "0px",
+        "fontSize": "16px"
+      },
+      "lead": "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.",
+      "paragraphs": [
+        "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes."
+      ],
+      "buttons": [
+        {
+          "label": "Initiate Synthesis",
+          "href": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+          "primary": true
+        }
+      ],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "fontSize": "16px",
+        "minHeight": "900px"
+      },
+      "text": "Andean Bio-Digitalism Living Architecture Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes. Initiate Synthesis Data Yield: 99.8%",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "grid": {
+            "cols": "720px 720px",
+            "gap": "normal"
+          },
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "padding": "0px 96px",
+              "flex": {
+                "dir": "column",
+                "justify": "center",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all",
+              "tw": {
+                "px": "32px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "center",
+                    "gap": "12px",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s",
+                  "tw": {
+                    "gap": "12px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Andean Bio-Digitalism",
+                    "text": "Andean Bio-Digitalism",
+                    "styles": {
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                      "fontSize": "9px",
+                      "letterSpacing": "3.6px",
+                      "lineHeight": "13.5px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "heading",
+                "level": 1,
+                "html": "Living Architecture",
+                "text": "Living Architecture",
+                "styles": {
+                  "color": "rgb(255, 255, 255)",
+                  "fontFamily": "Oswald, sans-serif",
+                  "fontSize": "144px",
+                  "letterSpacing": "-3.6px",
+                  "lineHeight": "144px",
+                  "textTransform": "uppercase",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, filter 1.2s 0.1s",
+                  "tw": {
+                    "fontSize": "72px",
+                    "lineHeight": "1"
+                  }
+                }
+              },
+              {
+                "role": "text",
+                "html": "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.",
+                "text": "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.",
+                "styles": {
+                  "color": "rgba(255, 255, 255, 0.5)",
+                  "fontFamily": "\"Space Grotesk\", sans-serif",
+                  "fontSize": "16px",
+                  "fontWeight": "300",
+                  "lineHeight": "24px",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, filter 1.2s 0.2s",
+                  "tw": {
+                    "fontWeight": "300",
+                    "fontSize": "14px",
+                    "lineHeight": "20px"
+                  }
+                }
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "center",
+                    "gap": "24px",
+                    "wrap": "nowrap"
+                  },
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, filter 1.2s 0.3s",
+                  "tw": {
+                    "gap": "24px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "button",
+                    "label": "Initiate Synthesis",
+                    "href": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+                    "styles": {
+                      "textAlign": "center",
+                      "bg": "oklch(1 0 0 / 0.03)",
+                      "padding": "16px 32px",
+                      "borderRadius": "99px",
+                      "boxShadow": "oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset",
+                      "border": "1px solid oklch(1 0 0 / 0.08)",
+                      "color": "rgb(255, 255, 255)",
+                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                      "fontSize": "10px",
+                      "letterSpacing": "2px",
+                      "lineHeight": "15px",
+                      "textTransform": "uppercase",
+                      "transition": "0.3s",
+                      "tw": {
+                        "px": "32px",
+                        "py": "16px",
+                        "gap": "12px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Data Yield: 99.8%",
+                    "text": "Data Yield: 99.8%",
+                    "styles": {
+                      "padding": "0px 0px 4px",
+                      "color": "rgba(255, 255, 255, 0.3)",
+                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                      "fontSize": "10px",
+                      "letterSpacing": "1px",
+                      "lineHeight": "15px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10\">     <div class=\"flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20\">       <div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\">         <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\"></span>         <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\">Andean Bio-Digitalism</span>       </div>       <h1 class=\"font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100\">         <span class=\"block kinetic-sway morning-sun-text\">Living</span>         <span class=\"block text-white\">Architecture</span>       </h1>       <p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\">         Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.       </p>       <div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\">         <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\">           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         </button>         <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\">Data Yield: 99.8%</span>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10\">       <div class=\"absolute inset-0 w-full h-full radial-portal\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">           <source src=\"https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\"></div>         <div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\"></div>       </div>     </div>   </section>",
+      "rawInner": "     <div class=\"flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20\">       <div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\">         <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\"></span>         <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\">Andean Bio-Digitalism</span>       </div>       <h1 class=\"font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100\">         <span class=\"block kinetic-sway morning-sun-text\">Living</span>         <span class=\"block text-white\">Architecture</span>       </h1>       <p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\">         Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.       </p>       <div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\">         <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\">           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         </button>         <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\">Data Yield: 99.8%</span>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10\">       <div class=\"absolute inset-0 w-full h-full radial-portal\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">           <source src=\"https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\"></div>         <div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\"></div>       </div>     </div>   ",
+      "sectionClass": "min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "display-grid": 1,
+        "display-flex": 5,
+        "padding": 3,
+        "transform": 5,
+        "gap": 3,
+        "margin": 3,
+        "background-color": 2,
+        "box-shadow": 2,
+        "border-radius": 2,
+        "background-image": 1,
+        "max-width": 2,
+        "backdrop-filter": 1,
+        "border": 3,
+        "position-absolute": 3
+      },
+      "h": 900,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "text",
+          "html": "<div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\">         <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\"></span>         <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\">Andean Bio-Digitalism</span>       </div>",
+          "text": "Andean Bio-Digitalism",
+          "tag": "div",
+          "cls": "bloom-reveal active mb-6 inline-flex items-center gap-3",
+          "fontSize": "16px",
+          "color": "rgb(255, 255, 255)",
+          "lineHeight": "24px",
+          "letterSpacing": "normal",
+          "marginBottom": "24px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Living Architecture",
+          "text": "Living Architecture",
+          "tag": "h1",
+          "cls": "font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100",
+          "wrapCls": "flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20",
+          "fontSize": "144px",
+          "fontWeight": "400",
+          "color": "rgb(255, 255, 255)",
+          "marginBottom": "32px",
+          "marginTop": "0px",
+          "lineHeight": "144px",
+          "letterSpacing": "-3.6px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\">         Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.       </p>",
+          "text": "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.",
+          "tag": "p",
+          "cls": "font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light",
+          "fontSize": "16px",
+          "color": "rgba(255, 255, 255, 0.5)",
+          "lineHeight": "24px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "300",
+          "textTransform": "none"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3",
+              "colId": "sccol-0",
+              "cw": 5,
+              "html": "           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 8,
+                "tablet": 4,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1",
+              "colId": "sccol-1",
+              "cw": 2,
+              "html": "Data Yield: 99.8%",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 3,
+                "tablet": 2,
+                "desktop": 2
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 24,
+          "gapResp": {
+            "base": 24,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\">         <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\" data-sc-col=\"sccol-0\">           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         </button>         <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\" data-sc-col=\"sccol-1\">Data Yield: 99.8%</span>       </div>"
+        },
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+          "poster": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": " w-full h-full object-cover absolute inset-0 w-full h-full radial-portal relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10 min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "multiply",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 720,
+            "h": 900
+          }
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "overlay",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 720,
+            "h": 900
+          }
+        }
+      ],
+      "css": ".radial-portal{mask-image: radial-gradient(circle, black 30%, transparent 70%); transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), mask-size 1.5s; will-change: transform, mask-image;}\n.radial-portal:hover{transform: scale(1.05);}\n.kinetic-sway{display: inline-block; animation: 6s ease-in-out 0s infinite alternate none running sway; transform-origin: center bottom;}\n.morning-sun-text{background: linear-gradient(110deg, oklch(0.9 0.1 70) 0%, oklch(0.85 0.15 70) 40%, oklch(0.6 0.15 150) 100%) text; -webkit-text-fill-color: transparent;}\n.dew-drop{position: relative; overflow: hidden; backdrop-filter: blur(20px) saturate(1.5); background: oklch(1 0 0 / 0.03); border: 0.5px solid oklch(1 0 0 / 0.08); box-shadow: oklch(1 0 0 / 0.1) 0px 1px 2px inset; border-radius: 99px; transition: 0.3s;}\n.dew-drop::before{content: \"\"; position: absolute; top: 0px; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); opacity: 0; transition: opacity 0.3s;}\n.dew-drop:hover{background: oklch(1 0 0 / 0.06); transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset;}\n.dew-drop:hover::before{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.block{display: block;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-1\\.5{height: 0.375rem;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-1\\.5{width: 0.375rem;}\n.max-w-md{max-width: 28rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-6{gap: 1.5rem;}\n.rounded-full{border-radius: 9999px;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-emerald{background-color: oklch(0.6 0.15 150);}\n.object-cover{object-fit: cover;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pb-20{padding-bottom: 5rem;}\n.pt-32{padding-top: 8rem;}\n.pb-1{padding-bottom: 0.25rem;}\n.font-data{font-family: \"Space Grotesk\", sans-serif;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.85\\]{line-height: 0.85;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald{color: oklch(0.6 0.15 150);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_12px_oklch\\(60\\%_0\\.15_150\\)\\]{--tw-shadow: 0 0 12px oklch(60% 0.15 150); --tw-shadow-colored: 0 0 12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:py-0{padding-top: 0px; padding-bottom: 0px;}}\n@media (min-width: 1024px){.lg\\:text-\\[9rem\\]{font-size: 9rem;}}"
+    },
+    {
+      "heading": "Cloud-Forest Cooling",
+      "headingHtml": "Cloud-Forest <br> <span class=\"text-white/30\" style=\"color:rgba(255, 255, 255, 0.3)\">Cooling</span>",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "Oswald, sans-serif",
+        "fontSize": "72px",
+        "fontWeight": "400",
+        "color": "rgb(255, 255, 255)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+      "paragraphs": [
+        "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+        "Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.",
+        "Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [
+        {
+          "cols": 2,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "Atmospheric Extraction",
+              "text": "Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": {
+        "tokens": [
+          "backdrop-blur-md"
+        ],
+        "engine": ""
+      },
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "padding": "160px 96px",
+        "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "fontSize": "16px"
+      },
+      "text": "Cloud-Forest Cooling Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols. Atmospheric Extraction Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs. Status: Active 14.2L/s Mycelium Structural Integrity Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic. Growth Phase: 4 98.5%",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "160px 96px",
+          "transition": "all",
+          "tw": {
+            "px": "24px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "maxWidth": "1280px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "grid": {
+                    "cols": "45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px 45.3281px",
+                    "gap": "64px"
+                  },
+                  "transition": "all",
+                  "tw": {
+                    "gap": "32px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                      "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s"
+                    },
+                    "children": [
+                      {
+                        "role": "heading",
+                        "level": 2,
+                        "html": "Cloud-Forest <br> <span class=\"text-white/30\" style=\"color:rgba(255, 255, 255, 0.3)\">Cooling</span>",
+                        "text": "Cloud-Forest Cooling",
+                        "styles": {
+                          "color": "rgb(255, 255, 255)",
+                          "fontFamily": "Oswald, sans-serif",
+                          "fontSize": "72px",
+                          "letterSpacing": "-1.8px",
+                          "lineHeight": "72px",
+                          "textTransform": "uppercase",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "48px",
+                            "lineHeight": "1"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+                        "text": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+                        "styles": {
+                          "color": "rgba(255, 255, 255, 0.5)",
+                          "fontFamily": "\"Space Grotesk\", sans-serif",
+                          "fontSize": "14px",
+                          "fontWeight": "300",
+                          "lineHeight": "22.75px",
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "14px",
+                            "lineHeight": "20px"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "column",
+                        "justify": "normal",
+                        "align": "normal",
+                        "gap": "24px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "24px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "bg": "oklch(1 0 0 / 0.02)",
+                          "padding": "40px",
+                          "borderRadius": "24px",
+                          "boxShadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+                          "border": "1px solid oklch(1 0 0 / 0.1)",
+                          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                          "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, filter 1.2s 0.1s",
+                          "tw": {
+                            "radius": "24px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "flex": {
+                                "dir": "row",
+                                "justify": "space-between",
+                                "align": "flex-start",
+                                "gap": "32px",
+                                "wrap": "nowrap"
+                              },
+                              "transition": "all",
+                              "tw": {
+                                "gap": "32px"
+                              }
+                            },
+                            "children": [
+                              {
+                                "role": "container",
+                                "tag": "div",
+                                "styles": {
+                                  "transition": "all"
+                                },
+                                "children": [
+                                  {
+                                    "role": "heading",
+                                    "level": 3,
+                                    "html": "Atmospheric Extraction",
+                                    "text": "Atmospheric Extraction",
+                                    "styles": {
+                                      "color": "rgb(255, 255, 255)",
+                                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                                      "fontSize": "20px",
+                                      "letterSpacing": "0.5px",
+                                      "lineHeight": "28px",
+                                      "transition": "all",
+                                      "tw": {
+                                        "fontSize": "20px",
+                                        "lineHeight": "28px"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "role": "text",
+                                    "html": "Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.",
+                                    "text": "Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.",
+                                    "styles": {
+                                      "color": "rgba(255, 255, 255, 0.4)",
+                                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                                      "fontSize": "12px",
+                                      "fontWeight": "300",
+                                      "lineHeight": "19.5px",
+                                      "transition": "all",
+                                      "tw": {
+                                        "fontWeight": "300",
+                                        "fontSize": "12px",
+                                        "lineHeight": "16px"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "role": "container",
+                                    "tag": "div",
+                                    "styles": {
+                                      "padding": "16px 0px 0px",
+                                      "border": "1px solid rgba(255, 255, 255, 0.05)",
+                                      "flex": {
+                                        "dir": "row",
+                                        "justify": "space-between",
+                                        "align": "center",
+                                        "gap": "normal",
+                                        "wrap": "nowrap"
+                                      },
+                                      "transition": "all"
+                                    },
+                                    "children": [
+                                      {
+                                        "role": "text",
+                                        "html": "Status: Active",
+                                        "text": "Status: Active",
+                                        "styles": {
+                                          "color": "oklch(0.6 0.15 150)",
+                                          "fontFamily": "\"Space Grotesk\", sans-serif",
+                                          "fontSize": "10px",
+                                          "letterSpacing": "2px",
+                                          "lineHeight": "15px",
+                                          "textTransform": "uppercase",
+                                          "transition": "all"
+                                        }
+                                      },
+                                      {
+                                        "role": "container",
+                                        "tag": "span",
+                                        "styles": {
+                                          "transition": "all",
+                                          "tw": {
+                                            "fontSize": "24px",
+                                            "lineHeight": "32px"
+                                          }
+                                        },
+                                        "children": [
+                                          {
+                                            "role": "text",
+                                            "html": "L/s",
+                                            "text": "L/s",
+                                            "styles": {
+                                              "color": "rgba(255, 255, 255, 0.3)",
+                                              "fontFamily": "Oswald, sans-serif",
+                                              "fontSize": "14px",
+                                              "letterSpacing": "1.2px",
+                                              "lineHeight": "20px",
+                                              "transition": "all",
+                                              "tw": {
+                                                "fontSize": "14px",
+                                                "lineHeight": "20px"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "bg": "oklch(1 0 0 / 0.02)",
+                          "padding": "40px",
+                          "borderRadius": "24px",
+                          "boxShadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+                          "border": "1px solid oklch(1 0 0 / 0.1)",
+                          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                          "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, filter 1.2s 0.2s",
+                          "tw": {
+                            "radius": "24px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "flex": {
+                                "dir": "row",
+                                "justify": "space-between",
+                                "align": "flex-start",
+                                "gap": "32px",
+                                "wrap": "nowrap"
+                              },
+                              "transition": "all",
+                              "tw": {
+                                "gap": "32px"
+                              }
+                            },
+                            "children": [
+                              {
+                                "role": "container",
+                                "tag": "div",
+                                "styles": {
+                                  "transition": "all"
+                                },
+                                "children": [
+                                  {
+                                    "role": "heading",
+                                    "level": 3,
+                                    "html": "Mycelium Structural Integrity",
+                                    "text": "Mycelium Structural Integrity",
+                                    "styles": {
+                                      "color": "rgb(255, 255, 255)",
+                                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                                      "fontSize": "20px",
+                                      "letterSpacing": "0.5px",
+                                      "lineHeight": "28px",
+                                      "transition": "all",
+                                      "tw": {
+                                        "fontSize": "20px",
+                                        "lineHeight": "28px"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "role": "text",
+                                    "html": "Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.",
+                                    "text": "Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.",
+                                    "styles": {
+                                      "color": "rgba(255, 255, 255, 0.4)",
+                                      "fontFamily": "\"Space Grotesk\", sans-serif",
+                                      "fontSize": "12px",
+                                      "fontWeight": "300",
+                                      "lineHeight": "19.5px",
+                                      "transition": "all",
+                                      "tw": {
+                                        "fontWeight": "300",
+                                        "fontSize": "12px",
+                                        "lineHeight": "16px"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "role": "container",
+                                    "tag": "div",
+                                    "styles": {
+                                      "padding": "16px 0px 0px",
+                                      "border": "1px solid rgba(255, 255, 255, 0.05)",
+                                      "flex": {
+                                        "dir": "row",
+                                        "justify": "space-between",
+                                        "align": "center",
+                                        "gap": "normal",
+                                        "wrap": "nowrap"
+                                      },
+                                      "transition": "all"
+                                    },
+                                    "children": [
+                                      {
+                                        "role": "text",
+                                        "html": "Growth Phase: 4",
+                                        "text": "Growth Phase: 4",
+                                        "styles": {
+                                          "color": "oklch(0.85 0.15 70)",
+                                          "fontFamily": "\"Space Grotesk\", sans-serif",
+                                          "fontSize": "10px",
+                                          "letterSpacing": "2px",
+                                          "lineHeight": "15px",
+                                          "textTransform": "uppercase",
+                                          "transition": "all"
+                                        }
+                                      },
+                                      {
+                                        "role": "container",
+                                        "tag": "span",
+                                        "styles": {
+                                          "transition": "all",
+                                          "tw": {
+                                            "fontSize": "24px",
+                                            "lineHeight": "32px"
+                                          }
+                                        },
+                                        "children": [
+                                          {
+                                            "role": "text",
+                                            "html": "%",
+                                            "text": "%",
+                                            "styles": {
+                                              "color": "rgba(255, 255, 255, 0.3)",
+                                              "fontFamily": "Oswald, sans-serif",
+                                              "fontSize": "14px",
+                                              "letterSpacing": "1.2px",
+                                              "lineHeight": "20px",
+                                              "transition": "all",
+                                              "tw": {
+                                                "fontSize": "14px",
+                                                "lineHeight": "20px"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"py-40 px-6 md:px-16 lg:px-24 w-full relative z-20\">     <div class=\"max-w-7xl mx-auto\">       <div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>     </div>   </section>",
+      "rawInner": "     <div class=\"max-w-7xl mx-auto\">       <div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>     </div>   ",
+      "sectionClass": "py-40 px-6 md:px-16 lg:px-24 w-full relative z-20",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 5,
+        "max-width": 1,
+        "display-grid": 1,
+        "gap": 4,
+        "transform": 5,
+        "position-sticky": 1,
+        "margin": 8,
+        "background-image": 3,
+        "display-flex": 7,
+        "background-color": 4,
+        "backdrop-filter": 4,
+        "box-shadow": 2,
+        "border": 6,
+        "border-radius": 6,
+        "position-absolute": 2
+      },
+      "h": 812,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+              "colId": "sccol-2",
+              "cw": 5,
+              "html": "           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Cloud-Forest <br> <span class=\"text-white/30\" style=\"color:rgba(255, 255, 255, 0.3)\">Cooling</span>",
+                "titleTag": "h2",
+                "titleClass": "font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none",
+                "subtitle": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+                "subtitleClass": "font-data text-sm text-white/50 leading-relaxed font-light mb-8",
+                "wrapClass": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "md:col-span-7 flex flex-col gap-6",
+              "colId": "sccol-3",
+              "cw": 7,
+              "html": "                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "24px"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "stack-left",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Atmospheric Extraction",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>",
+                "link": null,
+                "cls": "apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active",
+                "align": "left",
+                "pad": "40px",
+                "box": {
+                  "bg": "oklch(1 0 0 / 0.02)",
+                  "fill": "oklch(1 0 0 / 0.02)",
+                  "radius": "24px",
+                  "borderWidth": "1px",
+                  "borderStyle": "solid",
+                  "borderColor": "oklch(1 0 0 / 0.1)",
+                  "shadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+                  "backdrop": "blur(20px)",
+                  "hoverLift": false,
+                  "padding": "40px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 7,
+                "desktop": 7
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 64,
+          "gapResp": {
+            "base": 32,
+            "md": 64,
+            "lg": 0
+          },
+          "html": "<div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\" data-sc-col=\"sccol-2\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\" data-sc-col=\"sccol-3\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\" data-sc-col=\"sccol-4\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\" data-sc-col=\"sccol-5\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\" data-sc-col=\"sccol-6\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\" data-sc-col=\"sccol-7\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+              "colId": "sccol-2",
+              "cw": 5,
+              "html": "           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Cloud-Forest <br> <span class=\"text-white/30\" style=\"color:rgba(255, 255, 255, 0.3)\">Cooling</span>",
+                "titleTag": "h2",
+                "titleClass": "font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none",
+                "subtitle": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+                "subtitleClass": "font-data text-sm text-white/50 leading-relaxed font-light mb-8",
+                "wrapClass": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "md:col-span-7 flex flex-col gap-6",
+              "colId": "sccol-3",
+              "cw": 7,
+              "html": "                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "24px"
+              },
+              "counter": null,
+              "card": {
+                "icon": "",
+                "customIcon": "",
+                "lucide": "",
+                "iconLayout": "stack-left",
+                "iconColor": "",
+                "iconBadge": "",
+                "iconBadgeColor": "",
+                "iconBadgeSize": 0,
+                "iconBadgeRadius": "",
+                "iconBadgeBorderWidth": "",
+                "iconBadgeBorderColor": "",
+                "title": "Atmospheric Extraction",
+                "titleTag": "h3",
+                "titleWeight": "400",
+                "text": "<p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>",
+                "link": null,
+                "cls": "apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active",
+                "align": "left",
+                "pad": "40px",
+                "box": {
+                  "bg": "oklch(1 0 0 / 0.02)",
+                  "fill": "oklch(1 0 0 / 0.02)",
+                  "radius": "24px",
+                  "borderWidth": "1px",
+                  "borderStyle": "solid",
+                  "borderColor": "oklch(1 0 0 / 0.1)",
+                  "shadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+                  "backdrop": "blur(20px)",
+                  "hoverLift": false,
+                  "padding": "40px"
+                }
+              },
+              "wResp": {
+                "phone": 12,
+                "tablet": 7,
+                "desktop": 7
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 64,
+          "gapResp": {
+            "base": 32,
+            "md": 64,
+            "lg": 0
+          },
+          "html": "<div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\" data-sc-col=\"sccol-2\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\" data-sc-col=\"sccol-3\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\" data-sc-col=\"sccol-4\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\" data-sc-col=\"sccol-5\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\" data-sc-col=\"sccol-6\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\" data-sc-col=\"sccol-7\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>"
+        }
+      ],
+      "css": ".apple-sharpness{backdrop-filter: blur(20px); background: oklch(1 0 0 / 0.02); border: 0.5px solid oklch(1 0 0 / 0.1); box-shadow: oklch(1 0 0 / 0.05) 0px 1px 1px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.sss-card{position: relative;}\n.sss-card::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(145deg, oklch(0.6 0.15 150 / 0.4), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.sss-card::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: oklch(0.6 0.15 150 / 0.05) 0px 0px 40px inset; pointer-events: none; transition: box-shadow 0.4s;}\n.sss-card:hover::after{box-shadow: oklch(0.6 0.15 150 / 0.15) 0px 0px 60px inset;}\n.subsurface-glow{position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, oklch(0.6 0.15 150 / 0.4) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); opacity: 0; transition: opacity 0.5s; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;}\n.sss-card:hover .subsurface-glow{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.relative{position: relative;}\n.top-40{top: 10rem;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.ml-1{margin-left: 0.25rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-16{height: 4rem;}\n.h-px{height: 1px;}\n.w-full{width: 100%;}\n.w-16{width: 4rem;}\n.max-w-7xl{max-width: 80rem;}\n.flex-1{flex: 1 1 0%;}\n.shrink-0{flex-shrink: 0;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.pt-4{padding-top: 1rem;}\n.font-data{font-family: \"Space Grotesk\", sans-serif;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald{color: oklch(0.6 0.15 150);}\n.text-sun{color: oklch(0.85 0.15 70);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-20{opacity: 0.2;}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:sticky{position: sticky;}}\n@media (min-width: 768px){.md\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-16{gap: 4rem;}}\n@media (min-width: 768px){.md\\:p-10{padding: 2.5rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}"
+    },
+    {
+      "heading": "Return to the source",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "Oswald, sans-serif",
+        "fontSize": "48px",
+        "fontWeight": "400",
+        "color": "rgba(255, 255, 255, 0.2)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "",
+      "paragraphs": [],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "rgb(255, 255, 255)",
+        "margin": "0px 0px 128px",
+        "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "fontSize": "16px"
+      },
+      "text": "Return to the source",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "flex": {
+            "dir": "row",
+            "justify": "center",
+            "align": "center",
+            "gap": "normal",
+            "wrap": "nowrap"
+          },
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "textAlign": "center",
+              "transform": "matrix(1, 0, 0, 1, 0, 0)",
+              "transition": "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s"
+            },
+            "children": [
+              {
+                "role": "heading",
+                "level": 2,
+                "html": "Return to the source",
+                "text": "Return to the source",
+                "styles": {
+                  "textAlign": "center",
+                  "color": "rgba(255, 255, 255, 0.2)",
+                  "fontFamily": "Oswald, sans-serif",
+                  "fontSize": "48px",
+                  "letterSpacing": "4.8px",
+                  "lineHeight": "48px",
+                  "textTransform": "uppercase",
+                  "transition": "color 0.7s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), fill 0.7s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.7s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+                  "hover": {
+                    "color": "rgb(255, 255, 255)"
+                  },
+                  "tw": {
+                    "fontSize": "30px",
+                    "lineHeight": "36px"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"h-[50vh] w-full flex items-center justify-center relative z-20 mb-32\">     <div class=\"text-center bloom-reveal active\">       <div class=\"w-px h-24 bg-gradient-to-b from-transparent via-emerald to-transparent mx-auto mb-8\"></div>       <h2 class=\"font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default\">         Return to the source       </h2>     </div>   </section>",
+      "rawInner": "     <div class=\"text-center bloom-reveal active\">       <div class=\"w-px h-24 bg-gradient-to-b from-transparent via-emerald to-transparent mx-auto mb-8\"></div>       <h2 class=\"font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default\">         Return to the source       </h2>     </div>   ",
+      "sectionClass": "h-[50vh] w-full flex items-center justify-center relative z-20 mb-32",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "display-flex": 1,
+        "margin": 2,
+        "transform": 1,
+        "background-image": 1
+      },
+      "h": 450,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "heading",
+          "level": 2,
+          "html": "Return to the source",
+          "text": "Return to the source",
+          "tag": "h2",
+          "cls": "font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default",
+          "wrapCls": "text-center bloom-reveal active",
+          "fontSize": "48px",
+          "fontWeight": "400",
+          "color": "rgba(255, 255, 255, 0.2)",
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "lineHeight": "48px",
+          "letterSpacing": "4.8px",
+          "align": "center"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "heading",
+          "level": 2,
+          "html": "Return to the source",
+          "text": "Return to the source",
+          "tag": "h2",
+          "cls": "font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default",
+          "wrapCls": "text-center bloom-reveal active",
+          "fontSize": "48px",
+          "fontWeight": "400",
+          "color": "rgba(255, 255, 255, 0.2)",
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "lineHeight": "48px",
+          "letterSpacing": "4.8px",
+          "align": "center"
+        }
+      ],
+      "css": ".bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-32{margin-bottom: 8rem;}\n.flex{display: flex;}\n.h-24{height: 6rem;}\n.h-\\[50vh\\]{height: 50vh;}\n.w-full{width: 100%;}\n.w-px{width: 1px;}\n.cursor-default{cursor: default;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.text-center{text-align: center;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.uppercase{text-transform: uppercase;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white\\/20{color: rgba(255, 255, 255, 0.2);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 inset-x-0 z-50 px-6 py-6 flex justify-between items-center w-full mix-blend-plus-lighter pointer-events-none\">   <div class=\"flex items-center gap-4 pointer-events-auto group\">     <div class=\"w-10 h-10 rounded-full apple-sharpness flex items-center justify-center relative overflow-hidden\">       <div class=\"absolute inset-0 bg-emerald/20 opacity-0 group-hover:opacity-100 transition-opacity\"></div>       <iconify-icon icon=\"ph:infinity-light\" class=\"text-xl text-white relative z-10\"></iconify-icon>     </div>     <span class=\"font-data text-xs tracking-[0.2em] uppercase text-white/80\">The Line</span>   </div>      <div class=\"hidden md:flex gap-4 pointer-events-auto\">     <button class=\"dew-drop px-5 py-2 font-data text-[10px] tracking-widest uppercase text-white/70 hover:text-white flex items-center gap-2\">       <iconify-icon icon=\"ph:tree-structure-light\" class=\"text-emerald\"></iconify-icon>       Neural Architecture     </button>     <button class=\"dew-drop px-5 py-2 font-data text-[10px] tracking-widest uppercase text-white/70 hover:text-white flex items-center gap-2\">       <iconify-icon icon=\"ph:cloud-fog-light\" class=\"text-sun\"></iconify-icon>       Cloud Server Protocol     </button>   </div> </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": "html{scroll-behavior: smooth; background-color: oklch(0.1 0.01 150);}\nbody{margin: 0px; overflow-x: hidden; color: white; background-color: oklch(0.1 0.01 150);}\n::-webkit-scrollbar{width: 2px;}\n::-webkit-scrollbar-track{background: transparent;}\n::-webkit-scrollbar-thumb{background: oklch(0.6 0.15 150 / 0.5);}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".vercel-grain{position: fixed; inset: 0px; z-index: 9999; pointer-events: none; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(https://openhero.art/api/%23noiseFilter)'/%3E%3C/svg%3E\"); opacity: 0.04; mix-blend-mode: screen;}\n.radial-portal{mask-image: radial-gradient(circle, black 30%, transparent 70%); transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), mask-size 1.5s; will-change: transform, mask-image;}\n.radial-portal:hover{transform: scale(1.05);}\n.kinetic-sway{display: inline-block; animation: 6s ease-in-out 0s infinite alternate none running sway; transform-origin: center bottom;}\n@keyframes sway { \n  0% { transform: rotate(-1.5deg) translateX(-2px); }\n  100% { transform: rotate(1.5deg) translateX(2px); }\n}\n.morning-sun-text{background: linear-gradient(110deg, oklch(0.9 0.1 70) 0%, oklch(0.85 0.15 70) 40%, oklch(0.6 0.15 150) 100%) text; -webkit-text-fill-color: transparent;}\n.sss-card{position: relative;}\n.sss-card::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(145deg, oklch(0.6 0.15 150 / 0.4), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.sss-card::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: oklch(0.6 0.15 150 / 0.05) 0px 0px 40px inset; pointer-events: none; transition: box-shadow 0.4s;}\n.sss-card:hover::after{box-shadow: oklch(0.6 0.15 150 / 0.15) 0px 0px 60px inset;}\n.subsurface-glow{position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, oklch(0.6 0.15 150 / 0.4) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); opacity: 0; transition: opacity 0.5s; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;}\n.sss-card:hover .subsurface-glow{opacity: 1;}\n.ambient-light{position: absolute; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: -1; mix-blend-mode: screen;}\n.bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh1, h2, h3{font-size: inherit; font-weight: inherit;}\nh1, h2, h3, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.bottom-\\[10\\%\\]{bottom: 10%;}\n.left-\\[10\\%\\]{left: 10%;}\n.right-\\[10\\%\\]{right: 10%;}\n.top-\\[10\\%\\]{top: 10%;}\n.top-40{top: 10rem;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.ml-1{margin-left: 0.25rem;}\n.mb-32{margin-bottom: 8rem;}\n.block{display: block;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-1\\.5{height: 0.375rem;}\n.h-\\[40vw\\]{height: 40vw;}\n.h-\\[50vw\\]{height: 50vw;}\n.h-16{height: 4rem;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.h-px{height: 1px;}\n.h-24{height: 6rem;}\n.h-\\[50vh\\]{height: 50vh;}\n.min-h-screen{min-height: 100vh;}\n.w-1\\.5{width: 0.375rem;}\n.w-\\[40vw\\]{width: 40vw;}\n.w-\\[50vw\\]{width: 50vw;}\n.w-16{width: 4rem;}\n.w-px{width: 1px;}\n.max-w-md{max-width: 28rem;}\n.max-w-7xl{max-width: 80rem;}\n.flex-1{flex: 1 1 0%;}\n.shrink-0{flex-shrink: 0;}\n.cursor-default{cursor: default;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.gap-3{gap: 0.75rem;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-emerald{background-color: oklch(0.6 0.15 150);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.from-emerald{--tw-gradient-from: oklch(60% 0.15 150) var(--tw-gradient-from-position); --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.via-sun{--tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), oklch(85% 0.15 70) var(--tw-gradient-via-position), var(--tw-gradient-to);}\n.via-emerald{--tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), oklch(60% 0.15 150) var(--tw-gradient-via-position), var(--tw-gradient-to);}\n.to-transparent{--tw-gradient-to: transparent var(--tw-gradient-to-position);}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.pb-20{padding-bottom: 5rem;}\n.pt-32{padding-top: 8rem;}\n.pb-1{padding-bottom: 0.25rem;}\n.pt-4{padding-top: 1rem;}\n.text-center{text-align: center;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-light{font-weight: 300;}\n.leading-\\[0\\.85\\]{line-height: 0.85;}\n.leading-relaxed{line-height: 1.625;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/20{color: rgba(255, 255, 255, 0.2);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.opacity-20{opacity: 0.2;}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_12px_oklch\\(60\\%_0\\.15_150\\)\\]{--tw-shadow: 0 0 12px oklch(60% 0.15 150); --tw-shadow-colored: 0 0 12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.duration-700{transition-duration: 700ms;}\n.selection\\:text-white ::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.selection\\:text-white::selection{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:sticky{position: sticky;}}\n@media (min-width: 768px){.md\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-16{gap: 4rem;}}\n@media (min-width: 768px){.md\\:p-10{padding: 2.5rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:py-0{padding-top: 0px; padding-bottom: 0px;}}\n@media (min-width: 1024px){.lg\\:text-\\[9rem\\]{font-size: 9rem;}}",
+    "header_css": ".apple-sharpness{backdrop-filter: blur(20px); background: oklch(1 0 0 / 0.02); border: 0.5px solid oklch(1 0 0 / 0.1); box-shadow: oklch(1 0 0 / 0.05) 0px 1px 1px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.dew-drop{position: relative; overflow: hidden; backdrop-filter: blur(20px) saturate(1.5); background: oklch(1 0 0 / 0.03); border: 0.5px solid oklch(1 0 0 / 0.08); box-shadow: oklch(1 0 0 / 0.1) 0px 1px 2px inset; border-radius: 99px; transition: 0.3s;}\n.dew-drop::before{content: \"\"; position: absolute; top: 0px; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); opacity: 0; transition: opacity 0.3s;}\n.dew-drop:hover{background: oklch(1 0 0 / 0.06); transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset;}\n.dew-drop:hover::before{opacity: 1;}\n.pointer-events-none{pointer-events: none;}\n.pointer-events-auto{pointer-events: auto;}\n.fixed{position: fixed;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.inset-x-0{left: 0px; right: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.z-10{z-index: 10;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-10{height: 2.5rem;}\n.w-10{width: 2.5rem;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-2{gap: 0.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-6{padding-top: 1.5rem; padding-bottom: 1.5rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.py-2{padding-top: 0.5rem; padding-bottom: 0.5rem;}\n.font-data{font-family: \"Space Grotesk\", sans-serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.text-emerald{color: oklch(0.6 0.15 150);}\n.text-sun{color: oklch(0.85 0.15 70);}\n.opacity-0{opacity: 0;}\n.mix-blend-plus-lighter{mix-blend-mode: plus-lighter;}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:opacity-100{opacity: 1;}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Fill",
+      "bg": "oklch(1 0 0 / 0.03)",
+      "fg": "rgba(255, 255, 255, 0.7)",
+      "bd": "oklch(1 0 0 / 0.08)",
+      "bw": "1px",
+      "shadow": "oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset",
+      "radius": "99px",
+      "px": "20px",
+      "py": "8px",
+      "height": "",
+      "fs": "10px",
+      "lh": "15px",
+      "ff": "\"Space Grotesk\", sans-serif",
+      "ls": "1px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    },
+    {
+      "role": "Fill",
+      "bg": "oklch(1 0 0 / 0.03)",
+      "fg": "rgba(255, 255, 255, 0.7)",
+      "bd": "oklch(1 0 0 / 0.08)",
+      "bw": "1px",
+      "shadow": "oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset",
+      "radius": "99px",
+      "px": "20px",
+      "py": "8px",
+      "height": "",
+      "fs": "10px",
+      "lh": "15px",
+      "ff": "\"Space Grotesk\", sans-serif",
+      "ls": "1px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    },
+    {
+      "role": "Fill",
+      "bg": "oklch(1 0 0 / 0.03)",
+      "fg": "rgb(255, 255, 255)",
+      "bd": "oklch(1 0 0 / 0.08)",
+      "bw": "1px",
+      "shadow": "oklch(1 0 0 / 0.1) 0px 1px 2px 0px inset",
+      "radius": "99px",
+      "px": "32px",
+      "py": "16px",
+      "height": "",
+      "fs": "10px",
+      "lh": "15px",
+      "ff": "\"Space Grotesk\", sans-serif",
+      "ls": "2px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "md",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "160px",
+      "px": 160
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.1)",
+      "shadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+      "backdrop": "blur(20px)",
+      "padding": "40px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.05)",
+      "radius": "16px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.1)",
+      "shadow": "",
+      "backdrop": "blur(12px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "",
+      "radius": "9999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.1)",
+      "shadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+      "backdrop": "blur(20px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "sway",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": true
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".kinetic-sway",
+        "name": "sway",
+        "duration": "6s",
+        "infinite": true
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".radial-portal",
+        "changed": {
+          "transform": "scale(1.05)"
+        }
+      },
+      {
+        "selector": ".dew-drop",
+        "changed": {
+          "background-image": "initial",
+          "background-position-x": "initial",
+          "background-position-y": "initial",
+          "background-size": "initial",
+          "background-repeat": "initial",
+          "background-attachment": "initial",
+          "background-origin": "initial",
+          "background-clip": "initial",
+          "background-color": "oklch(1 0 0 / 0.06)",
+          "transform": "translateY(-2px)",
+          "box-shadow": "rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset"
+        }
+      },
+      {
+        "selector": ".dew-drop::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".sss-card::after",
+        "changed": {
+          "box-shadow": "oklch(0.6 0.15 150 / 0.15) 0px 0px 60px inset"
+        }
+      },
+      {
+        "selector": ".sss-card .subsurface-glow",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".hover\\:text-white",
+        "changed": {
+          "--tw-text-opacity": "1",
+          "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+        }
+      },
+      {
+        "selector": ".group .group-hover\\:opacity-100",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": "dew-drop px-5 py-2 font-data text-[10px] tracking-widest upp",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 0, -1.9967)",
+          "boxShadow": "rgba(0, 0, 0, 0.3) 0px 10px 20px 0px, oklch(1 0 0 / 0.2) 0px 1px 2px 0px inset",
+          "background": "oklab(1 0 0 / 0.0599505)",
+          "color": "rgba(255, 255, 255, 1)"
+        },
+        "live": true
+      },
+      {
+        "selector": "dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] up",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 0, -1.99912)",
+          "boxShadow": "rgba(0, 0, 0, 0.3) 0px 10px 20px 0px, oklch(1 0 0 / 0.2) 0px 1px 2px 0px inset",
+          "background": "oklab(1 0 0 / 0.0599868)"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".radial-portal",
+        "props": "transform, mask-size",
+        "duration": "1.5s, 1.5s"
+      },
+      {
+        "selector": ".dew-drop::before",
+        "props": "opacity",
+        "duration": "0.3s"
+      },
+      {
+        "selector": ".sss-card::after",
+        "props": "box-shadow",
+        "duration": "0.4s"
+      },
+      {
+        "selector": ".subsurface-glow",
+        "props": "opacity",
+        "duration": "0.5s"
+      },
+      {
+        "selector": ".bloom-reveal",
+        "props": "opacity, transform, filter",
+        "duration": "1.2s, 1.2s, 1.2s"
+      },
+      {
+        "selector": ".transition-opacity",
+        "props": "opacity",
+        "duration": "150ms"
+      },
+      {
+        "selector": ".transition-colors",
+        "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 2290,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~1361px of scroll"
+      },
+      {
+        "i": 1,
+        "kind": "pin",
+        "evidence": "pinned for ~1361px of scroll"
+      },
+      {
+        "i": 2,
+        "kind": "pin",
+        "evidence": "pinned for ~1361px of scroll"
+      },
+      {
+        "i": 10,
+        "kind": "parallax",
+        "evidence": "document position drifts 223px over 1390px of scroll",
+        "ratio": 0.16
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~1361px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#1",
+        "evidence": "pinned for ~1361px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#2",
+        "evidence": "pinned for ~1361px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#10",
+        "evidence": "document position drifts 223px over 1390px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ 0.16)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".kinetic-sway",
+        "evidence": "infinite keyframes 'sway' translating X",
+        "suggest": "marquee fx: {mode:'left'}",
+        "confidence": "high"
+      },
+      {
+        "kind": "hover",
+        "target": ".radial-portal",
+        "evidence": "transform change on hover",
+        "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".dew-drop",
+        "evidence": "background-image, background-position-x, background-position-y, background-size change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".sss-card::after",
+        "evidence": "box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'} or glow_border",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".hover\\:text-white",
+        "evidence": "--tw-text-opacity, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "dew-drop px-5 py-2 font-data text-[10px] tracking-widest upp",
+        "evidence": "transform, boxShadow, background, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] up",
+        "evidence": "transform, boxShadow, background change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

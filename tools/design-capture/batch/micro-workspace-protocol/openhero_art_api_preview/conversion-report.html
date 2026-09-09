@@ -1,0 +1,521 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversion report — https://openhero.art/api/preview?category=tech&amp;slug=micro-workspace-protocol</title>
+<style>
+  :root { --ink:#16323c; --muted:#5a727c; --line:#e3edf1; --accent:#01729c; --fb:#b45309; --op:#2563eb; --sd:#b32d2e; --ol:#9333ea; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:#f7fafb; }
+  header { padding:22px 28px; background:#fff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 4px; font-size:20px; } header .src { color:var(--muted); word-break:break-all; }
+  .gen { color:var(--muted); font-size:12px; margin-top:6px; }
+  .wrap { padding:22px 28px; max-width:1180px; margin:0 auto; }
+  .banner { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:10px; padding:12px 14px; margin-bottom:14px; font-size:13px; }
+  .banner code, .warn code, .drop code { background:#0000000d; padding:1px 5px; border-radius:4px; }
+  .cards { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .pill { background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; color:var(--muted); }
+  .pill b { margin-left:8px; color:var(--ink); font-size:16px; }
+  .pill.fb b { color:var(--fb); } .pill.op b { color:var(--op); } .pill.sd b { color:var(--sd); } .pill.ol b { color:var(--ol); }
+  .group { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .group h4 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .chip { display:inline-block; background:#eef5f8; border-radius:6px; padding:3px 9px; margin:0 6px 6px 0; font-size:12px; }
+  .chip b { margin-left:6px; color:var(--accent); }
+  .page h2 { font-size:16px; margin:18px 0 8px; }
+  .sec { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
+  .sec-over { border-color:#e4d3f7; }
+  .sec h3 { margin:0 0 8px; font-size:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .sec h3 .h { font-size:12px; color:var(--muted); font-family:ui-monospace,monospace; }
+  .sec h3 code, .drop code { background:#f1f3f5; padding:1px 6px; border-radius:4px; font-size:12px; }
+  .dec { font-size:11px; padding:1px 7px; border-radius:5px; border:1px solid currentColor; text-transform:uppercase; letter-spacing:.03em; }
+  .dec-decomposed { color:var(--op); } .dec-verbatim { color:var(--fb); } .dec-carousel { color:var(--accent); } .dec-plain { color:var(--muted); }
+  .warn { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  .drop { background:#fdf2f2; border:1px solid #f3c9c9; color:var(--sd); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); padding:6px 8px; }
+  td { border-bottom:1px solid #f0f4f6; padding:6px 8px; vertical-align:top; }
+  tr.el { cursor:pointer; } tr.el:hover td { background:#f4fafc; }
+  tr.r-fb td { background:#fffaf3; } tr.r-op td { background:#f5f9ff; }
+  tr.el.open .exp { transform:rotate(90deg); }
+  .exp { color:var(--muted); width:16px; transition:transform .12s; display:inline-block; }
+  .mono { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; }
+  .snip { color:var(--muted); max-width:420px; }
+  .detbox { background:#f8fafb; border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin:2px 0 8px; }
+  .kv { font-size:12px; margin-bottom:6px; color:var(--ink); }
+  .kv span { display:inline-block; min-width:84px; color:var(--muted); text-transform:uppercase; font-size:10px; letter-spacing:.04em; vertical-align:top; }
+  .detbox pre { background:#0f2730; color:#d7e7ee; border-radius:6px; padding:10px; overflow:auto; max-height:320px; font-size:11.5px; white-space:pre-wrap; word-break:break-word; }
+  .tag { font-size:11px; padding:1px 7px; border-radius:5px; white-space:nowrap; }
+  .t-fb { background:#fef3e2; color:var(--fb); } .t-op { background:#e8f0ff; color:var(--op); }
+  .t-sd { background:#fdeaea; color:var(--sd); } .t-ok { background:#eef5f8; color:var(--muted); }
+  .t-ol { background:#f3e8ff; color:var(--ol); }
+</style></head><body>
+<header>
+  <h1>Conversion report</h1>
+  <div class="src">https://openhero.art/api/preview?category=tech&amp;slug=micro-workspace-protocol</div>
+  <div class="gen">design-capture · deterministic (no AI)</div>
+</header>
+<div class="wrap">
+  
+  <div class="cards">
+    <span class="pill ">Sections<b>6</b></span>
+    <span class="pill ">Elements<b>27</b></span>
+    <span class="pill fb">Fallback (code_block)<b>1</b></span>
+    <span class="pill op">Opportunities<b>0</b></span>
+    <span class="pill sd">Styling drops<b>2</b></span>
+    <span class="pill ol">Over-large sections<b>0</b></span>
+  </div>
+  <div class="group"><h4>Mapped shortcodes</h4><span class="chip">text_block<b>13</b></span><span class="chip">special_heading<b>6</b></span><span class="chip">simple<b>2</b></span><span class="chip">button<b>2</b></span><span class="chip">media_video<b>1</b></span><span class="chip">icon_box<b>1</b></span><span class="chip">steps<b>1</b></span><span class="chip">code_block<b>1</b></span></div>
+  <div class="group"><h4>Detected source roles</h4><span class="chip">text<b>15</b></span><span class="chip">html<b>3</b></span><span class="chip">heading<b>3</b></span><span class="chip">button<b>2</b></span><span class="chip">video<b>1</b></span><span class="chip">card<b>1</b></span><span class="chip">steps<b>1</b></span><span class="chip">blocks<b>1</b></span></div>
+  <div class="group"><h4>Section decisions</h4><span class="chip">decomposed<b>6</b></span></div>
+  <section class="page"><h2>Page: home (home)</h2>
+        <div class="sec">
+          <h3>§0 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">900px</span>
+            <code>relative min-h-screen flex items-center justify-center overflow-hidden pt-20</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">video</td>
+            <td class="mono">video</td>
+            <td class="mono">media_video</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d0" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>video → media_video (self-hosted)</div>
+            
+            
+            
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">html</td>
+            <td class="mono">html</td>
+            <td class="mono">simple</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d1" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>html → code_block (unmapped)</div>
+            
+            
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;absolute inset-0 bg-gradient-to-t from-cyber-bg via-cyber-bg/5 to-transparent&quot;&gt;&lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Enclosed Development Sandbox</td>
+          </tr>
+          <tr class="det" id="d2" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>font-mono text-xs uppercase tracking-widest text-slate-300</code></div>
+            <div class="kv"><span>text</span>Enclosed Development Sandbox</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;span class=&quot;font-mono text-xs uppercase tracking-widest text-slate-300&quot;&gt;Enclosed Development Sandbox&lt;/span&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Build Deep Inside The Micro Matrix.</td>
+          </tr>
+          <tr class="det" id="d3" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]</code></div>
+            <div class="kv"><span>text</span>Build Deep Inside The Micro Matrix.</div>
+            <div class="kv"><span>source HTML</span></div><pre>Build Deep Inside &lt;br&gt; The Micro Matrix.</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Initialize Terminal</td>
+          </tr>
+          <tr class="det" id="d4" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-glow transition-all text-center keycap-glow</code></div>
+            <div class="kv"><span>text</span>Initialize Terminal</div>
+            
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Review Blueprints</td>
+          </tr>
+          <tr class="det" id="d5" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>px-8 py-4 border border-cyber-border bg-cyber-surface/40 font-mono text-xs uppercase tracking-widest font-light text-slate-300 hover:border-slate-400 transition-all text-center</code></div>
+            <div class="kv"><span>text</span>Review Blueprints</div>
+            
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§1 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">743px</span>
+            <code>py-32 max-w-7xl mx-auto px-6</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">ENVIRONMENT SPECIFICATION The Enclave Architecture By structuralizing developer terminals </td>
+          </tr>
+          <tr class="det" id="d6" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>ENVIRONMENT SPECIFICATION The Enclave Architecture By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency. 99.98% Focus Retention &amp;lt; 1.2ms Latency Buffer</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;span class=&quot;font-mono text-xs text-cyber-amber uppercase tracking-widest block&quot;&gt;ENVIRONMENT SPECIFICATION&lt;/span&gt;                     &lt;h2 class=&quot;text-4xl sm:text-5xl font-bold tracking-tight text-white&quot;&gt;The Enclave Architecture&lt;/h2&gt;                     &lt;p class=&quot;text-slate-400 font-light leading-relaxed&quot;&gt;                         By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency.                     &lt;/p&gt;                     &lt;div class=&quot;grid grid-cols-2 gap-4 pt-4&quot;&gt;                         &lt;div class=&quot;border-l-2 border-cyber-accent pl-4&quot;&gt;                             &lt;div class=&quot;font-mono text-xl font-bold text-white&quot;&gt;99.98%&lt;/div&gt;                             &lt;div class=&quot;text-xs text-slate-500 tracking-wider uppercase&quot;&gt;Focus Retention&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;border-l-2 border-cyber-lamp pl-4&quot;&gt;                             &lt;div class=&quot;font-mono text-xl font-bold text-white&quot;&gt;&amp;lt; 1.2ms&lt;/div&gt;                             &lt;div class=&quot;text-xs text-slate-500 tracking-wider uppercase&quot;&gt;Latency Buffer&lt;/div&gt;                         &lt;/div&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">card</td>
+            <td class="mono">icon_box</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Localized Shell Run completely segmented file structures unaffected by the greater operati</td>
+          </tr>
+          <tr class="det" id="d7" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>card → icon_box</div>
+            
+            <div class="kv"><span>text</span>Localized Shell Run completely segmented file structures unaffected by the greater operating ecosystem overhead. Warm Illumination Calibrated 2700K ambient desk emitters built overhead to maintain focus loops through deep night operations. Matrix Key Binding Direct physical mappings linking switches with multi-tier conditional programming macros instantly. Physical Sandbox Hardware isolated walls stopping malicious executions from breaking out into external grid channels.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4&quot;&gt;                         &lt;iconify-icon icon=&quot;ph:terminal-window-light&quot; class=&quot;text-3xl text-cyber-accent&quot;&gt;&lt;/iconify-icon&gt;                         &lt;h3 class=&quot;text-xl font-semibold text-white&quot;&gt;Localized Shell&lt;/h3&gt;                         &lt;p class=&quot;text-sm text-slate-400 font-light leading-relaxed&quot;&gt;                             Run completely segmented file structures unaffected by the greater operating ecosystem overhead.                         &lt;/p&gt;                     &lt;/div&gt;                     &lt;div class=&quot;isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4&quot;&gt;                         &lt;iconify-icon icon=&quot;ph:lightbulb-filament-light&quot; class=&quot;text-3xl text-cyber-lamp&quot;&gt;&lt;/iconify-icon&gt;                         &lt;h3 class=&quot;text-xl font-semibold text-white&quot;&gt;Warm Illumination&lt;/h3&gt;                         &lt;p class=&quot;text-sm text-slate-400 font-light leading-relaxed&quot;&gt;                             Calibrated 2700K ambient desk emitters built overhead to maintain focus loops through deep night operations.                         &lt;/p&gt;                     &lt;/div&gt;                     &lt;div class=&quot;isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4&quot;&gt;                         &lt;iconify-icon icon=&quot;ph:layout-light&quot; class=&quot;text-3xl text-slate-400&quot;&gt;&lt;/iconify-icon&gt;                         &lt;h3 class=&quot;text-xl font-semibold text-white&quot;&gt;Matrix Key Binding&lt;/h3&gt;                         &lt;p class=&quot;text-sm text-slate-400 font-light leading-relaxed&quot;&gt;                              …(truncated)</pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§2 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">769px</span>
+            <code>py-32 bg-cyber-surface/50 border-y border-cyber-border</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgb(34, 44, 55)<br>borderBottom: 1px solid rgb(34, 44, 55)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Interactive Sandbox Matrix</td>
+          </tr>
+          <tr class="det" id="d8" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>text-3xl sm:text-5xl font-bold tracking-tight text-white</code></div>
+            <div class="kv"><span>text</span>Interactive Sandbox Matrix</div>
+            <div class="kv"><span>source HTML</span></div><pre>Interactive Sandbox Matrix</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">enclave_kernel_v4.sh</td>
+          </tr>
+          <tr class="det" id="d9" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>enclave_kernel_v4.sh</div>
+            <div class="kv"><span>source HTML</span></div><pre>                             &lt;span class=&quot;w-2.5 h-2.5 rounded-full bg-red-500/40&quot;&gt;&lt;/span&gt;                             &lt;span class=&quot;w-2.5 h-2.5 rounded-full bg-yellow-500/40&quot;&gt;&lt;/span&gt;                             &lt;span class=&quot;w-2.5 h-2.5 rounded-full bg-green-500/40&quot;&gt;&lt;/span&gt;                             &lt;span class=&quot;font-mono text-xs text-slate-500 ml-2&quot;&gt;enclave_kernel_v4.sh&lt;/span&gt;                         </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">TTY // 1</td>
+          </tr>
+          <tr class="det" id="d10" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>TTY // 1</div>
+            <div class="kv"><span>source HTML</span></div><pre>TTY // 1</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">guest@nexus:~$ init --container=enter_keycap</td>
+          </tr>
+          <tr class="det" id="d11" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>flex items-start gap-2</code></div>
+            <div class="kv"><span>text</span>guest@nexus:~$ init --container=enter_keycap</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;flex items-start gap-2&quot;&gt;                             &lt;span class=&quot;text-cyber-accent&quot;&gt;guest@nexus:~$&lt;/span&gt;                             &lt;span class=&quot;text-slate-300&quot;&gt;init --container=enter_keycap&lt;/span&gt;                         &lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">[ OK ] Mounting miniature physical storage matrix...</td>
+          </tr>
+          <tr class="det" id="d12" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            
+            <div class="kv"><span>text</span>[ OK ] Mounting miniature physical storage matrix...</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div&gt;[ OK ] Mounting miniature physical storage matrix...&lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">[ OK ] Aligning overhead incandescent ambient illumination arrays...</td>
+          </tr>
+          <tr class="det" id="d13" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            
+            <div class="kv"><span>text</span>[ OK ] Aligning overhead incandescent ambient illumination arrays...</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div&gt;[ OK ] Aligning overhead incandescent ambient illumination arrays...&lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">[ OK ] Calibrating 16x16 macro switch layout profiles...</td>
+          </tr>
+          <tr class="det" id="d14" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            
+            <div class="kv"><span>text</span>[ OK ] Calibrating 16x16 macro switch layout profiles...</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div&gt;[ OK ] Calibrating 16x16 macro switch layout profiles...&lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">guest@nexus:~$ cat core_philosophy.txt</td>
+          </tr>
+          <tr class="det" id="d15" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>flex items-start gap-2</code></div>
+            <div class="kv"><span>text</span>guest@nexus:~$ cat core_philosophy.txt</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;flex items-start gap-2&quot;&gt;                             &lt;span class=&quot;text-cyber-accent&quot;&gt;guest@nexus:~$&lt;/span&gt;                             &lt;span class=&quot;text-slate-300&quot;&gt;cat core_philosophy.txt&lt;/span&gt;                         &lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">&quot;Great applications are not born on expansive arrays, but written inside localized pockets</td>
+          </tr>
+          <tr class="det" id="d16" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>text-cyber-amber leading-relaxed bg-cyber-card/50 p-4 border border-cyber-border/60</code></div>
+            <div class="kv"><span>text</span>&quot;Great applications are not born on expansive arrays, but written inside localized pockets of absolute clarity. Own your inputs. Perfect your keycaps.&quot;</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;text-cyber-amber leading-relaxed bg-cyber-card/50 p-4 border border-cyber-border/60&quot;&gt;                             &quot;Great applications are not born on expansive arrays, but written inside localized pockets of absolute clarity. Own your inputs. Perfect your keycaps.&quot;                         &lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">guest@nexus:~$ compile_all</td>
+          </tr>
+          <tr class="det" id="d17" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>flex items-center gap-2 pt-2</code></div>
+            <div class="kv"><span>text</span>guest@nexus:~$ compile_all</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;flex items-center gap-2 pt-2&quot;&gt;                             &lt;span class=&quot;text-cyber-accent&quot;&gt;guest@nexus:~$&lt;/span&gt;                             &lt;span class=&quot;text-white cursor-blink&quot; id=&quot;terminal-input-mock&quot;&gt;compile_all&lt;/span&gt;                         &lt;/div&gt;</pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§3 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">708px</span>
+            <code>py-32 max-w-7xl mx-auto px-6</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">WORKSPACE CONTROLS Configured Nodes</td>
+          </tr>
+          <tr class="det" id="d18" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>WORKSPACE CONTROLS Configured Nodes</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;span class=&quot;font-mono text-xs text-cyber-lamp uppercase tracking-widest block mb-3&quot;&gt;WORKSPACE CONTROLS&lt;/span&gt;                     &lt;h2 class=&quot;text-4xl font-bold tracking-tight text-white&quot;&gt;Configured Nodes&lt;/h2&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Toggle through custom execution parameters engineered specifically for enclosed workspace </td>
+          </tr>
+          <tr class="det" id="d19" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Toggle through custom execution parameters engineered specifically for enclosed workspace developers.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     Toggle through custom execution parameters engineered specifically for enclosed workspace developers.                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">steps</td>
+            <td class="mono">steps</td>
+            <td class="mono">steps</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d20" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>steps → code_block (unmapped)</div>
+            
+            
+            
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§4 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">575px</span>
+            <code>py-32 bg-cyber-card/30 border-t border-cyber-border</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgb(34, 44, 55)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">COMPONENT MATRIX SPECIFICATION ALPHA Key Profile OEM / High-Transparency Profile Housing T</td>
+          </tr>
+          <tr class="det" id="d21" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>COMPONENT MATRIX SPECIFICATION ALPHA Key Profile OEM / High-Transparency Profile Housing Type Thick Polycarbonate Poly Internal Desk Matrix Solid Walnut Facing Veneer LED Array Configuration SMD Neon Filament Simulation</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;absolute inset-0 bg-cyber-accent/5 blur-[100px] rounded-full pointer-events-none&quot;&gt;&lt;/div&gt;                     &lt;div class=&quot;border border-cyber-border p-8 bg-cyber-bg relative z-10 font-mono text-xs space-y-4&quot;&gt;                         &lt;div class=&quot;flex justify-between border-b border-cyber-border/40 pb-3 text-slate-500&quot;&gt;                             &lt;span&gt;COMPONENT MATRIX&lt;/span&gt;&lt;span&gt;SPECIFICATION ALPHA&lt;/span&gt;                         &lt;/div&gt;                         &lt;div class=&quot;flex justify-between border-b border-cyber-border/40 pb-2&quot;&gt;                             &lt;span class=&quot;text-slate-400&quot;&gt;Key Profile&lt;/span&gt;&lt;span class=&quot;text-white&quot;&gt;OEM / High-Transparency Profile&lt;/span&gt;                         &lt;/div&gt;                         &lt;div class=&quot;flex justify-between border-b border-cyber-border/40 pb-2&quot;&gt;                             &lt;span class=&quot;text-slate-400&quot;&gt;Housing Type&lt;/span&gt;&lt;span class=&quot;text-white&quot;&gt;Thick Polycarbonate Poly&lt;/span&gt;                         &lt;/div&gt;                         &lt;div class=&quot;flex justify-between border-b border-cyber-border/40 pb-2&quot;&gt;                             &lt;span class=&quot;text-slate-400&quot;&gt;Internal Desk Matrix&lt;/span&gt;&lt;span class=&quot;text-white&quot;&gt;Solid Walnut Facing Veneer&lt;/span&gt;                         &lt;/div&gt;                         &lt;div class=&quot;flex justify-between pb-1&quot;&gt;                             &lt;span class=&quot;text-slate-400&quot;&gt;LED Array Configuration&lt;/span&gt;&lt;span class=&quot;text-cyber-amber&quot;&gt;SMD Neon Filament Simulation&lt;/span&gt;                         &lt;/div&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">blocks</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">TACTILE INTERFACE Premium enclosures built for sovereign operators. Every enclosure featur</td>
+          </tr>
+          <tr class="det" id="d22" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>content column → decomposed shortcodes</div>
+            
+            <div class="kv"><span>text</span>TACTILE INTERFACE Premium enclosures built for sovereign operators. Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax. Secure Build Slots</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;span class=&quot;font-mono text-xs text-cyber-accent uppercase tracking-widest block&quot;&gt;TACTILE INTERFACE&lt;/span&gt;                     &lt;h2 class=&quot;text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight&quot;&gt;                         Premium enclosures built for sovereign operators.                     &lt;/h2&gt;                     &lt;p class=&quot;text-slate-400 font-light leading-relaxed&quot;&gt;                         Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.                     &lt;/p&gt;                     &lt;div class=&quot;pt-2&quot;&gt;                         &lt;button class=&quot;px-8 py-4 bg-white text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-amber transition-colors&quot;&gt;                             Secure Build Slots                         &lt;/button&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§5 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">541px</span>
+            <code>py-32 px-6 max-w-4xl mx-auto text-center relative overflow-hidden</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">html</td>
+            <td class="mono">html</td>
+            <td class="mono">simple</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d23" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>html → code_block (unmapped)</div>
+            
+            
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;absolute inset-0 bg-cyber-lamp/5 blur-3xl pointer-events-none rounded-full&quot;&gt;&lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el r-fb">
+            <td class="exp">▸</td>
+            <td class="mono">html</td>
+            <td class="mono">html</td>
+            <td class="mono">code_block</td>
+            <td><span class="tag t-fb">code_block</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d24" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>html → code_block (unmapped)</div>
+            
+            
+            <div class="kv"><span>source HTML</span></div><pre>&lt;iconify-icon icon=&quot;ph:fingerprint-light&quot; class=&quot;text-4xl text-cyber-accent animate-pulse&quot;&gt;&lt;/iconify-icon&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Subscribe to Core Logs</td>
+          </tr>
+          <tr class="det" id="d25" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>text-3xl sm:text-5xl font-bold tracking-tight text-white</code></div>
+            <div class="kv"><span>text</span>Subscribe to Core Logs</div>
+            <div class="kv"><span>source HTML</span></div><pre>Subscribe to Core Logs</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Connect Node</td>
+          </tr>
+          <tr class="det" id="d26" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Connect Node</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         Connect Node                     </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div></section>
+</div>
+<script>
+  document.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr.el'); if (!tr) return;
+    var det = tr.nextElementSibling;
+    if (det && det.classList.contains('det')) { det.hidden = !det.hidden; tr.classList.toggle('open'); }
+  });
+</script>
+</body></html>

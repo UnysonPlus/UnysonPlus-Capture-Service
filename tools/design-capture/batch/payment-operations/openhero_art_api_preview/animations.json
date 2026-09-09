@@ -1,0 +1,230 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [],
+  "animated": [],
+  "hovers": [
+    {
+      "selector": ".apple-sharpness",
+      "changed": {
+        "background-color": "oklch(1 0 0 / 0.7)",
+        "border-top-color": "oklch(1 0 0)",
+        "border-right-color": "oklch(1 0 0)",
+        "border-bottom-color": "oklch(1 0 0)",
+        "border-left-color": "oklch(1 0 0)",
+        "box-shadow": "oklch(1 0 0) 0px 1px 1px inset, rgba(0, 0, 0, 0.05) 0px 24px 48px"
+      }
+    },
+    {
+      "selector": ".liquid-btn",
+      "changed": {
+        "transform": "scale(1.02) translateY(-1px)",
+        "box-shadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px inset, rgba(0, 0, 0, 0.15) 0px 12px 24px"
+      }
+    },
+    {
+      "selector": ".liquid-btn::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".nav-link",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "selector": ".nav-link::after",
+      "changed": {
+        "transform": "scaleX(1)",
+        "transform-origin": "left center"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:rotate-90",
+      "changed": {
+        "--tw-rotate": "90deg",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:scale-110",
+      "changed": {
+        "--tw-scale-x": "1.1",
+        "--tw-scale-y": "1.1",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": "liquid-btn px-5 py-2.5 rounded-full font-tight text-[13px] f",
+      "changed": {
+        "transform": "matrix(1.02, 0, 0, 1.02, 0, -1.02)",
+        "boxShadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.15) 0px 11.9984px 23.9968px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "liquid-btn px-6 py-3 rounded-full font-tight text-[14px] fon",
+      "changed": {
+        "transform": "matrix(1.02, 0, 0, 1.02, 0, -1.02)",
+        "boxShadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.15) 0px 11.9983px 23.9966px 0px"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".liquid-btn",
+      "props": "transform, box-shadow",
+      "duration": "0.3s, 0.3s"
+    },
+    {
+      "selector": ".liquid-btn::before",
+      "props": "opacity",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".nav-link",
+      "props": "color",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".nav-link::after",
+      "props": "transform",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".reveal-up",
+      "props": "opacity, transform",
+      "duration": "1.2s, 1.2s"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 1337,
+    "viewport": 900,
+    "virtualScroll": true,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 5,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 30,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 30,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 6,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 30,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 30,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#5",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#6",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".apple-sharpness",
+      "evidence": "background-color, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'lift'} or glow_border",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".liquid-btn",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".nav-link",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

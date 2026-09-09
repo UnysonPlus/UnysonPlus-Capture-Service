@@ -1,0 +1,327 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "organicPulse",
+      "props": [
+        "filter"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".glow-bleed",
+      "name": "organicPulse",
+      "duration": "4s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-\\[organicPulse_4s_ease-in-out_infinite_alternate\\]",
+      "name": "organicPulse",
+      "duration": "4s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-\\[organicPulse_2s_ease-in-out_infinite_alternate\\]",
+      "name": "organicPulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".radial-portal",
+      "changed": {
+        "transform": "scale(1.03)"
+      }
+    },
+    {
+      "selector": ".apple-sharpness",
+      "changed": {
+        "background-color": "oklch(0.75 0.2 45 / 0.04)",
+        "border-top-color": "oklch(0.75 0.2 45 / 0.3)",
+        "border-right-color": "oklch(0.75 0.2 45 / 0.3)",
+        "border-bottom-color": "oklch(0.75 0.2 45 / 0.3)",
+        "border-left-color": "oklch(0.75 0.2 45 / 0.3)"
+      }
+    },
+    {
+      "selector": ".sss-btn",
+      "changed": {
+        "box-shadow": "oklch(0.75 0.2 45 / 0.3) 0px 0px 30px inset, oklch(0.65 0.25 30 / 0.2) 0px 10px 30px",
+        "border-top-color": "oklch(0.9 0.1 50 / 0.5)",
+        "border-right-color": "oklch(0.9 0.1 50 / 0.5)",
+        "border-bottom-color": "oklch(0.9 0.1 50 / 0.5)",
+        "border-left-color": "oklch(0.9 0.1 50 / 0.5)",
+        "transform": "translateY(-2px)"
+      }
+    },
+    {
+      "selector": ".sss-btn::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".sss-card::after",
+      "changed": {
+        "box-shadow": "oklch(0.75 0.2 45 / 0.15) 0px 0px 60px inset"
+      }
+    },
+    {
+      "selector": ".sss-card .subsurface-glow",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".hover\\:text-lumina",
+      "changed": {
+        "color": "oklch(0.9 0.1 50)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:text-lumina",
+      "changed": {
+        "color": "oklch(0.9 0.1 50)"
+      }
+    },
+    {
+      "selector": "sss-btn px-6 py-2.5 font-sans text-[10px] tracking-[0.15em] ",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -1.99216)",
+        "boxShadow": "oklab(0.75 0.141421 0.141421 / 0.298825) 0px 0px 29.8825px 0px inset, oklab(0.65 0.216506 0.125 / 0.199216) 0px 9.96082px 29.8825px 0px",
+        "borderColor": "oklab(0.899764 0.0644 0.0767063 / 0.498825)"
+      },
+      "live": true
+    },
+    {
+      "selector": "apple-sharpness sss-card p-6 flex flex-col justify-between a",
+      "changed": {
+        "background": "oklab(0.75 0.141421 0.141421 / 0.0396262)",
+        "borderColor": "oklab(0.75 0.141421 0.141421 / 0.297197)"
+      },
+      "live": true
+    },
+    {
+      "selector": "apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-revea",
+      "changed": {
+        "background": "oklch(0.75 0.2 45 / 0.04)",
+        "borderColor": "oklch(0.75 0.2 45 / 0.3)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".radial-portal",
+      "props": "transform",
+      "duration": "2s"
+    },
+    {
+      "selector": ".sss-btn::before",
+      "props": "opacity",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".sss-card::after",
+      "props": "box-shadow",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".subsurface-glow",
+      "props": "opacity",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".bloom-reveal",
+      "props": "opacity, transform, filter",
+      "duration": "1.4s, 1.4s, 1.4s"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 2531,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~1594px of scroll"
+    },
+    {
+      "i": 33,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 20,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 20,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 34,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 20,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 20,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~1594px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#33",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#34",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".glow-bleed",
+      "evidence": "infinite keyframes 'organicPulse' (filter)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-\\[organicPulse_4s_ease-in-out_infinite_alternate\\]",
+      "evidence": "infinite keyframes 'organicPulse' (filter)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-\\[organicPulse_2s_ease-in-out_infinite_alternate\\]",
+      "evidence": "infinite keyframes 'organicPulse' (filter)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".radial-portal",
+      "evidence": "transform change on hover",
+      "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".apple-sharpness",
+      "evidence": "background-color, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".sss-btn",
+      "evidence": "box-shadow, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".sss-card::after",
+      "evidence": "box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'} or glow_border",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-lumina",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".group .group-hover\\:text-lumina",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "sss-btn px-6 py-2.5 font-sans text-[10px] tracking-[0.15em] ",
+      "evidence": "transform, boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "apple-sharpness sss-card p-6 flex flex-col justify-between a",
+      "evidence": "background, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "apple-sharpness sss-card p-8 md:p-10 rounded-3xl bloom-revea",
+      "evidence": "background, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

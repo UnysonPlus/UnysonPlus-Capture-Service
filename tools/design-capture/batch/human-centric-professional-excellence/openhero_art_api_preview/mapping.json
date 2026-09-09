@@ -1,0 +1,263 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".squircle-mask{mask-image: radial-gradient(circle, black 30%, transparent 75%); border-radius: 40% 60% 70% 30% / 40% 50% 60%;}\n.vellum-overlay{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px) contrast(0.95);}\n.matte-silk{transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: rgba(0, 0, 0, 0) 0px 4px 0px;}\n.matte-silk:hover{transform: translateY(-2px) scale(1.02); box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 40px;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-24{bottom: 6rem;}\n.right-24{right: 6rem;}\n.mb-12{margin-bottom: 3rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[80vh\\]{height: 80vh;}\n.h-\\[85\\%\\]{height: 85%;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-full{width: 100%;}\n.max-w-\\[200px\\]{max-width: 200px;}\n.max-w-sm{max-width: 24rem;}\n.translate-x-1\\/4{--tw-translate-x: 25%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-charcoal{background-color: oklch(0.25 0.01 240);}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.pt-20{padding-top: 5rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-canvas{color: oklch(0.98 0.01 240);}\n.opacity-80{opacity: 0.8;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[0\\.9\\]{--tw-contrast: contrast(0.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-\\[0\\.8\\]{--tw-saturate: saturate(0.8); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[40fr_60fr\\]{grid-template-columns: 40fr 60fr;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:text-8xl{font-size: 6rem; line-height: 1;}}",
+          "computed": {
+            "color": "oklch(0.25 0.01 240)",
+            "padding": "80px 0px 0px",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"px-12 lg:px-24 flex flex-col justify-center\">                 <span class=\"text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block\">Refining Human Capital</span>                 <h1 class=\"font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic\">                     Silent<br>Excellence.                 </h1>                 <p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\">                     An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.                 </p>                 <div class=\"flex gap-4\">                     <button class=\"matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Curate Path                     </button>                     <button class=\"matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Overview                     </button>                 </div>             </div>             <div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\">                 <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\"></div>                 <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\">                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 </div>                 <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\">                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Refining Human Capital",
+              "text": "Refining Human Capital",
+              "cls": "text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block",
+              "pill": false,
+              "color": "oklch(0.25 0.01 240)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "10px",
+              "letterSpacing": "4px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "15px"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Silent<br>Excellence.",
+              "text": "SilentExcellence.",
+              "tag": "h1",
+              "cls": "font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic",
+              "wrapCls": "px-12 lg:px-24 flex flex-col justify-center",
+              "fontSize": "96px",
+              "fontWeight": "400",
+              "color": "oklch(0.25 0.01 240)",
+              "marginBottom": "48px",
+              "marginTop": "0px",
+              "lineHeight": "96px",
+              "letterSpacing": "normal",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\">                     An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.                 </p>",
+              "text": "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+              "tag": "p",
+              "cls": "font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm",
+              "fontSize": "18px",
+              "color": "oklch(0.25 0.01 240)",
+              "lineHeight": "29.25px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Curate Path",
+              "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+              "tag": "button",
+              "cls": "matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "20px 40px",
+              "height": "57px",
+              "radius": "9999px",
+              "lineHeight": "15px",
+              "fontSize": "10px",
+              "fontWeight": "400",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "oklch(0.25 0.01 240)",
+                "fg": "oklch(0.98 0.01 240)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "Overview",
+              "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+              "tag": "button",
+              "cls": "matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "20px 40px",
+              "height": "57px",
+              "radius": "9999px",
+              "lineHeight": "15px",
+              "fontSize": "10px",
+              "fontWeight": "400",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "fg": "oklch(0.25 0.01 240)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl",
+                  "colId": "sccol-1",
+                  "cw": 10,
+                  "html": "                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 10,
+                    "desktop": 10
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]",
+                  "colId": "sccol-2",
+                  "cw": 3,
+                  "html": "                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 ",
+                  "maxw": "200px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 6,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\">                 <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\" data-sc-col=\"sccol-0\"></div>                 <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\" data-sc-col=\"sccol-1\">                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 </div>                 <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\" data-sc-col=\"sccol-2\">                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-60 px-12 lg:px-24 relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".reveal-text{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: reveal-fade; animation-timeline: view(); animation-range: entry 20% cover 40%;}\n.timeline-line{height: 0%; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: grow-line; animation-range: normal; animation-timeline: view();}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-1\\/2{left: 50%;}\n.top-0{top: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-32{margin-bottom: 8rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.w-px{width: 1px;}\n.max-w-3xl{max-width: 48rem;}\n.origin-top{transform-origin: center top;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.overflow-hidden{overflow: hidden;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-60{padding-top: 15rem; padding-bottom: 15rem;}\n.text-center{text-align: center;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-loose{line-height: 2;}\n.tracking-\\[0\\.5em\\]{letter-spacing: 0.5em;}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "color": "oklch(0.25 0.01 240)",
+            "padding": "240px 96px",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute left-1/2 top-0 w-px h-full bg-charcoal/5 -translate-x-1/2\">                 <div class=\"timeline-line w-full bg-charcoal/20 origin-top\"></div>             </div>                          <div class=\"max-w-3xl mx-auto text-center\">                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">01 / Career Pathing</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Dynamic Curriculum Orchestration</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.                     </p>                 </div>                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">02 / Wellness Synthesis</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Sustaining the Executive Mind</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.                     </p>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Dynamic Curriculum Orchestration",
+                  "content": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+                  "number": "01",
+                  "icon": null
+                },
+                {
+                  "title": "Sustaining the Executive Mind",
+                  "content": "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+                  "number": "02",
+                  "icon": null
+                }
+              ],
+              "design": {
+                "design": "horizontal",
+                "connector": "none"
+              }
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "p{margin: 0px;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.aspect-square{aspect-ratio: 1 / 1;}\n.h-\\[1px\\]{height: 1px;}\n.w-8{width: 2rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-between{justify-content: space-between;}\n.gap-px{gap: 1px;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.bg-canvas{background-color: oklch(0.98 0.01 240);}\n.p-16{padding: 4rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.tracking-widest{letter-spacing: 0.1em;}\n.opacity-40{opacity: 0.4;}\n@media (min-width: 768px){.md\\:aspect-auto{aspect-ratio: auto;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "color": "oklch(0.25 0.01 240)",
+            "padding": "160px 96px",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"grid grid-cols-1 md:grid-cols-3 gap-px bg-charcoal/5\">                 <div class=\"bg-canvas p-16 flex flex-col justify-between aspect-square md:aspect-auto\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">92%</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Retention Rate via Cognitive Load Management</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">120+</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Global Corporate Partners in Wellness</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">24/7</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Adaptive Telemetry Support</p>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "testimonials",
+              "items": [
+                {
+                  "quote": "Retention Rate via Cognitive Load Management",
+                  "image": "",
+                  "name": "",
+                  "position": "92%",
+                  "siteName": "",
+                  "siteUrl": "",
+                  "rating": 4.5,
+                  "extra": []
+                },
+                {
+                  "quote": "Adaptive Telemetry Support",
+                  "image": "",
+                  "name": "",
+                  "position": "24/7",
+                  "siteName": "",
+                  "siteUrl": "",
+                  "rating": 5,
+                  "extra": []
+                }
+              ],
+              "anim": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

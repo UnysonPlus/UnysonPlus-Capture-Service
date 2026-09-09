@@ -1,0 +1,1247 @@
+{
+  "url": "https://openhero.art/api/preview?category=abstract&slug=liquid-high-fidelity",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.05 0 0);color:rgb(0, 0, 0)\" data-sc-content-width=\"1368\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Liquid High-Fidelity Architecture</title>\n<script src=\"https://cdn.tailwindcss.com\"></script>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&display=swap');\n\n:root {\n  --bg-pure: oklch(0.05 0 0);\n  --nebula-blue: oklch(65% 0.25 280);\n  --cosmic-violet: oklch(60% 0.2 310);\n  --surface-base: oklch(0.15 0.02 280 / 0.4);\n  --surface-highlight: oklch(0.9 0.02 280 / 0.08);\n  --text-primary: oklch(0.98 0 0);\n  --text-muted: oklch(0.6 0.05 280);\n  --mouse-x: 50%;\n  --mouse-y: 50%;\n  color-scheme: dark light;\n}\n\n[data-theme=\"light\"] {\n  --bg-pure: oklch(0.98 0.01 280);\n  --surface-base: oklch(0.95 0.02 280 / 0.6);\n  --surface-highlight: oklch(1 0 0 / 0.5);\n  --text-primary: oklch(0.1 0.02 280);\n  --text-muted: oklch(0.4 0.05 280);\n}\n\n::view-transition-old(root),\n::view-transition-new(root) {\n  animation: 1s cubic-bezier(0.16, 1, 0.3, 1) both blend-fade;\n}\n\n@keyframes blend-fade {\n  0% { opacity: 0; filter: blur(20px) saturate(0); }\n  100% { opacity: 1; filter: blur(0) saturate(100%); }\n}\n\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  background-color: var(--bg-pure);\n  color: var(--text-primary);\n  font-family: 'Inter', sans-serif;\n  overflow-x: hidden;\n  overscroll-behavior: none;\n  -webkit-font-smoothing: antialiased;\n  transition: background-color 0.8s ease;\n}\n\n.atmospheric-portal {\n  position: fixed;\n  bottom: -20vh;\n  right: -15vw;\n  width: 90vw;\n  height: 90vw;\n  border-radius: 50%;\n  overflow: hidden;\n  filter: none;\n  opacity: 1;\n  mix-blend-mode: normal;\n  pointer-events: none;\n  z-index: -1;\n  will-change: transform;\n  transform: translate3d(0,0,0);\n}\n\n[data-theme=\"light\"] .atmospheric-portal {\n  mix-blend-mode: normal;\n  opacity: 1;\n}\n\n.atmospheric-portal video {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  transform: none;\n}\n\n@keyframes scroll-shimmer {\n  to { background-position: 200% center; }\n}\n\n.kinetic-text {\n  background: linear-gradient(\n    110deg,\n    var(--text-primary) 0%,\n    var(--nebula-blue) 25%,\n    var(--text-primary) 50%,\n    var(--cosmic-violet) 75%,\n    var(--text-primary) 100%\n  );\n  background-size: 200% auto;\n  -webkit-background-clip: text;\n  background-clip: text;\n  color: transparent;\n  animation: scroll-shimmer linear;\n  animation-timeline: scroll(root block);\n}\n\n.liquid-obsidian {\n  background: var(--surface-base);\n  backdrop-filter: blur(40px) saturate(180%);\n  -webkit-backdrop-filter: blur(40px) saturate(180%);\n  box-shadow: \n    inset 0 1px 1px var(--surface-highlight),\n    inset 0 -2px 10px rgba(0, 0, 0, 0.4),\n    0 30px 60px rgba(0, 0, 0, 0.4);\n  border-radius: 2rem;\n  position: relative;\n  isolation: isolate;\n}\n\n.liquid-obsidian::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  border-radius: inherit;\n  padding: 1px;\n  background: radial-gradient(\n    800px circle at var(--mouse-x) var(--mouse-y),\n    var(--nebula-blue),\n    transparent 40%\n  );\n  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);\n  -webkit-mask-composite: xor;\n  mask-composite: exclude;\n  opacity: 0.3;\n  pointer-events: none;\n  transition: opacity 0.5s ease;\n}\n\n.liquid-obsidian:hover::before {\n  opacity: 1;\n}\n\n.frosted-ether {\n  background: radial-gradient(circle at top left, var(--surface-highlight), transparent 70%);\n  backdrop-filter: blur(60px);\n  -webkit-backdrop-filter: blur(60px);\n  box-shadow: \n    inset 0 2px 4px rgba(255, 255, 255, 0.1),\n    inset 0 -2px 20px rgba(0, 0, 0, 0.5),\n    0 15px 35px rgba(0, 0, 0, 0.3);\n  border-radius: 1.5rem;\n  position: relative;\n  overflow: hidden;\n}\n\n.mercury-btn {\n  position: relative;\n  overflow: hidden;\n  border-radius: 999px;\n  padding: 1.2rem 2.5rem;\n  color: #000;\n  font-weight: 600;\n  letter-spacing: -0.01em;\n  background: linear-gradient(180deg, #ffffff, #c8c8dc);\n  box-shadow: \n    inset 0 2px 2px rgba(255, 255, 255, 1),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.2),\n    0 10px 20px rgba(0, 0, 0, 0.3),\n    0 0 0 1px rgba(255, 255, 255, 0.2);\n  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  border: none;\n}\n\n[data-theme=\"light\"] .mercury-btn {\n  background: linear-gradient(180deg, #111, #333);\n  color: #fff;\n  box-shadow: \n    inset 0 2px 2px rgba(255, 255, 255, 0.2),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.8),\n    0 10px 20px rgba(0, 0, 0, 0.1);\n}\n\n.mercury-btn::after {\n  content: '';\n  position: absolute;\n  inset: -50%;\n  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.8), transparent 50%);\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  mix-blend-mode: overlay;\n  pointer-events: none;\n}\n\n.mercury-btn:hover {\n  transform: translateY(-4px) scale(1.02);\n  box-shadow: \n    inset 0 2px 2px rgba(255, 255, 255, 1),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.1),\n    0 20px 40px var(--nebula-blue),\n    0 0 0 1px rgba(255, 255, 255, 0.5);\n}\n\n[data-theme=\"light\"] .mercury-btn:hover {\n  box-shadow: \n    inset 0 2px 2px rgba(255, 255, 255, 0.2),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.8),\n    0 20px 40px var(--nebula-blue);\n}\n\n.mercury-btn:hover::after {\n  opacity: 1;\n}\n\n.reveal-scroll {\n  opacity: 0;\n  transform: translateY(40px) scale(0.98);\n  filter: blur(10px);\n  animation: reveal-keyframe linear forwards;\n  animation-timeline: view();\n  animation-range: entry 10% cover 30%;\n}\n\n@keyframes reveal-keyframe {\n  to {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n    filter: blur(0);\n  }\n}\n\n.bento-grid {\n  container-type: inline-size;\n  container-name: bento;\n}\n\n.micro-label {\n  font-size: 0.75rem;\n  text-transform: uppercase;\n  letter-spacing: 0.3em;\n  color: var(--text-muted);\n  font-weight: 500;\n}\n\n.theme-trigger {\n  width: 48px;\n  height: 24px;\n  border-radius: 999px;\n  background: var(--surface-highlight);\n  backdrop-filter: blur(10px);\n  position: relative;\n  cursor: pointer;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  transition: border-color 0.3s;\n}\n\n.theme-trigger::before {\n  content: \"\";\n  position: absolute;\n  top: 2px;\n  left: 2px;\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background: var(--text-primary);\n  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);\n}\n\n[data-theme=\"light\"] .theme-trigger::before {\n  transform: translateX(24px);\n}\n</style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.-right-20{right:-5rem}.-top-20{top:-5rem}.top-0{top:0px}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-2{margin-bottom:0.5rem}.mb-32{margin-bottom:8rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-1{margin-left:0.25rem}.mt-12{margin-top:3rem}.mt-14{margin-top:3.5rem}.mt-24{margin-top:6rem}.mt-auto{margin-top:auto}.block{display:block}.flex{display:flex}.grid{display:grid}.h-1{height:0.25rem}.h-3{height:0.75rem}.h-64{height:16rem}.h-full{height:100%}.w-1\\/2{width:50%}.w-1\\/4{width:25%}.w-3{width:0.75rem}.w-64{width:16rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-5xl{max-width:64rem}.max-w-lg{max-width:32rem}.max-w-screen-2xl{max-width:1536px}.origin-left{transform-origin:left}.auto-rows-\\[minmax\\(320px\\2c auto\\)\\]{grid-auto-rows:minmax(320px,auto)}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.bg-\\[var\\(--cosmic-violet\\)\\]{background-color:var(--cosmic-violet)}.bg-\\[var\\(--nebula-blue\\)\\]{background-color:var(--nebula-blue)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-\\[var\\(--surface-highlight\\)\\]{--tw-gradient-to:var(--surface-highlight) var(--tw-gradient-to-position)}.p-10{padding:2.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-32{padding-bottom:8rem}.pt-48{padding-top:12rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-6xl{font-size:3.75rem;line-height:1}.text-7xl{font-size:4.5rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-bold{font-weight:700}.font-light{font-weight:300}.leading-\\[0\\.9\\]{line-height:0.9}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.text-\\[var\\(--text-muted\\)\\]{color:var(--text-muted)}.text-\\[var\\(--text-primary\\)\\]{color:var(--text-primary)}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\\/40{color:rgb(255 255 255 / 0.4)}.opacity-40{opacity:0.4}.opacity-50{opacity:0.5}.mix-blend-screen{mix-blend-mode:screen}.mix-blend-overlay{mix-blend-mode:overlay}.mix-blend-difference{mix-blend-mode:difference}.shadow-\\[0_0_15px_var\\(--cosmic-violet\\)\\]{--tw-shadow:0 0 15px var(--cosmic-violet);--tw-shadow-colored:0 0 15px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\\[0_0_15px_var\\(--nebula-blue\\)\\]{--tw-shadow:0 0 15px var(--nebula-blue);--tw-shadow-colored:0 0 15px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\\[0_0_20px_var\\(--nebula-blue\\)\\]{--tw-shadow:0 0 20px var(--nebula-blue);--tw-shadow-colored:0 0 20px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-\\[80px\\]{--tw-blur:blur(80px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-700{transition-duration:700ms}.group:hover .group-hover\\:scale-105{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 768px){.md\\:col-span-4{grid-column:span 4 / span 4}.md\\:col-span-5{grid-column:span 5 / span 5}.md\\:col-span-7{grid-column:span 7 / span 7}.md\\:col-span-8{grid-column:span 8 / span 8}.md\\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.md\\:p-16{padding:4rem}.md\\:text-2xl{font-size:1.5rem;line-height:2rem}.md\\:text-5xl{font-size:3rem;line-height:1}.md\\:text-7xl{font-size:4.5rem;line-height:1}.md\\:text-9xl{font-size:8rem;line-height:1}}</style></head>\n<body data-sc-cs=\"background-color:oklch(0.05 0 0);color:oklch(0.98 0 0)\">\n\n<div class=\"atmospheric-portal\" id=\"parallax-anchor\" style=\"transform: translate3d(0px, 0px, 0px) scale(1);\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0);position:fixed\">\n  <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <source src=\"https://videos.openhero.art/downloads/abstract/liquid-high-fidelity/video.mp4\" type=\"video/mp4\">\n  </video>\n</div>\n\n<nav class=\"fixed top-0 w-full z-50 px-6 py-8 mix-blend-difference text-white\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\">\n  <div class=\"max-w-screen-2xl mx-auto flex items-center justify-between\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1536px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all\">\n    <div class=\"text-xl font-bold tracking-tighter\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:20px;font-weight:700;line-height:28px;letter-spacing:-1px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">LIQUID <span class=\"text-white/40\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:Inter, sans-serif;font-size:20px;font-weight:700;line-height:28px;letter-spacing:-1px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">O.S.</span></div>\n    <div class=\"theme-trigger\" id=\"theme-toggle\" data-sc-cs=\"background-color:oklch(0.9 0.02 280 / 0.08);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;backdrop-filter:blur(10px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:border-color 0.3s\"></div>\n  </div>\n</nav>\n\n<main class=\"relative z-10 max-w-screen-2xl mx-auto px-6 pt-48 pb-32\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:192px 24px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1536px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n  \n  <header class=\"max-w-5xl mb-32 relative\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1024px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <span class=\"micro-label mb-6 block\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:18px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Sensory Architecture</span>\n    <h1 class=\"text-7xl md:text-9xl font-light tracking-tighter leading-[0.9] kinetic-text mb-8\" data-sc-cs=\"background-image:linear-gradient(110deg, oklch(0.98 0 0) 0%, oklch(0.65 0.25 280) 25%, oklch(0.98 0 0) 50%, oklch(0.6 0.2 310) 75%, oklch(0.98 0 0) 100%);color:rgba(0, 0, 0, 0);font-family:Inter, sans-serif;font-size:128px;font-weight:300;line-height:128px;letter-spacing:-6.4px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\">\n      Fluid<br>Dynamics.\n    </h1>\n    <p class=\"text-xl md:text-2xl text-[var(--text-muted)] font-light max-w-2xl leading-relaxed\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:24px;font-weight:300;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      A zero-edge spatial interface. Digital debossing and perceptual OKLCH fusion eliminate structural rigidity.\n    </p>\n    <div class=\"mt-14\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:56px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <button class=\"mercury-btn interactive-surface\" data-sc-cs=\"background-image:linear-gradient(rgb(255, 255, 255), rgb(200, 200, 220));color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.16px;text-align:center;padding:19.2px 40px;border-top-style:none;border-top-color:rgb(0, 0, 0);border-radius:999px;box-shadow:rgb(255, 255, 255) 0px 2px 2px 0px inset, rgba(0, 0, 0, 0.2) 0px -4px 8px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px, rgba(255, 255, 255, 0.2) 0px 0px 0px 1px;display:inline-flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s\" data-sc-hover=\"after{content:&quot;&quot;;position:absolute;top:-50%;right:-50%;bottom:-50%;left:-50%;inset:-50%;transition:opacity 0.3s;transition-property:opacity;transition-duration:0.3s;transition-timing-function:ease;opacity:0}|hover-self{transform:translateY(-4px) scale(1.02);box-shadow:inset 0 2px 2px rgba(255, 255, 255, 1),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.1),\n    0 20px 40px var(--nebula-blue),\n    0 0 0 1px rgba(255, 255, 255, 0.5)}|hover-after{opacity:1}\">\n        Initialize Sequence\n      </button>\n    </div>\n  </header>\n\n  <section class=\"bento-grid grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(320px,auto)] reveal-scroll\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.98, 0, 0, 0.98, 0, 40)\">\n    \n    <div class=\"liquid-obsidian md:col-span-8 p-10 md:p-16 flex flex-col justify-between interactive-surface\" data-sc-cs=\"background-color:oklch(0.15 0.02 280 / 0.4);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:32px;box-shadow:oklch(0.9 0.02 280 / 0.08) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px -2px 10px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(40px) saturate(1.8);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n      <div class=\"flex justify-between items-start\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\">\n        <span class=\"micro-label\" data-sc-col=\"sccol-0\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:18px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">01 // Volumetric Space</span>\n        <div class=\"w-3 h-3 rounded-full bg-[var(--nebula-blue)] shadow-[0_0_20px_var(--nebula-blue)] mix-blend-screen\" data-sc-col=\"sccol-1\" data-sc-cs=\"background-color:oklch(0.65 0.25 280);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.65 0.25 280) 0px 0px 20px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n      </div>\n      <div class=\"mt-24\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:96px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <h2 class=\"text-4xl md:text-5xl font-light mb-6 tracking-tight\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:48px;font-weight:300;line-height:48px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Predictable edges have failed.</h2>\n        <p class=\"text-[var(--text-muted)] text-lg max-w-lg leading-relaxed\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.\n        </p>\n      </div>\n    </div>\n\n    <div class=\"frosted-ether md:col-span-4 p-10 flex flex-col justify-between interactive-surface group\" data-sc-cs=\"background-image:radial-gradient(circle at 0% 0%, oklch(0.9 0.02 280 / 0.08), rgba(0, 0, 0, 0) 70%);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.1) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px 0px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px 0px;backdrop-filter:blur(60px);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n      <span class=\"micro-label\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:18px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Telemetry</span>\n      <div class=\"mt-12\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <div class=\"text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:72px;font-weight:300;line-height:72px;letter-spacing:-3.6px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)\">\n          120<span class=\"text-2xl text-[var(--text-muted)] ml-1\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:24px;font-weight:300;line-height:32px;letter-spacing:-3.6px;text-align:start;margin:0px 0px 0px 4px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">fps</span>\n        </div>\n        <p class=\"text-[var(--text-muted)] text-sm leading-relaxed\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.\n        </p>\n      </div>\n    </div>\n\n    <div class=\"frosted-ether md:col-span-5 p-10 relative overflow-hidden interactive-surface\" data-sc-cs=\"background-image:radial-gradient(circle at 0% 0%, oklch(0.9 0.02 280 / 0.08), rgba(0, 0, 0, 0) 70%);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;box-shadow:rgba(255, 255, 255, 0.1) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px 0px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px 0px;backdrop-filter:blur(60px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <div class=\"absolute -right-20 -top-20 w-64 h-64 bg-[var(--cosmic-violet)] rounded-full mix-blend-screen filter blur-[80px] opacity-40\" data-sc-cs=\"background-color:oklch(0.6 0.2 310);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      <div class=\"relative z-10 h-full flex flex-col justify-between\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n        <span class=\"micro-label\" data-sc-cs=\"color:oklch(0.6 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:18px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Spectrum Engine</span>\n        <div class=\"mt-auto\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:166px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <h3 class=\"text-3xl font-light mb-4\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:30px;font-weight:300;line-height:36px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">OKLCH Perception</h3>\n          <div class=\"flex gap-4\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <div class=\"h-1 bg-[var(--nebula-blue)] w-1/2 rounded-full shadow-[0_0_15px_var(--nebula-blue)]\" data-sc-col=\"sccol-2\" data-sc-cs=\"background-color:oklch(0.65 0.25 280);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.65 0.25 280) 0px 0px 15px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n            <div class=\"h-1 bg-[var(--cosmic-violet)] w-1/4 rounded-full shadow-[0_0_15px_var(--cosmic-violet)]\" data-sc-col=\"sccol-3\" data-sc-cs=\"background-color:oklch(0.6 0.2 310);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.6 0.2 310) 0px 0px 15px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"liquid-obsidian md:col-span-7 p-10 md:p-16 flex items-center interactive-surface overflow-hidden\" data-sc-cs=\"background-color:oklch(0.15 0.02 280 / 0.4);color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:32px;box-shadow:oklch(0.9 0.02 280 / 0.08) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px -2px 10px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(40px) saturate(1.8);display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n      <div class=\"absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface-highlight)] opacity-50 mix-blend-overlay pointer-events-none\" data-sc-col=\"sccol-4\" data-sc-cs=\"background-image:linear-gradient(to right, rgba(0, 0, 0, 0), oklch(0.9 0.02 280 / 0.08));color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      <h3 class=\"text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]\" data-sc-col=\"sccol-5\" data-sc-cs=\"color:oklch(0.98 0 0);font-family:Inter, sans-serif;font-size:48px;font-weight:300;line-height:48px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        Seek luxury through absolute cleanliness and depth.\n      </h3>\n    </div>\n\n  </section>\n\n</main>\n\n<script>\n  const root = document.documentElement;\n  const parallaxAnchor = document.getElementById('parallax-anchor');\n  let ticking = false;\n\n  const updateMousePosition = (e, element, isGlobal = false) => {\n    const target = isGlobal ? root : element;\n    const rect = isGlobal ? { left: 0, top: 0 } : element.getBoundingClientRect();\n    const x = e.clientX - rect.left;\n    const y = e.clientY - rect.top;\n    target.style.setProperty('--mouse-x', `${x}px`);\n    target.style.setProperty('--mouse-y', `${y}px`);\n  };\n\n  window.addEventListener('mousemove', (e) => updateMousePosition(e, root, true), { passive: true });\n\n  document.querySelectorAll('.interactive-surface').forEach((el) => {\n    el.addEventListener('mousemove', (e) => updateMousePosition(e, el), { passive: true });\n  });\n\n  window.addEventListener('scroll', () => {\n    if (!ticking) {\n      window.requestAnimationFrame(() => {\n        const scrolled = window.scrollY;\n        parallaxAnchor.style.transform = `translate3d(0, ${scrolled * -0.15}px, 0) scale(${1 + scrolled * 0.0002})`;\n        ticking = false;\n      });\n      ticking = true;\n    }\n  }, { passive: true });\n\n  const themeToggle = document.getElementById('theme-toggle');\n  themeToggle.addEventListener('click', () => {\n    const switchTheme = () => {\n      const isLight = document.body.getAttribute('data-theme') === 'light';\n      isLight ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'light');\n    };\n\n    if (document.startViewTransition) {\n      document.startViewTransition(switchTheme);\n    } else {\n      switchTheme();\n    }\n  });\n</script>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n</body></html>",
+  "megaMenus": [],
+  "title": "Liquid High-Fidelity Architecture",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 18,
+      "family": "Inter",
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 128,
+      "weight": "300",
+      "family": "Inter",
+      "line-height": "1",
+      "letter-spacing": "-6.4"
+    },
+    "h2": {
+      "size": 48,
+      "weight": "300",
+      "family": "Inter",
+      "line-height": "1",
+      "letter-spacing": "-1.2"
+    },
+    "h3": {
+      "size": 30,
+      "weight": "300",
+      "family": "Inter",
+      "line-height": "1.2"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "128",
+        "weight": "300",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "48",
+        "weight": "300",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "30",
+        "weight": "300",
+        "line_height": "1.2",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Lead",
+        "size": "24",
+        "weight": "300",
+        "line_height": "1.33",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "14",
+        "weight": "",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "12",
+        "weight": "500",
+        "line_height": "",
+        "letter_spacing": "3.6",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--text-primary": "oklch(0.98 0 0)",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--bg-pure": "oklch(0.05 0 0)",
+      "--text-muted": "oklch(0.6 0.05 280)",
+      "--surface-highlight": "oklch(0.9 0.02 280 / 0.08)",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--cosmic-violet": "oklch(60% 0.2 310)",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--mouse-y": "50%",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--surface-base": "oklch(0.15 0.02 280 / 0.4)",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--mouse-x": "50%",
+      "--tw-rotate": "0",
+      "--nebula-blue": "oklch(65% 0.25 280)",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "oklch(0.98 0 0)",
+      "backgroundColor": "oklch(0.05 0 0)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1536px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Inter",
+    "color": "rgba(0, 0, 0, 0)"
+  },
+  "header": {
+    "element": {
+      "display": "block",
+      "justifyContent": "normal",
+      "alignItems": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "relative",
+      "padding": "0px"
+    },
+    "bar": {
+      "display": "block",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": null,
+    "nav": [],
+    "cta": {
+      "label": "Initialize Sequence",
+      "href": "https://openhero.art/api/preview?category=abstract&slug=liquid-high-fidelity",
+      "computed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(0, 0, 0)",
+        "borderRadius": "999px",
+        "padding": "19.2px 40px",
+        "fontFamily": "Inter, sans-serif",
+        "fontWeight": "600"
+      },
+      "hover": null
+    }
+  },
+  "footer": null,
+  "sections": [
+    {
+      "heading": "Predictable edges have failed.",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "48px",
+        "fontWeight": "300",
+        "color": "oklch(0.98 0 0)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+      "paragraphs": [
+        "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+        "Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.98 0 0)",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "01 // Volumetric Space Predictable edges have failed. Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance. Telemetry 120fps Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic. Spectrum Engine OKLCH Perception Seek luxury through absolute cleanliness and depth.",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "grid": {
+            "cols": "94px 94px 94px 94px 94px 94px 94px 94px 94px 94px 94px 94px",
+            "gap": "24px"
+          },
+          "animation": "reveal-keyframe auto linear 1",
+          "transform": "matrix(0.98, 0, 0, 0.98, 0, 40)",
+          "transition": "all",
+          "tw": {
+            "gap": "24px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bg": "oklch(0.15 0.02 280 / 0.4)",
+              "padding": "64px",
+              "borderRadius": "32px",
+              "boxShadow": "oklch(0.9 0.02 280 / 0.08) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px -2px 10px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "space-between",
+                    "align": "flex-start",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "01 // Volumetric Space",
+                    "text": "01 // Volumetric Space",
+                    "styles": {
+                      "color": "oklch(0.6 0.05 280)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12px",
+                      "fontWeight": "500",
+                      "letterSpacing": "3.6px",
+                      "lineHeight": "18px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Predictable edges have failed.",
+                    "text": "Predictable edges have failed.",
+                    "styles": {
+                      "color": "oklch(0.98 0 0)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "48px",
+                      "fontWeight": "300",
+                      "letterSpacing": "-1.2px",
+                      "lineHeight": "48px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+                    "text": "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+                    "styles": {
+                      "color": "oklch(0.6 0.05 280)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "18px",
+                      "lineHeight": "29.25px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bgImage": "radial-gradient(circle at 0% 0%, oklch(0.9 0.02 280 / 0.08), rgba(0, 0, 0, 0) 70%)",
+              "padding": "40px",
+              "borderRadius": "24px",
+              "boxShadow": "rgba(255, 255, 255, 0.1) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px 0px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px 0px",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "text",
+                "html": "Telemetry",
+                "text": "Telemetry",
+                "styles": {
+                  "color": "oklch(0.6 0.05 280)",
+                  "fontFamily": "Inter, sans-serif",
+                  "fontSize": "12px",
+                  "fontWeight": "500",
+                  "letterSpacing": "3.6px",
+                  "lineHeight": "18px",
+                  "textTransform": "uppercase",
+                  "transition": "all"
+                }
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "60px",
+                        "lineHeight": "1"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "fps",
+                        "text": "fps",
+                        "styles": {
+                          "color": "oklch(0.6 0.05 280)",
+                          "fontFamily": "Inter, sans-serif",
+                          "fontSize": "24px",
+                          "fontWeight": "300",
+                          "letterSpacing": "-3.6px",
+                          "lineHeight": "32px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "24px",
+                            "lineHeight": "32px"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "text",
+                    "html": "Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.",
+                    "text": "Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.",
+                    "styles": {
+                      "color": "oklch(0.6 0.05 280)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "14px",
+                      "lineHeight": "22.75px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bgImage": "radial-gradient(circle at 0% 0%, oklch(0.9 0.02 280 / 0.08), rgba(0, 0, 0, 0) 70%)",
+              "padding": "40px",
+              "borderRadius": "24px",
+              "boxShadow": "rgba(255, 255, 255, 0.1) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px 0px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px 0px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Spectrum Engine",
+                    "text": "Spectrum Engine",
+                    "styles": {
+                      "color": "oklch(0.6 0.05 280)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12px",
+                      "fontWeight": "500",
+                      "letterSpacing": "3.6px",
+                      "lineHeight": "18px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "heading",
+                        "level": 3,
+                        "html": "OKLCH Perception",
+                        "text": "OKLCH Perception",
+                        "styles": {
+                          "color": "oklch(0.98 0 0)",
+                          "fontFamily": "Inter, sans-serif",
+                          "fontSize": "30px",
+                          "fontWeight": "300",
+                          "lineHeight": "36px",
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "30px",
+                            "lineHeight": "36px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bg": "oklch(0.15 0.02 280 / 0.4)",
+              "padding": "64px",
+              "borderRadius": "32px",
+              "boxShadow": "oklch(0.9 0.02 280 / 0.08) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px -2px 10px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px",
+              "flex": {
+                "dir": "row",
+                "justify": "normal",
+                "align": "center",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "heading",
+                "level": 3,
+                "html": "Seek luxury through absolute cleanliness and depth.",
+                "text": "Seek luxury through absolute cleanliness and depth.",
+                "styles": {
+                  "color": "oklch(0.98 0 0)",
+                  "fontFamily": "Inter, sans-serif",
+                  "fontSize": "48px",
+                  "fontWeight": "300",
+                  "lineHeight": "48px",
+                  "transition": "all",
+                  "tw": {
+                    "fontWeight": "300",
+                    "fontSize": "30px",
+                    "lineHeight": "36px"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"bento-grid grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(320px,auto)] reveal-scroll\">          <div class=\"liquid-obsidian md:col-span-8 p-10 md:p-16 flex flex-col justify-between interactive-surface\">       <div class=\"flex justify-between items-start\">         <span class=\"micro-label\">01 // Volumetric Space</span>         <div class=\"w-3 h-3 rounded-full bg-[var(--nebula-blue)] shadow-[0_0_20px_var(--nebula-blue)] mix-blend-screen\"></div>       </div>       <div class=\"mt-24\">         <h2 class=\"text-4xl md:text-5xl font-light mb-6 tracking-tight\">Predictable edges have failed.</h2>         <p class=\"text-[var(--text-muted)] text-lg max-w-lg leading-relaxed\">           Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.         </p>       </div>     </div>     <div class=\"frosted-ether md:col-span-4 p-10 flex flex-col justify-between interactive-surface group\">       <span class=\"micro-label\">Telemetry</span>       <div class=\"mt-12\">         <div class=\"text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left\">           120<span class=\"text-2xl text-[var(--text-muted)] ml-1\">fps</span>         </div>         <p class=\"text-[var(--text-muted)] text-sm leading-relaxed\">           Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.         </p>       </div>     </div>     <div class=\"frosted-ether md:col-span-5 p-10 relative overflow-hidden interactive-surface\">       <div class=\"absolute -right-20 -top-20 w-64 h-64 bg-[var(--cosmic-violet)] rounded-full mix-blend-screen filter blur-[80px] opacity-40\"></div>       <div class=\"relative z-10 h-full flex flex-col justify-between\">         <span class=\"micro-label\">Spectrum Engine</span>         <div class=\"mt-auto\">           <h3 class=\"text-3xl font-light mb-4\">OKLCH Perception</h3>           <div class=\"flex gap-4\">             <div class=\"h-1 bg-[var(--nebula-blue)] w-1/2 rounded-full shadow-[0_0_15px_var(--nebula-blue)]\"></div>             <div class=\"h-1 bg-[var(--cosmic-violet)] w-1/4 rounded-full shadow-[0_0_15px_var(--cosmic-violet)]\"></div>           </div>         </div>       </div>     </div>     <div class=\"liquid-obsidian md:col-span-7 p-10 md:p-16 flex items-center interactive-surface overflow-hidden\">       <div class=\"absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface-highlight)] opacity-50 mix-blend-overlay pointer-events-none\"></div>       <h3 class=\"text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]\">         Seek luxury through absolute cleanliness and depth.       </h3>     </div>   </section>",
+      "rawInner": "          <div class=\"liquid-obsidian md:col-span-8 p-10 md:p-16 flex flex-col justify-between interactive-surface\">       <div class=\"flex justify-between items-start\">         <span class=\"micro-label\">01 // Volumetric Space</span>         <div class=\"w-3 h-3 rounded-full bg-[var(--nebula-blue)] shadow-[0_0_20px_var(--nebula-blue)] mix-blend-screen\"></div>       </div>       <div class=\"mt-24\">         <h2 class=\"text-4xl md:text-5xl font-light mb-6 tracking-tight\">Predictable edges have failed.</h2>         <p class=\"text-[var(--text-muted)] text-lg max-w-lg leading-relaxed\">           Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.         </p>       </div>     </div>     <div class=\"frosted-ether md:col-span-4 p-10 flex flex-col justify-between interactive-surface group\">       <span class=\"micro-label\">Telemetry</span>       <div class=\"mt-12\">         <div class=\"text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left\">           120<span class=\"text-2xl text-[var(--text-muted)] ml-1\">fps</span>         </div>         <p class=\"text-[var(--text-muted)] text-sm leading-relaxed\">           Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.         </p>       </div>     </div>     <div class=\"frosted-ether md:col-span-5 p-10 relative overflow-hidden interactive-surface\">       <div class=\"absolute -right-20 -top-20 w-64 h-64 bg-[var(--cosmic-violet)] rounded-full mix-blend-screen filter blur-[80px] opacity-40\"></div>       <div class=\"relative z-10 h-full flex flex-col justify-between\">         <span class=\"micro-label\">Spectrum Engine</span>         <div class=\"mt-auto\">           <h3 class=\"text-3xl font-light mb-4\">OKLCH Perception</h3>           <div class=\"flex gap-4\">             <div class=\"h-1 bg-[var(--nebula-blue)] w-1/2 rounded-full shadow-[0_0_15px_var(--nebula-blue)]\"></div>             <div class=\"h-1 bg-[var(--cosmic-violet)] w-1/4 rounded-full shadow-[0_0_15px_var(--cosmic-violet)]\"></div>           </div>         </div>       </div>     </div>     <div class=\"liquid-obsidian md:col-span-7 p-10 md:p-16 flex items-center interactive-surface overflow-hidden\">       <div class=\"absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface-highlight)] opacity-50 mix-blend-overlay pointer-events-none\"></div>       <h3 class=\"text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]\">         Seek luxury through absolute cleanliness and depth.       </h3>     </div>   ",
+      "sectionClass": "bento-grid grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(320px,auto)] reveal-scroll",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "transform": 1,
+        "display-grid": 1,
+        "gap": 2,
+        "background-color": 6,
+        "backdrop-filter": 4,
+        "box-shadow": 7,
+        "border-radius": 8,
+        "display-flex": 6,
+        "padding": 4,
+        "margin": 7,
+        "max-width": 1,
+        "background-image": 3,
+        "position-absolute": 2
+      },
+      "h": 731,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "micro-label",
+              "colId": "sccol-0",
+              "cw": 3,
+              "html": "01 // Volumetric Space",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 11,
+                "tablet": 8,
+                "desktop": 3
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex justify-between items-start\">         <span class=\"micro-label\" data-sc-col=\"sccol-0\">01 // Volumetric Space</span>         <div class=\"w-3 h-3 rounded-full bg-[var(--nebula-blue)] shadow-[0_0_20px_var(--nebula-blue)] mix-blend-screen\" data-sc-col=\"sccol-1\"></div>       </div>"
+        },
+        {
+          "t": "heading",
+          "level": 2,
+          "html": "Predictable edges have failed.",
+          "text": "Predictable edges have failed.",
+          "tag": "h2",
+          "cls": "text-4xl md:text-5xl font-light mb-6 tracking-tight",
+          "wrapCls": "mt-24",
+          "fontSize": "48px",
+          "fontWeight": "300",
+          "color": "oklch(0.98 0 0)",
+          "marginBottom": "24px",
+          "marginTop": "0px",
+          "lineHeight": "48px",
+          "letterSpacing": "-1.2px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"text-[var(--text-muted)] text-lg max-w-lg leading-relaxed\">           Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.         </p>",
+          "text": "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+          "tag": "p",
+          "cls": "text-[var(--text-muted)] text-lg max-w-lg leading-relaxed",
+          "fontSize": "18px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "29.25px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "text",
+          "html": "<span class=\"micro-label\">Telemetry</span>",
+          "text": "Telemetry",
+          "tag": "span",
+          "cls": "micro-label",
+          "fontSize": "12px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "18px",
+          "letterSpacing": "3.6px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "500",
+          "textTransform": "uppercase"
+        },
+        {
+          "t": "text",
+          "html": "<div class=\"text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left\">           120<span class=\"text-2xl text-[var(--text-muted)] ml-1\">fps</span>         </div>",
+          "text": "120fps",
+          "tag": "div",
+          "cls": "text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left",
+          "fontSize": "72px",
+          "color": "oklch(0.98 0 0)",
+          "lineHeight": "72px",
+          "letterSpacing": "-3.6px",
+          "marginBottom": "8px",
+          "textAlign": "start",
+          "fontWeight": "300",
+          "textTransform": "none"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"text-[var(--text-muted)] text-sm leading-relaxed\">           Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.         </p>",
+          "text": "Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.",
+          "tag": "p",
+          "cls": "text-[var(--text-muted)] text-sm leading-relaxed",
+          "fontSize": "14px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "22.75px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute -right-20 -top-20 w-64 h-64 bg-[var(--cosmic-violet)] rounded-full mix-blend-screen filter blur-[80px] opacity-40\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "oklch(0.6 0.2 310)",
+            "bgImage": "",
+            "blur": "80px",
+            "blend": "screen",
+            "radius": "9999px",
+            "opacity": "0.4",
+            "position": "absolute",
+            "top": "-80px",
+            "right": "-80px",
+            "bottom": "144px",
+            "left": "390px",
+            "zIndex": "",
+            "w": 251,
+            "h": 251
+          }
+        },
+        {
+          "t": "text",
+          "html": "<span class=\"micro-label\">Spectrum Engine</span>",
+          "text": "Spectrum Engine",
+          "tag": "span",
+          "cls": "micro-label",
+          "fontSize": "12px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "18px",
+          "letterSpacing": "3.6px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "500",
+          "textTransform": "uppercase"
+        },
+        {
+          "t": "heading",
+          "level": 3,
+          "html": "OKLCH Perception",
+          "text": "OKLCH Perception",
+          "tag": "h3",
+          "cls": "text-3xl font-light mb-4",
+          "wrapCls": "mt-auto",
+          "fontSize": "30px",
+          "fontWeight": "300",
+          "color": "oklch(0.98 0 0)",
+          "marginBottom": "16px",
+          "marginTop": "0px",
+          "lineHeight": "36px",
+          "letterSpacing": "normal",
+          "align": "left"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]",
+              "colId": "sccol-5",
+              "cw": 10,
+              "html": "         Seek luxury through absolute cleanliness and depth.       ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 9,
+                "tablet": 8,
+                "desktop": 10
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"liquid-obsidian md:col-span-7 p-10 md:p-16 flex items-center interactive-surface overflow-hidden\">       <div class=\"absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface-highlight)] opacity-50 mix-blend-overlay pointer-events-none\" data-sc-col=\"sccol-4\"></div>       <h3 class=\"text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]\" data-sc-col=\"sccol-5\">         Seek luxury through absolute cleanliness and depth.       </h3>     </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "micro-label",
+              "colId": "sccol-0",
+              "cw": 3,
+              "html": "01 // Volumetric Space",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 11,
+                "tablet": 8,
+                "desktop": 3
+              }
+            }
+          ],
+          "valign": "start",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex justify-between items-start\">         <span class=\"micro-label\" data-sc-col=\"sccol-0\">01 // Volumetric Space</span>         <div class=\"w-3 h-3 rounded-full bg-[var(--nebula-blue)] shadow-[0_0_20px_var(--nebula-blue)] mix-blend-screen\" data-sc-col=\"sccol-1\"></div>       </div>"
+        },
+        {
+          "t": "heading",
+          "level": 2,
+          "html": "Predictable edges have failed.",
+          "text": "Predictable edges have failed.",
+          "tag": "h2",
+          "cls": "text-4xl md:text-5xl font-light mb-6 tracking-tight",
+          "wrapCls": "mt-24",
+          "fontSize": "48px",
+          "fontWeight": "300",
+          "color": "oklch(0.98 0 0)",
+          "marginBottom": "24px",
+          "marginTop": "0px",
+          "lineHeight": "48px",
+          "letterSpacing": "-1.2px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"text-[var(--text-muted)] text-lg max-w-lg leading-relaxed\">           Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.         </p>",
+          "text": "Refractive depth overrides solid borders. Inner shadow hierarchies construct digital materials mimicking liquid obsidian reacting to atmospheric luminance.",
+          "tag": "p",
+          "cls": "text-[var(--text-muted)] text-lg max-w-lg leading-relaxed",
+          "fontSize": "18px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "29.25px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "text",
+          "html": "<span class=\"micro-label\">Telemetry</span>",
+          "text": "Telemetry",
+          "tag": "span",
+          "cls": "micro-label",
+          "fontSize": "12px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "18px",
+          "letterSpacing": "3.6px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "500",
+          "textTransform": "uppercase"
+        },
+        {
+          "t": "text",
+          "html": "<div class=\"text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left\">           120<span class=\"text-2xl text-[var(--text-muted)] ml-1\">fps</span>         </div>",
+          "text": "120fps",
+          "tag": "div",
+          "cls": "text-6xl md:text-7xl font-light tracking-tighter mb-2 group-hover:scale-105 transition-transform duration-700 origin-left",
+          "fontSize": "72px",
+          "color": "oklch(0.98 0 0)",
+          "lineHeight": "72px",
+          "letterSpacing": "-3.6px",
+          "marginBottom": "8px",
+          "textAlign": "start",
+          "fontWeight": "300",
+          "textTransform": "none"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"text-[var(--text-muted)] text-sm leading-relaxed\">           Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.         </p>",
+          "text": "Native hardware acceleration via Scroll-Timeline and View Transitions API. Zero external runtime logic.",
+          "tag": "p",
+          "cls": "text-[var(--text-muted)] text-sm leading-relaxed",
+          "fontSize": "14px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "22.75px",
+          "letterSpacing": "normal",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "none"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute -right-20 -top-20 w-64 h-64 bg-[var(--cosmic-violet)] rounded-full mix-blend-screen filter blur-[80px] opacity-40\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "oklch(0.6 0.2 310)",
+            "bgImage": "",
+            "blur": "80px",
+            "blend": "screen",
+            "radius": "9999px",
+            "opacity": "0.4",
+            "position": "absolute",
+            "top": "-80px",
+            "right": "-80px",
+            "bottom": "144px",
+            "left": "390px",
+            "zIndex": "",
+            "w": 251,
+            "h": 251
+          }
+        },
+        {
+          "t": "text",
+          "html": "<span class=\"micro-label\">Spectrum Engine</span>",
+          "text": "Spectrum Engine",
+          "tag": "span",
+          "cls": "micro-label",
+          "fontSize": "12px",
+          "color": "oklch(0.6 0.05 280)",
+          "lineHeight": "18px",
+          "letterSpacing": "3.6px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "500",
+          "textTransform": "uppercase"
+        },
+        {
+          "t": "heading",
+          "level": 3,
+          "html": "OKLCH Perception",
+          "text": "OKLCH Perception",
+          "tag": "h3",
+          "cls": "text-3xl font-light mb-4",
+          "wrapCls": "mt-auto",
+          "fontSize": "30px",
+          "fontWeight": "300",
+          "color": "oklch(0.98 0 0)",
+          "marginBottom": "16px",
+          "marginTop": "0px",
+          "lineHeight": "36px",
+          "letterSpacing": "normal",
+          "align": "left"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]",
+              "colId": "sccol-5",
+              "cw": 10,
+              "html": "         Seek luxury through absolute cleanliness and depth.       ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 9,
+                "tablet": 8,
+                "desktop": 10
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"liquid-obsidian md:col-span-7 p-10 md:p-16 flex items-center interactive-surface overflow-hidden\">       <div class=\"absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface-highlight)] opacity-50 mix-blend-overlay pointer-events-none\" data-sc-col=\"sccol-4\"></div>       <h3 class=\"text-3xl md:text-5xl font-light leading-tight text-[var(--text-primary)]\" data-sc-col=\"sccol-5\">         Seek luxury through absolute cleanliness and depth.       </h3>     </div>"
+        }
+      ],
+      "css": ".liquid-obsidian{background: var(--surface-base); backdrop-filter: blur(40px) saturate(180%); box-shadow: inset 0 1px 1px var(--surface-highlight),\n    inset 0 -2px 10px rgba(0, 0, 0, 0.4),\n    0 30px 60px rgba(0, 0, 0, 0.4); border-radius: 2rem; position: relative; isolation: isolate;}\n.liquid-obsidian::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: radial-gradient(\n    800px circle at var(--mouse-x) var(--mouse-y),\n    var(--nebula-blue),\n    transparent 40%\n  ); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); opacity: 0.3; pointer-events: none; transition: opacity 0.5s;}\n.liquid-obsidian:hover::before{opacity: 1;}\n.frosted-ether{background: radial-gradient(circle at top left, var(--surface-highlight), transparent 70%); backdrop-filter: blur(60px); box-shadow: rgba(255, 255, 255, 0.1) 0px 2px 4px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px; border-radius: 1.5rem; position: relative; overflow: hidden;}\n.reveal-scroll{opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(10px); animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: reveal-keyframe; animation-timeline: view(); animation-range: entry 10% cover 30%;}\n.bento-grid{container: bento / inline-size;}\n.micro-label{font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--text-muted); font-weight: 500;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.-right-20{right: -5rem;}\n.-top-20{top: -5rem;}\n.z-10{z-index: 10;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.ml-1{margin-left: 0.25rem;}\n.mt-12{margin-top: 3rem;}\n.mt-24{margin-top: 6rem;}\n.mt-auto{margin-top: auto;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-1{height: 0.25rem;}\n.h-3{height: 0.75rem;}\n.h-64{height: 16rem;}\n.h-full{height: 100%;}\n.w-1\\/2{width: 50%;}\n.w-1\\/4{width: 25%;}\n.w-3{width: 0.75rem;}\n.w-64{width: 16rem;}\n.max-w-lg{max-width: 32rem;}\n.origin-left{transform-origin: left center;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.bg-\\[var\\(--cosmic-violet\\)\\]{background-color: var(--cosmic-violet);}\n.bg-\\[var\\(--nebula-blue\\)\\]{background-color: var(--nebula-blue);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-10{padding: 2.5rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-\\[var\\(--text-muted\\)\\]{color: var(--text-muted);}\n.text-\\[var\\(--text-primary\\)\\]{color: var(--text-primary);}\n.opacity-40{opacity: 0.4;}\n.opacity-50{opacity: 0.5;}\n.mix-blend-screen{mix-blend-mode: screen;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_15px_var\\(--cosmic-violet\\)\\]{--tw-shadow: 0 0 15px var(--cosmic-violet); --tw-shadow-colored: 0 0 15px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-\\[0_0_15px_var\\(--nebula-blue\\)\\]{--tw-shadow: 0 0 15px var(--nebula-blue); --tw-shadow-colored: 0 0 15px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-\\[0_0_20px_var\\(--nebula-blue\\)\\]{--tw-shadow: 0 0 20px var(--nebula-blue); --tw-shadow-colored: 0 0 20px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-\\[80px\\]{--tw-blur: blur(80px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:col-span-4{grid-column: span 4 / span 4;}}\n@media (min-width: 768px){.md\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<header class=\"max-w-5xl mb-32 relative\">     <span class=\"micro-label mb-6 block\">Sensory Architecture</span>     <h1 class=\"text-7xl md:text-9xl font-light tracking-tighter leading-[0.9] kinetic-text mb-8\">       Fluid<br>Dynamics.     </h1>     <p class=\"text-xl md:text-2xl text-[var(--text-muted)] font-light max-w-2xl leading-relaxed\">       A zero-edge spatial interface. Digital debossing and perceptual OKLCH fusion eliminate structural rigidity.     </p>     <div class=\"mt-14\">       <button class=\"mercury-btn interactive-surface\">         Initialize Sequence       </button>     </div>   </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{--bg-pure: oklch(0.05 0 0); --nebula-blue: oklch(65% 0.25 280); --cosmic-violet: oklch(60% 0.2 310); --surface-base: oklch(0.15 0.02 280 / 0.4); --surface-highlight: oklch(0.9 0.02 280 / 0.08); --text-primary: oklch(0.98 0 0); --text-muted: oklch(0.6 0.05 280); --mouse-x: 50%; --mouse-y: 50%; color-scheme: dark light;}\n::view-transition-old(root), ::view-transition-new(root){animation: 1s cubic-bezier(0.16, 1, 0.3, 1) 0s 1 normal both running blend-fade;}\n*{box-sizing: border-box; margin: 0px; padding: 0px;}\nbody{background-color: var(--bg-pure); color: var(--text-primary); font-family: Inter, sans-serif; overflow-x: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased; transition: background-color 0.8s;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": "@keyframes blend-fade { \n  0% { opacity: 0; filter: blur(20px) saturate(0); }\n  100% { opacity: 1; filter: blur(0px) saturate(100%); }\n}\n.atmospheric-portal{position: fixed; bottom: -20vh; right: -15vw; width: 90vw; height: 90vw; border-radius: 50%; overflow: hidden; filter: none; opacity: 1; mix-blend-mode: normal; pointer-events: none; z-index: -1; will-change: transform; transform: translate3d(0px, 0px, 0px);}\n.atmospheric-portal video{width: 100%; height: 100%; object-fit: cover; transform: none;}\n@keyframes scroll-shimmer { \n  100% { background-position: 200% center; }\n}\n.liquid-obsidian{background: var(--surface-base); backdrop-filter: blur(40px) saturate(180%); box-shadow: inset 0 1px 1px var(--surface-highlight),\n    inset 0 -2px 10px rgba(0, 0, 0, 0.4),\n    0 30px 60px rgba(0, 0, 0, 0.4); border-radius: 2rem; position: relative; isolation: isolate;}\n.liquid-obsidian::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; padding: 1px; background: radial-gradient(\n    800px circle at var(--mouse-x) var(--mouse-y),\n    var(--nebula-blue),\n    transparent 40%\n  ); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); opacity: 0.3; pointer-events: none; transition: opacity 0.5s;}\n.liquid-obsidian:hover::before{opacity: 1;}\n.frosted-ether{background: radial-gradient(circle at top left, var(--surface-highlight), transparent 70%); backdrop-filter: blur(60px); box-shadow: rgba(255, 255, 255, 0.1) 0px 2px 4px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px; border-radius: 1.5rem; position: relative; overflow: hidden;}\n.reveal-scroll{opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(10px); animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: reveal-keyframe; animation-timeline: view(); animation-range: entry 10% cover 30%;}\n@keyframes reveal-keyframe { \n  100% { opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px); }\n}\n.bento-grid{container: bento / inline-size;}\n.theme-trigger{width: 48px; height: 24px; border-radius: 999px; background: var(--surface-highlight); backdrop-filter: blur(10px); position: relative; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); transition: border-color 0.3s;}\n.theme-trigger::before{content: \"\"; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--text-primary); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.fixed{position: fixed;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.-right-20{right: -5rem;}\n.-top-20{top: -5rem;}\n.top-0{top: 0px;}\n.z-10{z-index: 10;}\n.z-50{z-index: 50;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.ml-1{margin-left: 0.25rem;}\n.mt-12{margin-top: 3rem;}\n.mt-24{margin-top: 6rem;}\n.mt-auto{margin-top: auto;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-1{height: 0.25rem;}\n.h-3{height: 0.75rem;}\n.h-64{height: 16rem;}\n.h-full{height: 100%;}\n.w-1\\/2{width: 50%;}\n.w-1\\/4{width: 25%;}\n.w-3{width: 0.75rem;}\n.w-64{width: 16rem;}\n.w-full{width: 100%;}\n.max-w-lg{max-width: 32rem;}\n.max-w-screen-2xl{max-width: 1536px;}\n.origin-left{transform-origin: left center;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.bg-\\[var\\(--cosmic-violet\\)\\]{background-color: var(--cosmic-violet);}\n.bg-\\[var\\(--nebula-blue\\)\\]{background-color: var(--nebula-blue);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.to-\\[var\\(--surface-highlight\\)\\]{--tw-gradient-to: var(--surface-highlight) var(--tw-gradient-to-position);}\n.p-10{padding: 2.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.pb-32{padding-bottom: 8rem;}\n.pt-48{padding-top: 12rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.leading-tight{line-height: 1.25;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-\\[var\\(--text-primary\\)\\]{color: var(--text-primary);}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-40{opacity: 0.4;}\n.opacity-50{opacity: 0.5;}\n.mix-blend-screen{mix-blend-mode: screen;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.mix-blend-difference{mix-blend-mode: difference;}\n.shadow-\\[0_0_15px_var\\(--cosmic-violet\\)\\]{--tw-shadow: 0 0 15px var(--cosmic-violet); --tw-shadow-colored: 0 0 15px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-\\[0_0_15px_var\\(--nebula-blue\\)\\]{--tw-shadow: 0 0 15px var(--nebula-blue); --tw-shadow-colored: 0 0 15px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-\\[0_0_20px_var\\(--nebula-blue\\)\\]{--tw-shadow: 0 0 20px var(--nebula-blue); --tw-shadow-colored: 0 0 20px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-\\[80px\\]{--tw-blur: blur(80px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:col-span-4{grid-column: span 4 / span 4;}}\n@media (min-width: 768px){.md\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}",
+    "header_css": ".kinetic-text{background-image: ; background-position-x: ; background-position-y: ; background-repeat: ; background-attachment: ; background-origin: ; background-color: ; background-size: 200% auto; background-clip: text; color: transparent; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: none; animation-play-state: running; animation-name: scroll-shimmer; animation-range: normal; animation-timeline: scroll(root);}\n.mercury-btn{position: relative; overflow: hidden; border-radius: 999px; padding: 1.2rem 2.5rem; color: rgb(0, 0, 0); font-weight: 600; letter-spacing: -0.01em; background: linear-gradient(rgb(255, 255, 255), rgb(200, 200, 220)); box-shadow: rgb(255, 255, 255) 0px 2px 2px inset, rgba(0, 0, 0, 0.2) 0px -4px 8px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px, rgba(255, 255, 255, 0.2) 0px 0px 0px 1px; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border-width: medium; border-style: none; border-color: currentcolor; border-image: none;}\n.mercury-btn::after{content: \"\"; position: absolute; inset: -50%; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.8), transparent 50%); opacity: 0; transition: opacity 0.3s; mix-blend-mode: overlay; pointer-events: none;}\n.mercury-btn:hover{transform: translateY(-4px) scale(1.02); box-shadow: inset 0 2px 2px rgba(255, 255, 255, 1),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.1),\n    0 20px 40px var(--nebula-blue),\n    0 0 0 1px rgba(255, 255, 255, 0.5);}\n.mercury-btn:hover::after{opacity: 1;}\n.micro-label{font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--text-muted); font-weight: 500;}\n.relative{position: relative;}\n.mb-32{margin-bottom: 8rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-14{margin-top: 3.5rem;}\n.block{display: block;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-5xl{max-width: 64rem;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-\\[var\\(--text-muted\\)\\]{color: var(--text-muted);}\n@media (min-width: 768px){.md\\:text-2xl{font-size: 1.5rem; line-height: 2rem;}}\n@media (min-width: 768px){.md\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;800&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "rgb(0, 0, 0)",
+      "bd": "",
+      "bw": "",
+      "shadow": "rgb(255, 255, 255) 0px 2px 2px 0px inset, rgba(0, 0, 0, 0.2) 0px -4px 8px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px, rgba(255, 255, 255, 0.2) 0px 0px 0px 1px",
+      "radius": "999px",
+      "px": "40px",
+      "py": "19.2px",
+      "height": "",
+      "fs": "16px",
+      "lh": "24px",
+      "ff": "Inter, sans-serif",
+      "ls": "-0.16px",
+      "tt": "none",
+      "fw": "600",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "166px",
+      "px": 166
+    },
+    {
+      "value": "192px",
+      "px": 192
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "32px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "oklch(0.9 0.02 280 / 0.08) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px -2px 10px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px",
+      "backdrop": "blur(40px) saturate(1.8)",
+      "padding": "64px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "rgba(255, 255, 255, 0.1) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -2px 20px 0px inset, rgba(0, 0, 0, 0.3) 0px 15px 35px 0px",
+      "backdrop": "blur(60px)",
+      "padding": "40px",
+      "hoverLift": false,
+      "count": 2
+    },
+    {
+      "fill": "",
+      "radius": "999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.1)",
+      "shadow": "",
+      "backdrop": "blur(10px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": []
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "blend-fade",
+        "props": [
+          "opacity",
+          "filter"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "scroll-shimmer",
+        "props": [
+          "background-position-x",
+          "background-position-y"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "reveal-keyframe",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".kinetic-text",
+        "name": "scroll-shimmer",
+        "duration": "auto",
+        "infinite": false
+      },
+      {
+        "selector": ".reveal-scroll",
+        "name": "reveal-keyframe",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".liquid-obsidian::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".mercury-btn",
+        "changed": {
+          "transform": "translateY(-4px) scale(1.02)",
+          "box-shadow": "inset 0 2px 2px rgba(255, 255, 255, 1),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.1),\n    0 20px 40px var(--nebula-blue),\n    0 0 0 1px rgba(255, 255, 255, 0.5)"
+        }
+      },
+      {
+        "selector": "[data-theme=\"light\"] .mercury-btn",
+        "changed": {
+          "box-shadow": "inset 0 2px 2px rgba(255, 255, 255, 0.2),\n    inset 0 -4px 8px rgba(0, 0, 0, 0.8),\n    0 20px 40px var(--nebula-blue)"
+        }
+      },
+      {
+        "selector": ".mercury-btn::after",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".group .group-hover\\:scale-105",
+        "changed": {
+          "--tw-scale-x": "1.05",
+          "--tw-scale-y": "1.05",
+          "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+        }
+      },
+      {
+        "selector": "mercury-btn interactive-surface",
+        "changed": {
+          "transform": "matrix(1.01992, 0, 0, 1.01992, 0, -3.98436)",
+          "boxShadow": "rgb(255, 255, 255) 0px 2px 2px 0px inset, rgba(0, 0, 0, 0.106) 0px -4px 8px 0px inset, oklab(0.638667 0.0426553 -0.241909 / 0.961258) 0px 19.445px 38.89px 0px, rgba(255, 255, 255, 0.486) 0px 0px 0px 1px"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": "body",
+        "props": "background-color",
+        "duration": "0.8s"
+      },
+      {
+        "selector": ".liquid-obsidian::before",
+        "props": "opacity",
+        "duration": "0.5s"
+      },
+      {
+        "selector": ".mercury-btn",
+        "props": "transform, box-shadow",
+        "duration": "0.4s, 0.4s"
+      },
+      {
+        "selector": ".mercury-btn::after",
+        "props": "opacity",
+        "duration": "0.3s"
+      },
+      {
+        "selector": ".theme-trigger",
+        "props": "border-color",
+        "duration": "0.3s"
+      },
+      {
+        "selector": ".theme-trigger::before",
+        "props": "transform",
+        "duration": "0.5s"
+      },
+      {
+        "selector": ".transition-transform",
+        "props": "transform",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 1706,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "parallax",
+        "evidence": "document position drifts 581px over 806px of scroll",
+        "ratio": 0.72
+      },
+      {
+        "i": 1,
+        "kind": "pin",
+        "evidence": "pinned for ~758px of scroll"
+      },
+      {
+        "i": 4,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 40,
+          "ease": "",
+          "scaled": false,
+          "sx": 0.98,
+          "tx": 0,
+          "ty": 40,
+          "complex": false,
+          "noisy": false,
+          "scrub": false
+        }
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "document position drifts 581px over 806px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ 0.72)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#1",
+        "evidence": "pinned for ~758px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#4",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".kinetic-text",
+        "evidence": "keyframes 'scroll-shimmer' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".reveal-scroll",
+        "evidence": "keyframes 'reveal-keyframe' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".mercury-btn",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "[data-theme=\"light\"] .mercury-btn",
+        "evidence": "box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'} or glow_border",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

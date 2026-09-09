@@ -1,0 +1,769 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative w-full h-screen flex items-center justify-center overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".text-stroke{-webkit-text-stroke: 1px rgba(255, 255, 255, 0.4); color: transparent;}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-12{bottom: 3rem;}\n.left-1\\/2{left: 50%;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-16{margin-top: 4rem;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-1\\.5{height: 0.375rem;}\n.h-12{height: 3rem;}\n.h-full{height: 100%;}\n.h-screen{height: 100vh;}\n.w-full{width: 100%;}\n.w-1\\.5{width: 0.375rem;}\n.w-12{width: 3rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.gap-12{gap: 3rem;}\n.gap-2{gap: 0.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-sky-400{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-3{padding-left: 0.75rem; padding-right: 0.75rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.font-heading{font-family: Syne, sans-serif;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-black{font-weight: 900;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-none{line-height: 1;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-apex-base{--tw-text-opacity: 1; color: rgb(2 4 10 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:border-sky-400:hover{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.hover\\:bg-white:hover{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n.group:hover .group-hover\\:text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n@media (min-width: 1024px){.lg\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:text-6xl{font-size: 3.75rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 w-full h-full z-0\">             <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">                 <source src=\"https://videos.openhero.art/downloads/nature/solitary-elevation-project/video.mp4\" type=\"video/mp4\">             </video>             <div class=\"absolute inset-0 bg-gradient-to-r from-apex-base/80 via-transparent to-apex-base/20\"></div>         </div>         <div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center mt-16\">             <div class=\"lg:col-span-8\">                 <div class=\"inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6\">                     <span class=\"w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse\"></span>                     <span class=\"text-[10px] font-heading font-bold tracking-widest uppercase text-slate-300\">Observation Vector Active</span>                 </div>                                  <h1 class=\"font-heading text-4xl lg:text-6xl font-black uppercase tracking-tighter leading-none mb-8\">                     The Edge <br><span class=\"text-stroke\">Of Absolute</span><br>Stillness                 </h1>                 <p class=\"max-w-xl text-lg text-slate-300 font-light leading-relaxed mb-10\">                     Detach completely from the lower architectural framework. Stand elevated above structural cloud ceilings to interpret planetary movement in pure isolation.                 </p>                 <div class=\"flex flex-wrap items-center gap-4\">                     <a href=\"#elevation\" class=\"px-8 py-4 bg-sky-400 text-apex-base font-heading font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors duration-300\">                         Explore Altitude                     </a>                     <a href=\"#metrics\" class=\"px-8 py-4 bg-white/5 border border-white/10 font-heading font-semibold uppercase tracking-widest text-xs hover:bg-white/10 transition-colors duration-300\">                         Live Matrix                     </a>                 </div>             </div>         </div>         <div class=\"absolute bottom-12 left-1/2 -translate-x-1/2 z-20\">             <a href=\"#elevation\" class=\"w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-sky-400 transition-colors duration-300 group\">                 <iconify-icon icon=\"lucide:chevron-down\" class=\"text-slate-400 group-hover:text-sky-400 transition-colors\"></iconify-icon>             </a>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/solitary-elevation-project/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=solitary-elevation-project",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=solitary-elevation-project",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover absolute inset-0 w-full h-full z-0 relative w-full h-screen flex items-center justify-center overflow-hidden overflow-x-hidden custom-scrollbar selection:bg-sky-400 selection:text-slate-950",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-r from-apex-base/80 via-transparent to-apex-base/20\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to right, rgba(2, 4, 10, 0.8), rgba(0, 0, 0, 0), rgba(2, 4, 10, 0.2))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "overline",
+              "html": "<span style=\"color:rgb(203, 213, 225)\"><strong>Observation Vector Active</strong></span>",
+              "text": "Observation Vector Active",
+              "cls": "inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6",
+              "pill": true,
+              "color": "rgb(248, 250, 252)",
+              "bg": "rgba(255, 255, 255, 0.05)",
+              "borderW": "1px",
+              "borderColor": "rgba(255, 255, 255, 0.1)",
+              "radius": "9999px",
+              "padding": "4px 12px",
+              "backdropFilter": "",
+              "textTransform": "none",
+              "fontSize": "16px",
+              "letterSpacing": "normal",
+              "fontWeight": "400",
+              "gap": "8px",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "24px"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "The Edge <br>Of Absolute<br>Stillness",
+              "text": "The Edge Of AbsoluteStillness",
+              "tag": "h1",
+              "cls": "font-heading text-4xl lg:text-6xl font-black uppercase tracking-tighter leading-none mb-8",
+              "wrapCls": "lg:col-span-8",
+              "fontSize": "60px",
+              "fontWeight": "900",
+              "color": "rgb(248, 250, 252)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "-3px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"max-w-xl text-lg text-slate-300 font-light leading-relaxed mb-10\">                     Detach completely from the lower architectural framework. Stand elevated above structural cloud ceilings to interpret planetary movement in pure isolation.                 </p>",
+              "text": "Detach completely from the lower architectural framework. Stand elevated above structural cloud ceilings to interpret planetary movement in pure isolation.",
+              "tag": "p",
+              "cls": "max-w-xl text-lg text-slate-300 font-light leading-relaxed mb-10",
+              "fontSize": "18px",
+              "color": "rgb(203, 213, 225)",
+              "lineHeight": "29.25px",
+              "letterSpacing": "normal",
+              "marginBottom": "40px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Explore Altitude",
+              "href": "https://openhero.art/api/preview?category=nature&slug=solitary-elevation-project#elevation",
+              "tag": "a",
+              "cls": "px-8 py-4 bg-sky-400 text-apex-base font-heading font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors duration-300",
+              "align": "start",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "48px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "700",
+              "hover": {
+                "backgroundColor": "rgb(255, 255, 255)"
+              },
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "rgb(56, 189, 248)",
+                "fg": "rgb(2, 4, 10)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "Live Matrix",
+              "href": "https://openhero.art/api/preview?category=nature&slug=solitary-elevation-project#metrics",
+              "tag": "a",
+              "cls": "px-8 py-4 bg-white/5 border border-white/10 font-heading font-semibold uppercase tracking-widest text-xs hover:bg-white/10 transition-colors duration-300",
+              "align": "start",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "50px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "600",
+              "hover": {
+                "backgroundColor": "rgba(255, 255, 255, 0.1)"
+              },
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(255, 255, 255, 0.05)",
+                "fg": "rgb(248, 250, 252)",
+                "bd": "rgba(255, 255, 255, 0.1)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"lucide:chevron-down\" class=\"text-slate-400 group-hover:text-sky-400 transition-colors\"></iconify-icon>"
+            }
+          ],
+          "css_id": "hero"
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 px-6 max-w-7xl mx-auto border-t border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.h-10{height: 2.5rem;}\n.w-12{width: 3rem;}\n.w-px{width: 1px;}\n.max-w-7xl{max-width: 80rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-16{gap: 4rem;}\n.gap-6{gap: 1.5rem;}\n.rounded-none{border-radius: 0px;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-apex-surface\\/50{background-color: rgba(9, 13, 22, 0.5);}\n.bg-white\\/10{background-color: rgba(255, 255, 255, 0.1);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-heading{font-family: Syne, sans-serif;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-extrabold{font-weight: 800;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:border-sky-400\\/30:hover{border-color: rgba(56, 189, 248, 0.3);}\n.group:hover .group-hover\\:bg-sky-400\\/10{background-color: rgba(56, 189, 248, 0.1);}\n.group:hover .group-hover\\:text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"grid lg:grid-cols-12 gap-16 items-center\">             <div class=\"lg:col-span-5\">                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">01 / Stratum</span>                 <h2 class=\"font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight mb-8\">                     Above the structural friction.                 </h2>                 <p class=\"text-slate-400 font-light leading-relaxed mb-6\">                     Humanity spends its lifecycles inside dense atmospheric envelopes, trapped by architectural density and local noise. Vertex shifts the anchor point upward, establishing a platform where external space and interior focus intersect cleanly.                 </p>                 <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                     By scaling the highest summits of the mind, cloud tiers become placeholders for the noise you leave behind.                 </p>                 <div class=\"flex items-center gap-6\">                     <div class=\"flex flex-col\">                         <span class=\"font-heading text-3xl font-bold text-white\">4.2K</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Vertical Anchor Points</span>                     </div>                     <div class=\"w-px h-10 bg-white/10\"></div>                     <div class=\"flex flex-col\">                         <span class=\"font-heading text-3xl font-bold text-white\">Zero</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Terrestrial Distraction</span>                     </div>                 </div>             </div>             <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\">                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:mountain-snow\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Apex Architecture</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Solid rock foundations engineered naturally to provide permanent grounding amidst shifting aerial and cosmic currents.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:cloud\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cloud Diffusion</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">A permanent natural visual dampener isolating your lower line of sight from urbanization and structural activity.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:sparkles\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cosmic Alignment</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Direct, unaltered exposure to deep star fields and solar transitions without light distortion or dust scattering.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:maximize-2\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Scale Shift</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Recalibrate personal cognitive importance by visually cross-referencing your presence with planetary geometry.</p>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5",
+                  "colId": "sccol-0",
+                  "cw": 5,
+                  "html": "                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">01 / Stratum</span>                 <h2 class=\"font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight mb-8\">                     Above the structural friction.                 </h2>                 <p class=\"text-slate-400 font-light leading-relaxed mb-6\">                     Humanity spends its lifecycles inside dense atmospheric envelopes, trapped by architectural density and local noise. Vertex shifts the anchor point upward, establishing a platform where external space and interior focus intersect cleanly.                 </p>                 <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                     By scaling the highest summits of the mind, cloud tiers become placeholders for the noise you leave behind.                 </p>                 <div class=\"flex items-center gap-6\">                     <div class=\"flex flex-col\">                         <span class=\"font-heading text-3xl font-bold text-white\">4.2K</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Vertical Anchor Points</span>                     </div>                     <div class=\"w-px h-10 bg-white/10\"></div>                     <div class=\"flex flex-col\">                         <span class=\"font-heading text-3xl font-bold text-white\">Zero</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Terrestrial Distraction</span>                     </div>                 </div>             ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "01 / Stratum",
+                    "overlineClass": "font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Above the structural friction.",
+                    "titleTag": "h2",
+                    "titleClass": "font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight mb-8",
+                    "subtitle": "Humanity spends its lifecycles inside dense atmospheric envelopes, trapped by architectural density and local noise. Vertex shifts the anchor point upward, establishing a platform where external space and interior focus intersect cleanly.",
+                    "subtitleClass": "text-slate-400 font-light leading-relaxed mb-6",
+                    "wrapClass": "lg:col-span-5",
+                    "paras": [
+                      "<p class=\"text-slate-400 font-light leading-relaxed mb-8\">                     By scaling the highest summits of the mind, cloud tiers become placeholders for the noise you leave behind.                 </p>"
+                    ]
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 grid sm:grid-cols-2 gap-6",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:mountain-snow\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Apex Architecture</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Solid rock foundations engineered naturally to provide permanent grounding amidst shifting aerial and cosmic currents.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:cloud\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cloud Diffusion</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">A permanent natural visual dampener isolating your lower line of sight from urbanization and structural activity.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:sparkles\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cosmic Alignment</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Direct, unaltered exposure to deep star fields and solar transitions without light distortion or dust scattering.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:maximize-2\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Scale Shift</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Recalibrate personal cognitive importance by visually cross-referencing your presence with planetary geometry.</p>                 </div>             ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "mountain-snow",
+                    "iconLayout": "top-title",
+                    "iconColor": "#94a3b8",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Apex Architecture",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"text-slate-400 text-sm font-light leading-relaxed\">Solid rock foundations engineered naturally to provide permanent grounding amidst shifting aerial and cosmic currents.</p>",
+                    "link": null,
+                    "cls": "p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(9, 13, 22, 0.5)",
+                      "fill": "rgba(9, 13, 22, 0.5)",
+                      "radius": "",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-16 items-center\">             <div class=\"lg:col-span-5\" data-sc-col=\"sccol-0\">                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">01 / Stratum</span>                 <h2 class=\"font-heading text-4xl md:text-5xl font-extrabold uppercase tracking-tight mb-8\">                     Above the structural friction.                 </h2>                 <p class=\"text-slate-400 font-light leading-relaxed mb-6\">                     Humanity spends its lifecycles inside dense atmospheric envelopes, trapped by architectural density and local noise. Vertex shifts the anchor point upward, establishing a platform where external space and interior focus intersect cleanly.                 </p>                 <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                     By scaling the highest summits of the mind, cloud tiers become placeholders for the noise you leave behind.                 </p>                 <div class=\"flex items-center gap-6\">                     <div class=\"flex flex-col\" data-sc-col=\"sccol-1\">                         <span class=\"font-heading text-3xl font-bold text-white\">4.2K</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Vertical Anchor Points</span>                     </div>                     <div class=\"w-px h-10 bg-white/10\"></div>                     <div class=\"flex flex-col\" data-sc-col=\"sccol-2\">                         <span class=\"font-heading text-3xl font-bold text-white\">Zero</span>                         <span class=\"text-xs text-slate-500 uppercase tracking-wider\">Terrestrial Distraction</span>                     </div>                 </div>             </div>             <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\" data-sc-col=\"sccol-3\">                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:mountain-snow\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Apex Architecture</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Solid rock foundations engineered naturally to provide permanent grounding amidst shifting aerial and cosmic currents.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:cloud\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cloud Diffusion</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">A permanent natural visual dampener isolating your lower line of sight from urbanization and structural activity.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:sparkles\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Cosmic Alignment</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Direct, unaltered exposure to deep star fields and solar transitions without light distortion or dust scattering.</p>                 </div>                 <div class=\"p-8 bg-apex-surface/50 border border-white/5 hover:border-sky-400/30 transition-all duration-300 group\">                     <div class=\"w-12 h-12 rounded-none bg-white/5 flex items-center justify-center mb-6 group-hover:bg-sky-400/10 transition-colors\">                         <iconify-icon icon=\"lucide:maximize-2\" class=\"text-2xl text-slate-400 group-hover:text-sky-400\"></iconify-icon>                     </div>                     <h3 class=\"font-heading text-lg font-bold uppercase tracking-tight text-white mb-4\">Scale Shift</h3>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">Recalibrate personal cognitive importance by visually cross-referencing your presence with planetary geometry.</p>                 </div>             </div>         </div>"
+            }
+          ],
+          "css_id": "content"
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 bg-apex-surface relative overflow-hidden border-t border-b border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h4{font-size: inherit; font-weight: inherit;}\nh2, h4, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-1\\/2{left: 50%;}\n.top-1\\/2{top: 50%;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-20{margin-bottom: 5rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-\\[800px\\]{height: 800px;}\n.w-\\[800px\\]{width: 800px;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-3xl{max-width: 48rem;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.-translate-y-1\\/2{--tw-translate-y: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border-b{border-bottom-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-apex-surface{--tw-bg-opacity: 1; background-color: rgb(9 13 22 / var(--tw-bg-opacity, 1));}\n.bg-sky-500\\/5{background-color: rgba(14, 165, 233, 0.05);}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pt-8{padding-top: 2rem;}\n.font-heading{font-family: Syne, sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-extrabold{font-weight: 800;}\n.uppercase{text-transform: uppercase;}\n.leading-none{line-height: 1;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.blur-\\[160px\\]{--tw-blur: blur(160px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}",
+          "computed": {
+            "background": "rgb(9, 13, 22)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 0px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-500/5 rounded-full blur-[160px] pointer-events-none\"></div>                  <div class=\"max-w-7xl mx-auto px-6 relative z-10\">             <div class=\"max-w-3xl mb-20\">                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">02 / Theoretical Modality</span>                 <h2 class=\"font-heading text-4xl md:text-6xl font-extrabold uppercase tracking-tight text-white leading-none\">                     Decouple from temporal sequences.                 </h2>             </div>             <div class=\"grid md:grid-cols-3 gap-8\">                 <div class=\"border-t border-white/10 pt-8\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE I</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Visual Decompression</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The eye shifts focal distance from immediate micro-screens to multi-kilometer horizons. Ciliary muscles relax entirely as structural layouts give way to atmospheric curvature.                     </p>                 </div>                 <div class=\"border-t border-white/10 pt-8\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE II</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Acoustic Erasure</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         Low-frequency machinery hums and atmospheric reflection drop to absolute zero. Sounds are limited to immediate wind currents passing across high mountain geometry.                     </p>                 </div>                 <div class=\"border-t border-white/10 pt-8\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE III</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Noetic Expansion</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The observer experiences raw integration with structural cosmos patterns. Thought processes streamline as systemic terrestrial constraints become visually insignificant.                     </p>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-500/5 rounded-full blur-[160px] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(14, 165, 233, 0.05)",
+                "bgImage": "",
+                "blur": "160px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "402px",
+                "right": "-80px",
+                "bottom": "-398px",
+                "left": "720px",
+                "zIndex": "",
+                "w": 800,
+                "h": 800
+              }
+            },
+            {
+              "t": "overline",
+              "html": "02 / Theoretical Modality",
+              "text": "02 / Theoretical Modality",
+              "cls": "font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3",
+              "pill": false,
+              "color": "rgb(56, 189, 248)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "3.6px",
+              "fontWeight": "700",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Decouple from temporal sequences.",
+              "text": "Decouple from temporal sequences.",
+              "tag": "h2",
+              "cls": "font-heading text-4xl md:text-6xl font-extrabold uppercase tracking-tight text-white leading-none",
+              "wrapCls": "max-w-3xl mb-20",
+              "fontSize": "60px",
+              "fontWeight": "800",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "-1.5px",
+              "align": "left"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "border-t border-white/10 pt-8",
+                  "colId": "sccol-4",
+                  "cw": 4,
+                  "html": "                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE I</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Visual Decompression</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The eye shifts focal distance from immediate micro-screens to multi-kilometer horizons. Ciliary muscles relax entirely as structural layouts give way to atmospheric curvature.                     </p>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "STAGE I",
+                    "overlineClass": "font-heading text-xs font-bold text-slate-500 block mb-4",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Visual Decompression",
+                    "titleTag": "h4",
+                    "titleClass": "font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white",
+                    "subtitle": "The eye shifts focal distance from immediate micro-screens to multi-kilometer horizons. Ciliary muscles relax entirely as structural layouts give way to atmospheric curvature.",
+                    "subtitleClass": "text-slate-400 text-sm font-light leading-relaxed",
+                    "wrapClass": "border-t border-white/10 pt-8",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "border-t border-white/10 pt-8",
+                  "colId": "sccol-5",
+                  "cw": 4,
+                  "html": "                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE II</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Acoustic Erasure</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         Low-frequency machinery hums and atmospheric reflection drop to absolute zero. Sounds are limited to immediate wind currents passing across high mountain geometry.                     </p>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "STAGE II",
+                    "overlineClass": "font-heading text-xs font-bold text-slate-500 block mb-4",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Acoustic Erasure",
+                    "titleTag": "h4",
+                    "titleClass": "font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white",
+                    "subtitle": "Low-frequency machinery hums and atmospheric reflection drop to absolute zero. Sounds are limited to immediate wind currents passing across high mountain geometry.",
+                    "subtitleClass": "text-slate-400 text-sm font-light leading-relaxed",
+                    "wrapClass": "border-t border-white/10 pt-8",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "border-t border-white/10 pt-8",
+                  "colId": "sccol-6",
+                  "cw": 4,
+                  "html": "                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE III</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Noetic Expansion</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The observer experiences raw integration with structural cosmos patterns. Thought processes streamline as systemic terrestrial constraints become visually insignificant.                     </p>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "STAGE III",
+                    "overlineClass": "font-heading text-xs font-bold text-slate-500 block mb-4",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Noetic Expansion",
+                    "titleTag": "h4",
+                    "titleClass": "font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white",
+                    "subtitle": "The observer experiences raw integration with structural cosmos patterns. Thought processes streamline as systemic terrestrial constraints become visually insignificant.",
+                    "subtitleClass": "text-slate-400 text-sm font-light leading-relaxed",
+                    "wrapClass": "border-t border-white/10 pt-8",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid md:grid-cols-3 gap-8\">                 <div class=\"border-t border-white/10 pt-8\" data-sc-col=\"sccol-4\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE I</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Visual Decompression</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The eye shifts focal distance from immediate micro-screens to multi-kilometer horizons. Ciliary muscles relax entirely as structural layouts give way to atmospheric curvature.                     </p>                 </div>                 <div class=\"border-t border-white/10 pt-8\" data-sc-col=\"sccol-5\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE II</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Acoustic Erasure</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         Low-frequency machinery hums and atmospheric reflection drop to absolute zero. Sounds are limited to immediate wind currents passing across high mountain geometry.                     </p>                 </div>                 <div class=\"border-t border-white/10 pt-8\" data-sc-col=\"sccol-6\">                     <span class=\"font-heading text-xs font-bold text-slate-500 block mb-4\">STAGE III</span>                     <h4 class=\"font-heading text-xl font-bold uppercase tracking-tight mb-4 text-white\">Noetic Expansion</h4>                     <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                         The observer experiences raw integration with structural cosmos patterns. Thought processes streamline as systemic terrestrial constraints become visually insignificant.                     </p>                 </div>             </div>"
+            }
+          ],
+          "css_id": "features"
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 px-6 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\ntable{text-indent: 0px; border-color: inherit; border-collapse: collapse;}\nh2{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-20{margin-bottom: 5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.w-full{width: 100%;}\n.min-w-\\[600px\\]{min-width: 600px;}\n.max-w-7xl{max-width: 80rem;}\n.border-collapse{border-collapse: collapse;}\n.flex-col{flex-direction: column;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse: 0; border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse))); border-bottom-width: calc(1px * var(--tw-divide-y-reverse));}\n.divide-white\\/5 > :not([hidden]) ~ :not([hidden]){border-color: rgba(255, 255, 255, 0.05);}\n.overflow-x-auto{overflow-x: auto;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-sky-400\\/10{background-color: rgba(56, 189, 248, 0.1);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.px-2{padding-left: 0.5rem; padding-right: 0.5rem;}\n.py-6{padding-top: 1.5rem; padding-bottom: 1.5rem;}\n.pb-2{padding-bottom: 0.5rem;}\n.pb-6{padding-bottom: 1.5rem;}\n.text-left{text-align: left;}\n.text-right{text-align: right;}\n.font-heading{font-family: Syne, sans-serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-extrabold{font-weight: 800;}\n.uppercase{text-transform: uppercase;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:bg-white\\/\\[0\\.02\\]:hover{background-color: rgba(255, 255, 255, 0.02);}\n@media (min-width: 1024px){.lg\\:flex-row{flex-direction: row;}}\n@media (min-width: 1024px){.lg\\:items-end{align-items: flex-end;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-6\">             <div>                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">03 / Structural Telemetry</span>                 <h2 class=\"font-heading text-4xl font-extrabold uppercase tracking-tight\">Observational Constants</h2>             </div>             <div class=\"font-heading text-xs tracking-widest text-slate-400 uppercase border-b border-white/10 pb-2\">                 Real-Time Outpost Matrix             </div>         </div>         <div class=\"overflow-x-auto w-full\">             <table class=\"w-full text-left border-collapse min-w-[600px]\">                 <thead>                     <tr class=\"border-b border-white/10 font-heading text-[11px] uppercase tracking-widest text-slate-500\">                         <th class=\"pb-6\">Station Alpha</th>                         <th class=\"pb-6\">Altitude (M)</th>                         <th class=\"pb-6\">Atmospheric Index</th>                         <th class=\"pb-6\">Cohesion Factor</th>                         <th class=\"pb-6 text-right\">Status</th>                     </tr>                 </thead>                 <tbody class=\"divide-y divide-white/5 text-sm font-light\">                     <tr class=\"hover:bg-white/[0.02] transition-colors\">                         <td class=\"py-6 font-heading font-bold text-white uppercase tracking-wider\">Zenith Peak</td>                         <td class=\"py-6 font-mono text-slate-300\">8,848m</td>                         <td class=\"py-6 font-mono text-slate-300\">0.31 atm</td>                         <td class=\"py-6 text-sky-400\">Optimal</td>                         <td class=\"py-6 text-right\"><span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span></td>                     </tr>                     <tr class=\"hover:bg-white/[0.02] transition-colors\">                         <td class=\"py-6 font-heading font-bold text-white uppercase tracking-wider\">Horizon Spine</td>                         <td class=\"py-6 font-mono text-slate-300\">6,268m</td>                         <td class=\"py-6 font-mono text-slate-300\">0.44 atm</td>                         <td class=\"py-6 text-sky-400\">Optimal</td>                         <td class=\"py-6 text-right\"><span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span></td>                     </tr>                     <tr class=\"hover:bg-white/[0.02] transition-colors\">                         <td class=\"py-6 font-heading font-bold text-white uppercase tracking-wider\">Apex Ridge</td>                         <td class=\"py-6 font-mono text-slate-300\">5,895m</td>                         <td class=\"py-6 font-mono text-slate-300\">0.49 atm</td>                         <td class=\"py-6 text-emerald-400\">Stable</td>                         <td class=\"py-6 text-right\"><span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span></td>                     </tr>                     <tr class=\"hover:bg-white/[0.02] transition-colors\">                         <td class=\"py-6 font-heading font-bold text-white uppercase tracking-wider\">Stratum Point</td>                         <td class=\"py-6 font-mono text-slate-300\">4,810m</td>                         <td class=\"py-6 font-mono text-slate-300\">0.57 atm</td>                         <td class=\"py-6 text-amber-400\">Turbulent</td>                         <td class=\"py-6 text-right\"><span class=\"px-2 py-1 bg-white/5 text-slate-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Standby</span></td>                     </tr>                 </tbody>             </table>         </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-7",
+                  "cw": 9,
+                  "html": "                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">03 / Structural Telemetry</span>                 <h2 class=\"font-heading text-4xl font-extrabold uppercase tracking-tight\">Observational Constants</h2>             ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "03 / Structural Telemetry",
+                    "overlineClass": "font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Observational Constants",
+                    "titleTag": "h2",
+                    "titleClass": "font-heading text-4xl font-extrabold uppercase tracking-tight",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 9
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-heading text-xs tracking-widest text-slate-400 uppercase border-b border-white/10 pb-2",
+                  "colId": "sccol-8",
+                  "cw": 2,
+                  "html": "                 Real-Time Outpost Matrix             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 2
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-6\">             <div data-sc-col=\"sccol-7\">                 <span class=\"font-heading text-xs font-bold tracking-[0.3em] text-sky-400 uppercase block mb-3\">03 / Structural Telemetry</span>                 <h2 class=\"font-heading text-4xl font-extrabold uppercase tracking-tight\">Observational Constants</h2>             </div>             <div class=\"font-heading text-xs tracking-widest text-slate-400 uppercase border-b border-white/10 pb-2\" data-sc-col=\"sccol-8\">                 Real-Time Outpost Matrix             </div>         </div>"
+            },
+            {
+              "t": "table",
+              "rows": [
+                [
+                  {
+                    "html": "Station Alpha",
+                    "header": true
+                  },
+                  {
+                    "html": "Altitude (M)",
+                    "header": true
+                  },
+                  {
+                    "html": "Atmospheric Index",
+                    "header": true
+                  },
+                  {
+                    "html": "Cohesion Factor",
+                    "header": true
+                  },
+                  {
+                    "html": "Status",
+                    "header": true
+                  }
+                ],
+                [
+                  {
+                    "html": "Zenith Peak",
+                    "header": false
+                  },
+                  {
+                    "html": "8,848m",
+                    "header": false
+                  },
+                  {
+                    "html": "0.31 atm",
+                    "header": false
+                  },
+                  {
+                    "html": "Optimal",
+                    "header": false
+                  },
+                  {
+                    "html": "<span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span>",
+                    "header": false
+                  }
+                ],
+                [
+                  {
+                    "html": "Horizon Spine",
+                    "header": false
+                  },
+                  {
+                    "html": "6,268m",
+                    "header": false
+                  },
+                  {
+                    "html": "0.44 atm",
+                    "header": false
+                  },
+                  {
+                    "html": "Optimal",
+                    "header": false
+                  },
+                  {
+                    "html": "<span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span>",
+                    "header": false
+                  }
+                ],
+                [
+                  {
+                    "html": "Apex Ridge",
+                    "header": false
+                  },
+                  {
+                    "html": "5,895m",
+                    "header": false
+                  },
+                  {
+                    "html": "0.49 atm",
+                    "header": false
+                  },
+                  {
+                    "html": "Stable",
+                    "header": false
+                  },
+                  {
+                    "html": "<span class=\"px-2 py-1 bg-sky-400/10 text-sky-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Active</span>",
+                    "header": false
+                  }
+                ],
+                [
+                  {
+                    "html": "Stratum Point",
+                    "header": false
+                  },
+                  {
+                    "html": "4,810m",
+                    "header": false
+                  },
+                  {
+                    "html": "0.57 atm",
+                    "header": false
+                  },
+                  {
+                    "html": "Turbulent",
+                    "header": false
+                  },
+                  {
+                    "html": "<span class=\"px-2 py-1 bg-white/5 text-slate-400 text-[10px] font-heading font-bold uppercase tracking-widest\">Standby</span>",
+                    "header": false
+                  }
+                ]
+              ],
+              "caption": "",
+              "style": {
+                "header_cs": "background-color:rgba(0, 0, 0, 0)",
+                "table_cs": "border-color:rgb(229, 231, 235)",
+                "striped": false
+              }
+            }
+          ],
+          "css_id": "gallery"
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-40 bg-[#04060e] border-t border-white/5 relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-12{margin-bottom: 3rem;}\n.mt-8{margin-top: 2rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.h-16{height: 4rem;}\n.h-14{height: 3.5rem;}\n.w-full{width: 100%;}\n.w-16{width: 4rem;}\n.max-w-xl{max-width: 36rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-md{max-width: 28rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.rounded-none{border-radius: 0px;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-sky-400\\/30{border-color: rgba(56, 189, 248, 0.3);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-\\[\\#04060e\\]{--tw-bg-opacity: 1; background-color: rgb(4 6 14 / var(--tw-bg-opacity, 1));}\n.bg-sky-400\\/5{background-color: rgba(56, 189, 248, 0.05);}\n.bg-apex-base\\/80{background-color: rgba(2, 4, 10, 0.8);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-center{text-align: center;}\n.font-heading{font-family: Syne, sans-serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.font-black{font-weight: 900;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-\\[0\\.25em\\]{letter-spacing: 0.25em;}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-apex-base{--tw-text-opacity: 1; color: rgb(2 4 10 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.placeholder-slate-600::placeholder{--tw-placeholder-opacity: 1; color: rgb(71 85 105 / var(--tw-placeholder-opacity, 1));}\n.opacity-20{opacity: 0.2;}\n.mix-blend-color-dodge{mix-blend-mode: color-dodge;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.\\[background-size\\:32px_32px\\]{background-size: 32px 32px;}\n.hover\\:bg-sky-400:hover{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.focus\\:border-sky-400:focus{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 640px){.sm\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 640px){.sm\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}",
+          "computed": {
+            "background": "rgb(4, 6, 14)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "160px 0px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 w-full h-full opacity-20 mix-blend-color-dodge\">             <div class=\"absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:32px_32px]\"></div>         </div>         <div class=\"relative z-10 max-w-4xl mx-auto px-6 text-center\">             <div class=\"w-16 h-16 rounded-full border border-sky-400/30 flex items-center justify-center mx-auto mb-10 bg-sky-400/5 shadow-[0_0_30px_rgba(56,189,248,0.1)]\">                 <iconify-icon icon=\"lucide:terminal\" class=\"text-sky-400 text-2xl\"></iconify-icon>             </div>                          <h2 class=\"font-heading text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6\">                 Initiate Separation Sequence             </h2>                          <p class=\"text-slate-400 font-light text-base md:text-lg mb-12 max-w-xl mx-auto leading-relaxed\">                 Provide your terminal configuration to synchronize with elevated structural grids. Clearance level alpha validation enforced automatically.             </p>             <form id=\"sequence-form\" class=\"max-w-md mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3\">                 <div class=\"sm:col-span-2\">                     <input type=\"email\" required=\"\" placeholder=\"TERMINAL_IDENTIFIER@DOMAIN\" class=\"w-full h-14 bg-apex-base/80 border border-white/10 px-6 font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-sky-400 text-white rounded-none placeholder-slate-600 transition-colors\">                 </div>                 <div>                     <button type=\"submit\" class=\"w-full h-14 bg-white text-apex-base font-heading font-bold text-xs uppercase tracking-widest hover:bg-sky-400 transition-colors duration-300 rounded-none\">                         Execute                     </button>                 </div>             </form>                          <div class=\"mt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500\">                 End-to-end data isolation routing active.             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 w-full h-full opacity-20 mix-blend-color-dodge\">             <div class=\"absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:32px_32px]\"></div>         </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "color-dodge",
+                "radius": "",
+                "opacity": "0.2",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 863
+              }
+            },
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"lucide:terminal\" class=\"text-sky-400 text-2xl\"></iconify-icon>"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Initiate Separation Sequence",
+              "text": "Initiate Separation Sequence",
+              "tag": "h2",
+              "cls": "font-heading text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-6",
+              "wrapCls": "",
+              "fontSize": "60px",
+              "fontWeight": "900",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "-1.5px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-slate-400 font-light text-base md:text-lg mb-12 max-w-xl mx-auto leading-relaxed\">                 Provide your terminal configuration to synchronize with elevated structural grids. Clearance level alpha validation enforced automatically.             </p>",
+              "text": "Provide your terminal configuration to synchronize with elevated structural grids. Clearance level alpha validation enforced automatically.",
+              "tag": "p",
+              "cls": "text-slate-400 font-light text-base md:text-lg mb-12 max-w-xl mx-auto leading-relaxed",
+              "fontSize": "18px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "28px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "newsletter",
+              "role": "newsletter",
+              "placeholder": "TERMINAL_IDENTIFIER@DOMAIN",
+              "name_placeholder": "",
+              "show_name": false,
+              "button_label": "Execute",
+              "align": "center",
+              "rounded": "rounded-0",
+              "button_bg": "rgb(255, 255, 255)",
+              "button_fg": "rgb(2, 4, 10)",
+              "field_bg": "rgba(2, 4, 10, 0.8)"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"mt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500\">                 End-to-end data isolation routing active.             </div>",
+              "text": "End-to-end data isolation routing active.",
+              "tag": "div",
+              "cls": "mt-8 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500",
+              "fontSize": "10px",
+              "color": "rgb(100, 116, 139)",
+              "lineHeight": "15px",
+              "letterSpacing": "2.5px",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            }
+          ],
+          "css_id": "cta"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1164 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-screen flex items-center justify-center overflow-hidden asymmetric-clip",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".text-stroke{-webkit-text-stroke: 1px rgba(255, 255, 255, 0.8); color: transparent;}\n.text-stroke:hover{-webkit-text-stroke: 1px transparent; color: rgb(255, 255, 255); background: linear-gradient(135deg, rgb(56, 189, 248), rgb(234, 179, 8)) text; -webkit-text-fill-color: transparent;}\n.gradient-overlay{background: linear-gradient(rgba(7, 17, 30, 0.1) 0%, rgba(7, 17, 30, 0.1) 60%, rgb(7, 17, 30) 100%);}\n.asymmetric-clip{clip-path: polygon(0px 0px, 100% 0px, 100% 85%, 0% 100%);}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-8{bottom: 2rem;}\n.left-6{left: 1.5rem;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.hidden{display: none;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.cursor-pointer{cursor: pointer;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.items-stretch{align-items: stretch;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.gap-8{gap: 2rem;}\n.gap-6{gap: 1.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-sm{border-radius: 0.125rem;}\n.border{border-width: 1px;}\n.border-l{border-left-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-32{padding-top: 8rem;}\n.pl-12{padding-left: 3rem;}\n.text-left{text-align: left;}\n.text-center{text-align: center;}\n.font-cinzel{font-family: Cinzel, serif;}\n.font-jakarta{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-black{font-weight: 900;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-sky-950{--tw-text-opacity: 1; color: rgb(7 17 30 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-1000{transition-duration: 1000ms;}\n.duration-300{transition-duration: 300ms;}\n.duration-500{transition-duration: 500ms;}\n.ease-out{transition-timing-function: cubic-bezier(0, 0, 0.2, 1);}\n.hover\\:border-white:hover{--tw-border-opacity: 1; border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));}\n.hover\\:bg-sky-400:hover{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:text-zephyr-lime{--tw-text-opacity: 1; color: rgb(132 204 22 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:w-auto{width: auto;}}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:items-center{align-items: center;}}\n@media (min-width: 640px){.sm\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}\n@media (min-width: 768px){.md\\:left-12{left: 3rem;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 1024px){.lg\\:col-span-4{grid-column: span 4 / span 4;}}\n@media (min-width: 1024px){.lg\\:flex{display: flex;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 z-0\">             <video id=\"bg-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 transition-transform duration-1000 ease-out\" style=\"will-change: transform; transform: scale(1.05) translateY(0px);\">                 <source src=\"https://videos.openhero.art/downloads/nature/cinematic-horizons/video.mp4\" type=\"video/mp4\">             </video>             <div class=\"absolute inset-0 gradient-overlay\"></div>             <div class=\"absolute inset-0 bg-gradient-to-r from-sky-950/40 via-transparent to-transparent\"></div>         </div>         <div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-32 grid lg:grid-cols-12 gap-8 items-center\">             <div class=\"lg:col-span-8 flex flex-col items-start text-left\">                 <h1 class=\"font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight uppercase text-white mb-6 drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] drop-shadow-[0_0_5px_rgba(0,0,0,0.9)]\">                     Boundless <br>                     <span class=\"text-stroke transition-all duration-500\">Freedom.</span>                 </h1>                 <p class=\"font-jakarta text-base sm:text-lg md:text-xl text-white/80 max-w-xl font-light leading-relaxed mb-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                     Stand atop the world where the wind speaks in whispers and the horizons extend forever into the                     golden sun.                 </p>                 <div class=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto\">                     <a href=\"#expeditions\" class=\"px-8 py-4 rounded-sm bg-white text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold shadow-2xl shadow-sky-400/10 hover:bg-sky-400 hover:text-white transition-colors duration-300 text-center\">                         Explore Frontiers                     </a>                     <button class=\"px-8 py-4 rounded-sm border border-white/20 hover:border-white text-white font-jakarta text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 transition-colors duration-300\">                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base\"></iconify-icon>                         Watch Motion                     </button>                 </div>             </div>             <div class=\"hidden lg:flex lg:col-span-4 flex-col gap-6 pl-12 border-l border-white/5\">                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Elevation</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         3,800 METERS</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Atmosphere</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         PURE ZEPHYR</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Stance</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         UNYIELDING</div>                 </div>             </div>         </div>         <div class=\"absolute bottom-8 left-6 md:left-12 flex items-center gap-6 z-10\">             <div class=\"flex gap-4 text-white/40 text-lg\">                 <a href=\"#\" class=\"hover:text-white transition-colors\"><iconify-icon icon=\"ph:instagram-logo\"></iconify-icon></a>                 <a href=\"#\" class=\"hover:text-white transition-colors\"><iconify-icon icon=\"ph:youtube-logo\"></iconify-icon></a>                 <a href=\"#\" class=\"hover:text-white transition-colors\"><iconify-icon icon=\"ph:twitter-logo\"></iconify-icon></a>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/cinematic-horizons/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover scale-105 transition-transform duration-1000 ease-out absolute inset-0 z-0 relative min-h-screen flex items-center justify-center overflow-hidden asymmetric-clip antialiased select-none",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 gradient-overlay\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(rgba(7, 17, 30, 0.1) 0%, rgba(7, 17, 30, 0.1) 60%, rgb(7, 17, 30) 100%)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-r from-sky-950/40 via-transparent to-transparent\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to right, rgba(7, 17, 30, 0.4), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-8 flex flex-col items-start text-left",
+                  "colId": "sccol-0",
+                  "cw": 7,
+                  "html": "                 <h1 class=\"font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight uppercase text-white mb-6 drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] drop-shadow-[0_0_5px_rgba(0,0,0,0.9)]\">                     Boundless <br>                     <span class=\"text-stroke transition-all duration-500\">Freedom.</span>                 </h1>                 <p class=\"font-jakarta text-base sm:text-lg md:text-xl text-white/80 max-w-xl font-light leading-relaxed mb-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                     Stand atop the world where the wind speaks in whispers and the horizons extend forever into the                     golden sun.                 </p>                 <div class=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto\">                     <a href=\"#expeditions\" class=\"px-8 py-4 rounded-sm bg-white text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold shadow-2xl shadow-sky-400/10 hover:bg-sky-400 hover:text-white transition-colors duration-300 text-center\">                         Explore Frontiers                     </a>                     <button class=\"px-8 py-4 rounded-sm border border-white/20 hover:border-white text-white font-jakarta text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 transition-colors duration-300\">                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base\"></iconify-icon>                         Watch Motion                     </button>                 </div>             ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "flex-start",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "heading",
+                      "level": 1,
+                      "html": "Boundless <br> Freedom.",
+                      "text": "Boundless Freedom.",
+                      "tag": "h1",
+                      "cls": "font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight uppercase text-white mb-6 drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] drop-shadow-[0_0_5px_rgba(0,0,0,0.9)]",
+                      "wrapCls": "lg:col-span-8 flex flex-col items-start text-left",
+                      "fontSize": "128px",
+                      "fontWeight": "900",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "24px",
+                      "marginTop": "0px",
+                      "lineHeight": "128px",
+                      "letterSpacing": "-3.2px",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"font-jakarta text-base sm:text-lg md:text-xl text-white/80 max-w-xl font-light leading-relaxed mb-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                     Stand atop the world where the wind speaks in whispers and the horizons extend forever into the                     golden sun.                 </p>",
+                      "text": "Stand atop the world where the wind speaks in whispers and the horizons extend forever into the golden sun.",
+                      "tag": "p",
+                      "cls": "font-jakarta text-base sm:text-lg md:text-xl text-white/80 max-w-xl font-light leading-relaxed mb-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]",
+                      "fontSize": "20px",
+                      "color": "rgba(255, 255, 255, 0.8)",
+                      "lineHeight": "28px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "40px",
+                      "textAlign": "left",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "button",
+                      "label": "Explore Frontiers",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons#expeditions",
+                      "tag": "a",
+                      "cls": "px-8 py-4 rounded-sm bg-white text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold shadow-2xl shadow-sky-400/10 hover:bg-sky-400 hover:text-white transition-colors duration-300 text-center",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "16px 32px",
+                      "height": "48px",
+                      "radius": "2px",
+                      "lineHeight": "16px",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "hover": {
+                        "color": "rgb(255, 255, 255)"
+                      },
+                      "groupRow": true,
+                      "groupFirst": true,
+                      "groupLast": false,
+                      "bs": {
+                        "bg": "rgb(255, 255, 255)",
+                        "fg": "rgb(7, 17, 30)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    },
+                    {
+                      "t": "button",
+                      "label": "Watch Motion",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons",
+                      "tag": "button",
+                      "cls": "px-8 py-4 rounded-sm border border-white/20 hover:border-white text-white font-jakarta text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 transition-colors duration-300",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "16px 32px",
+                      "height": "50px",
+                      "radius": "2px",
+                      "lineHeight": "16px",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "hover": {
+                        "borderColor": "rgb(229, 231, 235)"
+                      },
+                      "groupRow": true,
+                      "groupFirst": false,
+                      "groupLast": true,
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgb(255, 255, 255)",
+                        "bd": "rgba(255, 255, 255, 0.2)",
+                        "bds": "solid",
+                        "bw": "1px"
+                      }
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 7
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "hidden lg:flex lg:col-span-4 flex-col gap-6 pl-12 border-l border-white/5",
+                  "colId": "sccol-3",
+                  "cw": 4,
+                  "html": "                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Elevation</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         3,800 METERS</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Atmosphere</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         PURE ZEPHYR</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Stance</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         UNYIELDING</div>                 </div>             ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "24px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-32 grid lg:grid-cols-12 gap-8 items-center\">             <div class=\"lg:col-span-8 flex flex-col items-start text-left\" data-sc-col=\"sccol-0\">                 <h1 class=\"font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight uppercase text-white mb-6 drop-shadow-[0_0_15px_rgba(0,0,0,0.9)] drop-shadow-[0_0_5px_rgba(0,0,0,0.9)]\">                     Boundless <br>                     <span class=\"text-stroke transition-all duration-500\">Freedom.</span>                 </h1>                 <p class=\"font-jakarta text-base sm:text-lg md:text-xl text-white/80 max-w-xl font-light leading-relaxed mb-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                     Stand atop the world where the wind speaks in whispers and the horizons extend forever into the                     golden sun.                 </p>                 <div class=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto\">                     <a href=\"#expeditions\" class=\"px-8 py-4 rounded-sm bg-white text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold shadow-2xl shadow-sky-400/10 hover:bg-sky-400 hover:text-white transition-colors duration-300 text-center\" data-sc-col=\"sccol-1\">                         Explore Frontiers                     </a>                     <button class=\"px-8 py-4 rounded-sm border border-white/20 hover:border-white text-white font-jakarta text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-3 transition-colors duration-300\" data-sc-col=\"sccol-2\">                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base\"></iconify-icon>                         Watch Motion                     </button>                 </div>             </div>             <div class=\"hidden lg:flex lg:col-span-4 flex-col gap-6 pl-12 border-l border-white/5\" data-sc-col=\"sccol-3\">                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Elevation</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         3,800 METERS</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Atmosphere</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         PURE ZEPHYR</div>                 </div>                 <div class=\"group cursor-pointer\">                     <div class=\"text-[10px] uppercase tracking-[0.3em] text-sky-400 font-bold mb-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         Stance</div>                     <div class=\"font-cinzel text-2xl font-bold group-hover:text-zephyr-lime transition-colors drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]\">                         UNYIELDING</div>                 </div>             </div>         </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "hover:text-white transition-colors",
+                  "colId": "sccol-4",
+                  "cw": 3,
+                  "html": "<iconify-icon icon=\"ph:instagram-logo\"></iconify-icon>",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "hover:text-white transition-colors",
+                  "colId": "sccol-5",
+                  "cw": 3,
+                  "html": "<iconify-icon icon=\"ph:youtube-logo\"></iconify-icon>",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "hover:text-white transition-colors",
+                  "colId": "sccol-6",
+                  "cw": 3,
+                  "html": "<iconify-icon icon=\"ph:twitter-logo\"></iconify-icon>",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex gap-4 text-white/40 text-lg\">                 <a href=\"#\" class=\"hover:text-white transition-colors\" data-sc-col=\"sccol-4\"><iconify-icon icon=\"ph:instagram-logo\"></iconify-icon></a>                 <a href=\"#\" class=\"hover:text-white transition-colors\" data-sc-col=\"sccol-5\"><iconify-icon icon=\"ph:youtube-logo\"></iconify-icon></a>                 <a href=\"#\" class=\"hover:text-white transition-colors\" data-sc-col=\"sccol-6\"><iconify-icon icon=\"ph:twitter-logo\"></iconify-icon></a>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 px-6 md:px-12 max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".reveal-up{opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-\\[1px\\]{height: 1px;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.gap-12{gap: 3rem;}\n.gap-6{gap: 1.5rem;}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-clip-text{background-clip: text;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-cinzel{font-family: Cinzel, serif;}\n.font-jakarta{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-transparent{color: transparent;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 48px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"lg:col-span-5 reveal-up active\">                 <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">The Grand                     Design</span>                 <h2 class=\"font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight leading-tight text-white mb-6\">                     Where the soul aligns with the <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-zephyr-lime\">summit.</span>                 </h2>             </div>             <div class=\"lg:col-span-7 reveal-up active\">                 <p class=\"font-jakarta text-white/50 text-lg leading-relaxed font-light mb-8\">                     Inspired by cinematic vistas and untamed ridge-lines, we design experiences and premium technical                     apparel made to withstand the forces of nature while embracing the serenity of open spaces. Every                     thread, every angle, and every breath is calibrated for greatness.                 </p>                 <div class=\"w-full h-[1px] bg-gradient-to-r from-white/10 to-transparent mb-8\"></div>                 <div class=\"grid grid-cols-3 gap-6\">                     <div>                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">01</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Vibrant Skies</div>                     </div>                     <div>                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">02</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Wind Forged</div>                     </div>                     <div>                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">03</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Eternal Reach</div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "The Grand Design",
+              "text": "The Grand Design",
+              "cls": "text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4",
+              "pill": false,
+              "color": "rgb(56, 189, 248)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "4.8px",
+              "fontWeight": "700",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Where the soul aligns with the summit.",
+              "text": "Where the soul aligns with the summit.",
+              "tag": "h2",
+              "cls": "font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight leading-tight text-white mb-6",
+              "wrapCls": "lg:col-span-5 reveal-up active",
+              "fontSize": "48px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "48px",
+              "letterSpacing": "-1.2px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-jakarta text-white/50 text-lg leading-relaxed font-light mb-8\">                     Inspired by cinematic vistas and untamed ridge-lines, we design experiences and premium technical                     apparel made to withstand the forces of nature while embracing the serenity of open spaces. Every                     thread, every angle, and every breath is calibrated for greatness.                 </p>",
+              "text": "Inspired by cinematic vistas and untamed ridge-lines, we design experiences and premium technical apparel made to withstand the forces of nature while embracing the serenity of open spaces. Every thre",
+              "tag": "p",
+              "cls": "font-jakarta text-white/50 text-lg leading-relaxed font-light mb-8",
+              "fontSize": "18px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "29.25px",
+              "letterSpacing": "normal",
+              "marginBottom": "32px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-7",
+                  "cw": 4,
+                  "html": "                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">01</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Vibrant Skies</div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-8",
+                  "cw": 4,
+                  "html": "                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">02</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Wind Forged</div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-9",
+                  "cw": 4,
+                  "html": "                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">03</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Eternal Reach</div>                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-3 gap-6\">                     <div data-sc-col=\"sccol-7\">                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">01</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Vibrant Skies</div>                     </div>                     <div data-sc-col=\"sccol-8\">                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">02</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Wind Forged</div>                     </div>                     <div data-sc-col=\"sccol-9\">                         <div class=\"font-cinzel text-3xl font-bold text-white mb-1\">03</div>                         <div class=\"text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold\">Eternal Reach</div>                     </div>                 </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 px-6 md:px-12 bg-sky-950/20 relative",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".reveal-up{opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.glass-card{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.glass-card:hover{background: rgba(255, 255, 255, 0.03); border-color: rgba(56, 189, 248, 0.2); transform: translateY(-4px);}\nh2, h3{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh2, h3, p{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.left-6{left: 1.5rem;}\n.top-6{top: 1.5rem;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-16{margin-bottom: 4rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.h-80{height: 20rem;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-sm{max-width: 24rem;}\n.flex-1{flex: 1 1 0%;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-8{gap: 2rem;}\n.gap-6{gap: 1.5rem;}\n.gap-2{gap: 0.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-sm{border-radius: 0.125rem;}\n.rounded-xl{border-radius: 0.75rem;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-sky-950\\/20{background-color: rgba(7, 17, 30, 0.2);}\n.bg-white\\/10{background-color: rgba(255, 255, 255, 0.1);}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-3{padding-left: 0.75rem; padding-right: 0.75rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-cinzel{font-family: Cinzel, serif;}\n.font-jakarta{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.opacity-80{opacity: 0.8;}\n.mix-blend-luminosity{mix-blend-mode: luminosity;}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:-translate-y-1{--tw-translate-y: -0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:translate-x-1{--tw-translate-x: 0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:mix-blend-normal{mix-blend-mode: normal;}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-end{align-items: flex-end;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}",
+          "computed": {
+            "background": "rgba(7, 17, 30, 0.2)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 48px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=1200"
+          ],
+          "raw": "             <div class=\"max-w-7xl mx-auto mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 reveal-up active\">                 <div>                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Curated                         Odysseys</span>                     <h2 class=\"font-cinzel text-4xl md:text-5xl font-bold uppercase tracking-tight text-white\">Select                         Realms</h2>                 </div>                 <p class=\"font-jakarta text-white/40 max-w-sm font-light text-sm\">                     Hand-picked destinations crafted for visionaries who seek absolute isolation and unmatched panoramic                     views.                 </p>             </div>             <div class=\"max-w-7xl mx-auto grid md:grid-cols-3 gap-8\">                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Peaks\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Active Trek                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Emerald Ridges</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">High contrast mountain slopes                                 meeting cloud banks at breakneck velocities.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\" style=\"transition-delay: 150ms;\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Lakes\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             High Altitude                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Azure Basins</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Crystalline water bodies                                 reflecting intense skies deep within mountain sanctuaries.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\" style=\"transition-delay: 300ms;\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Valleys\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Serene Valley                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Whispering Groves</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Lush foliage dancing wildly                                 under intense golden rays and crisp drafts.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-10",
+                  "cw": 4,
+                  "html": "                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Curated                         Odysseys</span>                     <h2 class=\"font-cinzel text-4xl md:text-5xl font-bold uppercase tracking-tight text-white\">Select                         Realms</h2>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Curated Odysseys",
+                    "overlineClass": "text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Select Realms",
+                    "titleTag": "h2",
+                    "titleClass": "font-cinzel text-4xl md:text-5xl font-bold uppercase tracking-tight text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 5,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-jakarta text-white/40 max-w-sm font-light text-sm",
+                  "colId": "sccol-11",
+                  "cw": 4,
+                  "html": "                     Hand-picked destinations crafted for visionaries who seek absolute isolation and unmatched panoramic                     views.                 ",
+                  "maxw": "384px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 reveal-up active\">                 <div data-sc-col=\"sccol-10\">                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Curated                         Odysseys</span>                     <h2 class=\"font-cinzel text-4xl md:text-5xl font-bold uppercase tracking-tight text-white\">Select                         Realms</h2>                 </div>                 <p class=\"font-jakarta text-white/40 max-w-sm font-light text-sm\" data-sc-col=\"sccol-11\">                     Hand-picked destinations crafted for visionaries who seek absolute isolation and unmatched panoramic                     views.                 </p>             </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                  "colId": "sccol-12",
+                  "cw": 4,
+                  "html": "                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Peaks\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Active Trek                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Emerald Ridges</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">High contrast mountain slopes                                 meeting cloud banks at breakneck velocities.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "wrap": {
+                    "bg": "rgba(255, 255, 255, 0.01)",
+                    "radius": "12px",
+                    "borderW": "1px",
+                    "borderColor": "rgba(255, 255, 255, 0.05)",
+                    "borderStyle": "solid",
+                    "shadow": "",
+                    "hoverShadow": "",
+                    "hoverLift": ""
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#38bdf8",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Emerald Ridges",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">High contrast mountain slopes                                 meeting cloud banks at breakneck velocities.</p>",
+                    "link": {
+                      "label": "Secure Spot",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons#"
+                    },
+                    "cls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                    "align": "left",
+                    "pad": "0px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.01)",
+                      "fill": "rgba(255, 255, 255, 0.01)",
+                      "radius": "12px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "blur(12px)",
+                      "hoverLift": false,
+                      "padding": "0px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                  "colId": "sccol-13",
+                  "cw": 4,
+                  "html": "                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Lakes\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             High Altitude                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Azure Basins</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Crystalline water bodies                                 reflecting intense skies deep within mountain sanctuaries.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "wrap": {
+                    "bg": "rgba(255, 255, 255, 0.01)",
+                    "radius": "12px",
+                    "borderW": "1px",
+                    "borderColor": "rgba(255, 255, 255, 0.05)",
+                    "borderStyle": "solid",
+                    "shadow": "",
+                    "hoverShadow": "",
+                    "hoverLift": ""
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#38bdf8",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Azure Basins",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Crystalline water bodies                                 reflecting intense skies deep within mountain sanctuaries.</p>",
+                    "link": {
+                      "label": "Secure Spot",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons#"
+                    },
+                    "cls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                    "align": "left",
+                    "pad": "0px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.01)",
+                      "fill": "rgba(255, 255, 255, 0.01)",
+                      "radius": "12px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "blur(12px)",
+                      "hoverLift": false,
+                      "padding": "0px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                  "colId": "sccol-14",
+                  "cw": 4,
+                  "html": "                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Valleys\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Serene Valley                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Whispering Groves</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Lush foliage dancing wildly                                 under intense golden rays and crisp drafts.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "wrap": {
+                    "bg": "rgba(255, 255, 255, 0.01)",
+                    "radius": "12px",
+                    "borderW": "1px",
+                    "borderColor": "rgba(255, 255, 255, 0.05)",
+                    "borderStyle": "solid",
+                    "shadow": "",
+                    "hoverShadow": "",
+                    "hoverLift": ""
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#38bdf8",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Whispering Groves",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Lush foliage dancing wildly                                 under intense golden rays and crisp drafts.</p>",
+                    "link": {
+                      "label": "Secure Spot",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons#"
+                    },
+                    "cls": "glass-card rounded-xl overflow-hidden flex flex-col reveal-up active",
+                    "align": "left",
+                    "pad": "0px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.01)",
+                      "fill": "rgba(255, 255, 255, 0.01)",
+                      "radius": "12px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.05)",
+                      "shadow": "",
+                      "backdrop": "blur(12px)",
+                      "hoverLift": false,
+                      "padding": "0px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto grid md:grid-cols-3 gap-8\">                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\" data-sc-col=\"sccol-12\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Peaks\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Active Trek                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Emerald Ridges</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">High contrast mountain slopes                                 meeting cloud banks at breakneck velocities.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\" style=\"transition-delay: 150ms;\" data-sc-col=\"sccol-13\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Lakes\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             High Altitude                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Azure Basins</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Crystalline water bodies                                 reflecting intense skies deep within mountain sanctuaries.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>                 <div class=\"glass-card rounded-xl overflow-hidden flex flex-col reveal-up active\" style=\"transition-delay: 300ms;\" data-sc-col=\"sccol-14\">                     <div class=\"h-80 w-full overflow-hidden relative group\">                         <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 to-transparent opacity-80 z-10\">                         </div>                         <img src=\"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Valleys\" class=\"w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal\">                         <div class=\"absolute top-6 left-6 z-20 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/10 rounded-sm text-[9px] uppercase tracking-widest font-bold text-white\">                             Serene Valley                         </div>                     </div>                     <div class=\"p-8 flex-1 flex flex-col justify-between\">                         <div>                             <h3 class=\"font-cinzel text-2xl font-bold text-white mb-2\">Whispering Groves</h3>                             <p class=\"font-jakarta text-sm text-white/50 font-light mb-6\">Lush foliage dancing wildly                                 under intense golden rays and crisp drafts.</p>                         </div>                         <a href=\"#\" class=\"text-xs font-bold uppercase tracking-[0.2em] text-sky-400 hover:text-white inline-flex items-center gap-2 group transition-colors\">                             Secure Spot <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform\"></iconify-icon>                         </a>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 px-6 md:px-12 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".text-stroke{-webkit-text-stroke: 1px rgba(255, 255, 255, 0.8); color: transparent;}\n.text-stroke:hover{-webkit-text-stroke: 1px transparent; color: rgb(255, 255, 255); background: linear-gradient(135deg, rgb(56, 189, 248), rgb(234, 179, 8)) text; -webkit-text-fill-color: transparent;}\n.reveal-up{opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);}\n.glass-card{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.glass-card:hover{background: rgba(255, 255, 255, 0.03); border-color: rgba(56, 189, 248, 0.2); transform: translateY(-4px);}\nh2, h4{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, h4, p{margin: 0px;}\nbutton{cursor: pointer;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-1\\/2{left: 50%;}\n.top-1\\/2{top: 50%;}\n.z-10{z-index: 10;}\n.order-2{order: 2;}\n.order-1{order: 1;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-6{margin-top: 1.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-48{height: 12rem;}\n.h-72{height: 18rem;}\n.w-72{width: 18rem;}\n.max-w-7xl{max-width: 80rem;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.-translate-y-1\\/2{--tw-translate-y: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.animate-pulse-slow{animation: 4s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-16{gap: 4rem;}\n.rounded-full{border-radius: 9999px;}\n.rounded-sm{border-radius: 0.125rem;}\n.rounded-lg{border-radius: 0.5rem;}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-tr{background-image: linear-gradient(to top right, var(--tw-gradient-stops));}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-cinzel{font-family: Cinzel, serif;}\n.font-jakarta{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-sky-950{--tw-text-opacity: 1; color: rgb(7 17 30 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-zephyr-lime{--tw-text-opacity: 1; color: rgb(132 204 22 / var(--tw-text-opacity, 1));}\n.text-zephyr-gold{--tw-text-opacity: 1; color: rgb(234 179 8 / var(--tw-text-opacity, 1));}\n.opacity-20{opacity: 0.2;}\n.blur-\\[80px\\]{--tw-blur: blur(80px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:scale-105:hover{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 640px){.sm\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 1024px){.lg\\:order-1{order: 1;}}\n@media (min-width: 1024px){.lg\\:order-2{order: 2;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 48px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-5 order-2 lg:order-1 relative\">                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-gradient-to-tr from-sky-400 to-zephyr-lime blur-[80px] opacity-20 animate-pulse-slow\">                     </div>                     <div class=\"grid grid-cols-2 gap-4 relative z-10\">                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\">                             <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-sky-400\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">AeroShell</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Deflects                                     storms while enabling total internal thermal breathing cycles.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\">                             <iconify-icon icon=\"ph:shield-check-light\" class=\"text-3xl text-zephyr-lime\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Kevlar-Weave</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">                                     High-durability threshold across rocks, dense branches, and high peaks.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\">                             <iconify-icon icon=\"ph:feather-light\" class=\"text-3xl text-zephyr-gold\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Zero Mass</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Ultralight                                     formulation ensures zero drag during vertical ascents.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\">                             <iconify-icon icon=\"ph:compass-light\" class=\"text-3xl text-white\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">BioMetrics</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Embedded                                     tracking filaments connecting directly with satellite arrays.</p>                             </div>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 order-1 lg:order-2 reveal-up\">                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Tactical                         Artifacts</span>                     <h2 class=\"font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-6\">                         Engineered for the <span class=\"italic font-normal text-stroke\">untamed</span> skies.                     </h2>                     <p class=\"font-jakarta text-white/50 text-base sm:text-lg font-light leading-relaxed mb-8\">                         Our equipment merges traditional silhouette styles with advanced scientific textiles. Designed                         to mimic the organic flow of nature while offering extreme resilience against elements.                     </p>                     <button class=\"px-8 py-4 rounded-sm bg-gradient-to-r from-sky-400 to-zephyr-lime text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold hover:scale-105 transition-transform duration-300\">                         View Technical Catalog                     </button>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5 order-2 lg:order-1 relative",
+                  "colId": "sccol-15",
+                  "cw": 5,
+                  "html": "                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-gradient-to-tr from-sky-400 to-zephyr-lime blur-[80px] opacity-20 animate-pulse-slow\">                     </div>                     <div class=\"grid grid-cols-2 gap-4 relative z-10\">                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\">                             <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-sky-400\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">AeroShell</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Deflects                                     storms while enabling total internal thermal breathing cycles.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\">                             <iconify-icon icon=\"ph:shield-check-light\" class=\"text-3xl text-zephyr-lime\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Kevlar-Weave</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">                                     High-durability threshold across rocks, dense branches, and high peaks.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\">                             <iconify-icon icon=\"ph:feather-light\" class=\"text-3xl text-zephyr-gold\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Zero Mass</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Ultralight                                     formulation ensures zero drag during vertical ascents.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\">                             <iconify-icon icon=\"ph:compass-light\" class=\"text-3xl text-white\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">BioMetrics</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Embedded                                     tracking filaments connecting directly with satellite arrays.</p>                             </div>                         </div>                     </div>                 ",
+                  "grid": {
+                    "cells": [
+                      {
+                        "width": "1_4",
+                        "cls": "",
+                        "fullCls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48",
+                        "colId": "sccol-16",
+                        "cw": 6,
+                        "html": "                             <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-sky-400\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">AeroShell</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Deflects                                     storms while enabling total internal thermal breathing cycles.</p>                             </div>                         ",
+                        "flex": {
+                          "dir": "column",
+                          "justify": "space-between",
+                          "align": "normal",
+                          "gap": "normal"
+                        },
+                        "counter": null,
+                        "card": {
+                          "icon": "",
+                          "customIcon": "",
+                          "lucide": "",
+                          "iconLayout": "top-title",
+                          "iconColor": "#38bdf8",
+                          "iconBadge": "",
+                          "iconBadgeColor": "",
+                          "iconBadgeSize": 0,
+                          "iconBadgeRadius": "",
+                          "iconBadgeBorderWidth": "",
+                          "iconBadgeBorderColor": "",
+                          "title": "AeroShell",
+                          "titleTag": "h4",
+                          "titleWeight": "700",
+                          "text": "<p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Deflects                                     storms while enabling total internal thermal breathing cycles.</p>",
+                          "link": null,
+                          "cls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48",
+                          "align": "left",
+                          "pad": "24px",
+                          "box": {
+                            "bg": "rgba(255, 255, 255, 0.01)",
+                            "fill": "rgba(255, 255, 255, 0.01)",
+                            "radius": "8px",
+                            "borderWidth": "1px",
+                            "borderStyle": "solid",
+                            "borderColor": "rgba(255, 255, 255, 0.05)",
+                            "shadow": "",
+                            "backdrop": "blur(12px)",
+                            "hoverLift": false,
+                            "padding": "24px"
+                          }
+                        }
+                      },
+                      {
+                        "width": "1_4",
+                        "cls": "",
+                        "fullCls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6",
+                        "colId": "sccol-17",
+                        "cw": 6,
+                        "html": "                             <iconify-icon icon=\"ph:shield-check-light\" class=\"text-3xl text-zephyr-lime\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Kevlar-Weave</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">                                     High-durability threshold across rocks, dense branches, and high peaks.</p>                             </div>                         ",
+                        "flex": {
+                          "dir": "column",
+                          "justify": "space-between",
+                          "align": "normal",
+                          "gap": "normal"
+                        },
+                        "counter": null,
+                        "card": {
+                          "icon": "",
+                          "customIcon": "",
+                          "lucide": "",
+                          "iconLayout": "top-title",
+                          "iconColor": "#84cc16",
+                          "iconBadge": "",
+                          "iconBadgeColor": "",
+                          "iconBadgeSize": 0,
+                          "iconBadgeRadius": "",
+                          "iconBadgeBorderWidth": "",
+                          "iconBadgeBorderColor": "",
+                          "title": "Kevlar-Weave",
+                          "titleTag": "h4",
+                          "titleWeight": "700",
+                          "text": "<p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">                                     High-durability threshold across rocks, dense branches, and high peaks.</p>",
+                          "link": null,
+                          "cls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6",
+                          "align": "left",
+                          "pad": "24px",
+                          "box": {
+                            "bg": "rgba(255, 255, 255, 0.01)",
+                            "fill": "rgba(255, 255, 255, 0.01)",
+                            "radius": "8px",
+                            "borderWidth": "1px",
+                            "borderStyle": "solid",
+                            "borderColor": "rgba(255, 255, 255, 0.05)",
+                            "shadow": "",
+                            "backdrop": "blur(12px)",
+                            "hoverLift": false,
+                            "padding": "24px"
+                          }
+                        }
+                      },
+                      {
+                        "width": "1_4",
+                        "cls": "",
+                        "fullCls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48",
+                        "colId": "sccol-18",
+                        "cw": 6,
+                        "html": "                             <iconify-icon icon=\"ph:feather-light\" class=\"text-3xl text-zephyr-gold\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Zero Mass</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Ultralight                                     formulation ensures zero drag during vertical ascents.</p>                             </div>                         ",
+                        "flex": {
+                          "dir": "column",
+                          "justify": "space-between",
+                          "align": "normal",
+                          "gap": "normal"
+                        },
+                        "counter": null,
+                        "card": {
+                          "icon": "",
+                          "customIcon": "",
+                          "lucide": "",
+                          "iconLayout": "top-title",
+                          "iconColor": "#eab308",
+                          "iconBadge": "",
+                          "iconBadgeColor": "",
+                          "iconBadgeSize": 0,
+                          "iconBadgeRadius": "",
+                          "iconBadgeBorderWidth": "",
+                          "iconBadgeBorderColor": "",
+                          "title": "Zero Mass",
+                          "titleTag": "h4",
+                          "titleWeight": "700",
+                          "text": "<p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Ultralight                                     formulation ensures zero drag during vertical ascents.</p>",
+                          "link": null,
+                          "cls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48",
+                          "align": "left",
+                          "pad": "24px",
+                          "box": {
+                            "bg": "rgba(255, 255, 255, 0.01)",
+                            "fill": "rgba(255, 255, 255, 0.01)",
+                            "radius": "8px",
+                            "borderWidth": "1px",
+                            "borderStyle": "solid",
+                            "borderColor": "rgba(255, 255, 255, 0.05)",
+                            "shadow": "",
+                            "backdrop": "blur(12px)",
+                            "hoverLift": false,
+                            "padding": "24px"
+                          }
+                        }
+                      },
+                      {
+                        "width": "1_4",
+                        "cls": "",
+                        "fullCls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6",
+                        "colId": "sccol-19",
+                        "cw": 6,
+                        "html": "                             <iconify-icon icon=\"ph:compass-light\" class=\"text-3xl text-white\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">BioMetrics</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Embedded                                     tracking filaments connecting directly with satellite arrays.</p>                             </div>                         ",
+                        "flex": {
+                          "dir": "column",
+                          "justify": "space-between",
+                          "align": "normal",
+                          "gap": "normal"
+                        },
+                        "counter": null,
+                        "card": {
+                          "icon": "",
+                          "customIcon": "",
+                          "lucide": "",
+                          "iconLayout": "top-title",
+                          "iconColor": "#ffffff",
+                          "iconBadge": "",
+                          "iconBadgeColor": "",
+                          "iconBadgeSize": 0,
+                          "iconBadgeRadius": "",
+                          "iconBadgeBorderWidth": "",
+                          "iconBadgeBorderColor": "",
+                          "title": "BioMetrics",
+                          "titleTag": "h4",
+                          "titleWeight": "700",
+                          "text": "<p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Embedded                                     tracking filaments connecting directly with satellite arrays.</p>",
+                          "link": null,
+                          "cls": "p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6",
+                          "align": "left",
+                          "pad": "24px",
+                          "box": {
+                            "bg": "rgba(255, 255, 255, 0.01)",
+                            "fill": "rgba(255, 255, 255, 0.01)",
+                            "radius": "8px",
+                            "borderWidth": "1px",
+                            "borderStyle": "solid",
+                            "borderColor": "rgba(255, 255, 255, 0.05)",
+                            "shadow": "",
+                            "backdrop": "blur(12px)",
+                            "hoverLift": false,
+                            "padding": "24px"
+                          }
+                        }
+                      }
+                    ],
+                    "gridCols": 2
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 order-1 lg:order-2 reveal-up",
+                  "colId": "sccol-20",
+                  "cw": 7,
+                  "html": "                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Tactical                         Artifacts</span>                     <h2 class=\"font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-6\">                         Engineered for the <span class=\"italic font-normal text-stroke\">untamed</span> skies.                     </h2>                     <p class=\"font-jakarta text-white/50 text-base sm:text-lg font-light leading-relaxed mb-8\">                         Our equipment merges traditional silhouette styles with advanced scientific textiles. Designed                         to mimic the organic flow of nature while offering extreme resilience against elements.                     </p>                     <button class=\"px-8 py-4 rounded-sm bg-gradient-to-r from-sky-400 to-zephyr-lime text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold hover:scale-105 transition-transform duration-300\">                         View Technical Catalog                     </button>                 ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "overline",
+                      "html": "Tactical Artifacts",
+                      "text": "Tactical Artifacts",
+                      "cls": "text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4",
+                      "pill": false,
+                      "color": "rgb(56, 189, 248)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "uppercase",
+                      "fontSize": "12px",
+                      "letterSpacing": "4.8px",
+                      "fontWeight": "700",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 2,
+                      "html": "Engineered for the <em>untamed</em> skies.",
+                      "text": "Engineered for the untamed skies.",
+                      "tag": "h2",
+                      "cls": "font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-6",
+                      "wrapCls": "",
+                      "fontSize": "48px",
+                      "fontWeight": "700",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "24px",
+                      "marginTop": "0px",
+                      "lineHeight": "48px",
+                      "letterSpacing": "-1.2px",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"font-jakarta text-white/50 text-base sm:text-lg font-light leading-relaxed mb-8\">                         Our equipment merges traditional silhouette styles with advanced scientific textiles. Designed                         to mimic the organic flow of nature while offering extreme resilience against elements.                     </p>",
+                      "text": "Our equipment merges traditional silhouette styles with advanced scientific textiles. Designed to mimic the organic flow of nature while offering extreme resilience against elements.",
+                      "tag": "p",
+                      "cls": "font-jakarta text-white/50 text-base sm:text-lg font-light leading-relaxed mb-8",
+                      "fontSize": "18px",
+                      "color": "rgba(255, 255, 255, 0.5)",
+                      "lineHeight": "28px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "32px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "button",
+                      "label": "View Technical Catalog",
+                      "href": "https://openhero.art/api/preview?category=nature&slug=cinematic-horizons",
+                      "tag": "button",
+                      "cls": "px-8 py-4 rounded-sm bg-gradient-to-r from-sky-400 to-zephyr-lime text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold hover:scale-105 transition-transform duration-300",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "groupCls": "lg:col-span-7 order-1 lg:order-2 reveal-up",
+                      "pad": "16px 32px",
+                      "height": "48px",
+                      "radius": "2px",
+                      "lineHeight": "16px",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "hover": null,
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgb(7, 17, 30)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-5 order-2 lg:order-1 relative\" data-sc-col=\"sccol-15\">                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-gradient-to-tr from-sky-400 to-zephyr-lime blur-[80px] opacity-20 animate-pulse-slow\">                     </div>                     <div class=\"grid grid-cols-2 gap-4 relative z-10\">                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\" data-sc-col=\"sccol-16\">                             <iconify-icon icon=\"ph:wind-light\" class=\"text-3xl text-sky-400\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">AeroShell</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Deflects                                     storms while enabling total internal thermal breathing cycles.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\" data-sc-col=\"sccol-17\">                             <iconify-icon icon=\"ph:shield-check-light\" class=\"text-3xl text-zephyr-lime\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Kevlar-Weave</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">                                     High-durability threshold across rocks, dense branches, and high peaks.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48\" data-sc-col=\"sccol-18\">                             <iconify-icon icon=\"ph:feather-light\" class=\"text-3xl text-zephyr-gold\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">Zero Mass</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Ultralight                                     formulation ensures zero drag during vertical ascents.</p>                             </div>                         </div>                         <div class=\"p-6 glass-card rounded-lg flex flex-col justify-between h-48 mt-6\" data-sc-col=\"sccol-19\">                             <iconify-icon icon=\"ph:compass-light\" class=\"text-3xl text-white\"></iconify-icon>                             <div>                                 <h4 class=\"font-cinzel text-lg font-bold text-white mb-1\">BioMetrics</h4>                                 <p class=\"font-jakarta text-[11px] text-white/40 font-light leading-relaxed\">Embedded                                     tracking filaments connecting directly with satellite arrays.</p>                             </div>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 order-1 lg:order-2 reveal-up\" data-sc-col=\"sccol-20\">                     <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Tactical                         Artifacts</span>                     <h2 class=\"font-cinzel text-4xl sm:text-5xl font-bold uppercase tracking-tight text-white mb-6\">                         Engineered for the <span class=\"italic font-normal text-stroke\">untamed</span> skies.                     </h2>                     <p class=\"font-jakarta text-white/50 text-base sm:text-lg font-light leading-relaxed mb-8\">                         Our equipment merges traditional silhouette styles with advanced scientific textiles. Designed                         to mimic the organic flow of nature while offering extreme resilience against elements.                     </p>                     <button class=\"px-8 py-4 rounded-sm bg-gradient-to-r from-sky-400 to-zephyr-lime text-sky-950 font-jakarta text-xs uppercase tracking-[0.2em] font-bold hover:scale-105 transition-transform duration-300\">                         View Technical Catalog                     </button>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-32 px-6 md:px-12 bg-gradient-to-b from-transparent to-sky-950/40",
+          "colClass": "col-span-12",
+          "innerWrapClass": "",
+          "css": ".reveal-up{opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);}\n.glass-card{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.glass-card:hover{background: rgba(255, 255, 255, 0.03); border-color: rgba(56, 189, 248, 0.2); transform: translateY(-4px);}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.col-span-12{grid-column: span 12 / span 12;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-20{margin-bottom: 5rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.auto-rows-\\[240px\\]{grid-auto-rows: 240px;}\n.grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-lg{border-radius: 0.5rem;}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.text-center{text-align: center;}\n.font-cinzel{font-family: Cinzel, serif;}\n.font-jakarta{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-sky-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-60{opacity: 0.6;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 640px){.sm\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:col-span-4{grid-column: span 4 / span 4;}}\n@media (min-width: 768px){.md\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}",
+          "computed": {
+            "backgroundImage": "linear-gradient(rgba(0, 0, 0, 0), rgba(7, 17, 30, 0.4))",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 48px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=1200"
+          ],
+          "raw": "             <div class=\"max-w-7xl mx-auto text-center mb-20 reveal-up\">                 <span class=\"text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4\">Visual                     Captures</span>                 <h2 class=\"font-cinzel text-4xl sm:text-6xl font-bold uppercase tracking-tight text-white mb-6\">                     Cinematic Wall</h2>                 <p class=\"font-jakarta text-white/40 text-base max-w-xl mx-auto font-light\">                     A glimpse through the lens of travelers who braved the altitudes and stood unified with the mountain                     wind.                 </p>             </div>             <div class=\"max-w-7xl mx-auto grid grid-cols-12 gap-4 auto-rows-[240px]\">                 <div class=\"col-span-12 md:col-span-8 rounded-lg overflow-hidden relative group glass-card reveal-up\">                     <img src=\"https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-4 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 100ms;\">                     <img src=\"https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&amp;fit=crop&amp;q=80&amp;w=800\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-4 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 200ms;\">                     <img src=\"https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&amp;fit=crop&amp;q=80&amp;w=800\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-8 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 300ms;\">                     <img src=\"https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Visual Captures",
+              "text": "Visual Captures",
+              "cls": "text-xs uppercase tracking-[0.4em] text-sky-400 font-bold block mb-4",
+              "pill": false,
+              "color": "rgb(56, 189, 248)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "4.8px",
+              "fontWeight": "700",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Cinematic Wall",
+              "text": "Cinematic Wall",
+              "tag": "h2",
+              "cls": "font-cinzel text-4xl sm:text-6xl font-bold uppercase tracking-tight text-white mb-6",
+              "wrapCls": "max-w-7xl mx-auto text-center mb-20 reveal-up",
+              "fontSize": "60px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "-1.5px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-jakarta text-white/40 text-base max-w-xl mx-auto font-light\">                     A glimpse through the lens of travelers who braved the altitudes and stood unified with the mountain                     wind.                 </p>",
+              "text": "A glimpse through the lens of travelers who braved the altitudes and stood unified with the mountain wind.",
+              "tag": "p",
+              "cls": "font-jakarta text-white/40 text-base max-w-xl mx-auto font-light",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.4)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "logo_grid",
+              "logos": [
+                {
+                  "url": "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=1200",
+                  "name": "Gallery",
+                  "link_url": "",
+                  "link_target": "_blank",
+                  "svg": ""
+                },
+                {
+                  "url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=800",
+                  "name": "Gallery",
+                  "link_url": "",
+                  "link_target": "_blank",
+                  "svg": ""
+                },
+                {
+                  "url": "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&q=80&w=800",
+                  "name": "Gallery",
+                  "link_url": "",
+                  "link_target": "_blank",
+                  "svg": ""
+                },
+                {
+                  "url": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=1200",
+                  "name": "Gallery",
+                  "link_url": "",
+                  "link_target": "_blank",
+                  "svg": ""
+                }
+              ],
+              "html": "<div class=\"max-w-7xl mx-auto grid grid-cols-12 gap-4 auto-rows-[240px]\">                 <div class=\"col-span-12 md:col-span-8 rounded-lg overflow-hidden relative group glass-card reveal-up\">                     <img src=\"https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-4 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 100ms;\">                     <img src=\"https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&amp;fit=crop&amp;q=80&amp;w=800\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-4 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 200ms;\">                     <img src=\"https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&amp;fit=crop&amp;q=80&amp;w=800\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>                 <div class=\"col-span-12 md:col-span-8 rounded-lg overflow-hidden relative group glass-card reveal-up\" style=\"transition-delay: 300ms;\">                     <img src=\"https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&amp;fit=crop&amp;q=80&amp;w=1200\" alt=\"Gallery\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-700\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-sky-950 via-transparent to-transparent opacity-60\">                     </div>                 </div>             </div>",
+              "anim": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

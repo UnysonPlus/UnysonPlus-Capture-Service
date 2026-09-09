@@ -1,0 +1,320 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".radial-portal{mask-image: radial-gradient(circle, black 30%, transparent 70%); transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), mask-size 1.5s; will-change: transform, mask-image;}\n.radial-portal:hover{transform: scale(1.05);}\n.kinetic-sway{display: inline-block; animation: 6s ease-in-out 0s infinite alternate none running sway; transform-origin: center bottom;}\n.morning-sun-text{background: linear-gradient(110deg, oklch(0.9 0.1 70) 0%, oklch(0.85 0.15 70) 40%, oklch(0.6 0.15 150) 100%) text; -webkit-text-fill-color: transparent;}\n.dew-drop{position: relative; overflow: hidden; backdrop-filter: blur(20px) saturate(1.5); background: oklch(1 0 0 / 0.03); border: 0.5px solid oklch(1 0 0 / 0.08); box-shadow: oklch(1 0 0 / 0.1) 0px 1px 2px inset; border-radius: 99px; transition: 0.3s;}\n.dew-drop::before{content: \"\"; position: absolute; top: 0px; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); opacity: 0; transition: opacity 0.3s;}\n.dew-drop:hover{background: oklch(1 0 0 / 0.06); transform: translateY(-2px); box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 20px, oklch(1 0 0 / 0.2) 0px 1px 2px inset;}\n.dew-drop:hover::before{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.block{display: block;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-1\\.5{height: 0.375rem;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-1\\.5{width: 0.375rem;}\n.max-w-md{max-width: 28rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-6{gap: 1.5rem;}\n.rounded-full{border-radius: 9999px;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-emerald{background-color: oklch(0.6 0.15 150);}\n.object-cover{object-fit: cover;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pb-20{padding-bottom: 5rem;}\n.pt-32{padding-top: 8rem;}\n.pb-1{padding-bottom: 0.25rem;}\n.font-data{font-family: \"Space Grotesk\", sans-serif;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.85\\]{line-height: 0.85;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald{color: oklch(0.6 0.15 150);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_12px_oklch\\(60\\%_0\\.15_150\\)\\]{--tw-shadow: 0 0 12px oklch(60% 0.15 150); --tw-shadow-colored: 0 0 12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:py-0{padding-top: 0px; padding-bottom: 0px;}}\n@media (min-width: 1024px){.lg\\:text-\\[9rem\\]{font-size: 9rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20\">       <div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\">         <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\"></span>         <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\">Andean Bio-Digitalism</span>       </div>       <h1 class=\"font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100\">         <span class=\"block kinetic-sway morning-sun-text\">Living</span>         <span class=\"block text-white\">Architecture</span>       </h1>       <p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\">         Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.       </p>       <div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\">         <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\">           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         </button>         <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\">Data Yield: 99.8%</span>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10\">       <div class=\"absolute inset-0 w-full h-full radial-portal\">         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">           <source src=\"https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4\" type=\"video/mp4\">         </video>         <div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\"></div>         <div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\"></div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "text",
+              "html": "<div class=\"bloom-reveal active mb-6 inline-flex items-center gap-3\">         <span class=\"w-1.5 h-1.5 rounded-full bg-emerald shadow-[0_0_12px_oklch(60%_0.15_150)]\"></span>         <span class=\"font-data text-[9px] tracking-[0.4em] uppercase text-emerald/80\">Andean Bio-Digitalism</span>       </div>",
+              "text": "Andean Bio-Digitalism",
+              "tag": "div",
+              "cls": "bloom-reveal active mb-6 inline-flex items-center gap-3",
+              "fontSize": "16px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "24px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Living Architecture",
+              "text": "Living Architecture",
+              "tag": "h1",
+              "cls": "font-hero text-7xl md:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight uppercase mb-8 bloom-reveal active delay-100",
+              "wrapCls": "flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-32 pb-20 lg:py-0 z-20",
+              "fontSize": "144px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "144px",
+              "letterSpacing": "-3.6px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light\">         Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.       </p>",
+              "text": "Integrating high-altitude biomes with scalable carbon capture. We design structural mycelium integrity to house tomorrow's neural landscapes.",
+              "tag": "p",
+              "cls": "font-data text-sm md:text-base text-white/50 max-w-md leading-relaxed bloom-reveal active delay-200 font-light",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3",
+                  "colId": "sccol-0",
+                  "cw": 5,
+                  "html": "           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 8,
+                    "tablet": 4,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1",
+                  "colId": "sccol-1",
+                  "cw": 2,
+                  "html": "Data Yield: 99.8%",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 3,
+                    "tablet": 2,
+                    "desktop": 2
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"mt-12 flex items-center gap-6 bloom-reveal active delay-300\">         <button class=\"dew-drop px-8 py-4 font-data text-[10px] tracking-[0.2em] uppercase text-white flex items-center gap-3\" data-sc-col=\"sccol-0\">           Initiate Synthesis           <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-emerald text-base\"></iconify-icon>         </button>         <span class=\"font-data text-[10px] tracking-widest uppercase text-white/30 border-b border-white/10 pb-1\" data-sc-col=\"sccol-1\">Data Yield: 99.8%</span>       </div>"
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/neural-landscapes/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=neural-landscapes",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover absolute inset-0 w-full h-full radial-portal relative h-[60vh] lg:h-screen w-full flex items-center justify-center @container z-10 min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 relative z-10",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-abyss/40 mix-blend-multiply\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "multiply",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 720,
+                "h": 900
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-emerald/10 mix-blend-overlay\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "overlay",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 720,
+                "h": 900
+              }
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-40 px-6 md:px-16 lg:px-24 w-full relative z-20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".apple-sharpness{backdrop-filter: blur(20px); background: oklch(1 0 0 / 0.02); border: 0.5px solid oklch(1 0 0 / 0.1); box-shadow: oklch(1 0 0 / 0.05) 0px 1px 1px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.sss-card{position: relative;}\n.sss-card::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(145deg, oklch(0.6 0.15 150 / 0.4), transparent 40%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); pointer-events: none;}\n.sss-card::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: oklch(0.6 0.15 150 / 0.05) 0px 0px 40px inset; pointer-events: none; transition: box-shadow 0.4s;}\n.sss-card:hover::after{box-shadow: oklch(0.6 0.15 150 / 0.15) 0px 0px 60px inset;}\n.subsurface-glow{position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, oklch(0.6 0.15 150 / 0.4) 0%, transparent 70%); border-radius: 50%; filter: blur(20px); opacity: 0; transition: opacity 0.5s; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;}\n.sss-card:hover .subsurface-glow{opacity: 1;}\n.bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.relative{position: relative;}\n.top-40{top: 10rem;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.ml-1{margin-left: 0.25rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-16{height: 4rem;}\n.h-px{height: 1px;}\n.w-full{width: 100%;}\n.w-16{width: 4rem;}\n.max-w-7xl{max-width: 80rem;}\n.flex-1{flex: 1 1 0%;}\n.shrink-0{flex-shrink: 0;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.pt-4{padding-top: 1rem;}\n.font-data{font-family: \"Space Grotesk\", sans-serif;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald{color: oklch(0.6 0.15 150);}\n.text-sun{color: oklch(0.85 0.15 70);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-20{opacity: 0.2;}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:sticky{position: sticky;}}\n@media (min-width: 768px){.md\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-16{gap: 4rem;}}\n@media (min-width: 768px){.md\\:p-10{padding: 2.5rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "padding": "160px 96px",
+            "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"max-w-7xl mx-auto\">       <div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>     </div>   ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+                  "colId": "sccol-2",
+                  "cw": 5,
+                  "html": "           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Cloud-Forest <br> <span class=\"text-white/30\" style=\"color:rgba(255, 255, 255, 0.3)\">Cooling</span>",
+                    "titleTag": "h2",
+                    "titleClass": "font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none",
+                    "subtitle": "Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.",
+                    "subtitleClass": "font-data text-sm text-white/50 leading-relaxed font-light mb-8",
+                    "wrapClass": "md:col-span-5 md:sticky top-40 bloom-reveal active",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 5,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "md:col-span-7 flex flex-col gap-6",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "24px"
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "stack-left",
+                    "iconColor": "",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Atmospheric Extraction",
+                    "titleTag": "h3",
+                    "titleWeight": "400",
+                    "text": "<p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>",
+                    "link": null,
+                    "cls": "apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active",
+                    "align": "left",
+                    "pad": "40px",
+                    "box": {
+                      "bg": "oklch(1 0 0 / 0.02)",
+                      "fill": "oklch(1 0 0 / 0.02)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "oklch(1 0 0 / 0.1)",
+                      "shadow": "oklch(1 0 0 / 0.05) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.4) 0px 20px 40px 0px",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "40px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "start",
+              "gap": 64,
+              "gapResp": {
+                "base": 32,
+                "md": 64,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-start\">                  <div class=\"md:col-span-5 md:sticky top-40 bloom-reveal active\" data-sc-col=\"sccol-2\">           <h2 class=\"font-hero text-5xl md:text-7xl uppercase tracking-tight text-white mb-6 leading-none\">             Cloud-Forest <br>             <span class=\"text-white/30\">Cooling</span>           </h2>           <p class=\"font-data text-sm text-white/50 leading-relaxed font-light mb-8\">             Leveraging natural thermodynamics of the Andean cloud forests. Our server arrays are integrated seamlessly into the biome, utilizing raw atmospheric moisture for absolute zero-emission cooling protocols.           </p>           <div class=\"h-px w-full bg-gradient-to-r from-emerald via-sun to-transparent opacity-20\"></div>         </div>         <div class=\"md:col-span-7 flex flex-col gap-6\" data-sc-col=\"sccol-3\">                      <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-100 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\" data-sc-col=\"sccol-4\">                 <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-emerald\"></iconify-icon>               </div>               <div class=\"flex-1\" data-sc-col=\"sccol-5\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Atmospheric Extraction</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Passive condensation networks extract micro-droplets directly from the mist, funneling highly pure water into the thermal core of our processing hubs.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-emerald\" data-sc-col=\"sccol-6\">Status: Active</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\" data-sc-col=\"sccol-7\">14.2<span class=\"text-sm text-white/30 ml-1\">L/s</span></span>                 </div>               </div>             </div>           </div>           <div class=\"apple-sharpness sss-card rounded-3xl p-8 md:p-10 bloom-reveal delay-200 group overflow-hidden active\">             <div class=\"subsurface-glow\"></div>             <div class=\"relative z-10 flex flex-col md:flex-row justify-between items-start gap-8\">               <div class=\"w-16 h-16 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md shrink-0\">                 <iconify-icon icon=\"logos:graphql\" class=\"text-3xl text-sun\"></iconify-icon>               </div>               <div class=\"flex-1\">                 <h3 class=\"font-data text-xl text-white mb-3 tracking-wide\">Mycelium Structural Integrity</h3>                 <p class=\"font-data text-xs text-white/40 leading-relaxed font-light mb-6\">                   Hardware racks grown, not assembled. Genetically optimized fungal networks form an impact-resistant, self-healing chassis around the server logic.                 </p>                 <div class=\"flex items-center justify-between border-t border-white/5 pt-4\">                   <span class=\"font-data text-[10px] tracking-[0.2em] uppercase text-sun\">Growth Phase: 4</span>                   <span class=\"font-hero text-2xl text-white tracking-wider\">98.5<span class=\"text-sm text-white/30 ml-1\">%</span></span>                 </div>               </div>             </div>           </div>         </div>       </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "h-[50vh] w-full flex items-center justify-center relative z-20 mb-32",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".bloom-reveal{opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s;}\n.bloom-reveal.active{opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px);}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mb-32{margin-bottom: 8rem;}\n.flex{display: flex;}\n.h-24{height: 6rem;}\n.h-\\[50vh\\]{height: 50vh;}\n.w-full{width: 100%;}\n.w-px{width: 1px;}\n.cursor-default{cursor: default;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.text-center{text-align: center;}\n.font-hero{font-family: Oswald, sans-serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.uppercase{text-transform: uppercase;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white\\/20{color: rgba(255, 255, 255, 0.2);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(255, 255, 255)",
+            "margin": "0px 0px 128px",
+            "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "     <div class=\"text-center bloom-reveal active\">       <div class=\"w-px h-24 bg-gradient-to-b from-transparent via-emerald to-transparent mx-auto mb-8\"></div>       <h2 class=\"font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default\">         Return to the source       </h2>     </div>   ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Return to the source",
+              "text": "Return to the source",
+              "tag": "h2",
+              "cls": "font-hero text-3xl md:text-5xl uppercase tracking-widest text-white/20 hover:text-white transition-colors duration-700 cursor-default",
+              "wrapCls": "text-center bloom-reveal active",
+              "fontSize": "48px",
+              "fontWeight": "400",
+              "color": "rgba(255, 255, 255, 0.2)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "48px",
+              "letterSpacing": "4.8px",
+              "align": "center"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

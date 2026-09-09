@@ -1,0 +1,18 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,1,@container w-full max-w-[1200px] px-6,background-image,4,yes,background-image lost
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,background-color,3,yes,background-color lost
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,background-image,1,yes,background-image lost
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,border,1,yes,border lost
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,border-radius,1,yes,border-radius lost
+home,1,@container w-full max-w-[1200px] px-6,display-flex,9,no,display-flex not visual
+home,1,@container w-full max-w-[1200px] px-6,margin,7,no,margin not visual
+home,1,@container w-full max-w-[1200px] px-6,padding,6,no,padding not visual
+home,1,@container w-full max-w-[1200px] px-6,gap,6,no,gap not visual
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,margin,5,no,margin not visual
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,gap,5,no,gap not visual
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,transform,4,no,transform not visual
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,position-absolute,4,yes,position-absolute lost
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,max-width,3,no,max-width not visual
+home,1,@container w-full max-w-[1200px] px-6,max-width,3,no,max-width not visual
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24,padding,1,no,padding not visual
+home,1,@container w-full max-w-[1200px] px-6,display-grid,1,no,display-grid not visual

@@ -1,0 +1,57 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,background-image,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,background-color,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,border,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,max-width,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,padding,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,margin,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,gap,6,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,position-absolute,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,0,relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32,display-flex,7,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,background-color,10,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,box-shadow,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,border,9,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,border-radius,8,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,max-width,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,padding,5,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,margin,12,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,gap,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,position-sticky,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,display-flex,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,1,py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900,display-grid,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,background-color,5,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,box-shadow,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,border,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,border-radius,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,padding,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,margin,9,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,transform,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,position-absolute,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,2,py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,background-image,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,background-color,5,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,border,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,border-radius,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,max-width,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,padding,5,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,margin,6,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,gap,5,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,transform,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,position-absolute,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,display-flex,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,3,py-36 px-6 lg:px-16 bg-slate-950,display-grid,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,background-color,6,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,border,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,border-radius,3,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,max-width,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,padding,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,margin,4,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,gap,1,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,position-absolute,2,yes
+https://openhero.art/api/preview?category=nature&slug=perspective-shift,home,4,py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900,display-flex,2,yes

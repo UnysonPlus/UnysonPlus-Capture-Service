@@ -1,0 +1,18 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~4638px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#30,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#36,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#43,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#47,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.animate-bounce,"infinite keyframes 'bounce' (transform,animation-timing-function)",physics float/pulse or backgrounds module,low
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.clan-border,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'lift'} or glow_border,medium
+hover,.hover\:border-spirit-sun,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-spirit-sun,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-spirit-sun,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-spirit-void,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,hover:text-spirit-sun transition-colors,color change on hover,interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 bg-white text-spirit-void font-marcellus text-xs u,background change on hover,interaction: {effect:'color_shift'},medium
+hover,w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void f,background change on hover,interaction: {effect:'color_shift'},medium

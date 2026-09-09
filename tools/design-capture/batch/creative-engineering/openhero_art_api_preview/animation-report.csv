@@ -1,0 +1,21 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~3793px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#15,document position drifts -190px over 3793px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.05),medium
+trace,trace#18,document position drifts -266px over 3793px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.07),medium
+trace,trace#21,document position drifts -342px over 3793px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.09),medium
+css-animation,.ascending-bg,keyframes 'bg-shift' auto,entrance animation (Animate.css picker),low
+css-animation,.animate-float-slow,infinite keyframes 'float' (transform),physics float/pulse or backgrounds module,low
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+css-animation,.animate-pulse-soft,"infinite keyframes 'pulse-soft' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.animate-shimmer,"infinite keyframes 'shimmer' (background-position-x,background-position-y)",physics float/pulse or backgrounds module,low
+hover,.lantern-glow,"background-color, box-shadow, border-top-color, border-right-color change on hover",interaction: {effect:'lift'},medium
+hover,.glass-card,"background-color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:border-lantern,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-lantern,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-lantern,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:bg-white\/20,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-lantern,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-moss,color change on hover,interaction: {effect:'color_shift'},medium
+hover,lantern-glow px-12 py-5 rounded-2xl text-[10px] font-black u,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,w-12 h-12 rounded-2xl glass-card flex items-center justify-c,"background, color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,parallax-island group glass-card p-12 rounded-[50px] relativ,"transform, background, borderColor change on hover",interaction: {effect:'color_shift'},medium

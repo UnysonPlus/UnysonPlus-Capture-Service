@@ -1,0 +1,30 @@
+{"t":1788702438045,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=the-art-of-living … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702448674,"elapsed":10.8,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702451600,"elapsed":13.8,"msg":"extracted 4 sections"}
+{"t":1788702451601,"elapsed":13.8,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788702451602,"elapsed":13.8,"msg":"  §1 hero · “The Art of Living” (1 element)"}
+{"t":1788702451604,"elapsed":13.8,"msg":"  §2 section · “Sculptural forms curated like a private galler” (1 element)"}
+{"t":1788702451605,"elapsed":13.8,"msg":"  §3 section · “Material transitions shaped through touch, gra” (1 element)"}
+{"t":1788702451607,"elapsed":13.8,"msg":"  §4 section · “Designed to feel less like a website and more ” (1 element)"}
+{"t":1788702452774,"elapsed":14.9,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702454676,"elapsed":16.8,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702455438,"elapsed":17.6,"msg":"brand tokens → heading=Cormorant Garamond · body=Inter Tight · brand=rgba(216, 193, 163, 0.5)"}
+{"t":1788702455439,"elapsed":17.6,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702471479,"elapsed":33.6,"msg":"animations → 7 finding(s)"}
+{"t":1788702471480,"elapsed":33.6,"msg":"building theme, pages & conversion report…"}
+{"t":1788702471486,"elapsed":33.6,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702471487,"elapsed":33.6,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702471488,"elapsed":33.6,"msg":"  🔤 Text Styles → 5 size(s)"}
+{"t":1788702471489,"elapsed":33.6,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788702471490,"elapsed":33.6,"msg":"  🔘 Button Presets → 1 style(s), 1 size(s)"}
+{"t":1788702476840,"elapsed":39,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702476843,"elapsed":39,"msg":"  🎨 Box Presets → 9 kind(s) [Glass, Tinted] from 9 box(es); 0 with hover, 6 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788702476844,"elapsed":39,"msg":"🛡️ Self-containment guard → 7 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702476853,"elapsed":39,"msg":"  🌐 Background Patterns → 15 pattern(s) captured, applied to 3 section(s)"}
+{"t":1788702476866,"elapsed":39,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702476868,"elapsed":39,"msg":"  class coverage → 3 significant gap(s) flagged across 3 section(s) (see coverage-verification.csv)"}
+{"t":1788702476870,"elapsed":39,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702476871,"elapsed":39,"msg":"writing files & bundle…"}
+{"t":1788702477168,"elapsed":39.3,"msg":"visual font match: Cormorant Garamond → Cormorant"}
+{"t":1788702478553,"elapsed":40.7,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702478562,"elapsed":40.7,"msg":"saving full-page screenshot…"}

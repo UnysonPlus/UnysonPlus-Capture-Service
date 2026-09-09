@@ -1,0 +1,525 @@
+<!DOCTYPE html><html lang="en" class="dark" data-sc-cs="color:rgb(0, 0, 0)" data-sc-content-width="1376"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Gen | Synthetic Light Architectures</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: oklch(8% .02 280);
+            --cyan: oklch(79% .17 220);
+            --magenta: oklch(70% .28 340);
+            --amber: oklch(82% .17 70);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Inter Tight', sans-serif;
+            background:
+                radial-gradient(circle at 20% 10%, rgba(255, 56, 182, .12), transparent 20%),
+                radial-gradient(circle at 80% 20%, rgba(97, 218, 251, .1), transparent 22%),
+                linear-gradient(180deg, #09090d 0%, #06060a 100%);
+            color: white;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+            background-size: 100px 100px;
+            mask-image: radial-gradient(circle at center, black 20%, transparent 90%);
+            opacity: .3;
+            z-index: -1;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -.05em;
+        }
+
+        .copy {
+            font-family: 'Inter Tight', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(30px) saturate(1.4);
+            -webkit-backdrop-filter: blur(30px) saturate(1.4);
+            box-shadow:
+                0 10px 60px rgba(0, 0, 0, .45),
+                inset 0 1px 0 rgba(255, 255, 255, .08);
+        }
+
+        .wind {
+            animation: wind 8s ease-in-out infinite;
+            display: inline-block;
+            transform-origin: center bottom;
+        }
+
+        .hero-mask {
+            mask-image:
+                radial-gradient(circle at center,
+                    black 35%,
+                    rgba(0, 0, 0, .95) 52%,
+                    rgba(0, 0, 0, .75) 70%,
+                    transparent 100%);
+            -webkit-mask-image:
+                radial-gradient(circle at center,
+                    black 35%,
+                    rgba(0, 0, 0, .95) 52%,
+                    rgba(0, 0, 0, .75) 70%,
+                    transparent 100%);
+        }
+
+        .hero-video {
+            animation: zoom 16s linear infinite alternate;
+        }
+
+        .dock {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 60;
+        }
+
+        .dock-inner {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .08);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .dock-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, .04);
+            transition: .5s cubic-bezier(.16, 1, .3, 1);
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .dock-btn:hover {
+            transform: translateY(-6px) scale(1.08);
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .floating-label {
+            position: absolute;
+            padding: 12px 16px;
+            border-radius: 999px;
+            font-size: 11px;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, .04);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .massive-number {
+            font-size: clamp(7rem, 20vw, 18rem);
+            line-height: .8;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .06);
+        }
+
+        .river-line {
+            height: 1px;
+            background:
+                linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 56, 182, .5),
+                    rgba(97, 218, 251, .6),
+                    transparent);
+        }
+
+        .editorial {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .data-monolith {
+            border-radius: 4rem;
+            overflow: hidden;
+            position: relative;
+            min-height: 720px;
+            background:
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, .04),
+                    rgba(255, 255, 255, .01));
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .data-monolith::before {
+            content: '';
+            position: absolute;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 56, 182, .18), transparent 20%),
+                radial-gradient(circle at 80% 40%, rgba(97, 218, 251, .15), transparent 20%),
+                radial-gradient(circle at 50% 80%, rgba(255, 153, 0, .12), transparent 25%);
+            filter: blur(80px);
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 999px;
+        }
+
+        .marquee {
+            display: flex;
+            gap: 80px;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+        }
+
+        .quote-panel {
+            padding: 6rem;
+            border-radius: 4rem;
+            background:
+                linear-gradient(180deg,
+                    rgba(255, 255, 255, .05),
+                    rgba(255, 255, 255, .01));
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .cta-orb {
+            width: 14rem;
+            height: 14rem;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 30% 30%,
+                    rgba(255, 255, 255, .18),
+                    rgba(255, 255, 255, .04));
+            border: 1px solid rgba(255, 255, 255, .1);
+            backdrop-filter: blur(30px);
+            transition: 1s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .cta-orb:hover {
+            transform: scale(1.08) rotate(8deg);
+            box-shadow:
+                0 0 100px rgba(97, 218, 251, .18);
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(1.05);
+            }
+
+            to {
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes wind {
+
+            0%,
+            100% {
+                transform: rotate(-1deg);
+            }
+
+            50% {
+                transform: rotate(1deg);
+            }
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-\[-12rem\]{bottom:-12rem}.left-\[10\%\]{left:10%}.right-\[10\%\]{right:10%}.top-\[-10rem\]{top:-10rem}.bottom-\[10\%\]{bottom:10%}.left-0{left:0px}.left-\[30\%\]{left:30%}.right-\[12\%\]{right:12%}.top-0{top:0px}.top-\[15\%\]{top:15%}.top-\[20\%\]{top:20%}.top-\[28\%\]{top:28%}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mt-10{margin-top:2.5rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-\[30rem\]{height:30rem}.h-\[32rem\]{height:32rem}.h-2{height:0.5rem}.h-\[18rem\]{height:18rem}.h-\[22rem\]{height:22rem}.h-\[28rem\]{height:28rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-\[30rem\]{width:30rem}.w-\[32rem\]{width:32rem}.w-2{width:0.5rem}.w-\[18rem\]{width:18rem}.w-\[22rem\]{width:22rem}.w-\[28rem\]{width:28rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-3xl{max-width:48rem}.max-w-\[1600px\]{max-width:1600px}.max-w-\[1700px\]{max-width:1700px}.max-w-sm{max-width:24rem}.max-w-xl{max-width:36rem}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-10{gap:2.5rem}.gap-12{gap:3rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.space-y-10 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2.5rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.rounded-\[2rem\]{border-radius:2rem}.border{border-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.bg-cyan-400\/10{background-color:rgb(34 211 238 / 0.1)}.bg-pink-500\/10{background-color:rgb(236 72 153 / 0.1)}.bg-cyan-300{--tw-bg-opacity:1;background-color:rgb(103 232 249 / var(--tw-bg-opacity, 1))}.bg-white\/\[0\.03\]{background-color:rgb(255 255 255 / 0.03)}.bg-\[radial-gradient\(circle_at_30\%_30\%\2c rgba\(255\2c 56\2c 182\2c \.22\)\2c transparent_20\%\)\2c radial-gradient\(circle_at_70\%_40\%\2c rgba\(97\2c 218\2c 251\2c \.18\)\2c transparent_22\%\)\2c linear-gradient\(180deg\2c rgba\(0\2c 0\2c 0\2c \.1\)\2c rgba\(0\2c 0\2c 0\2c \.55\)\)\]{background-image:radial-gradient(circle at 30% 30%,rgba(255,56,182,.22),transparent 20%),radial-gradient(circle at 70% 40%,rgba(97,218,251,.18),transparent 22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))}.object-cover{object-fit:cover}.p-10{padding:2.5rem}.p-6{padding:1.5rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-8{padding-left:2rem;padding-right:2rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-40{padding-top:10rem;padding-bottom:10rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.text-center{text-align:center}.text-right{text-align:right}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-7xl{font-size:4.5rem;line-height:1}.text-\[11px\]{font-size:11px}.text-\[9rem\]{font-size:9rem}.text-\[clamp\(3rem\2c 6vw\2c 5rem\)\]{font-size:clamp(3rem,6vw,5rem)}.text-\[clamp\(3rem\2c 6vw\2c 6rem\)\]{font-size:clamp(3rem,6vw,6rem)}.text-\[clamp\(4rem\2c 9vw\2c 8rem\)\]{font-size:clamp(4rem,9vw,8rem)}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-10{line-height:2.5rem}.leading-8{line-height:2rem}.leading-9{line-height:2.25rem}.leading-\[\.85\]{line-height:.85}.leading-\[\.9\]{line-height:.9}.leading-\[1\]{line-height:1}.leading-none{line-height:1}.tracking-\[0\.25em\]{letter-spacing:0.25em}.tracking-\[0\.28em\]{letter-spacing:0.28em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.text-amber-300{--tw-text-opacity:1;color:rgb(252 211 77 / var(--tw-text-opacity, 1))}.text-cyan-300{--tw-text-opacity:1;color:rgb(103 232 249 / var(--tw-text-opacity, 1))}.text-cyan-300\/10{color:rgb(103 232 249 / 0.1)}.text-pink-400{--tw-text-opacity:1;color:rgb(244 114 182 / var(--tw-text-opacity, 1))}.text-pink-400\/10{color:rgb(244 114 182 / 0.1)}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/40{color:rgb(255 255 255 / 0.4)}.text-white\/45{color:rgb(255 255 255 / 0.45)}.text-white\/50{color:rgb(255 255 255 / 0.5)}.text-white\/55{color:rgb(255 255 255 / 0.55)}.text-white\/60{color:rgb(255 255 255 / 0.6)}.text-white\/65{color:rgb(255 255 255 / 0.65)}.text-white\/70{color:rgb(255 255 255 / 0.7)}.text-white\/\[0\.06\]{color:rgb(255 255 255 / 0.06)}.blur-\[120px\]{--tw-blur:blur(120px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-\[140px\]{--tw-blur:blur(140px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.brightness-\[1\.1\]{--tw-brightness:brightness(1.1);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.contrast-\[1\.15\]{--tw-contrast:contrast(1.15);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.saturate-\[1\.4\]{--tw-saturate:saturate(1.4);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-\[40px\]{--tw-backdrop-blur:blur(40px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}@media (min-width: 768px){.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:grid-cols-\[1\.2fr_\.8fr\]{grid-template-columns:1.2fr .8fr}}</style></head>
+
+<body data-sc-cs="color:rgb(255, 255, 255)">
+
+    <div class="fixed inset-0 pointer-events-none overflow-hidden" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+        <div class="absolute top-[-10rem] left-[10%] h-[30rem] w-[30rem] rounded-full bg-cyan-400/10 blur-[120px]" data-sc-cs="background-color:rgba(34, 211, 238, 0.1);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+        <div class="absolute bottom-[-12rem] right-[10%] h-[32rem] w-[32rem] rounded-full bg-pink-500/10 blur-[140px]" data-sc-cs="background-color:rgba(236, 72, 153, 0.1);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+        </div>
+    </div>
+
+    <div class="dock" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -135, 0);position:fixed">
+        <div class="dock-inner" data-sc-cs="background-color:rgba(255, 255, 255, 0.06);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:12px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;backdrop-filter:blur(40px);display:flex;gap:12px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <a class="dock-btn" href="#" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)">
+                <iconify-icon icon="ph:house" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </a>
+
+            <a class="dock-btn" href="#" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)">
+                <iconify-icon icon="ph:atom" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </a>
+
+            <a class="dock-btn" href="#" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)">
+                <iconify-icon icon="ph:circles-four" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </a>
+
+            <a class="dock-btn" href="#" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)">
+                <iconify-icon icon="ph:sparkle" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </a>
+        </div>
+    </div>
+
+    <main data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+        <section class="relative min-h-screen overflow-hidden" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="absolute inset-0 hero-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                <video autoplay="" muted="" loop="" playsinline="" class="hero-video absolute inset-0 h-full w-full object-cover brightness-[1.1] saturate-[1.4] contrast-[1.15]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.08427, 0, 0, 1.08427, 0, 0);position:absolute">
+                    <source src="https://videos.openhero.art/downloads/enterprice/synthetic-light-architectures/video.mp4" type="video/mp4">
+                </video>
+
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,56,182,.22),transparent_20%),radial-gradient(circle_at_70%_40%,rgba(97,218,251,.18),transparent_22%),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.55))]" data-sc-cs="background-image:radial-gradient(circle at 30% 30%, rgba(255, 56, 182, 0.22), rgba(0, 0, 0, 0) 20%), radial-gradient(circle at 70% 40%, rgba(97, 218, 251, 0.18), rgba(0, 0, 0, 0) 22%), linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.55));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                </div>
+            </div>
+
+            <div class="relative z-10 mx-auto flex min-h-screen max-w-[1600px] items-center px-8" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+                <div class="max-w-3xl" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                    <div class="glass inline-flex items-center gap-3 rounded-full px-5 py-3 text-[11px] uppercase tracking-[0.3em] text-white/60" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;padding:12px 20px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;backdrop-filter:blur(30px) saturate(1.4);display:inline-flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+                        <div class="h-2 w-2 rounded-full bg-cyan-300" data-sc-cs="background-color:rgb(103, 232, 249);color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+                        Neural-optic synchronization active
+                    </div>
+
+                    <h1 class="serif mt-8 text-[clamp(4rem,9vw,8rem)] leading-[.85] text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <span class="wind block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)">Synthetic</span>
+                        <span class="wind block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)">Light</span>
+                        <span class="wind block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:128px;font-weight:400;line-height:108.8px;letter-spacing:-6.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999972, 0.00745748, -0.00745748, 0.999972, 0, 0)">Architectures</span>
+                    </h1>
+
+                    <p class="copy mt-8 max-w-2xl rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 text-lg leading-9 text-white/68 backdrop-blur-[40px]" data-sc-cs="background-color:rgba(255, 255, 255, 0.03);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;padding:24px;margin:32px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;backdrop-filter:blur(40px);max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        A next-generation luminous interface engineered around chromatic protein sequencing,
+                        photon-efficient biosynthesis, and neural-optic ecosystems.
+                    </p>
+
+                    <div class="mt-10 flex gap-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        <button class="glass rounded-full px-8 py-5 text-[11px] uppercase tracking-[0.25em]" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0.45) 0px 10px 60px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset;backdrop-filter:blur(30px) saturate(1.4);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Launch Spectrum
+                        </button>
+
+                        <button class="rounded-full border border-white/10 px-8 py-5 text-[11px] uppercase tracking-[0.25em] text-white/70" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.75px;text-align:center;text-transform:uppercase;padding:20px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Explore Systems
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="floating-label right-[10%] top-[28%]" data-sc-cs="background-color:rgba(255, 255, 255, 0.04);color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;padding:12px 16px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;backdrop-filter:blur(30px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                Live Cytoplasmic Stability
+            </div>
+
+        </section>
+
+        <section class="relative overflow-hidden px-8 py-40" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="massive-number absolute left-0 top-0" data-sc-cs="color:rgba(255, 255, 255, 0.06);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:288px;font-weight:700;line-height:230.4px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute">
+                01
+            </div>
+
+            <div class="editorial relative z-10 mx-auto max-w-[1600px]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:grid;gap:80px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+
+                <div data-sc-col="sccol-0" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    <div class="text-[11px] uppercase tracking-[0.3em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Editorial Narrative
+                    </div>
+
+                    <h2 class="serif mt-6 text-[clamp(3rem,6vw,6rem)] leading-[.9]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:86.4px;font-weight:400;line-height:77.76px;letter-spacing:-4.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Light behaving like biological matter.
+                    </h2>
+                </div>
+
+                <div class="space-y-10" data-sc-col="sccol-1" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                    <p class="text-xl leading-10 text-white/70" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:400;line-height:40px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Lumina Gen dissolves the idea of a traditional dashboard into a reactive atmospheric system
+                        where color, motion, and biological light become one continuous interface.
+                    </p>
+
+                    <div class="river-line" data-sc-cs="background-image:linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(255, 56, 182, 0.5), rgba(97, 218, 251, 0.6), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+
+                    <p class="max-w-xl text-base leading-8 text-white/55" data-sc-cs="color:rgba(255, 255, 255, 0.55);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Built around chromatic protein sequencing and neural-optic synchronization, the system responds
+                        like a living ecosystem instead of static software.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="px-8 py-20" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="data-monolith mx-auto max-w-[1700px]" data-sc-cs="background-image:linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:64px;max-width:1700px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <div class="orbit left-[10%] top-[15%] h-[18rem] w-[18rem]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                <div class="orbit right-[12%] top-[20%] h-[28rem] w-[28rem]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+                <div class="orbit bottom-[10%] left-[30%] h-[22rem] w-[22rem]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+                <div class="relative z-10 flex h-full flex-col justify-between p-10" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+
+                    <div class="flex items-start justify-between" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all">
+
+                        <div data-sc-col="sccol-2" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="text-[11px] uppercase tracking-[0.3em] text-white/45" data-sc-cs="color:rgba(255, 255, 255, 0.45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Neural-optic Core
+                            </div>
+
+                            <h2 class="serif mt-6 max-w-3xl text-[clamp(3rem,6vw,6rem)] leading-[.9]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:86.4px;font-weight:400;line-height:77.76px;letter-spacing:-4.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                A monolithic chromatic ecosystem.
+                            </h2>
+                        </div>
+
+                        <div class="max-w-sm text-right text-white/60 leading-8" data-sc-col="sccol-3" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:32px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            Real-time biosynthetic telemetry visualized through a living atmospheric architecture.
+                        </div>
+
+                    </div>
+
+                    <div class="grid gap-10 md:grid-cols-3" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:40px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                        <div data-sc-col="sccol-4" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Yield Index
+                            </div>
+
+                            <div class="mt-4 text-7xl font-semibold text-cyan-300" data-sc-cs="color:rgb(103, 232, 249);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                98%
+                            </div>
+                        </div>
+
+                        <div data-sc-col="sccol-5" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Photon Stability
+                            </div>
+
+                            <div class="mt-4 text-7xl font-semibold text-pink-400" data-sc-cs="color:rgb(244, 114, 182);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Live
+                            </div>
+                        </div>
+
+                        <div data-sc-col="sccol-6" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="text-[11px] uppercase tracking-[0.28em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.08px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Neural Sync
+                            </div>
+
+                            <div class="mt-4 text-7xl font-semibold text-amber-300" data-sc-cs="color:rgb(252, 211, 77);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:600;line-height:72px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                0.2ms
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="overflow-hidden py-40" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="marquee" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:80px;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -197.394, 0)">
+
+                <div class="serif text-[9rem] leading-none text-white/[0.06]" data-sc-col="sccol-7" data-sc-cs="color:rgba(255, 255, 255, 0.06);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Chromatic Sequencing
+                </div>
+
+                <div class="serif text-[9rem] leading-none text-cyan-300/10" data-sc-col="sccol-8" data-sc-cs="color:rgba(103, 232, 249, 0.1);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Neural Synchronization
+                </div>
+
+                <div class="serif text-[9rem] leading-none text-pink-400/10" data-sc-col="sccol-9" data-sc-cs="color:rgba(244, 114, 182, 0.1);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Photon Biosynthesis
+                </div>
+
+                <div class="serif text-[9rem] leading-none text-white/[0.06]" data-sc-col="sccol-10" data-sc-cs="color:rgba(255, 255, 255, 0.06);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:144px;font-weight:400;line-height:144px;letter-spacing:-7.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                    Synthetic Luminosity
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="px-8 py-20" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+            <div class="mx-auto grid max-w-[1600px] gap-12 lg:grid-cols-[1.2fr_.8fr]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:grid;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                <div class="quote-panel" data-sc-col="sccol-11" data-sc-cs="background-image:linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:96px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:64px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+
+                    <div class="text-[11px] uppercase tracking-[0.3em] text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Field Observation
+                    </div>
+
+                    <blockquote class="serif mt-10 text-[clamp(3rem,6vw,5rem)] leading-[1]" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:80px;font-weight:400;line-height:80px;letter-spacing:-4px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        “The interface dissolves into pure atmospheric light.”
+                    </blockquote>
+
+                    <p class="mt-10 max-w-xl text-lg leading-9 text-white/65" data-sc-cs="color:rgba(255, 255, 255, 0.65);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:36px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                        Instead of windows and panels, Lumina creates chromatic environments engineered to feel alive
+                        and reactive.
+                    </p>
+
+                </div>
+
+                <div class="flex items-center justify-center" data-sc-col="sccol-12" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+
+                    <button class="cta-orb" data-sc-cs="background-image:radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;backdrop-filter:blur(30px);display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:1s cubic-bezier(0.16, 1, 0.3, 1)">
+                        <div class="text-center" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                            <div class="text-[11px] uppercase tracking-[0.3em] text-white/50" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:3.3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Access
+                            </div>
+
+                            <div class="mt-2 serif text-4xl" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Cormorant Garamond&quot;, serif;font-size:36px;font-weight:400;line-height:40px;letter-spacing:-1.8px;text-align:center;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+                                Prism
+                            </div>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+</body></html>

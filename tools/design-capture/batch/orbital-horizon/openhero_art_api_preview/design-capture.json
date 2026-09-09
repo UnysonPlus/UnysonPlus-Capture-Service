@@ -1,0 +1,1954 @@
+{
+  "url": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.15 0.04 160);color:rgb(0, 0, 0)\" data-sc-content-width=\"1200\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Terraform Industries | Scalable Carbon Capture</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n<link href=\"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap\" rel=\"stylesheet\">\n<script src=\"https://unpkg.com/@tailwindcss/browser@4\"></script><style>/*! tailwindcss v4.3.3 | MIT License | https://tailwindcss.com */\n@layer properties;\n@layer theme, base, components, utilities;\n@layer theme {\n  :root, :host {\n    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', Arial,\n    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';\n    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',\n    monospace;\n    --color-white: #fff;\n    --spacing: 0.25rem;\n    --container-md: 28rem;\n    --container-xl: 36rem;\n    --text-xs: 0.75rem;\n    --text-xs--line-height: calc(1 / 0.75);\n    --text-sm: 0.875rem;\n    --text-sm--line-height: calc(1.25 / 0.875);\n    --text-base: 1rem;\n    --text-base--line-height: calc(1.5 / 1);\n    --text-lg: 1.125rem;\n    --text-lg--line-height: calc(1.75 / 1.125);\n    --text-xl: 1.25rem;\n    --text-xl--line-height: calc(1.75 / 1.25);\n    --text-3xl: 1.875rem;\n    --text-3xl--line-height: calc(2.25 / 1.875);\n    --text-4xl: 2.25rem;\n    --text-4xl--line-height: calc(2.5 / 2.25);\n    --text-5xl: 3rem;\n    --text-5xl--line-height: 1;\n    --text-6xl: 3.75rem;\n    --text-6xl--line-height: 1;\n    --text-7xl: 4.5rem;\n    --text-7xl--line-height: 1;\n    --font-weight-light: 300;\n    --font-weight-medium: 500;\n    --tracking-tighter: -0.05em;\n    --tracking-widest: 0.1em;\n    --leading-relaxed: 1.625;\n    --leading-loose: 2;\n    --drop-shadow-2xl: 0 25px 25px rgb(0 0 0 / 0.15);\n    --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;\n    --default-transition-duration: 150ms;\n    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n    --default-font-family: var(--font-sans);\n    --default-mono-font-family: var(--font-mono);\n    --color-deep-forest: oklch(15% 0.04 160);\n    --color-sunset-amber: oklch(70% 0.15 45);\n    --color-glass: oklch(100% 0 0 / 5%);\n    --font-data: 'Inter Tight', sans-serif;\n    --font-heading: 'Playfair Display', serif;\n  }\n}\n@layer base {\n  *, ::after, ::before, ::backdrop, ::file-selector-button {\n    box-sizing: border-box;\n    margin: 0;\n    padding: 0;\n    border: 0 solid;\n  }\n  html, :host {\n    line-height: 1.5;\n    -webkit-text-size-adjust: 100%;\n    tab-size: 4;\n    font-family: var(--default-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');\n    font-feature-settings: var(--default-font-feature-settings, normal);\n    font-variation-settings: var(--default-font-variation-settings, normal);\n    -webkit-tap-highlight-color: transparent;\n  }\n  hr {\n    height: 0;\n    color: inherit;\n    border-top-width: 1px;\n  }\n  abbr:where([title]) {\n    -webkit-text-decoration: underline dotted;\n    text-decoration: underline dotted;\n  }\n  h1, h2, h3, h4, h5, h6 {\n    font-size: inherit;\n    font-weight: inherit;\n  }\n  a {\n    color: inherit;\n    -webkit-text-decoration: inherit;\n    text-decoration: inherit;\n  }\n  b, strong {\n    font-weight: bolder;\n  }\n  code, kbd, samp, pre {\n    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace);\n    font-feature-settings: var(--default-mono-font-feature-settings, normal);\n    font-variation-settings: var(--default-mono-font-variation-settings, normal);\n    font-size: 1em;\n  }\n  small {\n    font-size: 80%;\n  }\n  sub, sup {\n    font-size: 75%;\n    line-height: 0;\n    position: relative;\n    vertical-align: baseline;\n  }\n  sub {\n    bottom: -0.25em;\n  }\n  sup {\n    top: -0.5em;\n  }\n  table {\n    text-indent: 0;\n    border-color: inherit;\n    border-collapse: collapse;\n  }\n  :-moz-focusring:where(:not(iframe)) {\n    outline: auto;\n  }\n  progress {\n    vertical-align: baseline;\n  }\n  summary {\n    display: list-item;\n  }\n  ol, ul, menu {\n    list-style: none;\n  }\n  img, svg, video, canvas, audio, iframe, embed, object {\n    display: block;\n    vertical-align: middle;\n  }\n  img, video {\n    max-width: 100%;\n    height: auto;\n  }\n  button, input, select, optgroup, textarea, ::file-selector-button {\n    font: inherit;\n    font-feature-settings: inherit;\n    font-variation-settings: inherit;\n    letter-spacing: inherit;\n    color: inherit;\n    border-radius: 0;\n    background-color: transparent;\n    opacity: 1;\n  }\n  :where(select:is([multiple], [size])) optgroup {\n    font-weight: bolder;\n  }\n  :where(select:is([multiple], [size])) optgroup option {\n    padding-inline-start: 20px;\n  }\n  ::file-selector-button {\n    margin-inline-end: 4px;\n  }\n  ::placeholder {\n    opacity: 1;\n  }\n  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {\n    ::placeholder {\n      color: currentcolor;\n      @supports (color: color-mix(in lab, red, red)) {\n        color: color-mix(in oklab, currentcolor 50%, transparent);\n      }\n    }\n  }\n  textarea {\n    resize: vertical;\n  }\n  ::-webkit-search-decoration {\n    -webkit-appearance: none;\n  }\n  ::-webkit-date-and-time-value {\n    min-height: 1lh;\n    text-align: inherit;\n  }\n  ::-webkit-datetime-edit {\n    display: inline-flex;\n  }\n  ::-webkit-datetime-edit-fields-wrapper {\n    padding: 0;\n  }\n  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {\n    padding-block: 0;\n  }\n  ::-webkit-calendar-picker-indicator {\n    line-height: 1;\n  }\n  :-moz-ui-invalid {\n    box-shadow: none;\n  }\n  button, input:where([type='button'], [type='reset'], [type='submit']), ::file-selector-button {\n    appearance: button;\n  }\n  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {\n    height: auto;\n  }\n  [hidden]:where(:not([hidden='until-found'])) {\n    display: none !important;\n  }\n}\n@layer utilities {\n  .\\@container {\n    container-type: inline-size;\n  }\n  .pointer-events-none {\n    pointer-events: none;\n  }\n  .absolute {\n    position: absolute;\n  }\n  .fixed {\n    position: fixed;\n  }\n  .relative {\n    position: relative;\n  }\n  .inset-0 {\n    inset: 0px;\n  }\n  .inset-x-0 {\n    inset-inline: 0px;\n  }\n  .top-1\\/2 {\n    top: calc(1 / 2 * 100%);\n  }\n  .top-6 {\n    top: calc(var(--spacing) * 6);\n  }\n  .left-1\\/2 {\n    left: calc(1 / 2 * 100%);\n  }\n  .z-0 {\n    z-index: 0;\n  }\n  .z-10 {\n    z-index: 10;\n  }\n  .z-20 {\n    z-index: 20;\n  }\n  .z-50 {\n    z-index: 50;\n  }\n  .mx-auto {\n    margin-inline: auto;\n  }\n  .my-6 {\n    margin-block: calc(var(--spacing) * 6);\n  }\n  .mt-2 {\n    margin-top: calc(var(--spacing) * 2);\n  }\n  .mt-10 {\n    margin-top: calc(var(--spacing) * 10);\n  }\n  .mt-12 {\n    margin-top: calc(var(--spacing) * 12);\n  }\n  .mt-16 {\n    margin-top: calc(var(--spacing) * 16);\n  }\n  .mt-20 {\n    margin-top: calc(var(--spacing) * 20);\n  }\n  .mb-2 {\n    margin-bottom: calc(var(--spacing) * 2);\n  }\n  .mb-4 {\n    margin-bottom: calc(var(--spacing) * 4);\n  }\n  .mb-6 {\n    margin-bottom: calc(var(--spacing) * 6);\n  }\n  .mb-8 {\n    margin-bottom: calc(var(--spacing) * 8);\n  }\n  .mb-24 {\n    margin-bottom: calc(var(--spacing) * 24);\n  }\n  .ml-\\[-0\\.5em\\] {\n    margin-left: -0.5em;\n  }\n  .block {\n    display: block;\n  }\n  .flex {\n    display: flex;\n  }\n  .grid {\n    display: grid;\n  }\n  .h-1\\.5 {\n    height: calc(var(--spacing) * 1.5);\n  }\n  .h-2 {\n    height: calc(var(--spacing) * 2);\n  }\n  .h-4 {\n    height: calc(var(--spacing) * 4);\n  }\n  .h-8 {\n    height: calc(var(--spacing) * 8);\n  }\n  .h-12 {\n    height: calc(var(--spacing) * 12);\n  }\n  .h-16 {\n    height: calc(var(--spacing) * 16);\n  }\n  .h-\\[60vh\\] {\n    height: 60vh;\n  }\n  .h-\\[120\\%\\] {\n    height: 120%;\n  }\n  .h-full {\n    height: 100%;\n  }\n  .h-px {\n    height: 1px;\n  }\n  .min-h-\\[300px\\] {\n    min-height: 300px;\n  }\n  .min-h-\\[400px\\] {\n    min-height: 400px;\n  }\n  .min-h-screen {\n    min-height: 100vh;\n  }\n  .w-1\\.5 {\n    width: calc(var(--spacing) * 1.5);\n  }\n  .w-2 {\n    width: calc(var(--spacing) * 2);\n  }\n  .w-\\[1px\\] {\n    width: 1px;\n  }\n  .w-\\[120\\%\\] {\n    width: 120%;\n  }\n  .w-full {\n    width: 100%;\n  }\n  .w-px {\n    width: 1px;\n  }\n  .max-w-\\[1200px\\] {\n    max-width: 1200px;\n  }\n  .max-w-\\[1600px\\] {\n    max-width: 1600px;\n  }\n  .max-w-md {\n    max-width: var(--container-md);\n  }\n  .max-w-xl {\n    max-width: var(--container-xl);\n  }\n  .flex-1 {\n    flex: 1;\n  }\n  .shrink-0 {\n    flex-shrink: 0;\n  }\n  .-translate-x-1\\/2 {\n    --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);\n    translate: var(--tw-translate-x) var(--tw-translate-y);\n  }\n  .-translate-y-1\\/2 {\n    --tw-translate-y: calc(calc(1 / 2 * 100%) * -1);\n    translate: var(--tw-translate-x) var(--tw-translate-y);\n  }\n  .scale-110 {\n    --tw-scale-x: 110%;\n    --tw-scale-y: 110%;\n    --tw-scale-z: 110%;\n    scale: var(--tw-scale-x) var(--tw-scale-y);\n  }\n  .animate-pulse {\n    animation: var(--animate-pulse);\n  }\n  .grid-cols-1 {\n    grid-template-columns: repeat(1, minmax(0, 1fr));\n  }\n  .flex-col {\n    flex-direction: column;\n  }\n  .items-center {\n    align-items: center;\n  }\n  .items-start {\n    align-items: flex-start;\n  }\n  .justify-between {\n    justify-content: space-between;\n  }\n  .justify-center {\n    justify-content: center;\n  }\n  .justify-start {\n    justify-content: flex-start;\n  }\n  .gap-1 {\n    gap: var(--spacing);\n  }\n  .gap-2 {\n    gap: calc(var(--spacing) * 2);\n  }\n  .gap-3 {\n    gap: calc(var(--spacing) * 3);\n  }\n  .gap-4 {\n    gap: calc(var(--spacing) * 4);\n  }\n  .gap-6 {\n    gap: calc(var(--spacing) * 6);\n  }\n  .gap-8 {\n    gap: calc(var(--spacing) * 8);\n  }\n  .gap-10 {\n    gap: calc(var(--spacing) * 10);\n  }\n  .overflow-hidden {\n    overflow: hidden;\n  }\n  .rounded-\\[2\\.5rem\\] {\n    border-radius: 2.5rem;\n  }\n  .rounded-full {\n    border-radius: calc(infinity * 1px);\n  }\n  .bg-deep-forest\\/30 {\n    background-color: color-mix(in srgb, oklch(15% 0.04 160) 30%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-deep-forest) 30%, transparent);\n    }\n  }\n  .bg-sunset-amber {\n    background-color: var(--color-sunset-amber);\n  }\n  .bg-sunset-amber\\/10 {\n    background-color: color-mix(in srgb, oklch(70% 0.15 45) 10%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-sunset-amber) 10%, transparent);\n    }\n  }\n  .bg-sunset-amber\\/20 {\n    background-color: color-mix(in srgb, oklch(70% 0.15 45) 20%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-sunset-amber) 20%, transparent);\n    }\n  }\n  .bg-white\\/10 {\n    background-color: color-mix(in srgb, #fff 10%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-white) 10%, transparent);\n    }\n  }\n  .bg-gradient-to-b {\n    --tw-gradient-position: to bottom in oklab;\n    background-image: linear-gradient(var(--tw-gradient-stops));\n  }\n  .bg-gradient-to-r {\n    --tw-gradient-position: to right in oklab;\n    background-image: linear-gradient(var(--tw-gradient-stops));\n  }\n  .from-sunset-amber\\/40 {\n    --tw-gradient-from: color-mix(in srgb, oklch(70% 0.15 45) 40%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      --tw-gradient-from: color-mix(in oklab, var(--color-sunset-amber) 40%, transparent);\n    }\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .from-sunset-amber\\/50 {\n    --tw-gradient-from: color-mix(in srgb, oklch(70% 0.15 45) 50%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      --tw-gradient-from: color-mix(in oklab, var(--color-sunset-amber) 50%, transparent);\n    }\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .from-transparent {\n    --tw-gradient-from: transparent;\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .via-sunset-amber\\/30 {\n    --tw-gradient-via: color-mix(in srgb, oklch(70% 0.15 45) 30%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      --tw-gradient-via: color-mix(in oklab, var(--color-sunset-amber) 30%, transparent);\n    }\n    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);\n    --tw-gradient-stops: var(--tw-gradient-via-stops);\n  }\n  .to-transparent {\n    --tw-gradient-to: transparent;\n    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));\n  }\n  .object-cover {\n    object-fit: cover;\n  }\n  .p-10 {\n    padding: calc(var(--spacing) * 10);\n  }\n  .px-4 {\n    padding-inline: calc(var(--spacing) * 4);\n  }\n  .px-6 {\n    padding-inline: calc(var(--spacing) * 6);\n  }\n  .px-8 {\n    padding-inline: calc(var(--spacing) * 8);\n  }\n  .px-10 {\n    padding-inline: calc(var(--spacing) * 10);\n  }\n  .py-1\\.5 {\n    padding-block: calc(var(--spacing) * 1.5);\n  }\n  .py-4 {\n    padding-block: calc(var(--spacing) * 4);\n  }\n  .py-5 {\n    padding-block: calc(var(--spacing) * 5);\n  }\n  .py-12 {\n    padding-block: calc(var(--spacing) * 12);\n  }\n  .pt-32 {\n    padding-top: calc(var(--spacing) * 32);\n  }\n  .pb-32 {\n    padding-bottom: calc(var(--spacing) * 32);\n  }\n  .text-center {\n    text-align: center;\n  }\n  .font-data {\n    font-family: var(--font-data);\n  }\n  .font-heading {\n    font-family: var(--font-heading);\n  }\n  .text-3xl {\n    font-size: var(--text-3xl);\n    line-height: var(--tw-leading, var(--text-3xl--line-height));\n  }\n  .text-4xl {\n    font-size: var(--text-4xl);\n    line-height: var(--tw-leading, var(--text-4xl--line-height));\n  }\n  .text-5xl {\n    font-size: var(--text-5xl);\n    line-height: var(--tw-leading, var(--text-5xl--line-height));\n  }\n  .text-6xl {\n    font-size: var(--text-6xl);\n    line-height: var(--tw-leading, var(--text-6xl--line-height));\n  }\n  .text-lg {\n    font-size: var(--text-lg);\n    line-height: var(--tw-leading, var(--text-lg--line-height));\n  }\n  .text-sm {\n    font-size: var(--text-sm);\n    line-height: var(--tw-leading, var(--text-sm--line-height));\n  }\n  .text-xl {\n    font-size: var(--text-xl);\n    line-height: var(--tw-leading, var(--text-xl--line-height));\n  }\n  .text-xs {\n    font-size: var(--text-xs);\n    line-height: var(--tw-leading, var(--text-xs--line-height));\n  }\n  .text-\\[9px\\] {\n    font-size: 9px;\n  }\n  .text-\\[10px\\] {\n    font-size: 10px;\n  }\n  .text-\\[11px\\] {\n    font-size: 11px;\n  }\n  .leading-\\[0\\.95\\] {\n    --tw-leading: 0.95;\n    line-height: 0.95;\n  }\n  .leading-loose {\n    --tw-leading: var(--leading-loose);\n    line-height: var(--leading-loose);\n  }\n  .leading-relaxed {\n    --tw-leading: var(--leading-relaxed);\n    line-height: var(--leading-relaxed);\n  }\n  .font-light {\n    --tw-font-weight: var(--font-weight-light);\n    font-weight: var(--font-weight-light);\n  }\n  .font-medium {\n    --tw-font-weight: var(--font-weight-medium);\n    font-weight: var(--font-weight-medium);\n  }\n  .tracking-\\[0\\.2em\\] {\n    --tw-tracking: 0.2em;\n    letter-spacing: 0.2em;\n  }\n  .tracking-\\[0\\.3em\\] {\n    --tw-tracking: 0.3em;\n    letter-spacing: 0.3em;\n  }\n  .tracking-\\[0\\.4em\\] {\n    --tw-tracking: 0.4em;\n    letter-spacing: 0.4em;\n  }\n  .tracking-tighter {\n    --tw-tracking: var(--tracking-tighter);\n    letter-spacing: var(--tracking-tighter);\n  }\n  .tracking-widest {\n    --tw-tracking: var(--tracking-widest);\n    letter-spacing: var(--tracking-widest);\n  }\n  .text-sunset-amber {\n    color: var(--color-sunset-amber);\n  }\n  .text-sunset-amber\\/60 {\n    color: color-mix(in srgb, oklch(70% 0.15 45) 60%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-sunset-amber) 60%, transparent);\n    }\n  }\n  .text-sunset-amber\\/90 {\n    color: color-mix(in srgb, oklch(70% 0.15 45) 90%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-sunset-amber) 90%, transparent);\n    }\n  }\n  .text-white {\n    color: var(--color-white);\n  }\n  .text-white\\/30 {\n    color: color-mix(in srgb, #fff 30%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 30%, transparent);\n    }\n  }\n  .text-white\\/40 {\n    color: color-mix(in srgb, #fff 40%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 40%, transparent);\n    }\n  }\n  .text-white\\/50 {\n    color: color-mix(in srgb, #fff 50%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 50%, transparent);\n    }\n  }\n  .text-white\\/70 {\n    color: color-mix(in srgb, #fff 70%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 70%, transparent);\n    }\n  }\n  .text-white\\/90 {\n    color: color-mix(in srgb, #fff 90%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 90%, transparent);\n    }\n  }\n  .text-white\\/95 {\n    color: color-mix(in srgb, #fff 95%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      color: color-mix(in oklab, var(--color-white) 95%, transparent);\n    }\n  }\n  .uppercase {\n    text-transform: uppercase;\n  }\n  .italic {\n    font-style: italic;\n  }\n  .antialiased {\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n  }\n  .opacity-60 {\n    opacity: 60%;\n  }\n  .opacity-90 {\n    opacity: 90%;\n  }\n  .mix-blend-overlay {\n    mix-blend-mode: overlay;\n  }\n  .mix-blend-screen {\n    mix-blend-mode: screen;\n  }\n  .shadow-\\[0_0_10px_oklch\\(70\\%_0\\.15_45\\)\\] {\n    --tw-shadow: 0 0 10px var(--tw-shadow-color, oklch(70% 0.15 45));\n    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);\n  }\n  .blur-\\[80px\\] {\n    --tw-blur: blur(80px);\n    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);\n  }\n  .contrast-125 {\n    --tw-contrast: contrast(125%);\n    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);\n  }\n  .drop-shadow-2xl {\n    --tw-drop-shadow-size: drop-shadow(0 25px 25px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.15)));\n    --tw-drop-shadow: drop-shadow(var(--drop-shadow-2xl));\n    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);\n  }\n  .saturate-150 {\n    --tw-saturate: saturate(150%);\n    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);\n  }\n  .filter {\n    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);\n  }\n  .transition-all {\n    transition-property: all;\n    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n    transition-duration: var(--tw-duration, var(--default-transition-duration));\n  }\n  .transition-colors {\n    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;\n    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n    transition-duration: var(--tw-duration, var(--default-transition-duration));\n  }\n  .transition-transform {\n    transition-property: transform, translate, scale, rotate;\n    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));\n    transition-duration: var(--tw-duration, var(--default-transition-duration));\n  }\n  .duration-500 {\n    --tw-duration: 500ms;\n    transition-duration: 500ms;\n  }\n  @media (hover: hover) {\n    .group-hover\\:scale-150:is(:where(.group):hover *) {\n      --tw-scale-x: 150%;\n      --tw-scale-y: 150%;\n      --tw-scale-z: 150%;\n      scale: var(--tw-scale-x) var(--tw-scale-y);\n    }\n    .group-hover\\:text-white:is(:where(.group):hover *) {\n      color: var(--color-white);\n    }\n  }\n  .selection\\:bg-sunset-amber\\/30 ::selection {\n    background-color: color-mix(in srgb, oklch(70% 0.15 45) 30%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-sunset-amber) 30%, transparent);\n    }\n  }\n  .selection\\:bg-sunset-amber\\/30::selection {\n    background-color: color-mix(in srgb, oklch(70% 0.15 45) 30%, transparent);\n    @supports (color: color-mix(in lab, red, red)) {\n      background-color: color-mix(in oklab, var(--color-sunset-amber) 30%, transparent);\n    }\n  }\n  .selection\\:text-sunset-amber ::selection {\n    color: var(--color-sunset-amber);\n  }\n  .selection\\:text-sunset-amber::selection {\n    color: var(--color-sunset-amber);\n  }\n  @media (hover: hover) {\n    .hover\\:text-sunset-amber:hover {\n      color: var(--color-sunset-amber);\n    }\n  }\n  @media (width >= 48rem) {\n    .md\\:w-auto {\n      width: auto;\n    }\n    .md\\:flex-row {\n      flex-direction: row;\n    }\n    .md\\:justify-end {\n      justify-content: flex-end;\n    }\n    .md\\:gap-12 {\n      gap: calc(var(--spacing) * 12);\n    }\n    .md\\:p-14 {\n      padding: calc(var(--spacing) * 14);\n    }\n    .md\\:px-16 {\n      padding-inline: calc(var(--spacing) * 16);\n    }\n    .md\\:text-5xl {\n      font-size: var(--text-5xl);\n      line-height: var(--tw-leading, var(--text-5xl--line-height));\n    }\n    .md\\:text-7xl {\n      font-size: var(--text-7xl);\n      line-height: var(--tw-leading, var(--text-7xl--line-height));\n    }\n    .md\\:text-base {\n      font-size: var(--text-base);\n      line-height: var(--tw-leading, var(--text-base--line-height));\n    }\n  }\n  @media (width >= 64rem) {\n    .lg\\:h-screen {\n      height: 100vh;\n    }\n    .lg\\:translate-x-12 {\n      --tw-translate-x: calc(var(--spacing) * 12);\n      translate: var(--tw-translate-x) var(--tw-translate-y);\n    }\n    .lg\\:grid-cols-2 {\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n    }\n    .lg\\:justify-end {\n      justify-content: flex-end;\n    }\n    .lg\\:px-24 {\n      padding-inline: calc(var(--spacing) * 24);\n    }\n    .lg\\:pt-0 {\n      padding-top: 0px;\n    }\n    .lg\\:text-\\[6\\.5rem\\] {\n      font-size: 6.5rem;\n    }\n  }\n  @container (width >= 56rem) {\n    .\\@4xl\\:col-span-1 {\n      grid-column: span 1 / span 1;\n    }\n    .\\@4xl\\:col-span-2 {\n      grid-column: span 2 / span 2;\n    }\n    .\\@4xl\\:col-span-3 {\n      grid-column: span 3 / span 3;\n    }\n    .\\@4xl\\:grid-cols-3 {\n      grid-template-columns: repeat(3, minmax(0, 1fr));\n    }\n  }\n}\nbody {\n  background-color: var(--color-deep-forest);\n  color: oklch(95% 0.01 160);\n  margin: 0;\n  overflow-x: hidden;\n  font-family: var(--font-data);\n}\n@keyframes sway {\n  0%, 100% {\n    transform: rotate(-1.5deg) translateX(-3px) translateY(1px);\n  }\n  50% {\n    transform: rotate(1.5deg) translateX(3px) translateY(-1px);\n  }\n}\n@keyframes ambient-pulse {\n  0%, 100% {\n    opacity: 0.6;\n    transform: scale(1);\n    filter: blur(80px) saturate(120%);\n  }\n  50% {\n    opacity: 0.9;\n    transform: scale(1.05);\n    filter: blur(100px) saturate(160%);\n  }\n}\n@keyframes bloom-anim {\n  from {\n    opacity: 0;\n    transform: scale(0.85) translateY(60px);\n    filter: blur(24px);\n  }\n  to {\n    opacity: 1;\n    transform: scale(1) translateY(0);\n    filter: blur(0);\n  }\n}\n.sway-text {\n  display: inline-block;\n  animation: sway 8s ease-in-out infinite;\n  transform-origin: center center;\n  will-change: transform;\n}\n.botanical-kerning {\n  letter-spacing: -0.04em;\n}\n.liquid-terminals {\n  font-feature-settings: \"swsh\" 1, \"liga\" 1;\n}\n.dew-btn {\n  background: var(--color-glass);\n  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 4px rgba(255, 255, 255, 0.05), 0 10px 20px rgba(0, 0, 0, 0.3);\n  backdrop-filter: blur(24px);\n  -webkit-backdrop-filter: blur(24px);\n  border-radius: 9999px;\n  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);\n  position: relative;\n  overflow: hidden;\n}\n.dew-btn::after {\n  content: '';\n  position: absolute;\n  inset: 0;\n  background: radial-gradient(circle at top, rgba(255,255,255,0.15) 0%, transparent 60%);\n  opacity: 0;\n  transition: opacity 0.5s ease;\n}\n.dew-btn:hover {\n  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 8px rgba(255, 255, 255, 0.1), 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 30px oklch(70% 0.15 45 / 0.3);\n  transform: translateY(-2px) scale(1.01);\n}\n.dew-btn:hover::after {\n  opacity: 1;\n}\n.portal-mask {\n  mask-image: radial-gradient(circle at center, black 35%, transparent 75%);\n  -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 75%);\n  will-change: transform;\n}\n.bento-card {\n  background: linear-gradient(160deg, oklch(100% 0 0 / 0.06), oklch(100% 0 0 / 0.01));\n  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.01), 0 20px 50px rgba(0, 0, 0, 0.2);\n  backdrop-filter: blur(40px);\n  -webkit-backdrop-filter: blur(40px);\n  mask-image: linear-gradient(135deg, black 60%, transparent 100%);\n  -webkit-mask-image: linear-gradient(135deg, black 60%, transparent 100%);\n  position: relative;\n  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);\n  overflow: hidden;\n}\n.bento-card::before {\n  content: \"\";\n  position: absolute;\n  inset: -200px;\n  background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(70% 0.15 45 / 0.15), transparent 50%);\n  pointer-events: none;\n  mix-blend-mode: screen;\n  z-index: 10;\n  transition: opacity 0.4s ease;\n  opacity: 0;\n}\n.bento-card:hover::before {\n  opacity: 1;\n}\n.bento-card:hover {\n  transform: translateY(-4px);\n  mask-image: linear-gradient(135deg, black 70%, rgba(0,0,0,0.3) 100%);\n  -webkit-mask-image: linear-gradient(135deg, black 70%, rgba(0,0,0,0.3) 100%);\n}\n@supports (animation-timeline: view()) {\n  .bloom-scroll {\n    animation: bloom-anim linear both;\n    animation-timeline: view();\n    animation-range: entry 5% cover 30%;\n  }\n}\n.rhizome-bg {\n  background-image: radial-gradient(oklch(100% 0 0 / 0.03) 1px, transparent 1px);\n  background-size: 40px 40px;\n  mask-image: radial-gradient(ellipse at left center, black 20%, transparent 70%);\n  -webkit-mask-image: radial-gradient(ellipse at left center, black 20%, transparent 70%);\n}\n.kinetic-z {\n  will-change: transform;\n  transform-style: preserve-3d;\n}\n@property --tw-translate-x {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0;\n}\n@property --tw-translate-y {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0;\n}\n@property --tw-translate-z {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0;\n}\n@property --tw-scale-x {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 1;\n}\n@property --tw-scale-y {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 1;\n}\n@property --tw-scale-z {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 1;\n}\n@property --tw-gradient-position {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-from {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-via {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-to {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: #0000;\n}\n@property --tw-gradient-stops {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-via-stops {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-gradient-from-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 0%;\n}\n@property --tw-gradient-via-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 50%;\n}\n@property --tw-gradient-to-position {\n  syntax: \"<length-percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-leading {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-font-weight {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-tracking {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-shadow-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-shadow-alpha {\n  syntax: \"<percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-inset-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-inset-shadow-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-inset-shadow-alpha {\n  syntax: \"<percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-ring-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-ring-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-inset-ring-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-inset-ring-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-ring-inset {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-ring-offset-width {\n  syntax: \"<length>\";\n  inherits: false;\n  initial-value: 0px;\n}\n@property --tw-ring-offset-color {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: #fff;\n}\n@property --tw-ring-offset-shadow {\n  syntax: \"*\";\n  inherits: false;\n  initial-value: 0 0 #0000;\n}\n@property --tw-blur {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-brightness {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-contrast {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-grayscale {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-hue-rotate {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-invert {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-opacity {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-saturate {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-sepia {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-drop-shadow {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-drop-shadow-color {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-drop-shadow-alpha {\n  syntax: \"<percentage>\";\n  inherits: false;\n  initial-value: 100%;\n}\n@property --tw-drop-shadow-size {\n  syntax: \"*\";\n  inherits: false;\n}\n@property --tw-duration {\n  syntax: \"*\";\n  inherits: false;\n}\n@keyframes pulse {\n  50% {\n    opacity: 0.5;\n  }\n}\n@layer properties {\n  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {\n    *, ::before, ::after, ::backdrop {\n      --tw-translate-x: 0;\n      --tw-translate-y: 0;\n      --tw-translate-z: 0;\n      --tw-scale-x: 1;\n      --tw-scale-y: 1;\n      --tw-scale-z: 1;\n      --tw-gradient-position: initial;\n      --tw-gradient-from: #0000;\n      --tw-gradient-via: #0000;\n      --tw-gradient-to: #0000;\n      --tw-gradient-stops: initial;\n      --tw-gradient-via-stops: initial;\n      --tw-gradient-from-position: 0%;\n      --tw-gradient-via-position: 50%;\n      --tw-gradient-to-position: 100%;\n      --tw-leading: initial;\n      --tw-font-weight: initial;\n      --tw-tracking: initial;\n      --tw-shadow: 0 0 #0000;\n      --tw-shadow-color: initial;\n      --tw-shadow-alpha: 100%;\n      --tw-inset-shadow: 0 0 #0000;\n      --tw-inset-shadow-color: initial;\n      --tw-inset-shadow-alpha: 100%;\n      --tw-ring-color: initial;\n      --tw-ring-shadow: 0 0 #0000;\n      --tw-inset-ring-color: initial;\n      --tw-inset-ring-shadow: 0 0 #0000;\n      --tw-ring-inset: initial;\n      --tw-ring-offset-width: 0px;\n      --tw-ring-offset-color: #fff;\n      --tw-ring-offset-shadow: 0 0 #0000;\n      --tw-blur: initial;\n      --tw-brightness: initial;\n      --tw-contrast: initial;\n      --tw-grayscale: initial;\n      --tw-hue-rotate: initial;\n      --tw-invert: initial;\n      --tw-opacity: initial;\n      --tw-saturate: initial;\n      --tw-sepia: initial;\n      --tw-drop-shadow: initial;\n      --tw-drop-shadow-color: initial;\n      --tw-drop-shadow-alpha: 100%;\n      --tw-drop-shadow-size: initial;\n      --tw-duration: initial;\n    }\n  }\n}\n</style>\n<script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n<style type=\"text/tailwindcss\">\n  @theme {\n    --color-deep-forest: oklch(15% 0.04 160);\n    --color-sunset-amber: oklch(70% 0.15 45);\n    --color-glass: oklch(100% 0 0 / 5%);\n    --font-data: 'Inter Tight', sans-serif;\n    --font-heading: 'Playfair Display', serif;\n  }\n\n  body {\n    background-color: var(--color-deep-forest);\n    color: oklch(95% 0.01 160);\n    margin: 0;\n    overflow-x: hidden;\n    font-family: var(--font-data);\n  }\n\n  @keyframes sway {\n    0%, 100% { transform: rotate(-1.5deg) translateX(-3px) translateY(1px); }\n    50% { transform: rotate(1.5deg) translateX(3px) translateY(-1px); }\n  }\n\n  @keyframes ambient-pulse {\n    0%, 100% { opacity: 0.6; transform: scale(1); filter: blur(80px) saturate(120%); }\n    50% { opacity: 0.9; transform: scale(1.05); filter: blur(100px) saturate(160%); }\n  }\n\n  @keyframes bloom-anim {\n    from { \n      opacity: 0; \n      transform: scale(0.85) translateY(60px); \n      filter: blur(24px); \n    }\n    to { \n      opacity: 1; \n      transform: scale(1) translateY(0); \n      filter: blur(0); \n    }\n  }\n\n  .sway-text {\n    display: inline-block;\n    animation: sway 8s ease-in-out infinite;\n    transform-origin: center center;\n    will-change: transform;\n  }\n\n  .botanical-kerning {\n    letter-spacing: -0.04em;\n  }\n\n  .liquid-terminals {\n    font-feature-settings: \"swsh\" 1, \"liga\" 1;\n  }\n\n  .dew-btn {\n    background: var(--color-glass);\n    box-shadow: \n      inset 0 1px 1px rgba(255, 255, 255, 0.2), \n      inset 0 -1px 4px rgba(255, 255, 255, 0.05),\n      0 10px 20px rgba(0, 0, 0, 0.3);\n    backdrop-filter: blur(24px);\n    -webkit-backdrop-filter: blur(24px);\n    border-radius: 9999px;\n    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);\n    position: relative;\n    overflow: hidden;\n  }\n\n  .dew-btn::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background: radial-gradient(circle at top, rgba(255,255,255,0.15) 0%, transparent 60%);\n    opacity: 0;\n    transition: opacity 0.5s ease;\n  }\n\n  .dew-btn:hover {\n    box-shadow: \n      inset 0 2px 4px rgba(255, 255, 255, 0.3), \n      inset 0 -2px 8px rgba(255, 255, 255, 0.1),\n      0 15px 30px rgba(0, 0, 0, 0.4), \n      0 0 30px oklch(70% 0.15 45 / 0.3);\n    transform: translateY(-2px) scale(1.01);\n  }\n\n  .dew-btn:hover::after {\n    opacity: 1;\n  }\n\n  .portal-mask {\n    mask-image: radial-gradient(circle at center, black 35%, transparent 75%);\n    -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 75%);\n    will-change: transform;\n  }\n\n  .bento-card {\n    background: linear-gradient(160deg, oklch(100% 0 0 / 0.06), oklch(100% 0 0 / 0.01));\n    box-shadow: \n      inset 0 0 40px rgba(255, 255, 255, 0.01), \n      0 20px 50px rgba(0, 0, 0, 0.2);\n    backdrop-filter: blur(40px);\n    -webkit-backdrop-filter: blur(40px);\n    mask-image: linear-gradient(135deg, black 60%, transparent 100%);\n    -webkit-mask-image: linear-gradient(135deg, black 60%, transparent 100%);\n    position: relative;\n    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);\n    overflow: hidden;\n  }\n\n  .bento-card::before {\n    content: \"\";\n    position: absolute;\n    inset: -200px;\n    background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(70% 0.15 45 / 0.15), transparent 50%);\n    pointer-events: none;\n    mix-blend-mode: screen;\n    z-index: 10;\n    transition: opacity 0.4s ease;\n    opacity: 0;\n  }\n\n  .bento-card:hover::before {\n    opacity: 1;\n  }\n\n  .bento-card:hover {\n    transform: translateY(-4px);\n    mask-image: linear-gradient(135deg, black 70%, rgba(0,0,0,0.3) 100%);\n    -webkit-mask-image: linear-gradient(135deg, black 70%, rgba(0,0,0,0.3) 100%);\n  }\n\n  @supports (animation-timeline: view()) {\n    .bloom-scroll {\n      animation: bloom-anim linear both;\n      animation-timeline: view();\n      animation-range: entry 5% cover 30%;\n    }\n  }\n\n  .rhizome-bg {\n    background-image: radial-gradient(oklch(100% 0 0 / 0.03) 1px, transparent 1px);\n    background-size: 40px 40px;\n    mask-image: radial-gradient(ellipse at left center, black 20%, transparent 70%);\n    -webkit-mask-image: radial-gradient(ellipse at left center, black 20%, transparent 70%);\n  }\n\n  .kinetic-z {\n    will-change: transform;\n    transform-style: preserve-3d;\n  }\n</style>\n</head>\n<body class=\"antialiased selection:bg-sunset-amber/30 selection:text-sunset-amber relative\" data-sc-cs=\"background-color:oklch(0.15 0.04 160);color:oklch(0.95 0.01 160)\">\n\n<div class=\"fixed inset-0 pointer-events-none z-0 rhizome-bg\" data-sc-cs=\"background-image:radial-gradient(oklch(1 0 0 / 0.03) 1px, rgba(0, 0, 0, 0) 1px);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\"></div>\n\n<nav class=\"fixed top-6 inset-x-0 z-50 flex justify-center px-4 transition-all duration-500\" id=\"navbar\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 16px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:row;transition:0.5s cubic-bezier(0.4, 0, 0.2, 1);position:fixed\">\n  <div class=\"flex items-center gap-8 dew-btn px-8 py-4\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.05);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 32px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px;backdrop-filter:blur(24px);display:flex;gap:32px;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\">\n    <a href=\"#\" class=\"flex items-center gap-2 group\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n      <div class=\"w-2 h-2 rounded-full bg-sunset-amber shadow-[0_0_10px_oklch(70%_0.15_45)] group-hover:scale-150 transition-transform duration-500\" data-sc-cs=\"background-color:oklch(0.7 0.15 45);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:3.35544e+07px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.7 0.15 45) 0px 0px 10px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), translate 0.5s cubic-bezier(0.4, 0, 0.2, 1), scale 0.5s cubic-bezier(0.4, 0, 0.2, 1), rotate 0.5s cubic-bezier(0.4, 0, 0.2, 1)\"></div>\n      <span class=\"font-data text-xs tracking-[0.2em] uppercase text-white/70 group-hover:text-white transition-colors\" data-sc-cs=\"color:oklab(0.999994 0.0000455677 0.0000200868 / 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455677 0.0000200868 / 0.7);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), outline-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-from 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-via 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-to 0.15s cubic-bezier(0.4, 0, 0.2, 1)\">Terraform</span>\n    </a>\n    <div class=\"w-px h-4 bg-white/10\" data-sc-cs=\"background-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.1);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n    <div class=\"flex gap-6 font-data text-[11px] tracking-widest uppercase text-white/50\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:1.1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      <a href=\"#\" class=\"hover:text-sunset-amber transition-colors\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:1.1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), outline-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-from 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-via 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-to 0.15s cubic-bezier(0.4, 0, 0.2, 1)\">Mycelium</a>\n      <a href=\"#\" class=\"hover:text-sunset-amber transition-colors\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:1.1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), outline-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-from 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-via 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-to 0.15s cubic-bezier(0.4, 0, 0.2, 1)\">Metrics</a>\n      <a href=\"#\" class=\"hover:text-sunset-amber transition-colors\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:1.1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), outline-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-from 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-via 0.15s cubic-bezier(0.4, 0, 0.2, 1), --tw-gradient-to 0.15s cubic-bezier(0.4, 0, 0.2, 1)\">Vision</a>\n    </div>\n  </div>\n</nav>\n\n<main class=\"relative z-10 w-full flex flex-col items-center pb-32\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 0px 128px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all\">\n  \n  <section class=\"min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 96px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;max-width:1600px;display:grid;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    \n    <div class=\"relative flex flex-col justify-center px-8 md:px-16 lg:px-24 z-20\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 96px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all\">\n      <div class=\"kinetic-z\" id=\"hero-text-container\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        \n        <div class=\"flex items-center gap-4 mb-8\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n          <iconify-icon icon=\"ph:plant-light\" class=\"text-sunset-amber text-lg\" data-sc-col=\"sccol-0\" data-sc-cs=\"color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          <span class=\"font-data text-[10px] tracking-[0.4em] uppercase text-white/40\" data-sc-col=\"sccol-1\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Bio-Tech Convergence</span>\n        </div>\n\n        <h1 class=\"font-heading font-medium text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.95] text-white/95 botanical-kerning liquid-terminals drop-shadow-2xl\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.95);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:500;line-height:98.8px;letter-spacing:-4.16px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.95);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <span class=\"sway-text block\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.95);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:500;line-height:98.8px;letter-spacing:-4.16px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.95);border-radius:0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999843, 0.0177046, -0.0177046, 0.999843, 2.04056, -0.640273)\">Photosynthetic</span>\n          <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"animation-delay: -4s;\" data-sc-cs=\"color:oklab(0.7 0.106066 0.106066 / 0.9);font-family:&quot;Playfair Display&quot;, serif;font-size:104px;font-weight:500;line-height:98.8px;letter-spacing:-4.16px;text-align:start;margin:8px 0px 0px -52px;border-top-style:solid;border-top-color:oklab(0.7 0.106066 0.106066 / 0.9);border-radius:0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.999843, -0.0177046, 0.0177046, 0.999843, -2.01661, 0.712115)\">Efficiency</span>\n        </h1>\n        \n        <p class=\"mt-10 font-data text-sm tracking-[0.3em] uppercase text-white/40 max-w-md leading-loose mix-blend-screen\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:28px;letter-spacing:4.2px;text-align:start;text-transform:uppercase;margin:40px 0px 0px;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.\n        </p>\n\n        <div class=\"mt-12 flex items-center gap-8\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:32px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n          <div class=\"flex gap-3 items-center opacity-60\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"w-[1px] h-12 bg-gradient-to-b from-sunset-amber/50 to-transparent\" data-sc-cs=\"background-image:linear-gradient(oklab(0.7 0.106066 0.106066 / 0.5) 0%, rgba(0, 0, 0, 0) 100%);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          </div>\n          <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-2\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n            <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:0.9px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Network Logic</span>\n            <span class=\"font-heading italic text-xl text-white/90\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);font-family:&quot;Playfair Display&quot;, serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Rhizomatic</span>\n          </div>\n          <div class=\"w-[1px] h-8 bg-white/10\" data-sc-cs=\"background-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.1);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-3\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:normal;flex-direction:column;transition:all\">\n            <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:0.9px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Refraction</span>\n            <span class=\"font-heading italic text-xl text-white/90\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);font-family:&quot;Playfair Display&quot;, serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">IOR 1.5</span>\n          </div>\n        </div>\n\n      </div>\n    </div>\n\n    <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center lg:justify-end overflow-hidden z-10 pointer-events-none\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:flex-end;align-items:center;flex-direction:row;transition:all\">\n      <div class=\"absolute inset-0 w-full h-full portal-mask lg:translate-x-12\" id=\"orbital-container\" style=\"transform: scale(1) rotate(0deg);\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0);position:absolute\">\n        \n        <div class=\"absolute inset-0 w-full h-full mix-blend-screen\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n          <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-sunset-amber/20 rounded-full blur-[80px]\" style=\"animation: ambient-pulse 12s infinite alternate ease-in-out;\" data-sc-cs=\"background-color:oklab(0.7 0.106066 0.106066 / 0.2);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:3.35544e+07px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.04782, 0, 0, 1.04782, 0, 0);position:absolute\"></div>\n        </div>\n\n        <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover filter contrast-125 saturate-150 opacity-90 scale-110\" id=\"orbital-video\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <source src=\"https://videos.openhero.art/downloads/abstract/orbital-horizon/video.mp4\" type=\"video/mp4\">\n        </video>\n        \n        <div class=\"absolute inset-0 bg-deep-forest/30 mix-blend-overlay\" data-sc-cs=\"background-color:oklab(0.15 -0.0375877 0.0136808 / 0.3);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n      </div>\n    </div>\n\n  </section>\n\n  <section class=\"@container w-full max-w-[1200px] px-6\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 24px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;max-width:1200px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    <div class=\"grid grid-cols-1 @4xl:grid-cols-3 gap-8 md:gap-12 bento-grid\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:grid;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n      \n      <div class=\"bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" data-sc-col=\"sccol-4\" data-sc-cs=\"background-image:linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01));color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:40px;box-shadow:rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px;backdrop-filter:blur(40px);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.85, 0, 0, 0.85, 0, 51)\">\n        <div class=\"flex justify-between items-start\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all\">\n          <div class=\"flex items-center gap-3\" data-sc-col=\"sccol-5\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\" data-sc-cs=\"color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Network Status</span>\n          </div>\n          <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\" data-sc-col=\"sccol-6\" data-sc-cs=\"background-color:oklab(0.7 0.106066 0.106066 / 0.1);color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;padding:6px 16px;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:3.35544e+07px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\" data-sc-cs=\"background-color:oklch(0.7 0.15 45);color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:3.35544e+07px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div> Active\n          </div>\n        </div>\n        \n        <div class=\"mt-20 relative z-10\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:80px 0px 0px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);font-family:&quot;Playfair Display&quot;, serif;font-size:48px;font-weight:400;line-height:48px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Mycelium Logic</h2>\n          <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:300;line-height:26px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.\n          </p>\n        </div>\n      </div>\n\n      <div class=\"bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" style=\"animation-delay: 0.1s;\" data-sc-col=\"sccol-7\" data-sc-cs=\"background-image:linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01));color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:40px;box-shadow:rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px;backdrop-filter:blur(40px);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.85, 0, 0, 0.85, 0, 51)\">\n        <div class=\"flex items-center gap-3\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n          <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\" data-sc-col=\"sccol-8\" data-sc-cs=\"color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\" data-sc-col=\"sccol-9\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Yield</span>\n        </div>\n        \n        <div class=\"mt-16\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:64px 0px 0px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:72px;font-weight:300;line-height:72px;letter-spacing:-3.6px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">4.2<span class=\"text-3xl text-sunset-amber/60\" data-sc-cs=\"color:oklab(0.7 0.106066 0.106066 / 0.6);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:30px;font-weight:300;line-height:36px;letter-spacing:-3.6px;text-align:start;border-top-style:solid;border-top-color:oklab(0.7 0.106066 0.106066 / 0.6);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Gt</span></div>\n          <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\" data-sc-cs=\"background-image:linear-gradient(to right, oklab(0.7 0.106066 0.106066 / 0.4) 0%, rgba(0, 0, 0, 0) 100%);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:24px 0px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n          <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.\n          </p>\n        </div>\n      </div>\n\n      <div class=\"bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll\" style=\"animation-delay: 0.2s;\" data-sc-col=\"sccol-10\" data-sc-cs=\"background-image:linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01));color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:40px;box-shadow:rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px;backdrop-filter:blur(40px);display:flex;gap:40px;justify-content:space-between;align-items:center;flex-direction:row;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.85, 0, 0, 0.85, 0, 51)\">\n        <div class=\"flex-1\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.4);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Initiate Sequence</span>\n          <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);font-family:&quot;Playfair Display&quot;, serif;font-size:36px;font-weight:400;line-height:40px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Scalable Biospheres</h2>\n          <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.5);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.\n          </p>\n        </div>\n        <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;justify-content:flex-end;align-items:normal;flex-direction:row;transition:all\">\n          <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\" data-sc-cs=\"background-color:oklch(1 0 0 / 0.05);color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:16.5px;letter-spacing:2.2px;text-align:center;text-transform:uppercase;padding:20px 40px;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.9);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px;backdrop-filter:blur(24px);display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.16, 1, 0.3, 1)\" data-sc-hover=\"after{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transition:opacity 0.5s;transition-property:opacity;transition-duration:0.5s;transition-timing-function:ease;background-color:initial;background-image:radial-gradient(circle at center top, rgba(255, 255, 255, 0.15) 0%, transparent 60%);opacity:0}|hover-self{transform:translateY(-2px) scale(1.01);box-shadow:rgba(255, 255, 255, 0.3) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px -2px 8px inset, rgba(0, 0, 0, 0.4) 0px 15px 30px, oklch(0.7 0.15 45 / 0.3) 0px 0px 30px}|hover-after{opacity:1}\">\n            Initialize Deploy\n            <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\" data-sc-cs=\"color:oklch(0.7 0.15 45);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:18px;font-weight:400;line-height:28px;letter-spacing:2.2px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:oklch(0.7 0.15 45);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n          </button>\n        </div>\n      </div>\n\n    </div>\n  </section>\n</main>\n\n<footer class=\"w-full py-12 flex flex-col items-center justify-center gap-6 relative z-10 bloom-scroll\" data-sc-cs=\"color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px 0px;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:flex;gap:24px;justify-content:center;align-items:center;flex-direction:column;transition:all;transform:matrix(0.85, 0, 0, 0.85, 0, 51)\">\n  <div class=\"w-px h-16 bg-gradient-to-b from-transparent via-sunset-amber/30 to-transparent\" data-sc-cs=\"background-image:linear-gradient(rgba(0, 0, 0, 0) 0%, oklab(0.7 0.106066 0.106066 / 0.3) 50%, rgba(0, 0, 0, 0) 100%);color:oklch(0.95 0.01 160);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:oklch(0.95 0.01 160);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n  <div class=\"font-data text-[9px] tracking-[0.4em] uppercase text-white/30 text-center mix-blend-screen\" data-sc-cs=\"color:oklab(0.999994 0.0000455678 0.0000200868 / 0.3);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:3.6px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:oklab(0.999994 0.0000455678 0.0000200868 / 0.3);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n    © 2026 Terraform Industries. Bio-Luxury Architecture.\n  </div>\n</footer>\n\n<script>\n  document.querySelectorAll('.bento-card').forEach(card => {\n    card.addEventListener('mousemove', e => {\n      const rect = card.getBoundingClientRect();\n      const x = e.clientX - rect.left;\n      const y = e.clientY - rect.top;\n      card.style.setProperty('--mouse-x', `${x}px`);\n      card.style.setProperty('--mouse-y', `${y}px`);\n    });\n  });\n\n  const videoContainer = document.getElementById('orbital-container');\n  const heroTextContainer = document.getElementById('hero-text-container');\n  let ticking = false;\n\n  window.addEventListener('scroll', () => {\n    if (!ticking) {\n      window.requestAnimationFrame(() => {\n        const scrolled = window.scrollY;\n        \n        if (videoContainer && scrolled < window.innerHeight * 1.5) {\n          const rotation = scrolled * 0.01;\n          const scale = 1 + (scrolled * 0.0003);\n          videoContainer.style.transform = `scale(${scale}) rotate(${rotation}deg)`;\n        }\n        ticking = false;\n      });\n      ticking = true;\n    }\n  });\n\n  document.addEventListener('mousemove', (e) => {\n    if (!heroTextContainer) return;\n    const xAxis = (window.innerWidth / 2 - e.pageX) / 60;\n    const yAxis = (window.innerHeight / 2 - e.pageY) / 60;\n    heroTextContainer.style.transform = `translate3d(${xAxis}px, ${yAxis}px, 0)`;\n  });\n</script>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n</body></html>",
+  "megaMenus": [],
+  "title": "Terraform Industries | Scalable Carbon Capture",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 16,
+      "family": "Inter Tight",
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 104,
+      "weight": "500",
+      "family": "Playfair Display",
+      "line-height": "0.95",
+      "letter-spacing": "-4.16"
+    },
+    "h2": {
+      "size": 48,
+      "weight": "400",
+      "family": "Playfair Display",
+      "line-height": "1"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "104",
+        "weight": "500",
+        "line_height": "0.95",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "48",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "36",
+        "weight": "400",
+        "line_height": "1.11",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "16",
+        "weight": "300",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "9",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "0.9",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--container-md": "28rem",
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-inset-shadow-alpha": "100%",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--leading-relaxed": "1.625",
+      "--tw-drop-shadow-alpha": "100%",
+      "--tracking-tighter": "-0.05em",
+      "--text-7xl": "4.5rem",
+      "--color-glass": "oklch(100% 0 0 / 5%)",
+      "--text-lg": "1.125rem",
+      "--default-transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "--text-5xl--line-height": "1",
+      "--tw-inset-ring-shadow": "0 0 #0000",
+      "--text-base--line-height": "calc(1.5 / 1)",
+      "--spacing": "0.25rem",
+      "--tw-translate-z": "0",
+      "--tw-gradient-via": "rgba(0, 0, 0, 0)",
+      "--tw-scale-y": "1",
+      "--text-xl--line-height": "calc(1.75 / 1.25)",
+      "--color-sunset-amber": "oklch(70% 0.15 45)",
+      "--text-sm": "0.875rem",
+      "--tw-translate-y": "0",
+      "--tw-inset-shadow": "0 0 #0000",
+      "--tw-ring-offset-color": "#fff",
+      "--text-lg--line-height": "calc(1.75 / 1.125)",
+      "--tw-gradient-from": "rgba(0, 0, 0, 0)",
+      "--color-white": "#fff",
+      "--tw-shadow-alpha": "100%",
+      "--tw-gradient-to": "rgba(0, 0, 0, 0)",
+      "--drop-shadow-2xl": "0 25px 25px rgb(0 0 0 / 0.15)",
+      "--text-4xl": "2.25rem",
+      "--tw-scale-z": "1",
+      "--tw-shadow": "0 0 #0000",
+      "--text-sm--line-height": "calc(1.25 / 0.875)",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-gradient-via-position": "50%",
+      "--text-3xl--line-height": "calc(2.25 / 1.875)",
+      "--text-5xl": "3rem",
+      "--text-6xl": "3.75rem",
+      "--text-3xl": "1.875rem",
+      "--text-xs": "0.75rem",
+      "--color-deep-forest": "oklch(15% 0.04 160)",
+      "--text-xs--line-height": "calc(1 / 0.75)",
+      "--tracking-widest": "0.1em",
+      "--font-weight-medium": "500",
+      "--tw-scale-x": "1",
+      "--font-weight-light": "300",
+      "--tw-gradient-to-position": "100%",
+      "--default-transition-duration": "150ms",
+      "--animate-pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      "--text-6xl--line-height": "1",
+      "--font-data": "'Inter Tight', sans-serif",
+      "--container-xl": "36rem",
+      "--text-7xl--line-height": "1",
+      "--text-xl": "1.25rem",
+      "--text-4xl--line-height": "calc(2.5 / 2.25)",
+      "--leading-loose": "2",
+      "--font-heading": "'Playfair Display', serif",
+      "--text-base": "1rem",
+      "--tw-gradient-from-position": "0%"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "\"Inter Tight\", sans-serif",
+      "color": "oklch(0.95 0.01 160)",
+      "backgroundColor": "oklch(0.15 0.04 160)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1600px"
+  },
+  "baseHeading": {
+    "fontFamily": "Playfair Display",
+    "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)",
+    "weight": "500"
+  },
+  "header": null,
+  "footer": {
+    "computed": {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "oklch(0.95 0.01 160)",
+      "padding": "48px 0px"
+    },
+    "brand": "",
+    "groups": [],
+    "contact": null,
+    "newsletter": null,
+    "social": [],
+    "copyright": "© 2026 Terraform Industries. Bio-Luxury Architecture.",
+    "links": [],
+    "text": "© 2026 Terraform Industries. Bio-Luxury Architecture."
+  },
+  "sections": [
+    {
+      "heading": "Photosynthetic Efficiency",
+      "headingHtml": "Photosynthetic <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"color:oklab(0.7 0.106066 0.106066 / 0.9)\"><em>Efficiency</em></span>",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "\"Playfair Display\", serif",
+        "fontSize": "104px",
+        "fontWeight": "500",
+        "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)"
+      },
+      "overline": "Bio-Tech Convergence",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.95 0.01 160)",
+        "textTransform": "none",
+        "letterSpacing": "normal",
+        "borderRadius": "0px",
+        "fontSize": "16px"
+      },
+      "lead": "Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.",
+      "paragraphs": [
+        "Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.95 0.01 160)",
+        "margin": "0px 0px 96px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px",
+        "minHeight": "900px",
+        "maxWidth": "1600px"
+      },
+      "text": "Bio-Tech Convergence Photosynthetic Efficiency Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale. Network Logic Rhizomatic Refraction IOR 1.5",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "grid": {
+            "cols": "720px 720px",
+            "gap": "normal"
+          },
+          "maxWidth": "1600px",
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "padding": "0px 96px",
+              "flex": {
+                "dir": "column",
+                "justify": "center",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all",
+              "tw": {
+                "px": "32px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "normal",
+                        "align": "center",
+                        "gap": "16px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "16px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "Bio-Tech Convergence",
+                        "text": "Bio-Tech Convergence",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "4px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "heading",
+                    "level": 1,
+                    "html": "Photosynthetic <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"color:oklab(0.7 0.106066 0.106066 / 0.9)\"><em>Efficiency</em></span>",
+                    "text": "Photosynthetic Efficiency",
+                    "styles": {
+                      "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "104px",
+                      "fontWeight": "500",
+                      "letterSpacing": "-4.16px",
+                      "lineHeight": "98.8px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "500",
+                        "fontSize": "48px",
+                        "lineHeight": "1"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.",
+                    "text": "Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.",
+                    "styles": {
+                      "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                      "fontFamily": "\"Inter Tight\", sans-serif",
+                      "fontSize": "14px",
+                      "letterSpacing": "4.2px",
+                      "lineHeight": "28px",
+                      "textTransform": "uppercase",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "normal",
+                        "align": "center",
+                        "gap": "32px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "32px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "flex": {
+                            "dir": "column",
+                            "justify": "normal",
+                            "align": "normal",
+                            "gap": "4px",
+                            "wrap": "nowrap"
+                          },
+                          "transition": "all",
+                          "tw": {
+                            "gap": "4px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Network Logic",
+                            "text": "Network Logic",
+                            "styles": {
+                              "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "9px",
+                              "letterSpacing": "0.9px",
+                              "lineHeight": "13.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "Rhizomatic",
+                            "text": "Rhizomatic",
+                            "styles": {
+                              "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                              "fontFamily": "\"Playfair Display\", serif",
+                              "fontSize": "20px",
+                              "lineHeight": "28px",
+                              "transition": "all",
+                              "tw": {
+                                "fontSize": "20px",
+                                "lineHeight": "28px"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "flex": {
+                            "dir": "column",
+                            "justify": "normal",
+                            "align": "normal",
+                            "gap": "4px",
+                            "wrap": "nowrap"
+                          },
+                          "transition": "all",
+                          "tw": {
+                            "gap": "4px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Refraction",
+                            "text": "Refraction",
+                            "styles": {
+                              "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "9px",
+                              "letterSpacing": "0.9px",
+                              "lineHeight": "13.5px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "IOR 1.5",
+                            "text": "IOR 1.5",
+                            "styles": {
+                              "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                              "fontFamily": "\"Playfair Display\", serif",
+                              "fontSize": "20px",
+                              "lineHeight": "28px",
+                              "transition": "all",
+                              "tw": {
+                                "fontSize": "20px",
+                                "lineHeight": "28px"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24\">          <div class=\"relative flex flex-col justify-center px-8 md:px-16 lg:px-24 z-20\">       <div class=\"kinetic-z\" id=\"hero-text-container\">                  <div class=\"flex items-center gap-4 mb-8\">           <iconify-icon icon=\"ph:plant-light\" class=\"text-sunset-amber text-lg\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.4em] uppercase text-white/40\">Bio-Tech Convergence</span>         </div>         <h1 class=\"font-heading font-medium text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.95] text-white/95 botanical-kerning liquid-terminals drop-shadow-2xl\">           <span class=\"sway-text block\">Photosynthetic</span>           <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"animation-delay: -4s;\">Efficiency</span>         </h1>                  <p class=\"mt-10 font-data text-sm tracking-[0.3em] uppercase text-white/40 max-w-md leading-loose mix-blend-screen\">           Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.         </p>         <div class=\"mt-12 flex items-center gap-8\">           <div class=\"flex gap-3 items-center opacity-60\">             <div class=\"w-[1px] h-12 bg-gradient-to-b from-sunset-amber/50 to-transparent\"></div>           </div>           <div class=\"flex flex-col gap-1\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Network Logic</span>             <span class=\"font-heading italic text-xl text-white/90\">Rhizomatic</span>           </div>           <div class=\"w-[1px] h-8 bg-white/10\"></div>           <div class=\"flex flex-col gap-1\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Refraction</span>             <span class=\"font-heading italic text-xl text-white/90\">IOR 1.5</span>           </div>         </div>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center lg:justify-end overflow-hidden z-10 pointer-events-none\">       <div class=\"absolute inset-0 w-full h-full portal-mask lg:translate-x-12\" id=\"orbital-container\" style=\"transform: scale(1) rotate(0deg);\">                  <div class=\"absolute inset-0 w-full h-full mix-blend-screen\">           <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-sunset-amber/20 rounded-full blur-[80px]\" style=\"animation: ambient-pulse 12s infinite alternate ease-in-out;\"></div>         </div>         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover filter contrast-125 saturate-150 opacity-90 scale-110\" id=\"orbital-video\">           <source src=\"https://videos.openhero.art/downloads/abstract/orbital-horizon/video.mp4\" type=\"video/mp4\">         </video>                  <div class=\"absolute inset-0 bg-deep-forest/30 mix-blend-overlay\"></div>       </div>     </div>   </section>",
+      "rawInner": "          <div class=\"relative flex flex-col justify-center px-8 md:px-16 lg:px-24 z-20\">       <div class=\"kinetic-z\" id=\"hero-text-container\">                  <div class=\"flex items-center gap-4 mb-8\">           <iconify-icon icon=\"ph:plant-light\" class=\"text-sunset-amber text-lg\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.4em] uppercase text-white/40\">Bio-Tech Convergence</span>         </div>         <h1 class=\"font-heading font-medium text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.95] text-white/95 botanical-kerning liquid-terminals drop-shadow-2xl\">           <span class=\"sway-text block\">Photosynthetic</span>           <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"animation-delay: -4s;\">Efficiency</span>         </h1>                  <p class=\"mt-10 font-data text-sm tracking-[0.3em] uppercase text-white/40 max-w-md leading-loose mix-blend-screen\">           Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.         </p>         <div class=\"mt-12 flex items-center gap-8\">           <div class=\"flex gap-3 items-center opacity-60\">             <div class=\"w-[1px] h-12 bg-gradient-to-b from-sunset-amber/50 to-transparent\"></div>           </div>           <div class=\"flex flex-col gap-1\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Network Logic</span>             <span class=\"font-heading italic text-xl text-white/90\">Rhizomatic</span>           </div>           <div class=\"w-[1px] h-8 bg-white/10\"></div>           <div class=\"flex flex-col gap-1\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Refraction</span>             <span class=\"font-heading italic text-xl text-white/90\">IOR 1.5</span>           </div>         </div>       </div>     </div>     <div class=\"relative h-[60vh] lg:h-screen w-full flex items-center justify-center lg:justify-end overflow-hidden z-10 pointer-events-none\">       <div class=\"absolute inset-0 w-full h-full portal-mask lg:translate-x-12\" id=\"orbital-container\" style=\"transform: scale(1) rotate(0deg);\">                  <div class=\"absolute inset-0 w-full h-full mix-blend-screen\">           <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-sunset-amber/20 rounded-full blur-[80px]\" style=\"animation: ambient-pulse 12s infinite alternate ease-in-out;\"></div>         </div>         <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover filter contrast-125 saturate-150 opacity-90 scale-110\" id=\"orbital-video\">           <source src=\"https://videos.openhero.art/downloads/abstract/orbital-horizon/video.mp4\" type=\"video/mp4\">         </video>                  <div class=\"absolute inset-0 bg-deep-forest/30 mix-blend-overlay\"></div>       </div>     </div>   ",
+      "sectionClass": "min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "max-width": 3,
+        "display-grid": 1,
+        "margin": 5,
+        "display-flex": 7,
+        "padding": 1,
+        "gap": 5,
+        "transform": 4,
+        "background-image": 1,
+        "background-color": 3,
+        "position-absolute": 4,
+        "border-radius": 1,
+        "border": 1
+      },
+      "h": 900,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "font-data text-[10px] tracking-[0.4em] uppercase text-white/40",
+              "colId": "sccol-1",
+              "cw": 4,
+              "html": "Bio-Tech Convergence",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 8,
+                "tablet": 4,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 16,
+          "gapResp": {
+            "base": 16,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex items-center gap-4 mb-8\">           <iconify-icon icon=\"ph:plant-light\" class=\"text-sunset-amber text-lg\" data-sc-col=\"sccol-0\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.4em] uppercase text-white/40\" data-sc-col=\"sccol-1\">Bio-Tech Convergence</span>         </div>"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Photosynthetic <span class=\"sway-text block italic text-sunset-amber/90 ml-[-0.5em] mt-2\" style=\"color:oklab(0.7 0.106066 0.106066 / 0.9)\"><em>Efficiency</em></span>",
+          "text": "Photosynthetic Efficiency",
+          "tag": "h1",
+          "cls": "font-heading font-medium text-5xl md:text-7xl lg:text-[6.5rem] leading-[0.95] text-white/95 botanical-kerning liquid-terminals drop-shadow-2xl",
+          "wrapCls": "kinetic-z",
+          "fontSize": "104px",
+          "fontWeight": "500",
+          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.95)",
+          "marginBottom": "0px",
+          "marginTop": "0px",
+          "lineHeight": "98.8px",
+          "letterSpacing": "-4.16px",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"mt-10 font-data text-sm tracking-[0.3em] uppercase text-white/40 max-w-md leading-loose mix-blend-screen\">           Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.         </p>",
+          "text": "Atmospheric biological scrubbers simulating organic cellular respiration at an industrial scale.",
+          "tag": "p",
+          "cls": "mt-10 font-data text-sm tracking-[0.3em] uppercase text-white/40 max-w-md leading-loose mix-blend-screen",
+          "fontSize": "14px",
+          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+          "lineHeight": "28px",
+          "letterSpacing": "4.2px",
+          "marginBottom": "0px",
+          "textAlign": "start",
+          "fontWeight": "400",
+          "textTransform": "uppercase"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "flex flex-col gap-1",
+              "colId": "sccol-2",
+              "cw": 2,
+              "html": "             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Network Logic</span>             <span class=\"font-heading italic text-xl text-white/90\">Rhizomatic</span>           ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "4px"
+              },
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 4,
+                "tablet": 2,
+                "desktop": 2
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "flex flex-col gap-1",
+              "colId": "sccol-3",
+              "cw": 1,
+              "html": "             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Refraction</span>             <span class=\"font-heading italic text-xl text-white/90\">IOR 1.5</span>           ",
+              "flex": {
+                "dir": "column",
+                "justify": "normal",
+                "align": "normal",
+                "gap": "4px"
+              },
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 2,
+                "tablet": 1,
+                "desktop": 1
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 32,
+          "gapResp": {
+            "base": 32,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"mt-12 flex items-center gap-8\">           <div class=\"flex gap-3 items-center opacity-60\">             <div class=\"w-[1px] h-12 bg-gradient-to-b from-sunset-amber/50 to-transparent\"></div>           </div>           <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-2\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Network Logic</span>             <span class=\"font-heading italic text-xl text-white/90\">Rhizomatic</span>           </div>           <div class=\"w-[1px] h-8 bg-white/10\"></div>           <div class=\"flex flex-col gap-1\" data-sc-col=\"sccol-3\">             <span class=\"font-data text-[9px] text-white/40 uppercase tracking-widest\">Refraction</span>             <span class=\"font-heading italic text-xl text-white/90\">IOR 1.5</span>           </div>         </div>"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 w-full h-full mix-blend-screen\">           <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-sunset-amber/20 rounded-full blur-[80px]\" style=\"animation: ambient-pulse 12s infinite alternate ease-in-out;\"></div>         </div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "screen",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 720,
+            "h": 900
+          }
+        },
+        {
+          "t": "video",
+          "mode": "self_hosted",
+          "src": "https://videos.openhero.art/downloads/abstract/orbital-horizon/video.mp4",
+          "webm": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+          "poster": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+          "bg": true,
+          "aspect": "",
+          "cover": true,
+          "rhideCls": " w-full h-full object-cover filter contrast-125 saturate-150 opacity-90 scale-110 absolute inset-0 w-full h-full portal-mask lg:translate-x-12 relative h-[60vh] lg:h-screen w-full flex items-center justify-center lg:justify-end overflow-hidden z-10 pointer-events-none min-h-screen grid grid-cols-1 lg:grid-cols-2 relative w-full max-w-[1600px] mx-auto pt-32 lg:pt-0 mb-24",
+          "autoplay": "yes",
+          "muted": "yes",
+          "loop": "yes",
+          "controls": "no",
+          "playsinline": "yes"
+        },
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 bg-deep-forest/30 mix-blend-overlay\"></div>",
+          "decor": true,
+          "paint": {
+            "bg": "oklab(0.15 -0.0375877 0.0136808 / 0.3)",
+            "bgImage": "",
+            "blur": "",
+            "blend": "overlay",
+            "radius": "",
+            "opacity": "",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 720,
+            "h": 900
+          }
+        }
+      ],
+      "css": ".sway-text{display: inline-block; animation: 8s ease-in-out 0s infinite normal none running sway; transform-origin: center center; will-change: transform;}\n.botanical-kerning{letter-spacing: -0.04em;}\n.liquid-terminals{font-feature-settings: \"swsh\", \"liga\";}\n.portal-mask{mask-image: radial-gradient(circle, black 35%, transparent 75%); will-change: transform;}\n.kinetic-z{will-change: transform; transform-style: preserve-3d;}"
+    },
+    {
+      "heading": "Mycelium Logic",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "\"Playfair Display\", serif",
+        "fontSize": "48px",
+        "fontWeight": "400",
+        "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)"
+      },
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+      "paragraphs": [
+        "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+        "Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.",
+        "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built."
+      ],
+      "buttons": [
+        {
+          "label": "Initialize Deploy",
+          "href": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+          "primary": true
+        }
+      ],
+      "cards": [
+        {
+          "number": "",
+          "icon": "",
+          "title": "Mycelium Logic",
+          "text": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "Scalable Biospheres",
+          "text": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+          "image": ""
+        }
+      ],
+      "images": [],
+      "grids": [
+        {
+          "cols": 3,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.95 0.01 160)",
+        "padding": "0px 24px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "16px",
+        "maxWidth": "1200px"
+      },
+      "text": "Network Status Active Mycelium Logic Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density. Yield 4.2Gt Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers. Initiate Sequence Scalable Biospheres Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built. Initialize Deploy",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "0px 24px",
+          "maxWidth": "1200px",
+          "transition": "all",
+          "tw": {
+            "px": "24px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "352px 352px 352px",
+                "gap": "48px"
+              },
+              "transition": "all",
+              "tw": {
+                "gap": "32px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01))",
+                  "padding": "56px",
+                  "borderRadius": "40px",
+                  "boxShadow": "rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "animation": "bloom-anim auto linear 1",
+                  "transform": "matrix(0.85, 0, 0, 0.85, 0, 51)",
+                  "transition": "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  "tw": {
+                    "radius": "2.5rem"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "space-between",
+                        "align": "flex-start",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "flex": {
+                            "dir": "row",
+                            "justify": "normal",
+                            "align": "center",
+                            "gap": "12px",
+                            "wrap": "nowrap"
+                          },
+                          "transition": "all",
+                          "tw": {
+                            "gap": "12px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Network Status",
+                            "text": "Network Status",
+                            "styles": {
+                              "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "10px",
+                              "letterSpacing": "3px",
+                              "lineHeight": "15px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "text",
+                        "html": "Active",
+                        "text": "Active",
+                        "styles": {
+                          "bg": "oklab(0.7 0.106066 0.106066 / 0.1)",
+                          "padding": "6px 16px",
+                          "borderRadius": "3.35544e+07px",
+                          "color": "oklch(0.7 0.15 45)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "1px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all",
+                          "tw": {
+                            "radius": "9999px",
+                            "px": "16px",
+                            "py": "6px",
+                            "gap": "8px"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "heading",
+                        "level": 2,
+                        "html": "Mycelium Logic",
+                        "text": "Mycelium Logic",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                          "fontFamily": "\"Playfair Display\", serif",
+                          "fontSize": "48px",
+                          "lineHeight": "48px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "36px",
+                            "lineHeight": "40px"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+                        "text": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "16px",
+                          "fontWeight": "300",
+                          "lineHeight": "26px",
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "14px",
+                            "lineHeight": "20px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01))",
+                  "padding": "56px",
+                  "borderRadius": "40px",
+                  "boxShadow": "rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "animation": "bloom-anim auto linear 1",
+                  "transform": "matrix(0.85, 0, 0, 0.85, 0, 51)",
+                  "transition": "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  "tw": {
+                    "radius": "2.5rem"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "normal",
+                        "align": "center",
+                        "gap": "12px",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all",
+                      "tw": {
+                        "gap": "12px"
+                      }
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "Yield",
+                        "text": "Yield",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "3px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "60px",
+                            "lineHeight": "1"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Gt",
+                            "text": "Gt",
+                            "styles": {
+                              "color": "oklab(0.7 0.106066 0.106066 / 0.6)",
+                              "fontFamily": "\"Inter Tight\", sans-serif",
+                              "fontSize": "30px",
+                              "fontWeight": "300",
+                              "letterSpacing": "-3.6px",
+                              "lineHeight": "36px",
+                              "transition": "all",
+                              "tw": {
+                                "fontSize": "30px",
+                                "lineHeight": "36px"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "role": "text",
+                        "html": "Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.",
+                        "text": "Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "14px",
+                          "fontWeight": "300",
+                          "lineHeight": "22.75px",
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "14px",
+                            "lineHeight": "20px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bgImage": "linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01))",
+                  "padding": "56px",
+                  "borderRadius": "40px",
+                  "boxShadow": "rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "space-between",
+                    "align": "center",
+                    "gap": "40px",
+                    "wrap": "nowrap"
+                  },
+                  "animation": "bloom-anim auto linear 1",
+                  "transform": "matrix(0.85, 0, 0, 0.85, 0, 51)",
+                  "transition": "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  "tw": {
+                    "radius": "2.5rem",
+                    "gap": "40px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "Initiate Sequence",
+                        "text": "Initiate Sequence",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "3px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      },
+                      {
+                        "role": "heading",
+                        "level": 2,
+                        "html": "Scalable Biospheres",
+                        "text": "Scalable Biospheres",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                          "fontFamily": "\"Playfair Display\", serif",
+                          "fontSize": "36px",
+                          "lineHeight": "40px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "36px",
+                            "lineHeight": "40px"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+                        "text": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+                        "styles": {
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "14px",
+                          "fontWeight": "300",
+                          "lineHeight": "22.75px",
+                          "transition": "all",
+                          "tw": {
+                            "fontWeight": "300",
+                            "fontSize": "14px",
+                            "lineHeight": "20px"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "row",
+                        "justify": "flex-end",
+                        "align": "normal",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "button",
+                        "label": "Initialize Deploy",
+                        "href": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+                        "styles": {
+                          "textAlign": "center",
+                          "bg": "oklch(1 0 0 / 0.05)",
+                          "padding": "20px 40px",
+                          "borderRadius": "9999px",
+                          "boxShadow": "rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px",
+                          "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                          "fontFamily": "\"Inter Tight\", sans-serif",
+                          "fontSize": "11px",
+                          "letterSpacing": "2.2px",
+                          "lineHeight": "16.5px",
+                          "textTransform": "uppercase",
+                          "transition": "0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                          "tw": {
+                            "px": "40px",
+                            "py": "20px",
+                            "gap": "16px"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"@container w-full max-w-[1200px] px-6\">     <div class=\"grid grid-cols-1 @4xl:grid-cols-3 gap-8 md:gap-12 bento-grid\">              <div class=\"bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\">         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" style=\"animation-delay: 0.1s;\">         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll\" style=\"animation-delay: 0.2s;\">         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       </div>     </div>   </section>",
+      "rawInner": "     <div class=\"grid grid-cols-1 @4xl:grid-cols-3 gap-8 md:gap-12 bento-grid\">              <div class=\"bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\">         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" style=\"animation-delay: 0.1s;\">         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll\" style=\"animation-delay: 0.2s;\">         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       </div>     </div>   ",
+      "sectionClass": "@container w-full max-w-[1200px] px-6",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "max-width": 3,
+        "padding": 6,
+        "display-grid": 1,
+        "gap": 6,
+        "background-image": 4,
+        "backdrop-filter": 4,
+        "box-shadow": 4,
+        "border-radius": 6,
+        "transform": 3,
+        "display-flex": 9,
+        "background-color": 3,
+        "margin": 7
+      },
+      "h": 748,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll",
+              "colId": "sccol-4",
+              "cw": 7,
+              "html": "         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       ",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Mycelium Logic",
+                "titleTag": "h2",
+                "titleClass": "font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals",
+                "subtitle": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+                "subtitleClass": "font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base",
+                "wrapClass": "mt-20 relative z-10",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll",
+              "colId": "sccol-7",
+              "cw": 3,
+              "html": "         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       ",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 3
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll",
+              "colId": "sccol-10",
+              "cw": 10,
+              "html": "         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       ",
+              "flex": {
+                "dir": "row",
+                "justify": "space-between",
+                "align": "center",
+                "gap": "40px"
+              },
+              "counter": null,
+              "card": null,
+              "blocks": [
+                {
+                  "t": "overline",
+                  "html": "Initiate Sequence",
+                  "text": "Initiate Sequence",
+                  "cls": "font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6",
+                  "pill": false,
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                  "bg": "rgba(0, 0, 0, 0)",
+                  "borderW": "0px",
+                  "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                  "radius": "0px",
+                  "padding": "0px",
+                  "backdropFilter": "",
+                  "textTransform": "uppercase",
+                  "fontSize": "10px",
+                  "letterSpacing": "3px",
+                  "fontWeight": "400",
+                  "gap": "normal",
+                  "iconSvg": "",
+                  "iconPos": "before",
+                  "lineHeight": "15px"
+                },
+                {
+                  "t": "heading",
+                  "level": 2,
+                  "html": "Scalable Biospheres",
+                  "text": "Scalable Biospheres",
+                  "tag": "h2",
+                  "cls": "font-heading text-4xl text-white/90 liquid-terminals mb-4",
+                  "wrapCls": "flex-1",
+                  "fontSize": "36px",
+                  "fontWeight": "400",
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                  "marginBottom": "16px",
+                  "marginTop": "0px",
+                  "lineHeight": "40px",
+                  "letterSpacing": "normal",
+                  "align": "left"
+                },
+                {
+                  "t": "text",
+                  "html": "<p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>",
+                  "text": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+                  "tag": "p",
+                  "cls": "font-data text-white/50 leading-relaxed font-light text-sm max-w-xl",
+                  "fontSize": "14px",
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+                  "lineHeight": "22.75px",
+                  "letterSpacing": "normal",
+                  "marginBottom": "0px",
+                  "textAlign": "start",
+                  "fontWeight": "300",
+                  "textTransform": "none"
+                },
+                {
+                  "t": "button",
+                  "label": "Initialize Deploy",
+                  "href": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+                  "tag": "button",
+                  "cls": "dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4",
+                  "align": "center",
+                  "icon": "",
+                  "iconSvg": "",
+                  "iconPos": "after",
+                  "pad": "20px 40px",
+                  "height": "58px",
+                  "radius": "9999px",
+                  "lineHeight": "16.5px",
+                  "fontSize": "11px",
+                  "fontWeight": "400",
+                  "hover": null,
+                  "groupRow": true,
+                  "groupFirst": true,
+                  "groupLast": true,
+                  "bs": {
+                    "bg": "oklch(1 0 0 / 0.05)",
+                    "fg": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                    "bd": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                    "bds": "solid",
+                    "bw": "0px"
+                  }
+                }
+              ],
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 10
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 48,
+          "gapResp": {
+            "base": 32,
+            "md": 48,
+            "lg": 0
+          },
+          "html": "<div class=\"grid grid-cols-1 @4xl:grid-cols-3 gap-8 md:gap-12 bento-grid\">              <div class=\"bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" data-sc-col=\"sccol-4\">         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\" data-sc-col=\"sccol-5\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\" data-sc-col=\"sccol-6\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" style=\"animation-delay: 0.1s;\" data-sc-col=\"sccol-7\">         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\" data-sc-col=\"sccol-8\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\" data-sc-col=\"sccol-9\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll\" style=\"animation-delay: 0.2s;\" data-sc-col=\"sccol-10\">         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       </div>     </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll",
+              "colId": "sccol-4",
+              "cw": 7,
+              "html": "         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       ",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "",
+                "overlineClass": "",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Mycelium Logic",
+                "titleTag": "h2",
+                "titleClass": "font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals",
+                "subtitle": "Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.",
+                "subtitleClass": "font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base",
+                "wrapClass": "mt-20 relative z-10",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll",
+              "colId": "sccol-7",
+              "cw": 3,
+              "html": "         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       ",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 3
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll",
+              "colId": "sccol-10",
+              "cw": 10,
+              "html": "         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       ",
+              "flex": {
+                "dir": "row",
+                "justify": "space-between",
+                "align": "center",
+                "gap": "40px"
+              },
+              "counter": null,
+              "card": null,
+              "blocks": [
+                {
+                  "t": "overline",
+                  "html": "Initiate Sequence",
+                  "text": "Initiate Sequence",
+                  "cls": "font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6",
+                  "pill": false,
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                  "bg": "rgba(0, 0, 0, 0)",
+                  "borderW": "0px",
+                  "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+                  "radius": "0px",
+                  "padding": "0px",
+                  "backdropFilter": "",
+                  "textTransform": "uppercase",
+                  "fontSize": "10px",
+                  "letterSpacing": "3px",
+                  "fontWeight": "400",
+                  "gap": "normal",
+                  "iconSvg": "",
+                  "iconPos": "before",
+                  "lineHeight": "15px"
+                },
+                {
+                  "t": "heading",
+                  "level": 2,
+                  "html": "Scalable Biospheres",
+                  "text": "Scalable Biospheres",
+                  "tag": "h2",
+                  "cls": "font-heading text-4xl text-white/90 liquid-terminals mb-4",
+                  "wrapCls": "flex-1",
+                  "fontSize": "36px",
+                  "fontWeight": "400",
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                  "marginBottom": "16px",
+                  "marginTop": "0px",
+                  "lineHeight": "40px",
+                  "letterSpacing": "normal",
+                  "align": "left"
+                },
+                {
+                  "t": "text",
+                  "html": "<p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>",
+                  "text": "Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.",
+                  "tag": "p",
+                  "cls": "font-data text-white/50 leading-relaxed font-light text-sm max-w-xl",
+                  "fontSize": "14px",
+                  "color": "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+                  "lineHeight": "22.75px",
+                  "letterSpacing": "normal",
+                  "marginBottom": "0px",
+                  "textAlign": "start",
+                  "fontWeight": "300",
+                  "textTransform": "none"
+                },
+                {
+                  "t": "button",
+                  "label": "Initialize Deploy",
+                  "href": "https://openhero.art/api/preview?category=abstract&slug=orbital-horizon",
+                  "tag": "button",
+                  "cls": "dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4",
+                  "align": "center",
+                  "icon": "",
+                  "iconSvg": "",
+                  "iconPos": "after",
+                  "pad": "20px 40px",
+                  "height": "58px",
+                  "radius": "9999px",
+                  "lineHeight": "16.5px",
+                  "fontSize": "11px",
+                  "fontWeight": "400",
+                  "hover": null,
+                  "groupRow": true,
+                  "groupFirst": true,
+                  "groupLast": true,
+                  "bs": {
+                    "bg": "oklch(1 0 0 / 0.05)",
+                    "fg": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                    "bd": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+                    "bds": "solid",
+                    "bw": "0px"
+                  }
+                }
+              ],
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 10
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 48,
+          "gapResp": {
+            "base": 32,
+            "md": 48,
+            "lg": 0
+          },
+          "html": "<div class=\"grid grid-cols-1 @4xl:grid-cols-3 gap-8 md:gap-12 bento-grid\">              <div class=\"bento-card @4xl:col-span-2 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" data-sc-col=\"sccol-4\">         <div class=\"flex justify-between items-start\">           <div class=\"flex items-center gap-3\" data-sc-col=\"sccol-5\">             <iconify-icon icon=\"ph:network-light\" class=\"text-3xl text-sunset-amber\"></iconify-icon>             <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\">Network Status</span>           </div>           <div class=\"px-4 py-1.5 rounded-full bg-sunset-amber/10 text-sunset-amber text-[10px] tracking-widest uppercase flex items-center gap-2\" data-sc-col=\"sccol-6\">             <div class=\"w-1.5 h-1.5 rounded-full bg-sunset-amber animate-pulse\"></div> Active           </div>         </div>                  <div class=\"mt-20 relative z-10\">           <h2 class=\"font-heading text-4xl md:text-5xl text-white/90 mb-4 liquid-terminals\">Mycelium Logic</h2>           <p class=\"font-data text-white/50 leading-relaxed max-w-md font-light text-sm md:text-base\">             Decentralized carbon sequestration nodes communicating through underground fiber-optic rhizomes, optimizing absorption rates dynamically based on local atmospheric density.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min-h-[400px] flex flex-col justify-between bloom-scroll\" style=\"animation-delay: 0.1s;\" data-sc-col=\"sccol-7\">         <div class=\"flex items-center gap-3\">           <iconify-icon icon=\"ph:drop-half-bottom-light\" class=\"text-3xl text-sunset-amber\" data-sc-col=\"sccol-8\"></iconify-icon>           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40\" data-sc-col=\"sccol-9\">Yield</span>         </div>                  <div class=\"mt-16\">           <div class=\"font-data text-6xl md:text-7xl font-light tracking-tighter text-white mb-2\">4.2<span class=\"text-3xl text-sunset-amber/60\">Gt</span></div>           <div class=\"w-full h-px bg-gradient-to-r from-sunset-amber/40 to-transparent my-6\"></div>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm\">             Annual gigaton capture efficiency normalized across all active atmospheric biological scrubbers.           </p>         </div>       </div>       <div class=\"bento-card @4xl:col-span-3 rounded-[2.5rem] p-10 md:p-14 min-h-[300px] flex flex-col md:flex-row items-center justify-between gap-10 bloom-scroll\" style=\"animation-delay: 0.2s;\" data-sc-col=\"sccol-10\">         <div class=\"flex-1\">           <span class=\"font-data text-[10px] tracking-[0.3em] uppercase text-white/40 block mb-6\">Initiate Sequence</span>           <h2 class=\"font-heading text-4xl text-white/90 liquid-terminals mb-4\">Scalable Biospheres</h2>           <p class=\"font-data text-white/50 leading-relaxed font-light text-sm max-w-xl\">             Integrate Terraform's scalable carbon capture modules into existing industrial infrastructure with zero hard retrofitting. The future is grown, not built.           </p>         </div>         <div class=\"shrink-0 w-full md:w-auto flex justify-start md:justify-end\">           <button class=\"dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] uppercase text-white/90 flex items-center gap-4\">             Initialize Deploy             <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-lg text-sunset-amber\"></iconify-icon>           </button>         </div>       </div>     </div>"
+        }
+      ],
+      "css": ".liquid-terminals{font-feature-settings: \"swsh\", \"liga\";}\n.dew-btn{background: var(--color-glass); box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 1px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px; backdrop-filter: blur(24px); border-radius: 9999px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden;}\n.dew-btn::after{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(circle at center top, rgba(255, 255, 255, 0.15) 0%, transparent 60%); opacity: 0; transition: opacity 0.5s;}\n.dew-btn:hover{box-shadow: rgba(255, 255, 255, 0.3) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px -2px 8px inset, rgba(0, 0, 0, 0.4) 0px 15px 30px, oklch(0.7 0.15 45 / 0.3) 0px 0px 30px; transform: translateY(-2px) scale(1.01);}\n.dew-btn:hover::after{opacity: 1;}\n.bento-card{background: linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01)); box-shadow: rgba(255, 255, 255, 0.01) 0px 0px 40px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px; backdrop-filter: blur(40px); mask-image: linear-gradient(135deg, black 60%, transparent 100%); position: relative; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;}\n.bento-card::before{content: \"\"; position: absolute; inset: -200px; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(70% 0.15 45 / 0.15), transparent 50%); pointer-events: none; mix-blend-mode: screen; z-index: 10; transition: opacity 0.4s; opacity: 0;}\n.bento-card:hover::before{opacity: 1;}\n.bento-card:hover{transform: translateY(-4px); mask-image: linear-gradient(135deg, black 70%, rgba(0, 0, 0, 0.3) 100%);}\n@supports (animation-timeline: view()){.bloom-scroll{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: bloom-anim; animation-timeline: view(); animation-range: entry 5% cover 30%;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"w-full py-12 flex flex-col items-center justify-center gap-6 relative z-10 bloom-scroll\">   <div class=\"w-px h-16 bg-gradient-to-b from-transparent via-sunset-amber/30 to-transparent\"></div>   <div class=\"font-data text-[9px] tracking-[0.4em] uppercase text-white/30 text-center mix-blend-screen\">     © 2026 Terraform Industries. Bio-Luxury Architecture.   </div> </footer>",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": "body{background-color: var(--color-deep-forest); color: oklch(0.95 0.01 160); margin: 0px; overflow-x: hidden; font-family: var(--font-data);}",
+    "util_css": "@keyframes sway { \n  0%, 100% { transform: rotate(-1.5deg) translateX(-3px) translateY(1px); }\n  50% { transform: rotate(1.5deg) translateX(3px) translateY(-1px); }\n}\n@keyframes ambient-pulse { \n  0%, 100% { opacity: 0.6; transform: scale(1); filter: blur(80px) saturate(120%); }\n  50% { opacity: 0.9; transform: scale(1.05); filter: blur(100px) saturate(160%); }\n}\n@keyframes bloom-anim { \n  0% { opacity: 0; transform: scale(0.85) translateY(60px); filter: blur(24px); }\n  100% { opacity: 1; transform: scale(1) translateY(0px); filter: blur(0px); }\n}\n.sway-text{display: inline-block; animation: 8s ease-in-out 0s infinite normal none running sway; transform-origin: center center; will-change: transform;}\n.botanical-kerning{letter-spacing: -0.04em;}\n.liquid-terminals{font-feature-settings: \"swsh\", \"liga\";}\n.dew-btn{background: var(--color-glass); box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 1px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px; backdrop-filter: blur(24px); border-radius: 9999px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden;}\n.dew-btn::after{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(circle at center top, rgba(255, 255, 255, 0.15) 0%, transparent 60%); opacity: 0; transition: opacity 0.5s;}\n.dew-btn:hover{box-shadow: rgba(255, 255, 255, 0.3) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px -2px 8px inset, rgba(0, 0, 0, 0.4) 0px 15px 30px, oklch(0.7 0.15 45 / 0.3) 0px 0px 30px; transform: translateY(-2px) scale(1.01);}\n.dew-btn:hover::after{opacity: 1;}\n.portal-mask{mask-image: radial-gradient(circle, black 35%, transparent 75%); will-change: transform;}\n.bento-card{background: linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.01)); box-shadow: rgba(255, 255, 255, 0.01) 0px 0px 40px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px; backdrop-filter: blur(40px); mask-image: linear-gradient(135deg, black 60%, transparent 100%); position: relative; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;}\n.bento-card::before{content: \"\"; position: absolute; inset: -200px; background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), oklch(70% 0.15 45 / 0.15), transparent 50%); pointer-events: none; mix-blend-mode: screen; z-index: 10; transition: opacity 0.4s; opacity: 0;}\n.bento-card:hover::before{opacity: 1;}\n.bento-card:hover{transform: translateY(-4px); mask-image: linear-gradient(135deg, black 70%, rgba(0, 0, 0, 0.3) 100%);}\n.rhizome-bg{background-image: radial-gradient(oklch(1 0 0 / 0.03) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(at left center, black 20%, transparent 70%);}\n.kinetic-z{will-change: transform; transform-style: preserve-3d;}\n@keyframes pulse { \n  50% { opacity: 0.5; }\n}",
+    "header_css": "",
+    "footer_css": "@supports (animation-timeline: view()){.bloom-scroll{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: bloom-anim; animation-timeline: view(); animation-range: entry 5% cover 30%;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Fill",
+      "bg": "oklch(1 0 0 / 0.05)",
+      "fg": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+      "bd": "",
+      "bw": "",
+      "shadow": "rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px",
+      "radius": "9999px",
+      "px": "40px",
+      "py": "20px",
+      "height": "",
+      "fs": "11px",
+      "lh": "16.5px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "2.2px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "40px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.95 0.01 160)",
+      "shadow": "rgba(255, 255, 255, 0.01) 0px 0px 40px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 50px 0px",
+      "backdrop": "blur(40px)",
+      "padding": "56px",
+      "hoverLift": false,
+      "count": 3
+    },
+    {
+      "fill": "",
+      "radius": "9999px",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "oklch(0.95 0.01 160)",
+      "shadow": "rgba(255, 255, 255, 0.2) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.3) 0px 10px 20px 0px",
+      "backdrop": "blur(24px)",
+      "padding": "16px 32px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "sway",
+        "props": [
+          "transform"
+        ],
+        "slidesLeft": true
+      },
+      {
+        "name": "ambient-pulse",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "bloom-anim",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "pulse",
+        "props": [
+          "opacity"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".sway-text",
+        "name": "sway",
+        "duration": "8s",
+        "infinite": true
+      },
+      {
+        "selector": ".bloom-scroll",
+        "name": "bloom-anim",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".group-hover\\:scale-150:is(:where(.group) *)",
+        "changed": {
+          "--tw-scale-x": "150%",
+          "--tw-scale-y": "150%",
+          "--tw-scale-z": "150%",
+          "scale": "var(--tw-scale-x) var(--tw-scale-y)"
+        }
+      },
+      {
+        "selector": ".group-hover\\:text-white:is(:where(.group) *)",
+        "changed": {
+          "color": "var(--color-white)"
+        }
+      },
+      {
+        "selector": ".hover\\:text-sunset-amber",
+        "changed": {
+          "color": "var(--color-sunset-amber)"
+        }
+      },
+      {
+        "selector": ".dew-btn",
+        "changed": {
+          "box-shadow": "rgba(255, 255, 255, 0.3) 0px 2px 4px inset, rgba(255, 255, 255, 0.1) 0px -2px 8px inset, rgba(0, 0, 0, 0.4) 0px 15px 30px, oklch(0.7 0.15 45 / 0.3) 0px 0px 30px",
+          "transform": "translateY(-2px) scale(1.01)"
+        }
+      },
+      {
+        "selector": ".dew-btn::after",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".bento-card::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".bento-card",
+        "changed": {
+          "transform": "translateY(-4px)",
+          "mask-image": "linear-gradient(135deg, black 70%, rgba(0, 0, 0, 0.3) 100%)"
+        }
+      },
+      {
+        "selector": "flex items-center gap-8 dew-btn px-8 py-4",
+        "changed": {
+          "transform": "matrix(1.00981, 0, 0, 1.00981, 0, -1.96249)",
+          "boxShadow": "rgba(255, 255, 255, 0.3) 0px 1.98125px 3.94374px 0px inset, rgba(255, 255, 255, 0.1) 0px -1.98125px 7.92499px 0px inset, rgba(0, 0, 0, 0.4) 0px 14.9062px 29.8125px 0px, oklab(0.7 0.106066 0.106066 / 0.294374) 0px 0px 29.4374px 0px"
+        },
+        "live": true
+      },
+      {
+        "selector": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 0, 0)",
+          "filter": "blur(0px)"
+        },
+        "live": true
+      },
+      {
+        "selector": "dew-btn px-10 py-5 font-data text-[11px] tracking-[0.2em] up",
+        "changed": {
+          "transform": "matrix(1.00984, 0, 0, 1.00984, 0, -1.96761)",
+          "boxShadow": "rgba(255, 255, 255, 0.3) 0px 1.98381px 3.95142px 0px inset, rgba(255, 255, 255, 0.1) 0px -1.98381px 7.93522px 0px inset, rgba(0, 0, 0, 0.4) 0px 14.919px 29.8381px 0px, oklab(0.7 0.106066 0.106066 / 0.295142) 0px 0px 29.5142px 0px"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".transition-colors",
+        "props": "color, background-color, border-color, outline-color, text-decoration-color, fil",
+        "duration": "var(--tw-duration, var(--default-transition-duration))"
+      },
+      {
+        "selector": ".transition-transform",
+        "props": "transform, translate, scale, rotate",
+        "duration": "var(--tw-duration, var(--default-transition-duration))"
+      },
+      {
+        "selector": ".dew-btn::after",
+        "props": "opacity",
+        "duration": "0.5s"
+      },
+      {
+        "selector": ".bento-card",
+        "props": "transform",
+        "duration": "0.6s"
+      },
+      {
+        "selector": ".bento-card::before",
+        "props": "opacity",
+        "duration": "0.4s"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 2106,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~1164px of scroll"
+      },
+      {
+        "i": 8,
+        "kind": "parallax",
+        "evidence": "document position drifts -247px over 1185px of scroll",
+        "ratio": -0.21
+      },
+      {
+        "i": 9,
+        "kind": "parallax",
+        "evidence": "document position drifts -275px over 1185px of scroll",
+        "ratio": -0.23
+      },
+      {
+        "i": 13,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 51,
+          "ease": "",
+          "scaled": true,
+          "sx": 0.85,
+          "tx": 0,
+          "ty": 51,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 16,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 51,
+          "ease": "",
+          "scaled": true,
+          "sx": 0.85,
+          "tx": 0,
+          "ty": 51,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 18,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 51,
+          "ease": "power2.out",
+          "scaled": true,
+          "sx": 0.85,
+          "tx": 0,
+          "ty": 51,
+          "complex": true,
+          "noisy": false,
+          "scrub": false
+        }
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~1164px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#8",
+        "evidence": "document position drifts -247px over 1185px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.21)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#9",
+        "evidence": "document position drifts -275px over 1185px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.23)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#13",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#16",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#18",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".sway-text",
+        "evidence": "infinite keyframes 'sway' translating X",
+        "suggest": "marquee fx: {mode:'left'}",
+        "confidence": "high"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".bloom-scroll",
+        "evidence": "keyframes 'bloom-anim' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".group-hover\\:text-white:is(:where(.group) *)",
+        "evidence": "color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".hover\\:text-sunset-amber",
+        "evidence": "color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".dew-btn",
+        "evidence": "box-shadow, transform change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".bento-card",
+        "evidence": "transform, mask-image change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "bento-card @4xl:col-span-1 rounded-[2.5rem] p-10 md:p-14 min",
+        "evidence": "transform, filter change on hover",
+        "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

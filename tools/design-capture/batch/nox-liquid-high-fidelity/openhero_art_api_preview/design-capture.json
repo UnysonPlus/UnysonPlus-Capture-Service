@@ -1,0 +1,2198 @@
+{
+  "url": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.11 0.02 260);color:rgb(0, 0, 0)\" data-sc-content-width=\"1376\"><head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>NOX — Liquid High Fidelity</title>\n  <script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n  <script src=\"https://cdn.tailwindcss.com\"></script>\n\n  <style>\n    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');\n\n    :root {\n      color-scheme: dark light;\n\n      --bg: oklch(0.11 0.02 260);\n      --bg-soft: oklch(0.14 0.02 260);\n      --card: oklch(0.18 0.02 260 / .55);\n      --line: oklch(1 0 0 / .08);\n      --text: oklch(0.96 0.01 250);\n      --muted: oklch(0.72 0.02 250);\n\n      --accent: oklch(0.78 0.19 240);\n      --accent-2: oklch(0.74 0.16 190);\n\n      --mouse-x: 50%;\n      --mouse-y: 50%;\n    }\n\n    [data-theme=\"light\"] {\n      --bg: oklch(0.97 0.01 250);\n      --bg-soft: oklch(0.94 0.01 250);\n      --card: oklch(1 0 0 / .52);\n      --line: oklch(0 0 0 / .06);\n      --text: oklch(0.18 0.02 260);\n      --muted: oklch(0.42 0.02 260);\n\n      --accent: oklch(0.63 0.22 250);\n      --accent-2: oklch(0.70 0.16 200);\n    }\n\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n\n    html {\n      scroll-behavior: smooth;\n    }\n\n    body {\n      font-family: 'Inter', sans-serif;\n      background: var(--bg);\n      color: var(--text);\n      overflow-x: hidden;\n      letter-spacing: -0.02em;\n    }\n\n    body::before {\n      content: \"\";\n      position: fixed;\n      inset: 0;\n      pointer-events: none;\n      background:\n        radial-gradient(circle at top left, color-mix(in oklch, var(--accent) 16%, transparent), transparent 32%),\n        radial-gradient(circle at bottom right, color-mix(in oklch, var(--accent-2) 12%, transparent), transparent 28%);\n      opacity: .9;\n      z-index: -2;\n    }\n\n    .noise::before {\n      content: \"\";\n      position: absolute;\n      inset: 0;\n      opacity: .04;\n      background-image:\n        radial-gradient(circle at center, white 1px, transparent 1px);\n      background-size: 18px 18px;\n      pointer-events: none;\n    }\n\n    .liquid-shell {\n      position: relative;\n      background:\n        linear-gradient(180deg,\n          color-mix(in oklch, var(--card) 95%, transparent),\n          color-mix(in oklch, var(--bg-soft) 88%, transparent));\n\n      border: 1px solid var(--line);\n\n      box-shadow:\n        0 2px 6px rgba(0, 0, 0, .08),\n        0 20px 80px rgba(0, 0, 0, .35),\n        inset 0 1px 0 rgba(255, 255, 255, .08),\n        inset 0 -1px 0 rgba(255, 255, 255, .02);\n\n      backdrop-filter: blur(24px) saturate(190%);\n      -webkit-backdrop-filter: blur(24px) saturate(190%);\n    }\n\n    .hero-grid {\n      container-type: inline-size;\n    }\n\n    .kinetic-title {\n      font-size: clamp(4rem, 11vw, 10rem);\n      line-height: .82;\n      letter-spacing: -0.08em;\n      font-weight: 900;\n\n      background:\n        linear-gradient(130deg,\n          rgba(255, 255, 255, 1),\n          rgba(255, 255, 255, .55),\n          rgba(255, 255, 255, 1));\n\n      background-size: 220% auto;\n      color: transparent;\n      -webkit-background-clip: text;\n\n      animation: shimmer 7s linear infinite;\n    }\n\n    @keyframes shimmer {\n      from {\n        background-position: 0% center;\n      }\n\n      to {\n        background-position: 220% center;\n      }\n    }\n\n    .hero-description {\n      color: var(--muted);\n      font-size: 1rem;\n      line-height: 1.8;\n      max-width: 34rem;\n    }\n\n    .video-portal {\n      position: absolute;\n      top: 7%;\n      right: -10%;\n      width: min(60vw, 980px);\n      height: 88%;\n      overflow: hidden;\n      border-radius: 4rem;\n\n      transform:\n        perspective(1800px) rotateY(-10deg) rotateX(3deg);\n\n      isolation: isolate;\n    }\n\n    .video-portal::before {\n      content: \"\";\n      position: absolute;\n      inset: -1px;\n      border-radius: inherit;\n      padding: 1px;\n\n      background:\n        linear-gradient(130deg,\n          rgba(255, 255, 255, .45),\n          rgba(255, 255, 255, .02),\n          rgba(255, 255, 255, .25));\n\n      -webkit-mask:\n        linear-gradient(#000 0 0) content-box,\n        linear-gradient(#000 0 0);\n\n      -webkit-mask-composite: xor;\n      mask-composite: exclude;\n      pointer-events: none;\n      z-index: 5;\n    }\n\n    .video-portal video {\n      width: 100%;\n      height: 100%;\n      object-fit: cover;\n\n      filter:\n        saturate(120%) contrast(112%) brightness(.92);\n\n      mask-image:\n        radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          black 25%,\n          rgba(0, 0, 0, .92) 45%,\n          transparent 85%);\n\n      -webkit-mask-image:\n        radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          black 25%,\n          rgba(0, 0, 0, .92) 45%,\n          transparent 85%);\n    }\n\n    .video-glow {\n      position: absolute;\n      inset: 0;\n      background:\n        radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          color-mix(in oklch, var(--accent) 35%, transparent),\n          transparent 55%);\n      mix-blend-mode: screen;\n      opacity: .65;\n      pointer-events: none;\n    }\n\n    .glass-intersection {\n      position: absolute;\n      left: 0;\n      bottom: 0;\n      width: 50%;\n      height: 45%;\n\n      background:\n        linear-gradient(180deg,\n          rgba(255, 255, 255, .04),\n          rgba(255, 255, 255, .02));\n\n\n      mask-image:\n        linear-gradient(to top, black 75%, transparent 100%);\n\n      border-top: 1px solid rgba(255, 255, 255, .08);\n      border-right: 1px solid rgba(255, 255, 255, .05);\n\n      pointer-events: none;\n    }\n\n    .liquid-btn {\n      position: relative;\n      isolation: isolate;\n      overflow: hidden;\n\n      border-radius: 999px;\n      padding: 1rem 1.4rem;\n\n      background:\n        linear-gradient(130deg,\n          rgba(255, 255, 255, .12),\n          rgba(255, 255, 255, .03));\n\n      border: 1px solid rgba(255, 255, 255, .1);\n\n      box-shadow:\n        inset 0 1px 0 rgba(255, 255, 255, .12),\n        0 14px 40px rgba(0, 0, 0, .24);\n\n      transition:\n        transform .45s cubic-bezier(.16, 1, .3, 1),\n        border-color .4s ease;\n    }\n\n    .liquid-btn::before {\n      content: \"\";\n      position: absolute;\n      inset: -40%;\n\n      background:\n        radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .75),\n          rgba(255, 255, 255, .14) 18%,\n          transparent 48%);\n\n      opacity: .9;\n      transition: transform .12s linear;\n      z-index: -1;\n    }\n\n    .liquid-btn:hover {\n      transform: translateY(-5px) scale(1.01);\n      border-color: rgba(255, 255, 255, .25);\n    }\n\n    .bento {\n      display: grid;\n      grid-template-columns: repeat(12, 1fr);\n      gap: 1.2rem;\n    }\n\n    .bento-card {\n      position: relative;\n      overflow: hidden;\n      border-radius: 2rem;\n      min-height: 260px;\n      padding: 2rem;\n\n      background:\n        linear-gradient(180deg,\n          rgba(255, 255, 255, .06),\n          rgba(255, 255, 255, .02));\n\n      border: 1px solid rgba(255, 255, 255, .08);\n\n      backdrop-filter: blur(24px);\n\n      box-shadow:\n        inset 0 1px 0 rgba(255, 255, 255, .08),\n        0 20px 60px rgba(0, 0, 0, .2);\n\n      transition:\n        transform .5s cubic-bezier(.16, 1, .3, 1),\n        border-color .4s ease;\n    }\n\n    .bento-card::before {\n      content: \"\";\n      position: absolute;\n      inset: 0;\n      background:\n        radial-gradient(400px circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .12),\n          transparent 40%);\n      opacity: 0;\n      transition: opacity .4s ease;\n    }\n\n    .bento-card:hover {\n      transform: translateY(-10px);\n      border-color: rgba(255, 255, 255, .18);\n    }\n\n    .bento-card:hover::before {\n      opacity: 1;\n    }\n\n    .fade-edge {\n      mask-image:\n        linear-gradient(to right,\n          transparent,\n          black 10%,\n          black 90%,\n          transparent);\n    }\n\n    .scroll-fade {\n      mask-image:\n        linear-gradient(to bottom,\n          transparent,\n          black 12%,\n          black 88%,\n          transparent);\n    }\n\n    .section-reveal {\n      opacity: .2;\n      transform: translateY(80px) scale(.96);\n      filter: blur(18px);\n\n      animation:\n        reveal linear forwards;\n\n      animation-timeline: view();\n      animation-range: entry 15% cover 40%;\n    }\n\n    @keyframes reveal {\n      to {\n        opacity: 1;\n        transform: translateY(0) scale(1);\n        filter: blur(0);\n      }\n    }\n\n    .tiny-label {\n      color: var(--muted);\n      font-size: .78rem;\n      text-transform: uppercase;\n      letter-spacing: .28em;\n    }\n\n    .theme-switch {\n      width: 54px;\n      height: 32px;\n      border-radius: 999px;\n      position: relative;\n      cursor: pointer;\n\n      background: rgba(255, 255, 255, .08);\n      border: 1px solid rgba(255, 255, 255, .08);\n      backdrop-filter: blur(20px);\n    }\n\n    .theme-switch::before {\n      content: \"\";\n      position: absolute;\n      width: 24px;\n      height: 24px;\n      border-radius: 999px;\n      top: 3px;\n      left: 3px;\n\n      background: white;\n      transition: .45s cubic-bezier(.16, 1, .3, 1);\n    }\n\n    [data-theme=\"light\"] .theme-switch::before {\n      left: 25px;\n    }\n\n    @container (max-width: 980px) {\n      .video-portal {\n        position: relative;\n        inset: auto;\n        width: 100%;\n        height: 420px;\n        margin-top: 4rem;\n\n        transform: none;\n      }\n\n      .glass-intersection {\n        width: 100%;\n      }\n\n      .hero-stack {\n        flex-direction: column;\n      }\n\n      .bento {\n        grid-template-columns: 1fr;\n      }\n    }\n  </style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.top-0{top:0px}.z-50{z-index:50}.z-10{z-index:10}.z-20{z-index:20}.col-span-5{grid-column:span 5 / span 5}.col-span-7{grid-column:span 7 / span 7}.mx-auto{margin-left:auto;margin-right:auto}.mb-16{margin-bottom:4rem}.mt-10{margin-top:2.5rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-20{margin-top:5rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.flex{display:flex}.hidden{display:none}.h-11{height:2.75rem}.h-full{height:100%}.min-h-\\[92vh\\]{min-height:92vh}.min-h-screen{min-height:100vh}.w-11{width:2.75rem}.w-full{width:100%}.max-w-\\[1500px\\]{max-width:1500px}.max-w-4xl{max-width:56rem}.max-w-\\[1600px\\]{max-width:1600px}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-4{gap:1rem}.gap-10{gap:2.5rem}.gap-2{gap:0.5rem}.overflow-hidden{overflow:hidden}.rounded-2xl{border-radius:1rem}.rounded-\\[2rem\\]{border-radius:2rem}.rounded-\\[3rem\\]{border-radius:3rem}.border{border-width:1px}.border-white\\/10{border-color:rgb(255 255 255 / 0.1)}.bg-white\\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\\/5{background-color:rgb(255 255 255 / 0.05)}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-4{padding-left:1rem;padding-right:1rem}.px-8{padding-left:2rem;padding-right:2rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-24{padding-top:6rem;padding-bottom:6rem}.pt-6{padding-top:1.5rem}.pb-16{padding-bottom:4rem}.pt-36{padding-top:9rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-semibold{font-weight:600}.leading-8{line-height:2rem}.leading-\\[\\.88\\]{line-height:.88}.tracking-\\[-0\\.08em\\]{letter-spacing:-0.08em}.tracking-tight{letter-spacing:-0.025em}.text-cyan-400{--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.text-white\\/45{color:rgb(255 255 255 / 0.45)}.text-white\\/50{color:rgb(255 255 255 / 0.5)}.text-white\\/55{color:rgb(255 255 255 / 0.55)}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-\\[\\.04\\]{opacity:.04}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\\:flex{display:flex}.md\\:px-10{padding-left:2.5rem;padding-right:2.5rem}.md\\:px-16{padding-left:4rem;padding-right:4rem}.md\\:px-8{padding-left:2rem;padding-right:2rem}.md\\:text-7xl{font-size:4.5rem;line-height:1}}</style></head>\n\n<body class=\"noise\" data-sc-cs=\"background-color:oklch(0.11 0.02 260);color:oklch(0.96 0.01 250)\">\n\n  <nav class=\"fixed top-0 inset-x-0 z-50 px-5 md:px-10 pt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:24px 40px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\">\n    <div class=\"max-w-[1500px] mx-auto liquid-shell rounded-[2rem] px-6 py-4 flex items-center justify-between\" data-sc-cs=\"background-image:linear-gradient(oklch(0.18 0.02 260 / 0.5225), oklch(0.14 0.02 260 / 0.88));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:16px 24px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.08);border-radius:32px;box-shadow:rgba(0, 0, 0, 0.08) 0px 2px 6px 0px, rgba(0, 0, 0, 0.35) 0px 20px 80px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset;backdrop-filter:blur(24px) saturate(1.9);max-width:1500px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all\">\n\n      <div class=\"flex items-center gap-4\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n        <div class=\"h-11 w-11 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-xl flex items-center justify-center\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.1);color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(24px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n          <iconify-icon icon=\"iconamoon:3d-duotone\" class=\"text-2xl text-cyan-400\" data-sc-cs=\"color:rgb(34, 211, 238);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n        </div>\n\n        <div data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <h2 class=\"font-black tracking-tight text-xl\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:20px;font-weight:900;line-height:28px;letter-spacing:-0.5px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">NOX</h2>\n          <p class=\"text-xs text-white/45\" data-sc-cs=\"color:rgba(255, 255, 255, 0.45);font-family:Inter, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Liquid Interface System</p>\n        </div>\n      </div>\n\n      <div class=\"hidden md:flex items-center gap-2 text-sm text-white/55\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n        <a class=\"px-4 py-2 hover:text-white transition\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">Vision</a>\n        <a class=\"px-4 py-2 hover:text-white transition\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">Architecture</a>\n        <a class=\"px-4 py-2 hover:text-white transition\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;padding:8px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">Systems</a>\n      </div>\n\n      <div class=\"flex items-center gap-4\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n        <button class=\"liquid-btn text-sm font-semibold\" data-sc-cs=\"background-image:linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:14px;font-weight:600;line-height:20px;letter-spacing:-0.32px;text-align:center;padding:16px 22.4px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:-40%;right:-40%;bottom:-40%;left:-40%;inset:-40%;transition:transform 0.12s linear;transition-property:transform;transition-duration:0.12s;transition-timing-function:linear;opacity:0.9}|hover-self{transform:translateY(-5px) scale(1.01);border-color:rgba(255, 255, 255, 0.25)}\">\n          Enter Platform\n        </button>\n\n        <div class=\"theme-switch\" id=\"themeToggle\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.08);color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:999px;backdrop-filter:blur(20px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n      </div>\n\n    </div>\n  </nav>\n\n  <main class=\"px-4 md:px-8\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n    <section class=\"hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:144px 0px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n      <div class=\"liquid-shell rounded-[3rem] relative overflow-hidden min-h-[92vh] px-8 md:px-16 py-16 scroll-fade fade-edge\" data-sc-cs=\"background-image:linear-gradient(oklch(0.18 0.02 260 / 0.5225), oklch(0.14 0.02 260 / 0.88));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:64px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.08);border-radius:48px;box-shadow:rgba(0, 0, 0, 0.08) 0px 2px 6px 0px, rgba(0, 0, 0, 0.35) 0px 20px 80px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset;backdrop-filter:blur(24px) saturate(1.9);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n        <div class=\"absolute inset-0 opacity-[.04]\" style=\"\n            background:\n              linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),\n              linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);\n            background-size:72px 72px;\n          \" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.15) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, rgba(0, 0, 0, 0) 1px);color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n        </div>\n\n        <div class=\"hero-stack relative z-10 flex h-full justify-between\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:row;transition:all\">\n\n          <div class=\"relative z-20 max-w-4xl flex flex-col justify-between\" data-sc-col=\"sccol-0\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n\n            <div data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n              <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                Adaptive Liquid Intelligence\n              </span>\n\n              <h1 class=\"kinetic-title mt-8\" data-sc-cs=\"background-image:linear-gradient(130deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.55), rgb(255, 255, 255));color:rgba(0, 0, 0, 0);font-family:Inter, sans-serif;font-size:158.4px;font-weight:900;line-height:129.888px;letter-spacing:-12.672px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent\">\n                Beyond\n                <br>\n                interface.\n              </h1>\n\n              <p class=\"hero-description mt-10\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:28.8px;letter-spacing:-0.32px;text-align:start;margin:40px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:544px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                A perception-driven operating layer where motion,\n                transparency and volumetric light merge into a fluid\n                cinematic system. Designed for future products, not websites.\n              </p>\n\n              <div class=\"mt-12 flex flex-wrap items-center gap-4\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n                <button class=\"liquid-btn font-semibold\" data-sc-col=\"sccol-1\" data-sc-cs=\"background-image:linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.32px;text-align:center;padding:16px 22.4px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:-40%;right:-40%;bottom:-40%;left:-40%;inset:-40%;transition:transform 0.12s linear;transition-property:transform;transition-duration:0.12s;transition-timing-function:linear;opacity:0.9}|hover-self{transform:translateY(-5px) scale(1.01);border-color:rgba(255, 255, 255, 0.25)}\">\n                  Launch Experience\n                </button>\n\n                <button class=\"liquid-btn font-semibold bg-white/5\" data-sc-col=\"sccol-2\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.05);background-image:linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.32px;text-align:center;padding:16px 22.4px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:-40%;right:-40%;bottom:-40%;left:-40%;inset:-40%;transition:transform 0.12s linear;transition-property:transform;transition-duration:0.12s;transition-timing-function:linear;opacity:0.9}|hover-self{transform:translateY(-5px) scale(1.01);border-color:rgba(255, 255, 255, 0.25)}\">\n                  System Preview\n                </button>\n              </div>\n            </div>\n\n            <div class=\"mt-20 flex flex-wrap gap-10\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;margin:80px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n              <div data-sc-col=\"sccol-3\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <p class=\"text-5xl font-black\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:48px;font-weight:900;line-height:48px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">12ms</p>\n                <p class=\"text-white/45 mt-2 text-sm\" data-sc-cs=\"color:rgba(255, 255, 255, 0.45);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Motion latency</p>\n              </div>\n\n              <div data-sc-col=\"sccol-4\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <p class=\"text-5xl font-black\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:48px;font-weight:900;line-height:48px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">120fps</p>\n                <p class=\"text-white/45 mt-2 text-sm\" data-sc-cs=\"color:rgba(255, 255, 255, 0.45);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Native rendering</p>\n              </div>\n\n              <div data-sc-col=\"sccol-5\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <p class=\"text-5xl font-black\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:48px;font-weight:900;line-height:48px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">OKLCH</p>\n                <p class=\"text-white/45 mt-2 text-sm\" data-sc-cs=\"color:rgba(255, 255, 255, 0.45);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-0.32px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Perceptual color</p>\n              </div>\n            </div>\n\n          </div>\n\n          <div class=\"video-portal w-full\" data-sc-col=\"sccol-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:64px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix3d(0.984808, 0, 0.173648, -9.64712e-05, -0.00908804, 0.99863, 0.0515409, -2.86338e-05, -0.17341, -0.052336, 0.983458, -0.000546366, 0, 0, 0, 1);position:absolute\">\n            <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" src=\"https://videos.openhero.art/downloads/abstract/nox-liquid-high-fidelity/video.mp4\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></video>\n\n            <div class=\"video-glow\" data-sc-cs=\"background-image:radial-gradient(circle, oklch(0.78 0.19 240 / 0.35), rgba(0, 0, 0, 0) 55%);color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n          </div>\n\n          <div class=\"glass-intersection\" data-sc-col=\"sccol-7\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n\n        </div>\n\n      </div>\n\n    </section>\n\n    <section class=\"max-w-[1500px] mx-auto py-24 section-reveal\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:96px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1500px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(0.96, 0, 0, 0.96, 0, 80)\">\n\n      <div class=\"flex items-end justify-between gap-10 mb-16 flex-wrap\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;margin:0px 0px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:all\">\n        <div data-sc-col=\"sccol-8\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Volumetric Modules\n          </span>\n\n          <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:72px;font-weight:900;line-height:72px;letter-spacing:-5.76px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Depth\n            <br>\n            as language.\n          </h2>\n        </div>\n\n        <p class=\"max-w-lg text-white/50 leading-8\" data-sc-col=\"sccol-9\" data-sc-cs=\"color:rgba(255, 255, 255, 0.5);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n          Every layer exists on its own optical plane. Blur, transparency\n          and illumination define hierarchy instead of borders.\n        </p>\n      </div>\n\n      <div class=\"bento\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:19.2px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n\n        <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-10\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px;backdrop-filter:blur(24px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\">\n          <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Optical hierarchy\n          </span>\n\n          <h3 class=\"text-4xl font-black tracking-tight mt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:36px;font-weight:900;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Z-Axis\n            layering.\n          </h3>\n\n          <p class=\"mt-6 text-white/55 leading-8 max-w-md\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Dynamic blur stacks simulate depth and material density\n            through isolated backdrop-filter planes.\n          </p>\n        </article>\n\n        <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-11\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px;backdrop-filter:blur(24px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\">\n          <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Kinetic interaction\n          </span>\n\n          <h3 class=\"text-4xl font-black tracking-tight mt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:36px;font-weight:900;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Liquid metal\n            controls.\n          </h3>\n\n          <p class=\"mt-6 text-white/55 leading-8 max-w-lg\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Cursor-reactive gradients distort like mercury under tension,\n            generating tactile feedback without JavaScript animation engines.\n          </p>\n        </article>\n\n        <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-12\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px;backdrop-filter:blur(24px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\">\n          <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Native rendering\n          </span>\n\n          <h3 class=\"text-4xl font-black tracking-tight mt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:36px;font-weight:900;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Scroll-driven\n            motion.\n          </h3>\n\n          <p class=\"mt-6 text-white/55 leading-8 max-w-lg\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            View timelines and compositor-friendly transforms preserve\n            cinematic fluidity at 120fps across ultra-wide displays.\n          </p>\n        </article>\n\n        <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-13\" data-sc-cs=\"background-image:linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.08);border-radius:32px;box-shadow:rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px;backdrop-filter:blur(24px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s\">\n          <span class=\"tiny-label\" data-sc-cs=\"color:oklch(0.72 0.02 250);font-family:Inter, sans-serif;font-size:12.48px;font-weight:400;line-height:18.72px;letter-spacing:3.4944px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Perceptual system\n          </span>\n\n          <h3 class=\"text-4xl font-black tracking-tight mt-6\" data-sc-cs=\"color:oklch(0.96 0.01 250);font-family:Inter, sans-serif;font-size:36px;font-weight:900;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            OKLCH\n            fidelity.\n          </h3>\n\n          <p class=\"mt-6 text-white/55 leading-8 max-w-md\" data-sc-cs=\"color:rgba(255, 255, 255, 0.55);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:32px;letter-spacing:-0.32px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            Light and dark themes share identical perceived contrast\n            through perceptual luminance balancing.\n          </p>\n        </article>\n\n      </div>\n\n    </section>\n\n  </main>\n\n  <script>\n    const root = document.documentElement;\n\n    window.addEventListener(\"mousemove\", (e) => {\n      root.style.setProperty(\"--mouse-x\", `${e.clientX}px`);\n      root.style.setProperty(\"--mouse-y\", `${e.clientY}px`);\n    });\n\n    const toggle = document.getElementById(\"themeToggle\");\n\n    toggle.addEventListener(\"click\", () => {\n      const current = document.body.getAttribute(\"data-theme\");\n\n      if (current === \"light\") {\n        document.body.removeAttribute(\"data-theme\");\n      } else {\n        document.body.setAttribute(\"data-theme\", \"light\");\n      }\n\n      if (document.startViewTransition) {\n        document.startViewTransition(() => { });\n      }\n    });\n\n    document.querySelectorAll(\".liquid-btn, .bento-card\").forEach((el) => {\n      el.addEventListener(\"mousemove\", (e) => {\n        const rect = el.getBoundingClientRect();\n\n        el.style.setProperty(\"--mouse-x\", `${e.clientX - rect.left}px`);\n        el.style.setProperty(\"--mouse-y\", `${e.clientY - rect.top}px`);\n      });\n    });\n  </script>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n\n<div class=\"text-white\" style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "NOX — Liquid High Fidelity",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 16,
+      "family": "Inter",
+      "line-height": "1.8",
+      "letter-spacing": "-0.32"
+    },
+    "h1": {
+      "size": 158,
+      "weight": "900",
+      "family": "Inter",
+      "line-height": "0.82",
+      "letter-spacing": "-12.67"
+    },
+    "h2": {
+      "size": 20,
+      "weight": "900",
+      "family": "Inter",
+      "line-height": "1.4",
+      "letter-spacing": "-0.5"
+    },
+    "h3": {
+      "size": 36,
+      "weight": "900",
+      "family": "Inter",
+      "line-height": "1.11",
+      "letter-spacing": "-0.9"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "158",
+        "weight": "900",
+        "line_height": "0.82",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "72",
+        "weight": "900",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Display 3",
+        "size": "36",
+        "weight": "900",
+        "line_height": "1.11",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-3"
+      },
+      {
+        "name": "Display 4",
+        "size": "20",
+        "weight": "900",
+        "line_height": "1.4",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-4"
+      },
+      {
+        "name": "Lead",
+        "size": "48",
+        "weight": "900",
+        "line_height": "1",
+        "letter_spacing": "-0.32",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Small",
+        "size": "14",
+        "weight": "",
+        "line_height": "1.43",
+        "letter_spacing": "-0.32",
+        "transform": "",
+        "class": "font-small"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "12",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "3.49",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--card": "oklch(0.18 0.02 260 / .55)",
+      "--accent": "oklch(0.78 0.19 240)",
+      "--tw-skew-x": "0",
+      "--accent-2": "oklch(0.74 0.16 190)",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--line": "oklch(1 0 0 / .08)",
+      "--bg": "oklch(0.11 0.02 260)",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--muted": "oklch(0.72 0.02 250)",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--text": "oklch(0.96 0.01 250)",
+      "--mouse-y": "50%",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--mouse-x": "50%",
+      "--tw-translate-y": "0",
+      "--bg-soft": "oklch(0.14 0.02 260)",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "oklch(0.96 0.01 250)",
+      "backgroundColor": "oklch(0.11 0.02 260)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1600px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Inter",
+    "color": "rgba(0, 0, 0, 0)"
+  },
+  "header": {
+    "element": {
+      "display": "block",
+      "justifyContent": "normal",
+      "alignItems": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "24px 40px 0px"
+    },
+    "bar": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "32px",
+      "border": "1px solid oklch(1 0 0 / 0.08)",
+      "padding": "16px 24px",
+      "maxWidth": "1500px",
+      "backdropFilter": "blur(24px) saturate(1.9)"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Vision",
+      "icon": "",
+      "computed": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": "400",
+        "color": "rgba(255, 255, 255, 0.55)",
+        "letterSpacing": "-0.32px"
+      },
+      "detail": {
+        "text": "Vision",
+        "icon": "",
+        "image": "",
+        "svg": "",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "rgba(255, 255, 255, 0.55)",
+        "title_size": "",
+        "title_weight": "",
+        "title_font": "Inter, sans-serif",
+        "title_ls": "-0.32px",
+        "title_hover": "white",
+        "icon_size": "",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Architecture",
+        "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+        "computed": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "color": "rgba(255, 255, 255, 0.55)"
+        },
+        "hover": {
+          "color": "oklch(0.96 0.01 250)"
+        }
+      },
+      {
+        "label": "Systems",
+        "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+        "computed": {
+          "fontFamily": "Inter, sans-serif",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "color": "rgba(255, 255, 255, 0.55)"
+        },
+        "hover": {
+          "color": "oklch(0.96 0.01 250)"
+        }
+      }
+    ],
+    "cta": {
+      "label": "Enter Platform",
+      "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+      "computed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.96 0.01 250)",
+        "borderRadius": "999px",
+        "padding": "16px 22.4px",
+        "fontFamily": "Inter, sans-serif",
+        "fontWeight": "600"
+      },
+      "hover": null
+    }
+  },
+  "footer": null,
+  "sections": [
+    {
+      "heading": "Beyond interface.",
+      "headingHtml": "Beyond <br> interface.",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "158.4px",
+        "fontWeight": "900",
+        "color": "rgba(0, 0, 0, 0)"
+      },
+      "overline": "Adaptive Liquid Intelligence",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.72 0.02 250)",
+        "textTransform": "uppercase",
+        "letterSpacing": "3.4944px",
+        "borderRadius": "0px",
+        "fontSize": "12.48px"
+      },
+      "lead": "A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites.",
+      "paragraphs": [
+        "A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites.",
+        "12ms",
+        "Motion latency",
+        "120fps",
+        "Native rendering",
+        "OKLCH",
+        "Perceptual color"
+      ],
+      "buttons": [
+        {
+          "label": "Launch Experience",
+          "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+          "primary": false
+        },
+        {
+          "label": "System Preview",
+          "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+          "primary": true
+        }
+      ],
+      "cards": [
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "12ms",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "120fps",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "OKLCH",
+          "image": ""
+        }
+      ],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.96 0.01 250)",
+        "padding": "144px 0px 64px",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px",
+        "minHeight": "900px",
+        "maxWidth": "1600px"
+      },
+      "text": "Adaptive Liquid Intelligence Beyond interface. A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites. Launch Experience System Preview 12ms Motion latency 120fps Native rendering OKLCH Perceptual color",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "144px 0px 64px",
+          "maxWidth": "1600px",
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "bgImage": "linear-gradient(oklch(0.18 0.02 260 / 0.5225), oklch(0.14 0.02 260 / 0.88))",
+              "padding": "64px",
+              "borderRadius": "48px",
+              "boxShadow": "rgba(0, 0, 0, 0.08) 0px 2px 6px 0px, rgba(0, 0, 0, 0.35) 0px 20px 80px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset",
+              "border": "1px solid oklch(1 0 0 / 0.08)",
+              "transition": "all",
+              "tw": {
+                "radius": "3rem",
+                "px": "32px",
+                "py": "64px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "flex": {
+                        "dir": "column",
+                        "justify": "space-between",
+                        "align": "normal",
+                        "gap": "normal",
+                        "wrap": "nowrap"
+                      },
+                      "maxWidth": "896px",
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "transition": "all"
+                        },
+                        "children": [
+                          {
+                            "role": "text",
+                            "html": "Adaptive Liquid Intelligence",
+                            "text": "Adaptive Liquid Intelligence",
+                            "styles": {
+                              "color": "oklch(0.72 0.02 250)",
+                              "fontFamily": "Inter, sans-serif",
+                              "fontSize": "12.48px",
+                              "letterSpacing": "3.4944px",
+                              "lineHeight": "18.72px",
+                              "textTransform": "uppercase",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "heading",
+                            "level": 1,
+                            "html": "Beyond <br> interface.",
+                            "text": "Beyond interface.",
+                            "styles": {
+                              "bgImage": "linear-gradient(130deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.55), rgb(255, 255, 255))",
+                              "color": "rgba(0, 0, 0, 0)",
+                              "fontFamily": "Inter, sans-serif",
+                              "fontSize": "158.4px",
+                              "fontWeight": "900",
+                              "letterSpacing": "-12.672px",
+                              "lineHeight": "129.888px",
+                              "animation": "shimmer 7s linear infinite",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "text",
+                            "html": "A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites.",
+                            "text": "A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites.",
+                            "styles": {
+                              "color": "oklch(0.72 0.02 250)",
+                              "fontFamily": "Inter, sans-serif",
+                              "fontSize": "16px",
+                              "letterSpacing": "-0.32px",
+                              "lineHeight": "28.8px",
+                              "transition": "all"
+                            }
+                          },
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "flex": {
+                                "dir": "row",
+                                "justify": "normal",
+                                "align": "center",
+                                "gap": "16px",
+                                "wrap": "wrap"
+                              },
+                              "transition": "all",
+                              "tw": {
+                                "gap": "16px"
+                              }
+                            },
+                            "children": [
+                              {
+                                "role": "button",
+                                "label": "Launch Experience",
+                                "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+                                "styles": {
+                                  "textAlign": "center",
+                                  "bgImage": "linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03))",
+                                  "padding": "16px 22.4px",
+                                  "borderRadius": "999px",
+                                  "boxShadow": "rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px",
+                                  "border": "1px solid rgba(255, 255, 255, 0.1)",
+                                  "color": "oklch(0.96 0.01 250)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "16px",
+                                  "fontWeight": "600",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "24px",
+                                  "transition": "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s",
+                                  "tw": {
+                                    "fontWeight": "600"
+                                  }
+                                }
+                              },
+                              {
+                                "role": "button",
+                                "label": "System Preview",
+                                "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+                                "styles": {
+                                  "textAlign": "center",
+                                  "bg": "rgba(255, 255, 255, 0.05)",
+                                  "bgImage": "linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03))",
+                                  "padding": "16px 22.4px",
+                                  "borderRadius": "999px",
+                                  "boxShadow": "rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px",
+                                  "border": "1px solid rgba(255, 255, 255, 0.1)",
+                                  "color": "oklch(0.96 0.01 250)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "16px",
+                                  "fontWeight": "600",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "24px",
+                                  "transition": "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s",
+                                  "tw": {
+                                    "fontWeight": "600"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "role": "container",
+                        "tag": "div",
+                        "styles": {
+                          "flex": {
+                            "dir": "row",
+                            "justify": "normal",
+                            "align": "normal",
+                            "gap": "40px",
+                            "wrap": "wrap"
+                          },
+                          "transition": "all",
+                          "tw": {
+                            "gap": "40px"
+                          }
+                        },
+                        "children": [
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "transition": "all"
+                            },
+                            "children": [
+                              {
+                                "role": "text",
+                                "html": "12ms",
+                                "text": "12ms",
+                                "styles": {
+                                  "color": "oklch(0.96 0.01 250)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "48px",
+                                  "fontWeight": "900",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "48px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontWeight": "900",
+                                    "fontSize": "48px",
+                                    "lineHeight": "1"
+                                  }
+                                }
+                              },
+                              {
+                                "role": "text",
+                                "html": "Motion latency",
+                                "text": "Motion latency",
+                                "styles": {
+                                  "color": "rgba(255, 255, 255, 0.45)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "14px",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "20px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontSize": "14px",
+                                    "lineHeight": "20px"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "transition": "all"
+                            },
+                            "children": [
+                              {
+                                "role": "text",
+                                "html": "120fps",
+                                "text": "120fps",
+                                "styles": {
+                                  "color": "oklch(0.96 0.01 250)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "48px",
+                                  "fontWeight": "900",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "48px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontWeight": "900",
+                                    "fontSize": "48px",
+                                    "lineHeight": "1"
+                                  }
+                                }
+                              },
+                              {
+                                "role": "text",
+                                "html": "Native rendering",
+                                "text": "Native rendering",
+                                "styles": {
+                                  "color": "rgba(255, 255, 255, 0.45)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "14px",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "20px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontSize": "14px",
+                                    "lineHeight": "20px"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "role": "container",
+                            "tag": "div",
+                            "styles": {
+                              "transition": "all"
+                            },
+                            "children": [
+                              {
+                                "role": "text",
+                                "html": "OKLCH",
+                                "text": "OKLCH",
+                                "styles": {
+                                  "color": "oklch(0.96 0.01 250)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "48px",
+                                  "fontWeight": "900",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "48px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontWeight": "900",
+                                    "fontSize": "48px",
+                                    "lineHeight": "1"
+                                  }
+                                }
+                              },
+                              {
+                                "role": "text",
+                                "html": "Perceptual color",
+                                "text": "Perceptual color",
+                                "styles": {
+                                  "color": "rgba(255, 255, 255, 0.45)",
+                                  "fontFamily": "Inter, sans-serif",
+                                  "fontSize": "14px",
+                                  "letterSpacing": "-0.32px",
+                                  "lineHeight": "20px",
+                                  "transition": "all",
+                                  "tw": {
+                                    "fontSize": "14px",
+                                    "lineHeight": "20px"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16\">       <div class=\"liquid-shell rounded-[3rem] relative overflow-hidden min-h-[92vh] px-8 md:px-16 py-16 scroll-fade fade-edge\">         <div class=\"absolute inset-0 opacity-[.04]\" style=\"             background:               linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),               linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);             background-size:72px 72px;           \">         </div>         <div class=\"hero-stack relative z-10 flex h-full justify-between\">           <div class=\"relative z-20 max-w-4xl flex flex-col justify-between\">             <div>               <span class=\"tiny-label\">                 Adaptive Liquid Intelligence               </span>               <h1 class=\"kinetic-title mt-8\">                 Beyond                 <br>                 interface.               </h1>               <p class=\"hero-description mt-10\">                 A perception-driven operating layer where motion,                 transparency and volumetric light merge into a fluid                 cinematic system. Designed for future products, not websites.               </p>               <div class=\"mt-12 flex flex-wrap items-center gap-4\">                 <button class=\"liquid-btn font-semibold\">                   Launch Experience                 </button>                 <button class=\"liquid-btn font-semibold bg-white/5\">                   System Preview                 </button>               </div>             </div>             <div class=\"mt-20 flex flex-wrap gap-10\">               <div>                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               </div>               <div>                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               </div>               <div>                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               </div>             </div>           </div>           <div class=\"video-portal w-full\">             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" src=\"https://videos.openhero.art/downloads/abstract/nox-liquid-high-fidelity/video.mp4\"></video>             <div class=\"video-glow\"></div>           </div>           <div class=\"glass-intersection\"></div>         </div>       </div>     </section>",
+      "rawInner": "       <div class=\"liquid-shell rounded-[3rem] relative overflow-hidden min-h-[92vh] px-8 md:px-16 py-16 scroll-fade fade-edge\">         <div class=\"absolute inset-0 opacity-[.04]\" style=\"             background:               linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),               linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);             background-size:72px 72px;           \">         </div>         <div class=\"hero-stack relative z-10 flex h-full justify-between\">           <div class=\"relative z-20 max-w-4xl flex flex-col justify-between\">             <div>               <span class=\"tiny-label\">                 Adaptive Liquid Intelligence               </span>               <h1 class=\"kinetic-title mt-8\">                 Beyond                 <br>                 interface.               </h1>               <p class=\"hero-description mt-10\">                 A perception-driven operating layer where motion,                 transparency and volumetric light merge into a fluid                 cinematic system. Designed for future products, not websites.               </p>               <div class=\"mt-12 flex flex-wrap items-center gap-4\">                 <button class=\"liquid-btn font-semibold\">                   Launch Experience                 </button>                 <button class=\"liquid-btn font-semibold bg-white/5\">                   System Preview                 </button>               </div>             </div>             <div class=\"mt-20 flex flex-wrap gap-10\">               <div>                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               </div>               <div>                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               </div>               <div>                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               </div>             </div>           </div>           <div class=\"video-portal w-full\">             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" src=\"https://videos.openhero.art/downloads/abstract/nox-liquid-high-fidelity/video.mp4\"></video>             <div class=\"video-glow\"></div>           </div>           <div class=\"glass-intersection\"></div>         </div>       </div>     ",
+      "sectionClass": "hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "max-width": 4,
+        "padding": 4,
+        "background-image": 7,
+        "backdrop-filter": 1,
+        "box-shadow": 3,
+        "border": 4,
+        "border-radius": 4,
+        "position-absolute": 4,
+        "display-flex": 4,
+        "margin": 7,
+        "gap": 2,
+        "background-color": 1,
+        "transform": 1
+      },
+      "h": 1042,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "html",
+          "html": "<div class=\"absolute inset-0 opacity-[.04]\" style=\"             background:               linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),               linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);             background-size:72px 72px;           \">         </div>",
+          "decor": true,
+          "paint": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "bgImage": "linear-gradient(rgba(255, 255, 255, 0.15) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, rgba(0, 0, 0, 0) 1px)",
+            "blur": "",
+            "blend": "",
+            "radius": "",
+            "opacity": "0.04",
+            "position": "absolute",
+            "top": "0px",
+            "right": "0px",
+            "bottom": "0px",
+            "left": "0px",
+            "zIndex": "",
+            "w": 1374,
+            "h": 832
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "relative z-20 max-w-4xl flex flex-col justify-between",
+              "colId": "sccol-0",
+              "cw": 6,
+              "html": "             <div>               <span class=\"tiny-label\">                 Adaptive Liquid Intelligence               </span>               <h1 class=\"kinetic-title mt-8\">                 Beyond                 <br>                 interface.               </h1>               <p class=\"hero-description mt-10\">                 A perception-driven operating layer where motion,                 transparency and volumetric light merge into a fluid                 cinematic system. Designed for future products, not websites.               </p>               <div class=\"mt-12 flex flex-wrap items-center gap-4\">                 <button class=\"liquid-btn font-semibold\">                   Launch Experience                 </button>                 <button class=\"liquid-btn font-semibold bg-white/5\">                   System Preview                 </button>               </div>             </div>             <div class=\"mt-20 flex flex-wrap gap-10\">               <div>                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               </div>               <div>                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               </div>               <div>                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               </div>             </div>           ",
+              "flex": {
+                "dir": "column",
+                "justify": "space-between",
+                "align": "normal",
+                "gap": "normal"
+              },
+              "maxw": "896px",
+              "counter": null,
+              "card": null,
+              "blocks": [
+                {
+                  "t": "text",
+                  "html": "<span class=\"tiny-label\">                 Adaptive Liquid Intelligence               </span>",
+                  "text": "Adaptive Liquid Intelligence",
+                  "tag": "span",
+                  "cls": "tiny-label",
+                  "fontSize": "12.48px",
+                  "color": "oklch(0.72 0.02 250)",
+                  "lineHeight": "18.72px",
+                  "letterSpacing": "3.4944px",
+                  "marginBottom": "0px",
+                  "textAlign": "start",
+                  "fontWeight": "400",
+                  "textTransform": "uppercase"
+                },
+                {
+                  "t": "heading",
+                  "level": 1,
+                  "html": "Beyond <br> interface.",
+                  "text": "Beyond interface.",
+                  "tag": "h1",
+                  "cls": "kinetic-title mt-8",
+                  "wrapCls": "",
+                  "fontSize": "158.4px",
+                  "fontWeight": "900",
+                  "color": "rgba(0, 0, 0, 0)",
+                  "marginBottom": "0px",
+                  "marginTop": "32px",
+                  "lineHeight": "129.888px",
+                  "letterSpacing": "-12.672px",
+                  "align": "left"
+                },
+                {
+                  "t": "text",
+                  "html": "<p class=\"hero-description mt-10\">                 A perception-driven operating layer where motion,                 transparency and volumetric light merge into a fluid                 cinematic system. Designed for future products, not websites.               </p>",
+                  "text": "A perception-driven operating layer where motion, transparency and volumetric light merge into a fluid cinematic system. Designed for future products, not websites.",
+                  "tag": "p",
+                  "cls": "hero-description mt-10",
+                  "fontSize": "16px",
+                  "color": "oklch(0.72 0.02 250)",
+                  "lineHeight": "28.8px",
+                  "letterSpacing": "-0.32px",
+                  "marginBottom": "0px",
+                  "textAlign": "start",
+                  "fontWeight": "400",
+                  "textTransform": "none"
+                },
+                {
+                  "t": "button",
+                  "label": "Launch Experience",
+                  "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+                  "tag": "button",
+                  "cls": "liquid-btn font-semibold",
+                  "align": "center",
+                  "icon": "",
+                  "iconSvg": "",
+                  "iconPos": "after",
+                  "pad": "16px 22.4px",
+                  "height": "58px",
+                  "radius": "999px",
+                  "lineHeight": "24px",
+                  "fontSize": "16px",
+                  "fontWeight": "600",
+                  "hover": null,
+                  "groupRow": true,
+                  "groupFirst": true,
+                  "groupLast": false,
+                  "bs": {
+                    "bg": "rgba(0, 0, 0, 0)",
+                    "fg": "oklch(0.96 0.01 250)",
+                    "bd": "rgba(255, 255, 255, 0.1)",
+                    "bds": "solid",
+                    "bw": "1px"
+                  }
+                },
+                {
+                  "t": "button",
+                  "label": "System Preview",
+                  "href": "https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity",
+                  "tag": "button",
+                  "cls": "liquid-btn font-semibold bg-white/5",
+                  "align": "center",
+                  "icon": "",
+                  "iconSvg": "",
+                  "iconPos": "after",
+                  "pad": "16px 22.4px",
+                  "height": "58px",
+                  "radius": "999px",
+                  "lineHeight": "24px",
+                  "fontSize": "16px",
+                  "fontWeight": "600",
+                  "hover": null,
+                  "groupRow": true,
+                  "groupFirst": false,
+                  "groupLast": true,
+                  "bs": {
+                    "bg": "rgba(255, 255, 255, 0.05)",
+                    "fg": "oklch(0.96 0.01 250)",
+                    "bd": "rgba(255, 255, 255, 0.1)",
+                    "bds": "solid",
+                    "bw": "1px"
+                  }
+                },
+                {
+                  "t": "row",
+                  "cols": [
+                    {
+                      "width": "1_3",
+                      "cls": "",
+                      "fullCls": "",
+                      "colId": "sccol-3",
+                      "cw": 2,
+                      "html": "                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               ",
+                      "counter": null,
+                      "card": null
+                    },
+                    {
+                      "width": "1_3",
+                      "cls": "",
+                      "fullCls": "",
+                      "colId": "sccol-4",
+                      "cw": 3,
+                      "html": "                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               ",
+                      "counter": null,
+                      "card": null
+                    },
+                    {
+                      "width": "1_3",
+                      "cls": "",
+                      "fullCls": "",
+                      "colId": "sccol-5",
+                      "cw": 3,
+                      "html": "                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               ",
+                      "counter": null,
+                      "card": null
+                    }
+                  ],
+                  "valign": "",
+                  "gap": 40,
+                  "gapResp": {
+                    "base": 40,
+                    "md": 0,
+                    "lg": 0
+                  },
+                  "html": "<div class=\"mt-20 flex flex-wrap gap-10\">               <div data-sc-col=\"sccol-3\">                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               </div>               <div data-sc-col=\"sccol-4\">                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               </div>               <div data-sc-col=\"sccol-5\">                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               </div>             </div>"
+                }
+              ],
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 6
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "video-portal w-full",
+              "colId": "sccol-6",
+              "cw": 12,
+              "html": "             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" src=\"https://videos.openhero.art/downloads/abstract/nox-liquid-high-fidelity/video.mp4\"></video>             <div class=\"video-glow\"></div>           ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 12,
+                "desktop": 12
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"hero-stack relative z-10 flex h-full justify-between\">           <div class=\"relative z-20 max-w-4xl flex flex-col justify-between\" data-sc-col=\"sccol-0\">             <div>               <span class=\"tiny-label\">                 Adaptive Liquid Intelligence               </span>               <h1 class=\"kinetic-title mt-8\">                 Beyond                 <br>                 interface.               </h1>               <p class=\"hero-description mt-10\">                 A perception-driven operating layer where motion,                 transparency and volumetric light merge into a fluid                 cinematic system. Designed for future products, not websites.               </p>               <div class=\"mt-12 flex flex-wrap items-center gap-4\">                 <button class=\"liquid-btn font-semibold\" data-sc-col=\"sccol-1\">                   Launch Experience                 </button>                 <button class=\"liquid-btn font-semibold bg-white/5\" data-sc-col=\"sccol-2\">                   System Preview                 </button>               </div>             </div>             <div class=\"mt-20 flex flex-wrap gap-10\">               <div data-sc-col=\"sccol-3\">                 <p class=\"text-5xl font-black\">12ms</p>                 <p class=\"text-white/45 mt-2 text-sm\">Motion latency</p>               </div>               <div data-sc-col=\"sccol-4\">                 <p class=\"text-5xl font-black\">120fps</p>                 <p class=\"text-white/45 mt-2 text-sm\">Native rendering</p>               </div>               <div data-sc-col=\"sccol-5\">                 <p class=\"text-5xl font-black\">OKLCH</p>                 <p class=\"text-white/45 mt-2 text-sm\">Perceptual color</p>               </div>             </div>           </div>           <div class=\"video-portal w-full\" data-sc-col=\"sccol-6\">             <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" src=\"https://videos.openhero.art/downloads/abstract/nox-liquid-high-fidelity/video.mp4\"></video>             <div class=\"video-glow\"></div>           </div>           <div class=\"glass-intersection\" data-sc-col=\"sccol-7\"></div>         </div>"
+        }
+      ],
+      "css": ".liquid-shell{position: relative; background: linear-gradient(180deg,\n          color-mix(in oklch, var(--card) 95%, transparent),\n          color-mix(in oklch, var(--bg-soft) 88%, transparent)); border: 1px solid var(--line); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 6px, rgba(0, 0, 0, 0.35) 0px 20px 80px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px inset; backdrop-filter: blur(24px) saturate(190%);}\n.hero-grid{container-type: inline-size;}\n.kinetic-title{font-size: clamp(4rem, 11vw, 10rem); line-height: 0.82; letter-spacing: -0.08em; font-weight: 900; background: linear-gradient(130deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.55), rgb(255, 255, 255)) 0% 0% / 220% auto text; color: transparent; animation: 7s linear 0s infinite normal none running shimmer;}\n.hero-description{color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 34rem;}\n.video-portal{position: absolute; top: 7%; right: -10%; width: min(60vw, 980px); height: 88%; overflow: hidden; border-radius: 4rem; transform: perspective(1800px) rotateY(-10deg) rotateX(3deg); isolation: isolate;}\n.video-portal::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(130deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.25)); mask: linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px); pointer-events: none; z-index: 5;}\n.video-portal video{width: 100%; height: 100%; object-fit: cover; filter: saturate(120%) contrast(112%) brightness(0.92); mask-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          black 25%,\n          rgba(0, 0, 0, .92) 45%,\n          transparent 85%);}\n.video-glow{position: absolute; inset: 0px; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          color-mix(in oklch, var(--accent) 35%, transparent),\n          transparent 55%); mix-blend-mode: screen; opacity: 0.65; pointer-events: none;}\n.glass-intersection{position: absolute; left: 0px; bottom: 0px; width: 50%; height: 45%; background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)); mask-image: linear-gradient(to top, black 75%, transparent 100%); border-top: 1px solid rgba(255, 255, 255, 0.08); border-right: 1px solid rgba(255, 255, 255, 0.05); pointer-events: none;}\n.liquid-btn{position: relative; isolation: isolate; overflow: hidden; border-radius: 999px; padding: 1rem 1.4rem; background: linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: rgba(255, 255, 255, 0.12) 0px 1px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;}\n.liquid-btn::before{content: \"\"; position: absolute; inset: -40%; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .75),\n          rgba(255, 255, 255, .14) 18%,\n          transparent 48%); opacity: 0.9; transition: transform 0.12s linear; z-index: -1;}\n.liquid-btn:hover{transform: translateY(-5px) scale(1.01); border-color: rgba(255, 255, 255, 0.25);}\n.fade-edge{mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);}\n.scroll-fade{mask-image: linear-gradient(transparent, black 12%, black 88%, transparent);}\n.tiny-label{color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.28em;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-10{margin-top: 2.5rem;}\n.mt-12{margin-top: 3rem;}\n.mt-2{margin-top: 0.5rem;}\n.mt-20{margin-top: 5rem;}\n.mt-8{margin-top: 2rem;}\n.flex{display: flex;}\n.h-full{height: 100%;}\n.min-h-\\[92vh\\]{min-height: 92vh;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.flex-col{flex-direction: column;}\n.flex-wrap{flex-wrap: wrap;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-10{gap: 2.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-\\[3rem\\]{border-radius: 3rem;}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-16{padding-top: 4rem; padding-bottom: 4rem;}\n.pb-16{padding-bottom: 4rem;}\n.pt-36{padding-top: 9rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-black{font-weight: 900;}\n.font-semibold{font-weight: 600;}\n.text-white\\/45{color: rgba(255, 255, 255, 0.45);}\n.opacity-\\[\\.04\\]{opacity: 0.04;}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}"
+    },
+    {
+      "heading": "Depth as language.",
+      "headingHtml": "Depth <br> as language.",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "72px",
+        "fontWeight": "900",
+        "color": "oklch(0.96 0.01 250)"
+      },
+      "overline": "Volumetric Modules",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.72 0.02 250)",
+        "textTransform": "uppercase",
+        "letterSpacing": "3.4944px",
+        "borderRadius": "0px",
+        "fontSize": "12.48px"
+      },
+      "lead": "Every layer exists on its own optical plane. Blur, transparency and illumination define hierarchy instead of borders.",
+      "paragraphs": [
+        "Every layer exists on its own optical plane. Blur, transparency and illumination define hierarchy instead of borders.",
+        "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+        "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+        "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+        "Light and dark themes share identical perceived contrast through perceptual luminance balancing."
+      ],
+      "buttons": [],
+      "cards": [
+        {
+          "number": "",
+          "icon": "",
+          "title": "Z-Axis layering.",
+          "text": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "Liquid metal controls.",
+          "text": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "Scroll-driven motion.",
+          "text": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "OKLCH fidelity.",
+          "text": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+          "image": ""
+        }
+      ],
+      "images": [],
+      "grids": [
+        {
+          "cols": 4,
+          "tiles": [
+            {
+              "kind": "feature",
+              "title": "Z-Axis layering.",
+              "text": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "Liquid metal controls.",
+              "text": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "Scroll-driven motion.",
+              "text": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "feature",
+              "title": "OKLCH fidelity.",
+              "text": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+              "icon": "",
+              "image": ""
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.96 0.01 250)",
+        "padding": "96px 0px",
+        "fontFamily": "Inter, sans-serif",
+        "fontSize": "16px",
+        "maxWidth": "1500px"
+      },
+      "text": "Volumetric Modules Depth as language. Every layer exists on its own optical plane. Blur, transparency and illumination define hierarchy instead of borders. Optical hierarchy Z-Axis layering. Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes. Kinetic interaction Liquid metal controls. Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines. Native rendering Scroll-driven motion. View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays. Perceptual system OKLCH fidelity. Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "96px 0px",
+          "maxWidth": "1500px",
+          "animation": "reveal auto linear 1",
+          "transform": "matrix(0.96, 0, 0, 0.96, 0, 80)",
+          "transition": "all",
+          "tw": {
+            "py": "96px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "flex": {
+                "dir": "row",
+                "justify": "space-between",
+                "align": "flex-end",
+                "gap": "40px",
+                "wrap": "wrap"
+              },
+              "transition": "all",
+              "tw": {
+                "gap": "40px"
+              }
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Volumetric Modules",
+                    "text": "Volumetric Modules",
+                    "styles": {
+                      "color": "oklch(0.72 0.02 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12.48px",
+                      "letterSpacing": "3.4944px",
+                      "lineHeight": "18.72px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Depth <br> as language.",
+                    "text": "Depth as language.",
+                    "styles": {
+                      "color": "oklch(0.96 0.01 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "72px",
+                      "fontWeight": "900",
+                      "letterSpacing": "-5.76px",
+                      "lineHeight": "72px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "900",
+                        "fontSize": "48px",
+                        "lineHeight": "1"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "text",
+                "html": "Every layer exists on its own optical plane. Blur, transparency and illumination define hierarchy instead of borders.",
+                "text": "Every layer exists on its own optical plane. Blur, transparency and illumination define hierarchy instead of borders.",
+                "styles": {
+                  "color": "rgba(255, 255, 255, 0.5)",
+                  "fontFamily": "Inter, sans-serif",
+                  "fontSize": "16px",
+                  "letterSpacing": "-0.32px",
+                  "lineHeight": "32px",
+                  "transition": "all"
+                }
+              }
+            ]
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px 97.0781px",
+                "gap": "19.2px"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "article",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))",
+                  "padding": "32px",
+                  "borderRadius": "32px",
+                  "boxShadow": "rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px",
+                  "border": "1px solid rgba(255, 255, 255, 0.08)",
+                  "transition": "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Optical hierarchy",
+                    "text": "Optical hierarchy",
+                    "styles": {
+                      "color": "oklch(0.72 0.02 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12.48px",
+                      "letterSpacing": "3.4944px",
+                      "lineHeight": "18.72px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Z-Axis layering.",
+                    "text": "Z-Axis layering.",
+                    "styles": {
+                      "color": "oklch(0.96 0.01 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "36px",
+                      "fontWeight": "900",
+                      "letterSpacing": "-0.9px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "900",
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+                    "text": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.55)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "16px",
+                      "letterSpacing": "-0.32px",
+                      "lineHeight": "32px",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "article",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))",
+                  "padding": "32px",
+                  "borderRadius": "32px",
+                  "boxShadow": "rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px",
+                  "border": "1px solid rgba(255, 255, 255, 0.08)",
+                  "transition": "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Kinetic interaction",
+                    "text": "Kinetic interaction",
+                    "styles": {
+                      "color": "oklch(0.72 0.02 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12.48px",
+                      "letterSpacing": "3.4944px",
+                      "lineHeight": "18.72px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Liquid metal controls.",
+                    "text": "Liquid metal controls.",
+                    "styles": {
+                      "color": "oklch(0.96 0.01 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "36px",
+                      "fontWeight": "900",
+                      "letterSpacing": "-0.9px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "900",
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+                    "text": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.55)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "16px",
+                      "letterSpacing": "-0.32px",
+                      "lineHeight": "32px",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "article",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))",
+                  "padding": "32px",
+                  "borderRadius": "32px",
+                  "boxShadow": "rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px",
+                  "border": "1px solid rgba(255, 255, 255, 0.08)",
+                  "transition": "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Native rendering",
+                    "text": "Native rendering",
+                    "styles": {
+                      "color": "oklch(0.72 0.02 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12.48px",
+                      "letterSpacing": "3.4944px",
+                      "lineHeight": "18.72px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "Scroll-driven motion.",
+                    "text": "Scroll-driven motion.",
+                    "styles": {
+                      "color": "oklch(0.96 0.01 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "36px",
+                      "fontWeight": "900",
+                      "letterSpacing": "-0.9px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "900",
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+                    "text": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.55)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "16px",
+                      "letterSpacing": "-0.32px",
+                      "lineHeight": "32px",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "article",
+                "styles": {
+                  "bgImage": "linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02))",
+                  "padding": "32px",
+                  "borderRadius": "32px",
+                  "boxShadow": "rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px",
+                  "border": "1px solid rgba(255, 255, 255, 0.08)",
+                  "transition": "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Perceptual system",
+                    "text": "Perceptual system",
+                    "styles": {
+                      "color": "oklch(0.72 0.02 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "12.48px",
+                      "letterSpacing": "3.4944px",
+                      "lineHeight": "18.72px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 3,
+                    "html": "OKLCH fidelity.",
+                    "text": "OKLCH fidelity.",
+                    "styles": {
+                      "color": "oklch(0.96 0.01 250)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "36px",
+                      "fontWeight": "900",
+                      "letterSpacing": "-0.9px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "900",
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+                    "text": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+                    "styles": {
+                      "color": "rgba(255, 255, 255, 0.55)",
+                      "fontFamily": "Inter, sans-serif",
+                      "fontSize": "16px",
+                      "letterSpacing": "-0.32px",
+                      "lineHeight": "32px",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"max-w-[1500px] mx-auto py-24 section-reveal\">       <div class=\"flex items-end justify-between gap-10 mb-16 flex-wrap\">         <div>           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         </div>         <p class=\"max-w-lg text-white/50 leading-8\">           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         </p>       </div>       <div class=\"bento\">         <article class=\"bento-card col-span-5\">           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         </article>         <article class=\"bento-card col-span-7\">           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         </article>         <article class=\"bento-card col-span-7\">           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         </article>         <article class=\"bento-card col-span-5\">           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         </article>       </div>     </section>",
+      "rawInner": "       <div class=\"flex items-end justify-between gap-10 mb-16 flex-wrap\">         <div>           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         </div>         <p class=\"max-w-lg text-white/50 leading-8\">           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         </p>       </div>       <div class=\"bento\">         <article class=\"bento-card col-span-5\">           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         </article>         <article class=\"bento-card col-span-7\">           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         </article>         <article class=\"bento-card col-span-7\">           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         </article>         <article class=\"bento-card col-span-5\">           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         </article>       </div>     ",
+      "sectionClass": "max-w-[1500px] mx-auto py-24 section-reveal",
+      "colClass": "col-span-5",
+      "diag": {},
+      "styleCensus": {
+        "max-width": 6,
+        "transform": 1,
+        "padding": 5,
+        "display-flex": 1,
+        "gap": 2,
+        "margin": 10,
+        "display-grid": 1,
+        "background-image": 4,
+        "backdrop-filter": 4,
+        "box-shadow": 4,
+        "border": 4,
+        "border-radius": 4
+      },
+      "h": 948,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-8",
+              "cw": 3,
+              "html": "           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Volumetric Modules",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Depth <br> as language.",
+                "titleTag": "h2",
+                "titleClass": "text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 9,
+                "tablet": 7,
+                "desktop": 3
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "max-w-lg text-white/50 leading-8",
+              "colId": "sccol-9",
+              "cw": 4,
+              "html": "           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         ",
+              "maxw": "512px",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 9,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "end",
+          "gap": 40,
+          "gapResp": {
+            "base": 40,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex items-end justify-between gap-10 mb-16 flex-wrap\">         <div data-sc-col=\"sccol-8\">           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         </div>         <p class=\"max-w-lg text-white/50 leading-8\" data-sc-col=\"sccol-9\">           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         </p>       </div>"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_4",
+              "cls": "col-span-5",
+              "fullCls": "bento-card col-span-5",
+              "colId": "sccol-10",
+              "cw": 5,
+              "html": "           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Optical hierarchy",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Z-Axis layering.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-md",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 5,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-7",
+              "fullCls": "bento-card col-span-7",
+              "colId": "sccol-11",
+              "cw": 7,
+              "html": "           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Kinetic interaction",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Liquid metal controls.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-lg",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 7,
+                "tablet": 7,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-7",
+              "fullCls": "bento-card col-span-7",
+              "colId": "sccol-12",
+              "cw": 7,
+              "html": "           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Native rendering",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Scroll-driven motion.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-lg",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 7,
+                "tablet": 7,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-5",
+              "fullCls": "bento-card col-span-5",
+              "colId": "sccol-13",
+              "cw": 5,
+              "html": "           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Perceptual system",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "OKLCH fidelity.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-md",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 5,
+                "tablet": 5,
+                "desktop": 5
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 19.2,
+          "gapResp": {
+            "base": 19.2,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"bento\">         <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-10\">           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         </article>         <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-11\">           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         </article>         <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-12\">           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         </article>         <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-13\">           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         </article>       </div>"
+        }
+      ],
+      "blocks": [
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "",
+              "colId": "sccol-8",
+              "cw": 3,
+              "html": "           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Volumetric Modules",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Depth <br> as language.",
+                "titleTag": "h2",
+                "titleClass": "text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6",
+                "subtitle": "",
+                "subtitleClass": "",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 9,
+                "tablet": 7,
+                "desktop": 3
+              }
+            },
+            {
+              "width": "1_2",
+              "cls": "",
+              "fullCls": "max-w-lg text-white/50 leading-8",
+              "colId": "sccol-9",
+              "cw": 4,
+              "html": "           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         ",
+              "maxw": "512px",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 12,
+                "tablet": 9,
+                "desktop": 4
+              }
+            }
+          ],
+          "valign": "end",
+          "gap": 40,
+          "gapResp": {
+            "base": 40,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"flex items-end justify-between gap-10 mb-16 flex-wrap\">         <div data-sc-col=\"sccol-8\">           <span class=\"tiny-label\">             Volumetric Modules           </span>           <h2 class=\"text-5xl md:text-7xl font-black tracking-[-0.08em] leading-[.88] mt-6\">             Depth             <br>             as language.           </h2>         </div>         <p class=\"max-w-lg text-white/50 leading-8\" data-sc-col=\"sccol-9\">           Every layer exists on its own optical plane. Blur, transparency           and illumination define hierarchy instead of borders.         </p>       </div>"
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_4",
+              "cls": "col-span-5",
+              "fullCls": "bento-card col-span-5",
+              "colId": "sccol-10",
+              "cw": 5,
+              "html": "           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Optical hierarchy",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Z-Axis layering.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Dynamic blur stacks simulate depth and material density through isolated backdrop-filter planes.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-md",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 5,
+                "tablet": 5,
+                "desktop": 5
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-7",
+              "fullCls": "bento-card col-span-7",
+              "colId": "sccol-11",
+              "cw": 7,
+              "html": "           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Kinetic interaction",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Liquid metal controls.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Cursor-reactive gradients distort like mercury under tension, generating tactile feedback without JavaScript animation engines.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-lg",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 7,
+                "tablet": 7,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-7",
+              "fullCls": "bento-card col-span-7",
+              "colId": "sccol-12",
+              "cw": 7,
+              "html": "           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Native rendering",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "Scroll-driven motion.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "View timelines and compositor-friendly transforms preserve cinematic fluidity at 120fps across ultra-wide displays.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-lg",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 7,
+                "tablet": 7,
+                "desktop": 7
+              }
+            },
+            {
+              "width": "1_4",
+              "cls": "col-span-5",
+              "fullCls": "bento-card col-span-5",
+              "colId": "sccol-13",
+              "cw": 5,
+              "html": "           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         ",
+              "counter": null,
+              "card": null,
+              "text": {
+                "overline": "Perceptual system",
+                "overlineClass": "tiny-label",
+                "overlineIcon": "",
+                "overlineIconPos": "before",
+                "title": "OKLCH fidelity.",
+                "titleTag": "h3",
+                "titleClass": "text-4xl font-black tracking-tight mt-6",
+                "subtitle": "Light and dark themes share identical perceived contrast through perceptual luminance balancing.",
+                "subtitleClass": "mt-6 text-white/55 leading-8 max-w-md",
+                "wrapClass": "",
+                "paras": []
+              },
+              "wResp": {
+                "phone": 5,
+                "tablet": 5,
+                "desktop": 5
+              }
+            }
+          ],
+          "valign": "",
+          "gap": 19.2,
+          "gapResp": {
+            "base": 19.2,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"bento\">         <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-10\">           <span class=\"tiny-label\">             Optical hierarchy           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Z-Axis             layering.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Dynamic blur stacks simulate depth and material density             through isolated backdrop-filter planes.           </p>         </article>         <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-11\">           <span class=\"tiny-label\">             Kinetic interaction           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Liquid metal             controls.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             Cursor-reactive gradients distort like mercury under tension,             generating tactile feedback without JavaScript animation engines.           </p>         </article>         <article class=\"bento-card col-span-7\" data-sc-col=\"sccol-12\">           <span class=\"tiny-label\">             Native rendering           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             Scroll-driven             motion.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-lg\">             View timelines and compositor-friendly transforms preserve             cinematic fluidity at 120fps across ultra-wide displays.           </p>         </article>         <article class=\"bento-card col-span-5\" data-sc-col=\"sccol-13\">           <span class=\"tiny-label\">             Perceptual system           </span>           <h3 class=\"text-4xl font-black tracking-tight mt-6\">             OKLCH             fidelity.           </h3>           <p class=\"mt-6 text-white/55 leading-8 max-w-md\">             Light and dark themes share identical perceived contrast             through perceptual luminance balancing.           </p>         </article>       </div>"
+        }
+      ],
+      "css": ".bento{display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.2rem;}\n.bento-card{position: relative; overflow: hidden; border-radius: 2rem; min-height: 260px; padding: 2rem; background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(24px); box-shadow: rgba(255, 255, 255, 0.08) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;}\n.bento-card::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .12),\n          transparent 40%); opacity: 0; transition: opacity 0.4s;}\n.bento-card:hover{transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.18);}\n.bento-card:hover::before{opacity: 1;}\n.section-reveal{opacity: 0.2; transform: translateY(80px) scale(0.96); filter: blur(18px); animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: reveal; animation-timeline: view(); animation-range: entry 15% cover 40%;}\n.tiny-label{color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.28em;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.col-span-5{grid-column: span 5 / span 5;}\n.col-span-7{grid-column: span 7 / span 7;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mt-6{margin-top: 1.5rem;}\n.flex{display: flex;}\n.max-w-\\[1500px\\]{max-width: 1500px;}\n.max-w-lg{max-width: 32rem;}\n.max-w-md{max-width: 28rem;}\n.flex-wrap{flex-wrap: wrap;}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-10{gap: 2.5rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.font-black{font-weight: 900;}\n.leading-8{line-height: 2rem;}\n.leading-\\[\\.88\\]{line-height: 0.88;}\n.tracking-\\[-0\\.08em\\]{letter-spacing: -0.08em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 inset-x-0 z-50 px-5 md:px-10 pt-6\">     <div class=\"max-w-[1500px] mx-auto liquid-shell rounded-[2rem] px-6 py-4 flex items-center justify-between\">       <div class=\"flex items-center gap-4\">         <div class=\"h-11 w-11 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-xl flex items-center justify-center\">           <iconify-icon icon=\"iconamoon:3d-duotone\" class=\"text-2xl text-cyan-400\"></iconify-icon>         </div>         <div>           <h2 class=\"font-black tracking-tight text-xl\">NOX</h2>           <p class=\"text-xs text-white/45\">Liquid Interface System</p>         </div>       </div>       <div class=\"hidden md:flex items-center gap-2 text-sm text-white/55\">         <a class=\"px-4 py-2 hover:text-white transition\">Vision</a>         <a class=\"px-4 py-2 hover:text-white transition\">Architecture</a>         <a class=\"px-4 py-2 hover:text-white transition\">Systems</a>       </div>       <div class=\"flex items-center gap-4\">         <button class=\"liquid-btn text-sm font-semibold\">           Enter Platform         </button>         <div class=\"theme-switch\" id=\"themeToggle\"></div>       </div>     </div>   </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{color-scheme: dark light; --bg: oklch(0.11 0.02 260); --bg-soft: oklch(0.14 0.02 260); --card: oklch(0.18 0.02 260 / .55); --line: oklch(1 0 0 / .08); --text: oklch(0.96 0.01 250); --muted: oklch(0.72 0.02 250); --accent: oklch(0.78 0.19 240); --accent-2: oklch(0.74 0.16 190); --mouse-x: 50%; --mouse-y: 50%;}\n*{margin: 0px; padding: 0px; box-sizing: border-box;}\nhtml{scroll-behavior: smooth;}\nbody{font-family: Inter, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; letter-spacing: -0.02em;}\nbody::before{content: \"\"; position: fixed; inset: 0px; pointer-events: none; background: radial-gradient(circle at top left, color-mix(in oklch, var(--accent) 16%, transparent), transparent 32%),\n        radial-gradient(circle at bottom right, color-mix(in oklch, var(--accent-2) 12%, transparent), transparent 28%); opacity: 0.9; z-index: -2;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".noise::before{content: \"\"; position: absolute; inset: 0px; opacity: 0.04; background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 18px 18px; pointer-events: none;}\n.hero-grid{container-type: inline-size;}\n.kinetic-title{font-size: clamp(4rem, 11vw, 10rem); line-height: 0.82; letter-spacing: -0.08em; font-weight: 900; background: linear-gradient(130deg, rgb(255, 255, 255), rgba(255, 255, 255, 0.55), rgb(255, 255, 255)) 0% 0% / 220% auto text; color: transparent; animation: 7s linear 0s infinite normal none running shimmer;}\n@keyframes shimmer { \n  0% { background-position: 0% center; }\n  100% { background-position: 220% center; }\n}\n.hero-description{color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 34rem;}\n.video-portal{position: absolute; top: 7%; right: -10%; width: min(60vw, 980px); height: 88%; overflow: hidden; border-radius: 4rem; transform: perspective(1800px) rotateY(-10deg) rotateX(3deg); isolation: isolate;}\n.video-portal::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(130deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.25)); mask: linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px) content-box exclude, linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) 0px); pointer-events: none; z-index: 5;}\n.video-portal video{width: 100%; height: 100%; object-fit: cover; filter: saturate(120%) contrast(112%) brightness(0.92); mask-image: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          black 25%,\n          rgba(0, 0, 0, .92) 45%,\n          transparent 85%);}\n.video-glow{position: absolute; inset: 0px; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          color-mix(in oklch, var(--accent) 35%, transparent),\n          transparent 55%); mix-blend-mode: screen; opacity: 0.65; pointer-events: none;}\n.glass-intersection{position: absolute; left: 0px; bottom: 0px; width: 50%; height: 45%; background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)); mask-image: linear-gradient(to top, black 75%, transparent 100%); border-top: 1px solid rgba(255, 255, 255, 0.08); border-right: 1px solid rgba(255, 255, 255, 0.05); pointer-events: none;}\n.bento{display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.2rem;}\n.bento-card{position: relative; overflow: hidden; border-radius: 2rem; min-height: 260px; padding: 2rem; background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(24px); box-shadow: rgba(255, 255, 255, 0.08) 0px 1px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;}\n.bento-card::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .12),\n          transparent 40%); opacity: 0; transition: opacity 0.4s;}\n.bento-card:hover{transform: translateY(-10px); border-color: rgba(255, 255, 255, 0.18);}\n.bento-card:hover::before{opacity: 1;}\n.fade-edge{mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);}\n.scroll-fade{mask-image: linear-gradient(transparent, black 12%, black 88%, transparent);}\n.section-reveal{opacity: 0.2; transform: translateY(80px) scale(0.96); filter: blur(18px); animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; animation-name: reveal; animation-timeline: view(); animation-range: entry 15% cover 40%;}\n@keyframes reveal { \n  100% { opacity: 1; transform: translateY(0px) scale(1); filter: blur(0px); }\n}\n.tiny-label{color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.28em;}\nh1, h3{font-size: inherit; font-weight: inherit;}\nh1, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.col-span-5{grid-column: span 5 / span 5;}\n.col-span-7{grid-column: span 7 / span 7;}\n.mb-16{margin-bottom: 4rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-12{margin-top: 3rem;}\n.mt-2{margin-top: 0.5rem;}\n.mt-20{margin-top: 5rem;}\n.mt-6{margin-top: 1.5rem;}\n.mt-8{margin-top: 2rem;}\n.h-full{height: 100%;}\n.min-h-\\[92vh\\]{min-height: 92vh;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-lg{max-width: 32rem;}\n.max-w-md{max-width: 28rem;}\n.flex-col{flex-direction: column;}\n.flex-wrap{flex-wrap: wrap;}\n.items-end{align-items: flex-end;}\n.gap-10{gap: 2.5rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-\\[3rem\\]{border-radius: 3rem;}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-16{padding-top: 4rem; padding-bottom: 4rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.pb-16{padding-bottom: 4rem;}\n.pt-36{padding-top: 9rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.leading-8{line-height: 2rem;}\n.leading-\\[\\.88\\]{line-height: 0.88;}\n.tracking-\\[-0\\.08em\\]{letter-spacing: -0.08em;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.opacity-\\[\\.04\\]{opacity: 0.04;}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:px-8{padding-left: 2rem; padding-right: 2rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}",
+    "header_css": ".liquid-shell{position: relative; background: linear-gradient(180deg,\n          color-mix(in oklch, var(--card) 95%, transparent),\n          color-mix(in oklch, var(--bg-soft) 88%, transparent)); border: 1px solid var(--line); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 6px, rgba(0, 0, 0, 0.35) 0px 20px 80px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px inset; backdrop-filter: blur(24px) saturate(190%);}\n.liquid-btn{position: relative; isolation: isolate; overflow: hidden; border-radius: 999px; padding: 1rem 1.4rem; background: linear-gradient(130deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: rgba(255, 255, 255, 0.12) 0px 1px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px; transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;}\n.liquid-btn::before{content: \"\"; position: absolute; inset: -40%; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y),\n          rgba(255, 255, 255, .75),\n          rgba(255, 255, 255, .14) 18%,\n          transparent 48%); opacity: 0.9; transition: transform 0.12s linear; z-index: -1;}\n.liquid-btn:hover{transform: translateY(-5px) scale(1.01); border-color: rgba(255, 255, 255, 0.25);}\n.theme-switch{width: 54px; height: 32px; border-radius: 999px; position: relative; cursor: pointer; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);}\n.theme-switch::before{content: \"\"; position: absolute; width: 24px; height: 24px; border-radius: 999px; top: 3px; left: 3px; background: white; transition: 0.45s cubic-bezier(0.16, 1, 0.3, 1);}\n.fixed{position: fixed;}\n.inset-x-0{left: 0px; right: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-11{height: 2.75rem;}\n.w-11{width: 2.75rem;}\n.max-w-\\[1500px\\]{max-width: 1500px;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-2{gap: 0.5rem;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-\\[2rem\\]{border-radius: 2rem;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/10{background-color: rgba(255, 255, 255, 0.1);}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-2{padding-top: 0.5rem; padding-bottom: 0.5rem;}\n.pt-6{padding-top: 1.5rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-black{font-weight: 900;}\n.font-semibold{font-weight: 600;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-white\\/45{color: rgba(255, 255, 255, 0.45);}\n.text-white\\/55{color: rgba(255, 255, 255, 0.55);}\n.backdrop-blur-xl{--tw-backdrop-blur: blur(24px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:flex{display: flex;}}\n@media (min-width: 768px){.md\\:px-10{padding-left: 2.5rem; padding-right: 2.5rem;}}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "oklch(0.96 0.01 250)",
+      "bd": "rgba(255, 255, 255, 0.1)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px",
+      "radius": "999px",
+      "px": "22.4px",
+      "py": "16px",
+      "height": "",
+      "fs": "14px",
+      "lh": "20px",
+      "ff": "Inter, sans-serif",
+      "ls": "-0.32px",
+      "tt": "none",
+      "fw": "600",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "oklch(0.96 0.01 250)",
+      "bd": "rgba(255, 255, 255, 0.1)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px",
+      "radius": "999px",
+      "px": "22.4px",
+      "py": "16px",
+      "height": "",
+      "fs": "16px",
+      "lh": "24px",
+      "ff": "Inter, sans-serif",
+      "ls": "-0.32px",
+      "tt": "none",
+      "fw": "600",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "rgba(255, 255, 255, 0.05)",
+      "fg": "oklch(0.96 0.01 250)",
+      "bd": "rgba(255, 255, 255, 0.1)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.12) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.24) 0px 14px 40px 0px",
+      "radius": "999px",
+      "px": "22.4px",
+      "py": "16px",
+      "height": "",
+      "fs": "16px",
+      "lh": "24px",
+      "ff": "Inter, sans-serif",
+      "ls": "-0.32px",
+      "tt": "none",
+      "fw": "600",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "md",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "144px",
+      "px": 144
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "32px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px 20px 60px 0px",
+      "backdrop": "blur(24px)",
+      "padding": "32px",
+      "hoverLift": false,
+      "count": 4
+    },
+    {
+      "fill": "",
+      "radius": "32px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.08)",
+      "shadow": "rgba(0, 0, 0, 0.08) 0px 2px 6px 0px, rgba(0, 0, 0, 0.35) 0px 20px 80px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset",
+      "backdrop": "blur(24px) saturate(1.9)",
+      "padding": "16px 24px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.1)",
+      "radius": "16px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.1)",
+      "shadow": "",
+      "backdrop": "blur(24px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.08)",
+      "radius": "999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgba(255, 255, 255, 0.08)",
+      "shadow": "",
+      "backdrop": "blur(20px)",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "",
+      "radius": "48px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.08)",
+      "shadow": "rgba(0, 0, 0, 0.08) 0px 2px 6px 0px, rgba(0, 0, 0, 0.35) 0px 20px 80px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.02) 0px -1px 0px 0px inset",
+      "backdrop": "blur(24px) saturate(1.9)",
+      "padding": "64px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": []
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "shimmer",
+        "props": [
+          "background-position-x",
+          "background-position-y"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "reveal",
+        "props": [
+          "opacity",
+          "transform",
+          "filter"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".kinetic-title",
+        "name": "shimmer",
+        "duration": "7s",
+        "infinite": true
+      },
+      {
+        "selector": ".section-reveal",
+        "name": "reveal",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".liquid-btn",
+        "changed": {
+          "transform": "translateY(-5px) scale(1.01)",
+          "border-top-color": "rgba(255, 255, 255, 0.25)",
+          "border-right-color": "rgba(255, 255, 255, 0.25)",
+          "border-bottom-color": "rgba(255, 255, 255, 0.25)",
+          "border-left-color": "rgba(255, 255, 255, 0.25)"
+        }
+      },
+      {
+        "selector": ".bento-card",
+        "changed": {
+          "transform": "translateY(-10px)",
+          "border-top-color": "rgba(255, 255, 255, 0.18)",
+          "border-right-color": "rgba(255, 255, 255, 0.18)",
+          "border-bottom-color": "rgba(255, 255, 255, 0.18)",
+          "border-left-color": "rgba(255, 255, 255, 0.18)"
+        }
+      },
+      {
+        "selector": ".bento-card::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".hover\\:text-white",
+        "changed": {
+          "--tw-text-opacity": "1",
+          "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+        }
+      },
+      {
+        "selector": "px-4 py-2 hover:text-white transition",
+        "changed": {
+          "color": "rgb(255, 255, 255)"
+        },
+        "live": true
+      },
+      {
+        "selector": "liquid-btn text-sm font-semibold",
+        "changed": {
+          "transform": "matrix(1.00991, 0, 0, 1.00991, 0, -4.95463)",
+          "borderColor": "rgba(255, 255, 255, 0.243)"
+        },
+        "live": true
+      },
+      {
+        "selector": "liquid-btn font-semibold",
+        "changed": {
+          "transform": "matrix(1.00991, 0, 0, 1.00991, 0, -4.9548)",
+          "borderColor": "rgba(255, 255, 255, 0.243)"
+        },
+        "live": true
+      },
+      {
+        "selector": "liquid-btn font-semibold bg-white/5",
+        "changed": {
+          "transform": "matrix(1.00991, 0, 0, 1.00991, 0, -4.95459)",
+          "borderColor": "rgba(255, 255, 255, 0.243)"
+        },
+        "live": true
+      },
+      {
+        "selector": "bento-card col-span-5",
+        "changed": {
+          "transform": "matrix(1, 0, 0, 1, 0, -9.83797)",
+          "borderColor": "rgba(255, 255, 255, 0.176)"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".liquid-btn",
+        "props": "transform, border-color",
+        "duration": "0.45s, 0.4s"
+      },
+      {
+        "selector": ".liquid-btn::before",
+        "props": "transform",
+        "duration": "0.12s"
+      },
+      {
+        "selector": ".bento-card",
+        "props": "transform, border-color",
+        "duration": "0.5s, 0.4s"
+      },
+      {
+        "selector": ".bento-card::before",
+        "props": "opacity",
+        "duration": "0.4s"
+      },
+      {
+        "selector": ".transition",
+        "props": "color, background-color, border-color, text-decoration-color, fill, stroke, opac",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 2090,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 0,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~1127px of scroll"
+      },
+      {
+        "i": 1,
+        "kind": "pin",
+        "evidence": "pinned for ~1127px of scroll"
+      },
+      {
+        "i": 11,
+        "kind": "parallax",
+        "evidence": "document position drifts -100px over 1129px of scroll",
+        "ratio": -0.09
+      },
+      {
+        "i": 16,
+        "kind": "parallax",
+        "evidence": "document position drifts -96px over 1129px of scroll",
+        "ratio": -0.09
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~1127px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#1",
+        "evidence": "pinned for ~1127px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#11",
+        "evidence": "document position drifts -100px over 1129px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.09)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#16",
+        "evidence": "document position drifts -96px over 1129px of scroll",
+        "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.09)",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".kinetic-title",
+        "evidence": "infinite keyframes 'shimmer' (background-position-x,background-position-y)",
+        "suggest": "physics float/pulse or backgrounds module",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".section-reveal",
+        "evidence": "keyframes 'reveal' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".liquid-btn",
+        "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".bento-card",
+        "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".hover\\:text-white",
+        "evidence": "--tw-text-opacity, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "px-4 py-2 hover:text-white transition",
+        "evidence": "color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "liquid-btn text-sm font-semibold",
+        "evidence": "transform, borderColor change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "liquid-btn font-semibold",
+        "evidence": "transform, borderColor change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "liquid-btn font-semibold bg-white/5",
+        "evidence": "transform, borderColor change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": "bento-card col-span-5",
+        "evidence": "transform, borderColor change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

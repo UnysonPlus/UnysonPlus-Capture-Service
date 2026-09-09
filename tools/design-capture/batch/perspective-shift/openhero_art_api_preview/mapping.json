@@ -1,0 +1,662 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".blur-pill{background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08);}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-12{bottom: 3rem;}\n.left-6{left: 1.5rem;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-12{margin-bottom: 3rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.flex{display: flex;}\n.h-full{height: 100%;}\n.h-px{height: 1px;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-8{width: 2rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-xl{max-width: 36rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.items-stretch{align-items: stretch;}\n.justify-start{justify-content: flex-start;}\n.gap-2{gap: 0.5rem;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.bg-cyan-500{--tw-bg-opacity: 1; background-color: rgb(6 182 212 / var(--tw-bg-opacity, 1));}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.bg-clip-text{background-clip: text;}\n.object-cover{object-fit: cover;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.font-serif{font-family: Cinzel, serif;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.font-extrabold{font-weight: 800;}\n.font-light{font-weight: 300;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[1\\.05\\]{line-height: 1.05;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.25em\\]{letter-spacing: 0.25em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-slate-950{--tw-text-opacity: 1; color: rgb(2 6 23 / var(--tw-text-opacity, 1));}\n.text-transparent{color: transparent;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-cyan-400:hover{--tw-bg-opacity: 1; background-color: rgb(34 211 238 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:items-center{align-items: center;}}\n@media (min-width: 640px){.sm\\:gap-12{gap: 3rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:left-40{left: 10rem;}}\n@media (min-width: 1024px){.lg\\:px-32{padding-left: 8rem; padding-right: 8rem;}}\n@media (min-width: 1024px){.lg\\:text-8xl{font-size: 6rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "0px 128px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "                  <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"absolute inset-0 w-full h-full object-cover z-0\">             <source src=\"https://videos.openhero.art/downloads/nature/perspective-shift/video.mp4\" type=\"video/mp4\">         </video>                  <div class=\"absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/40 z-10\"></div>         <div class=\"absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-transparent z-10\"></div>         <div class=\"relative z-20 max-w-4xl mt-12\">             <div class=\"flex items-center gap-3 mb-8\">                 <div class=\"h-px w-8 bg-cyan-500\"></div>                 <span class=\"text-xs uppercase tracking-[0.4em] text-cyan-400 font-bold\">Altitude 400,000M</span>             </div>             <h1 class=\"font-serif text-5xl md:text-7xl lg:text-8xl font-light tracking-tight text-white mb-8 leading-[1.05]\">                 Sit above <br>                 <span class=\"font-sans font-extrabold uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-500\">The tumult</span>             </h1>             <p class=\"text-base md:text-lg text-slate-300 mb-12 max-w-xl font-light leading-relaxed\">                 A solitary summit overlooking infinite atmospheres. Transcend standard reference frames and observe the terrestrial architecture as a singular living consciousness.             </p>             <div class=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-4\">                 <a href=\"#contemplate\" class=\"px-8 py-4 bg-white text-slate-950 font-bold uppercase tracking-widest text-xs hover:bg-cyan-400 transition-colors duration-300 text-center\">                     Begin Isolation                 </a>                 <a href=\"#dimensions\" class=\"blur-pill px-8 py-4 text-white uppercase tracking-widest text-xs font-semibold hover:bg-white/10 transition-colors duration-300 text-center\">                     Analyze Stratum                 </a>             </div>         </div>         <div class=\"absolute bottom-12 left-6 lg:left-40 z-20 flex items-center gap-4 sm:gap-12 font-semibold text-[10px] uppercase tracking-[0.25em] text-slate-500\">             <div class=\"flex items-center gap-2\">                 <span class=\"text-slate-300\">LON:</span> 72.5412° W             </div>             <div class=\"flex items-center gap-2\">                 <span class=\"text-slate-300\">LAT:</span> 13.6339° S             </div>             <div class=\"flex items-center gap-2\">                 <span class=\"text-slate-300\">PRES:</span> 0.004 PA             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/perspective-shift/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=perspective-shift",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=perspective-shift",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " absolute inset-0 w-full h-full object-cover z-0 relative min-h-screen flex items-center justify-start overflow-hidden px-6 lg:px-32 antialiased selection:bg-cyan-500 selection:text-slate-950 overflow-x-hidden scroll-smooth",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/40 z-10\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to top, rgb(2, 6, 23), rgba(2, 6, 23, 0.2), rgba(2, 6, 23, 0.4))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "10",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-r from-slate-950 via-transparent to-transparent z-10\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to right, rgb(2, 6, 23), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "10",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "text",
+              "html": "<span class=\"text-xs uppercase tracking-[0.4em] text-cyan-400 font-bold\">Altitude 400,000M</span>",
+              "text": "Altitude 400,000M",
+              "tag": "span",
+              "cls": "text-xs uppercase tracking-[0.4em] text-cyan-400 font-bold",
+              "fontSize": "12px",
+              "color": "rgb(34, 211, 238)",
+              "lineHeight": "16px",
+              "letterSpacing": "4.8px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "700",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Sit above <br> <strong>The tumult</strong>",
+              "text": "Sit above The tumult",
+              "tag": "h1",
+              "cls": "font-serif text-5xl md:text-7xl lg:text-8xl font-light tracking-tight text-white mb-8 leading-[1.05]",
+              "wrapCls": "relative z-20 max-w-4xl mt-12",
+              "fontSize": "96px",
+              "fontWeight": "300",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "96px",
+              "letterSpacing": "-2.4px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-base md:text-lg text-slate-300 mb-12 max-w-xl font-light leading-relaxed\">                 A solitary summit overlooking infinite atmospheres. Transcend standard reference frames and observe the terrestrial architecture as a singular living consciousness.             </p>",
+              "text": "A solitary summit overlooking infinite atmospheres. Transcend standard reference frames and observe the terrestrial architecture as a singular living consciousness.",
+              "tag": "p",
+              "cls": "text-base md:text-lg text-slate-300 mb-12 max-w-xl font-light leading-relaxed",
+              "fontSize": "18px",
+              "color": "rgb(203, 213, 225)",
+              "lineHeight": "28px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Begin Isolation",
+              "href": "https://openhero.art/api/preview?category=nature&slug=perspective-shift#contemplate",
+              "tag": "a",
+              "cls": "px-8 py-4 bg-white text-slate-950 font-bold uppercase tracking-widest text-xs hover:bg-cyan-400 transition-colors duration-300 text-center",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "48px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "700",
+              "hover": {
+                "backgroundColor": "rgb(34, 211, 238)"
+              },
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "rgb(255, 255, 255)",
+                "fg": "rgb(2, 6, 23)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "Analyze Stratum",
+              "href": "https://openhero.art/api/preview?category=nature&slug=perspective-shift#dimensions",
+              "tag": "a",
+              "cls": "blur-pill px-8 py-4 text-white uppercase tracking-widest text-xs font-semibold hover:bg-white/10 transition-colors duration-300 text-center",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "50px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "600",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(255, 255, 255, 0.03)",
+                "fg": "rgb(255, 255, 255)",
+                "bd": "rgba(255, 255, 255, 0.08)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-0",
+                  "cw": 3,
+                  "html": "                 <span class=\"text-slate-300\">LON:</span> 72.5412° W             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 4,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-1",
+                  "cw": 3,
+                  "html": "                 <span class=\"text-slate-300\">LAT:</span> 13.6339° S             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 4,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-2",
+                  "cw": 3,
+                  "html": "                 <span class=\"text-slate-300\">PRES:</span> 0.004 PA             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 4,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 48,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"absolute bottom-12 left-6 lg:left-40 z-20 flex items-center gap-4 sm:gap-12 font-semibold text-[10px] uppercase tracking-[0.25em] text-slate-500\">             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-0\">                 <span class=\"text-slate-300\">LON:</span> 72.5412° W             </div>             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-1\">                 <span class=\"text-slate-300\">LAT:</span> 13.6339° S             </div>             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-2\">                 <span class=\"text-slate-300\">PRES:</span> 0.004 PA             </div>         </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-36 px-6 lg:px-16 bg-slate-950 relative border-t border-slate-900",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".blur-pill{background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08);}\n.ambient-glow{box-shadow: rgba(6, 182, 212, 0.15) 0px 0px 60px -15px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-10{height: 2.5rem;}\n.h-px{height: 1px;}\n.w-10{width: 2.5rem;}\n.w-16{width: 4rem;}\n.max-w-7xl{max-width: 80rem;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-16{gap: 4rem;}\n.gap-8{gap: 2rem;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-xl{border-radius: 0.75rem;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-cyan-500\\/20{border-color: rgba(6, 182, 212, 0.2);}\n.border-slate-900{--tw-border-opacity: 1; border-color: rgb(15 23 42 / var(--tw-border-opacity, 1));}\n.border-emerald-500\\/20{border-color: rgba(16, 185, 129, 0.2);}\n.border-indigo-500\\/20{border-color: rgba(99, 102, 241, 0.2);}\n.border-purple-500\\/20{border-color: rgba(168, 85, 247, 0.2);}\n.bg-cyan-500\\/10{background-color: rgba(6, 182, 212, 0.1);}\n.bg-slate-800{--tw-bg-opacity: 1; background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1));}\n.bg-slate-950{--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));}\n.bg-emerald-500\\/10{background-color: rgba(16, 185, 129, 0.1);}\n.bg-indigo-500\\/10{background-color: rgba(99, 102, 241, 0.1);}\n.bg-purple-500\\/10{background-color: rgba(168, 85, 247, 0.1);}\n.p-10{padding: 2.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-36{padding-top: 9rem; padding-bottom: 9rem;}\n.font-serif{font-family: Cinzel, serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-cyan-500{--tw-text-opacity: 1; color: rgb(6 182 212 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-indigo-400{--tw-text-opacity: 1; color: rgb(129 140 248 / var(--tw-text-opacity, 1));}\n.text-purple-400{--tw-text-opacity: 1; color: rgb(192 132 252 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:sticky{position: sticky;}}\n@media (min-width: 1024px){.lg\\:top-32{top: 8rem;}}\n@media (min-width: 1024px){.lg\\:col-span-4{grid-column: span 4 / span 4;}}\n@media (min-width: 1024px){.lg\\:col-span-8{grid-column: span 8 / span 8;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}",
+          "computed": {
+            "background": "rgb(2, 6, 23)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "144px 64px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"max-w-7xl mx-auto\">             <div class=\"grid lg:grid-cols-12 gap-16 items-start\">                                  <div class=\"lg:col-span-4 lg:sticky lg:top-32\">                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-cyan-500 block mb-3\">01 / Contemplation</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">The stillness of hyper-presence.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         Detached from temporal friction, the mind aligns with global phenomena. Watch cyclonic formations, city filaments, and celestial auroras emerge seamlessly along the curve of the horizon.                     </p>                     <div class=\"w-16 h-px bg-slate-800\"></div>                 </div>                 <div class=\"lg:col-span-8 grid sm:grid-cols-2 gap-8\">                     <div class=\"blur-pill p-10 rounded-2xl ambient-glow\">                         <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:eye\" class=\"text-cyan-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Unobstructed Sightlines</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Observe without the scattering effects of the dense lower atmosphere. Pristine visual telemetry extending across terminal vectors.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:wind\" class=\"text-emerald-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Atmospheric Envelope</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Trace the fragile blue boundaries shielding planetary complexity from deep void environments. A dynamic barrier in permanent evolution.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:activity\" class=\"text-indigo-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Chronostasis Phase</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Experience a non-linear flow of time. Orbital velocities decouple your perception from typical day-to-night transitions.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:mountain\" class=\"text-purple-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">The Terrestrial Core</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Connect conceptually with solid landmasses, lithospheric plates, and profound ocean basins breathing synchronously beneath the cloud layers.</p>                     </div>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-4 lg:sticky lg:top-32",
+                  "colId": "sccol-3",
+                  "cw": 4,
+                  "html": "                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-cyan-500 block mb-3\">01 / Contemplation</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">The stillness of hyper-presence.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         Detached from temporal friction, the mind aligns with global phenomena. Watch cyclonic formations, city filaments, and celestial auroras emerge seamlessly along the curve of the horizon.                     </p>                     <div class=\"w-16 h-px bg-slate-800\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "01 / Contemplation",
+                    "overlineClass": "text-xs uppercase tracking-[0.3em] font-bold text-cyan-500 block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The stillness of hyper-presence.",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6",
+                    "subtitle": "Detached from temporal friction, the mind aligns with global phenomena. Watch cyclonic formations, city filaments, and celestial auroras emerge seamlessly along the curve of the horizon.",
+                    "subtitleClass": "text-slate-400 font-light leading-relaxed mb-8",
+                    "wrapClass": "lg:col-span-4 lg:sticky lg:top-32",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-8 grid sm:grid-cols-2 gap-8",
+                  "colId": "sccol-4",
+                  "cw": 8,
+                  "html": "                     <div class=\"blur-pill p-10 rounded-2xl ambient-glow\">                         <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:eye\" class=\"text-cyan-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Unobstructed Sightlines</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Observe without the scattering effects of the dense lower atmosphere. Pristine visual telemetry extending across terminal vectors.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:wind\" class=\"text-emerald-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Atmospheric Envelope</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Trace the fragile blue boundaries shielding planetary complexity from deep void environments. A dynamic barrier in permanent evolution.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:activity\" class=\"text-indigo-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Chronostasis Phase</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Experience a non-linear flow of time. Orbital velocities decouple your perception from typical day-to-night transitions.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:mountain\" class=\"text-purple-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">The Terrestrial Core</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Connect conceptually with solid landmasses, lithospheric plates, and profound ocean basins breathing synchronously beneath the cloud layers.</p>                     </div>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "eye",
+                    "iconLayout": "top-title",
+                    "iconColor": "#22d3ee",
+                    "iconBadge": "solid-rounded",
+                    "iconBadgeColor": "rgba(6, 182, 212, 0.1)",
+                    "iconBadgeSize": 40,
+                    "iconBadgeRadius": "12px",
+                    "iconBadgeBorderWidth": "1px",
+                    "iconBadgeBorderColor": "#06b6d4",
+                    "title": "Unobstructed Sightlines",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"text-slate-400 font-light text-sm leading-relaxed\">Observe without the scattering effects of the dense lower atmosphere. Pristine visual telemetry extending across terminal vectors.</p>",
+                    "link": null,
+                    "cls": "blur-pill p-10 rounded-2xl ambient-glow",
+                    "align": "left",
+                    "pad": "40px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.03)",
+                      "fill": "rgba(255, 255, 255, 0.03)",
+                      "radius": "16px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.08)",
+                      "shadow": "rgba(6, 182, 212, 0.15) 0px 0px 60px -15px",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "40px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 8
+                  }
+                }
+              ],
+              "valign": "start",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-16 items-start\">                                  <div class=\"lg:col-span-4 lg:sticky lg:top-32\" data-sc-col=\"sccol-3\">                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-cyan-500 block mb-3\">01 / Contemplation</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">The stillness of hyper-presence.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         Detached from temporal friction, the mind aligns with global phenomena. Watch cyclonic formations, city filaments, and celestial auroras emerge seamlessly along the curve of the horizon.                     </p>                     <div class=\"w-16 h-px bg-slate-800\"></div>                 </div>                 <div class=\"lg:col-span-8 grid sm:grid-cols-2 gap-8\" data-sc-col=\"sccol-4\">                     <div class=\"blur-pill p-10 rounded-2xl ambient-glow\">                         <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:eye\" class=\"text-cyan-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Unobstructed Sightlines</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Observe without the scattering effects of the dense lower atmosphere. Pristine visual telemetry extending across terminal vectors.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:wind\" class=\"text-emerald-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Atmospheric Envelope</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Trace the fragile blue boundaries shielding planetary complexity from deep void environments. A dynamic barrier in permanent evolution.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:activity\" class=\"text-indigo-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">Chronostasis Phase</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Experience a non-linear flow of time. Orbital velocities decouple your perception from typical day-to-night transitions.</p>                     </div>                     <div class=\"blur-pill p-10 rounded-2xl\">                         <div class=\"w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8\">                             <iconify-icon icon=\"lucide:mountain\" class=\"text-purple-400 text-lg\"></iconify-icon>                         </div>                         <h3 class=\"text-lg font-bold tracking-tight mb-4\">The Terrestrial Core</h3>                         <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Connect conceptually with solid landmasses, lithospheric plates, and profound ocean basins breathing synchronously beneath the cloud layers.</p>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 px-6 lg:px-16 bg-[#040817] relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h4{font-size: inherit; font-weight: inherit;}\nh2, h4, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.top-0{top: 0px;}\n.top-1\\/2{top: 50%;}\n.-left-\\[33px\\]{left: -33px;}\n.-right-48{right: -12rem;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-20{margin-bottom: 5rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-2{height: 0.5rem;}\n.h-96{height: 24rem;}\n.w-2{width: 0.5rem;}\n.w-96{width: 24rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-2xl{max-width: 42rem;}\n.-translate-y-1\\/2{--tw-translate-y: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.gap-12{gap: 3rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border-l{border-left-width: 1px;}\n.border-slate-800{--tw-border-opacity: 1; border-color: rgb(30 41 59 / var(--tw-border-opacity, 1));}\n.bg-cyan-500{--tw-bg-opacity: 1; background-color: rgb(6 182 212 / var(--tw-bg-opacity, 1));}\n.bg-\\[\\#040817\\]{--tw-bg-opacity: 1; background-color: rgb(4 8 23 / var(--tw-bg-opacity, 1));}\n.bg-cyan-500\\/5{background-color: rgba(6, 182, 212, 0.05);}\n.bg-slate-700{--tw-bg-opacity: 1; background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1));}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pl-8{padding-left: 2rem;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.font-serif{font-family: Cinzel, serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.shadow-\\[0_0_10px_\\#06b6d4\\]{--tw-shadow: 0 0 10px #06b6d4; --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-\\[125px\\]{--tw-blur: blur(125px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.group:hover .group-hover\\:bg-cyan-500{--tw-bg-opacity: 1; background-color: rgb(6 182 212 / var(--tw-bg-opacity, 1));}\n@media (min-width: 768px){.md\\:-left-\\[49px\\]{left: -49px;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:pl-12{padding-left: 3rem;}}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}",
+          "computed": {
+            "background": "rgb(4, 8, 23)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 64px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute -right-48 top-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-[125px] pointer-events-none\"></div>                  <div class=\"max-w-7xl mx-auto\">             <div class=\"mb-20\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-slate-500 block mb-3\">02 / Telemetric Coordinates</span>                 <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white max-w-2xl\">Quantifying the structural grandeur.</h2>             </div>             <div class=\"grid grid-cols-1 md:grid-cols-3 gap-12 border-l border-slate-800 pl-8 md:pl-12\">                 <div class=\"relative group\">                     <div class=\"absolute -left-[33px] md:-left-[49px] top-0 w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_10px_#06b6d4]\"></div>                     <p class=\"font-serif text-6xl font-light text-white tracking-tight mb-4\">6,371<span class=\"text-xl text-cyan-400 font-sans font-medium\">km</span></p>                     <h4 class=\"text-xs uppercase tracking-widest font-bold text-slate-400 mb-2\">Mean Planetary Radius</h4>                     <p class=\"text-slate-500 text-xs font-light leading-relaxed\">The foundational dimensional constant defining structural gravitational bounds and orbital baseline geometry.</p>                 </div>                 <div class=\"relative group\">                     <div class=\"absolute -left-[33px] md:-left-[49px] top-0 w-2 h-2 rounded-full bg-slate-700 group-hover:bg-cyan-500 transition-colors\"></div>                     <p class=\"font-serif text-6xl font-light text-white tracking-tight mb-4\">7.29<span class=\"text-xl text-slate-500 font-sans font-medium\">e-5</span></p>                     <h4 class=\"text-xs uppercase tracking-widest font-bold text-slate-400 mb-2\">Angular Angular Velocity</h4>                     <p class=\"text-slate-500 text-xs font-light leading-relaxed\">Radians per second driving atmospheric Coriolis currents, global weather bands, and structural field dynamics.</p>                 </div>                 <div class=\"relative group\">                     <div class=\"absolute -left-[33px] md:-left-[49px] top-0 w-2 h-2 rounded-full bg-slate-700 group-hover:bg-cyan-500 transition-colors\"></div>                     <p class=\"font-serif text-6xl font-light text-white tracking-tight mb-4\">510.1<span class=\"text-xl text-emerald-400 font-sans font-medium\">M²</span></p>                     <h4 class=\"text-xs uppercase tracking-widest font-bold text-slate-400 mb-2\">Surface Area Horizon</h4>                     <p class=\"text-slate-500 text-xs font-light leading-relaxed\">Total square kilometers of continuous biological and topographical processes visible from outer perimeter outposts.</p>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute -right-48 top-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/5 rounded-full blur-[125px] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(6, 182, 212, 0.05)",
+                "bgImage": "",
+                "blur": "125px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "299.5px",
+                "right": "-192px",
+                "bottom": "-84.5px",
+                "left": "1248px",
+                "zIndex": "",
+                "w": 384,
+                "h": 384
+              }
+            },
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Quantifying the structural grandeur.",
+                  "content": "02 / Telemetric Coordinates Quantifying the structural grandeur.",
+                  "number": "02",
+                  "icon": null
+                },
+                {
+                  "title": "Mean Planetary Radius",
+                  "content": "6,371km",
+                  "number": "6",
+                  "icon": null
+                }
+              ],
+              "design": {
+                "design": "cards",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false
+                },
+                "connector": "none"
+              }
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-36 px-6 lg:px-16 bg-slate-950",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.left-6{left: 1.5rem;}\n.bottom-6{bottom: 1.5rem;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.aspect-\\[16\\/10\\]{aspect-ratio: 16 / 10;}\n.h-full{height: 100%;}\n.h-1\\.5{height: 0.375rem;}\n.h-72{height: 18rem;}\n.w-full{width: 100%;}\n.w-1\\.5{width: 0.375rem;}\n.w-72{width: 18rem;}\n.max-w-7xl{max-width: 80rem;}\n.animate-ping{animation: 1s cubic-bezier(0, 0, 0.2, 1) 0s infinite normal none running ping;}\n.items-center{align-items: center;}\n.gap-16{gap: 4rem;}\n.gap-2{gap: 0.5rem;}\n.gap-4{gap: 1rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.rounded-xl{border-radius: 0.75rem;}\n.border{border-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-slate-900{--tw-border-opacity: 1; border-color: rgb(15 23 42 / var(--tw-border-opacity, 1));}\n.border-slate-800{--tw-border-opacity: 1; border-color: rgb(30 41 59 / var(--tw-border-opacity, 1));}\n.bg-slate-950{--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));}\n.bg-cyan-400{--tw-bg-opacity: 1; background-color: rgb(34 211 238 / var(--tw-bg-opacity, 1));}\n.bg-emerald-500\\/5{background-color: rgba(16, 185, 129, 0.05);}\n.bg-slate-900\\/40{background-color: rgba(15, 23, 42, 0.4);}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.p-3{padding: 0.75rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-36{padding-top: 9rem; padding-bottom: 9rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.font-serif{font-family: Cinzel, serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-slate-200{--tw-text-opacity: 1; color: rgb(226 232 240 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-purple-400{--tw-text-opacity: 1; color: rgb(192 132 252 / var(--tw-text-opacity, 1));}\n.opacity-40{opacity: 0.4;}\n.blur-\\[100px\\]{--tw-blur: blur(100px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.brightness-90{--tw-brightness: brightness(.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-1000{transition-duration: 1000ms;}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}",
+          "computed": {
+            "background": "rgb(2, 6, 23)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "144px 64px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop"
+          ],
+          "raw": "         <div class=\"max-w-7xl mx-auto\">             <div class=\"grid lg:grid-cols-2 gap-16 items-center\">                 <div class=\"relative\">                     <div class=\"absolute top-0 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px]\"></div>                     <div class=\"border border-slate-800 p-3 bg-slate-900/40 backdrop-blur-md rounded-2xl relative z-10\">                         <div class=\"aspect-[16/10] bg-slate-950 overflow-hidden rounded-xl relative group\">                             <img src=\"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&amp;w=1200&amp;auto=format&amp;fit=crop\" alt=\"Satellite view\" class=\"w-full h-full object-cover opacity-40 filter brightness-90 group-hover:scale-105 transition duration-1000\">                             <div class=\"absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent\"></div>                             <div class=\"absolute bottom-6 left-6 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-slate-400\">                                 <span class=\"w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping\"></span>                                 Mapping Interface :: Active                             </div>                         </div>                     </div>                 </div>                 <div>                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-emerald-400 block mb-3\">03 / Structural Cohesion</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">A biosphere bound by light and vacuum.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         From high coordinates, national lines disappear completely. What remains is a deeply integrated physiological machine—oceanic thermohaline conveyors processing heat, cloud patterns balancing incoming radiation, and massive forest expanses breathing carbon.                     </p>                     <div class=\"space-y-4\">                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:layers\" class=\"text-xl text-cyan-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Tropospheric Boundary Analytics</span>                         </div>                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:globe\" class=\"text-xl text-emerald-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Continental Carbon Sink Tracking</span>                         </div>                         <div class=\"flex items-center gap-4 py-3\">                             <iconify-icon icon=\"lucide:radio\" class=\"text-xl text-purple-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Electromagnetic Ionosphere Auditing</span>                         </div>                     </div>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "relative",
+                  "colId": "sccol-5",
+                  "cw": 6,
+                  "html": "                     <div class=\"absolute top-0 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px]\"></div>                     <div class=\"border border-slate-800 p-3 bg-slate-900/40 backdrop-blur-md rounded-2xl relative z-10\">                         <div class=\"aspect-[16/10] bg-slate-950 overflow-hidden rounded-xl relative group\">                             <img src=\"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&amp;w=1200&amp;auto=format&amp;fit=crop\" alt=\"Satellite view\" class=\"w-full h-full object-cover opacity-40 filter brightness-90 group-hover:scale-105 transition duration-1000\">                             <div class=\"absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent\"></div>                             <div class=\"absolute bottom-6 left-6 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-slate-400\">                                 <span class=\"w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping\"></span>                                 Mapping Interface :: Active                             </div>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "imgComposite": {
+                    "image": {
+                      "src": "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop",
+                      "alt": "Satellite view",
+                      "objectFit": "cover",
+                      "maxWidth": "100%",
+                      "aspect": "16 / 10"
+                    },
+                    "cards": [],
+                    "blob": {
+                      "bg": "rgba(16, 185, 129, 0.05)",
+                      "radius": "9999px",
+                      "scale": 0,
+                      "scrim": false,
+                      "hoverClear": false,
+                      "dur": ""
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-6",
+                  "cw": 6,
+                  "html": "                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-emerald-400 block mb-3\">03 / Structural Cohesion</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">A biosphere bound by light and vacuum.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         From high coordinates, national lines disappear completely. What remains is a deeply integrated physiological machine—oceanic thermohaline conveyors processing heat, cloud patterns balancing incoming radiation, and massive forest expanses breathing carbon.                     </p>                     <div class=\"space-y-4\">                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:layers\" class=\"text-xl text-cyan-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Tropospheric Boundary Analytics</span>                         </div>                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:globe\" class=\"text-xl text-emerald-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Continental Carbon Sink Tracking</span>                         </div>                         <div class=\"flex items-center gap-4 py-3\">                             <iconify-icon icon=\"lucide:radio\" class=\"text-xl text-purple-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Electromagnetic Ionosphere Auditing</span>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "03 / Structural Cohesion",
+                    "overlineClass": "text-xs uppercase tracking-[0.3em] font-bold text-emerald-400 block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "A biosphere bound by light and vacuum.",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6",
+                    "subtitle": "From high coordinates, national lines disappear completely. What remains is a deeply integrated physiological machine—oceanic thermohaline conveyors processing heat, cloud patterns balancing incoming radiation, and massive forest expanses breathing carbon.",
+                    "subtitleClass": "text-slate-400 font-light leading-relaxed mb-8",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-2 gap-16 items-center\">                 <div class=\"relative\" data-sc-col=\"sccol-5\">                     <div class=\"absolute top-0 left-0 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px]\"></div>                     <div class=\"border border-slate-800 p-3 bg-slate-900/40 backdrop-blur-md rounded-2xl relative z-10\">                         <div class=\"aspect-[16/10] bg-slate-950 overflow-hidden rounded-xl relative group\">                             <img src=\"https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&amp;w=1200&amp;auto=format&amp;fit=crop\" alt=\"Satellite view\" class=\"w-full h-full object-cover opacity-40 filter brightness-90 group-hover:scale-105 transition duration-1000\">                             <div class=\"absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent\"></div>                             <div class=\"absolute bottom-6 left-6 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-slate-400\">                                 <span class=\"w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping\"></span>                                 Mapping Interface :: Active                             </div>                         </div>                     </div>                 </div>                 <div data-sc-col=\"sccol-6\">                     <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-emerald-400 block mb-3\">03 / Structural Cohesion</span>                     <h2 class=\"font-serif text-3xl md:text-5xl font-normal tracking-tight text-white mb-6\">A biosphere bound by light and vacuum.</h2>                     <p class=\"text-slate-400 font-light leading-relaxed mb-8\">                         From high coordinates, national lines disappear completely. What remains is a deeply integrated physiological machine—oceanic thermohaline conveyors processing heat, cloud patterns balancing incoming radiation, and massive forest expanses breathing carbon.                     </p>                     <div class=\"space-y-4\">                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:layers\" class=\"text-xl text-cyan-400\" data-sc-col=\"sccol-7\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\" data-sc-col=\"sccol-8\">Tropospheric Boundary Analytics</span>                         </div>                         <div class=\"flex items-center gap-4 py-3 border-b border-slate-900\">                             <iconify-icon icon=\"lucide:globe\" class=\"text-xl text-emerald-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Continental Carbon Sink Tracking</span>                         </div>                         <div class=\"flex items-center gap-4 py-3\">                             <iconify-icon icon=\"lucide:radio\" class=\"text-xl text-purple-400\"></iconify-icon>                             <span class=\"text-sm font-medium text-slate-200\">Electromagnetic Ionosphere Auditing</span>                         </div>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-24 px-6 lg:px-16 bg-slate-950 border-t border-slate-900",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".blur-pill{background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.-bottom-32{bottom: -8rem;}\n.-left-32{left: -8rem;}\n.-right-32{right: -8rem;}\n.-top-32{top: -8rem;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.flex{display: flex;}\n.h-96{height: 24rem;}\n.w-full{width: 100%;}\n.w-96{width: 24rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-lg{max-width: 32rem;}\n.max-w-md{max-width: 28rem;}\n.flex-1{flex: 1 1 0%;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.items-stretch{align-items: stretch;}\n.gap-3{gap: 0.75rem;}\n.overflow-hidden{overflow: hidden;}\n.whitespace-nowrap{white-space: nowrap;}\n.rounded-full{border-radius: 9999px;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-slate-900{--tw-border-opacity: 1; border-color: rgb(15 23 42 / var(--tw-border-opacity, 1));}\n.border-slate-800{--tw-border-opacity: 1; border-color: rgb(30 41 59 / var(--tw-border-opacity, 1));}\n.border-slate-800\\/60{border-color: rgba(30, 41, 59, 0.6);}\n.bg-slate-950{--tw-bg-opacity: 1; background-color: rgb(2 6 23 / var(--tw-bg-opacity, 1));}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-cyan-500\\/5{background-color: rgba(6, 182, 212, 0.05);}\n.bg-emerald-500\\/5{background-color: rgba(16, 185, 129, 0.05);}\n.bg-slate-900\\/60{background-color: rgba(15, 23, 42, 0.6);}\n.p-12{padding: 3rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.py-3\\.5{padding-top: 0.875rem; padding-bottom: 0.875rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.font-serif{font-family: Cinzel, serif;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-cyan-400{--tw-text-opacity: 1; color: rgb(34 211 238 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-950{--tw-text-opacity: 1; color: rgb(2 6 23 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.placeholder-slate-600::placeholder{--tw-placeholder-opacity: 1; color: rgb(71 85 105 / var(--tw-placeholder-opacity, 1));}\n.blur-\\[120px\\]{--tw-blur: blur(120px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-cyan-400:hover{--tw-bg-opacity: 1; background-color: rgb(34 211 238 / var(--tw-bg-opacity, 1));}\n.focus\\:border-cyan-500:focus{--tw-border-opacity: 1; border-color: rgb(6 182 212 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:text-left{text-align: left;}}\n@media (min-width: 768px){.md\\:p-24{padding: 6rem;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}",
+          "computed": {
+            "background": "rgb(2, 6, 23)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "96px 64px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"max-w-7xl mx-auto\">             <div class=\"blur-pill border-slate-800/60 p-12 md:p-24 rounded-3xl relative overflow-hidden flex flex-col items-center text-center\">                 <div class=\"absolute -left-32 -bottom-32 w-96 h-96 bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none\"></div>                 <div class=\"absolute -right-32 -top-32 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none\"></div>                 <span class=\"text-xs uppercase tracking-[0.4em] font-bold text-cyan-400 mb-6\">Terminal Node Initiate</span>                 <h2 class=\"font-serif text-4xl md:text-6xl text-white font-normal tracking-tight mb-6 max-w-2xl leading-tight\">Secure your isolation vector.</h2>                 <p class=\"text-slate-400 font-light max-w-lg mb-12 text-sm md:text-base leading-relaxed\">                     Gain root level entry into the global telemetry matrix. Real-time satellite integration streams directly to your terminal.                 </p>                 <div class=\"w-full max-w-md flex flex-col sm:flex-row items-stretch gap-3\">                     <input type=\"email\" placeholder=\"Enter terminal identifier\" class=\"bg-slate-900/60 border border-slate-800 px-5 py-3.5 text-white font-sans text-xs uppercase tracking-widest placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors flex-1 text-center sm:text-left\">                     <button class=\"bg-white text-slate-950 font-bold uppercase tracking-widest text-xs px-6 py-3.5 hover:bg-cyan-400 transition-colors duration-300 whitespace-nowrap\">                         Initialize Feed                     </button>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute -left-32 -bottom-32 w-96 h-96 bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(6, 182, 212, 0.05)",
+                "bgImage": "",
+                "blur": "120px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "262px",
+                "right": "1022px",
+                "bottom": "-128px",
+                "left": "-128px",
+                "zIndex": "",
+                "w": 384,
+                "h": 384
+              }
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute -right-32 -top-32 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(16, 185, 129, 0.05)",
+                "bgImage": "",
+                "blur": "120px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "-128px",
+                "right": "-128px",
+                "bottom": "262px",
+                "left": "1022px",
+                "zIndex": "",
+                "w": 384,
+                "h": 384
+              }
+            },
+            {
+              "t": "overline",
+              "html": "Terminal Node Initiate",
+              "text": "Terminal Node Initiate",
+              "cls": "text-xs uppercase tracking-[0.4em] font-bold text-cyan-400 mb-6",
+              "pill": false,
+              "color": "rgb(34, 211, 238)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "4.8px",
+              "fontWeight": "700",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Secure your isolation vector.",
+              "text": "Secure your isolation vector.",
+              "tag": "h2",
+              "cls": "font-serif text-4xl md:text-6xl text-white font-normal tracking-tight mb-6 max-w-2xl leading-tight",
+              "wrapCls": "blur-pill border-slate-800/60 p-12 md:p-24 rounded-3xl relative overflow-hidden flex flex-col items-center text-center",
+              "fontSize": "60px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "60px",
+              "letterSpacing": "-1.5px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-slate-400 font-light max-w-lg mb-12 text-sm md:text-base leading-relaxed\">                     Gain root level entry into the global telemetry matrix. Real-time satellite integration streams directly to your terminal.                 </p>",
+              "text": "Gain root level entry into the global telemetry matrix. Real-time satellite integration streams directly to your terminal.",
+              "tag": "p",
+              "cls": "text-slate-400 font-light max-w-lg mb-12 text-sm md:text-base leading-relaxed",
+              "fontSize": "16px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "bg-white text-slate-950 font-bold uppercase tracking-widest text-xs px-6 py-3.5 hover:bg-cyan-400 transition-colors duration-300 whitespace-nowrap",
+                  "colId": "sccol-10",
+                  "cw": 4,
+                  "html": "                         Initialize Feed                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 12,
+              "gapResp": {
+                "base": 12,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"w-full max-w-md flex flex-col sm:flex-row items-stretch gap-3\">                     <input type=\"email\" placeholder=\"Enter terminal identifier\" class=\"bg-slate-900/60 border border-slate-800 px-5 py-3.5 text-white font-sans text-xs uppercase tracking-widest placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition-colors flex-1 text-center sm:text-left\" data-sc-col=\"sccol-9\">                     <button class=\"bg-white text-slate-950 font-bold uppercase tracking-widest text-xs px-6 py-3.5 hover:bg-cyan-400 transition-colors duration-300 whitespace-nowrap\" data-sc-col=\"sccol-10\">                         Initialize Feed                     </button>                 </div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

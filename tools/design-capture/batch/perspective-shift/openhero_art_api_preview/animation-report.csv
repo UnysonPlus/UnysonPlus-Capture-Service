@@ -1,0 +1,15 @@
+kind,target,evidence,suggested_fx,confidence
+css-animation,.animate-ping,"infinite keyframes 'ping' (transform,opacity)",physics float/pulse or backgrounds module,low
+hover,".sidebar-item .sidebar-indicator, .sidebar-item.active .sidebar-indicator","width, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:border-white,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-cyan-400,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/10,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-slate-950,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-cyan-400,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:bg-cyan-500,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,blur-pill px-6 py-2.5 rounded-full text-xs uppercase trackin,"background, color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 bg-white text-slate-950 font-bold uppercase tracki,background change on hover,interaction: {effect:'color_shift'},medium
+hover,blur-pill px-8 py-4 text-white uppercase tracking-widest tex,background change on hover,interaction: {effect:'color_shift'},medium
+hover,bg-white text-slate-950 font-bold uppercase tracking-widest ,background change on hover,interaction: {effect:'color_shift'},medium

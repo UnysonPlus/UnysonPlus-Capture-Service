@@ -1,0 +1,1018 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative w-full h-screen flex items-center justify-center overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".amber-glow-text{text-shadow: rgba(245, 158, 11, 0.4) 0px 0px 20px;}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-10{bottom: 2.5rem;}\n.left-6{left: 1.5rem;}\n.right-6{right: 1.5rem;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-20{margin-top: 5rem;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-12{height: 3rem;}\n.h-full{height: 100%;}\n.h-screen{height: 100vh;}\n.w-full{width: 100%;}\n.w-px{width: 1px;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-5xl{max-width: 64rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-2{gap: 0.5rem;}\n.gap-4{gap: 1rem;}\n.gap-5{gap: 1.25rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-amber-400{--tw-bg-opacity: 1; background-color: rgb(251 191 36 / var(--tw-bg-opacity, 1));}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.text-center{text-align: center;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-cosmic-void{--tw-text-opacity: 1; color: rgb(2 6 18 / var(--tw-text-opacity, 1));}\n.text-slate-200{--tw-text-opacity: 1; color: rgb(226 232 240 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.shadow-lg{--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-sm{--tw-backdrop-blur: blur(4px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-white:hover{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n@media (min-width: 640px){.sm\\:w-auto{width: auto;}}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:left-16{left: 4rem;}}\n@media (min-width: 1024px){.lg\\:right-16{right: 4rem;}}\n@media (min-width: 1280px){.xl\\:flex{display: flex;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 w-full h-full z-0\">             <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">                 <source src=\"https://videos.openhero.art/downloads/nature/cosmic-nomadic-journeys/video.mp4\" type=\"video/mp4\">             </video>             <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void via-cosmic-void/30 to-cosmic-void/45\"></div>         </div>         <div class=\"relative z-10 max-w-5xl mx-auto px-6 text-center mt-20\">             <h1 class=\"font-serif text-5xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-tight filter [filter:drop-shadow(0_0_15px_rgba(0,0,0,0.3))_drop-shadow(0_0_30px_rgba(0,0,0,0.2))]\">                 Leave the map. <br>                 <span class=\"italic font-semibold text-amber-400 amber-glow-text\">Follow the sky.</span>             </h1>             <p class=\"max-w-2xl mx-auto text-base md:text-lg text-slate-200 font-light leading-relaxed mb-12 [text-shadow:0_0_8px_rgba(0,0,0,1),0_0_16px_rgba(0,0,0,0.9),0_0_32px_rgba(0,0,0,0.6)]\">                 A solitary escape vehicle parked beneath a billion systems. Reclaim silence, connect with deep cosmic                 intervals, and redefine modern wandering from the comfort of an isolated, custom-engineered stellar                 cabin.             </p>             <div class=\"flex flex-col sm:flex-row items-center justify-center gap-5\">                 <a href=\"#vessel\" class=\"w-full sm:w-auto px-8 py-4 bg-amber-400 text-cosmic-void font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors duration-300 shadow-lg shadow-amber-400/10\">                     Inspect Living Space                 </a>                 <a href=\"#philosophy\" class=\"w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white font-medium uppercase tracking-widest text-xs hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm\">                     Read Manifesto                 </a>             </div>         </div>         <div class=\"absolute bottom-10 left-6 lg:left-16 z-20 hidden xl:flex items-center gap-8 text-[11px] font-mono tracking-widest text-slate-400\">             <div class=\"flex items-center gap-2\">                 <span class=\"text-amber-400\">SKY CON:</span> Bortle Class 1             </div>             <div class=\"flex items-center gap-2\">                 <span class=\"text-amber-400\">ALT:</span> 3,400 MASL             </div>         </div>         <div class=\"absolute bottom-10 right-6 lg:right-16 z-20 hidden xl:flex items-center gap-4\">             <span class=\"text-[10px] uppercase tracking-widest text-slate-400 font-medium\">Scroll to drift</span>             <div class=\"w-px h-12 bg-gradient-to-b from-amber-400 to-transparent\"></div>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/cosmic-nomadic-journeys/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=cosmic-nomadic-journeys",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=cosmic-nomadic-journeys",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover absolute inset-0 w-full h-full z-0 relative w-full h-screen flex items-center justify-center overflow-hidden antialiased overflow-x-hidden selection:bg-amber-400 selection:text-cosmic-void",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void via-cosmic-void/30 to-cosmic-void/45\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to top, rgb(2, 6, 18), rgba(2, 6, 18, 0.3), rgba(2, 6, 18, 0.45))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Leave the map. <br> <span style=\"color:rgb(251, 191, 36)\"><em>Follow the sky.</em></span>",
+              "text": "Leave the map. Follow the sky.",
+              "tag": "h1",
+              "cls": "font-serif text-5xl md:text-8xl font-bold tracking-tight text-white mb-8 leading-tight filter [filter:drop-shadow(0_0_15px_rgba(0,0,0,0.3))_drop-shadow(0_0_30px_rgba(0,0,0,0.2))]",
+              "wrapCls": "relative z-10 max-w-5xl mx-auto px-6 text-center mt-20",
+              "fontSize": "96px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "32px",
+              "marginTop": "0px",
+              "lineHeight": "96px",
+              "letterSpacing": "-2.4px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"max-w-2xl mx-auto text-base md:text-lg text-slate-200 font-light leading-relaxed mb-12 [text-shadow:0_0_8px_rgba(0,0,0,1),0_0_16px_rgba(0,0,0,0.9),0_0_32px_rgba(0,0,0,0.6)]\">                 A solitary escape vehicle parked beneath a billion systems. Reclaim silence, connect with deep cosmic                 intervals, and redefine modern wandering from the comfort of an isolated, custom-engineered stellar                 cabin.             </p>",
+              "text": "A solitary escape vehicle parked beneath a billion systems. Reclaim silence, connect with deep cosmic intervals, and redefine modern wandering from the comfort of an isolated, custom-engineered stella",
+              "tag": "p",
+              "cls": "max-w-2xl mx-auto text-base md:text-lg text-slate-200 font-light leading-relaxed mb-12 [text-shadow:0_0_8px_rgba(0,0,0,1),0_0_16px_rgba(0,0,0,0.9),0_0_32px_rgba(0,0,0,0.6)]",
+              "fontSize": "18px",
+              "color": "rgb(226, 232, 240)",
+              "lineHeight": "28px",
+              "letterSpacing": "normal",
+              "marginBottom": "48px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Inspect Living Space",
+              "href": "https://openhero.art/api/preview?category=nature&slug=cosmic-nomadic-journeys#vessel",
+              "tag": "a",
+              "cls": "w-full sm:w-auto px-8 py-4 bg-amber-400 text-cosmic-void font-bold uppercase tracking-widest text-xs hover:bg-white transition-colors duration-300 shadow-lg shadow-amber-400/10",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "48px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "700",
+              "hover": null,
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "rgb(251, 191, 36)",
+                "fg": "rgb(2, 6, 18)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "Read Manifesto",
+              "href": "https://openhero.art/api/preview?category=nature&slug=cosmic-nomadic-journeys#philosophy",
+              "tag": "a",
+              "cls": "w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white font-medium uppercase tracking-widest text-xs hover:bg-white/10 transition-colors duration-300 backdrop-blur-sm",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "50px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "500",
+              "hover": {
+                "backgroundColor": "rgba(255, 255, 255, 0.1)"
+              },
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(255, 255, 255, 0.05)",
+                "fg": "rgb(255, 255, 255)",
+                "bd": "rgba(255, 255, 255, 0.1)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-0",
+                  "cw": 6,
+                  "html": "                 <span class=\"text-amber-400\">SKY CON:</span> Bortle Class 1             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-1",
+                  "cw": 4,
+                  "html": "                 <span class=\"text-amber-400\">ALT:</span> 3,400 MASL             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"absolute bottom-10 left-6 lg:left-16 z-20 hidden xl:flex items-center gap-8 text-[11px] font-mono tracking-widest text-slate-400\">             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-0\">                 <span class=\"text-amber-400\">SKY CON:</span> Bortle Class 1             </div>             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-1\">                 <span class=\"text-amber-400\">ALT:</span> 3,400 MASL             </div>         </div>"
+            },
+            {
+              "t": "text",
+              "html": "<span class=\"text-[10px] uppercase tracking-widest text-slate-400 font-medium\">Scroll to drift</span>",
+              "text": "Scroll to drift",
+              "tag": "span",
+              "cls": "text-[10px] uppercase tracking-widest text-slate-400 font-medium",
+              "fontSize": "10px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "15px",
+              "letterSpacing": "1px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "500",
+              "textTransform": "uppercase"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 px-6 bg-cosmic-void relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-card{background: linear-gradient(rgba(11, 19, 43, 0.6) 0%, rgba(2, 6, 18, 0.8) 100%); border: 1px solid rgba(250, 204, 21, 0.08); backdrop-filter: blur(16px);}\n.glass-card:hover{border-color: rgba(250, 204, 21, 0.25); box-shadow: rgba(250, 204, 21, 0.1) 0px 0px 30px -10px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.-left-64{left: -16rem;}\n.top-1\\/4{top: 25%;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.my-6{margin-top: 1.5rem; margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.h-\\[500px\\]{height: 500px;}\n.h-px{height: 1px;}\n.w-12{width: 3rem;}\n.w-20{width: 5rem;}\n.w-\\[500px\\]{width: 500px;}\n.max-w-7xl{max-width: 80rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-16{gap: 4rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-amber-400\\/20{border-color: rgba(251, 191, 36, 0.2);}\n.bg-amber-400\\/40{background-color: rgba(251, 191, 36, 0.4);}\n.bg-amber-400\\/5{background-color: rgba(251, 191, 36, 0.05);}\n.bg-amber-500\\/5{background-color: rgba(245, 158, 11, 0.05);}\n.bg-cosmic-void{--tw-bg-opacity: 1; background-color: rgb(2 6 18 / var(--tw-bg-opacity, 1));}\n.p-10{padding: 2.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-amber-500{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.blur-\\[150px\\]{--tw-blur: blur(150px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.group:hover .group-hover\\:bg-amber-400\\/10{background-color: rgba(251, 191, 36, 0.1);}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "background": "rgb(2, 6, 18)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute -left-64 top-1/4 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none\">         </div>         <div class=\"max-w-7xl mx-auto grid lg:grid-cols-12 gap-16 items-center\">             <div class=\"lg:col-span-5 space-y-6\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block\">01 // Core Ideal</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white leading-tight\">                     The luxury of complete <br><span class=\"italic\">disconnection.</span>                 </h2>                 <div class=\"w-20 h-px bg-amber-400/40 my-6\"></div>                 <p class=\"text-slate-300 font-light leading-relaxed\">                     True wealth isn't accumulation; it's the space between objects. Our nomadic outposts are                     strategically placed in high-altitude, low-interference zones where civilization disappears into a                     thin line below the ridge.                 </p>                 <p class=\"text-slate-400 font-light text-sm leading-relaxed\">                     Here, time is modulated by the transit of Orion rather than alarms. Wake up to golden high-altitude                     grasses, spend nights charting unknown nebulae through premium integrated optics.                 </p>             </div>             <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\">                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:moon\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Zero Light Leakage</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Guaranteed placement in protected dark                         sky reserves. Experience the raw depth of the Milky Way with bare vision.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:battery-charging\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Total Autonomy</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">High-efficiency closed-loop solar                         arrays, water purification, and biomass management. Independent from any structural grid.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:compass\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Nomadic Vectoring</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Vehicles move organically according to                         cosmic seasons and weather currents, maximizing unobstructed sky clarity all year.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:eye-off\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Digital Silencing</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Optional signal dampening field within                         the cabin to completely prevent intrusive notification streams and network pings.</p>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute -left-64 top-1/4 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none\">         </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(245, 158, 11, 0.05)",
+                "bgImage": "",
+                "blur": "150px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "220.5px",
+                "right": "1196px",
+                "bottom": "161.5px",
+                "left": "-256px",
+                "zIndex": "",
+                "w": 500,
+                "h": 500
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5 space-y-6",
+                  "colId": "sccol-2",
+                  "cw": 5,
+                  "html": "                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block\">01 // Core Ideal</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white leading-tight\">                     The luxury of complete <br><span class=\"italic\">disconnection.</span>                 </h2>                 <div class=\"w-20 h-px bg-amber-400/40 my-6\"></div>                 <p class=\"text-slate-300 font-light leading-relaxed\">                     True wealth isn't accumulation; it's the space between objects. Our nomadic outposts are                     strategically placed in high-altitude, low-interference zones where civilization disappears into a                     thin line below the ridge.                 </p>                 <p class=\"text-slate-400 font-light text-sm leading-relaxed\">                     Here, time is modulated by the transit of Orion rather than alarms. Wake up to golden high-altitude                     grasses, spend nights charting unknown nebulae through premium integrated optics.                 </p>             ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "01 // Core Ideal",
+                    "overlineClass": "text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The luxury of complete <br><em>disconnection.</em>",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-4xl md:text-6xl font-light text-white leading-tight",
+                    "subtitle": "True wealth isn't accumulation; it's the space between objects. Our nomadic outposts are strategically placed in high-altitude, low-interference zones where civilization disappears into a thin line below the ridge.",
+                    "subtitleClass": "text-slate-300 font-light leading-relaxed",
+                    "wrapClass": "lg:col-span-5 space-y-6",
+                    "paras": [
+                      "<p class=\"text-slate-400 font-light text-sm leading-relaxed\">                     Here, time is modulated by the transit of Orion rather than alarms. Wake up to golden high-altitude                     grasses, spend nights charting unknown nebulae through premium integrated optics.                 </p>"
+                    ]
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 grid sm:grid-cols-2 gap-6",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:moon\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Zero Light Leakage</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Guaranteed placement in protected dark                         sky reserves. Experience the raw depth of the Milky Way with bare vision.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:battery-charging\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Total Autonomy</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">High-efficiency closed-loop solar                         arrays, water purification, and biomass management. Independent from any structural grid.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:compass\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Nomadic Vectoring</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Vehicles move organically according to                         cosmic seasons and weather currents, maximizing unobstructed sky clarity all year.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:eye-off\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Digital Silencing</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Optional signal dampening field within                         the cabin to completely prevent intrusive notification streams and network pings.</p>                 </div>             ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "moon",
+                    "iconLayout": "top-title",
+                    "iconColor": "#fbbf24",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Zero Light Leakage",
+                    "titleTag": "h3",
+                    "titleWeight": "300",
+                    "text": "<p class=\"text-slate-400 font-light text-sm leading-relaxed\">Guaranteed placement in protected dark                         sky reserves. Experience the raw depth of the Milky Way with bare vision.</p>",
+                    "link": null,
+                    "cls": "glass-card p-10 transition-all duration-500 flex flex-col justify-between group",
+                    "align": "left",
+                    "pad": "40px",
+                    "box": {
+                      "bg": "",
+                      "fill": "",
+                      "radius": "",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(250, 204, 21, 0.08)",
+                      "shadow": "",
+                      "backdrop": "blur(16px)",
+                      "hoverLift": false,
+                      "padding": "40px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto grid lg:grid-cols-12 gap-16 items-center\">             <div class=\"lg:col-span-5 space-y-6\" data-sc-col=\"sccol-2\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block\">01 // Core Ideal</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white leading-tight\">                     The luxury of complete <br><span class=\"italic\">disconnection.</span>                 </h2>                 <div class=\"w-20 h-px bg-amber-400/40 my-6\"></div>                 <p class=\"text-slate-300 font-light leading-relaxed\">                     True wealth isn't accumulation; it's the space between objects. Our nomadic outposts are                     strategically placed in high-altitude, low-interference zones where civilization disappears into a                     thin line below the ridge.                 </p>                 <p class=\"text-slate-400 font-light text-sm leading-relaxed\">                     Here, time is modulated by the transit of Orion rather than alarms. Wake up to golden high-altitude                     grasses, spend nights charting unknown nebulae through premium integrated optics.                 </p>             </div>             <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\" data-sc-col=\"sccol-3\">                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:moon\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Zero Light Leakage</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Guaranteed placement in protected dark                         sky reserves. Experience the raw depth of the Milky Way with bare vision.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:battery-charging\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Total Autonomy</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">High-efficiency closed-loop solar                         arrays, water purification, and biomass management. Independent from any structural grid.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:compass\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Nomadic Vectoring</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Vehicles move organically according to                         cosmic seasons and weather currents, maximizing unobstructed sky clarity all year.</p>                 </div>                 <div class=\"glass-card p-10 transition-all duration-500 flex flex-col justify-between group\">                     <div>                         <div class=\"w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/20 flex items-center justify-center mb-8 group-hover:bg-amber-400/10 transition-colors\">                             <iconify-icon icon=\"lucide:eye-off\" class=\"text-xl text-amber-400\"></iconify-icon>                         </div>                         <h3 class=\"font-serif text-2xl text-white font-light mb-4\">Digital Silencing</h3>                     </div>                     <p class=\"text-slate-400 font-light text-sm leading-relaxed\">Optional signal dampening field within                         the cabin to completely prevent intrusive notification streams and network pings.</p>                 </div>             </div>         </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 bg-cosmic-nebula/30 border-t border-b border-white/5 relative",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h4{font-size: inherit; font-weight: inherit;}\nh2, h4, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.left-0{left: 0px;}\n.bottom-0{bottom: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-20{margin-bottom: 5rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.mt-4{margin-top: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.h-96{height: 24rem;}\n.h-1{height: 0.25rem;}\n.w-full{width: 100%;}\n.w-72{width: 18rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-3xl{max-width: 48rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-8{gap: 2rem;}\n.space-y-12 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(3rem * var(--tw-space-y-reverse));}\n.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.rounded-t-full{border-top-left-radius: 9999px; border-top-right-radius: 9999px;}\n.border{border-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-dashed{border-style: dashed;}\n.border-amber-400\\/20{border-color: rgba(251, 191, 36, 0.2);}\n.border-amber-400\\/10{border-color: rgba(251, 191, 36, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-amber-400\\/5{background-color: rgba(251, 191, 36, 0.05);}\n.bg-cosmic-nebula\\/30{background-color: rgba(11, 19, 43, 0.3);}\n.bg-cosmic-void\\/60{background-color: rgba(2, 6, 18, 0.6);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.p-3{padding: 0.75rem;}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-12{padding-top: 3rem; padding-bottom: 3rem;}\n.text-center{text-align: center;}\n.text-right{text-align: right;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-amber-500{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-amber-400\\/40{color: rgba(251, 191, 36, 0.4);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:py-0{padding-top: 0px; padding-bottom: 0px;}}",
+          "computed": {
+            "background": "rgba(11, 19, 43, 0.3)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 0px",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"max-w-7xl mx-auto px-6\">             <div class=\"text-center max-w-3xl mx-auto mb-20\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-3\">02 // The                     Machine</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white\">Anatomy of the Mobile Observatory</h2>                 <p class=\"text-slate-400 font-light text-sm mt-4\">Blending warm retro aesthetics with structural                     space-grade telemetry.</p>             </div>             <div class=\"grid lg:grid-cols-3 gap-8 items-center\">                 <div class=\"space-y-12\">                     <div class=\"text-right space-y-2\">                         <span class=\"font-serif text-amber-400 text-lg italic\">01 / Panoramic Dome</span>                         <h4 class=\"text-white font-medium uppercase tracking-wider text-xs\">Reinforced Quartz Ceiling                         </h4>                         <p class=\"text-slate-400 font-light text-xs leading-relaxed\">180-degree overhead structural                             viewing window treated with anti-reflective coating for pristine astronomical observations                             from bed.</p>                     </div>                     <div class=\"text-right space-y-2\">                         <span class=\"font-serif text-amber-400 text-lg italic\">02 / Thermal Envelope</span>                         <h4 class=\"text-white font-medium uppercase tracking-wider text-xs\">Aerogel Insulation Layers                         </h4>                         <p class=\"text-slate-400 font-light text-xs leading-relaxed\">Maintains a consistent, optimized                             internal climate even when exterior sub-zero temperatures drop rapidly in mountain passes.                         </p>                     </div>                 </div>                 <div class=\"relative flex justify-center py-12 lg:py-0\">                     <div class=\"absolute inset-0 bg-amber-400/5 rounded-full blur-3xl pointer-events-none\"></div>                     <div class=\"w-72 h-96 border border-amber-400/20 rounded-t-full p-3 bg-cosmic-void/60 backdrop-blur-md relative flex flex-col justify-between overflow-hidden group\">                         <div class=\"w-full h-full border border-dashed border-amber-400/10 rounded-t-full flex flex-col items-center justify-center p-6 text-center\">                             <iconify-icon icon=\"lucide:truck\" class=\"text-5xl text-amber-400/40 mb-6 group-hover:scale-110 group-hover:text-amber-400 transition-all duration-700\"></iconify-icon>                             <span class=\"font-serif text-2xl font-light text-white mb-2\">Chassis V-01</span>                             <span class=\"text-[10px] font-mono text-slate-400 uppercase tracking-widest\">Cruiser                                 Configuration</span>                         </div>                         <div class=\"w-full h-1 bg-gradient-to-r from-transparent via-amber-400/30 to-transparent absolute bottom-0 left-0\">                         </div>                     </div>                 </div>                 <div class=\"space-y-12\">                     <div class=\"space-y-2\">                         <span class=\"font-serif text-amber-400 text-lg italic\">03 / Navigation Deck</span>                         <h4 class=\"text-white font-medium uppercase tracking-wider text-xs\">Analog Core Diagnostics</h4>                         <p class=\"text-slate-400 font-light text-xs leading-relaxed\">Solid brass and warm wood panel                             interfaces combined with active digital tracking for localized barometric data, coordinates,                             and star mapping.</p>                     </div>                     <div class=\"space-y-2\">                         <span class=\"font-serif text-amber-400 text-lg italic\">04 / Energy Module</span>                         <h4 class=\"text-white font-medium uppercase tracking-wider text-xs\">Solid State Storage</h4>                         <p class=\"text-slate-400 font-light text-xs leading-relaxed\">Stores up to 14 days of full                             functional power back-up without solar replenishment, protecting operational systems through                             storms.</p>                     </div>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Anatomy of the Mobile Observatory",
+                  "content": "Blending warm retro aesthetics with structural space-grade telemetry.",
+                  "number": "02",
+                  "icon": null
+                },
+                {
+                  "title": "Reinforced Quartz Ceiling",
+                  "content": "180-degree overhead structural viewing window treated with anti-reflective coating for pristine astronomical observations from bed.",
+                  "number": "01",
+                  "icon": {
+                    "lucide": "lucide/truck"
+                  }
+                }
+              ],
+              "design": {
+                "design": "cards",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false
+                },
+                "marker": "icon",
+                "connector": "none"
+              }
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 px-6 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-card{background: linear-gradient(rgba(11, 19, 43, 0.6) 0%, rgba(2, 6, 18, 0.8) 100%); border: 1px solid rgba(250, 204, 21, 0.08); backdrop-filter: blur(16px);}\n.glass-card:hover{border-color: rgba(250, 204, 21, 0.25); box-shadow: rgba(250, 204, 21, 0.1) 0px 0px 30px -10px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, h3, p{margin: 0px;}\nbutton{cursor: pointer;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.left-6{left: 1.5rem;}\n.top-6{top: 1.5rem;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-16{margin-bottom: 4rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.h-full{height: 100%;}\n.h-64{height: 16rem;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.max-w-7xl{max-width: 80rem;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-amber-400{--tw-bg-opacity: 1; background-color: rgb(251 191 36 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.px-2{padding-left: 0.5rem; padding-right: 0.5rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.pt-4{padding-top: 1rem;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-amber-500{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-cosmic-void{--tw-text-opacity: 1; color: rgb(2 6 18 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.opacity-40{opacity: 0.4;}\n.grayscale{--tw-grayscale: grayscale(100%); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-1000{transition-duration: 1000ms;}\n.hover\\:border-amber-400:hover{--tw-border-opacity: 1; border-color: rgb(251 191 36 / var(--tw-border-opacity, 1));}\n.hover\\:text-amber-400:hover{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:opacity-60{opacity: 0.6;}\n.group:hover .group-hover\\:grayscale-0{--tw-grayscale: grayscale(0); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-end{align-items: flex-end;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?q=80&w=800&auto=format&fit=crop"
+          ],
+          "raw": "         <div class=\"flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6\">             <div>                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-3\">03 // Chosen                     Latitude</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white\">Stellar Coordinates</h2>             </div>             <div class=\"flex gap-3\">                 <button id=\"prev-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-left\"></iconify-icon>                 </button>                 <button id=\"next-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-right\"></iconify-icon>                 </button>             </div>         </div>         <div class=\"grid md:grid-cols-3 gap-8\">             <div class=\"glass-card overflow-hidden group\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"High desert night\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Alpha</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">22.9087° S, 67.7876° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Atacama Highlands</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Absolute dry atmosphere with near-zero                         atmospheric water vapor. Ideal for viewing deep-space infrared spectrum formations.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 4,200m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 1</span>                     </div>                 </div>             </div>             <div class=\"glass-card overflow-hidden group\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Nordic clear sky\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Beta</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">64.1265° N, 21.8174° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Icelandic Outwash</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Positioned directly under the primary                         auroral oval. Experience massive solar wind ionization curtains from absolute quietude.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 120m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 2</span>                     </div>                 </div>             </div>             <div class=\"glass-card overflow-hidden group\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Altiplano horizon\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Gamma</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">36.9980° N, 109.0452° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">High Plateau Basin</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Massive geological horizontal                         boundaries blocking external light grids. Pristine dark sky conditions across deep canyons.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 2,100m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 1</span>                     </div>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-4",
+                  "cw": 4,
+                  "html": "                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-3\">03 // Chosen                     Latitude</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white\">Stellar Coordinates</h2>             ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "03 // Chosen Latitude",
+                    "overlineClass": "text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Stellar Coordinates",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-4xl md:text-6xl font-light text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 8,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex gap-3",
+                  "colId": "sccol-5",
+                  "cw": 1,
+                  "html": "                 <button id=\"prev-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-left\"></iconify-icon>                 </button>                 <button id=\"next-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-right\"></iconify-icon>                 </button>             ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "12px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 4,
+                    "tablet": 2,
+                    "desktop": 1
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6\">             <div data-sc-col=\"sccol-4\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-3\">03 // Chosen                     Latitude</span>                 <h2 class=\"font-serif text-4xl md:text-6xl font-light text-white\">Stellar Coordinates</h2>             </div>             <div class=\"flex gap-3\" data-sc-col=\"sccol-5\">                 <button id=\"prev-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-left\"></iconify-icon>                 </button>                 <button id=\"next-tab\" class=\"w-12 h-12 border border-white/10 flex items-center justify-center text-slate-400 hover:border-amber-400 hover:text-amber-400 transition-colors\">                     <iconify-icon icon=\"lucide:arrow-right\"></iconify-icon>                 </button>             </div>         </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card overflow-hidden group",
+                  "colId": "sccol-6",
+                  "cw": 4,
+                  "html": "                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"High desert night\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Alpha</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">22.9087° S, 67.7876° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Atacama Highlands</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Absolute dry atmosphere with near-zero                         atmospheric water vapor. Ideal for viewing deep-space infrared spectrum formations.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 4,200m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 1</span>                     </div>                 </div>             ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "image",
+                      "src": "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=800&auto=format&fit=crop",
+                      "alt": "High desert night",
+                      "objectFit": "cover",
+                      "maxWidth": "100%"
+                    },
+                    {
+                      "t": "html",
+                      "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>",
+                      "decor": true,
+                      "paint": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "bgImage": "linear-gradient(to top, rgb(2, 6, 18), rgba(0, 0, 0, 0))",
+                        "blur": "",
+                        "blend": "",
+                        "radius": "",
+                        "opacity": "",
+                        "position": "absolute",
+                        "top": "0px",
+                        "right": "0px",
+                        "bottom": "0px",
+                        "left": "0px",
+                        "zIndex": "",
+                        "w": 387,
+                        "h": 256
+                      }
+                    },
+                    {
+                      "t": "text",
+                      "html": "<span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Alpha</span>",
+                      "text": "Station Alpha",
+                      "tag": "span",
+                      "cls": "absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider",
+                      "fontSize": "10px",
+                      "color": "rgb(2, 6, 18)",
+                      "lineHeight": "15px",
+                      "letterSpacing": "0.5px",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "700",
+                      "textTransform": "uppercase"
+                    },
+                    {
+                      "t": "overline",
+                      "html": "22.9087° S, 67.7876° W",
+                      "text": "22.9087° S, 67.7876° W",
+                      "cls": "text-xs font-mono text-amber-400 tracking-widest",
+                      "pill": false,
+                      "color": "rgb(251, 191, 36)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "none",
+                      "fontSize": "12px",
+                      "letterSpacing": "1.2px",
+                      "fontWeight": "400",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 3,
+                      "html": "Atacama Highlands",
+                      "text": "Atacama Highlands",
+                      "tag": "h3",
+                      "cls": "font-serif text-2xl text-white font-light",
+                      "wrapCls": "p-8 space-y-4",
+                      "fontSize": "24px",
+                      "fontWeight": "300",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "0px",
+                      "marginTop": "16px",
+                      "lineHeight": "32px",
+                      "letterSpacing": "normal",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"text-slate-400 text-xs font-light leading-relaxed\">Absolute dry atmosphere with near-zero                         atmospheric water vapor. Ideal for viewing deep-space infrared spectrum formations.</p>",
+                      "text": "Absolute dry atmosphere with near-zero atmospheric water vapor. Ideal for viewing deep-space infrared spectrum formations.",
+                      "tag": "p",
+                      "cls": "text-slate-400 text-xs font-light leading-relaxed",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "19.5px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-7\">Elevation: 4,200m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-8\">Bortle Class 1</span>                     </div>",
+                      "text": "Elevation: 4,200m Bortle Class 1",
+                      "tag": "div",
+                      "cls": "pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "16px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "400",
+                      "textTransform": "none"
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card overflow-hidden group",
+                  "colId": "sccol-9",
+                  "cw": 4,
+                  "html": "                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Nordic clear sky\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Beta</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">64.1265° N, 21.8174° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Icelandic Outwash</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Positioned directly under the primary                         auroral oval. Experience massive solar wind ionization curtains from absolute quietude.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 120m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 2</span>                     </div>                 </div>             ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "image",
+                      "src": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=800&auto=format&fit=crop",
+                      "alt": "Nordic clear sky",
+                      "objectFit": "cover",
+                      "maxWidth": "100%"
+                    },
+                    {
+                      "t": "html",
+                      "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>",
+                      "decor": true,
+                      "paint": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "bgImage": "linear-gradient(to top, rgb(2, 6, 18), rgba(0, 0, 0, 0))",
+                        "blur": "",
+                        "blend": "",
+                        "radius": "",
+                        "opacity": "",
+                        "position": "absolute",
+                        "top": "0px",
+                        "right": "0px",
+                        "bottom": "0px",
+                        "left": "0px",
+                        "zIndex": "",
+                        "w": 387,
+                        "h": 256
+                      }
+                    },
+                    {
+                      "t": "text",
+                      "html": "<span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Beta</span>",
+                      "text": "Station Beta",
+                      "tag": "span",
+                      "cls": "absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider",
+                      "fontSize": "10px",
+                      "color": "rgb(2, 6, 18)",
+                      "lineHeight": "15px",
+                      "letterSpacing": "0.5px",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "700",
+                      "textTransform": "uppercase"
+                    },
+                    {
+                      "t": "overline",
+                      "html": "64.1265° N, 21.8174° W",
+                      "text": "64.1265° N, 21.8174° W",
+                      "cls": "text-xs font-mono text-amber-400 tracking-widest",
+                      "pill": false,
+                      "color": "rgb(251, 191, 36)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "none",
+                      "fontSize": "12px",
+                      "letterSpacing": "1.2px",
+                      "fontWeight": "400",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 3,
+                      "html": "Icelandic Outwash",
+                      "text": "Icelandic Outwash",
+                      "tag": "h3",
+                      "cls": "font-serif text-2xl text-white font-light",
+                      "wrapCls": "p-8 space-y-4",
+                      "fontSize": "24px",
+                      "fontWeight": "300",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "0px",
+                      "marginTop": "16px",
+                      "lineHeight": "32px",
+                      "letterSpacing": "normal",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"text-slate-400 text-xs font-light leading-relaxed\">Positioned directly under the primary                         auroral oval. Experience massive solar wind ionization curtains from absolute quietude.</p>",
+                      "text": "Positioned directly under the primary auroral oval. Experience massive solar wind ionization curtains from absolute quietude.",
+                      "tag": "p",
+                      "cls": "text-slate-400 text-xs font-light leading-relaxed",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "19.5px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-10\">Elevation: 120m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-11\">Bortle Class 2</span>                     </div>",
+                      "text": "Elevation: 120m Bortle Class 2",
+                      "tag": "div",
+                      "cls": "pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "16px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "400",
+                      "textTransform": "none"
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card overflow-hidden group",
+                  "colId": "sccol-12",
+                  "cw": 4,
+                  "html": "                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Altiplano horizon\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Gamma</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">36.9980° N, 109.0452° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">High Plateau Basin</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Massive geological horizontal                         boundaries blocking external light grids. Pristine dark sky conditions across deep canyons.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span>Elevation: 2,100m</span>                         <span class=\"text-amber-400 font-medium\">Bortle Class 1</span>                     </div>                 </div>             ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "image",
+                      "src": "https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?q=80&w=800&auto=format&fit=crop",
+                      "alt": "Altiplano horizon",
+                      "objectFit": "cover",
+                      "maxWidth": "100%"
+                    },
+                    {
+                      "t": "html",
+                      "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>",
+                      "decor": true,
+                      "paint": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "bgImage": "linear-gradient(to top, rgb(2, 6, 18), rgba(0, 0, 0, 0))",
+                        "blur": "",
+                        "blend": "",
+                        "radius": "",
+                        "opacity": "",
+                        "position": "absolute",
+                        "top": "0px",
+                        "right": "0px",
+                        "bottom": "0px",
+                        "left": "0px",
+                        "zIndex": "",
+                        "w": 387,
+                        "h": 256
+                      }
+                    },
+                    {
+                      "t": "text",
+                      "html": "<span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Gamma</span>",
+                      "text": "Station Gamma",
+                      "tag": "span",
+                      "cls": "absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider",
+                      "fontSize": "10px",
+                      "color": "rgb(2, 6, 18)",
+                      "lineHeight": "15px",
+                      "letterSpacing": "0.5px",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "700",
+                      "textTransform": "uppercase"
+                    },
+                    {
+                      "t": "overline",
+                      "html": "36.9980° N, 109.0452° W",
+                      "text": "36.9980° N, 109.0452° W",
+                      "cls": "text-xs font-mono text-amber-400 tracking-widest",
+                      "pill": false,
+                      "color": "rgb(251, 191, 36)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "none",
+                      "fontSize": "12px",
+                      "letterSpacing": "1.2px",
+                      "fontWeight": "400",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 3,
+                      "html": "High Plateau Basin",
+                      "text": "High Plateau Basin",
+                      "tag": "h3",
+                      "cls": "font-serif text-2xl text-white font-light",
+                      "wrapCls": "p-8 space-y-4",
+                      "fontSize": "24px",
+                      "fontWeight": "300",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "0px",
+                      "marginTop": "16px",
+                      "lineHeight": "32px",
+                      "letterSpacing": "normal",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"text-slate-400 text-xs font-light leading-relaxed\">Massive geological horizontal                         boundaries blocking external light grids. Pristine dark sky conditions across deep canyons.</p>",
+                      "text": "Massive geological horizontal boundaries blocking external light grids. Pristine dark sky conditions across deep canyons.",
+                      "tag": "p",
+                      "cls": "text-slate-400 text-xs font-light leading-relaxed",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "19.5px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-13\">Elevation: 2,100m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-14\">Bortle Class 1</span>                     </div>",
+                      "text": "Elevation: 2,100m Bortle Class 1",
+                      "tag": "div",
+                      "cls": "pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400",
+                      "fontSize": "12px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "16px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "400",
+                      "textTransform": "none"
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid md:grid-cols-3 gap-8\">             <div class=\"glass-card overflow-hidden group\" data-sc-col=\"sccol-6\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"High desert night\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Alpha</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">22.9087° S, 67.7876° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Atacama Highlands</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Absolute dry atmosphere with near-zero                         atmospheric water vapor. Ideal for viewing deep-space infrared spectrum formations.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-7\">Elevation: 4,200m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-8\">Bortle Class 1</span>                     </div>                 </div>             </div>             <div class=\"glass-card overflow-hidden group\" data-sc-col=\"sccol-9\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Nordic clear sky\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Beta</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">64.1265° N, 21.8174° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">Icelandic Outwash</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Positioned directly under the primary                         auroral oval. Experience massive solar wind ionization curtains from absolute quietude.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-10\">Elevation: 120m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-11\">Bortle Class 2</span>                     </div>                 </div>             </div>             <div class=\"glass-card overflow-hidden group\" data-sc-col=\"sccol-12\">                 <div class=\"h-64 overflow-hidden relative\">                     <img src=\"https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?q=80&amp;w=800&amp;auto=format&amp;fit=crop\" alt=\"Altiplano horizon\" class=\"w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-60\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-cosmic-void to-transparent\"></div>                     <span class=\"absolute top-6 left-6 bg-amber-400 text-cosmic-void font-mono font-bold text-[10px] px-2 py-1 uppercase tracking-wider\">Station                         Gamma</span>                 </div>                 <div class=\"p-8 space-y-4\">                     <span class=\"text-xs font-mono text-amber-400 tracking-widest\">36.9980° N, 109.0452° W</span>                     <h3 class=\"font-serif text-2xl text-white font-light\">High Plateau Basin</h3>                     <p class=\"text-slate-400 text-xs font-light leading-relaxed\">Massive geological horizontal                         boundaries blocking external light grids. Pristine dark sky conditions across deep canyons.</p>                     <div class=\"pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400\">                         <span data-sc-col=\"sccol-13\">Elevation: 2,100m</span>                         <span class=\"text-amber-400 font-medium\" data-sc-col=\"sccol-14\">Bortle Class 1</span>                     </div>                 </div>             </div>         </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-32 bg-cosmic-void relative overflow-hidden border-t border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2, h4{font-size: inherit; font-weight: inherit;}\nh2, h4, p{margin: 0px;}\n.relative{position: relative;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mt-1{margin-top: 0.25rem;}\n.block{display: block;}\n.flex{display: flex;}\n.max-w-5xl{max-width: 64rem;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.self-end{align-self: flex-end;}\n.overflow-hidden{overflow: hidden;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-cosmic-void{--tw-bg-opacity: 1; background-color: rgb(2 6 18 / var(--tw-bg-opacity, 1));}\n.bg-cosmic-nebula\\/10{background-color: rgba(11, 19, 43, 0.1);}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pt-1{padding-top: 0.25rem;}\n.text-center{text-align: center;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-amber-500{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-emerald-500{--tw-text-opacity: 1; color: rgb(16 185 129 / var(--tw-text-opacity, 1));}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:bg-cosmic-nebula\\/20:hover{background-color: rgba(11, 19, 43, 0.2);}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-center{align-items: center;}}\n@media (min-width: 768px){.md\\:self-center{align-self: center;}}",
+          "computed": {
+            "background": "rgb(2, 6, 18)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 0px",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"max-w-5xl mx-auto px-6\">             <div class=\"mb-16 text-center\">                 <span class=\"text-xs uppercase tracking-[0.3em] font-bold text-amber-500 block mb-2\">04 // Operational                     Transmissions</span>                 <h2 class=\"font-serif text-4xl font-light text-white\">Telemetry &amp; Log Entries</h2>             </div>             <div class=\"space-y-4\">                 <div class=\"border border-white/5 bg-cosmic-nebula/10 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-cosmic-nebula/20 transition-colors\">                     <div class=\"flex items-start gap-6\">                         <span class=\"font-serif text-amber-400 text-xl italic pt-1\">08.24</span>                         <div>                             <h4 class=\"text-white text-sm font-semibold uppercase tracking-wider\">Magellanic Clouds                                 Intercept</h4>                             <p class=\"text-slate-400 text-xs font-light mt-1\">Satellite verification shows zero cloud                                 deck within a 400km radius. Absolute clarity verified over Southern vector.</p>                         </div>                     </div>                     <div class=\"flex items-center gap-6 self-end md:self-center font-mono text-[11px] text-slate-400\">                         <span>STATUS: COMPLETED</span>                         <iconify-icon icon=\"lucide:check-circle\" class=\"text-emerald-500 text-base\"></iconify-icon>                     </div>                 </div>                 <div class=\"border border-white/5 bg-cosmic-nebula/10 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-cosmic-nebula/20 transition-colors\">                     <div class=\"flex items-start gap-6\">                         <span class=\"font-serif text-amber-400 text-xl italic pt-1\">08.19</span>                         <div>                             <h4 class=\"text-white text-sm font-semibold uppercase tracking-wider\">Perseid Core Tracking                                 Peak</h4>                             <p class=\"text-slate-400 text-xs font-light mt-1\">Observed 85 events per hour via automated                                 external capture nodes. Vessel energy state steady at 94% configuration capacity.</p>                         </div>                     </div>                     <div class=\"flex items-center gap-6 self-end md:self-center font-mono text-[11px] text-slate-400\">                         <span>STATUS: ARCHIVED</span>                         <iconify-icon icon=\"lucide:archive\" class=\"text-amber-500 text-base\"></iconify-icon>                     </div>                 </div>                 <div class=\"border border-white/5 bg-cosmic-nebula/10 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-cosmic-nebula/20 transition-colors\">                     <div class=\"flex items-start gap-6\">                         <span class=\"font-serif text-amber-400 text-xl italic pt-1\">08.11</span>                         <div>                             <h4 class=\"text-white text-sm font-semibold uppercase tracking-wider\">Barometric Balancing                                 Sequence</h4>                             <p class=\"text-slate-400 text-xs font-light mt-1\">System shifted elevation coordinates from                                 2,100 to 3,400 meters to escape sudden localized pressure differentials.</p>                         </div>                     </div>                     <div class=\"flex items-center gap-6 self-end md:self-center font-mono text-[11px] text-slate-400\">                         <span>STATUS: ARCHIVED</span>                         <iconify-icon icon=\"lucide:archive\" class=\"text-amber-500 text-base\"></iconify-icon>                     </div>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Telemetry & Log Entries",
+                  "content": "04 // Operational Transmissions Telemetry & Log Entries",
+                  "number": "04",
+                  "icon": null
+                },
+                {
+                  "title": "Magellanic Clouds Intercept",
+                  "content": "Satellite verification shows zero cloud deck within a 400km radius. Absolute clarity verified over Southern vector.",
+                  "number": "08",
+                  "icon": {
+                    "lucide": "lucide/check-circle"
+                  }
+                }
+              ],
+              "design": {
+                "design": "cards",
+                "box": {
+                  "bg": "",
+                  "fill": "",
+                  "radius": "",
+                  "borderWidth": "",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(229, 231, 235)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false
+                },
+                "marker": "icon",
+                "connector": "none"
+              }
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "sectionClass": "py-36 px-6 relative overflow-hidden border-t border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.h-12{height: 3rem;}\n.h-14{height: 3.5rem;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-lg{max-width: 32rem;}\n.max-w-md{max-width: 28rem;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.whitespace-nowrap{white-space: nowrap;}\n.rounded-full{border-radius: 9999px;}\n.rounded-none{border-radius: 0px;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-amber-400\\/30{border-color: rgba(251, 191, 36, 0.3);}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-amber-400{--tw-bg-opacity: 1; background-color: rgb(251 191 36 / var(--tw-bg-opacity, 1));}\n.bg-amber-400\\/5{background-color: rgba(251, 191, 36, 0.05);}\n.bg-\\[\\#04091a\\]{--tw-bg-opacity: 1; background-color: rgb(4 9 26 / var(--tw-bg-opacity, 1));}\n.bg-cosmic-void\\/90{background-color: rgba(2, 6, 18, 0.9);}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-36{padding-top: 9rem; padding-bottom: 9rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.pt-4{padding-top: 1rem;}\n.text-center{text-align: center;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.font-serif{font-family: \"Cormorant Garamond\", serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-amber-400{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-cosmic-void{--tw-text-opacity: 1; color: rgb(2 6 18 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.placeholder-slate-700::placeholder{--tw-placeholder-opacity: 1; color: rgb(51 65 85 / var(--tw-placeholder-opacity, 1));}\n.opacity-40{opacity: 0.4;}\n.opacity-10{opacity: 0.1;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.\\[background-size\\:24px_24px\\]{background-size: 24px 24px;}\n.hover\\:bg-white:hover{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.focus\\:border-amber-400:focus{--tw-border-opacity: 1; border-color: rgb(251 191 36 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 640px){.sm\\:w-auto{width: auto;}}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "144px 24px",
+            "fontFamily": "\"DM Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 z-0\">             <div class=\"absolute inset-0 bg-[#04091a] opacity-40\"></div>             <div class=\"absolute inset-0 bg-[radial-gradient(#facc15_1px,transparent_1px)] [background-size:24px_24px] opacity-10\">             </div>         </div>         <div class=\"relative z-10 max-w-4xl mx-auto text-center space-y-8\">             <div class=\"w-12 h-12 rounded-full border border-amber-400/30 flex items-center justify-center mx-auto bg-amber-400/5\">                 <iconify-icon icon=\"lucide:radio\" class=\"text-amber-400 text-lg animate-pulse\"></iconify-icon>             </div>             <h2 class=\"font-serif text-4xl md:text-7xl font-light text-white leading-tight\">                 Align your trajectory. <br><span class=\"italic text-amber-400\">Secure isolation.</span>             </h2>             <p class=\"max-w-lg mx-auto text-sm md:text-base text-slate-400 font-light leading-relaxed\">                 Enter your secure communication parameters. Our automated tracking node will broadcast vector                 availability parameters back to your device.             </p>             <form id=\"orbit-form\" class=\"max-w-md mx-auto flex flex-col sm:flex-row gap-3 pt-4\">                 <input type=\"email\" required=\"\" placeholder=\"SECURE_EMAIL_ROUTE@DOMAIN\" class=\"w-full h-14 bg-cosmic-void/90 border border-white/10 px-5 font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-amber-400 text-white rounded-none placeholder-slate-700 transition-colors\">                 <button type=\"submit\" class=\"w-full sm:w-auto h-14 bg-amber-400 text-cosmic-void font-bold text-xs uppercase tracking-widest px-8 hover:bg-white transition-colors duration-300 rounded-none whitespace-nowrap\">                     Request Vector                 </button>             </form>         </div>     ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 z-0\">             <div class=\"absolute inset-0 bg-[#04091a] opacity-40\"></div>             <div class=\"absolute inset-0 bg-[radial-gradient(#facc15_1px,transparent_1px)] [background-size:24px_24px] opacity-10\">             </div>         </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "0",
+                "w": 1440,
+                "h": 720
+              }
+            },
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"lucide:radio\" class=\"text-amber-400 text-lg animate-pulse\"></iconify-icon>"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Align your trajectory. <br><span style=\"color:rgb(251, 191, 36)\"><em>Secure isolation.</em></span>",
+              "text": "Align your trajectory. Secure isolation.",
+              "tag": "h2",
+              "cls": "font-serif text-4xl md:text-7xl font-light text-white leading-tight",
+              "wrapCls": "",
+              "fontSize": "72px",
+              "fontWeight": "300",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "32px",
+              "lineHeight": "72px",
+              "letterSpacing": "normal",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"max-w-lg mx-auto text-sm md:text-base text-slate-400 font-light leading-relaxed\">                 Enter your secure communication parameters. Our automated tracking node will broadcast vector                 availability parameters back to your device.             </p>",
+              "text": "Enter your secure communication parameters. Our automated tracking node will broadcast vector availability parameters back to your device.",
+              "tag": "p",
+              "cls": "max-w-lg mx-auto text-sm md:text-base text-slate-400 font-light leading-relaxed",
+              "fontSize": "16px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "newsletter",
+              "role": "newsletter",
+              "placeholder": "SECURE_EMAIL_ROUTE@DOMAIN",
+              "name_placeholder": "",
+              "show_name": false,
+              "button_label": "Request Vector",
+              "align": "center",
+              "rounded": "rounded-0",
+              "button_bg": "rgb(251, 191, 36)",
+              "button_fg": "rgb(2, 6, 18)",
+              "field_bg": "rgba(2, 6, 18, 0.9)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

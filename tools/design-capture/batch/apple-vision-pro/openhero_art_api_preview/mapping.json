@@ -1,0 +1,386 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center justify-center min-h-[70vh]",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".kinetic-breach{mask-image: radial-gradient(circle, black 20%, transparent 80%); filter: saturate(1.2) brightness(0.8);}\n.text-gradient{background: linear-gradient(rgb(255, 255, 255) 0%, oklch(0.6 0.02 250) 100%) text; -webkit-text-fill-color: transparent;}\n.text-refraction{color: transparent; -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1)) 0% 0% / 200% auto text; animation: 4s linear 0s infinite normal none running shine;}\nh1{font-size: inherit; font-weight: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-\\[-1\\]{z-index: -1;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-10{margin-top: 2.5rem;}\n.flex{display: flex;}\n.h-full{height: 100%;}\n.min-h-\\[70vh\\]{min-height: 70vh;}\n.w-full{width: 100%;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-6xl{max-width: 72rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.overflow-hidden{overflow: hidden;}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.text-center{text-align: center;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}",
+          "computed": {
+            "color": "oklch(0.98 0.01 250)",
+            "padding": "0px 24px",
+            "fontFamily": "-apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "630px",
+            "maxWidth": "1152px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 z-[-1] flex items-center justify-center overflow-hidden pointer-events-none\">                 <div class=\"w-full h-full kinetic-breach\">                     <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\">                         <source src=\"https://videos.openhero.art/downloads/tech/apple-vision-pro/video.mp4\" type=\"video/mp4\">                     </video>                 </div>             </div>             <h1 class=\"text-[clamp(3.5rem,8vw,9rem)] font-bold tracking-tighter leading-[0.9] text-center flex flex-col items-center drop-shadow-[0_10px_30px_rgba(0,0,0,1)] drop-shadow-[0_20px_70px_rgba(0,0,0,1)]\">                 <span class=\"text-gradient\">Spatial</span>                 <span class=\"text-refraction\">Computing</span>             </h1>             <p class=\"mt-10 text-lg md:text-xl text-white/50 font-light max-w-2xl text-center tracking-wide leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,1)]\">                 Welcome to the era of absolute immersion. Powered by a dual-chip neural architecture, delivering                 latency-free volumetric rendering.             </p>         ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/tech/apple-vision-pro/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=tech&slug=apple-vision-pro",
+              "poster": "https://openhero.art/api/preview?category=tech&slug=apple-vision-pro",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover w-full h-full kinetic-breach absolute inset-0 z-[-1] flex items-center justify-center overflow-hidden pointer-events-none relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center justify-center min-h-[70vh]",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Spatial Computing",
+              "text": "Spatial Computing",
+              "tag": "h1",
+              "cls": "text-[clamp(3.5rem,8vw,9rem)] font-bold tracking-tighter leading-[0.9] text-center flex flex-col items-center drop-shadow-[0_10px_30px_rgba(0,0,0,1)] drop-shadow-[0_20px_70px_rgba(0,0,0,1)]",
+              "wrapCls": "relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center justify-center min-h-[70vh]",
+              "fontSize": "115.2px",
+              "fontWeight": "700",
+              "color": "oklch(0.98 0.01 250)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "103.68px",
+              "letterSpacing": "-5.76px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-10 text-lg md:text-xl text-white/50 font-light max-w-2xl text-center tracking-wide leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,1)]\">                 Welcome to the era of absolute immersion. Powered by a dual-chip neural architecture, delivering                 latency-free volumetric rendering.             </p>",
+              "text": "Welcome to the era of absolute immersion. Powered by a dual-chip neural architecture, delivering latency-free volumetric rendering.",
+              "tag": "p",
+              "cls": "mt-10 text-lg md:text-xl text-white/50 font-light max-w-2xl text-center tracking-wide leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,1)]",
+              "fontSize": "20px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "28px",
+              "letterSpacing": "0.5px",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            }
+          ],
+          "css_id": "hero"
+        },
+        {
+          "index": 1,
+          "sectionClass": "relative z-10 w-full max-w-6xl mx-auto px-6 mt-32 grid grid-cols-1 lg:grid-cols-12 gap-8",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-anodized{background: var(--surface-glass); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: rgba(0, 0, 0, 0.4) 0px 20px 40px, rgba(255, 255, 255, 0.15) 0px 1px 0px inset; backdrop-filter: blur(40px) saturate(150%);}\n.scroll-driven{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: atomic-assemble; animation-timeline: view(); animation-range: entry 5% cover 25%;}\nh3{font-size: inherit; font-weight: inherit;}\nh3, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-6{bottom: 1.5rem;}\n.left-6{left: 1.5rem;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.my-6{margin-top: 1.5rem; margin-bottom: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mt-32{margin-top: 8rem;}\n.mt-4{margin-top: 1rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[400px\\]{height: 400px;}\n.h-full{height: 100%;}\n.h-px{height: 1px;}\n.min-h-\\[400px\\]{min-height: 400px;}\n.w-full{width: 100%;}\n.max-w-6xl{max-width: 72rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-\\[1\\.5rem\\]{border-radius: 1.5rem;}\n.rounded-\\[2rem\\]{border-radius: 2rem;}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.p-10{padding: 2.5rem;}\n.p-2{padding: 0.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.opacity-80{opacity: 0.8;}\n.mix-blend-screen{mix-blend-mode: screen;}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "oklch(0.98 0.01 250)",
+            "padding": "0px 24px",
+            "margin": "128px 144px 0px",
+            "fontFamily": "-apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1152px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"scroll-driven lg:col-span-5 glass-anodized p-10 rounded-[2rem] flex flex-col justify-between min-h-[400px]\">                 <div>                     <h3 class=\"text-2xl font-semibold tracking-tight text-white\">Photonic Processing</h3>                     <p class=\"mt-4 text-sm text-white/50 leading-relaxed font-light\">                         The dedicated R1 hardware subsystem streams real-time environmental data with unprecedented                         accuracy, mapping physical space in milliseconds.                     </p>                 </div>                 <div>                     <div class=\"h-px w-full bg-gradient-to-r from-white/20 to-transparent my-6\"></div>                     <div class=\"flex items-end justify-between\">                         <span class=\"text-xs font-mono text-white/40 uppercase tracking-widest\">Photon Latency</span>                         <span class=\"text-3xl font-light text-white\">12<span class=\"text-lg text-white/40\">ms</span></span>                     </div>                 </div>             </div>             <div class=\"scroll-driven lg:col-span-7 h-[400px] w-full rounded-[2rem] overflow-hidden relative glass-anodized p-2\">                 <div class=\"w-full h-full rounded-[1.5rem] overflow-hidden relative\">                     <div class=\"absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10\">                     </div>                     <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover opacity-80 mix-blend-screen\">                         <source src=\"https://assets.codepen.io/3364143/7btrrd.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute bottom-6 left-6 z-20\">                         <div class=\"text-xs font-mono text-white/50 mb-1 uppercase tracking-widest\">Micro-OLED Display                         </div>                         <div class=\"text-2xl font-medium text-white tracking-tight\">23 Million Pixels</div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 3,
+              "html": "Photonic Processing",
+              "text": "Photonic Processing",
+              "tag": "h3",
+              "cls": "text-2xl font-semibold tracking-tight text-white",
+              "wrapCls": "",
+              "fontSize": "24px",
+              "fontWeight": "600",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "32px",
+              "letterSpacing": "-0.6px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-4 text-sm text-white/50 leading-relaxed font-light\">                         The dedicated R1 hardware subsystem streams real-time environmental data with unprecedented                         accuracy, mapping physical space in milliseconds.                     </p>",
+              "text": "The dedicated R1 hardware subsystem streams real-time environmental data with unprecedented accuracy, mapping physical space in milliseconds.",
+              "tag": "p",
+              "cls": "mt-4 text-sm text-white/50 leading-relaxed font-light",
+              "fontSize": "14px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "22.75px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"flex items-end justify-between\">                         <span class=\"text-xs font-mono text-white/40 uppercase tracking-widest\">Photon Latency</span>                         <span class=\"text-3xl font-light text-white\">12<span class=\"text-lg text-white/40\">ms</span></span>                     </div>",
+              "text": "Photon Latency 12ms",
+              "tag": "div",
+              "cls": "flex items-end justify-between",
+              "fontSize": "16px",
+              "color": "oklch(0.98 0.01 250)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10\">                     </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "10",
+                "w": 613,
+                "h": 382
+              }
+            },
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://assets.codepen.io/3364143/7btrrd.mp4",
+              "webm": "https://openhero.art/api/preview?category=tech&slug=apple-vision-pro",
+              "poster": "https://openhero.art/api/preview?category=tech&slug=apple-vision-pro",
+              "bg": false,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover opacity-80 mix-blend-screen w-full h-full rounded-[1.5rem] overflow-hidden relative scroll-driven lg:col-span-7 h-[400px] w-full rounded-[2rem] overflow-hidden relative glass-anodized p-2 relative z-10 w-full max-w-6xl mx-auto px-6 mt-32 grid grid-cols-1 lg:grid-cols-12 gap-8",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"text-xs font-mono text-white/50 mb-1 uppercase tracking-widest\">Micro-OLED Display                         </div>",
+              "text": "Micro-OLED Display",
+              "tag": "div",
+              "cls": "text-xs font-mono text-white/50 mb-1 uppercase tracking-widest",
+              "fontSize": "12px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "16px",
+              "letterSpacing": "1.2px",
+              "marginBottom": "4px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"text-2xl font-medium text-white tracking-tight\">23 Million Pixels</div>",
+              "text": "23 Million Pixels",
+              "tag": "div",
+              "cls": "text-2xl font-medium text-white tracking-tight",
+              "fontSize": "24px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "32px",
+              "letterSpacing": "-0.6px",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "500",
+              "textTransform": "none"
+            }
+          ],
+          "css_id": "features"
+        },
+        {
+          "index": 2,
+          "sectionClass": "relative z-10 w-full max-w-6xl mx-auto px-6 mt-16",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-anodized{background: var(--surface-glass); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: rgba(0, 0, 0, 0.4) 0px 20px 40px, rgba(255, 255, 255, 0.15) 0px 1px 0px inset; backdrop-filter: blur(40px) saturate(150%);}\n.scroll-driven{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: atomic-assemble; animation-timeline: view(); animation-range: entry 5% cover 25%;}\nh4{font-size: inherit; font-weight: inherit;}\nh4, p{margin: 0px;}\nsvg{display: block; vertical-align: middle;}\n.relative{position: relative;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mt-16{margin-top: 4rem;}\n.mt-3{margin-top: 0.75rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-10{height: 2.5rem;}\n.h-5{height: 1.25rem;}\n.w-10{width: 2.5rem;}\n.w-5{width: 1.25rem;}\n.w-full{width: 100%;}\n.max-w-6xl{max-width: 72rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-6{gap: 1.5rem;}\n.rounded-\\[2rem\\]{border-radius: 2rem;}\n.rounded-xl{border-radius: 0.75rem;}\n.border{border-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.leading-relaxed{line-height: 1.625;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.hover\\:bg-white\\/\\[0\\.05\\]:hover{background-color: rgba(255, 255, 255, 0.05);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "oklch(0.98 0.01 250)",
+            "padding": "0px 24px",
+            "margin": "64px 144px 0px",
+            "fontFamily": "-apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Helvetica Neue\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1152px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"scroll-driven grid grid-cols-1 md:grid-cols-3 gap-6\">                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Eye Tracking</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">High-performance LEDs project                         invisible light patterns for ultra-precise optical input without physical controllers.</p>                 </div>                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Spatial Audio</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Acoustic ray tracing calculates                         physical properties of your environment to match sound precisely to the room.</p>                 </div>                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Infinite Canvas</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Free your workflow from the                         physical boundaries of a traditional display with an unlimited spatial workspace.</p>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                  "colId": "sccol-0",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Eye Tracking</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">High-performance LEDs project                         invisible light patterns for ultra-precise optical input without physical controllers.</p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "<svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\"></path>\n                        </svg>",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#ffffff",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Eye Tracking",
+                    "titleTag": "h4",
+                    "titleWeight": "500",
+                    "text": "<p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">High-performance LEDs project                         invisible light patterns for ultra-precise optical input without physical controllers.</p>",
+                    "link": null,
+                    "cls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.03)",
+                      "fill": "rgba(255, 255, 255, 0.03)",
+                      "radius": "32px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.08)",
+                      "shadow": "rgba(0, 0, 0, 0.4) 0px 20px 40px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px 0px inset",
+                      "backdrop": "blur(40px) saturate(1.5)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                  "colId": "sccol-1",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Spatial Audio</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Acoustic ray tracing calculates                         physical properties of your environment to match sound precisely to the room.</p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "<svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z\"></path>\n                        </svg>",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#ffffff",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Spatial Audio",
+                    "titleTag": "h4",
+                    "titleWeight": "500",
+                    "text": "<p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Acoustic ray tracing calculates                         physical properties of your environment to match sound precisely to the room.</p>",
+                    "link": null,
+                    "cls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.03)",
+                      "fill": "rgba(255, 255, 255, 0.03)",
+                      "radius": "32px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.08)",
+                      "shadow": "rgba(0, 0, 0, 0.4) 0px 20px 40px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px 0px inset",
+                      "backdrop": "blur(40px) saturate(1.5)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                  "colId": "sccol-2",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Infinite Canvas</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Free your workflow from the                         physical boundaries of a traditional display with an unlimited spatial workspace.</p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "<svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4\"></path>\n                        </svg>",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#ffffff",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Infinite Canvas",
+                    "titleTag": "h4",
+                    "titleWeight": "500",
+                    "text": "<p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Free your workflow from the                         physical boundaries of a traditional display with an unlimited spatial workspace.</p>",
+                    "link": null,
+                    "cls": "glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(255, 255, 255, 0.03)",
+                      "fill": "rgba(255, 255, 255, 0.03)",
+                      "radius": "32px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.08)",
+                      "shadow": "rgba(0, 0, 0, 0.4) 0px 20px 40px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px 0px inset",
+                      "backdrop": "blur(40px) saturate(1.5)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"scroll-driven grid grid-cols-1 md:grid-cols-3 gap-6\">                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\" data-sc-col=\"sccol-0\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Eye Tracking</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">High-performance LEDs project                         invisible light patterns for ultra-precise optical input without physical controllers.</p>                 </div>                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\" data-sc-col=\"sccol-1\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Spatial Audio</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Acoustic ray tracing calculates                         physical properties of your environment to match sound precisely to the room.</p>                 </div>                 <div class=\"glass-anodized p-8 rounded-[2rem] transition-all duration-500 hover:bg-white/[0.05]\" data-sc-col=\"sccol-2\">                     <div class=\"w-10 h-10 rounded-xl border border-white/20 flex items-center justify-center mb-8 bg-white/5\">                         <svg class=\"w-5 h-5 text-white/80\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">                             <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"1.5\" d=\"M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4\"></path>                         </svg>                     </div>                     <h4 class=\"text-lg font-medium text-white\">Infinite Canvas</h4>                     <p class=\"mt-3 text-white/40 font-light text-sm leading-relaxed\">Free your workflow from the                         physical boundaries of a traditional display with an unlimited spatial workspace.</p>                 </div>             </div>"
+            }
+          ],
+          "css_id": "content"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "theme": {
+    "name": "The Line",
+    "slug": "the-line",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1280px"
+  },
+  "css_vars": {
+    "--color-moss": "oklch(88% 0.1 150)",
+    "--color-text": "oklch(15% 0.02 240)",
+    "--color-bg": "oklch(98% 0.01 240)",
+    "--font-hero": "'Cormorant Garamond', serif",
+    "--font-tech": "'DM Sans', sans-serif"
+  },
+  "fonts": {
+    "heading": "Cormorant Garamond",
+    "heading_weight": "inherit",
+    "body": "DM Sans",
+    "google": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap",
+    "heading_visual": "Cormorant",
+    "heading_visual_top": [
+      "Cormorant",
+      "Cormorant Garamond",
+      "Cardo",
+      "Source Serif 4",
+      "Libre Caslon Text"
+    ],
+    "body_visual": "Mulish",
+    "body_visual_top": [
+      "Mulish",
+      "Figtree",
+      "Cabin",
+      "Nunito",
+      "Nunito Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.15 0.02 240)",
+    "accent": "rgb(255, 255, 255)",
+    "bg": "oklch(0.98 0.01 240)",
+    "heading": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Ecology",
+        "url": "/api/preview?category=nature&slug=living-architecture#"
+      },
+      {
+        "label": "Systems",
+        "url": "/api/preview?category=nature&slug=living-architecture#"
+      }
+    ],
+    "logo": {
+      "font": "DM Sans",
+      "size": "12px",
+      "weight": "500",
+      "color": "rgb(255, 255, 255)",
+      "letter_spacing": "1.2px"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav class=\"fixed top-0 left-0 w-full p-6 px-10 flex justify-between items-center z-50 bg-black/10 backdrop-blur-md border-b border-white/10 text-white\">     <div class=\"text-xs uppercase tracking-widest font-semibold\">NEOM | The Line</div>     <div class=\"flex gap-10 text-xs uppercase tracking-widest font-medium\">       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Architecture</a>       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Ecology</a>       <a href=\"#\" class=\"spa-link hover:opacity-60 transition-opacity\">Systems</a>     </div>   </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{--color-bg: oklch(98% 0.01 240); --color-moss: oklch(88% 0.1 150); --color-text: oklch(15% 0.02 240); --font-hero: 'Cormorant Garamond', serif; --font-tech: 'DM Sans', sans-serif;}\n*{margin: 0px; padding: 0px; box-sizing: border-box; border-radius: 24px;}\nbody{background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-tech); overflow-x: hidden; line-height: 1.6; border-radius: 0px; -webkit-font-smoothing: antialiased; text-rendering: optimizelegibility;}\n::selection{background: var(--color-moss); color: white;}\n::view-transition-old(root), ::view-transition-new(root){animation-duration: 1.2s; animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\na{color: inherit; text-decoration: inherit;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\n:disabled{cursor: default;}",
+    "util_css": "h1, h2{font-family: var(--font-hero); font-weight: 500; letter-spacing: -0.02em;}\n.fullscreen-video-container{position: absolute; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; border-radius: 0px;}\n.fullscreen-video-container video{width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1) brightness(0.85); border-radius: 0px;}\n.video-vignette{position: absolute; inset: 0px; background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 60%, var(--color-bg) 100%); border-radius: 0px; z-index: 1; pointer-events: none;}\n.hero-typography{position: relative; z-index: 20; padding: 3rem; transform: translate3d(0px, 0px, 0px); will-change: transform, opacity;}\n.dew-drop{display: inline-flex; align-items: center; gap: 12px; padding: 16px 36px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%); backdrop-filter: blur(24px) saturate(1.8); border: 0.5px solid rgba(255, 255, 255, 0.4); box-shadow: rgba(255, 255, 255, 0.5) 0px 1px 2px inset, rgba(255, 255, 255, 0.1) 0px -1px 4px inset, rgba(0, 0, 0, 0.2) 0px 12px 32px; border-radius: 100px; color: white; text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer; position: relative; overflow: hidden;}\n.dew-drop::before{content: \"\"; position: absolute; inset: 0px; border-radius: 100px; box-shadow: rgba(255, 255, 255, 0.4) 0px 0px 20px inset; opacity: 0; transition: opacity 0.5s;}\n.dew-drop:hover{transform: translateY(-4px) scale(1.02); box-shadow: rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);}\n.dew-drop:hover::before{opacity: 1;}\n.rhizome-section{position: relative; padding: 12vh 5vw; container: rhizome / inline-size; background: var(--color-bg); border-radius: 0px; z-index: 10;}\n.radial-leak{position: absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, oklch(0.88 0.1 150 / 0.15) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); z-index: 0; pointer-events: none;}\n.bionic-bloom{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: bloom-scroll; animation-timeline: view(); animation-range: entry 5% cover 35%;}\n@keyframes bloom-scroll { \n  0% { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(8px); }\n  100% { opacity: 1; transform: translateY(0px) scale(1); filter: none; }\n}\n.hero-fade-in{animation: 1.5s cubic-bezier(0.25, 1, 0.5, 1) 0s 1 normal forwards running fadeIn; opacity: 0; transform: translateY(20px);}\n@keyframes fadeIn { \n  100% { opacity: 1; transform: translateY(0px); }\n}\n.glass-card{background: linear-gradient(rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%); backdrop-filter: blur(40px); border: 0.5px solid rgba(255, 255, 255, 0.7); box-shadow: rgba(0, 0, 0, 0.03) 0px 24px 64px, rgba(255, 255, 255, 0.5) 0px 1px 1px inset; padding: 3.5rem; position: relative; z-index: 1; transition: transform 0.4s, box-shadow 0.4s;}\n.glass-card:hover{transform: translateY(-5px); box-shadow: rgba(0, 0, 0, 0.06) 0px 32px 80px, rgba(255, 255, 255, 0.8) 0px 1px 1px inset;}\nh1, h2{font-size: inherit; font-weight: inherit;}\nh1, h2, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.relative{position: relative;}\n.left-\\[-10vw\\]{left: -10vw;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mt-0{margin-top: 0px;}\n.grid{display: grid;}\n.h-px{height: 1px;}\n.min-h-screen{min-height: 100vh;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-7xl{max-width: 80rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.gap-16{gap: 4rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-none{border-radius: 0px;}\n.rounded-full{border-radius: 9999px;}\n.bg-slate-900\\/10{background-color: rgba(15, 23, 42, 0.1);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.pt-28{padding-top: 7rem;}\n.text-center{text-align: center;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-gray-100{--tw-text-opacity: 1; color: rgb(243 244 246 / var(--tw-text-opacity, 1));}\n.text-slate-800{--tw-text-opacity: 1; color: rgb(30 41 59 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-slate-700{--tw-text-opacity: 1; color: rgb(51 65 85 / var(--tw-text-opacity, 1));}\n.text-slate-900{--tw-text-opacity: 1; color: rgb(15 23 42 / var(--tw-text-opacity, 1));}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.selection\\:bg-emerald-200 ::selection{--tw-bg-opacity: 1; background-color: rgb(167 243 208 / var(--tw-bg-opacity, 1));}\n.selection\\:bg-emerald-200::selection{--tw-bg-opacity: 1; background-color: rgb(167 243 208 / var(--tw-bg-opacity, 1));}\n@media (min-width: 768px){.md\\:mt-24{margin-top: 6rem;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+    "header_css": ".fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-10{gap: 2.5rem;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-black\\/10{background-color: rgba(0, 0, 0, 0.1);}\n.p-6{padding: 1.5rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-medium{font-weight: 500;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:opacity-60:hover{opacity: 0.6;}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+    ]
+  }
+}

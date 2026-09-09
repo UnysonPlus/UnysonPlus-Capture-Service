@@ -1,0 +1,232 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "bloom-scroll",
+      "props": [
+        "opacity",
+        "transform",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "fadeIn",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".bionic-bloom",
+      "name": "bloom-scroll",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-fade-in",
+      "name": "fadeIn",
+      "duration": "1.5s",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".dew-drop",
+      "changed": {
+        "transform": "translateY(-4px) scale(1.02)",
+        "box-shadow": "rgba(255, 255, 255, 0.8) 0px 1px 2px inset, rgba(255, 255, 255, 0.2) 0px -1px 4px inset, rgba(0, 0, 0, 0.4) 0px 20px 48px",
+        "background-image": "linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%)",
+        "background-position-x": "initial",
+        "background-position-y": "initial",
+        "background-size": "initial",
+        "background-repeat": "initial",
+        "background-attachment": "initial",
+        "background-origin": "initial",
+        "background-clip": "initial",
+        "background-color": "initial"
+      }
+    },
+    {
+      "selector": ".dew-drop::before",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".glass-card",
+      "changed": {
+        "transform": "translateY(-5px)",
+        "box-shadow": "rgba(0, 0, 0, 0.06) 0px 32px 80px, rgba(255, 255, 255, 0.8) 0px 1px 1px inset"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-60",
+      "changed": {
+        "opacity": "0.6"
+      }
+    },
+    {
+      "selector": "dew-drop",
+      "changed": {
+        "transform": "matrix(1.01941, 0, 0, 1.01941, 0, -3.88116)",
+        "boxShadow": "rgba(255, 255, 255, 0.792) 0px 1px 2px 0px inset, rgba(255, 255, 255, 0.196) 0px -1px 4px 0px inset, rgba(0, 0, 0, 0.392) 0px 19.7623px 47.5246px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "glass-card bionic-bloom",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, 0)",
+        "boxShadow": "rgba(0, 0, 0, 0.06) 0px 31.6229px 79.2459px 0px, rgba(255, 255, 255, 0.784) 0px 1px 1px 0px inset",
+        "filter": "blur(0px)"
+      },
+      "live": true
+    },
+    {
+      "selector": "glass-card bionic-bloom mt-0 md:mt-24",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0.06) 0px 31.6222px 79.2443px 0px, rgba(255, 255, 255, 0.784) 0px 1px 1px 0px inset"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".dew-drop::before",
+      "props": "opacity",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".glass-card",
+      "props": "transform, box-shadow",
+      "duration": "0.4s, 0.4s"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 1764,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 7,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 40,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 40,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 9,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 40,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 40,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#7",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#9",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".bionic-bloom",
+      "evidence": "keyframes 'bloom-scroll' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-fade-in",
+      "evidence": "keyframes 'fadeIn' 1.5s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".dew-drop",
+      "evidence": "transform, box-shadow, background-image, background-position-x change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".glass-card",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "glass-card bionic-bloom",
+      "evidence": "transform, boxShadow, filter change on hover",
+      "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+      "confidence": "medium"
+    }
+  ]
+}

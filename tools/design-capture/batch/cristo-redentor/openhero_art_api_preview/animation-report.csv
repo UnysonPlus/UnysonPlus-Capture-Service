@@ -1,0 +1,15 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1767px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#20,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#23,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#25,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#27,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#30,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#35,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#37,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.wind,infinite keyframes 'wind' translating X,marquee fx: {mode:'left'},high
+css-animation,.bloom,keyframes 'bloom' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.hero-scale,keyframes 'heroScale' auto,entrance animation (Animate.css picker),low
+hover,.dew,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:text-\[\#2f6fa3\],"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium

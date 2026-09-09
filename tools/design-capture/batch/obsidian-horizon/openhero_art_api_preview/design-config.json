@@ -1,0 +1,144 @@
+{
+  "theme": {
+    "name": "Obsidian Horizon",
+    "slug": "obsidian-horizon",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1280px"
+  },
+  "css_vars": {
+    "--basalt": "oklch(12% 0.02 260)",
+    "--storm": "oklch(25% 0.01 260)",
+    "--amber": "oklch(65% 0.15 45)"
+  },
+  "fonts": {
+    "heading": "Syncopate",
+    "heading_weight": "inherit",
+    "body": "Manrope",
+    "google": "https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght@200;400;600&display=swap",
+    "heading_visual": "Cinzel",
+    "heading_visual_top": [
+      "Cinzel",
+      "Faster One",
+      "Monoton",
+      "Orbitron",
+      "Montserrat"
+    ],
+    "body_visual": "Manrope",
+    "body_visual_top": [
+      "Manrope",
+      "Quicksand",
+      "Raleway",
+      "Oxygen",
+      "Open Sans"
+    ]
+  },
+  "colors": {
+    "ink": "rgb(255, 255, 255)",
+    "accent": "rgb(255, 255, 255)",
+    "bg": "oklch(0.12 0.02 260)",
+    "heading": "rgb(255, 255, 255)",
+    "footer_bg": "rgb(0, 0, 0)",
+    "footer_text": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Intelligence",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#tech"
+      },
+      {
+        "label": "Protocol",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#contact"
+      }
+    ],
+    "logo": {
+      "font": "Syncopate",
+      "size": "9px",
+      "weight": "400",
+      "color": "rgb(255, 255, 255)",
+      "letter_spacing": "0.9px"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [
+      {
+        "label": "Dossier",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      },
+      {
+        "label": "Philosophy",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      },
+      {
+        "label": "Security",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      },
+      {
+        "label": "Encrypted Comms",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      },
+      {
+        "label": "Satellite Uplink",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      },
+      {
+        "label": "Terminal",
+        "url": "/api/preview?category=nature&slug=obsidian-horizon#"
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<header class=\"fixed top-8 left-8 right-8 z-[100] flex justify-between items-center mix-blend-difference\">         <div class=\"font-syne font-bold text-xs tracking-[0.5em] uppercase text-white\">Obsidian / Horizon</div>         <div class=\"flex gap-12 font-syne text-[9px] tracking-widest uppercase z-20\">             <a href=\"#villas\" class=\"text-white hover:opacity-70 transition-all\">Structures</a>             <a href=\"#tech\" class=\"text-white hover:opacity-70 transition-all\">Intelligence</a>             <a href=\"#contact\" class=\"text-white hover:opacity-70 transition-all\">Protocol</a>         </div>     </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer id=\"contact\" class=\"tectonic-section z-40 bg-black flex flex-col justify-end pb-20\">             <div class=\"absolute inset-0 bg-gradient-to-b from-transparent to-amber/5\"></div>             <!--SC_FCOPY-->         </footer>",
+    "footer_cols": [
+      "                         <h2 class=\"font-syne text-[8vw] uppercase font-bold tracking-tighter leading-none mb-10\">                             The<br>Abyss</h2>                         <p class=\"text-gray-400 font-syne text-[10px] tracking-widest uppercase mb-12\">Coordinates:                             13.6394° S, 72.8814° W / 2026 Ready</p>                         <button class=\"stealth-btn\">Initialize Acquisition</button>                     ",
+      "                         <div class=\"space-y-6\">                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Dossier</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Philosophy</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Security</a>                         </div>                         <div class=\"space-y-6\">                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Encrypted Comms</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Satellite Uplink</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Terminal</a>                         </div>                     "
+    ],
+    "footer_copyright": "<div class=\"w-full px-12 md:px-24 relative z-10\">                 <div class=\"flex flex-col md:flex-row justify-between items-end gap-20\">                     <div class=\"max-w-2xl\">                         <h2 class=\"font-syne text-[8vw] uppercase font-bold tracking-tighter leading-none mb-10\">                             The<br>Abyss</h2>                         <p class=\"text-gray-400 font-syne text-[10px] tracking-widest uppercase mb-12\">Coordinates:                             13.6394° S, 72.8814° W / 2026 Ready</p>                         <button class=\"stealth-btn\">Initialize Acquisition</button>                     </div>                     <div class=\"grid grid-cols-2 gap-20 text-right font-syne text-[10px] tracking-[0.3em] uppercase\">                         <div class=\"space-y-6\">                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Dossier</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Philosophy</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Security</a>                         </div>                         <div class=\"space-y-6\">                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Encrypted Comms</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Satellite Uplink</a>                             <a href=\"#\" class=\"block text-gray-400 hover:text-white\">Terminal</a>                         </div>                     </div>                 </div>                 <div class=\"mt-32 pt-8 border-t border-white/5 flex justify-between items-center opacity-50 text-[9px] uppercase tracking-widest\">                     <span>Obsidian Horizon © 2026</span>                     <span>Designed for Total Anonymity</span>                 </div>             </div>",
+    "footer_heading_style": {
+      "transform": "uppercase",
+      "letterSpacing": "-5.76px",
+      "fontWeight": "700",
+      "fontSize": "115.2px",
+      "color": "rgb(255, 255, 255)"
+    },
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "10px",
+      "lineHeight": "15px",
+      "color": "rgb(156, 163, 175)"
+    },
+    "base_css": ":root{--basalt: oklch(12% 0.02 260); --amber: oklch(65% 0.15 45); --storm: oklch(25% 0.01 260);}\nbody{background-color: var(--basalt); color: rgb(255, 255, 255); margin: 0px; font-family: Manrope, sans-serif; overflow-x: hidden;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".blade-mask{clip-path: polygon(0px 0px, 100% 0px, 100% 85%, 25% 100%, 0px 90%);}\n.sharp-card{clip-path: polygon(0px 0px, 100% 5%, 95% 100%, 0% 95%); background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(217, 119, 66, 0.2);}\n.hud-glass{background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(25px) brightness(0.6); border: 1px solid rgba(217, 119, 66, 0.3);}\n.text-edge{-webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent;}\n.reveal{opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal.active{opacity: 1; transform: translateY(0px);}\nh1, h3, h4{font-size: inherit; font-weight: inherit;}\nh1, h3, h4{margin: 0px;}\nimg, video{display: block; vertical-align: middle;}\nimg, video{max-width: 100%; height: auto;}\n.z-30{z-index: 30;}\n.col-span-12{grid-column: span 12 / span 12;}\n.col-span-5{grid-column: span 5 / span 5;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-4{margin-bottom: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-12{margin-top: 3rem;}\n.hidden{display: none;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-md{max-width: 28rem;}\n.cursor-pointer{cursor: pointer;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}\n.justify-center{justify-content: center;}\n.gap-10{gap: 2.5rem;}\n.gap-4{gap: 1rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.bg-gray-900{--tw-bg-opacity: 1; background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.via-transparent{--tw-gradient-to: rgb(0 0 0 / 0)  var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to);}\n.to-transparent{--tw-gradient-to: transparent var(--tw-gradient-to-position);}\n.object-cover{object-fit: cover;}\n.p-6{padding: 1.5rem;}\n.p-8{padding: 2rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[12vw\\]{font-size: 12vw;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.leading-\\[0\\.8\\]{line-height: 0.8;}\n.leading-loose{line-height: 2;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.6em\\]{letter-spacing: 0.6em;}\n.text-gray-300{--tw-text-opacity: 1; color: rgb(209 213 219 / var(--tw-text-opacity, 1));}\n.opacity-10{opacity: 0.1;}\n.mix-blend-color{mix-blend-mode: color;}\n.brightness-75{--tw-brightness: brightness(.75); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.grayscale{--tw-grayscale: grayscale(100%); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:scale-110:hover{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:block{display: block;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}",
+    "header_css": ".font-syne{font-family: Syncopate, sans-serif;}\n.fixed{position: fixed;}\n.left-8{left: 2rem;}\n.right-8{right: 2rem;}\n.top-8{top: 2rem;}\n.z-20{z-index: 20;}\n.z-\\[100\\]{z-index: 100;}\n.flex{display: flex;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-bold{font-weight: 700;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.5em\\]{letter-spacing: 0.5em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.mix-blend-difference{mix-blend-mode: difference;}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:opacity-70:hover{opacity: 0.7;}",
+    "footer_css": ".tectonic-section{position: sticky; top: 0px; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; background: var(--basalt); border-top: 1px solid rgba(255, 255, 255, 0.05);}\n.stealth-btn{background: rgb(0, 0, 0); position: relative; padding: 1.25rem 2.5rem; clip-path: polygon(10% 0px, 100% 0px, 90% 100%, 0px 100%); transition: 0.4s; border: 1px solid rgba(217, 119, 66, 0.5); color: var(--amber); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.3em;}\n.stealth-btn:hover{background: var(--amber); color: rgb(0, 0, 0); box-shadow: rgba(217, 119, 66, 0.4) 0px 0px 30px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-40{z-index: 40;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-12{margin-bottom: 3rem;}\n.mt-32{margin-top: 8rem;}\n.block{display: block;}\n.grid{display: grid;}\n.w-full{width: 100%;}\n.max-w-2xl{max-width: 42rem;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-end{justify-content: flex-end;}\n.gap-20{gap: 5rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-black{--tw-bg-opacity: 1; background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.pb-20{padding-bottom: 5rem;}\n.pt-8{padding-top: 2rem;}\n.text-right{text-align: right;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[8vw\\]{font-size: 8vw;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-gray-400{--tw-text-opacity: 1; color: rgb(156 163 175 / var(--tw-text-opacity, 1));}\n.opacity-50{opacity: 0.5;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght@200;400;600&display=swap"
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "theme": {
+    "name": "Anthropic",
+    "slug": "anthropic",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1800px"
+  },
+  "css_vars": {
+    "--obsidian": "oklch(12% 0.05 280)",
+    "--shadow-dark": "oklch(5% 0.05 280 / 0.9)",
+    "--shadow-light": "oklch(80% 0.15 300 / 0.15)",
+    "--surface-top": "oklch(25% 0.08 280 / 0.4)",
+    "--amber-glow": "oklch(75% 0.15 50)",
+    "--surface-bottom": "oklch(15% 0.05 280 / 0.6)",
+    "--mouse-y": "50%",
+    "--text-dim": "oklch(65% 0.05 280)",
+    "--text-core": "oklch(98% 0.01 280)",
+    "--mouse-x": "50%",
+    "--electric-violet": "oklch(60% 0.25 300)"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "heading_weight": "inherit",
+    "body": "Inter",
+    "heading_visual": "Archivo",
+    "heading_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ],
+    "body_visual": "Archivo",
+    "body_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.98 0.01 280)",
+    "bg": "oklch(0.12 0.05 280)",
+    "heading": "oklch(0.98 0.01 280)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": false,
+    "menu": [],
+    "logo": {},
+    "cta": {
+      "enabled": true,
+      "label": "Initialize Core",
+      "href": "/api/preview?category=abstract&slug=bio-tech-computing-interface",
+      "dedupe_from_menu": false,
+      "style": {
+        "color": "oklch(0.98 0.01 280)",
+        "radius": "9999px",
+        "padding": "19.2px 40px",
+        "font_weight": "500"
+      }
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<header class=\"max-w-5xl mb-40 relative z-20\">     <span class=\"text-xs uppercase tracking-[0.4em] text-[var(--text-dim)] font-medium mb-8 block chromatic-aberration\">Bio-Tech Computing Layer</span>     <h1 class=\"text-[6rem] md:text-[8.5rem] font-light tracking-tighter leading-[0.85] synaptic-shimmer mb-12\">       Constitutional<br>Luminance.     </h1>     <p class=\"text-2xl text-[var(--text-dim)] max-w-3xl leading-relaxed mb-16 font-light\">       Abstracting rigid data structures into organic mesh routing. Compute density simulated through bioluminescent refraction rather than static primitives.     </p>     <div class=\"flex items-center gap-10\">       <button class=\"bio-elastic-btn fluid-node\">Initialize Core</button>       <div class=\"flex flex-col border-l border-white/10 pl-8\">         <span class=\"neural-stat text-3xl text-[var(--text-core)]\">8.4<span class=\"text-sm text-[var(--amber-glow)] ml-1\">pb/s</span></span>         <span class=\"text-xs text-[var(--text-dim)] uppercase tracking-[0.2em] mt-1\">Synaptic Bandwidth</span>       </div>     </div>   </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{--obsidian: oklch(12% 0.05 280); --electric-violet: oklch(60% 0.25 300); --amber-glow: oklch(75% 0.15 50); --text-core: oklch(98% 0.01 280); --text-dim: oklch(65% 0.05 280); --surface-top: oklch(25% 0.08 280 / 0.4); --surface-bottom: oklch(15% 0.05 280 / 0.6); --shadow-dark: oklch(5% 0.05 280 / 0.9); --shadow-light: oklch(80% 0.15 300 / 0.15); --mouse-x: 50%; --mouse-y: 50%; color-scheme: dark;}\n*{box-sizing: border-box; margin: 0px; padding: 0px;}\nbody{background-color: var(--obsidian); color: var(--text-core); font-family: Inter, sans-serif; overflow-x: hidden; overscroll-behavior: none; -webkit-font-smoothing: antialiased; transition: background-color 0.8s cubic-bezier(0.22, 1, 0.36, 1);}\n::view-transition-old(root), ::view-transition-new(root){animation: 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0s 1 normal both running organic-fade;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": "@keyframes organic-fade { \n  0% { opacity: 0; filter: blur(40px) contrast(150%); transform: scale(0.95); }\n  100% { opacity: 1; filter: blur(0px) contrast(100%); transform: scale(1); }\n}\n.bio-portal{position: fixed; top: 0px; right: -5vw; width: 45vw; height: 100vh; z-index: 0; pointer-events: none; mask-image: radial-gradient(at 70% 50%, black 10%, rgba(0, 0, 0, 0.6) 40%, transparent 80%); will-change: transform;}\n.bio-portal video{width: 100%; height: 100%; object-fit: cover; filter: saturate(140%) contrast(120%) hue-rotate(15deg); transform: scale(1.1); mix-blend-mode: screen;}\n.organic-volume{background: linear-gradient(160deg, var(--surface-top), var(--surface-bottom)); backdrop-filter: blur(80px) saturate(180%); border-radius: 2.5rem; position: relative; isolation: isolate; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; box-shadow: inset 1px 1px 3px var(--shadow-light),\n    inset -2px -2px 12px var(--shadow-dark),\n    0 30px 60px rgba(0,0,0,0.4); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s;}\n.organic-volume::before{content: \"\"; position: absolute; inset: -1px; border-radius: inherit; background: radial-gradient(\n    800px circle at var(--mouse-x) var(--mouse-y),\n    var(--electric-violet),\n    transparent 40%\n  ); opacity: 0; mix-blend-mode: screen; transition: opacity 0.5s; pointer-events: none; mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); padding: 1px; z-index: 10;}\n.organic-volume::after{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; box-shadow: rgba(255, 0, 0, 0.05) 2px 0px 8px inset, rgba(0, 0, 255, 0.05) -2px 0px 8px inset; pointer-events: none; opacity: 0.8;}\n.organic-volume:hover{transform: translateY(-5px) scale(1.005); border-radius: 2.2rem;}\n.organic-volume:hover::before{opacity: 0.4;}\n@keyframes synaptic-pulse { \n  100% { background-position: 200% center; }\n}\n.scroll-reveal{}\n@keyframes organic-reveal { \n  0% { transform: translateY(80px) scale(0.92); opacity: 0; filter: blur(20px); }\n  100% { transform: translateY(0px) scale(1); opacity: 1; filter: blur(0px); }\n}\n.fractal-grid{container-type: inline-size;}\n.bio-toggle{width: 52px; height: 28px; border-radius: 999px; background: var(--surface-bottom); box-shadow: inset 0 2px 6px var(--shadow-dark), 0 0 0 1px rgba(255,255,255,0.05); position: relative; cursor: pointer; overflow: hidden;}\n.bio-toggle::before{content: \"\"; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--amber-glow); box-shadow: 0 0 10px var(--amber-glow); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.6s;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3{margin: 0px;}\nsvg, video{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.fixed{position: fixed;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.inset-x-0{left: 0px; right: 0px;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-10{z-index: 10;}\n.z-50{z-index: 50;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-24{margin-bottom: 6rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mt-16{margin-top: 4rem;}\n.mt-20{margin-top: 5rem;}\n.mt-8{margin-top: 2rem;}\n.grid{display: grid;}\n.h-1{height: 0.25rem;}\n.h-10{height: 2.5rem;}\n.h-3{height: 0.75rem;}\n.h-full{height: 100%;}\n.min-h-\\[220vh\\]{min-height: 220vh;}\n.min-h-\\[450px\\]{min-height: 450px;}\n.w-10{width: 2.5rem;}\n.w-3{width: 0.75rem;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-full{width: 100%;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-lg{max-width: 32rem;}\n@keyframes pulse { \n  50% { opacity: 0.5; }\n}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.auto-rows-auto{grid-auto-rows: auto;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.items-start{align-items: flex-start;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-\\[var\\(--amber-glow\\)\\]{background-color: var(--amber-glow);}\n.bg-\\[var\\(--shadow-dark\\)\\]{background-color: var(--shadow-dark);}\n.bg-gradient-to-br{background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.from-\\[var\\(--electric-violet\\)\\]{--tw-gradient-from: var(--electric-violet) var(--tw-gradient-from-position); --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.to-\\[var\\(--amber-glow\\)\\]{--tw-gradient-to: var(--amber-glow) var(--tw-gradient-to-position);}\n.to-\\[var\\(--electric-violet\\)\\]{--tw-gradient-to: var(--electric-violet) var(--tw-gradient-to-position);}\n.p-12{padding: 3rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.pb-40{padding-bottom: 10rem;}\n.pt-48{padding-top: 12rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[0\\.65rem\\]{font-size: 0.65rem;}\n.text-\\[5\\.5rem\\]{font-size: 5.5rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.leading-\\[1\\.1\\]{line-height: 1.1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-\\[var\\(--electric-violet\\)\\]{color: var(--electric-violet);}\n.opacity-0{opacity: 0;}\n.mix-blend-color-dodge{mix-blend-mode: color-dodge;}\n.mix-blend-plus-lighter{mix-blend-mode: plus-lighter;}\n.shadow-\\[0_0_10px_var\\(--amber-glow\\)\\]{--tw-shadow: 0 0 10px var(--amber-glow); --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-\\[0_0_20px_var\\(--electric-violet\\)\\]{--tw-shadow: 0 0 20px var(--electric-violet); --tw-shadow-colored: 0 0 20px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-\\[2px\\]{--tw-blur: blur(2px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-1000{transition-duration: 1000ms;}\n.group:hover .group-hover\\:opacity-10{opacity: 0.1;}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:text-\\[3rem\\]{font-size: 3rem;}}",
+    "header_css": ".bio-elastic-btn{position: relative; overflow: hidden; border-radius: 999px; padding: 1.2rem 2.5rem; font-weight: 500; letter-spacing: -0.01em; color: var(--text-core); background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)); backdrop-filter: blur(40px); box-shadow: rgba(255, 255, 255, 0.15) 0px 2px 4px inset, rgba(0, 0, 0, 0.5) 0px -4px 10px inset, rgba(0, 0, 0, 0.2) 0px 10px 20px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; cursor: pointer; transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); display: inline-flex; align-items: center; justify-content: center;}\n.bio-elastic-btn::before{content: \"\"; position: absolute; inset: 0px; border-radius: inherit; background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--amber-glow) 0%, transparent 60%); opacity: 0; mix-blend-mode: color-dodge; transition: opacity 0.4s; pointer-events: none;}\n.bio-elastic-btn:hover{transform: scale(1.05) translateY(-2px); border-radius: 1rem; box-shadow: rgba(255, 255, 255, 0.2) 0px 2px 4px inset, rgba(0, 0, 0, 0.4) 0px -4px 10px inset, rgba(120, 30, 200, 0.15) 0px 15px 30px;}\n.bio-elastic-btn:hover::before{opacity: 0.5;}\n.synaptic-shimmer{background-image: ; background-position-x: ; background-position-y: ; background-repeat: ; background-attachment: ; background-origin: ; background-color: ; background-size: 200% auto; background-clip: text; color: transparent; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: none; animation-play-state: running; animation-name: synaptic-pulse; animation-range: normal; animation-timeline: scroll(root);}\n.neural-stat{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: -0.04em;}\n.chromatic-aberration{text-shadow: rgba(255, 0, 0, 0.3) -1px 0px 2px, rgba(0, 255, 255, 0.3) 1px 0px 2px;}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mb-12{margin-bottom: 3rem;}\n.mb-16{margin-bottom: 4rem;}\n.mb-40{margin-bottom: 10rem;}\n.mb-8{margin-bottom: 2rem;}\n.ml-1{margin-left: 0.25rem;}\n.mt-1{margin-top: 0.25rem;}\n.block{display: block;}\n.flex{display: flex;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-5xl{max-width: 64rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.gap-10{gap: 2.5rem;}\n.border-l{border-left-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.pl-8{padding-left: 2rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-\\[6rem\\]{font-size: 6rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.85\\]{line-height: 0.85;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-\\[var\\(--amber-glow\\)\\]{color: var(--amber-glow);}\n.text-\\[var\\(--text-core\\)\\]{color: var(--text-core);}\n.text-\\[var\\(--text-dim\\)\\]{color: var(--text-dim);}\n@media (min-width: 768px){.md\\:text-\\[8\\.5rem\\]{font-size: 8.5rem;}}",
+    "footer_css": "",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap"
+    ]
+  }
+}

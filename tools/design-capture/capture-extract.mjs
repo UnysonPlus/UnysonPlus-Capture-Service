@@ -401,7 +401,10 @@ export function extractDesign() {
     const cands = [...document.querySelectorAll('nav, [class*="navbar" i], [class*="header" i]')];
     const navBar = cands
       .map((el) => ({ el, r: el.getBoundingClientRect() }))
-      .filter(({ el, r }) => r.top <= 8 && r.height > 0 && r.height <= 130 && r.width >= 300
+      // top <= 200, not <= 8: a DETACHED / floating masthead (the pill and card designs, and
+      // ~15% of measured generated sites) sits 16-128px below the viewport top and would
+      // otherwise be missed entirely, falling back to the hero. Height still gates out banners.
+      .filter(({ el, r }) => r.top <= 200 && r.height > 0 && r.height <= 130 && r.width >= 300
         && el.querySelectorAll('a, button').length >= 2)
       .sort((a, b) => a.r.top - b.r.top)
       .map(({ el }) => el)[0] || null;
@@ -455,8 +458,11 @@ export function extractDesign() {
       return cm ? 'lucide/' + cm[1] : '';
     };
     header = {
-      element: pick(hcs, ['display', 'justifyContent', 'alignItems', 'backgroundColor', 'position', 'padding']),
-      bar: pick(inner, ['display', 'justifyContent', 'backgroundColor', 'borderRadius', 'border', 'padding', 'maxWidth', 'backdropFilter']),
+      // backdropFilter / boxShadow / borderRadius: a header that frosts (or lifts, or rounds) AT REST
+      // and never changes on scroll has no header_scroll snapshot, so these were invisible to the
+      // mapper and its Glass Blur / Shadow Depth options could never fire.
+      element: pick(hcs, ['display', 'justifyContent', 'alignItems', 'backgroundColor', 'position', 'padding', 'backdropFilter', 'boxShadow', 'borderRadius']),
+      bar: pick(inner, ['display', 'justifyContent', 'backgroundColor', 'borderRadius', 'border', 'padding', 'maxWidth', 'backdropFilter', 'boxShadow']),
       logo: logoImg ? { type: 'image', src: abs(logoImg.currentSrc || logoImg.src) }
         : (logoLink ? { type: 'text', text: logoLink.textContent.trim(), icon: logoIcon(logoLink), computed: pick(getComputedStyle(logoLink), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) } : null),
       nav: navLinks.map((a) => ({ label: a.textContent.trim(), href: abs(a.getAttribute('href') || ''), computed: pick(getComputedStyle(a), ['fontFamily', 'fontSize', 'fontWeight', 'color']), hover: hoverStyle(a) })),
@@ -569,8 +575,32 @@ export function extractDesign() {
       }
       return null;
     })();
+    // Column GAP of the footer's widest multi-child grid/flex band, and the resting link colour.
+    // The theme's footer column gap was a fixed 40px while 80% of real footers differ (48px is the
+    // most common), so it has to be measured rather than assumed. Hover colour needs a real pointer
+    // and is captured separately in capture.mjs.
+    const _fGap = (() => {
+      let host = null, best = 0;
+      for (const el of footerEl.querySelectorAll('*')) {
+        const d = getComputedStyle(el).display;
+        if (d !== 'grid' && d !== 'flex') continue;
+        const kids = [...el.children].filter((k) => k.getBoundingClientRect().width > 0);
+        if (kids.length < 2 || kids.length > 8) continue;
+        const w = el.getBoundingClientRect().width;
+        if (w > best) { best = w; host = el; }
+      }
+      if (!host) return '';
+      const g = getComputedStyle(host).columnGap || getComputedStyle(host).gap || '';
+      return /^[0-9.]+px$/.test(g) ? g : '';
+    })();
+    const _fLink = (() => {
+      const a = [...footerEl.querySelectorAll('a')].filter((x) => (x.textContent || '').trim().length > 1 && x.getBoundingClientRect().width > 0);
+      return a.length ? getComputedStyle(a[Math.min(1, a.length - 1)]).color : '';
+    })();
     footer = {
       computed: pick(getComputedStyle(footerEl), ['backgroundColor', 'color', 'padding']),
+      colGap: _fGap,
+      linkColor: _fLink,
       brand: brandEl ? clip(txt(brandEl), 60) : '',
       groups: groups.slice(0, 6),
       contact,
@@ -3748,7 +3778,7 @@ export function extractDesign() {
       if (slot.querySelectorAll('a').length > 1) continue;
       const hasImg = !!slot.querySelector('img');
       const t = (slot.textContent || '').replace(/\s+/g, ' ').trim();
-      if (hasImg || (t !== '' && t.length <= 24)) return slot;
+      if (hasImg || (t !== '' && (t.length <= 24 || (t.split(/\s+/).length >= 2 && t.length <= 48)))) return slot;
     }
     return null;
   };
@@ -3798,7 +3828,7 @@ export function extractDesign() {
     // Wordmark span: the first span whose text is part of the brand's short label; base tone + size/weight,
     // a later differently-coloured span = the accent tone (two-tone wordmark residual).
     const brandTxt = (brand.textContent || '').replace(/\s+/g, ' ').trim();
-    if (brandTxt && brandTxt.split(/\s+/).length <= 4) d.text = brandTxt;
+    if (brandTxt && brandTxt.split(/\s+/).length <= 4 && (brandTxt.length <= 24 || (brandTxt.split(/\s+/).length >= 2 && brandTxt.length <= 48))) d.text = brandTxt;
     let sawBase = false;
     brand.querySelectorAll('span').forEach((sp) => {
       const st = (sp.textContent || '').replace(/\s+/g, ' ').trim();
@@ -3844,6 +3874,28 @@ export function extractDesign() {
           break;
         }
         anc = anc.parentNode;
+      }
+    }
+    // Iconify web component (`<iconify-icon icon="ph:leaf-bold">`) renders its glyph in SHADOW DOM — there is
+    // no light-DOM <svg>, so `brand.querySelector('svg')` above finds nothing and the synth fallback below
+    // fabricated the icon CONTAINER's background rect, DROPPING the real glyph (cloud-forest's leaf rendered as
+    // an empty translucent circle). Pull the rendered SVG out of the shadow root and stamp it as the logo mark
+    // so BOTH the JS path (d.svg) and the PHP path (data-sc-logo-svg, re-parsed from rendered.html) get the leaf.
+    if (!d.svg && !img) {
+      const ii = brand.querySelector('iconify-icon');
+      const sh = ii && ii.shadowRoot ? ii.shadowRoot.querySelector('svg') : null;
+      if (sh) {
+        const mk = sh.outerHTML;
+        if (mk && mk.length < 12000) {
+          d.svg = mk.replace(/\s+/g, ' ').trim();
+          const iics = getComputedStyle(ii);
+          d.icon_color = /text-white/.test(_clsOf(ii)) ? '#ffffff' : (iics.color || '');
+          const iw = iics.width; if (iw && /^[0-9.]+px$/.test(iw)) d.icon_size = iw;
+          // the icon sits in a coloured tile? carry that frame like the inline-svg path does.
+          let anc = ii.parentNode;
+          while (anc && anc !== brand && anc.nodeType === 1) { const acs = getComputedStyle(anc); if (hasBg(acs.backgroundColor)) { d.frame_bg = acs.backgroundColor; d.frame = inferFrameShape(acs.borderRadius, acs.width); if (!d.icon_color) d.icon_color = '#ffffff'; break; } anc = anc.parentNode; }
+          try { (ii.closest('[data-sc-logo-svg]') || ii.parentElement || ii).setAttribute('data-sc-logo-svg', d.svg); } catch { /* read-only DOM */ }
+        }
       }
     }
     // No <img> and no inline <svg>? The icon may be a CSS-COMPOSED mark (gradient <div>s). Reconstruct it as an

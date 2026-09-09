@@ -1,0 +1,20 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~4421px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#48,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.btn-cherry,"background-image, background-color, box-shadow, transform change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:border-emerald-500,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:border-cherry-bloom,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-emerald-500,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-cherry-bloom\/10,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-cherry-bloom\/20,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-cherry-bloom,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-cherry-bloom,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,".group .group-hover\:shadow-\[0_0_20px_rgba\(255\,183\,197\,0\.4\)\]","--tw-shadow, --tw-shadow-colored, box-shadow change on hover",interaction: {effect:'lift'} or glow_border,medium
+hover,btn-cherry px-8 py-3 rounded-full font-sans text-xs uppercas,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,btn-cherry px-10 py-5 rounded-full font-sans text-xs upperca,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,px-10 py-5 rounded-full font-sans text-xs uppercase tracking,color change on hover,interaction: {effect:'color_shift'},medium
+hover,border border-white/20 hover:border-cherry-bloom hover:bg-ch,"background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,w-10 h-10 rounded-full border border-white/10 flex items-cen,"background, color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,absolute right-1 top-1 bottom-1 px-3 bg-cherry-bloom/20 text,"background, color change on hover",interaction: {effect:'color_shift'},medium

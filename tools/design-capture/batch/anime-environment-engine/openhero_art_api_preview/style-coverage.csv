@@ -1,0 +1,49 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,background-image,1,no
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,background-color,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,box-shadow,1,no
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,border,1,no
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,border-radius,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,max-width,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,padding,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,margin,5,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,gap,7,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,position-absolute,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,display-flex,10,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],background-image,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],background-color,9,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],backdrop-filter,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],box-shadow,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],border,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],border-radius,8,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],max-width,2,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],padding,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],margin,10,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],gap,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],position-absolute,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],display-flex,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,1,py-32 px-6 relative bg-[#020617],display-grid,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,background-image,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,background-color,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,border,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,border-radius,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,max-width,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,padding,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,margin,4,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,gap,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,position-absolute,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,display-flex,5,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,2,py-24 px-6 bg-slate-900 border-t border-slate-800 relative overflow-hidden,display-grid,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,background-color,6,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,backdrop-filter,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,box-shadow,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,border,6,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,border-radius,7,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,max-width,3,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,padding,8,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,margin,22,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,gap,15,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,transform,2,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,position-absolute,1,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,display-flex,17,yes
+https://openhero.art/api/preview?category=tech&slug=anime-environment-engine,home,3,py-32 px-6 border-t border-slate-800 bg-[#020617] relative,display-grid,1,yes

@@ -1,0 +1,71 @@
+{
+  "theme": {
+    "name": "Lumina Gen",
+    "slug": "lumina-gen",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1600px"
+  },
+  "css_vars": {
+    "--cyan": "oklch(79% .17 220)",
+    "--bg": "oklch(8% .02 280)",
+    "--magenta": "oklch(70% .28 340)",
+    "--amber": "oklch(82% .17 70)"
+  },
+  "fonts": {
+    "heading": "Cormorant Garamond",
+    "heading_weight": "inherit",
+    "body": "Inter Tight",
+    "google": "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap",
+    "heading_visual": "Cormorant",
+    "heading_visual_top": [
+      "Cormorant",
+      "Cormorant Garamond",
+      "Cardo",
+      "Source Serif 4",
+      "Libre Caslon Text"
+    ],
+    "body_visual": "Inter",
+    "body_visual_top": [
+      "Inter",
+      "Roboto",
+      "Oxygen",
+      "Titillium Web",
+      "PT Sans"
+    ]
+  },
+  "colors": {
+    "ink": "rgb(255, 255, 255)",
+    "heading": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": false,
+    "menu": [],
+    "logo": {},
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "chrome_via_settings": true
+}

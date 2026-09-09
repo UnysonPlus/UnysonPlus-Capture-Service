@@ -1,0 +1,719 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversion report — https://openhero.art/api/preview?category=enterprice&amp;slug=crafter-station</title>
+<style>
+  :root { --ink:#16323c; --muted:#5a727c; --line:#e3edf1; --accent:#01729c; --fb:#b45309; --op:#2563eb; --sd:#b32d2e; --ol:#9333ea; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:#f7fafb; }
+  header { padding:22px 28px; background:#fff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 4px; font-size:20px; } header .src { color:var(--muted); word-break:break-all; }
+  .gen { color:var(--muted); font-size:12px; margin-top:6px; }
+  .wrap { padding:22px 28px; max-width:1180px; margin:0 auto; }
+  .banner { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:10px; padding:12px 14px; margin-bottom:14px; font-size:13px; }
+  .banner code, .warn code, .drop code { background:#0000000d; padding:1px 5px; border-radius:4px; }
+  .cards { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .pill { background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; color:var(--muted); }
+  .pill b { margin-left:8px; color:var(--ink); font-size:16px; }
+  .pill.fb b { color:var(--fb); } .pill.op b { color:var(--op); } .pill.sd b { color:var(--sd); } .pill.ol b { color:var(--ol); }
+  .group { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .group h4 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .chip { display:inline-block; background:#eef5f8; border-radius:6px; padding:3px 9px; margin:0 6px 6px 0; font-size:12px; }
+  .chip b { margin-left:6px; color:var(--accent); }
+  .page h2 { font-size:16px; margin:18px 0 8px; }
+  .sec { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
+  .sec-over { border-color:#e4d3f7; }
+  .sec h3 { margin:0 0 8px; font-size:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .sec h3 .h { font-size:12px; color:var(--muted); font-family:ui-monospace,monospace; }
+  .sec h3 code, .drop code { background:#f1f3f5; padding:1px 6px; border-radius:4px; font-size:12px; }
+  .dec { font-size:11px; padding:1px 7px; border-radius:5px; border:1px solid currentColor; text-transform:uppercase; letter-spacing:.03em; }
+  .dec-decomposed { color:var(--op); } .dec-verbatim { color:var(--fb); } .dec-carousel { color:var(--accent); } .dec-plain { color:var(--muted); }
+  .warn { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  .drop { background:#fdf2f2; border:1px solid #f3c9c9; color:var(--sd); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); padding:6px 8px; }
+  td { border-bottom:1px solid #f0f4f6; padding:6px 8px; vertical-align:top; }
+  tr.el { cursor:pointer; } tr.el:hover td { background:#f4fafc; }
+  tr.r-fb td { background:#fffaf3; } tr.r-op td { background:#f5f9ff; }
+  tr.el.open .exp { transform:rotate(90deg); }
+  .exp { color:var(--muted); width:16px; transition:transform .12s; display:inline-block; }
+  .mono { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; }
+  .snip { color:var(--muted); max-width:420px; }
+  .detbox { background:#f8fafb; border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin:2px 0 8px; }
+  .kv { font-size:12px; margin-bottom:6px; color:var(--ink); }
+  .kv span { display:inline-block; min-width:84px; color:var(--muted); text-transform:uppercase; font-size:10px; letter-spacing:.04em; vertical-align:top; }
+  .detbox pre { background:#0f2730; color:#d7e7ee; border-radius:6px; padding:10px; overflow:auto; max-height:320px; font-size:11.5px; white-space:pre-wrap; word-break:break-word; }
+  .tag { font-size:11px; padding:1px 7px; border-radius:5px; white-space:nowrap; }
+  .t-fb { background:#fef3e2; color:var(--fb); } .t-op { background:#e8f0ff; color:var(--op); }
+  .t-sd { background:#fdeaea; color:var(--sd); } .t-ok { background:#eef5f8; color:var(--muted); }
+  .t-ol { background:#f3e8ff; color:var(--ol); }
+</style></head><body>
+<header>
+  <h1>Conversion report</h1>
+  <div class="src">https://openhero.art/api/preview?category=enterprice&amp;slug=crafter-station</div>
+  <div class="gen">design-capture · deterministic (no AI)</div>
+</header>
+<div class="wrap">
+  
+  <div class="cards">
+    <span class="pill ">Sections<b>10</b></span>
+    <span class="pill ">Elements<b>38</b></span>
+    <span class="pill fb">Fallback (code_block)<b>1</b></span>
+    <span class="pill op">Opportunities<b>0</b></span>
+    <span class="pill sd">Styling drops<b>9</b></span>
+    <span class="pill ol">Over-large sections<b>0</b></span>
+  </div>
+  <div class="group"><h4>Mapped shortcodes</h4><span class="chip">special_heading<b>18</b></span><span class="chip">text_block<b>15</b></span><span class="chip">button<b>2</b></span><span class="chip">code_block<b>1</b></span><span class="chip">timeline<b>1</b></span><span class="chip">logo_grid<b>1</b></span></div>
+  <div class="group"><h4>Detected source roles</h4><span class="chip">text<b>30</b></span><span class="chip">heading<b>2</b></span><span class="chip">button<b>2</b></span><span class="chip">section-html<b>1</b></span><span class="chip">timeline<b>1</b></span><span class="chip">logo_grid<b>1</b></span><span class="chip">blocks<b>1</b></span></div>
+  <div class="group"><h4>Section decisions</h4><span class="chip">decomposed<b>9</b></span><span class="chip">verbatim<b>1</b></span></div>
+  <section class="page"><h2>Page: home (home)</h2>
+        <div class="sec">
+          <h3>§0 <span class="dec dec-verbatim">verbatim</span>
+            <span class="h">765px</span>
+            <code>grid gap-10 lg:grid-cols-[1.06fr_.94fr] lg:items-center</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el r-fb">
+            <td class="exp">▸</td>
+            <td class="mono">verbatim</td>
+            <td class="mono">section-html</td>
+            <td class="mono">code_block</td>
+            <td><span class="tag t-fb">code_block</span></td>
+            <td class="snip">The new generation of shippers in LATAM. A community of engineers, designers, and builders</td>
+          </tr>
+          <tr class="det" id="d0" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>whole section kept verbatim (hero / media-bearing / undecomposable) → code_block</div>
+            <div class="kv"><span>src class</span><code>grid gap-10 lg:grid-cols-[1.06fr_.94fr] lg:items-center</code></div>
+            <div class="kv"><span>text</span>The new generation of shippers in LATAM. A community of engineers, designers, and builders who ship products and share what they learn. Join → View all events → Motion Smooth animations, visual discipline, and fast readability. System Clear hierarchy, light panels, and product pace. LATAM Regional culture with premium execution.</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;section class=&quot;grid gap-10 lg:grid-cols-[1.06fr_.94fr] lg:items-center&quot;&gt;             &lt;div class=&quot;fade-up&quot;&gt;                 &lt;h1 class=&quot;title max-w-4xl text-5xl font-semibold text-white md:text-6xl xl:text-[5.95rem]&quot;&gt;                     The new generation of shippers in LATAM.                 &lt;/h1&gt;                 &lt;p class=&quot;mt-6 max-w-2xl text-base leading-8 text-white/58 md:text-lg&quot;&gt;                     A community of engineers, designers, and builders who ship products and share what they learn.                 &lt;/p&gt;                 &lt;div class=&quot;mt-8 flex flex-wrap gap-3&quot;&gt;                     &lt;button class=&quot;sheen rounded-md border border-white/12 bg-white/[0.03] px-5 py-3.5 text-sm text-white transition duration-300 hover:bg-white/[0.06] hover:border-white/20&quot;&gt;Join                         →&lt;/button&gt;                     &lt;button class=&quot;rounded-md border border-white/10 bg-transparent px-5 py-3.5 text-sm text-white/70 transition duration-300 hover:bg-white/[0.04] hover:text-white&quot;&gt;View                         all events →&lt;/button&gt;                 &lt;/div&gt;                 &lt;div class=&quot;mt-10 grid gap-3 sm:grid-cols-3&quot;&gt;                     &lt;div class=&quot;glass rounded-lg p-4&quot;&gt;                         &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Motion&lt;/p&gt;                         &lt;p class=&quot;mt-2 text-sm leading-6 text-white/68&quot;&gt;Smooth animations, visual discipline, and fast                             readability.&lt;/p&gt;                     &lt;/div&gt;                     &lt;div class=&quot;glass rounded-lg p-4&quot;&gt;                         &lt;p class=&quot;mono text-[10px] uppercase trac …(truncated)</pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§1 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">646px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">It was born from a group of friends who wanted to build things in public and tell the worl</td>
+          </tr>
+          <tr class="det" id="d1" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl</code></div>
+            <div class="kv"><span>text</span>It was born from a group of friends who wanted to build things in public and tell the world about it.</div>
+            <div class="kv"><span>source HTML</span></div><pre>It was born from a group of friends who wanted to build things in public and tell the world about it.</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Product Development We ship to learn We build products to accelerate and inspire LATAM.</td>
+          </tr>
+          <tr class="det" id="d2" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Product Development We ship to learn We build products to accelerate and inspire LATAM.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Product Development&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;We ship to learn&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;We build products to accelerate and inspire LATAM.                     &lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Events Code Brews, hackathons, and meetups Spaces to connect shippers, ideas, and collabor</td>
+          </tr>
+          <tr class="det" id="d3" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Events Code Brews, hackathons, and meetups Spaces to connect shippers, ideas, and collaborations.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Events&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;Code Brews, hackathons, and meetups&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;Spaces to connect shippers, ideas, and                         collaborations.&lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Community We promote the art of shipping We teach, share, and make the process visible.</td>
+          </tr>
+          <tr class="det" id="d4" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Community We promote the art of shipping We teach, share, and make the process visible.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Community&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;We promote the art of shipping&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;We teach, share, and make the process visible.&lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Diverse team More than code Engineers, designers, anthropologists, and statisticians findi</td>
+          </tr>
+          <tr class="det" id="d5" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Diverse team More than code Engineers, designers, anthropologists, and statisticians finding their path in tech.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Diverse team&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;More than code&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;Engineers, designers, anthropologists, and                         statisticians finding their path in tech.&lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Open calendars Mentorship and conversations Schedule a call for career advice, mentorship,</td>
+          </tr>
+          <tr class="det" id="d6" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Open calendars Mentorship and conversations Schedule a call for career advice, mentorship, or a simple chat.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;Open calendars&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;Mentorship and conversations&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;Schedule a call for career advice, mentorship, or a                         simple chat.&lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">LATAM Born in Peru Growing across Latin America with a shared vision.</td>
+          </tr>
+          <tr class="det" id="d7" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>LATAM Born in Peru Growing across Latin America with a shared vision.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.28em] text-white/42&quot;&gt;LATAM&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-xl font-semibold&quot;&gt;Born in Peru&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm leading-7 text-white/58&quot;&gt;Growing across Latin America with a shared vision.                     &lt;/p&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Meet the team →</td>
+          </tr>
+          <tr class="det" id="d8" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>sheen rounded-md border border-white/12 bg-white/[0.03] px-5 py-3 text-sm text-white transition duration-300 hover:bg-white/[0.06]</code></div>
+            <div class="kv"><span>text</span>Meet the team →</div>
+            
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§2 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">171px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">500+ Community members</td>
+          </tr>
+          <tr class="det" id="d9" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>500+ Community members</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-5xl font-black tracking-[-0.06em]&quot;&gt;500+&lt;/div&gt;                     &lt;div class=&quot;mt-3 text-sm text-white/54&quot;&gt;Community members&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">50+ Events hosted</td>
+          </tr>
+          <tr class="det" id="d10" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>50+ Events hosted</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-5xl font-black tracking-[-0.06em]&quot;&gt;50+&lt;/div&gt;                     &lt;div class=&quot;mt-3 text-sm text-white/54&quot;&gt;Events hosted&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">25+ Products shipped</td>
+          </tr>
+          <tr class="det" id="d11" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>25+ Products shipped</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-5xl font-black tracking-[-0.06em]&quot;&gt;25+&lt;/div&gt;                     &lt;div class=&quot;mt-3 text-sm text-white/54&quot;&gt;Products shipped&lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§3 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">442px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Our story Build, ship, share, iterate. We were born in late 2023, from a group of friends </td>
+          </tr>
+          <tr class="det" id="d12" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Our story Build, ship, share, iterate. We were born in late 2023, from a group of friends who met at hackathons and wanted to build something. Not just build it: ship it, share it, get feedback, iterate, and create real value for someone in the world. In 2025 we decided to share what we had learned with the LATAM community. We organized the first Code Brew and 15 people showed up: designers, engineers, self-taught builders, YouTubers, and Platzi teachers. Amazing people. Since then we have hosted hackathons, more Code Brews, and product launches. We knew there was something here: a culture wor</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;Our story&lt;/p&gt;                     &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;                         Build, ship, share, iterate.                     &lt;/h2&gt;                     &lt;div class=&quot;mt-6 space-y-5 text-white/58 leading-8&quot;&gt;                         &lt;p&gt;We were born in late 2023, from a group of friends who met at hackathons and wanted to build                             something. Not just build it: ship it, share it, get feedback, iterate, and create real                             value for someone in the world.&lt;/p&gt;                         &lt;p&gt;In 2025 we decided to share what we had learned with the LATAM community. We organized the                             first Code Brew and 15 people showed up: designers, engineers, self-taught builders,                             YouTubers, and Platzi teachers. Amazing people.&lt;/p&gt;                         &lt;p&gt;Since then we have hosted hackathons, more Code Brews, and product launches. We knew there                             was                             something here: a culture worth growing.&lt;/p&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Build Ship new products to learn and accelerate the LATAM tech ecosystem. Connect Organize</td>
+          </tr>
+          <tr class="det" id="d13" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Build Ship new products to learn and accelerate the LATAM tech ecosystem. Connect Organize events to bring shippers together and promote the culture of shipping. Grow Teach the art of shipping inside a community that celebrates it.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;glass rounded-[1.45rem] p-5&quot;&gt;                         &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;Build&lt;/p&gt;                         &lt;p class=&quot;mt-3 text-sm leading-7 text-white/60&quot;&gt;Ship new products to learn and accelerate the                             LATAM tech ecosystem.&lt;/p&gt;                     &lt;/div&gt;                     &lt;div class=&quot;glass rounded-[1.45rem] p-5&quot;&gt;                         &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;Connect&lt;/p&gt;                         &lt;p class=&quot;mt-3 text-sm leading-7 text-white/60&quot;&gt;Organize events to bring shippers together and                             promote the culture of shipping.&lt;/p&gt;                     &lt;/div&gt;                     &lt;div class=&quot;glass rounded-[1.45rem] p-5&quot;&gt;                         &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;Grow&lt;/p&gt;                         &lt;p class=&quot;mt-3 text-sm leading-7 text-white/60&quot;&gt;Teach the art of shipping inside a community                             that celebrates it.&lt;/p&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§4 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">552px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Our philosophy, distilled.</td>
+          </tr>
+          <tr class="det" id="d14" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl</code></div>
+            <div class="kv"><span>text</span>Our philosophy, distilled.</div>
+            <div class="kv"><span>source HTML</span></div><pre>Our philosophy, distilled.</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">We ship. We build in public. We learn by doing. A shipped project teaches more than a hund</td>
+          </tr>
+          <tr class="det" id="d15" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>mt-4 text-white/58 leading-8</code></div>
+            <div class="kv"><span>text</span>We ship. We build in public. We learn by doing. A shipped project teaches more than a hundred planned ones.</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;p class=&quot;mt-4 text-white/58 leading-8&quot;&gt;                         We ship. We build in public. We learn by doing. A shipped project teaches more than a hundred                         planned ones.                     &lt;/p&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">The Shipping Bible covers the full cycle: from the first spark of an idea to the follow-up</td>
+          </tr>
+          <tr class="det" id="d16" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>mt-4 text-white/58 leading-8</code></div>
+            <div class="kv"><span>text</span>The Shipping Bible covers the full cycle: from the first spark of an idea to the follow-up after launch. Six phases, one rhythm.</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;p class=&quot;mt-4 text-white/58 leading-8&quot;&gt;                         The Shipping Bible covers the full cycle: from the first spark of an idea to the follow-up after                         launch. Six phases, one rhythm.                     &lt;/p&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Ship &gt; Perfect Build in public Set time limits on everything Story &gt; Features Community fi</td>
+          </tr>
+          <tr class="det" id="d17" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>mt-8 flex flex-wrap gap-3</code></div>
+            <div class="kv"><span>text</span>Ship &gt; Perfect Build in public Set time limits on everything Story &gt; Features Community first LATAM represents</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;mt-8 flex flex-wrap gap-3&quot;&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;Ship &amp;gt; Perfect&lt;/span&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;Build in public&lt;/span&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;Set time limits on everything&lt;/span&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;Story &amp;gt; Features&lt;/span&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;Community first&lt;/span&gt;                     &lt;span class=&quot;chip rounded-full px-4 py-2 text-sm&quot;&gt;LATAM represents&lt;/span&gt;                 &lt;/div&gt;</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Read The Shipping Bible →</td>
+          </tr>
+          <tr class="det" id="d18" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>sheen rounded-md border border-white/12 bg-white/[0.03] px-5 py-3.5 text-sm text-white transition duration-300 hover:bg-white/[0.06]</code></div>
+            <div class="kv"><span>text</span>Read The Shipping Bible →</div>
+            
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§5 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">560px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Events Code Brews, hackathons, and product launches in LATAM.</td>
+          </tr>
+          <tr class="det" id="d19" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Events Code Brews, hackathons, and product launches in LATAM.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;Events&lt;/p&gt;                     &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;Code Brews,                         hackathons, and product launches in LATAM.&lt;/h2&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">View events →</td>
+          </tr>
+          <tr class="det" id="d20" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>View events →</div>
+            <div class="kv"><span>source HTML</span></div><pre>View                     events →</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">timeline</td>
+            <td class="mono">timeline</td>
+            <td class="mono">timeline</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d21" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>timeline → code_block (unmapped)</div>
+            
+            
+            
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§6 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">970px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">The team Engineers, designers, AI experts, and more.</td>
+          </tr>
+          <tr class="det" id="d22" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>The team Engineers, designers, AI experts, and more.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;The team&lt;/p&gt;                     &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;Engineers,                         designers, AI experts, and more.&lt;/h2&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Meet the team →</td>
+          </tr>
+          <tr class="det" id="d23" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Meet the team →</div>
+            <div class="kv"><span>source HTML</span></div><pre>Meet                     the team →</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">logo_grid</td>
+            <td class="mono">logo_grid</td>
+            <td class="mono">logo_grid</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Shiara Arauzo Design Engineer Cristian Correa Data &amp;amp; Software Engineer Railly Hugo Des</td>
+          </tr>
+          <tr class="det" id="d24" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>logo_grid → code_block (unmapped)</div>
+            
+            <div class="kv"><span>text</span>Shiara Arauzo Design Engineer Cristian Correa Data &amp;amp; Software Engineer Railly Hugo Design Engineer Emmy Arias Growth &amp;amp; Marketing Nicolas Vargas AI Engineer Ignacio Velásquez Growth &amp;amp; Automation Ignacio Rueda Backend Engineer Anthony Cueva Product Engineer Liz Riveros Project Manager Gabriel Antunes AI Engineer &amp;amp; Full-Stack Developer Carlos Tarmeño Frontend Engineer Juan Ortega Software Engineer Edward Ramos Frontend Engineer</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4&quot;&gt;                 &lt;div class=&quot;fade-soft glass hover-lift rounded-[1.35rem] p-5 flex flex-col items-center text-center&quot;&gt;                     &lt;img src=&quot;https://www.crafterstation.com/team/shiara.png&quot; alt=&quot;Shiara Arauzo&quot; class=&quot;w-20 h-20 rounded-full mb-4 object-cover border-2 border-white/10 shadow-lg&quot;&gt;                     &lt;div class=&quot;text-lg font-semibold&quot;&gt;Shiara Arauzo&lt;/div&gt;                     &lt;div class=&quot;mt-1 text-sm text-white/52&quot;&gt;Design Engineer&lt;/div&gt;                 &lt;/div&gt;                 &lt;div class=&quot;fade-soft glass hover-lift rounded-[1.35rem] p-5 flex flex-col items-center text-center&quot;&gt;                     &lt;img src=&quot;https://www.crafterstation.com/team/cris.png&quot; alt=&quot;Cristian Correa&quot; class=&quot;w-20 h-20 rounded-full mb-4 object-cover border-2 border-white/10 shadow-lg&quot;&gt;                     &lt;div class=&quot;text-lg font-semibold&quot;&gt;Cristian Correa&lt;/div&gt;                     &lt;div class=&quot;mt-1 text-sm text-white/52&quot;&gt;Data &amp;amp; Software Engineer&lt;/div&gt;                 &lt;/div&gt;                 &lt;div class=&quot;fade-soft glass hover-lift rounded-[1.35rem] p-5 flex flex-col items-center text-center&quot;&gt;                     &lt;img src=&quot;https://www.crafterstation.com/team/railly.png&quot; alt=&quot;Railly Hugo&quot; class=&quot;w-20 h-20 rounded-full mb-4 object-cover border-2 border-white/10 shadow-lg&quot;&gt;                     &lt;div class=&quot;text-lg font-semibold&quot;&gt;Railly Hugo&lt;/div&gt;                     &lt;div class=&quot;mt-1 text-sm text-white/52&quot;&gt;Design Engineer&lt;/div&gt;                 &lt;/div&gt;                 &lt;div class=&quot;fade-soft glass hover-lift rounded-[1.35re …(truncated)</pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§7 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">365px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Shipped products Built to learn, ship, and share.</td>
+          </tr>
+          <tr class="det" id="d25" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Shipped products Built to learn, ship, and share.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;Shipped products&lt;/p&gt;                     &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;Built to learn,                         ship, and share.&lt;/h2&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">View all on GitHub →</td>
+          </tr>
+          <tr class="det" id="d26" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>View all on GitHub →</div>
+            <div class="kv"><span>source HTML</span></div><pre>View                     all on GitHub →</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">tinte Theme generator For VSCode &amp;amp; shadcn/ui 500+ stars</td>
+          </tr>
+          <tr class="det" id="d27" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>tinte Theme generator For VSCode &amp;amp; shadcn/ui 500+ stars</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;tinte&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-2xl font-semibold&quot;&gt;Theme generator&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm text-white/58&quot;&gt;For VSCode &amp;amp; shadcn/ui&lt;/p&gt;                     &lt;div class=&quot;mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55&quot;&gt;                         500+ stars&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">lupa Knowledge Platform Built for AI Agents New</td>
+          </tr>
+          <tr class="det" id="d28" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>lupa Knowledge Platform Built for AI Agents New</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;lupa&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-2xl font-semibold&quot;&gt;Knowledge Platform&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm text-white/58&quot;&gt;Built for AI Agents&lt;/p&gt;                     &lt;div class=&quot;mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55&quot;&gt;                         New&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">elements Fullstack components shadcn/ui ecosystem 200+ stars</td>
+          </tr>
+          <tr class="det" id="d29" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>elements Fullstack components shadcn/ui ecosystem 200+ stars</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;elements&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-2xl font-semibold&quot;&gt;Fullstack components&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm text-white/58&quot;&gt;shadcn/ui ecosystem&lt;/p&gt;                     &lt;div class=&quot;mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55&quot;&gt;                         200+ stars&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">text0 Absurdly smart autocomplete Built for speed, precision, and shipping Winner</td>
+          </tr>
+          <tr class="det" id="d30" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>text0 Absurdly smart autocomplete Built for speed, precision, and shipping Winner</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[10px] uppercase tracking-[0.3em] text-white/42&quot;&gt;text0&lt;/p&gt;                     &lt;h3 class=&quot;mt-3 text-2xl font-semibold&quot;&gt;Absurdly smart autocomplete&lt;/h3&gt;                     &lt;p class=&quot;mt-2 text-sm text-white/58&quot;&gt;Built for speed, precision, and shipping&lt;/p&gt;                     &lt;div class=&quot;mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/55&quot;&gt;                         Winner&lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§8 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">312px</span>
+            <code>mt-16 border-t border-white/10 pt-10</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">From the blog Stories about shipping, building in public, and growing in tech.</td>
+          </tr>
+          <tr class="det" id="d31" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>From the blog Stories about shipping, building in public, and growing in tech.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;From the blog&lt;/p&gt;                     &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;Stories about                         shipping, building in public, and growing in tech.&lt;/h2&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Read all articles →</td>
+          </tr>
+          <tr class="det" id="d32" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Read all articles →</div>
+            <div class="kv"><span>source HTML</span></div><pre>Read                     all articles →</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Crafter Registry Aug 4, 2025</td>
+          </tr>
+          <tr class="det" id="d33" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Crafter Registry Aug 4, 2025</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-sm text-white/40&quot;&gt;Crafter Registry&lt;/div&gt;                     &lt;div class=&quot;mt-2 text-2xl font-semibold&quot;&gt;Aug 4, 2025&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">AI-First Manifesto Jun 21, 2025</td>
+          </tr>
+          <tr class="det" id="d34" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>AI-First Manifesto Jun 21, 2025</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-sm text-white/40&quot;&gt;AI-First Manifesto&lt;/div&gt;                     &lt;div class=&quot;mt-2 text-2xl font-semibold&quot;&gt;Jun 21, 2025&lt;/div&gt;                 </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">How We Built Text0 in 10 Days Apr 28, 2025</td>
+          </tr>
+          <tr class="det" id="d35" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>How We Built Text0 in 10 Days Apr 28, 2025</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div class=&quot;text-sm text-white/40&quot;&gt;How We Built Text0 in 10 Days&lt;/div&gt;                     &lt;div class=&quot;mt-2 text-2xl font-semibold&quot;&gt;Apr 28, 2025&lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§9 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">386px</span>
+            <code>mt-16 border-t border-white/10 pt-10 pb-8</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>borderTop: 1px solid rgba(255, 255, 255, 0.1)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">blocks</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Be the first to know about our upcoming events Join the community. No spam, just shipping.</td>
+          </tr>
+          <tr class="det" id="d36" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>content column → decomposed shortcodes</div>
+            
+            <div class="kv"><span>text</span>Be the first to know about our upcoming events Join the community. No spam, just shipping. Subscribe GitHub Discord LinkedIn X Instagram WhatsApp Luma</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div&gt;                         &lt;p class=&quot;mono text-[11px] uppercase tracking-[0.32em] text-white/40&quot;&gt;Be the first to know                             about our upcoming events&lt;/p&gt;                         &lt;h2 class=&quot;mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl&quot;&gt;Join the                             community. No spam, just shipping.&lt;/h2&gt;                     &lt;/div&gt;                     &lt;div class=&quot;space-y-5&quot;&gt;                         &lt;div class=&quot;glass rounded-2xl p-2 flex items-center gap-2&quot;&gt;                             &lt;input type=&quot;email&quot; placeholder=&quot;Email address&quot; class=&quot;min-w-0 flex-1 bg-transparent px-4 py-3 text-white placeholder:text-white/28 outline-none&quot;&gt;                             &lt;button class=&quot;sheen rounded-xl bg-white px-5 py-3 text-sm font-medium text-black&quot;&gt;Subscribe&lt;/button&gt;                         &lt;/div&gt;                         &lt;div class=&quot;flex flex-wrap gap-3 text-sm text-white/55&quot;&gt;                             &lt;a class=&quot;rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 hover:text-white transition&quot; href=&quot;#&quot;&gt;GitHub&lt;/a&gt;                             &lt;a class=&quot;rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 hover:text-white transition&quot; href=&quot;#&quot;&gt;Discord&lt;/a&gt;                             &lt;a class=&quot;rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 hover:text-white transition&quot; href=&quot;#&quot;&gt;LinkedIn&lt;/a&gt;                             &lt;a class=&quot;rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 hover:text-white transition&quot; href=&quot;#&quot;&gt;X&lt;/a&gt;                             &lt;a class=&quot;rounded-full  …(truncated)</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">© 2026 Crafter Station Research Brand</td>
+          </tr>
+          <tr class="det" id="d37" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>© 2026 Crafter Station Research Brand</div>
+            <div class="kv"><span>source HTML</span></div><pre>                     &lt;div&gt;© 2026 Crafter Station&lt;/div&gt;                     &lt;div class=&quot;flex gap-4&quot;&gt;                         &lt;span&gt;Research&lt;/span&gt;                         &lt;span&gt;Brand&lt;/span&gt;                     &lt;/div&gt;                 </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div></section>
+</div>
+<script>
+  document.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr.el'); if (!tr) return;
+    var det = tr.nextElementSibling;
+    if (det && det.classList.contains('det')) { det.hidden = !det.hidden; tr.classList.toggle('open'); }
+  });
+</script>
+</body></html>

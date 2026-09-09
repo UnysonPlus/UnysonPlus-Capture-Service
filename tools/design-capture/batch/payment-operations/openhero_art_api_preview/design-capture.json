@@ -1,0 +1,611 @@
+{
+  "url": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:rgb(0, 0, 0);color:rgb(0, 0, 0)\" data-sc-content-width=\"1200\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Modern Treasury | Payment Operations &amp; Real-time Ledgers</title>\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\">\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Inter+Tight:wght@400;500;600&amp;display=swap\" rel=\"stylesheet\">\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n    <script src=\"https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js\"></script>\n    <script>\n        tailwind.config = {\n            theme: {\n                extend: {\n                    colors: {\n                        pearl: \"black\",\n                        white: \"white\",\n                        glass: \"oklch(90% 0.02 240 / 0.4)\",\n                    },\n                    fontFamily: {\n                        sans: ['\"Inter\"', 'sans-serif'],\n                        tight: ['\"Inter Tight\"', 'sans-serif'],\n                    },\n                    letterSpacing: {\n                        tighter: '-0.03em',\n                    }\n                }\n            }\n        }\n    </script>\n    <style>\n        html,\n        body {\n            margin: 0;\n            padding: 0;\n            width: 100%;\n            height: 100%;\n            overflow-x: hidden;\n            background-color: black;\n            scroll-behavior: smooth;\n        }\n\n        main,\n        nav,\n        footer {\n            position: relative;\n            z-index: 10;\n        }\n\n        .bg-video-container {\n            position: fixed;\n            inset: 0;\n            z-index: 0;\n            width: 100%;\n            height: 100vh;\n            overflow: hidden;\n        }\n\n        .bg-video-container video {\n            width: 100%;\n            height: 100%;\n            object-fit: cover;\n            transform: scale(1.05);\n        }\n\n        .apple-sharpness {\n            background: oklch(98% 0.01 240 / 0.6);\n            backdrop-filter: blur(24px) saturate(1.2);\n            -webkit-backdrop-filter: blur(24px) saturate(1.2);\n            border: 0.5px solid oklch(100% 0 0 / 0.8);\n            box-shadow: inset 0 1px 1px oklch(100% 0 0), 0 20px 40px rgba(0, 0, 0, 0.03);\n            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);\n        }\n\n        .apple-sharpness:hover {\n            background: oklch(100% 0 0 / 0.7);\n            border-color: oklch(100% 0 0);\n            box-shadow: inset 0 1px 1px oklch(100% 0 0), 0 24px 48px rgba(0, 0, 0, 0.05);\n        }\n\n        .liquid-btn {\n            position: relative;\n            overflow: hidden;\n            background: white;\n            color: black;\n            border: 0.5px solid oklch(100% 0.00011 271.152);\n            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);\n            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;\n        }\n\n        .liquid-btn::before {\n            content: '';\n            position: absolute;\n            top: var(--y, 50%);\n            left: var(--x, 50%);\n            width: 200%;\n            height: 200%;\n            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, transparent 60%);\n            transform: translate(-50%, -50%);\n            opacity: 0;\n            transition: opacity 0.4s ease;\n            pointer-events: none;\n            z-index: 1;\n        }\n\n        .liquid-btn:hover {\n            transform: scale(1.02) translateY(-1px);\n            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 12px 24px rgba(0, 0, 0, 0.15);\n        }\n\n        .liquid-btn:hover::before {\n            opacity: 1;\n        }\n\n        .liquid-btn>* {\n            position: relative;\n            z-index: 2;\n        }\n\n        .nav-link {\n            position: relative;\n            color: rgba(255, 255, 255, 0.8);\n            transition: color 0.3s ease;\n        }\n\n        .nav-link:hover {\n            color: rgba(255, 255, 255, 1);\n        }\n\n        .nav-link::after {\n            content: '';\n            position: absolute;\n            bottom: -4px;\n            left: 0;\n            width: 100%;\n            height: 1px;\n            background: white;\n            transform: scaleX(0);\n            transform-origin: right;\n            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);\n        }\n\n        .nav-link:hover::after {\n            transform: scaleX(1);\n            transform-origin: left;\n        }\n\n        .kinetic-element {\n            will-change: transform, opacity;\n        }\n\n        .reveal-up {\n            opacity: 0;\n            transform: translateY(30px);\n            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);\n        }\n\n        .reveal-up.active {\n            opacity: 1;\n            transform: translateY(0);\n        }\n\n        .delay-100 {\n            transition-delay: 0.1s;\n        }\n\n        .delay-200 {\n            transition-delay: 0.2s;\n        }\n\n        .delay-300 {\n            transition-delay: 0.3s;\n        }\n\n        input::placeholder {\n            color: oklch(20% 0.02 240 / 0.4);\n        }\n    </style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:\"Inter\", sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.top-0{top:0px}.z-50{z-index:50}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mb-16{margin-bottom:4rem}.mt-10{margin-top:2.5rem}.mt-40{margin-top:10rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.mb-3{margin-bottom:0.75rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-8{height:2rem}.h-1{height:0.25rem}.h-12{height:3rem}.min-h-\\[120vh\\]{min-height:120vh}.w-8{width:2rem}.w-full{width:100%}.w-1{width:0.25rem}.w-12{width:3rem}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-\\[1200px\\]{max-width:1200px}.max-w-md{max-width:28rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.cursor-pointer{cursor:pointer}.cursor-default{cursor:default}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-1{gap:0.25rem}.gap-8{gap:2rem}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.whitespace-nowrap{white-space:nowrap}.rounded-full{border-radius:9999px}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-none{border-style:none}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity, 1))}.border-white\\/5{border-color:rgb(255 255 255 / 0.05)}.bg-black\\/20{background-color:rgb(0 0 0 / 0.2)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-gray-600{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity, 1))}.bg-transparent{background-color:transparent}.bg-white\\/20{background-color:rgb(255 255 255 / 0.2)}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.p-1\\.5{padding:0.375rem}.p-8{padding:2rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-2\\.5{padding-top:0.625rem;padding-bottom:0.625rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-12{padding-top:3rem;padding-bottom:3rem}.pb-32{padding-bottom:8rem}.pt-\\[25vh\\]{padding-top:25vh}.text-center{text-align:center}.font-sans{font-family:\"Inter\", sans-serif}.font-tight{font-family:\"Inter Tight\", sans-serif}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-\\[13px\\]{font-size:13px}.text-\\[10px\\]{font-size:10px}.text-6xl{font-size:3.75rem;line-height:1}.text-\\[14px\\]{font-size:14px}.text-\\[15px\\]{font-size:15px}.text-xs{font-size:0.75rem;line-height:1rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\\[11px\\]{font-size:11px}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.leading-\\[1\\.05\\]{line-height:1.05}.leading-relaxed{line-height:1.625}.tracking-tighter{letter-spacing:-0.03em}.tracking-wide{letter-spacing:0.025em}.tracking-tight{letter-spacing:-0.025em}.tracking-widest{letter-spacing:0.1em}.text-pearl{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\\/80{color:rgb(255 255 255 / 0.8)}.text-white\\/70{color:rgb(255 255 255 / 0.7)}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-black\\/70{color:rgb(0 0 0 / 0.7)}.text-white\\/40{color:rgb(255 255 255 / 0.4)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.placeholder-white\\/90::placeholder{color:rgb(255 255 255 / 0.9)}.opacity-50{opacity:0.5}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.delay-100{transition-delay:100ms}.delay-200{transition-delay:200ms}.delay-300{transition-delay:300ms}.duration-500{transition-duration:500ms}.selection\\:bg-white *::selection{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.selection\\:text-pearl *::selection{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.selection\\:bg-white::selection{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.selection\\:text-pearl::selection{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.group:hover .group-hover\\:rotate-90{--tw-rotate:90deg;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 768px){.md\\:block{display:block}.md\\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\\:flex-row{flex-direction:row}.md\\:text-right{text-align:right}.md\\:text-7xl{font-size:4.5rem;line-height:1}.md\\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\\:flex{display:flex}.lg\\:text-\\[5\\.5rem\\]{font-size:5.5rem}}</style></head>\n\n<body class=\"antialiased selection:bg-white selection:text-pearl\" data-sc-cs=\"background-color:rgb(0, 0, 0);color:rgb(0, 0, 0)\">\n\n    <div class=\"bg-video-container\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed\">\n        <video autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.05, 0, 0, 1.05, 0, 0)\">\n            <source src=\"https://videos.openhero.art/downloads/enterprice/payment-operations/video.mp4\" type=\"video/mp4\">\n        </video>\n\n        <div class=\"absolute inset-0 bg-black/20\" data-sc-cs=\"background-color:rgba(0, 0, 0, 0.2);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n    </div>\n\n\n    <nav class=\"fixed top-0 w-full z-50 px-6 py-5 flex items-center justify-between transition-all duration-500\" id=\"navbar\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.4, 0, 0.2, 1);position:fixed\">\n        <div class=\"flex items-center gap-2 group cursor-pointer\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"w-8 h-8 rounded-full bg-white flex items-center justify-center text-pearl shadow-lg transition-transform duration-500 group-hover:rotate-90\" data-sc-cs=\"background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)\">\n                <iconify-icon icon=\"ph:infinity-bold\" class=\"text-lg\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </div>\n            <span class=\"font-sans font-medium text-white tracking-tighter text-lg\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:18px;font-weight:500;line-height:28px;letter-spacing:-0.54px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">MODERN TREASURY</span>\n        </div>\n\n        <div class=\"hidden lg:flex items-center gap-8 font-tight text-[13px] font-medium tracking-wide\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:normal;align-items:center;flex-direction:row;transition:all\" data-sc-tabbar=\"0\" data-sc-tabnav=\"{&quot;list&quot;:&quot;border-radius:0px;padding:0px;gap:32px;display:flex;border-top-width:0px;border-top-color:rgb(229, 231, 235)&quot;,&quot;active&quot;:&quot;color:rgba(255, 255, 255, 0.8);border-radius:0px;border-top-width:0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-bottom-width:0px;border-bottom-color:rgb(229, 231, 235);font-weight:500;padding:0px&quot;,&quot;inactive&quot;:&quot;color:rgba(255, 255, 255, 0.8);border-radius:0px;border-top-width:0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-bottom-width:0px;border-bottom-color:rgb(229, 231, 235);font-weight:500;padding:0px&quot;,&quot;activeIdx&quot;:0}\">\n            <a href=\"#\" class=\"nav-link flex items-center gap-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:center;flex-direction:row;transition:color 0.3s\" data-sc-hover=\"hover-self{color:rgb(255, 255, 255)}|after{content:&quot;&quot;;position:absolute;bottom:-4px;left:0px;transform:scaleX(0);transform-origin:right center;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.4s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:white;background-image:initial;width:100%;height:1px}|hover-after{transform:scaleX(1);transform-origin:left center}\" data-sc-tab=\"0:0\">Products <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon></a>\n            <a href=\"#\" class=\"nav-link flex items-center gap-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:center;flex-direction:row;transition:color 0.3s\" data-sc-hover=\"hover-self{color:rgb(255, 255, 255)}|after{content:&quot;&quot;;position:absolute;bottom:-4px;left:0px;transform:scaleX(0);transform-origin:right center;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.4s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:white;background-image:initial;width:100%;height:1px}|hover-after{transform:scaleX(1);transform-origin:left center}\" data-sc-tab=\"0:1\">Solutions <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon></a>\n            <a href=\"#\" class=\"nav-link flex items-center gap-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:center;flex-direction:row;transition:color 0.3s\" data-sc-hover=\"hover-self{color:rgb(255, 255, 255)}|after{content:&quot;&quot;;position:absolute;bottom:-4px;left:0px;transform:scaleX(0);transform-origin:right center;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.4s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:white;background-image:initial;width:100%;height:1px}|hover-after{transform:scaleX(1);transform-origin:left center}\" data-sc-tab=\"0:2\">Resources <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon></a>\n            <a href=\"#\" class=\"nav-link flex items-center gap-1\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:4px;justify-content:normal;align-items:center;flex-direction:row;transition:color 0.3s\" data-sc-hover=\"hover-self{color:rgb(255, 255, 255)}|after{content:&quot;&quot;;position:absolute;bottom:-4px;left:0px;transform:scaleX(0);transform-origin:right center;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.4s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:white;background-image:initial;width:100%;height:1px}|hover-after{transform:scaleX(1);transform-origin:left center}\" data-sc-tab=\"0:3\">About <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon></a>\n            <a href=\"#\" class=\"nav-link\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.3s\" data-sc-hover=\"hover-self{color:rgb(255, 255, 255)}|after{content:&quot;&quot;;position:absolute;bottom:-4px;left:0px;transform:scaleX(0);transform-origin:right center;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.4s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:white;background-image:initial;width:100%;height:1px}|hover-after{transform:scaleX(1);transform-origin:left center}\" data-sc-tab=\"0:4\">Pricing</a>\n        </div>\n\n        <div class=\"flex items-center gap-6\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <a href=\"#\" class=\"font-tight text-[13px] font-medium text-white/80 hover:text-white transition-colors hidden md:block\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}\">Log\n                in</a>\n            <button class=\"liquid-btn px-5 py-2.5 rounded-full font-tight text-[13px] font-medium tracking-wide flex items-center gap-2\" data-sc-cs=\"background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:13px;font-weight:500;line-height:19.5px;letter-spacing:0.325px;text-align:center;padding:10px 20px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0.00011 271.152);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.1) 0px 8px 16px 0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:var(--y, 50%);left:var(--x, 50%);transform:translate(-50%, -50%);transition:opacity 0.4s;transition-property:opacity;transition-duration:0.4s;transition-timing-function:ease;background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, transparent 60%);opacity:0;width:200%;height:200%}|hover-self{transform:scale(1.02) translateY(-1px);box-shadow:rgba(255, 255, 255, 0.25) 0px 1px 1px inset, rgba(0, 0, 0, 0.15) 0px 12px 24px}|hover-before{opacity:1}\">\n                Open account\n                <iconify-icon icon=\"ph:arrow-right-bold\" class=\"text-[10px]\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:0.325px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n            </button>\n        </div>\n    </nav>\n\n    <main class=\"relative z-10 w-full min-h-[120vh] flex flex-col items-center pt-[25vh]\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:225px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all\">\n        <div class=\"relative z-10 flex flex-col items-center text-center px-4 max-w-4xl mx-auto kinetic-element\" id=\"hero-content\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:0px 16px;margin:0px 272px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all\">\n            <h1 class=\"font-sans text-6xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tighter text-white leading-[1.05] reveal-up active\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:88px;font-weight:500;line-height:88px;letter-spacing:-2.64px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)\">\n                Radically different banking\n            </h1>\n\n            <p class=\"mt-6 text-lg md:text-xl font-tight text-white/70 max-w-2xl tracking-tight reveal-up active delay-100\" data-sc-cs=\"color:rgba(255, 255, 255, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:20px;font-weight:400;line-height:28px;letter-spacing:-0.5px;text-align:center;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n                Apply online in 10 minutes to experience financial infrastructure built for the scale of the modern\n                internet.\n            </p>\n\n            <div class=\"mt-10 apple-sharpness rounded-full p-1.5 flex items-center w-full max-w-md reveal-up active delay-200\" data-sc-cs=\"background-color:oklch(0.98 0.01 240 / 0.6);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:6px;margin:40px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.8);border-radius:9999px;box-shadow:oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px;backdrop-filter:blur(24px) saturate(1.2);max-width:448px;display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n                <input type=\"email\" placeholder=\"Enter your email\" class=\"flex-1 bg-transparent border-none outline-none px-6 py-3 font-tight text-[15px] text-white placeholder-white/90\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:15px;font-weight:400;line-height:22.5px;text-align:start;padding:12px 24px;border-top-style:none;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <button class=\"liquid-btn px-6 py-3 rounded-full font-tight text-[14px] font-medium tracking-wide whitespace-nowrap flex items-center gap-2\" data-sc-cs=\"background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:500;line-height:21px;letter-spacing:0.35px;text-align:center;padding:12px 24px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0.00011 271.152);border-radius:9999px;box-shadow:rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.1) 0px 8px 16px 0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s\" data-sc-hover=\"before{content:&quot;&quot;;position:absolute;top:var(--y, 50%);left:var(--x, 50%);transform:translate(-50%, -50%);transition:opacity 0.4s;transition-property:opacity;transition-duration:0.4s;transition-timing-function:ease;background-color:initial;background-image:radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, transparent 60%);opacity:0;width:200%;height:200%}|hover-self{transform:scale(1.02) translateY(-1px);box-shadow:rgba(255, 255, 255, 0.25) 0px 1px 1px inset, rgba(0, 0, 0, 0.15) 0px 12px 24px}|hover-before{opacity:1}\">\n                    Open account\n                </button>\n            </div>\n\n            <div class=\"mt-8 flex items-center gap-4 text-xs font-tight text-white/80 uppercase tracking-widest reveal-up active delay-300\" data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:center;text-transform:uppercase;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;transform:matrix(1, 0, 0, 1, 0, 0)\">\n                <span data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Sub-millisecond finality</span>\n                <span class=\"w-1 h-1 rounded-full bg-white/20\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.2);color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></span>\n                <span data-sc-cs=\"color:rgba(255, 255, 255, 0.8);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Automated reconciliation</span>\n            </div>\n        </div>\n\n        <div class=\"w-full max-w-[1200px] mx-auto px-6 mt-40 pb-32 kinetic-element grid grid-cols-1 md:grid-cols-3 gap-6\" id=\"features-grid\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 24px 128px;margin:160px 120px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1200px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <div class=\"apple-sharpness rounded-3xl p-8 reveal-up flex flex-col group cursor-default\" data-sc-cs=\"background-color:oklch(0.98 0.01 240 / 0.6);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.8);border-radius:24px;box-shadow:oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px;backdrop-filter:blur(24px) saturate(1.2);display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 30)\">\n                <div class=\"w-12 h-12 rounded-2xl bg-gray-600 border border-white flex items-center justify-center shadow-sm mb-16 text-white group-hover:scale-110 transition-transform duration-500\" data-sc-cs=\"background-color:rgb(75, 85, 99);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 64px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)\">\n                    <iconify-icon icon=\"ph:globe-hemisphere-west-light\" class=\"text-2xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                </div>\n                <h3 class=\"font-sans text-xl font-medium text-black tracking-tighter mb-3\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:-0.6px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Cross-Border Liquidity\n                </h3>\n                <p class=\"font-tight text-sm text-black/70 leading-relaxed\" data-sc-cs=\"color:rgba(0, 0, 0, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Multi-entity consolidation across 130+ currencies. Settle global obligations instantly without\n                    correspondent banking friction.\n                </p>\n            </div>\n\n            <div class=\"apple-sharpness rounded-3xl p-8 reveal-up delay-100 flex flex-col group cursor-default\" data-sc-cs=\"background-color:oklch(0.98 0.01 240 / 0.6);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.8);border-radius:24px;box-shadow:oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px;backdrop-filter:blur(24px) saturate(1.2);display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 30)\">\n                <div class=\"w-12 h-12 rounded-2xl bg-gray-600 border border-white flex items-center justify-center shadow-sm mb-16 text-white group-hover:scale-110 transition-transform duration-500\" data-sc-cs=\"background-color:rgb(75, 85, 99);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 64px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)\">\n                    <iconify-icon icon=\"ph:chart-line-up-light\" class=\"text-2xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                </div>\n                <h3 class=\"font-sans text-xl font-medium text-black tracking-tighter mb-3\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:-0.6px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Liquidity Forecasting</h3>\n                <p class=\"font-tight text-sm text-black/70 leading-relaxed\" data-sc-cs=\"color:rgba(0, 0, 0, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Predictive models engineered for treasury teams. Visualize cash burn, runway, and float with perfect\n                    granular clarity.\n                </p>\n            </div>\n\n            <div class=\"apple-sharpness rounded-3xl p-8 reveal-up delay-200 flex flex-col group cursor-default\" data-sc-cs=\"background-color:oklch(0.98 0.01 240 / 0.6);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.8);border-radius:24px;box-shadow:oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px;backdrop-filter:blur(24px) saturate(1.2);display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 30)\">\n                <div class=\"w-12 h-12 rounded-2xl bg-gray-600 border border-white flex items-center justify-center shadow-sm mb-16 text-white group-hover:scale-110 transition-transform duration-500\" data-sc-cs=\"background-color:rgb(75, 85, 99);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 64px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(255, 255, 255);border-radius:16px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)\">\n                    <iconify-icon icon=\"ph:database-light\" class=\"text-2xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                </div>\n                <h3 class=\"font-sans text-xl font-medium text-black tracking-tighter mb-3\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:-0.6px;text-align:start;margin:0px 0px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Real-time Ledgers</h3>\n                <p class=\"font-tight text-sm text-black/70 leading-relaxed\" data-sc-cs=\"color:rgba(0, 0, 0, 0.7);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Double-entry immutability at web scale. Programmatic money movement backed by synchronous API\n                    reconciliation.\n                </p>\n            </div>\n        </div>\n    </main>\n\n    <footer class=\"relative z-10 w-full bg-gray-800 border-t border-white/5 py-12 px-6\" data-sc-cs=\"background-color:rgb(31, 41, 55);color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <div class=\"max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1200px;display:flex;gap:24px;justify-content:space-between;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"flex items-center gap-2\" data-sc-cs=\"color:rgb(0, 0, 0);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n                <iconify-icon icon=\"ph:infinity-bold\" class=\"text-white text-xl\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></iconify-icon>\n                <span class=\"font-sans font-medium text-white tracking-tighter text-sm\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:14px;font-weight:500;line-height:20px;letter-spacing:-0.42px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">MODERN TREASURY</span>\n            </div>\n            <p class=\"font-tight text-[11px] text-white/40 max-w-xl text-center md:text-right leading-relaxed\" data-sc-cs=\"color:rgba(255, 255, 255, 0.4);font-family:&quot;Inter Tight&quot;, sans-serif;font-size:11px;font-weight:400;line-height:17.875px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                Modern Treasury is a financial technology company, not a bank. Banking services provided by global\n                partner institutions. <br>\n                High-Finance B2B Protocol • Pearl Mode Architecture\n            </p>\n        </div>\n    </footer>\n\n    <script>\n        document.querySelectorAll('.liquid-btn').forEach(btn => {\n            btn.addEventListener('mousemove', (e) => {\n                const rect = btn.getBoundingClientRect();\n                const x = e.clientX - rect.left;\n                const y = e.clientY - rect.top;\n                btn.style.setProperty('--x', `${x}px`);\n                btn.style.setProperty('--y', `${y}px`);\n            });\n        });\n\n        const heroContent = document.getElementById('hero-content');\n        const featuresGrid = document.getElementById('features-grid');\n        const navbar = document.getElementById('navbar');\n\n        window.addEventListener('scroll', () => {\n            const scrollY = window.scrollY;\n\n            if (heroContent) {\n                const translateY = scrollY * 0.4;\n                const opacity = Math.max(0, 1 - scrollY / 600);\n                heroContent.style.transform = `translate(-50%, calc(-50% + ${translateY}px))`;\n                heroContent.style.opacity = opacity;\n            }\n\n            if (featuresGrid) {\n                const translateY = scrollY * 0.15;\n                featuresGrid.style.transform = `translateY(-${translateY}px)`;\n            }\n\n            if (scrollY > 50) {\n                navbar.classList.add('bg-gray-600/80', 'backdrop-blur-xl', 'border-b', 'border-white/5');\n                navbar.classList.remove('py-5');\n                navbar.classList.add('py-3');\n            } else {\n                navbar.classList.remove('bg-gray-600/80', 'backdrop-blur-xl', 'border-b', 'border-white/5');\n                navbar.classList.add('py-5');\n                navbar.classList.remove('py-3');\n            }\n        });\n\n        const observerOptions = {\n            root: null,\n            rootMargin: '0px 0px -10% 0px',\n            threshold: 0.1\n        };\n\n        const observer = new IntersectionObserver((entries) => {\n            entries.forEach(entry => {\n                if (entry.isIntersecting) {\n                    entry.target.classList.add('active');\n                    observer.unobserve(entry.target);\n                }\n            });\n        }, observerOptions);\n\n        document.querySelectorAll('.reveal-up:not(.active)').forEach(el => {\n            observer.observe(el);\n        });\n    </script>\n\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n\n<div class=\"text-white\" style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "Modern Treasury | Payment Operations & Real-time Ledgers",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 11,
+      "family": "Inter Tight",
+      "line-height": "1.63"
+    },
+    "h1": {
+      "size": 88,
+      "weight": "500",
+      "family": "Inter",
+      "line-height": "1",
+      "letter-spacing": "-2.64"
+    },
+    "h3": {
+      "size": 20,
+      "weight": "500",
+      "family": "Inter",
+      "line-height": "1.4",
+      "letter-spacing": "-0.6"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "88",
+        "weight": "500",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "20",
+        "weight": "500",
+        "line_height": "1.4",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "1.4",
+        "letter_spacing": "-0.5",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Caption",
+        "size": "11",
+        "weight": "",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-caption"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "12",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "1.2",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-border-spacing-x": "0",
+      "--tw-scale-x": "1",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "Inter, sans-serif",
+      "color": "rgba(0, 0, 0, 0.7)",
+      "backgroundColor": "rgba(0, 0, 0, 0.2)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "1200px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Inter",
+    "color": "rgb(255, 255, 255)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "20px 24px"
+    },
+    "bar": {
+      "display": "flex",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Products",
+      "icon": "",
+      "computed": {
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontSize": "13px",
+        "fontWeight": "500",
+        "color": "rgba(255, 255, 255, 0.8)",
+        "letterSpacing": "0.325px"
+      },
+      "detail": {
+        "text": "Products",
+        "icon": "",
+        "image": "",
+        "svg": "",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "rgba(255, 255, 255, 0.8)",
+        "title_size": "",
+        "title_weight": "",
+        "title_font": "\"Inter Tight\", sans-serif",
+        "title_ls": "0.325px",
+        "title_hover": "",
+        "icon_size": "",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Solutions",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "13px",
+          "fontWeight": "500",
+          "color": "rgba(255, 255, 255, 0.8)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Resources",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "13px",
+          "fontWeight": "500",
+          "color": "rgba(255, 255, 255, 0.8)"
+        },
+        "hover": null
+      },
+      {
+        "label": "About",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "13px",
+          "fontWeight": "500",
+          "color": "rgba(255, 255, 255, 0.8)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Pricing",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "13px",
+          "fontWeight": "500",
+          "color": "rgba(255, 255, 255, 0.8)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Log\n                in",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations#",
+        "computed": {
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontSize": "13px",
+          "fontWeight": "500",
+          "color": "rgba(255, 255, 255, 0.8)"
+        },
+        "hover": {
+          "color": "rgb(255, 255, 255)"
+        }
+      }
+    ],
+    "cta": {
+      "label": "Open account",
+      "href": "https://openhero.art/api/preview?category=enterprice&slug=payment-operations",
+      "computed": {
+        "backgroundColor": "rgb(255, 255, 255)",
+        "color": "rgb(0, 0, 0)",
+        "borderRadius": "9999px",
+        "padding": "10px 20px",
+        "fontFamily": "\"Inter Tight\", sans-serif",
+        "fontWeight": "500"
+      },
+      "hover": null
+    }
+  },
+  "footer": {
+    "computed": {
+      "backgroundColor": "rgb(31, 41, 55)",
+      "color": "rgb(0, 0, 0)",
+      "padding": "48px 24px"
+    },
+    "brand": "",
+    "groups": [],
+    "contact": null,
+    "newsletter": null,
+    "social": [],
+    "copyright": "",
+    "links": [],
+    "text": "MODERN TREASURY Modern Treasury is a financial technology company, not a bank. Banking services provided by global partner institutions. High-Finance B2B Protocol • Pearl Mode Architecture"
+  },
+  "sections": [],
+  "chrome": {
+    "header_html": "<nav class=\"fixed top-0 w-full z-50 px-6 py-5 flex items-center justify-between transition-all duration-500\" id=\"navbar\">         <div class=\"flex items-center gap-2 group cursor-pointer\">             <div class=\"w-8 h-8 rounded-full bg-white flex items-center justify-center text-pearl shadow-lg transition-transform duration-500 group-hover:rotate-90\">                 <iconify-icon icon=\"ph:infinity-bold\" class=\"text-lg\"></iconify-icon>             </div>             <span class=\"font-sans font-medium text-white tracking-tighter text-lg\">MODERN TREASURY</span>         </div>         <div class=\"hidden lg:flex items-center gap-8 font-tight text-[13px] font-medium tracking-wide\">             <a href=\"#\" class=\"nav-link flex items-center gap-1\">Products <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\"></iconify-icon></a>             <a href=\"#\" class=\"nav-link flex items-center gap-1\">Solutions <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\"></iconify-icon></a>             <a href=\"#\" class=\"nav-link flex items-center gap-1\">Resources <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\"></iconify-icon></a>             <a href=\"#\" class=\"nav-link flex items-center gap-1\">About <iconify-icon icon=\"ph:caret-down-bold\" class=\"text-[10px] opacity-50\"></iconify-icon></a>             <a href=\"#\" class=\"nav-link\">Pricing</a>         </div>         <div class=\"flex items-center gap-6\">             <a href=\"#\" class=\"font-tight text-[13px] font-medium text-white/80 hover:text-white transition-colors hidden md:block\">Log                 in</a>             <button class=\"liquid-btn px-5 py-2.5 rounded-full font-tight text-[13px] font-medium tracking-wide flex items-center gap-2\">                 Open account                 <iconify-icon icon=\"ph:arrow-right-bold\" class=\"text-[10px]\"></iconify-icon>             </button>         </div>     </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"relative z-10 w-full bg-gray-800 border-t border-white/5 py-12 px-6\">         <div class=\"max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6\">             <!--SC_FCOL_0-->             <!--SC_FCOL_1-->         </div>     </footer>",
+    "footer_cols": [
+      "                 <iconify-icon icon=\"ph:infinity-bold\" class=\"text-white text-xl\"></iconify-icon>                 <span class=\"font-sans font-medium text-white tracking-tighter text-sm\">MODERN TREASURY</span>             ",
+      "                 Modern Treasury is a financial technology company, not a bank. Banking services provided by global                 partner institutions. <br>                 High-Finance B2B Protocol • Pearl Mode Architecture             "
+    ],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "11px",
+      "lineHeight": "17.875px",
+      "color": "rgba(255, 255, 255, 0.4)"
+    },
+    "base_css": "html, body{margin: 0px; padding: 0px; width: 100%; height: 100%; overflow-x: hidden; background-color: black; scroll-behavior: smooth;}\nnav, footer{position: relative; z-index: 10;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Inter, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\np{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": "main{position: relative; z-index: 10;}\n.bg-video-container{position: fixed; inset: 0px; z-index: 0; width: 100%; height: 100vh; overflow: hidden;}\n.bg-video-container video{width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);}\n.apple-sharpness{background: oklch(0.98 0.01 240 / 0.6); backdrop-filter: blur(24px) saturate(1.2); border: 0.5px solid oklch(1 0 0 / 0.8); box-shadow: oklch(1 0 0) 0px 1px 1px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.apple-sharpness:hover{background: oklch(1 0 0 / 0.7); border-color: oklch(1 0 0); box-shadow: oklch(1 0 0) 0px 1px 1px inset, rgba(0, 0, 0, 0.05) 0px 24px 48px;}\n.kinetic-element{will-change: transform, opacity;}\n.reveal-up{opacity: 0; transform: translateY(30px); transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\ninput::placeholder{color: oklch(0.2 0.02 240 / 0.4);}\nh1, h3{font-size: inherit; font-weight: inherit;}\ninput{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nh1, h3{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.mb-16{margin-bottom: 4rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-40{margin-top: 10rem;}\n.mt-6{margin-top: 1.5rem;}\n.mt-8{margin-top: 2rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.grid{display: grid;}\n.h-1{height: 0.25rem;}\n.h-12{height: 3rem;}\n.min-h-\\[120vh\\]{min-height: 120vh;}\n.w-1{width: 0.25rem;}\n.w-12{width: 3rem;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-md{max-width: 28rem;}\n.flex-1{flex: 1 1 0%;}\n.cursor-default{cursor: default;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.gap-4{gap: 1rem;}\n.whitespace-nowrap{white-space: nowrap;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-none{border-style: none;}\n.border-white{--tw-border-opacity: 1; border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));}\n.bg-black\\/20{background-color: rgba(0, 0, 0, 0.2);}\n.bg-gray-600{--tw-bg-opacity: 1; background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));}\n.bg-transparent{background-color: transparent;}\n.bg-white\\/20{background-color: rgba(255, 255, 255, 0.2);}\n.p-1\\.5{padding: 0.375rem;}\n.p-8{padding: 2rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.pb-32{padding-bottom: 8rem;}\n.pt-\\[25vh\\]{padding-top: 25vh;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[14px\\]{font-size: 14px;}\n.text-\\[15px\\]{font-size: 15px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[1\\.05\\]{line-height: 1.05;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n.text-black{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.text-black\\/70{color: rgba(0, 0, 0, 0.7);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.placeholder-white\\/90::placeholder{color: rgba(255, 255, 255, 0.9);}\n.shadow-sm{--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.outline-none{outline: transparent solid 2px; outline-offset: 2px;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.selection\\:bg-white ::selection{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.selection\\:text-pearl ::selection{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.selection\\:bg-white::selection{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.selection\\:text-pearl::selection{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-xl{font-size: 1.25rem; line-height: 1.75rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[5\\.5rem\\]{font-size: 5.5rem;}}",
+    "header_css": ".liquid-btn{position: relative; overflow: hidden; background: white; color: black; border: 0.5px solid oklch(1 0.00011 271.152); box-shadow: rgba(255, 255, 255, 0.15) 0px 1px 1px inset, rgba(0, 0, 0, 0.1) 0px 8px 16px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;}\n.liquid-btn::before{content: \"\"; position: absolute; top: var(--y, 50%); left: var(--x, 50%); width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, transparent 60%); transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 1;}\n.liquid-btn:hover{transform: scale(1.02) translateY(-1px); box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px inset, rgba(0, 0, 0, 0.15) 0px 12px 24px;}\n.liquid-btn:hover::before{opacity: 1;}\n.liquid-btn > *{position: relative; z-index: 2;}\n.nav-link{position: relative; color: rgba(255, 255, 255, 0.8); transition: color 0.3s;}\n.nav-link:hover{color: rgb(255, 255, 255);}\n.nav-link::after{content: \"\"; position: absolute; bottom: -4px; left: 0px; width: 100%; height: 1px; background: white; transform: scaleX(0); transform-origin: right center; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.nav-link:hover::after{transform: scaleX(1); transform-origin: left center;}\n.fixed{position: fixed;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-8{height: 2rem;}\n.w-8{width: 2rem;}\n.w-full{width: 100%;}\n.cursor-pointer{cursor: pointer;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-2{gap: 0.5rem;}\n.gap-1{gap: 0.25rem;}\n.gap-8{gap: 2rem;}\n.gap-6{gap: 1.5rem;}\n.rounded-full{border-radius: 9999px;}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.py-2\\.5{padding-top: 0.625rem; padding-bottom: 0.625rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-tight{font-family: \"Inter Tight\", sans-serif;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-\\[13px\\]{font-size: 13px;}\n.text-\\[10px\\]{font-size: 10px;}\n.font-medium{font-weight: 500;}\n.tracking-tighter{letter-spacing: -0.03em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-pearl{--tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.opacity-50{opacity: 0.5;}\n.shadow-lg{--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:rotate-90{--tw-rotate: 90deg; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:block{display: block;}}\n@media (min-width: 1024px){.lg\\:flex{display: flex;}}",
+    "footer_css": ".relative{position: relative;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.max-w-\\[1200px\\]{max-width: 1200px;}\n.max-w-xl{max-width: 36rem;}\n.flex-col{flex-direction: column;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-gray-800{--tw-bg-opacity: 1; background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));}\n.py-12{padding-top: 3rem; padding-bottom: 3rem;}\n.text-center{text-align: center;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.leading-relaxed{line-height: 1.625;}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:text-right{text-align: right;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@400;500;600&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Outline",
+      "bg": "rgb(255, 255, 255)",
+      "fg": "rgb(0, 0, 0)",
+      "bd": "oklch(1 0.00011 271.152)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.1) 0px 8px 16px 0px",
+      "radius": "9999px",
+      "px": "20px",
+      "py": "10px",
+      "height": "",
+      "fs": "13px",
+      "lh": "19.5px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "0.325px",
+      "tt": "none",
+      "fw": "500",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "rgb(255, 255, 255)",
+      "fg": "rgb(0, 0, 0)",
+      "bd": "oklch(1 0.00011 271.152)",
+      "bw": "1px",
+      "shadow": "rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.1) 0px 8px 16px 0px",
+      "radius": "9999px",
+      "px": "24px",
+      "py": "12px",
+      "height": "",
+      "fs": "14px",
+      "lh": "21px",
+      "ff": "\"Inter Tight\", sans-serif",
+      "ls": "0.35px",
+      "tt": "none",
+      "fw": "500",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "lg",
+  "spacingTokens": [
+    {
+      "value": "40px",
+      "px": 40
+    },
+    {
+      "value": "160px",
+      "px": 160
+    },
+    {
+      "value": "225px",
+      "px": 225
+    }
+  ],
+  "footerContainerMax": "1200",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "24px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.8)",
+      "shadow": "oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px",
+      "backdrop": "blur(24px) saturate(1.2)",
+      "padding": "32px",
+      "hoverLift": false,
+      "count": 3
+    },
+    {
+      "fill": "rgb(75, 85, 99)",
+      "radius": "16px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgb(255, 255, 255)",
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 3
+    },
+    {
+      "fill": "",
+      "radius": "9999px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "oklch(1 0 0 / 0.8)",
+      "shadow": "oklch(1 0 0) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px 20px 40px 0px",
+      "backdrop": "blur(24px) saturate(1.2)",
+      "padding": "6px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/",
+      "https://fonts.gstatic.com/",
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@400;500;600&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [],
+    "animated": [],
+    "hovers": [
+      {
+        "selector": ".apple-sharpness",
+        "changed": {
+          "background-color": "oklch(1 0 0 / 0.7)",
+          "border-top-color": "oklch(1 0 0)",
+          "border-right-color": "oklch(1 0 0)",
+          "border-bottom-color": "oklch(1 0 0)",
+          "border-left-color": "oklch(1 0 0)",
+          "box-shadow": "oklch(1 0 0) 0px 1px 1px inset, rgba(0, 0, 0, 0.05) 0px 24px 48px"
+        }
+      },
+      {
+        "selector": ".liquid-btn",
+        "changed": {
+          "transform": "scale(1.02) translateY(-1px)",
+          "box-shadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px inset, rgba(0, 0, 0, 0.15) 0px 12px 24px"
+        }
+      },
+      {
+        "selector": ".liquid-btn::before",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".nav-link",
+        "changed": {
+          "color": "rgb(255, 255, 255)"
+        }
+      },
+      {
+        "selector": ".nav-link::after",
+        "changed": {
+          "transform": "scaleX(1)",
+          "transform-origin": "left center"
+        }
+      },
+      {
+        "selector": ".hover\\:text-white",
+        "changed": {
+          "--tw-text-opacity": "1",
+          "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+        }
+      },
+      {
+        "selector": ".group .group-hover\\:rotate-90",
+        "changed": {
+          "--tw-rotate": "90deg",
+          "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+        }
+      },
+      {
+        "selector": ".group .group-hover\\:scale-110",
+        "changed": {
+          "--tw-scale-x": "1.1",
+          "--tw-scale-y": "1.1",
+          "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+        }
+      },
+      {
+        "selector": "liquid-btn px-5 py-2.5 rounded-full font-tight text-[13px] f",
+        "changed": {
+          "transform": "matrix(1.02, 0, 0, 1.02, 0, -1.02)",
+          "boxShadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.15) 0px 11.9984px 23.9968px 0px"
+        },
+        "live": true
+      },
+      {
+        "selector": "liquid-btn px-6 py-3 rounded-full font-tight text-[14px] fon",
+        "changed": {
+          "transform": "matrix(1.02, 0, 0, 1.02, 0, -1.02)",
+          "boxShadow": "rgba(255, 255, 255, 0.25) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.15) 0px 11.9983px 23.9966px 0px"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".liquid-btn",
+        "props": "transform, box-shadow",
+        "duration": "0.3s, 0.3s"
+      },
+      {
+        "selector": ".liquid-btn::before",
+        "props": "opacity",
+        "duration": "0.4s"
+      },
+      {
+        "selector": ".nav-link",
+        "props": "color",
+        "duration": "0.3s"
+      },
+      {
+        "selector": ".nav-link::after",
+        "props": "transform",
+        "duration": "0.4s"
+      },
+      {
+        "selector": ".reveal-up",
+        "props": "opacity, transform",
+        "duration": "1.2s, 1.2s"
+      },
+      {
+        "selector": ".transition-transform",
+        "props": "transform",
+        "duration": "150ms"
+      },
+      {
+        "selector": ".transition-colors",
+        "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 1337,
+      "viewport": 900,
+      "virtualScroll": true,
+      "fixedFullscreenOverlays": 1,
+      "fixedCanvas": false
+    },
+    "libsBundled": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "three": false,
+      "lottie": false,
+      "swiper": false,
+      "framerMotion": false,
+      "aos": false,
+      "splitText": false
+    },
+    "traces": [
+      {
+        "i": 5,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 30,
+          "ease": "",
+          "scaled": false,
+          "sx": 1,
+          "tx": 0,
+          "ty": 30,
+          "complex": false,
+          "noisy": false,
+          "scrub": false
+        }
+      },
+      {
+        "i": 6,
+        "kind": "reveal",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "motion": {
+          "direction": "up",
+          "distance": 30,
+          "ease": "",
+          "scaled": false,
+          "sx": 1,
+          "tx": 0,
+          "ty": 30,
+          "complex": false,
+          "noisy": false,
+          "scrub": false
+        }
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#5",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "trace",
+        "target": "trace#6",
+        "evidence": "opacity 0→1 with a transform while entering the viewport",
+        "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".apple-sharpness",
+        "evidence": "background-color, border-top-color, border-right-color, border-bottom-color change on hover",
+        "suggest": "interaction: {effect:'lift'} or glow_border",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".liquid-btn",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".nav-link",
+        "evidence": "color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      },
+      {
+        "kind": "hover",
+        "target": ".hover\\:text-white",
+        "evidence": "--tw-text-opacity, color change on hover",
+        "suggest": "interaction: {effect:'color_shift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

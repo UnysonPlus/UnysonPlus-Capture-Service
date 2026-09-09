@@ -1,0 +1,148 @@
+{
+  "theme": {
+    "name": "Inari",
+    "slug": "inari",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1800px"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "heading_weight": "inherit",
+    "body": "Inter",
+    "google": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap",
+    "heading_visual": "Playfair Display",
+    "heading_visual_top": [
+      "Playfair Display",
+      "Merriweather",
+      "Source Serif 4",
+      "Cormorant",
+      "Cormorant Garamond"
+    ],
+    "body_visual": "Archivo",
+    "body_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(1 0 0 / 0.9)",
+    "accent": "oklch(0.9 0.05 150 / 0.05)",
+    "bg": "oklch(0.1 0.02 160)",
+    "heading": "rgb(255, 255, 255)",
+    "footer_text": "oklch(1 0 0 / 0.9)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Phenotypes",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Synthetics",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Ecology",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      }
+    ],
+    "logo": {
+      "font": "Inter",
+      "size": "11px",
+      "weight": "500",
+      "color": "oklch(1 0 0 / 0.6)",
+      "letter_spacing": "2.2px"
+    },
+    "cta": {
+      "enabled": true,
+      "label": "Access Portal",
+      "href": "/api/preview?category=nature&slug=the-seed-design-company",
+      "dedupe_from_menu": false,
+      "style": {
+        "bg": "oklch(0.9 0.05 150 / 0.05)",
+        "color": "rgba(255, 255, 255, 0.9)",
+        "radius": "9999px",
+        "padding": "10px 24px",
+        "font_weight": "500"
+      }
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [
+      {
+        "label": "Phyto-Networks",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "CRISPR Cas9",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Biomaterials",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Cambridge Labs",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Field Trials",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      },
+      {
+        "label": "Investors",
+        "url": "/api/preview?category=nature&slug=the-seed-design-company#"
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav class=\"fixed top-0 w-full z-50 px-8 py-5 flex items-center justify-between liquid-header\" id=\"navbar\">     <div class=\"flex items-center gap-3 cursor-pointer group\">       <div class=\"w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-clover bg-obsidian group-hover:bg-clover/10 transition-colors duration-500\">         <iconify-icon icon=\"ph:plant-light\" class=\"text-lg\"></iconify-icon>       </div>       <span class=\"font-sans font-medium text-[13px] tracking-widest uppercase text-white/90\">INARI</span>     </div>     <div class=\"hidden md:flex items-center gap-10 font-sans text-[11px] uppercase tracking-[0.2em] font-medium\">       <a href=\"#\" class=\"nav-link\">Genomic Labs</a>       <a href=\"#\" class=\"nav-link\">Phenotypes</a>       <a href=\"#\" class=\"nav-link\">Synthetics</a>       <a href=\"#\" class=\"nav-link\">Ecology</a>     </div>     <div class=\"flex items-center gap-4\">       <button class=\"dew-drop retina-border px-6 py-2.5 rounded-full font-sans text-[11px] uppercase tracking-[0.2em] font-medium flex items-center gap-2 text-white/90\">         Access Portal       </button>     </div>   </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"relative z-20 w-full px-8 py-20 border-t border-white/5 bg-gradient-to-b from-transparent to-obsidian\">     <div class=\"max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end\">       <!--SC_FCOL_0-->       <!--SC_FCOL_1-->     </div>   </footer>",
+    "footer_cols": [
+      "         <div class=\"flex items-center gap-3 mb-6\">           <iconify-icon icon=\"ph:plant-light\" class=\"text-clover text-2xl\"></iconify-icon>           <span class=\"font-serif italic text-white/70\">Inari Agriculture</span>         </div>         <p class=\"font-sans text-xs text-white/30 max-w-sm leading-relaxed font-light\">           Deploying nature's deepest algorithms. Our predictive design platform maps the full complexity of plant           genomes to solve planetary-scale challenges.         </p>       ",
+      "         <div class=\"flex flex-col gap-4\">           <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\">Research</h4>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-4 h-[1px] bg-white/20\"></div> Phyto-Networks           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-8 h-[1px] bg-white/20\"></div> CRISPR Cas9           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-2 h-[1px] bg-white/20\"></div> Biomaterials           </a>         </div>         <div class=\"flex flex-col gap-4 mt-8 md:mt-0\">           <h4 class=\"font-sans text-[10px] text-white/20 uppercase tracking-[0.3em] mb-2\">Operations</h4>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-6 h-[1px] bg-white/20\"></div> Cambridge Labs           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-3 h-[1px] bg-white/20\"></div> Field Trials           </a>           <a href=\"#\" class=\"font-serif text-sm text-white rhizome-link flex items-center gap-2\">             <div class=\"w-10 h-[1px] bg-white/20\"></div> Investors           </a>         </div>       "
+    ],
+    "footer_copyright": "",
+    "footer_heading_style": {
+      "transform": "uppercase",
+      "letterSpacing": "3px",
+      "fontWeight": "400",
+      "fontSize": "10px",
+      "color": "rgba(255, 255, 255, 0.2)"
+    },
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "12px",
+      "lineHeight": "19.5px",
+      "color": "rgba(255, 255, 255, 0.3)"
+    },
+    "base_css": "html, body{margin: 0px; padding: 0px; width: 100%; background-color: oklch(0.1 0.02 160); color: oklch(1 0 0 / 0.9); scroll-behavior: smooth; overflow-x: hidden;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Inter, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh4{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh4, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".vercel-grain{position: fixed; inset: 0px; z-index: 9999; pointer-events: none; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(https://openhero.art/api/%23noiseFilter)'/%3E%3C/svg%3E\"); opacity: 0.03; mix-blend-mode: screen;}\n.radial-portal{mask-image: radial-gradient(circle, black 35%, transparent 80%); will-change: transform;}\n.subsurface-text{text-shadow: oklch(0.75 0.25 145 / 0.35) 0px 0px 45px, oklch(0.75 0.25 145 / 0.15) 0px 0px 15px; background: linear-gradient(oklch(1 0 0) 0%, oklch(0.85 0.1 150) 100%) text; -webkit-text-fill-color: transparent;}\n@keyframes sway { \n  0%, 100% { transform: rotate(-0.5deg) translateX(-2px); }\n  50% { transform: rotate(0.5deg) translateX(2px); }\n}\n.kinetic-sway{display: inline-block; animation: 7s ease-in-out 0s infinite normal none running sway; transform-origin: center bottom;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n#portal-video{will-change: transform; transform: scale(1.4);}\nh1, h3{font-size: inherit; font-weight: inherit;}\nh1, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.-top-\\[10\\%\\]{top: -10%;}\n.z-10{z-index: 10;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.mb-4{margin-bottom: 1rem;}\n.h-2{height: 0.5rem;}\n.h-12{height: 3rem;}\n.h-\\[120\\%\\]{height: 120%;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.min-h-\\[85vh\\]{min-height: 85vh;}\n.w-12{width: 3rem;}\n.max-w-md{max-width: 28rem;}\n.max-w-xl{max-width: 36rem;}\n@keyframes pulse { \n  50% { opacity: 0.5; }\n}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-wrap{flex-wrap: wrap;}\n.gap-6{gap: 1.5rem;}\n.rounded-2xl{border-radius: 1rem;}\n.bg-clover{background-color: oklch(0.75 0.25 145);}\n.object-contain{object-fit: contain;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pt-\\[15vh\\]{padding-top: 15vh;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-\\[14px\\]{font-size: 14px;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.not-italic{font-style: normal;}\n.leading-\\[0\\.95\\]{line-height: 0.95;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.mix-blend-screen{mix-blend-mode: screen;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-\\[0_0_10px_oklch\\(75\\%_0\\.25_145\\/0\\.8\\)\\]{--tw-shadow: 0 0 10px oklch(75% 0.25 145/0.8); --tw-shadow-colored: 0 0 10px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.brightness-90{--tw-brightness: brightness(.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[1\\.15\\]{--tw-contrast: contrast(1.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.will-change-transform{will-change: transform;}\n.selection\\:text-clover ::selection{color: oklch(0.75 0.25 145);}\n.selection\\:text-clover::selection{color: oklch(0.75 0.25 145);}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:-top-\\[20\\%\\]{top: -20%;}}\n@media (min-width: 1024px){.lg\\:h-\\[140\\%\\]{height: 140%;}}\n@media (min-width: 1024px){.lg\\:h-full{height: 100%;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:justify-end{justify-content: flex-end;}}\n@media (min-width: 1024px){.lg\\:gap-20{gap: 5rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[6\\.5rem\\]{font-size: 6.5rem;}}",
+    "header_css": ".liquid-header{backdrop-filter: blur(10px); background: linear-gradient(oklch(0.1 0.02 160 / 0.8), oklch(0.1 0.02 160 / 0)); border-bottom: 0.5px solid oklch(1 0 0 / 0.05);}\n.nav-link{color: oklch(1 0 0 / 0.6); transition: color 0.4s, text-shadow 0.4s;}\n.nav-link:hover{color: oklch(0.75 0.25 145); text-shadow: oklch(0.75 0.25 145 / 0.4) 0px 0px 15px;}\n.retina-border{box-shadow: oklch(1 0 0 / 0.15) 0px 0px 0px 0.5px inset;}\n.dew-drop{position: relative; overflow: hidden; background: oklch(0.9 0.05 150 / 0.05); backdrop-filter: blur(8px); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, background 0.5s;}\n.dew-drop:hover{transform: scale(1.03); background: oklch(0.9 0.05 150 / 0.1); box-shadow: oklch(0.75 0.25 145 / 0.5) 0px 0px 0px 0.5px inset, oklch(0.75 0.25 145 / 0.15) 0px 15px 35px;}\n.fixed{position: fixed;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-8{height: 2rem;}\n.w-8{width: 2rem;}\n.w-full{width: 100%;}\n.cursor-pointer{cursor: pointer;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-10{gap: 2.5rem;}\n.gap-2{gap: 0.5rem;}\n.gap-4{gap: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.bg-obsidian{background-color: oklch(0.1 0.02 160);}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-2\\.5{padding-top: 0.625rem; padding-bottom: 0.625rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-\\[13px\\]{font-size: 13px;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-clover{color: oklch(0.75 0.25 145);}\n.text-white\\/90{color: rgba(255, 255, 255, 0.9);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".rhizome-link{opacity: 0.4; transition: opacity 0.5s, transform 0.5s, color 0.5s;}\n.rhizome-link:hover{opacity: 1; color: oklch(0.75 0.25 145); transform: translateX(4px);}\n.relative{position: relative;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mt-8{margin-top: 2rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.grid{display: grid;}\n.h-\\[1px\\]{height: 1px;}\n.w-2{width: 0.5rem;}\n.w-10{width: 2.5rem;}\n.w-3{width: 0.75rem;}\n.w-4{width: 1rem;}\n.w-6{width: 1.5rem;}\n.max-w-\\[1800px\\]{max-width: 1800px;}\n.max-w-sm{max-width: 24rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-end{justify-content: flex-end;}\n.gap-12{gap: 3rem;}\n.gap-16{gap: 4rem;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/20{background-color: rgba(255, 255, 255, 0.2);}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.from-transparent{--tw-gradient-from: transparent var(--tw-gradient-from-position); --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);}\n.to-obsidian{--tw-gradient-to: oklch(10% 0.02 160) var(--tw-gradient-to-position);}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-white\\/30{color: rgba(255, 255, 255, 0.3);}\n.text-white\\/20{color: rgba(255, 255, 255, 0.2);}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-32{gap: 8rem;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:gap-8{gap: 2rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+    ]
+  }
+}

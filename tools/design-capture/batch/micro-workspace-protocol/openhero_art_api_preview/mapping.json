@@ -1,0 +1,861 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-screen flex items-center justify-center overflow-hidden pt-20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".keycap-glow{box-shadow: rgba(0, 240, 255, 0.15) 0px 0px 30px, rgba(0, 240, 255, 0.05) 0px 0px 15px inset;}\n.keycap-glow:hover{box-shadow: rgba(255, 176, 58, 0.25) 0px 0px 45px, rgba(255, 176, 58, 0.1) 0px 0px 20px inset;}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.inline-flex{display: inline-flex;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.animate-spin{animation: 1s linear 0s infinite normal none running spin;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.items-stretch{align-items: stretch;}\n.justify-center{justify-content: center;}\n.gap-12{gap: 3rem;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-none{border-radius: 0px;}\n.border{border-width: 1px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.bg-cyber-surface\\/80{background-color: rgba(17, 22, 27, 0.8);}\n.bg-cyber-accent{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.bg-cyber-surface\\/40{background-color: rgba(17, 22, 27, 0.4);}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-clip-text{background-clip: text;}\n.object-cover{object-fit: cover;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-1\\.5{padding-top: 0.375rem; padding-bottom: 0.375rem;}\n.py-12{padding-top: 3rem; padding-bottom: 3rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-20{padding-top: 5rem;}\n.text-left{text-align: left;}\n.text-center{text-align: center;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[1\\.1\\]{line-height: 1.1;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyber-amber{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-cyber-bg{--tw-text-opacity: 1; color: rgb(8 11 14 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-transparent{color: transparent;}\n.opacity-40{opacity: 0.4;}\n.mix-blend-screen{mix-blend-mode: screen;}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:border-slate-400:hover{--tw-border-opacity: 1; border-color: rgb(148 163 184 / var(--tw-border-opacity, 1));}\n.hover\\:bg-cyber-glow:hover{--tw-bg-opacity: 1; background-color: rgb(0 240 255 / var(--tw-bg-opacity, 1));}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:items-center{align-items: center;}}\n@media (min-width: 640px){.sm\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(226, 232, 240)",
+            "padding": "80px 0px 0px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 z-0\">             <video id=\"hero-bg-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover opacity-40 mix-blend-screen\" style=\"transform: translateY(0px);\">                 <source src=\"https://videos.openhero.art/downloads/tech/micro-workspace-protocol/video.mp4\" type=\"video/mp4\">             </video>             <div class=\"absolute inset-0 bg-gradient-to-t from-cyber-bg via-cyber-bg/5 to-transparent\"></div>         </div>         <div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center py-12\">             <div class=\"lg:col-span-7 space-y-8 text-left\">                 <div class=\"inline-flex items-center gap-3 border border-cyber-border bg-cyber-surface/80 px-4 py-1.5 rounded-none\">                     <iconify-icon icon=\"radial-blur\" class=\"text-cyber-amber animate-spin\"></iconify-icon>                     <span class=\"font-mono text-xs uppercase tracking-widest text-slate-300\">Enclosed Development Sandbox</span>                 </div>                 <h1 class=\"text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]\">                     Build Deep Inside <br>                     <span class=\"font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyber-accent via-cyber-lamp to-cyber-amber\">The Micro Matrix.</span>                 </h1>                 <p class=\"max-w-xl text-slate-400 text-base sm:text-lg font-light leading-relaxed\">                     Step inside isolated execution chambers built beneath hardware arrays. Where minimalist ambient desk lamps meet infinite arrays of raw compiling intelligence.                 </p>                 <div class=\"flex flex-col sm:flex-row items-stretch sm:items-center gap-4\">                     <a href=\"#console\" class=\"px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-glow transition-all text-center keycap-glow\">                         Initialize Terminal                     </a>                     <a href=\"#architecture\" class=\"px-8 py-4 border border-cyber-border bg-cyber-surface/40 font-mono text-xs uppercase tracking-widest font-light text-slate-300 hover:border-slate-400 transition-all text-center\">                         Review Blueprints                     </a>                 </div>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/tech/micro-workspace-protocol/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=tech&slug=micro-workspace-protocol",
+              "poster": "https://openhero.art/api/preview?category=tech&slug=micro-workspace-protocol",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover opacity-40 mix-blend-screen absolute inset-0 z-0 relative min-h-screen flex items-center justify-center overflow-hidden pt-20 antialiased selection:bg-cyber-amber selection:text-cyber-bg",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-cyber-bg via-cyber-bg/5 to-transparent\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to top, rgb(8, 11, 14), rgba(8, 11, 14, 0.05), rgba(0, 0, 0, 0))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "text",
+              "html": "<span class=\"font-mono text-xs uppercase tracking-widest text-slate-300\">Enclosed Development Sandbox</span>",
+              "text": "Enclosed Development Sandbox",
+              "tag": "span",
+              "cls": "font-mono text-xs uppercase tracking-widest text-slate-300",
+              "fontSize": "12px",
+              "color": "rgb(203, 213, 225)",
+              "lineHeight": "16px",
+              "letterSpacing": "1.2px",
+              "marginBottom": "0px",
+              "textAlign": "left",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Build Deep Inside <br> The Micro Matrix.",
+              "text": "Build Deep Inside The Micro Matrix.",
+              "tag": "h1",
+              "cls": "text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]",
+              "wrapCls": "lg:col-span-7 space-y-8 text-left",
+              "fontSize": "72px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "32px",
+              "lineHeight": "72px",
+              "letterSpacing": "-1.8px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"max-w-xl text-slate-400 text-base sm:text-lg font-light leading-relaxed\">                     Step inside isolated execution chambers built beneath hardware arrays. Where minimalist ambient desk lamps meet infinite arrays of raw compiling intelligence.                 </p>",
+              "text": "Step inside isolated execution chambers built beneath hardware arrays. Where minimalist ambient desk lamps meet infinite arrays of raw compiling intelligence.",
+              "tag": "p",
+              "cls": "max-w-xl text-slate-400 text-base sm:text-lg font-light leading-relaxed",
+              "fontSize": "18px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "28px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "left",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "button",
+              "label": "Initialize Terminal",
+              "href": "https://openhero.art/api/preview?category=tech&slug=micro-workspace-protocol#console",
+              "tag": "a",
+              "cls": "px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-glow transition-all text-center keycap-glow",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "48px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "700",
+              "hover": {
+                "backgroundColor": "rgb(0, 240, 255)"
+              },
+              "groupRow": true,
+              "groupFirst": true,
+              "groupLast": false,
+              "bs": {
+                "bg": "rgb(56, 189, 248)",
+                "fg": "rgb(8, 11, 14)",
+                "bd": "rgb(229, 231, 235)",
+                "bds": "solid",
+                "bw": "0px"
+              }
+            },
+            {
+              "t": "button",
+              "label": "Review Blueprints",
+              "href": "https://openhero.art/api/preview?category=tech&slug=micro-workspace-protocol#architecture",
+              "tag": "a",
+              "cls": "px-8 py-4 border border-cyber-border bg-cyber-surface/40 font-mono text-xs uppercase tracking-widest font-light text-slate-300 hover:border-slate-400 transition-all text-center",
+              "align": "center",
+              "icon": "",
+              "iconSvg": "",
+              "iconPos": "after",
+              "pad": "16px 32px",
+              "height": "50px",
+              "radius": "0px",
+              "lineHeight": "16px",
+              "fontSize": "12px",
+              "fontWeight": "300",
+              "hover": {
+                "borderColor": "rgb(229, 231, 235)"
+              },
+              "groupRow": true,
+              "groupFirst": false,
+              "groupLast": true,
+              "bs": {
+                "bg": "rgba(17, 22, 27, 0.4)",
+                "fg": "rgb(203, 213, 225)",
+                "bd": "rgb(34, 44, 55)",
+                "bds": "solid",
+                "bw": "1px"
+              }
+            }
+          ],
+          "css_id": "hero"
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 max-w-7xl mx-auto px-6",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".code-reveal{opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\n.code-reveal.active{opacity: 1; transform: translateY(0px);}\n.isometric-card{transition: transform 0.4s, box-shadow 0.4s;}\n.isometric-card:hover{transform: translateY(-6px) scale(1.01); border-color: rgba(255, 176, 58, 0.3);}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.block{display: block;}\n.grid{display: grid;}\n.max-w-7xl{max-width: 80rem;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.gap-12{gap: 3rem;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.border{border-width: 1px;}\n.border-l-2{border-left-width: 2px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.border-cyber-accent{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.border-cyber-lamp{--tw-border-opacity: 1; border-color: rgb(255 176 58 / var(--tw-border-opacity, 1));}\n.bg-cyber-card{--tw-bg-opacity: 1; background-color: rgb(22 29 36 / var(--tw-bg-opacity, 1));}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pl-4{padding-left: 1rem;}\n.pt-4{padding-top: 1rem;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.font-semibold{font-weight: 600;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-wider{letter-spacing: 0.05em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyber-amber{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-cyber-lamp{--tw-text-opacity: 1; color: rgb(255 176 58 / var(--tw-text-opacity, 1));}\n.text-cyber-glow{--tw-text-opacity: 1; color: rgb(0 240 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(226, 232, 240)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"grid lg:grid-cols-12 gap-12 items-center\">                 <div class=\"lg:col-span-5 space-y-6 code-reveal active\">                     <span class=\"font-mono text-xs text-cyber-amber uppercase tracking-widest block\">ENVIRONMENT SPECIFICATION</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white\">The Enclave Architecture</h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency.                     </p>                     <div class=\"grid grid-cols-2 gap-4 pt-4\">                         <div class=\"border-l-2 border-cyber-accent pl-4\">                             <div class=\"font-mono text-xl font-bold text-white\">99.98%</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Focus Retention</div>                         </div>                         <div class=\"border-l-2 border-cyber-lamp pl-4\">                             <div class=\"font-mono text-xl font-bold text-white\">&lt; 1.2ms</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Latency Buffer</div>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\">                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:terminal-window-light\" class=\"text-3xl text-cyber-accent\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Localized Shell</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Run completely segmented file structures unaffected by the greater operating ecosystem overhead.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:lightbulb-filament-light\" class=\"text-3xl text-cyber-lamp\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Warm Illumination</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Calibrated 2700K ambient desk emitters built overhead to maintain focus loops through deep night operations.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:layout-light\" class=\"text-3xl text-slate-400\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Matrix Key Binding</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Direct physical mappings linking switches with multi-tier conditional programming macros instantly.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:shield-warning-light\" class=\"text-3xl text-cyber-glow\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Physical Sandbox</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Hardware isolated walls stopping malicious executions from breaking out into external grid channels.                         </p>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5 space-y-6 code-reveal active",
+                  "colId": "sccol-0",
+                  "cw": 5,
+                  "html": "                     <span class=\"font-mono text-xs text-cyber-amber uppercase tracking-widest block\">ENVIRONMENT SPECIFICATION</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white\">The Enclave Architecture</h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency.                     </p>                     <div class=\"grid grid-cols-2 gap-4 pt-4\">                         <div class=\"border-l-2 border-cyber-accent pl-4\">                             <div class=\"font-mono text-xl font-bold text-white\">99.98%</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Focus Retention</div>                         </div>                         <div class=\"border-l-2 border-cyber-lamp pl-4\">                             <div class=\"font-mono text-xl font-bold text-white\">&lt; 1.2ms</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Latency Buffer</div>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "ENVIRONMENT SPECIFICATION",
+                    "overlineClass": "font-mono text-xs text-cyber-amber uppercase tracking-widest block",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Enclave Architecture",
+                    "titleTag": "h2",
+                    "titleClass": "text-4xl sm:text-5xl font-bold tracking-tight text-white",
+                    "subtitle": "By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency.",
+                    "subtitleClass": "text-slate-400 font-light leading-relaxed",
+                    "wrapClass": "lg:col-span-5 space-y-6 code-reveal active",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 grid sm:grid-cols-2 gap-6",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:terminal-window-light\" class=\"text-3xl text-cyber-accent\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Localized Shell</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Run completely segmented file structures unaffected by the greater operating ecosystem overhead.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:lightbulb-filament-light\" class=\"text-3xl text-cyber-lamp\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Warm Illumination</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Calibrated 2700K ambient desk emitters built overhead to maintain focus loops through deep night operations.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:layout-light\" class=\"text-3xl text-slate-400\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Matrix Key Binding</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Direct physical mappings linking switches with multi-tier conditional programming macros instantly.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:shield-warning-light\" class=\"text-3xl text-cyber-glow\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Physical Sandbox</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Hardware isolated walls stopping malicious executions from breaking out into external grid channels.                         </p>                     </div>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#38bdf8",
+                    "iconBadge": "solid-square",
+                    "iconBadgeColor": "#161d24",
+                    "iconBadgeSize": 284,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "1px",
+                    "iconBadgeBorderColor": "#222c37",
+                    "title": "Localized Shell",
+                    "titleTag": "h3",
+                    "titleWeight": "600",
+                    "text": "<p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Run completely segmented file structures unaffected by the greater operating ecosystem overhead.                         </p>",
+                    "link": null,
+                    "cls": "isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgb(22, 29, 36)",
+                      "fill": "rgb(22, 29, 36)",
+                      "radius": "",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgb(34, 44, 55)",
+                      "shadow": "",
+                      "backdrop": "",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 48,
+              "gapResp": {
+                "base": 48,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-12 items-center\">                 <div class=\"lg:col-span-5 space-y-6 code-reveal active\" data-sc-col=\"sccol-0\">                     <span class=\"font-mono text-xs text-cyber-amber uppercase tracking-widest block\">ENVIRONMENT SPECIFICATION</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white\">The Enclave Architecture</h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         By structuralizing developer terminals inside high-clearance physical key capsules, operations are permanently shielded from macro system wide failures. Isolation breeds focus, and micro spaces maximize compilation efficiency.                     </p>                     <div class=\"grid grid-cols-2 gap-4 pt-4\">                         <div class=\"border-l-2 border-cyber-accent pl-4\" data-sc-col=\"sccol-1\">                             <div class=\"font-mono text-xl font-bold text-white\">99.98%</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Focus Retention</div>                         </div>                         <div class=\"border-l-2 border-cyber-lamp pl-4\" data-sc-col=\"sccol-2\">                             <div class=\"font-mono text-xl font-bold text-white\">&lt; 1.2ms</div>                             <div class=\"text-xs text-slate-500 tracking-wider uppercase\">Latency Buffer</div>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\" data-sc-col=\"sccol-3\">                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:terminal-window-light\" class=\"text-3xl text-cyber-accent\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Localized Shell</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Run completely segmented file structures unaffected by the greater operating ecosystem overhead.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:lightbulb-filament-light\" class=\"text-3xl text-cyber-lamp\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Warm Illumination</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Calibrated 2700K ambient desk emitters built overhead to maintain focus loops through deep night operations.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:layout-light\" class=\"text-3xl text-slate-400\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Matrix Key Binding</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Direct physical mappings linking switches with multi-tier conditional programming macros instantly.                         </p>                     </div>                     <div class=\"isometric-card border border-cyber-border bg-cyber-card p-8 space-y-4\">                         <iconify-icon icon=\"ph:shield-warning-light\" class=\"text-3xl text-cyber-glow\"></iconify-icon>                         <h3 class=\"text-xl font-semibold text-white\">Physical Sandbox</h3>                         <p class=\"text-sm text-slate-400 font-light leading-relaxed\">                             Hardware isolated walls stopping malicious executions from breaking out into external grid channels.                         </p>                     </div>                 </div>             </div>"
+            }
+          ],
+          "css_id": "content"
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 bg-cyber-surface/50 border-y border-cyber-border",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".code-reveal{opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\n.code-reveal.active{opacity: 1; transform: translateY(0px);}\n.cursor-blink::after{content: \"|\"; animation: 1s step-end 0s infinite normal none running blink;}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.ml-2{margin-left: 0.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.h-2\\.5{height: 0.625rem;}\n.min-h-\\[320px\\]{min-height: 320px;}\n.w-full{width: 100%;}\n.w-2\\.5{width: 0.625rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-4xl{max-width: 56rem;}\n.select-none{user-select: none;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-2{gap: 0.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.border-cyber-border\\/60{border-color: rgba(34, 44, 55, 0.6);}\n.bg-cyber-surface{--tw-bg-opacity: 1; background-color: rgb(17 22 27 / var(--tw-bg-opacity, 1));}\n.bg-cyber-bg{--tw-bg-opacity: 1; background-color: rgb(8 11 14 / var(--tw-bg-opacity, 1));}\n.bg-cyber-card\\/50{background-color: rgba(22, 29, 36, 0.5);}\n.bg-cyber-surface\\/50{background-color: rgba(17, 22, 27, 0.5);}\n.bg-green-500\\/40{background-color: rgba(34, 197, 94, 0.4);}\n.bg-red-500\\/40{background-color: rgba(239, 68, 68, 0.4);}\n.bg-yellow-500\\/40{background-color: rgba(234, 179, 8, 0.4);}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.p-4{padding: 1rem;}\n.p-6{padding: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-3{padding-top: 0.75rem; padding-bottom: 0.75rem;}\n.pt-2{padding-top: 0.5rem;}\n.text-center{text-align: center;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.font-bold{font-weight: 700;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyber-amber{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-600{--tw-text-opacity: 1; color: rgb(71 85 105 / var(--tw-text-opacity, 1));}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-sm{font-size: 0.875rem; line-height: 1.25rem;}}",
+          "computed": {
+            "background": "rgba(17, 22, 27, 0.5)",
+            "color": "rgb(226, 232, 240)",
+            "padding": "128px 0px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-7xl mx-auto px-6\">                 <div class=\"max-w-2xl mx-auto text-center mb-16 code-reveal active\">                     <span class=\"font-mono text-xs text-cyber-accent uppercase tracking-widest block mb-3\">COMMAND OVERRIDE</span>                     <h2 class=\"text-3xl sm:text-5xl font-bold tracking-tight text-white\">Interactive Sandbox Matrix</h2>                 </div>                 <div class=\"w-full max-w-4xl mx-auto border border-cyber-border bg-cyber-bg shadow-2xl overflow-hidden\">                     <div class=\"bg-cyber-surface px-4 py-3 border-b border-cyber-border flex items-center justify-between select-none\">                         <div class=\"flex items-center gap-2\">                             <span class=\"w-2.5 h-2.5 rounded-full bg-red-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-yellow-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-green-500/40\"></span>                             <span class=\"font-mono text-xs text-slate-500 ml-2\">enclave_kernel_v4.sh</span>                         </div>                         <span class=\"font-mono text-[10px] text-slate-600\">TTY // 1</span>                     </div>                                          <div class=\"p-6 font-mono text-xs sm:text-sm space-y-4 min-h-[320px] bg-gradient-to-b from-cyber-bg to-cyber-surface/20\">                         <div class=\"flex items-start gap-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-slate-300\">init --container=enter_keycap</span>                         </div>                         <div class=\"text-slate-500 space-y-1\">                             <div>[ OK ] Mounting miniature physical storage matrix...</div>                             <div>[ OK ] Aligning overhead incandescent ambient illumination arrays...</div>                             <div>[ OK ] Calibrating 16x16 macro switch layout profiles...</div>                         </div>                         <div class=\"flex items-start gap-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-slate-300\">cat core_philosophy.txt</span>                         </div>                         <div class=\"text-cyber-amber leading-relaxed bg-cyber-card/50 p-4 border border-cyber-border/60\">                             \"Great applications are not born on expansive arrays, but written inside localized pockets of absolute clarity. Own your inputs. Perfect your keycaps.\"                         </div>                         <div class=\"flex items-center gap-2 pt-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-white cursor-blink\" id=\"terminal-input-mock\">compile_all</span>                         </div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "COMMAND OVERRIDE",
+              "text": "COMMAND OVERRIDE",
+              "cls": "font-mono text-xs text-cyber-accent uppercase tracking-widest block mb-3",
+              "pill": false,
+              "color": "rgb(56, 189, 248)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "1.2px",
+              "fontWeight": "400",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Interactive Sandbox Matrix",
+              "text": "Interactive Sandbox Matrix",
+              "tag": "h2",
+              "cls": "text-3xl sm:text-5xl font-bold tracking-tight text-white",
+              "wrapCls": "max-w-2xl mx-auto text-center mb-16 code-reveal active",
+              "fontSize": "48px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "48px",
+              "letterSpacing": "-1.2px",
+              "align": "center"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex items-center gap-2",
+                  "colId": "sccol-4",
+                  "cw": 3,
+                  "html": "                             <span class=\"w-2.5 h-2.5 rounded-full bg-red-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-yellow-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-green-500/40\"></span>                             <span class=\"font-mono text-xs text-slate-500 ml-2\">enclave_kernel_v4.sh</span>                         ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "center",
+                    "gap": "8px"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 8,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "font-mono text-[10px] text-slate-600",
+                  "colId": "sccol-5",
+                  "cw": 1,
+                  "html": "TTY // 1",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 2,
+                    "tablet": 1,
+                    "desktop": 1
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"bg-cyber-surface px-4 py-3 border-b border-cyber-border flex items-center justify-between select-none\">                         <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-4\">                             <span class=\"w-2.5 h-2.5 rounded-full bg-red-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-yellow-500/40\"></span>                             <span class=\"w-2.5 h-2.5 rounded-full bg-green-500/40\"></span>                             <span class=\"font-mono text-xs text-slate-500 ml-2\">enclave_kernel_v4.sh</span>                         </div>                         <span class=\"font-mono text-[10px] text-slate-600\" data-sc-col=\"sccol-5\">TTY // 1</span>                     </div>"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"flex items-start gap-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-slate-300\">init --container=enter_keycap</span>                         </div>",
+              "text": "guest@nexus:~$ init --container=enter_keycap",
+              "tag": "div",
+              "cls": "flex items-start gap-2",
+              "fontSize": "14px",
+              "color": "rgb(226, 232, 240)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div>[ OK ] Mounting miniature physical storage matrix...</div>",
+              "text": "[ OK ] Mounting miniature physical storage matrix...",
+              "tag": "div",
+              "cls": "",
+              "fontSize": "14px",
+              "color": "rgb(100, 116, 139)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div>[ OK ] Aligning overhead incandescent ambient illumination arrays...</div>",
+              "text": "[ OK ] Aligning overhead incandescent ambient illumination arrays...",
+              "tag": "div",
+              "cls": "",
+              "fontSize": "14px",
+              "color": "rgb(100, 116, 139)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div>[ OK ] Calibrating 16x16 macro switch layout profiles...</div>",
+              "text": "[ OK ] Calibrating 16x16 macro switch layout profiles...",
+              "tag": "div",
+              "cls": "",
+              "fontSize": "14px",
+              "color": "rgb(100, 116, 139)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"flex items-start gap-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-slate-300\">cat core_philosophy.txt</span>                         </div>",
+              "text": "guest@nexus:~$ cat core_philosophy.txt",
+              "tag": "div",
+              "cls": "flex items-start gap-2",
+              "fontSize": "14px",
+              "color": "rgb(226, 232, 240)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"text-cyber-amber leading-relaxed bg-cyber-card/50 p-4 border border-cyber-border/60\">                             \"Great applications are not born on expansive arrays, but written inside localized pockets of absolute clarity. Own your inputs. Perfect your keycaps.\"                         </div>",
+              "text": "\"Great applications are not born on expansive arrays, but written inside localized pockets of absolute clarity. Own your inputs. Perfect your keycaps.\"",
+              "tag": "div",
+              "cls": "text-cyber-amber leading-relaxed bg-cyber-card/50 p-4 border border-cyber-border/60",
+              "fontSize": "14px",
+              "color": "rgb(245, 158, 11)",
+              "lineHeight": "22.75px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            },
+            {
+              "t": "text",
+              "html": "<div class=\"flex items-center gap-2 pt-2\">                             <span class=\"text-cyber-accent\">guest@nexus:~$</span>                             <span class=\"text-white cursor-blink\" id=\"terminal-input-mock\">compile_all</span>                         </div>",
+              "text": "guest@nexus:~$ compile_all",
+              "tag": "div",
+              "cls": "flex items-center gap-2 pt-2",
+              "fontSize": "14px",
+              "color": "rgb(226, 232, 240)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "400",
+              "textTransform": "none"
+            }
+          ],
+          "css_id": "features"
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 max-w-7xl mx-auto px-6",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".code-reveal{opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.h-80{height: 20rem;}\n.w-12{width: 3rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xs{max-width: 20rem;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-8{gap: 2rem;}\n.gap-6{gap: 1.5rem;}\n.border{border-width: 1px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.border-cyber-accent\\/20{border-color: rgba(56, 189, 248, 0.2);}\n.border-cyber-lamp\\/20{border-color: rgba(255, 176, 58, 0.2);}\n.border-cyber-glow\\/20{border-color: rgba(0, 240, 255, 0.2);}\n.bg-cyber-card{--tw-bg-opacity: 1; background-color: rgb(22 29 36 / var(--tw-bg-opacity, 1));}\n.bg-cyber-accent\\/10{background-color: rgba(56, 189, 248, 0.1);}\n.bg-cyber-lamp\\/10{background-color: rgba(255, 176, 58, 0.1);}\n.bg-cyber-glow\\/10{background-color: rgba(0, 240, 255, 0.1);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-cyber-lamp{--tw-text-opacity: 1; color: rgb(255 176 58 / var(--tw-text-opacity, 1));}\n.text-cyber-glow{--tw-text-opacity: 1; color: rgb(0 240 255 / var(--tw-text-opacity, 1));}\n.text-slate-600{--tw-text-opacity: 1; color: rgb(71 85 105 / var(--tw-text-opacity, 1));}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:border-cyber-accent\\/40:hover{border-color: rgba(56, 189, 248, 0.4);}\n.hover\\:border-cyber-lamp\\/40:hover{border-color: rgba(255, 176, 58, 0.4);}\n.hover\\:border-cyber-glow\\/40:hover{border-color: rgba(0, 240, 255, 0.4);}\n.group:hover .group-hover\\:text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:text-cyber-lamp{--tw-text-opacity: 1; color: rgb(255 176 58 / var(--tw-text-opacity, 1));}\n.group:hover .group-hover\\:text-cyber-glow{--tw-text-opacity: 1; color: rgb(0 240 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-end{align-items: flex-end;}}",
+          "computed": {
+            "color": "rgb(226, 232, 240)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 code-reveal\">                 <div>                     <span class=\"font-mono text-xs text-cyber-lamp uppercase tracking-widest block mb-3\">WORKSPACE CONTROLS</span>                     <h2 class=\"text-4xl font-bold tracking-tight text-white\">Configured Nodes</h2>                 </div>                 <p class=\"text-slate-400 max-w-xs font-light text-sm\">                     Toggle through custom execution parameters engineered specifically for enclosed workspace developers.                 </p>             </div>             <div class=\"grid md:grid-cols-3 gap-8\">                 <div class=\"border border-cyber-border bg-cyber-card p-8 flex flex-col justify-between h-80 group hover:border-cyber-accent/40 transition-colors\">                     <div>                         <div class=\"flex justify-between items-start mb-6\">                             <div class=\"w-12 h-12 bg-cyber-accent/10 border border-cyber-accent/20 flex items-center justify-center text-cyber-accent text-xl\">                                 <iconify-icon icon=\"ph:cube-light\"></iconify-icon>                             </div>                             <span class=\"font-mono text-xs text-slate-600\">01 / NODE</span>                         </div>                         <h3 class=\"text-xl font-bold text-white mb-2 group-hover:text-cyber-accent transition-colors\">Encapsulation</h3>                         <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                             Complete separation of system parameters ensures clean testing environment variables every runtime cycle.                         </p>                     </div>                     <div class=\"font-mono text-[11px] text-slate-500 uppercase tracking-widest\">Status: Active Isolation</div>                 </div>                 <div class=\"border border-cyber-border bg-cyber-card p-8 flex flex-col justify-between h-80 group hover:border-cyber-lamp/40 transition-colors\">                     <div>                         <div class=\"flex justify-between items-start mb-6\">                             <div class=\"w-12 h-12 bg-cyber-lamp/10 border border-cyber-lamp/20 flex items-center justify-center text-cyber-lamp text-xl\">                                 <iconify-icon icon=\"ph:sliders-horizontal-light\"></iconify-icon>                             </div>                             <span class=\"font-mono text-xs text-slate-600\">02 / NODE</span>                         </div>                         <h3 class=\"text-xl font-bold text-white mb-2 group-hover:text-cyber-lamp transition-colors\">Lux Modulator</h3>                         <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                             Control localized photon emission. Transition from sharp morning compilation modes to deep amber environments.                         </p>                     </div>                     <div class=\"font-mono text-[11px] text-slate-500 uppercase tracking-widest\">Status: 2700K Calibrated</div>                 </div>                 <div class=\"border border-cyber-border bg-cyber-card p-8 flex flex-col justify-between h-80 group hover:border-cyber-glow/40 transition-colors\">                     <div>                         <div class=\"flex justify-between items-start mb-6\">                             <div class=\"w-12 h-12 bg-cyber-glow/10 border border-cyber-glow/20 flex items-center justify-center text-cyber-glow text-xl\">                                 <iconify-icon icon=\"ph:command-light\"></iconify-icon>                             </div>                             <span class=\"font-mono text-xs text-slate-600\">03 / NODE</span>                         </div>                         <h3 class=\"text-xl font-bold text-white mb-2 group-hover:text-cyber-glow transition-colors\">Macro Overlays</h3>                         <p class=\"text-slate-400 text-sm font-light leading-relaxed\">                             Bind comprehensive software stack configurations to physical key presses directly beneath your workspace platform.                         </p>                     </div>                     <div class=\"font-mono text-[11px] text-slate-500 uppercase tracking-widest\">Status: Bound via Layer 2</div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-6",
+                  "cw": 3,
+                  "html": "                     <span class=\"font-mono text-xs text-cyber-lamp uppercase tracking-widest block mb-3\">WORKSPACE CONTROLS</span>                     <h2 class=\"text-4xl font-bold tracking-tight text-white\">Configured Nodes</h2>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "WORKSPACE CONTROLS",
+                    "overlineClass": "font-mono text-xs text-cyber-lamp uppercase tracking-widest block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Configured Nodes",
+                    "titleTag": "h2",
+                    "titleClass": "text-4xl font-bold tracking-tight text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 5,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "text-slate-400 max-w-xs font-light text-sm",
+                  "colId": "sccol-7",
+                  "cw": 3,
+                  "html": "                     Toggle through custom execution parameters engineered specifically for enclosed workspace developers.                 ",
+                  "maxw": "320px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 5,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 code-reveal\">                 <div data-sc-col=\"sccol-6\">                     <span class=\"font-mono text-xs text-cyber-lamp uppercase tracking-widest block mb-3\">WORKSPACE CONTROLS</span>                     <h2 class=\"text-4xl font-bold tracking-tight text-white\">Configured Nodes</h2>                 </div>                 <p class=\"text-slate-400 max-w-xs font-light text-sm\" data-sc-col=\"sccol-7\">                     Toggle through custom execution parameters engineered specifically for enclosed workspace developers.                 </p>             </div>"
+            },
+            {
+              "t": "steps",
+              "items": [
+                {
+                  "title": "Encapsulation",
+                  "content": "Complete separation of system parameters ensures clean testing environment variables every runtime cycle.",
+                  "number": "01",
+                  "icon": null
+                },
+                {
+                  "title": "Lux Modulator",
+                  "content": "Control localized photon emission. Transition from sharp morning compilation modes to deep amber environments.",
+                  "number": "02",
+                  "icon": null
+                },
+                {
+                  "title": "Macro Overlays",
+                  "content": "Bind comprehensive software stack configurations to physical key presses directly beneath your workspace platform.",
+                  "number": "03",
+                  "icon": null
+                }
+              ],
+              "design": {
+                "design": "cards",
+                "box": {
+                  "bg": "rgb(22, 29, 36)",
+                  "fill": "rgb(22, 29, 36)",
+                  "radius": "",
+                  "borderWidth": "1px",
+                  "borderStyle": "solid",
+                  "borderColor": "rgb(34, 44, 55)",
+                  "shadow": "",
+                  "backdrop": "",
+                  "hoverLift": false
+                },
+                "connector": "none"
+              }
+            }
+          ],
+          "css_id": "steps"
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-32 bg-cyber-card/30 border-t border-cyber-border",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".code-reveal{opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.order-1{order: 1;}\n.order-2{order: 2;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.max-w-7xl{max-width: 80rem;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-16{gap: 4rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.border-cyber-border\\/40{border-color: rgba(34, 44, 55, 0.4);}\n.bg-cyber-accent\\/5{background-color: rgba(56, 189, 248, 0.05);}\n.bg-cyber-bg{--tw-bg-opacity: 1; background-color: rgb(8 11 14 / var(--tw-bg-opacity, 1));}\n.bg-cyber-card\\/30{background-color: rgba(22, 29, 36, 0.3);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-2{padding-top: 0.5rem;}\n.pb-1{padding-bottom: 0.25rem;}\n.pb-2{padding-bottom: 0.5rem;}\n.pb-3{padding-bottom: 0.75rem;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-cyber-amber{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-cyber-bg{--tw-text-opacity: 1; color: rgb(8 11 14 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.blur-\\[100px\\]{--tw-blur: blur(100px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:bg-cyber-amber:hover{--tw-bg-opacity: 1; background-color: rgb(245 158 11 / var(--tw-bg-opacity, 1));}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:order-1{order: 1;}}\n@media (min-width: 1024px){.lg\\:order-2{order: 2;}}\n@media (min-width: 1024px){.lg\\:col-span-6{grid-column: span 6 / span 6;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "background": "rgba(22, 29, 36, 0.3)",
+            "color": "rgb(226, 232, 240)",
+            "padding": "128px 0px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-6 relative order-2 lg:order-1\">                     <div class=\"absolute inset-0 bg-cyber-accent/5 blur-[100px] rounded-full pointer-events-none\"></div>                     <div class=\"border border-cyber-border p-8 bg-cyber-bg relative z-10 font-mono text-xs space-y-4\">                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-3 text-slate-500\">                             <span>COMPONENT MATRIX</span><span>SPECIFICATION ALPHA</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Key Profile</span><span class=\"text-white\">OEM / High-Transparency Profile</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Housing Type</span><span class=\"text-white\">Thick Polycarbonate Poly</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Internal Desk Matrix</span><span class=\"text-white\">Solid Walnut Facing Veneer</span>                         </div>                         <div class=\"flex justify-between pb-1\">                             <span class=\"text-slate-400\">LED Array Configuration</span><span class=\"text-cyber-amber\">SMD Neon Filament Simulation</span>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-6 space-y-6 order-1 lg:order-2 code-reveal\">                     <span class=\"font-mono text-xs text-cyber-accent uppercase tracking-widest block\">TACTILE INTERFACE</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight\">                         Premium enclosures built for sovereign operators.                     </h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.                     </p>                     <div class=\"pt-2\">                         <button class=\"px-8 py-4 bg-white text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-amber transition-colors\">                             Secure Build Slots                         </button>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-6 relative order-2 lg:order-1",
+                  "colId": "sccol-8",
+                  "cw": 5,
+                  "html": "                     <div class=\"absolute inset-0 bg-cyber-accent/5 blur-[100px] rounded-full pointer-events-none\"></div>                     <div class=\"border border-cyber-border p-8 bg-cyber-bg relative z-10 font-mono text-xs space-y-4\">                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-3 text-slate-500\">                             <span>COMPONENT MATRIX</span><span>SPECIFICATION ALPHA</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Key Profile</span><span class=\"text-white\">OEM / High-Transparency Profile</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Housing Type</span><span class=\"text-white\">Thick Polycarbonate Poly</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Internal Desk Matrix</span><span class=\"text-white\">Solid Walnut Facing Veneer</span>                         </div>                         <div class=\"flex justify-between pb-1\">                             <span class=\"text-slate-400\">LED Array Configuration</span><span class=\"text-cyber-amber\">SMD Neon Filament Simulation</span>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-6 space-y-6 order-1 lg:order-2 code-reveal",
+                  "colId": "sccol-11",
+                  "cw": 5,
+                  "html": "                     <span class=\"font-mono text-xs text-cyber-accent uppercase tracking-widest block\">TACTILE INTERFACE</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight\">                         Premium enclosures built for sovereign operators.                     </h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.                     </p>                     <div class=\"pt-2\">                         <button class=\"px-8 py-4 bg-white text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-amber transition-colors\">                             Secure Build Slots                         </button>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "overline",
+                      "html": "TACTILE INTERFACE",
+                      "text": "TACTILE INTERFACE",
+                      "cls": "font-mono text-xs text-cyber-accent uppercase tracking-widest block",
+                      "pill": false,
+                      "color": "rgb(56, 189, 248)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "uppercase",
+                      "fontSize": "12px",
+                      "letterSpacing": "1.2px",
+                      "fontWeight": "400",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 2,
+                      "html": "Premium enclosures built for sovereign operators.",
+                      "text": "Premium enclosures built for sovereign operators.",
+                      "tag": "h2",
+                      "cls": "text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight",
+                      "wrapCls": "lg:col-span-6 space-y-6 order-1 lg:order-2 code-reveal",
+                      "fontSize": "48px",
+                      "fontWeight": "700",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "0px",
+                      "marginTop": "24px",
+                      "lineHeight": "48px",
+                      "letterSpacing": "-1.2px",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"text-slate-400 font-light leading-relaxed\">                         Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.                     </p>",
+                      "text": "Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.",
+                      "tag": "p",
+                      "cls": "text-slate-400 font-light leading-relaxed",
+                      "fontSize": "16px",
+                      "color": "rgb(148, 163, 184)",
+                      "lineHeight": "26px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "button",
+                      "label": "Secure Build Slots",
+                      "href": "https://openhero.art/api/preview?category=tech&slug=micro-workspace-protocol",
+                      "tag": "button",
+                      "cls": "px-8 py-4 bg-white text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-amber transition-colors",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "16px 32px",
+                      "height": "48px",
+                      "radius": "0px",
+                      "lineHeight": "16px",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "hover": null,
+                      "groupRow": true,
+                      "groupFirst": true,
+                      "groupLast": true,
+                      "bs": {
+                        "bg": "rgb(255, 255, 255)",
+                        "fg": "rgb(8, 11, 14)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-6 relative order-2 lg:order-1\" data-sc-col=\"sccol-8\">                     <div class=\"absolute inset-0 bg-cyber-accent/5 blur-[100px] rounded-full pointer-events-none\"></div>                     <div class=\"border border-cyber-border p-8 bg-cyber-bg relative z-10 font-mono text-xs space-y-4\">                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-3 text-slate-500\">                             <span data-sc-col=\"sccol-9\">COMPONENT MATRIX</span><span data-sc-col=\"sccol-10\">SPECIFICATION ALPHA</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Key Profile</span><span class=\"text-white\">OEM / High-Transparency Profile</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Housing Type</span><span class=\"text-white\">Thick Polycarbonate Poly</span>                         </div>                         <div class=\"flex justify-between border-b border-cyber-border/40 pb-2\">                             <span class=\"text-slate-400\">Internal Desk Matrix</span><span class=\"text-white\">Solid Walnut Facing Veneer</span>                         </div>                         <div class=\"flex justify-between pb-1\">                             <span class=\"text-slate-400\">LED Array Configuration</span><span class=\"text-cyber-amber\">SMD Neon Filament Simulation</span>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-6 space-y-6 order-1 lg:order-2 code-reveal\" data-sc-col=\"sccol-11\">                     <span class=\"font-mono text-xs text-cyber-accent uppercase tracking-widest block\">TACTILE INTERFACE</span>                     <h2 class=\"text-4xl sm:text-5xl font-bold tracking-tight text-white leading-tight\">                         Premium enclosures built for sovereign operators.                     </h2>                     <p class=\"text-slate-400 font-light leading-relaxed\">                         Every enclosure features glass-clear polycarbonate resins that perfectly diffuse deep internal board glows. Own a fully sealed universe tailored exclusively to your execution syntax.                     </p>                     <div class=\"pt-2\">                         <button class=\"px-8 py-4 bg-white text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold hover:bg-cyber-amber transition-colors\">                             Secure Build Slots                         </button>                     </div>                 </div>             </div>"
+            }
+          ],
+          "css_id": "content"
+        },
+        {
+          "index": 5,
+          "sectionClass": "py-32 px-6 max-w-4xl mx-auto text-center relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".code-reveal{opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.w-full{width: 100%;}\n.max-w-xl{max-width: 36rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-md{max-width: 28rem;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.gap-4{gap: 1rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.whitespace-nowrap{white-space: nowrap;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-cyber-border{--tw-border-opacity: 1; border-color: rgb(34 44 55 / var(--tw-border-opacity, 1));}\n.bg-cyber-accent{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.bg-cyber-card{--tw-bg-opacity: 1; background-color: rgb(22 29 36 / var(--tw-bg-opacity, 1));}\n.bg-cyber-lamp\\/5{background-color: rgba(255, 176, 58, 0.05);}\n.px-5{padding-left: 1.25rem; padding-right: 1.25rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.text-center{text-align: center;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-cyber-bg{--tw-text-opacity: 1; color: rgb(8 11 14 / var(--tw-text-opacity, 1));}\n.text-cyber-accent{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.placeholder\\:text-slate-600::placeholder{--tw-text-opacity: 1; color: rgb(71 85 105 / var(--tw-text-opacity, 1));}\n.hover\\:bg-cyber-glow:hover{--tw-bg-opacity: 1; background-color: rgb(0 240 255 / var(--tw-bg-opacity, 1));}\n.focus\\:border-cyber-accent:focus{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 640px){.sm\\:w-auto{width: auto;}}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-base{font-size: 1rem; line-height: 1.5rem;}}",
+          "computed": {
+            "background": "rgba(255, 176, 58, 0.05)",
+            "color": "rgb(226, 232, 240)",
+            "padding": "128px 24px",
+            "margin": "0px 272px",
+            "fontFamily": "\"Space Grotesk\", sans-serif",
+            "fontSize": "16px",
+            "textAlign": "center",
+            "maxWidth": "896px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 bg-cyber-lamp/5 blur-3xl pointer-events-none rounded-full\"></div>             <div class=\"relative z-10 space-y-8 code-reveal\">                 <iconify-icon icon=\"ph:fingerprint-light\" class=\"text-4xl text-cyber-accent animate-pulse\"></iconify-icon>                 <h2 class=\"text-3xl sm:text-5xl font-bold tracking-tight text-white\">Subscribe to Core Logs</h2>                 <p class=\"text-slate-400 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed\">                     Get telemetry updates regarding micro environment frameworks, firmware releases, and clear enclosure material drops.                 </p>                 <div class=\"max-w-md mx-auto flex flex-col sm:flex-row items-center gap-4\">                     <input type=\"email\" placeholder=\"operator@domain.com\" class=\"w-full bg-cyber-card border border-cyber-border px-5 py-4 font-mono text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-cyber-accent transition-colors\">                     <button class=\"w-full sm:w-auto px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-cyber-glow transition-colors\">                         Connect Node                     </button>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-cyber-lamp/5 blur-3xl pointer-events-none rounded-full\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(255, 176, 58, 0.05)",
+                "bgImage": "",
+                "blur": "64px",
+                "blend": "",
+                "radius": "9999px",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 896,
+                "h": 541
+              }
+            },
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"ph:fingerprint-light\" class=\"text-4xl text-cyber-accent animate-pulse\"></iconify-icon>"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Subscribe to Core Logs",
+              "text": "Subscribe to Core Logs",
+              "tag": "h2",
+              "cls": "text-3xl sm:text-5xl font-bold tracking-tight text-white",
+              "wrapCls": "",
+              "fontSize": "48px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "32px",
+              "lineHeight": "48px",
+              "letterSpacing": "-1.2px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-slate-400 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed\">                     Get telemetry updates regarding micro environment frameworks, firmware releases, and clear enclosure material drops.                 </p>",
+              "text": "Get telemetry updates regarding micro environment frameworks, firmware releases, and clear enclosure material drops.",
+              "tag": "p",
+              "cls": "text-slate-400 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed",
+              "fontSize": "16px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "w-full sm:w-auto px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-cyber-glow transition-colors",
+                  "colId": "sccol-13",
+                  "cw": 4,
+                  "html": "                         Connect Node                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-md mx-auto flex flex-col sm:flex-row items-center gap-4\">                     <input type=\"email\" placeholder=\"operator@domain.com\" class=\"w-full bg-cyber-card border border-cyber-border px-5 py-4 font-mono text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-cyber-accent transition-colors\" data-sc-col=\"sccol-12\">                     <button class=\"w-full sm:w-auto px-8 py-4 bg-cyber-accent text-cyber-bg font-mono text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-cyber-glow transition-colors\" data-sc-col=\"sccol-13\">                         Connect Node                     </button>                 </div>"
+            }
+          ],
+          "css_id": "contact"
+        }
+      ]
+    }
+  ]
+}

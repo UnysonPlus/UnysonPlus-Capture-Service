@@ -1,0 +1,25 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~4412px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#4,pinned for ~4412px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#5,pinned for ~4412px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#6,pinned for ~4412px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#30,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.orb-amber,infinite keyframes 'orb-float-a' (transform),physics float/pulse or backgrounds module,low
+css-animation,.orb-cyan,infinite keyframes 'orb-float-b' (transform),physics float/pulse or backgrounds module,low
+css-animation,.hero-eyebrow,keyframes 'reveal-up' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.hero-title,keyframes 'reveal-up' 1s,entrance animation (Animate.css picker),low
+css-animation,.hero-sub,keyframes 'reveal-up' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.hero-actions,keyframes 'reveal-up' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.hero-stat-row,keyframes 'reveal-up' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.pulse-dot,"infinite keyframes 'pulse-a' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.data-scan,infinite keyframes 'scan-v' (top),physics float/pulse or backgrounds module,low
+css-animation,.ticker-inner,infinite keyframes 'ticker' translating X,marquee fx: {mode:'left'},high
+css-animation,.optical-flare,"infinite keyframes 'flare-pulse' (opacity,transform)",physics float/pulse or backgrounds module,low
+hover,.nav-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.nav-cta,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'lift'} or glow_border,medium
+hover,.btn-primary,"box-shadow, transform change on hover",interaction: {effect:'lift'},medium
+hover,.btn-secondary,"color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.ledger-entry,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'color_shift'},medium
+hover,nav-cta,"boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,btn-secondary,"background, color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,anodized-cell inner-shadow-card,background change on hover,interaction: {effect:'color_shift'},medium

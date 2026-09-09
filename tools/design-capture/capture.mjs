@@ -27,12 +27,14 @@ import { toBlockBundle } from './to-block-bundle.mjs';
 import { buildBorderPresets, boxpForFrom } from './box-presets.mjs';
 import { makeZip } from './minimal-zip.mjs';
 import { extractDesign } from './capture-extract.mjs';
+import { readMastheadState, stampMastheadScrolled, describeMasthead } from './masthead.mjs';
 import { toReport } from './to-report.mjs';
 import { contrastReview, contrastReviewCsv } from './contrast.mjs';
 import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
+import { CANDIDATES, CAPTURED_PROPS, RESIDUE_FN, residueCsvRows, residueSummary } from './capture-residue.mjs';
 import { microBackend, selectedLocalModel, localSectionMicroTask, bgFxMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus } from './to-ai.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -245,7 +247,21 @@ function traceStory(trace, sIndex, node, scenes, story) {
 // native tabs shortcode. Conservative: only clear pill/segmented tab bars (2–5 short-text buttons that
 // aren't the site nav and DO change the page on click) qualify, and a group is left untouched if a panel
 // comes back empty or the content collapses — so a mis-detection never mangles a page.
+// Same SPA route? Compare PATHNAME only (trailing slash normalized), so a tab widget that merely updates the
+// hash/query on the SAME page (`#tab=reviews`) is NOT mistaken for a router navigation, while a real nav
+// (`/` → `/contact`, `/` → `/NotFound`) is. Used by the tab-reveal + capture route-drift guards (Wegic §8.51).
+function samePath(a, b) {
+  try { return new URL(a).pathname.replace(/\/+$/, '') === new URL(b).pathname.replace(/\/+$/, ''); }
+  catch { return a === b; }
+}
+
 async function revealTabPanels(p) {
+  // The route the page is CORRECTLY sitting on before we start clicking. On an SPA a mis-detected "tab bar"
+  // that is really router nav (a <nav> of <button>s, or JS-routed links our isTabBtn guard doesn't catch)
+  // navigates away on click — after which the DOM, and any rendered.html serialized from it, is the WRONG
+  // page (rest_home → /contact ×79, dreamcake → NotFound; Wegic audit §8.51: capture analysed Home but wrote
+  // NotFound). Capture the route now so the click loop can detect that and bail before it clicks further.
+  const startUrl = p.url();
   const groups = await p.evaluate(() => {
     const txt = (e) => (e.textContent || '').replace(/\s+/g, ' ').trim();
     // Compact `prop:val;…` of an element's meaningful computed styles — the same shape the converter reads from
@@ -308,6 +324,10 @@ async function revealTabPanels(p) {
     for (let i = 0; i < n; i++) {
       await p.evaluate(({ g, i }) => { const b = document.querySelector('[data-sc-tab="' + g + ':' + i + '"]'); if (b) b.click(); }, { g, i });
       await p.waitForTimeout(550);
+      // NAV GUARD: if that click navigated the SPA, we are no longer on the page we set out to capture. Stop
+      // clicking (each further click compounds it) and abort tab-reveal entirely — renderPage's route
+      // self-check then restores the correct route before serializing. Nothing is synthesized here.
+      if (!samePath(p.url(), startUrl)) { return; }
       const pn = await p.evaluate(({ g, i }) => {
         const cont = document.querySelector('[data-sc-tabcont="' + g + '"]'); if (!cont) return null;
         const clone = cont.cloneNode(true);
@@ -319,6 +339,22 @@ async function revealTabPanels(p) {
       panels.push(pn);
     }
     if (panels.length < 2) continue;
+    // REAL tabs TOGGLE content: clicking each tab renders a DIFFERENT panel. A hero's CTA button pair
+    // ("Deploy habitat" + "View logistics map") toggles NOTHING — so every captured panel is the SAME hero
+    // content — and must NOT be normalized into a tabs widget (which then hides the hero heading + image in an
+    // inactive panel; red-planet-architecture / crystal-universe lost their hero this way). Reject the group
+    // when the panels don't actually differ, and strip the detection markers so nothing downstream sees tabs.
+    {
+      const normp = (h) => String(h || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 800);
+      const uniq = new Set(panels.map((pn) => normp(pn.html)));
+      if (uniq.size <= 1) {   // EVERY panel identical → the "tabs" toggle nothing → CTA/nav button row, not tabs
+        await p.evaluate((g) => {
+          document.querySelectorAll('[data-sc-tabbar="' + g + '"],[data-sc-tabcont="' + g + '"]').forEach((e) => { e.removeAttribute('data-sc-tabbar'); e.removeAttribute('data-sc-tabcont'); e.removeAttribute('data-sc-tabnav'); });
+          document.querySelectorAll('[data-sc-tab^="' + g + ':"]').forEach((e) => e.removeAttribute('data-sc-tab'));
+        }, g);
+        continue;
+      }
+    }
     await p.evaluate(({ g, panels }) => {
       const cont = document.querySelector('[data-sc-tabcont="' + g + '"]'); if (!cont) return;
       // The source tab-nav styling we captured at detection time (track + active/inactive segments), carried on
@@ -341,7 +377,7 @@ async function revealTabPanels(p) {
   }
 }
 
-async function renderPage(p, target) {
+async function renderPage(p, target, retry = false) {
   step(`navigating ${target} … (can take up to ~60s on heavy SPAs)`);
   await p.goto(target, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
   await p.waitForLoadState('load').catch(() => {});
@@ -358,13 +394,29 @@ async function renderPage(p, target) {
   // screenshot). Wait until the app root actually holds real content — a landmark/section, or substantial
   // text/children — before extracting. Generous timeout (heavy SPAs), and .catch so a genuinely-empty page
   // (or one needing interaction) still proceeds instead of hanging.
-  await p.waitForFunction(() => {
+  const hydrated = await p.waitForFunction(() => {
     const root = document.querySelector('#root, #app, [data-reactroot], main') || document.body;
     if (!root) { return false; }
     if (root.querySelector('section, main, header, article, footer, [class*="section"], [data-sc-col]')) { return true; }
     return (root.innerText || '').trim().length > 200 && root.children.length >= 2;
-  }, { timeout: 20000 }).catch(() => {});
+  }, { timeout: 20000 }).then(() => true).catch(() => false);
   await p.waitForTimeout(1200);
+  // HYDRATION-RACE RETRY (Wegic audit §8.53). When the SPA root never filled within the window, a snapshot now
+  // serializes an EMPTY shell (`<div id="root"></div>` → 0 usable sections) yet the process still exits 0, so
+  // the empty page was silently converted as a zero-section "failure" that is not the converter's. The audit
+  // found 5 of 6 such shells recover on a plain re-navigation (the first load just serialized before hydration);
+  // a genuinely-empty page (manhattan_barber) stays empty and proceeds after this single retry. Re-navigating
+  // gives hydration a fresh full window; `retry` bounds it to one extra pass (no loop).
+  if (!retry && !hydrated) {
+    step('SPA content not detected within window — re-navigating once (hydration race)');
+    return await renderPage(p, target, true);
+  }
+  // The route the SPA settled on after load — the page we INTEND to serialize. Interaction passes below
+  // (mega-menu expansion, tab-panel reveal) click elements that can navigate a client-side router; if that
+  // happens the DOM becomes a DIFFERENT page and rendered.html would be wrong (Wegic audit §8.51: rest_home
+  // captured Home, wrote /contact; dreamcake captured Home, wrote NotFound). Captured here so the post-reveal
+  // route self-check can detect the drift and re-capture cleanly.
+  const loadUrl = p.url();
   step('rendered — scrolling to trigger lazy assets…');
   await evalSafe(p, async () => {
     await new Promise((res) => {
@@ -384,7 +436,9 @@ async function renderPage(p, target) {
   // panels into a <script id="sc-mega-menus"> the deterministic converter reads to detect + rebuild a mega
   // menu. Best-effort and self-closing; never blocks the capture.
   let megaMenus = []; // structured { trigger, cols, columns:[[{label,url,desc}]] } for the bundle's mega-menus.json (JS-path parity with PHP detect_mega_menus)
-  try {
+  // Skipped on the re-capture pass (retry): its trigger clicks can navigate an SPA router, the very drift the
+  // retry exists to avoid. A correct route with no mega-menu beats a wrong route with one.
+  if (!retry) try {
     const triggers = await p.$$('header button[aria-controls], header button[aria-expanded], header [aria-haspopup="menu"], nav button[aria-controls]');
     // Read the currently-open panel for a trigger (by its aria-controls id, else any open Radix/menu
     // content) — once it has mounted ≥3 links, return BOTH its outerHTML (for the sc-mega-menus stamp the
@@ -519,10 +573,20 @@ async function renderPage(p, target) {
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
   await evalSafe(p, () => {
-    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','backdrop-filter','max-width','display','gap','justify-content','align-items','flex-direction','transition','transform'];
+    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','backdrop-filter','max-width','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position'];
     const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal',
+      // grid-template-columns — the actual TRACKS of a CSS grid (computed to px widths, e.g. `560px 560px` = a
+      // 2-column grid, `400px 800px` = an asymmetric 1:2 split). This is what lets the deterministic converter
+      // read a section's COLUMN STRUCTURE from computed CSS instead of guessing from `grid-cols-N` class names
+      // (which miss responsive `lg:grid-cols-2` and arbitrary tracks). `none` = not a grid → carries no signal.
+      'grid-template-columns':v=>v==='none',
       // Drop the CSS initial values so only elements that actually declare a transition/transform carry one.
-      'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none' };
+      'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none',
+      // Only stamp a NON-default position (absolute/fixed/sticky) — the deterministic engine needs it to detect a
+      // full-bleed hero video/image/overlay whose positioning lives in a `<style>` rule, not a Tailwind class
+      // (openhero's `.portal-container{position:absolute;inset:0}` around a cover-fill hero <video>). static/
+      // relative are the defaults and carry no signal, so skip them to avoid bloating every element's data-sc-cs.
+      'position':v=>v==='static'||v==='relative' };
     const els = document.querySelectorAll('body *');
     for (let i = 0; i < els.length; i++) {
       const el = els[i], tag = el.tagName.toLowerCase();
@@ -547,6 +611,47 @@ async function renderPage(p, target) {
         }
       }
       if (add.length) el.setAttribute('data-sc-cs', add.join(';'));
+    }
+    // PAGE CANVAS — stamp the computed background-color (+ text color) of <body> AND <html>. The loop above
+    // walks only `body *`, so the body/html backgrounds were NEVER recorded — yet that is exactly where a
+    // dark AI page sets its canvas (a `class="dark"` theme, a `body{background:oklch(...)}` rule, or a CSS
+    // var). Without it the deterministic converter defaulted the Site Background to WHITE and the page's
+    // light body text rendered invisible in every uncovered gap (openhero: apple-vision-pro / orbital-horizon
+    // / the-art-of-the-burger all went white below the hero). The browser has already resolved the value to
+    // rgb()/oklch(), which the PHP detect_body_background + color_to_hex carry to the Site Background option.
+    {
+      const solid = (c) => c && c !== 'rgba(0, 0, 0, 0)' && c !== 'transparent';
+      // The EFFECTIVE page canvas: body bg, else html bg, else a full-bleed wrapper's bg. Many dark AI pages
+      // leave <body>/<html> transparent and paint the dark canvas on a `fixed inset-0` / first full-width
+      // wrapper div — so a body-only read saw transparent and the converter defaulted to WHITE. Walk the first
+      // couple of DOM levels for the largest element that covers the viewport and carries a solid fill.
+      let canvas = '';
+      for (const el of [document.body, document.documentElement]) {
+        if (el && solid(getComputedStyle(el).backgroundColor)) { canvas = getComputedStyle(el).backgroundColor; break; }
+      }
+      if (!canvas) {
+        const vw = innerWidth, vh = innerHeight; let best = null, bestArea = 0;
+        for (const el of document.querySelectorAll('body > *, body > * > *')) {
+          const cs2 = getComputedStyle(el); if (!solid(cs2.backgroundColor)) continue;
+          const r = el.getBoundingClientRect(); if (r.width < vw * 0.9 || r.height < vh * 0.5) continue;
+          const area = r.width * r.height; if (area > bestArea) { bestArea = area; best = cs2.backgroundColor; }
+        }
+        if (best) canvas = best;
+      }
+      // Stamp the canvas (+ each of body/html's own text color) so the deterministic converter reads a real
+      // Site Background instead of defaulting to white (light body text then vanished in uncovered gaps).
+      for (const el of [document.body, document.documentElement]) {
+        if (!el) continue;
+        const cs = getComputedStyle(el), parts = [];
+        const own = cs.getPropertyValue('background-color');
+        const bgc = solid(own) ? own : canvas;
+        if (solid(bgc)) parts.push('background-color:' + bgc);
+        const col = cs.getPropertyValue('color'); if (col) parts.push('color:' + col);
+        if (parts.length) {
+          const prev = el.getAttribute('data-sc-cs');
+          el.setAttribute('data-sc-cs', prev ? prev + ';' + parts.join(';') : parts.join(';'));
+        }
+      }
     }
     // SITE CONTENT WIDTH — the rendered width the MAIN content column occupies, stamped on <html> so the
     // deterministic PHP engine can set the theme's Container Width correctly. Robust across frameworks:
@@ -659,7 +764,16 @@ async function renderPage(p, target) {
   // Reveal lazy-rendered TAB PANELS before serializing, so the static capture carries ALL tab content — a
   // React tab that renders only the ACTIVE panel (a menu's Main / Dessert lists, a product's Description /
   // Reviews) otherwise loses every inactive panel from rendered.html. See revealTabPanels().
-  try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ }
+  if (!retry) { try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ } }
+
+  // ROUTE SELF-CHECK (Wegic audit §8.51, remedy #3). If an interaction pass navigated the SPA away from the
+  // route we loaded, the live DOM — and any rendered.html serialized from it — is the WRONG page. Re-capture
+  // ONCE with the navigating passes disabled (retry=true), which re-runs the full navigate→settle→tag pipeline
+  // from a clean load and serializes the intended route. `retry` guards against any loop.
+  if (!retry && !samePath(p.url(), loadUrl)) {
+    step(`route drifted (${p.url()} ≠ ${loadUrl}) after interaction — re-capturing intended page`);
+    return await renderPage(p, target, true);
+  }
 
   // Grab the fully-rendered HTML robustly. `p.content()` can reject with "Execution context was
   // destroyed…" on SPA / preview routes (e.g. an /api/preview endpoint that re-navigates), which used
@@ -771,14 +885,22 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // theme reproduces the transition with a tiny scroll toggle + a `.sc-scrolled` rule.
     step('capturing sticky-header scroll state…');
     try {
-      const readHdr = () => evalSafe(page, () => {
-        const h = document.querySelector('header'); if (!h) return null;
-        const s = getComputedStyle(h);
-        return { bg: s.backgroundColor, backdrop: (s.backdropFilter && s.backdropFilter !== 'none') ? s.backdropFilter : '',
-          shadow: (s.boxShadow && s.boxShadow !== 'none') ? s.boxShadow : '', padTop: s.paddingTop, padBottom: s.paddingBottom,
-          borderBottom: (s.borderBottomWidth !== '0px' && s.borderBottomStyle !== 'none') ? `${s.borderBottomWidth} ${s.borderBottomStyle} ${s.borderBottomColor}` : '',
-          position: s.position };
-      });
+      // Resolve the masthead by SCORE, not by `querySelector('header')` — on many generated
+      // sites <header> is the hero and the real bar is a <nav> (see masthead.mjs for the
+      // measured rates). Reading the hero here would record the wrong two-state, and the
+      // stamp below would paint the bar's scrolled styles onto the hero.
+      const readHdr = () => evalSafe(page, readMastheadState);
+      // Surface a masthead disagreement rather than failing silently — if <header> is the hero,
+      // every downstream header fact came from the scored resolver, and that is worth seeing.
+      try {
+        const md = await evalSafe(page, describeMasthead);
+        if (md && md.found && !md.agrees) {
+          step(`  masthead = <${md.tag}${md.cls ? ' class="' + md.cls.slice(0, 40) + '"' : ''}> ` +
+               `(not <${md.naiveTag || 'none'}>${md.naiveWasHero ? ' — that is the HERO' : ''})`);
+        } else if (md && !md.found) {
+          step('  no masthead resolved (page may have no top bar)');
+        }
+      } catch (e) { /* diagnostic only */ }
       await evalSafe(page, () => window.scrollTo(0, 0)); await page.waitForTimeout(140);
       const topState = await readHdr();
       await evalSafe(page, () => window.scrollTo(0, Math.max(720, window.innerHeight))); await page.waitForTimeout(480);
@@ -798,9 +920,21 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
           if (scrolledState.borderBottom) scParts.push('border-bottom:' + scrolledState.borderBottom);
           if (scrolledState.padTop) scParts.push('padding-top:' + scrolledState.padTop);
           if (scrolledState.padBottom) scParts.push('padding-bottom:' + scrolledState.padBottom);
+          // HEIGHT + link colour ride along too: the PHP build_from_html path sees only this stamp, and
+          // without them it can express "it shrinks" (a fixed padding) but not the source's actual
+          // scrolled height, nor a nav that darkens once the bar lands on a solid fill.
+          if (scrolledState.height && topState.height && Math.abs(topState.height - scrolledState.height) > 4) {
+            scParts.push('height:' + scrolledState.height + 'px');
+          }
+          // The AT-REST height as well: the theme's default header is 80px, so a source bar of any
+          // other height (88px here) came through as 80 unless it was measured and mapped.
+          if (topState.height) { scParts.push('rest-height:' + topState.height + 'px'); }
+          if (scrolledState.linkColor && topState.linkColor && scrolledState.linkColor !== topState.linkColor) {
+            scParts.push('color:' + scrolledState.linkColor);
+          }
           const scAttr = scParts.join(';');
           if (scAttr) {
-            await evalSafe(page, (a) => { const h = document.querySelector('header'); if (h) h.setAttribute('data-sc-scrolled', a); }, scAttr);
+            await evalSafe(page, stampMastheadScrolled, scAttr);
             const rh = await page.content().catch(() => '');
             if (rh && rh.length >= 200) home.renderedHtml = rh; // re-serialize so the attribute rides along
           }
@@ -809,11 +943,191 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       }
     } catch (e) { step('header scroll-state skipped: ' + e.message); }
 
+    // ALWAYS stamp the masthead's resting geometry. The scroll-state stamp above only exists when the
+    // header CHANGES on scroll, so a static frosted bar (very common) carried none of this and the
+    // converter fell back to the theme's default 80px height.
+    try {
+      const restH = await evalSafe(page, readMastheadState);
+      if (restH && restH.height >= 32) {
+        await evalSafe(page, (a) => {
+          const cs = (el) => getComputedStyle(el);
+          const clsOf = (el) => (typeof el.className === 'string' ? el.className : (el.getAttribute('class') || ''));
+          const c = [...document.querySelectorAll('body *')].filter((el) => {
+            const r = el.getBoundingClientRect();
+            return r.height > 0 && r.width >= innerWidth * 0.5 && r.top <= 200 && r.height <= 260;
+          });
+          const score = (el) => { const s = cs(el); let v = 0;
+            if (/nav|header|masthead|topbar|navbar/i.test(el.tagName + ' ' + clsOf(el) + ' ' + (el.id || ''))) v += 5;
+            if (el.tagName === 'HEADER' || el.tagName === 'NAV') v += 4;
+            if (s.position === 'fixed' || s.position === 'sticky') v += 4;
+            v += Math.min(el.querySelectorAll('a').length, 8) * 0.5;
+            v -= el.querySelectorAll('*').length / 200; return v; };
+          c.sort((x, y) => score(y) - score(x));
+          if (c[0]) { c[0].setAttribute('data-sc-header', a); return true; }
+          return false;
+        }, 'rest-height:' + restH.height + 'px');
+
+        // MASTHEAD ZONES — the direct children of the bar row (logo cluster / nav / action cluster).
+        // Snapshot their WHOLE appearance set, not a hand-picked few properties: a segmented header
+        // (three bordered cards rather than one flat bar) is carried entirely by these boxes, and
+        // none of it reaches data-sc-cs. Capturing the full set here means the next unfamiliar
+        // treatment (a radius, a shadow, an inset) is already in the bundle rather than needing
+        // another stamp.
+        await evalSafe(page, () => {
+          const cs = (el) => getComputedStyle(el);
+          const bar = document.querySelector('header') || document.querySelector('nav');
+          if (!bar) return 0;
+          const row = bar.children.length === 1 ? bar.firstElementChild : bar;
+          const kids = [...row.children].filter((k) => k.getBoundingClientRect().width > 0);
+          if (kids.length < 2 || kids.length > 5) return 0;
+          const rs = cs(row);
+          row.setAttribute('data-sc-row', 'gap:' + (rs.columnGap && rs.columnGap !== 'normal' ? rs.columnGap : (rs.gap || '0px'))
+            + ';justify:' + rs.justifyContent + ';zones:' + kids.length);
+          kids.forEach((k) => {
+            const s = cs(k), r = k.getBoundingClientRect();
+            const p = [
+              'w:' + Math.round(r.width) + 'px',
+              'h:' + Math.round(r.height) + 'px',
+              'bg:' + s.backgroundColor,
+              'border:' + s.borderTopWidth + ' ' + s.borderTopStyle + ' ' + s.borderTopColor,
+              'radius:' + s.borderRadius,
+              'pad:' + s.paddingTop + ' ' + s.paddingRight + ' ' + s.paddingBottom + ' ' + s.paddingLeft,
+              'justify:' + s.justifyContent,
+              'shadow:' + (s.boxShadow === 'none' ? '' : s.boxShadow)
+            ];
+            k.setAttribute('data-sc-zone', p.join(';'));
+          });
+          return kids.length;
+        });
+
+        // DECORATIVE header widgets (a progress/meter bar, a rule, a pip). They hold no text and no
+        // link, so the text-driven extractors skip them — yet the source's gold meter is the only
+        // colour in that header. Their geometry is not in data-sc-cs (no width/height) and the fill
+        // element is not stamped at all, so the PHP engine cannot reconstruct them: stamp a compact
+        // self-contained descriptor here instead.
+        await evalSafe(page, () => {
+          const cs = (el) => getComputedStyle(el);
+          const bar = document.querySelector('header') || document.querySelector('nav');
+          if (!bar) return 0;
+          let n = 0;
+          for (const el of bar.querySelectorAll('div,span')) {
+            if (n >= 2) break;
+            if ((el.textContent || '').trim() !== '') continue;
+            if (el.querySelector('a,button,svg,img')) continue;
+            const r = el.getBoundingClientRect();
+            if (r.width < 16 || r.height < 2 || r.height > 64) continue;
+            const s = cs(el);
+            const hasFill = s.backgroundColor !== 'rgba(0, 0, 0, 0)' || s.backgroundImage !== 'none';
+            const kid = [...el.children].find((k) => {
+              const ks = cs(k);
+              return ks.backgroundImage !== 'none' || ks.backgroundColor !== 'rgba(0, 0, 0, 0)';
+            });
+            if (!hasFill && !kid) continue;
+            const parts = ['w:' + Math.round(r.width) + 'px', 'h:' + Math.round(r.height) + 'px'];
+            if (s.backgroundColor !== 'rgba(0, 0, 0, 0)') parts.push('bg:' + s.backgroundColor);
+            if (s.borderRadius && s.borderRadius !== '0px') parts.push('radius:' + s.borderRadius);
+            if (kid) {
+              const kr = kid.getBoundingClientRect(), ks = cs(kid);
+              parts.push('fill-w:' + Math.round((kr.width / Math.max(r.width, 1)) * 1000) / 10 + '%');
+              if (ks.backgroundImage !== 'none') parts.push('fill-img:' + ks.backgroundImage);
+              else parts.push('fill-bg:' + ks.backgroundColor);
+            }
+            el.setAttribute('data-sc-decor', parts.join(';'));
+            n++;
+          }
+          return n;
+        });
+        const rh3 = await page.content().catch(() => '');
+        if (rh3 && rh3.length >= 200) home.renderedHtml = rh3;
+      }
+    } catch (e) { /* optional */ }
+
+    // 1a-residue) WHAT THE CAPTURE DID NOT RECORD. data-sc-cs carries a fixed 30-property allow-list;
+    // anything else the design uses is dropped SILENTLY, which is how a meter bar with no width/height
+    // and an unstamped fill element reached the converter as nothing at all. Report it instead.
+    try {
+      const _audits = [];
+      for (const sel of ['header', 'footer']) {
+        const src = '(' + RESIDUE_FN + ')(' + JSON.stringify(sel) + ',' +
+          JSON.stringify(JSON.stringify(CANDIDATES)) + ',' + JSON.stringify(JSON.stringify(CAPTURED_PROPS)) + ')';
+        const a = await page.evaluate(src).catch(() => null);
+        if (a) { _audits.push(a); step('  ' + residueSummary(a)); }
+      }
+      if (_audits.length) { home.captureResidue = _audits; }
+    } catch (e) { step('residue audit skipped: ' + e.message); }
+
     // 1b) Responsive column widths (tablet + phone).
     step('measuring responsive column widths (tablet + phone)…');
     const wTablet = await measureColWidths(768);
     const wPhone = await measureColWidths(375);
+    // While we are at phone width: do the FOOTER columns stack, or stay 2-up? The theme stacked them
+    // unconditionally under 768px, but ~11% of real footers keep a compact two-column pair, so the
+    // count has to be measured here (it cannot be derived from the desktop DOM).
+    try {
+      const fmc = await evalSafe(page, () => {
+        const f = document.querySelector('footer') || null;
+        if (!f) return 0;
+        let host = null, best = 0;
+        for (const el of f.querySelectorAll('*')) {
+          const d = getComputedStyle(el).display;
+          if (d !== 'grid' && d !== 'flex') continue;
+          const kids = [...el.children].filter((k) => k.getBoundingClientRect().width > 0);
+          if (kids.length < 2 || kids.length > 8) continue;
+          const w = el.getBoundingClientRect().width;
+          if (w > best) { best = w; host = el; }
+        }
+        if (!host) return 0;
+        const kids = [...host.children].filter((k) => k.getBoundingClientRect().width > 0);
+        const rows = new Set(kids.map((k) => Math.round(k.getBoundingClientRect().top))).size;
+        return rows > 0 ? Math.round(kids.length / rows) : 0;
+      });
+      if (home.footer && fmc >= 2) { home.footer.mobileColumns = fmc; }
+    } catch (e) { /* optional signal */ }
     await page.setViewportSize({ width: 1440, height: 900 }).catch(() => {});
+
+    // Footer link HOVER colour — 90% of measured footers change it, and the theme can express that
+    // since 2.5.92. Needs a real pointer, so it cannot live in the static extract.
+    try {
+      const lbl = await evalSafe(page, () => {
+        const f = document.querySelector('footer'); if (!f) return null;
+        const a = [...f.querySelectorAll('a')].filter((x) => (x.textContent || '').trim().length > 1 && x.getBoundingClientRect().width > 0);
+        const t = a[Math.min(1, a.length - 1)];
+        if (!t) return null;
+        window.__SC_FL__ = t;
+        return (t.textContent || '').trim().slice(0, 24);
+      });
+      if (lbl && home.footer) {
+        await page.locator('footer a').filter({ hasText: lbl }).first().hover({ timeout: 3000 });
+        await page.waitForTimeout(380);
+        const hc = await evalSafe(page, () => {
+          const t = window.__SC_FL__; return t ? getComputedStyle(t).color : '';
+        });
+        if (hc) { home.footer.linkHoverColor = hc; }
+        await page.mouse.move(1435, 5).catch(() => {});
+      }
+    } catch (e) { /* hover unavailable — the mapper just omits the option */ }
+
+    // STAMP the footer signals the PHP engine cannot otherwise see. build_from_html() parses
+    // rendered.html only, so a hover colour (needs a pointer), the column gap and the phone column
+    // count would all be invisible to it — exactly the gap `data-sc-scrolled` closes for the header.
+    // Without this the footer options map on the JS path and are then discarded, because import_dir()
+    // re-runs the PHP engine and overwrites theme-settings.json.
+    try {
+      const fParts = [];
+      if (home.footer && home.footer.colGap) fParts.push('col-gap:' + home.footer.colGap);
+      if (home.footer && home.footer.linkHoverColor) fParts.push('link-hover:' + home.footer.linkHoverColor);
+      if (home.footer && home.footer.mobileColumns >= 2) fParts.push('mobile-cols:' + home.footer.mobileColumns);
+      if (fParts.length) {
+        const applied = await evalSafe(page, (a) => {
+          const f = document.querySelector('footer'); if (!f) return false;
+          f.setAttribute('data-sc-footer', a); return true;
+        }, fParts.join(';'));
+        if (applied) {
+          const rh2 = await page.content().catch(() => '');
+          if (rh2 && rh2.length >= 200) home.renderedHtml = rh2;  // re-serialize so the stamp rides along
+        }
+      }
+    } catch (e) { /* optional */ }
     (home.sections || []).forEach((s) => {
       (s.mapBlocks || []).forEach((b) => {
         (b.cols || []).forEach((c) => {
@@ -1383,6 +1697,13 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       writeFileSync(`${outdir}/media.json`, JSON.stringify(media, null, 2));
       writeFileSync(`${outdir}/presets.json`, JSON.stringify(presets, null, 2));
       writeFileSync(`${outdir}/theme-settings.json`, JSON.stringify(themeSettings, null, 2));
+      // The capture-completeness ledger: which design properties this page uses that data-sc-cs
+      // does NOT carry. Small, human-readable, and the first place to look when a region converts
+      // wrong for no visible reason.
+      if (home.captureResidue) {
+        const _rows = ['region,property,elements,sample'].concat(home.captureResidue.flatMap(residueCsvRows));
+        writeFileSync(`${outdir}/capture-residue.csv`, _rows.join('\n'));
+      }
       // WordPress theme screenshot (1200×900, the WP-standard 4:3): the source's above-the-fold at the
       // exact WP dimension, carried in the bundle so the generated child theme gets a REAL thumbnail in
       // Appearance → Themes instead of a blank tile. Viewport-only screenshot at 1200×900 = no resize/crop.
@@ -1436,6 +1757,18 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     }
 
     console.log('  captured →', outdir);
+    // AI-STRUCTURE (opt-in): auto-produce ai-structure.json so the converter's advisory tier is LIVE per
+    // conversion (no manual classifier step). Best-effort — needs an AI backend (Ollama/Claude) AND PHP+WP
+    // (env WP_LOAD / PHP) for the signal extractor; on any failure it is logged and skipped, NEVER blocking
+    // capture. Gate: env FW_SC_AI_STRUCTURE set to any value. The PHP importer reads the file behind the same
+    // flag; leaving the flag unset means capture + convert are byte-identical to before.
+    if (process.env.FW_SC_AI_STRUCTURE) {
+      try {
+        const { execFileSync } = await import('node:child_process');
+        const here = fileURLToPath(new URL('.', import.meta.url));
+        execFileSync(process.execPath, [`${here}classify-structure.mjs`, outdir], { stdio: 'inherit', timeout: 240000, env: process.env });
+      } catch (e) { console.log('   ai-structure: skipped —', String((e && e.message) || e).slice(0, 90)); }
+    }
     console.log('  ', `theme: heading=${config.fonts.heading || '?'} | body=${config.fonts.body || '?'} | accent=${config.colors.accent || '?'}`);
     console.log('  ', `report: ${report.stats.elements} elements | ${report.stats.fallbacks} code_block fallbacks | ${report.stats.opportunities} opportunities | ${report.stats.stylingDrops} styling-drops | ${report.stats.overLargeSections} over-large`);
     console.log('  ', `style-coverage: ${styleReport.stats.fidelityScore}% (carried/used across ${styleReport.stats.sections} sections)`);

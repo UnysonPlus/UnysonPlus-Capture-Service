@@ -1,0 +1,33 @@
+{"t":1788702686246,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=nature&slug=cosmic-nomadic-journeys … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702690147,"elapsed":4.1,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702693398,"elapsed":7.4,"msg":"extracted 6 sections"}
+{"t":1788702693399,"elapsed":7.4,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788702693400,"elapsed":7.4,"msg":"  §1 hero · “Leave the map. Follow the sky.”"}
+{"t":1788702693401,"elapsed":7.4,"msg":"  §2 section · “The luxury of complete disconnection.” (1 element)"}
+{"t":1788702693402,"elapsed":7.4,"msg":"  §3 section · “Anatomy of the Mobile Observatory” (1 element)"}
+{"t":1788702693404,"elapsed":7.4,"msg":"  §4 section · “Stellar Coordinates” (2 elements)"}
+{"t":1788702693405,"elapsed":7.4,"msg":"  §5 section · “Telemetry & Log Entries” (1 element)"}
+{"t":1788702693407,"elapsed":7.4,"msg":"  §6 section · “Align your trajectory. Secure isolation.” (1 element)"}
+{"t":1788702693408,"elapsed":7.4,"msg":"  chrome · footer → 2 columns"}
+{"t":1788702693444,"elapsed":7.4,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702695354,"elapsed":9.3,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702696123,"elapsed":10.1,"msg":"brand tokens → heading=Cormorant Garamond · body=DM Sans · brand=rgb(251, 191, 36)"}
+{"t":1788702696124,"elapsed":10.1,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702712615,"elapsed":26.6,"msg":"animations → 19 finding(s)"}
+{"t":1788702712616,"elapsed":26.6,"msg":"building theme, pages & conversion report…"}
+{"t":1788702712622,"elapsed":26.6,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702712623,"elapsed":26.6,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702712624,"elapsed":26.6,"msg":"  🔤 Text Styles → 9 size(s)"}
+{"t":1788702712625,"elapsed":26.6,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788702712625,"elapsed":26.6,"msg":"  🔘 Button Presets → 2 style(s), 3 size(s)"}
+{"t":1788702717219,"elapsed":31.2,"msg":"motion profile → reveal×0 · button-hover×0 · card-hover×4"}
+{"t":1788702717221,"elapsed":31.2,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702717224,"elapsed":31.2,"msg":"  🎨 Box Presets → 7 kind(s) [Glass, Card, Tinted, Outline] from 10 box(es); 0 with hover, 2 glass; box_style assigned to 1 icon-box(es)"}
+{"t":1788702717226,"elapsed":31.2,"msg":"🛡️ Self-containment guard → 16 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702717249,"elapsed":31.2,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702717251,"elapsed":31.2,"msg":"  class coverage → 1 significant gap(s) flagged across 1 section(s) (see coverage-verification.csv)"}
+{"t":1788702717253,"elapsed":31.2,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702717253,"elapsed":31.2,"msg":"writing files & bundle…"}
+{"t":1788702717578,"elapsed":31.5,"msg":"visual font match: Cormorant Garamond → Cormorant"}
+{"t":1788702720552,"elapsed":34.5,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702720564,"elapsed":34.5,"msg":"saving full-page screenshot…"}

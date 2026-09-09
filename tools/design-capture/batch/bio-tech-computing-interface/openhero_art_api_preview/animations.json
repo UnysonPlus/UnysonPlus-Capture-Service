@@ -1,0 +1,197 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "organic-fade",
+      "props": [
+        "opacity",
+        "filter",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "synaptic-pulse",
+      "props": [
+        "background-position-x",
+        "background-position-y"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "organic-reveal",
+      "props": [
+        "transform",
+        "opacity",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".synaptic-shimmer",
+      "name": "synaptic-pulse",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".organic-volume",
+      "changed": {
+        "transform": "translateY(-5px) scale(1.005)",
+        "border-top-left-radius": "2.2rem",
+        "border-top-right-radius": "2.2rem",
+        "border-bottom-right-radius": "2.2rem",
+        "border-bottom-left-radius": "2.2rem"
+      }
+    },
+    {
+      "selector": ".organic-volume::before",
+      "changed": {
+        "opacity": "0.4"
+      }
+    },
+    {
+      "selector": ".bio-elastic-btn",
+      "changed": {
+        "transform": "scale(1.05) translateY(-2px)",
+        "border-top-left-radius": "1rem",
+        "border-top-right-radius": "1rem",
+        "border-bottom-right-radius": "1rem",
+        "border-bottom-left-radius": "1rem",
+        "box-shadow": "rgba(255, 255, 255, 0.2) 0px 2px 4px inset, rgba(0, 0, 0, 0.4) 0px -4px 10px inset, rgba(120, 30, 200, 0.15) 0px 15px 30px"
+      }
+    },
+    {
+      "selector": ".bio-elastic-btn::before",
+      "changed": {
+        "opacity": "0.5"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-10",
+      "changed": {
+        "opacity": "0.1"
+      }
+    },
+    {
+      "selector": "bio-elastic-btn fluid-node",
+      "changed": {
+        "transform": "matrix(1.04784, 0, 0, 1.04784, 0, -2.00531)",
+        "boxShadow": "rgba(255, 255, 255, 0.196) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.404) 0px -4px 10px 0px inset, rgba(113, 28, 189, 0.153) 0px 14.7844px 29.5688px 0px"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": "body",
+      "props": "background-color",
+      "duration": "0.8s"
+    },
+    {
+      "selector": ".organic-volume",
+      "props": "transform, border-radius",
+      "duration": "0.8s, 0.8s"
+    },
+    {
+      "selector": ".organic-volume::before",
+      "props": "opacity",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".bio-elastic-btn::before",
+      "props": "opacity",
+      "duration": "0.4s"
+    },
+    {
+      "selector": ".bio-toggle::before",
+      "props": "transform, background",
+      "duration": "0.6s, 0.6s"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 2454,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "traces": [
+    {
+      "i": 1,
+      "kind": "pin",
+      "evidence": "pinned for ~1545px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#1",
+      "evidence": "pinned for ~1545px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".synaptic-shimmer",
+      "evidence": "keyframes 'synaptic-pulse' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".organic-volume",
+      "evidence": "transform, border-top-left-radius, border-top-right-radius, border-bottom-right-radius change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".bio-elastic-btn",
+      "evidence": "transform, border-top-left-radius, border-top-right-radius, border-bottom-right-radius change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1360px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#3,document position drifts -71px over 1395px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.05),medium
+trace,trace#4,document position drifts -71px over 1395px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.05),medium
+trace,trace#22,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.animate-\[spin_40s_linear_infinite\],infinite keyframes 'spin' (transform),physics float/pulse or backgrounds module,low
+hover,.crystal-btn,"background-color, box-shadow, border-top-color, border-right-color change on hover",interaction: {effect:'lift'},medium
+hover,.subsurface-glow,box-shadow change on hover,interaction: {effect:'lift'} or glow_border,medium
+hover,.hover\:text-inkagold,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-inkagold,color change on hover,interaction: {effect:'color_shift'},medium
+hover,crystal-btn px-5 py-2 font-sans text-[10px] uppercase tracki,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,w-12 h-12 rounded-full crystal-btn flex items-center justify,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium

@@ -1,0 +1,36 @@
+{"t":1788702076585,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=crafter-station … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702086874,"elapsed":10.5,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702090242,"elapsed":13.8,"msg":"extracted 10 sections"}
+{"t":1788702090243,"elapsed":13.8,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788702090245,"elapsed":13.8,"msg":"  §1 hero · “The new generation of shippers in LATAM.” (1 element)"}
+{"t":1788702090246,"elapsed":13.8,"msg":"  §2 section · “It was born from a group of friends who wanted” (3 elements)"}
+{"t":1788702090248,"elapsed":13.8,"msg":"  §3 section (1 element)"}
+{"t":1788702090249,"elapsed":13.8,"msg":"  §4 section · “Build, ship, share, iterate.” (1 element)"}
+{"t":1788702090250,"elapsed":13.8,"msg":"  §5 section · “Our philosophy, distilled.” (1 element)"}
+{"t":1788702090251,"elapsed":13.8,"msg":"  §6 section · “Code Brews, hackathons, and product launches i” (2 elements)"}
+{"t":1788702090252,"elapsed":13.8,"msg":"  §7 section · “Engineers, designers, AI experts, and more.” (2 elements)"}
+{"t":1788702090254,"elapsed":13.8,"msg":"  §8 section · “Built to learn, ship, and share.” (2 elements)"}
+{"t":1788702090255,"elapsed":13.8,"msg":"  §9 section · “Stories about shipping, building in public, an” (2 elements)"}
+{"t":1788702090256,"elapsed":13.8,"msg":"  §10 section · “Join the community. No spam, just shipping.” (1 element)"}
+{"t":1788702091434,"elapsed":15,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702093437,"elapsed":17,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702094226,"elapsed":17.8,"msg":"brand tokens → heading=Inter · body=Inter · brand=?"}
+{"t":1788702094227,"elapsed":17.8,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702111771,"elapsed":35.3,"msg":"animations → 29 finding(s)"}
+{"t":1788702111772,"elapsed":35.4,"msg":"building theme, pages & conversion report…"}
+{"t":1788702111780,"elapsed":35.4,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702111781,"elapsed":35.4,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702111782,"elapsed":35.4,"msg":"  🔤 Text Styles → 9 size(s)"}
+{"t":1788702111783,"elapsed":35.4,"msg":"  📏 Spacing Scale → 15 step(s)"}
+{"t":1788702111783,"elapsed":35.4,"msg":"  🔘 Button Presets → 1 style(s), 3 size(s)"}
+{"t":1788702112047,"elapsed":35.6,"msg":"motion profile → reveal×46 · button-hover×0 · card-hover×0"}
+{"t":1788702112048,"elapsed":35.6,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702112051,"elapsed":35.6,"msg":"  🎨 Box Presets → 10 kind(s) [Glass, Card] from 10 box(es); 0 with hover, 7 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788702112053,"elapsed":35.6,"msg":"🛡️ Self-containment guard → 15 element(s) carry their full computed box in custom_css; ⚠️ 10 still rely on a carried class [special_heading(border-radius), special_heading(border-radius), special_heading(border-radius), special_heading(border-radius), special_heading(border-radius), special_heading(border-radius)…]"}
+{"t":1788702112076,"elapsed":35.7,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702112079,"elapsed":35.7,"msg":"  class coverage → 2 significant gap(s) flagged across 2 section(s) (see coverage-verification.csv)"}
+{"t":1788702112081,"elapsed":35.7,"msg":"contrast → 2 low-contrast brand pair(s) flagged (see contrast-review.csv — colors NOT changed)"}
+{"t":1788702112082,"elapsed":35.7,"msg":"writing files & bundle…"}
+{"t":1788702114122,"elapsed":37.7,"msg":"visual font match: Inter → Archivo"}
+{"t":1788702117431,"elapsed":41,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702117445,"elapsed":41,"msg":"saving full-page screenshot…"}

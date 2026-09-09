@@ -1,0 +1,311 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".sun-bleed{background: linear-gradient(oklch(0.7273 0.18197 47.683) 0%, oklch(1 0.00011 271.152) 100%) text; -webkit-text-fill-color: transparent; letter-spacing: 0.05em; filter: drop-shadow(oklch(0.7 0.15 45 / 0.3) 0px 15px 35px);}\n.golden-haze{position: absolute; inset: 0px; background: radial-gradient(circle, oklch(0.7 0.15 45 / 0.15) 0%, transparent 60%); filter: blur(40px); pointer-events: none; z-index: 0;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n#giza-video{will-change: transform; transform: scale(1.05);}\n#hero-text{will-change: transform;}\nh1{font-size: inherit; font-weight: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-8{margin-bottom: 2rem;}\n.mt-10{margin-top: 2.5rem;}\n.flex{display: flex;}\n.h-\\[110vh\\]{height: 110vh;}\n.h-\\[1px\\]{height: 1px;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.max-w-5xl{max-width: 64rem;}\n.max-w-xl{max-width: 36rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.contrast-125{--tw-contrast: contrast(1.25); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.sepia-\\[0\\.15\\]{--tw-sepia: sepia(0.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[7\\.5rem\\]{font-size: 7.5rem;}}",
+          "computed": {
+            "color": "oklch(0.25 0.05 50)",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 z-0 w-full h-full\">                 <video id=\"giza-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover filter contrast-125 saturate-110 sepia-[0.15] \" style=\"transform: scale(1.05);\">                     <source src=\"https://videos.openhero.art/downloads/enterprice/memphis-and-its-necropolis/video.mp4\" type=\"video/mp4\">                 </video>             </div>                          <div class=\"relative z-10 flex flex-col items-center text-center px-6 w-full max-w-5xl\" id=\"hero-text\" style=\"transform: translateY(0px); opacity: 1;\">                 <div class=\"golden-haze\"></div>                 <div class=\"reveal-up active flex items-center gap-4 mb-8 filter [filter:drop-shadow(0_0_10px_rgba(0,0,0,1))_drop-shadow(0_2px_4px_rgba(0,0,0,1))]\">                     <div class=\"h-[1px] w-12 bg-amber/60\"></div>                     <span class=\"font-sans text-[10px] tracking-[0.4em] uppercase text-white\"> Memphis &amp; Its Necropolis </span>                     <div class=\"h-[1px] w-12 bg-amber/60\"></div>                 </div>                 <h1 class=\"font-serif text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.9] text-center sun-bleed reveal-up active delay-100 relative z-10 filter [filter:drop-shadow(0_0_15px_rgba(0,0,0,1))_drop-shadow(0_0_50px_rgba(0,0,0,0.9))]\">                      The Great <br> Pyramids of Giza                  </h1>                 <p class=\"mt-10 font-sans text-sm md:text-base text-white max-w-xl font-light leading-relaxed tracking-wide reveal-up active delay-200 filter z-20 [filter:drop-shadow(0_4px_8px_rgba(0,0,0,1))_drop-shadow(0_0_25px_rgba(0,0,0,0.7))]\">                      A testament to monolithic limestone architecture and exact archeo-astronomy alignment. Experience the timeless sandstone thermal mass that has endured millennia under the desert sun.                  </p>             </div>         ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/enterprice/memphis-and-its-necropolis/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis",
+              "poster": "https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover filter contrast-125 saturate-110 sepia-[0.15]  absolute inset-0 z-0 w-full h-full relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden relative w-full",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"golden-haze\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle, oklch(0.7 0.15 45 / 0.15) 0%, rgba(0, 0, 0, 0) 60%)",
+                "blur": "40px",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "0",
+                "w": 1024,
+                "h": 519
+              }
+            },
+            {
+              "t": "text",
+              "html": "<span class=\"font-sans text-[10px] tracking-[0.4em] uppercase text-white\"> Memphis &amp; Its Necropolis </span>",
+              "text": "Memphis & Its Necropolis",
+              "tag": "span",
+              "cls": "font-sans text-[10px] tracking-[0.4em] uppercase text-white",
+              "fontSize": "10px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "15px",
+              "letterSpacing": "4px",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "400",
+              "textTransform": "uppercase"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "The Great <br> Pyramids of Giza",
+              "text": "The Great Pyramids of Giza",
+              "tag": "h1",
+              "cls": "font-serif text-6xl md:text-8xl lg:text-[7.5rem] leading-[0.9] text-center sun-bleed reveal-up active delay-100 relative z-10 filter [filter:drop-shadow(0_0_15px_rgba(0,0,0,1))_drop-shadow(0_0_50px_rgba(0,0,0,0.9))]",
+              "wrapCls": "relative z-10 flex flex-col items-center text-center px-6 w-full max-w-5xl",
+              "fontSize": "120px",
+              "fontWeight": "400",
+              "color": "oklch(0.25 0.05 50)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "120px",
+              "letterSpacing": "6px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"mt-10 font-sans text-sm md:text-base text-white max-w-xl font-light leading-relaxed tracking-wide reveal-up active delay-200 filter z-20 [filter:drop-shadow(0_4px_8px_rgba(0,0,0,1))_drop-shadow(0_0_25px_rgba(0,0,0,0.7))]\">                      A testament to monolithic limestone architecture and exact archeo-astronomy alignment. Experience the timeless sandstone thermal mass that has endured millennia under the desert sun.                  </p>",
+              "text": "A testament to monolithic limestone architecture and exact archeo-astronomy alignment. Experience the timeless sandstone thermal mass that has endured millennia under the desert sun.",
+              "tag": "p",
+              "cls": "mt-10 font-sans text-sm md:text-base text-white max-w-xl font-light leading-relaxed tracking-wide reveal-up active delay-200 filter z-20 [filter:drop-shadow(0_4px_8px_rgba(0,0,0,1))_drop-shadow(0_0_25px_rgba(0,0,0,0.7))]",
+              "fontSize": "16px",
+              "color": "rgb(255, 255, 255)",
+              "lineHeight": "24px",
+              "letterSpacing": "0.4px",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".stone-panel{position: relative; overflow: hidden; background: oklch(0.94 0.04 70 / 0.6); border-radius: 24px; box-shadow: oklch(1 0 0 / 0.3) 0px 0px 10px inset, rgba(0, 0, 0, 0.03) 0px 4px 20px; backdrop-filter: blur(20px); border: 0.5px solid oklch(0.7 0.15 45 / 0.2); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.stone-panel:hover{background: oklch(0.94 0.04 70 / 0.9); border-color: oklch(0.7 0.15 45 / 0.5); box-shadow: oklch(1 0 0 / 0.4) 0px 0px 15px inset, rgba(0, 0, 0, 0.05) 0px 8px 30px;}\n.reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.grid-bg{background-size: 20px 20px; background-image: linear-gradient(to right, oklch(0.7 0.15 45 / 0.1) 1px, transparent 1px), linear-gradient(oklch(0.7 0.15 45 / 0.1) 1px, transparent 1px);}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.row-span-2{grid-row: span 2 / span 2;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mt-12{margin-top: 3rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.mt-6{margin-top: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mt-3{margin-top: 0.75rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.max-w-\\[1400px\\]{max-width: 1400px;}\n.max-w-sm{max-width: 24rem;}\n.max-w-md{max-width: 28rem;}\n.flex-1{flex: 1 1 0%;}\n.animate-\\[spin_10s_linear_infinite\\]{animation: 10s linear 0s infinite normal none running spin;}\n.auto-rows-\\[250px\\]{grid-auto-rows: 250px;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-end{align-items: flex-end;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.rounded{border-radius: 0.25rem;}\n.border-t{border-top-width: 1px;}\n.bg-sandstone{background-color: oklch(0.94 0.04 70);}\n.bg-white\\/30{background-color: rgba(255, 255, 255, 0.3);}\n.p-8{padding: 2rem;}\n.p-6{padding: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.px-2{padding-left: 0.5rem; padding-right: 0.5rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.pt-4{padding-top: 1rem;}\n.text-right{text-align: right;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-amber{color: oklch(0.7 0.15 45);}\n.text-basalt{color: oklch(0.25 0.05 50);}\n.opacity-30{opacity: 0.3;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-center{align-items: center;}}\n@media (min-width: 768px){.md\\:gap-6{gap: 1.5rem;}}\n@media (min-width: 768px){.md\\:px-8{padding-left: 2rem; padding-right: 2rem;}}\n@media (min-width: 1024px){.lg\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 1024px){.lg\\:grid-cols-4{grid-template-columns: repeat(4, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}",
+          "computed": {
+            "background": "oklch(0.94 0.04 70)",
+            "color": "oklch(0.25 0.05 50)",
+            "padding": "96px 64px",
+            "fontFamily": "Inter, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-[1400px] mx-auto mt-12\">                 <div class=\"mb-16 flex items-end justify-between reveal-up active\">                     <div>                         <h2 class=\"font-serif text-4xl text-basalt mb-2\">Architectural Telemetry</h2>                         <p class=\"font-mono text-xs text-basalt/50 tracking-widest uppercase\">Dataset: Khufu Complex</p>                     </div>                     <iconify-icon icon=\"ph:hexagon-light\" class=\"text-4xl text-amber animate-[spin_10s_linear_infinite]\"></iconify-icon>                 </div>                                  <div class=\"grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px]\">                     <div class=\"stone-panel md:col-span-2 lg:col-span-2 row-span-2 p-8 flex flex-col justify-between group reveal-up active\">                         <div class=\"absolute inset-0 grid-bg opacity-30\"></div>                         <div class=\"relative z-10 flex justify-between items-start\">                             <iconify-icon icon=\"ph:scan-light\" class=\"text-3xl text-amber\"></iconify-icon>                             <span class=\"font-mono text-[10px] text-basalt/60 tracking-widest bg-white/30 px-2 py-1 rounded\">SCAN_01</span>                         </div>                         <div class=\"relative z-10\">                             <h3 class=\"font-serif text-3xl mb-3 text-basalt\">Structural Topography</h3>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-sm\">                                 Engineered with microscopic precision. The original highly polished limestone casing stones acted as a mirrored beacon across the ancient sands.                             </p>                             <div class=\"mt-6 flex gap-6 border-t border-basalt/10 pt-4\">                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"2.3\">2.3</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Stone Blocks</span>                                 </div>                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"5.9\">5.9</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Tons Mass</span>                                 </div>                             </div>                         </div>                     </div>                                          <div class=\"stone-panel p-6 flex flex-col justify-between group reveal-up delay-100 active\">                         <iconify-icon icon=\"ph:star-four-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\">True North</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Error margin: 0.05°</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Cosmic alignment targeting the constellation of Orion.</p>                         </div>                     </div>                                          <div class=\"stone-panel p-6 flex flex-col justify-between group reveal-up delay-200 active\">                         <iconify-icon icon=\"ph:thermometer-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\"><span class=\"counter\" data-target=\"20\">20</span>°C</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Internal Temp</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Constant thermal mass regardless of desert fluctuations.</p>                         </div>                     </div>                                          <div class=\"stone-panel md:col-span-2 p-8 flex flex-col md:flex-row items-start md:items-center justify-between group reveal-up delay-100 active\">                         <div class=\"flex-1\">                             <div class=\"flex items-center gap-3 mb-3\">                                 <iconify-icon icon=\"ph:boat-light\" class=\"text-2xl text-amber\"></iconify-icon>                                 <h3 class=\"font-serif text-xl text-basalt\">Khufu’s Solar Ship</h3>                             </div>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-md\">                                 Sealed in a bedrock pit, this intact vessel was engineered to carry the resurrected king across the heavens.                             </p>                         </div>                         <div class=\"mt-6 md:mt-0 font-mono text-right\">                             <span class=\"block text-[10px] text-basalt/50 uppercase tracking-widest mb-1\">Dimensions</span>                             <span class=\"block text-xl text-basalt\">43.6m × 5.9m</span>                         </div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-0",
+                  "cw": 4,
+                  "html": "                         <h2 class=\"font-serif text-4xl text-basalt mb-2\">Architectural Telemetry</h2>                         <p class=\"font-mono text-xs text-basalt/50 tracking-widest uppercase\">Dataset: Khufu Complex</p>                     ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Architectural Telemetry",
+                    "titleTag": "h2",
+                    "titleClass": "font-serif text-4xl text-basalt mb-2",
+                    "subtitle": "Dataset: Khufu Complex",
+                    "subtitleClass": "font-mono text-xs text-basalt/50 tracking-widest uppercase",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 11,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"mb-16 flex items-end justify-between reveal-up active\">                     <div data-sc-col=\"sccol-0\">                         <h2 class=\"font-serif text-4xl text-basalt mb-2\">Architectural Telemetry</h2>                         <p class=\"font-mono text-xs text-basalt/50 tracking-widest uppercase\">Dataset: Khufu Complex</p>                     </div>                     <iconify-icon icon=\"ph:hexagon-light\" class=\"text-4xl text-amber animate-[spin_10s_linear_infinite]\" data-sc-col=\"sccol-1\"></iconify-icon>                 </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "stone-panel md:col-span-2 lg:col-span-2 row-span-2 p-8 flex flex-col justify-between group reveal-up active",
+                  "colId": "sccol-2",
+                  "cw": 6,
+                  "html": "                         <div class=\"absolute inset-0 grid-bg opacity-30\"></div>                         <div class=\"relative z-10 flex justify-between items-start\">                             <iconify-icon icon=\"ph:scan-light\" class=\"text-3xl text-amber\"></iconify-icon>                             <span class=\"font-mono text-[10px] text-basalt/60 tracking-widest bg-white/30 px-2 py-1 rounded\">SCAN_01</span>                         </div>                         <div class=\"relative z-10\">                             <h3 class=\"font-serif text-3xl mb-3 text-basalt\">Structural Topography</h3>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-sm\">                                 Engineered with microscopic precision. The original highly polished limestone casing stones acted as a mirrored beacon across the ancient sands.                             </p>                             <div class=\"mt-6 flex gap-6 border-t border-basalt/10 pt-4\">                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"2.3\">2.3</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Stone Blocks</span>                                 </div>                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"5.9\">5.9</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Tons Mass</span>                                 </div>                             </div>                         </div>                     ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Structural Topography",
+                    "titleTag": "h3",
+                    "titleClass": "font-serif text-3xl mb-3 text-basalt",
+                    "subtitle": "Engineered with microscopic precision. The original highly polished limestone casing stones acted as a mirrored beacon across the ancient sands.",
+                    "subtitleClass": "font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-sm",
+                    "wrapClass": "relative z-10",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 8,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "stone-panel p-6 flex flex-col justify-between group reveal-up delay-100 active",
+                  "colId": "sccol-5",
+                  "cw": 3,
+                  "html": "                         <iconify-icon icon=\"ph:star-four-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\">True North</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Error margin: 0.05°</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Cosmic alignment targeting the constellation of Orion.</p>                         </div>                     ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "stone-panel p-6 flex flex-col justify-between group reveal-up delay-200 active",
+                  "colId": "sccol-6",
+                  "cw": 3,
+                  "html": "                         <iconify-icon icon=\"ph:thermometer-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\"><span class=\"counter\" data-target=\"20\">20</span>°C</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Internal Temp</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Constant thermal mass regardless of desert fluctuations.</p>                         </div>                     ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "stone-panel md:col-span-2 p-8 flex flex-col md:flex-row items-start md:items-center justify-between group reveal-up delay-100 active",
+                  "colId": "sccol-7",
+                  "cw": 6,
+                  "html": "                         <div class=\"flex-1\">                             <div class=\"flex items-center gap-3 mb-3\">                                 <iconify-icon icon=\"ph:boat-light\" class=\"text-2xl text-amber\"></iconify-icon>                                 <h3 class=\"font-serif text-xl text-basalt\">Khufu’s Solar Ship</h3>                             </div>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-md\">                                 Sealed in a bedrock pit, this intact vessel was engineered to carry the resurrected king across the heavens.                             </p>                         </div>                         <div class=\"mt-6 md:mt-0 font-mono text-right\">                             <span class=\"block text-[10px] text-basalt/50 uppercase tracking-widest mb-1\">Dimensions</span>                             <span class=\"block text-xl text-basalt\">43.6m × 5.9m</span>                         </div>                     ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "space-between",
+                    "align": "center",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "",
+                    "iconBadge": "",
+                    "iconBadgeColor": "",
+                    "iconBadgeSize": 0,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Khufu’s Solar Ship",
+                    "titleTag": "h3",
+                    "titleWeight": "400",
+                    "text": "<p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-md\">                                 Sealed in a bedrock pit, this intact vessel was engineered to carry the resurrected king across the heavens.                             </p>",
+                    "link": null,
+                    "cls": "flex-1",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "oklch(0.94 0.04 70 / 0.6)",
+                      "fill": "oklch(0.94 0.04 70 / 0.6)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "oklch(0.7 0.15 45 / 0.2)",
+                      "shadow": "oklch(1 0 0 / 0.3) 0px 0px 10px 0px inset, rgba(0, 0, 0, 0.03) 0px 4px 20px 0px",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 8,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 16,
+                "md": 24,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px]\">                     <div class=\"stone-panel md:col-span-2 lg:col-span-2 row-span-2 p-8 flex flex-col justify-between group reveal-up active\" data-sc-col=\"sccol-2\">                         <div class=\"absolute inset-0 grid-bg opacity-30\"></div>                         <div class=\"relative z-10 flex justify-between items-start\">                             <iconify-icon icon=\"ph:scan-light\" class=\"text-3xl text-amber\" data-sc-col=\"sccol-3\"></iconify-icon>                             <span class=\"font-mono text-[10px] text-basalt/60 tracking-widest bg-white/30 px-2 py-1 rounded\" data-sc-col=\"sccol-4\">SCAN_01</span>                         </div>                         <div class=\"relative z-10\">                             <h3 class=\"font-serif text-3xl mb-3 text-basalt\">Structural Topography</h3>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-sm\">                                 Engineered with microscopic precision. The original highly polished limestone casing stones acted as a mirrored beacon across the ancient sands.                             </p>                             <div class=\"mt-6 flex gap-6 border-t border-basalt/10 pt-4\">                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"2.3\">2.3</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Stone Blocks</span>                                 </div>                                 <div>                                     <span class=\"block font-mono text-2xl text-amber\"><span class=\"counter\" data-target=\"5.9\">5.9</span>M</span>                                     <span class=\"font-mono text-[9px] uppercase tracking-widest text-basalt/50\">Tons Mass</span>                                 </div>                             </div>                         </div>                     </div>                                          <div class=\"stone-panel p-6 flex flex-col justify-between group reveal-up delay-100 active\" data-sc-col=\"sccol-5\">                         <iconify-icon icon=\"ph:star-four-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\">True North</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Error margin: 0.05°</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Cosmic alignment targeting the constellation of Orion.</p>                         </div>                     </div>                                          <div class=\"stone-panel p-6 flex flex-col justify-between group reveal-up delay-200 active\" data-sc-col=\"sccol-6\">                         <iconify-icon icon=\"ph:thermometer-light\" class=\"text-2xl text-amber\"></iconify-icon>                         <div>                             <span class=\"font-mono text-3xl text-basalt block mb-1\"><span class=\"counter\" data-target=\"20\">20</span>°C</span>                             <span class=\"font-mono text-[10px] uppercase tracking-widest text-basalt/50\">Internal Temp</span>                             <p class=\"mt-3 font-sans text-xs text-basalt/70\">Constant thermal mass regardless of desert fluctuations.</p>                         </div>                     </div>                                          <div class=\"stone-panel md:col-span-2 p-8 flex flex-col md:flex-row items-start md:items-center justify-between group reveal-up delay-100 active\" data-sc-col=\"sccol-7\">                         <div class=\"flex-1\">                             <div class=\"flex items-center gap-3 mb-3\">                                 <iconify-icon icon=\"ph:boat-light\" class=\"text-2xl text-amber\" data-sc-col=\"sccol-8\"></iconify-icon>                                 <h3 class=\"font-serif text-xl text-basalt\" data-sc-col=\"sccol-9\">Khufu’s Solar Ship</h3>                             </div>                             <p class=\"font-sans text-sm font-light text-basalt/70 leading-relaxed max-w-md\">                                 Sealed in a bedrock pit, this intact vessel was engineered to carry the resurrected king across the heavens.                             </p>                         </div>                         <div class=\"mt-6 md:mt-0 font-mono text-right\">                             <span class=\"block text-[10px] text-basalt/50 uppercase tracking-widest mb-1\">Dimensions</span>                             <span class=\"block text-xl text-basalt\">43.6m × 5.9m</span>                         </div>                     </div>                 </div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

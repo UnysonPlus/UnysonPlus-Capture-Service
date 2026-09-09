@@ -1,0 +1,443 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversion report — https://openhero.art/api/preview?category=tech&amp;slug=crafting-the-nocturnal-web</title>
+<style>
+  :root { --ink:#16323c; --muted:#5a727c; --line:#e3edf1; --accent:#01729c; --fb:#b45309; --op:#2563eb; --sd:#b32d2e; --ol:#9333ea; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:#f7fafb; }
+  header { padding:22px 28px; background:#fff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 4px; font-size:20px; } header .src { color:var(--muted); word-break:break-all; }
+  .gen { color:var(--muted); font-size:12px; margin-top:6px; }
+  .wrap { padding:22px 28px; max-width:1180px; margin:0 auto; }
+  .banner { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:10px; padding:12px 14px; margin-bottom:14px; font-size:13px; }
+  .banner code, .warn code, .drop code { background:#0000000d; padding:1px 5px; border-radius:4px; }
+  .cards { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .pill { background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; color:var(--muted); }
+  .pill b { margin-left:8px; color:var(--ink); font-size:16px; }
+  .pill.fb b { color:var(--fb); } .pill.op b { color:var(--op); } .pill.sd b { color:var(--sd); } .pill.ol b { color:var(--ol); }
+  .group { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .group h4 { margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .chip { display:inline-block; background:#eef5f8; border-radius:6px; padding:3px 9px; margin:0 6px 6px 0; font-size:12px; }
+  .chip b { margin-left:6px; color:var(--accent); }
+  .page h2 { font-size:16px; margin:18px 0 8px; }
+  .sec { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-bottom:12px; }
+  .sec-over { border-color:#e4d3f7; }
+  .sec h3 { margin:0 0 8px; font-size:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .sec h3 .h { font-size:12px; color:var(--muted); font-family:ui-monospace,monospace; }
+  .sec h3 code, .drop code { background:#f1f3f5; padding:1px 6px; border-radius:4px; font-size:12px; }
+  .dec { font-size:11px; padding:1px 7px; border-radius:5px; border:1px solid currentColor; text-transform:uppercase; letter-spacing:.03em; }
+  .dec-decomposed { color:var(--op); } .dec-verbatim { color:var(--fb); } .dec-carousel { color:var(--accent); } .dec-plain { color:var(--muted); }
+  .warn { background:#faf5ff; border:1px solid #e4d3f7; color:var(--ol); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  .drop { background:#fdf2f2; border:1px solid #f3c9c9; color:var(--sd); border-radius:6px; padding:7px 10px; margin-bottom:8px; font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--line); padding:6px 8px; }
+  td { border-bottom:1px solid #f0f4f6; padding:6px 8px; vertical-align:top; }
+  tr.el { cursor:pointer; } tr.el:hover td { background:#f4fafc; }
+  tr.r-fb td { background:#fffaf3; } tr.r-op td { background:#f5f9ff; }
+  tr.el.open .exp { transform:rotate(90deg); }
+  .exp { color:var(--muted); width:16px; transition:transform .12s; display:inline-block; }
+  .mono { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; }
+  .snip { color:var(--muted); max-width:420px; }
+  .detbox { background:#f8fafb; border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin:2px 0 8px; }
+  .kv { font-size:12px; margin-bottom:6px; color:var(--ink); }
+  .kv span { display:inline-block; min-width:84px; color:var(--muted); text-transform:uppercase; font-size:10px; letter-spacing:.04em; vertical-align:top; }
+  .detbox pre { background:#0f2730; color:#d7e7ee; border-radius:6px; padding:10px; overflow:auto; max-height:320px; font-size:11.5px; white-space:pre-wrap; word-break:break-word; }
+  .tag { font-size:11px; padding:1px 7px; border-radius:5px; white-space:nowrap; }
+  .t-fb { background:#fef3e2; color:var(--fb); } .t-op { background:#e8f0ff; color:var(--op); }
+  .t-sd { background:#fdeaea; color:var(--sd); } .t-ok { background:#eef5f8; color:var(--muted); }
+  .t-ol { background:#f3e8ff; color:var(--ol); }
+</style></head><body>
+<header>
+  <h1>Conversion report</h1>
+  <div class="src">https://openhero.art/api/preview?category=tech&amp;slug=crafting-the-nocturnal-web</div>
+  <div class="gen">design-capture · deterministic (no AI)</div>
+</header>
+<div class="wrap">
+  
+  <div class="cards">
+    <span class="pill ">Sections<b>4</b></span>
+    <span class="pill ">Elements<b>23</b></span>
+    <span class="pill fb">Fallback (code_block)<b>0</b></span>
+    <span class="pill op">Opportunities<b>0</b></span>
+    <span class="pill sd">Styling drops<b>2</b></span>
+    <span class="pill ol">Over-large sections<b>0</b></span>
+  </div>
+  <div class="group"><h4>Mapped shortcodes</h4><span class="chip">special_heading<b>11</b></span><span class="chip">text_block<b>9</b></span><span class="chip">button<b>2</b></span><span class="chip">media_video<b>1</b></span></div>
+  <div class="group"><h4>Detected source roles</h4><span class="chip">text<b>19</b></span><span class="chip">button<b>2</b></span><span class="chip">video<b>1</b></span><span class="chip">heading<b>1</b></span></div>
+  <div class="group"><h4>Section decisions</h4><span class="chip">decomposed<b>4</b></span></div>
+  <section class="page"><h2>Page: home (home)</h2>
+        <div class="sec">
+          <h3>§0 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">900px</span>
+            <code>hero</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>gradient: linear-gradient(rgba(255, 153, 84, 0.3) 0%, rgba(18, 21, 28, 0.86) 52%, rgba(11, 14, 18, 0.95) 100%)</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">video</td>
+            <td class="mono">video</td>
+            <td class="mono">media_video</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip"></td>
+          </tr>
+          <tr class="det" id="d0" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>video → media_video (self-hosted)</div>
+            
+            
+            
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">heading</td>
+            <td class="mono">heading</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Aether House</td>
+          </tr>
+          <tr class="det" id="d1" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>heading → special_heading</div>
+            <div class="kv"><span>src class</span><code>hero-title display reveal drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] drop-shadow-[0_8px_8px_rgba(0,0,0,1)] in</code></div>
+            <div class="kv"><span>text</span>Aether House</div>
+            <div class="kv"><span>source HTML</span></div><pre>Aether House</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Open the Studio</td>
+          </tr>
+          <tr class="det" id="d2" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>lantern-core px-7 py-5 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]</code></div>
+            <div class="kv"><span>text</span>Open the Studio</div>
+            
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td class="mono">button</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">View Manifesto</td>
+          </tr>
+          <tr class="det" id="d3" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>button → button</div>
+            <div class="kv"><span>src class</span><code>rounded-full border border-white/10 bg-white/8 px-7 py-5 text-[11px] uppercase tracking-[0.26em] text-white/80 backdrop-blur-[20px] transition hover:bg-white/12 drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]</code></div>
+            <div class="kv"><span>text</span>View Manifesto</div>
+            
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">text</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Teal Wood Amber Glow Twilight Blue</td>
+          </tr>
+          <tr class="det" id="d4" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text → text_block</div>
+            <div class="kv"><span>src class</span><code>hero-chips reveal drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] in</code></div>
+            <div class="kv"><span>text</span>Teal Wood Amber Glow Twilight Blue</div>
+            <div class="kv"><span>source HTML</span></div><pre>&lt;div class=&quot;hero-chips reveal drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] in&quot;&gt;                         &lt;span&gt;Teal Wood&lt;/span&gt;                         &lt;span&gt;Amber Glow&lt;/span&gt;                         &lt;span&gt;Twilight Blue&lt;/span&gt;                     &lt;/div&gt;</pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§1 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">1059px</span>
+            <code>section</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">The Code Window A manifesto written in real time.</td>
+          </tr>
+          <tr class="det" id="d5" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>The Code Window A manifesto written in real time.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;mono text-[10px] uppercase tracking-[0.35em] text-white/50&quot;&gt;                             The Code Window                         &lt;/div&gt;                         &lt;h2 class=&quot;display mt-5 text-white&quot;&gt;                             A manifesto written in real time.                         &lt;/h2&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">The studio’s principles appear as a live terminal, floating inside a rounded liquid window</td>
+          </tr>
+          <tr class="det" id="d6" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>The studio’s principles appear as a live terminal, floating inside a rounded liquid window with warm glass edges and lantern-like glow.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         The studio’s principles appear as a live terminal, floating inside a rounded liquid window with                         warm glass edges and lantern-like glow.                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Nocturnal logic console</td>
+          </tr>
+          <tr class="det" id="d7" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Nocturnal logic console</div>
+            <div class="kv"><span>source HTML</span></div><pre>Nocturnal logic console</pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">LIVE</td>
+          </tr>
+          <tr class="det" id="d8" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>LIVE</div>
+            <div class="kv"><span>source HTML</span></div><pre>                             LIVE                         </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Manifesto Nocturnal code cycles are a craft, not a constraint. Atmospheric deployment shou</td>
+          </tr>
+          <tr class="det" id="d9" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Manifesto Nocturnal code cycles are a craft, not a constraint. Atmospheric deployment should feel like turning on a lantern in a quiet room. Artisanal digital architecture rewards patience, material contrast, and sharp editorial focus. Low-latency tranquility keeps interfaces calm even when systems move fast.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                             &lt;div class=&quot;headline&quot;&gt;Manifesto&lt;/div&gt;                             &lt;pre id=&quot;manifestoText&quot;&gt;Nocturnal code cycles are a craft, not a constraint. Atmospheric deployment should feel like turning on a lantern in a quiet room. Artisanal digital architecture rewards patience, material contrast, and sharp editorial focus. Low-latency tranquility keeps interfaces calm even when systems move fast.&lt;/pre&gt;&lt;span class=&quot;cursor&quot;&gt;&lt;/span&gt;                         </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Deployment rhythm 24/7 Atmospheric releases, quiet handoffs, and calm production cycles. L</td>
+          </tr>
+          <tr class="det" id="d10" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Deployment rhythm 24/7 Atmospheric releases, quiet handoffs, and calm production cycles. Latency posture Low Interfaces tuned for speed without abandoning warmth or editorial focus. Creative signal High A craft-first studio for creators, founders, and digital builders.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                             &lt;div class=&quot;metric&quot;&gt;                                 &lt;div class=&quot;label&quot;&gt;Deployment rhythm&lt;/div&gt;                                 &lt;div class=&quot;value display&quot;&gt;24/7&lt;/div&gt;                                 &lt;div class=&quot;sub&quot;&gt;Atmospheric releases, quiet handoffs, and calm production cycles.&lt;/div&gt;                             &lt;/div&gt;                             &lt;div class=&quot;metric&quot;&gt;                                 &lt;div class=&quot;label&quot;&gt;Latency posture&lt;/div&gt;                                 &lt;div class=&quot;value display&quot;&gt;Low&lt;/div&gt;                                 &lt;div class=&quot;sub&quot;&gt;Interfaces tuned for speed without abandoning warmth or editorial                                     focus.&lt;/div&gt;                             &lt;/div&gt;                             &lt;div class=&quot;metric&quot;&gt;                                 &lt;div class=&quot;label&quot;&gt;Creative signal&lt;/div&gt;                                 &lt;div class=&quot;value display&quot;&gt;High&lt;/div&gt;                                 &lt;div class=&quot;sub&quot;&gt;A craft-first studio for creators, founders, and digital builders.                                 &lt;/div&gt;                             &lt;/div&gt;                         </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§2 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">1314px</span>
+            <code>projects</code></h3>
+          
+          <div class="drop">⚠ Source styling not carried in <code>computed</code>:<br>gradient: radial-gradient(circle at 10% 0%, rgba(255, 179, 109, 0.12), rgba(0, 0, 0, 0) 16%), linear-gradient(rgba(26, 35, 42, 0.92), rgb(11, 14, 18))</div>
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">City-Lights Grid Projects that light up only when they are approached.</td>
+          </tr>
+          <tr class="det" id="d11" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>City-Lights Grid Projects that light up only when they are approached.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;mono text-[10px] uppercase tracking-[0.35em] text-white/50&quot;&gt;                             City-Lights Grid                         &lt;/div&gt;                         &lt;h2 class=&quot;display mt-5 text-white&quot;&gt;                             Projects that light up only when they are approached.                         &lt;/h2&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Hover to reveal each project as a lit apartment window in the city below. Every tile carri</td>
+          </tr>
+          <tr class="det" id="d12" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Hover to reveal each project as a lit apartment window in the city below. Every tile carries a different atmosphere, tone, and craft note.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         Hover to reveal each project as a lit apartment window in the city below. Every tile carries a                         different atmosphere, tone, and craft note.                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Digital Architecture Midnight journal for a quiet luxury brand. Typography-led landing pag</td>
+          </tr>
+          <tr class="det" id="d13" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Digital Architecture Midnight journal for a quiet luxury brand. Typography-led landing pages that feel hand-assembled, with precise rhythm and velvet-toned transitions. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Digital Architecture&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;Midnight journal for a quiet luxury brand.&lt;/h3&gt;                                 &lt;p&gt;Typography-led landing pages that feel hand-assembled, with precise rhythm and                                     velvet-toned transitions.&lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Creator Studio Editorial toolkits for founders. Systems for storytelling, product launches</td>
+          </tr>
+          <tr class="det" id="d14" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Creator Studio Editorial toolkits for founders. Systems for storytelling, product launches, and ambient portfolio pages with nocturnal restraint. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Creator Studio&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;Editorial toolkits for founders.&lt;/h3&gt;                                 &lt;p&gt;Systems for storytelling, product launches, and ambient portfolio pages with                                     nocturnal restraint.&lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Luxury Commerce High-trust boutique storefronts. Warm, tactile shopping experiences that b</td>
+          </tr>
+          <tr class="det" id="d15" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Luxury Commerce High-trust boutique storefronts. Warm, tactile shopping experiences that balance focus, softness, and conversion clarity. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Luxury Commerce&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;High-trust boutique storefronts.&lt;/h3&gt;                                 &lt;p&gt;Warm, tactile shopping experiences that balance focus, softness, and conversion                                     clarity.&lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Atmospheric System Dark-mode design infrastructure for modern teams. Reusable motion, layo</td>
+          </tr>
+          <tr class="det" id="d16" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Atmospheric System Dark-mode design infrastructure for modern teams. Reusable motion, layout, and content primitives built to feel cohesive under late-night creative pressure. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Atmospheric System&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;Dark-mode design infrastructure for modern teams.&lt;/h3&gt;                                 &lt;p&gt;Reusable motion, layout, and content primitives built to feel cohesive under                                     late-night creative pressure.&lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Motion Language Soft flicker, branch sway, and lantern glow. A motion layer that behaves l</td>
+          </tr>
+          <tr class="det" id="d17" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Motion Language Soft flicker, branch sway, and lantern glow. A motion layer that behaves like a city at dusk, not a dashboard at noon. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Motion Language&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;Soft flicker, branch sway, and lantern glow.&lt;/h3&gt;                                 &lt;p&gt;A motion layer that behaves like a city at dusk, not a dashboard at noon.&lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-sd">styling drop</span></td>
+            <td class="snip">Product Strategy Quiet systems for sharp operators. Strategic landing experiences that tur</td>
+          </tr>
+          <tr class="det" id="d18" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Product Strategy Quiet systems for sharp operators. Strategic landing experiences that turn complex services into warm, navigable spaces. Open window</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;inner&quot;&gt;                             &lt;div&gt;                                 &lt;div class=&quot;label&quot;&gt;Product Strategy&lt;/div&gt;                                 &lt;h3 class=&quot;display mt-4&quot;&gt;Quiet systems for sharp operators.&lt;/h3&gt;                                 &lt;p&gt;Strategic landing experiences that turn complex services into warm, navigable spaces.                                 &lt;/p&gt;                             &lt;/div&gt;                             &lt;div class=&quot;on-hover&quot;&gt;Open window&lt;/div&gt;                         &lt;/div&gt;                         &lt;div class=&quot;glow&quot;&gt;&lt;/div&gt;                     </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div>
+        <div class="sec">
+          <h3>§3 <span class="dec dec-decomposed">decomposed</span>
+            <span class="h">1002px</span>
+            <code>section</code></h3>
+          
+          
+          <table>
+            <thead><tr><th></th><th>role</th><th>detected</th><th>mapped</th><th>flags</th><th>text (click row to expand)</th></tr></thead>
+            <tbody>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Sunset-to-Night Transition A background that deepens as the page descends.</td>
+          </tr>
+          <tr class="det" id="d19" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Sunset-to-Night Transition A background that deepens as the page descends.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;mono text-[10px] uppercase tracking-[0.35em] text-white/50&quot;&gt;                             Sunset-to-Night Transition                         &lt;/div&gt;                         &lt;h2 class=&quot;display mt-5 text-white&quot;&gt;                             A background that deepens as the page descends.                         &lt;/h2&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Warm sunset notes drift into indigo as the page moves downward, keeping the interface huma</td>
+          </tr>
+          <tr class="det" id="d20" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Warm sunset notes drift into indigo as the page moves downward, keeping the interface human, soft, and focused.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         Warm sunset notes drift into indigo as the page moves downward, keeping the interface human,                         soft, and focused.                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">special_heading</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Branch-level deployment The studio’s operating rhythm is built for quiet focus. Aether Hou</td>
+          </tr>
+          <tr class="det" id="d21" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>text cell (overline/subtitle) → special_heading</div>
+            
+            <div class="kv"><span>text</span>Branch-level deployment The studio’s operating rhythm is built for quiet focus. Aether House combines nocturnal code cycles, slow atmospheric motion, and warm digital surfaces to create a premium environment for creators.</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;mono text-[10px] uppercase tracking-[0.34em] text-white/50&quot;&gt;                             Branch-level deployment                         &lt;/div&gt;                         &lt;h3 class=&quot;display mt-6 text-[clamp(2.4rem,5vw,4.8rem)] text-white&quot;&gt;                             The studio’s operating rhythm is built for quiet focus.                         &lt;/h3&gt;                         &lt;p class=&quot;mt-6 max-w-2xl text-white/72 leading-8&quot;&gt;                             Aether House combines nocturnal code cycles, slow atmospheric motion, and warm digital                             surfaces to create a premium environment for creators.                         &lt;/p&gt;                     </pre>
+          </div></td></tr>
+          <tr class="el ">
+            <td class="exp">▸</td>
+            <td class="mono">row-cell</td>
+            <td class="mono">text</td>
+            <td class="mono">text_block</td>
+            <td><span class="tag t-ok">ok</span></td>
+            <td class="snip">Low-latency tranquility Strategy Editorial systems Motion 120fps feel Tone Warm, nocturnal</td>
+          </tr>
+          <tr class="det" id="d22" hidden><td colspan="6"><div class="detbox">
+            <div class="kv"><span>why</span>unrecognized text cell → text_block</div>
+            
+            <div class="kv"><span>text</span>Low-latency tranquility Strategy Editorial systems Motion 120fps feel Tone Warm, nocturnal</div>
+            <div class="kv"><span>source HTML</span></div><pre>                         &lt;div class=&quot;mono text-[10px] uppercase tracking-[0.34em] text-white/50&quot;&gt;                             Low-latency tranquility                         &lt;/div&gt;                         &lt;div class=&quot;mt-6 space-y-4&quot;&gt;                             &lt;div class=&quot;flex items-center justify-between border-b border-white/8 pb-4&quot;&gt;                                 &lt;span class=&quot;text-white/74&quot;&gt;Strategy&lt;/span&gt;                                 &lt;span class=&quot;mono text-[10px] uppercase tracking-[0.26em] text-white/55&quot;&gt;Editorial                                     systems&lt;/span&gt;                             &lt;/div&gt;                             &lt;div class=&quot;flex items-center justify-between border-b border-white/8 pb-4&quot;&gt;                                 &lt;span class=&quot;text-white/74&quot;&gt;Motion&lt;/span&gt;                                 &lt;span class=&quot;mono text-[10px] uppercase tracking-[0.26em] text-white/55&quot;&gt;120fps                                     feel&lt;/span&gt;                             &lt;/div&gt;                             &lt;div class=&quot;flex items-center justify-between&quot;&gt;                                 &lt;span class=&quot;text-white/74&quot;&gt;Tone&lt;/span&gt;                                 &lt;span class=&quot;mono text-[10px] uppercase tracking-[0.26em] text-white/55&quot;&gt;Warm,                                     nocturnal&lt;/span&gt;                             &lt;/div&gt;                         &lt;/div&gt;                     </pre>
+          </div></td></tr></tbody>
+          </table>
+        </div></section>
+</div>
+<script>
+  document.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr.el'); if (!tr) return;
+    var det = tr.nextElementSibling;
+    if (det && det.classList.contains('det')) { det.hidden = !det.hidden; tr.classList.toggle('open'); }
+  });
+</script>
+</body></html>

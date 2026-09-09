@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,2,projects,background-image,13,yes,background image missing
+home,3,section,background-image,2,yes,background image missing
+home,1,section,background-image,1,yes,background image missing

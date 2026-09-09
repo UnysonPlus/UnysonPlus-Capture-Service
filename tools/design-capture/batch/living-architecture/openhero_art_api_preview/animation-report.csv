@@ -1,0 +1,8 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#7,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#9,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.bionic-bloom,keyframes 'bloom-scroll' auto,entrance animation (Animate.css picker),low
+css-animation,.hero-fade-in,keyframes 'fadeIn' 1.5s,entrance animation (Animate.css picker),low
+hover,.dew-drop,"transform, box-shadow, background-image, background-position-x change on hover",interaction: {effect:'lift'},medium
+hover,.glass-card,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,glass-card bionic-bloom,"transform, boxShadow, filter change on hover",interaction: {effect:'grayscale'|'brightness'},medium

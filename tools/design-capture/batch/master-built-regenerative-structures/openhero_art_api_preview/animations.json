@@ -1,0 +1,248 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "sheen",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [],
+  "hovers": [
+    {
+      "selector": ".amber-button",
+      "changed": {
+        "transform": "translateY(-3px)",
+        "box-shadow": "rgba(255, 255, 255, 0.5) 0px 1px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px"
+      }
+    },
+    {
+      "selector": ".rail-nav a",
+      "changed": {
+        "color": "var(--amber)"
+      }
+    },
+    {
+      "selector": ".monolith",
+      "changed": {
+        "transform": "translateY(-3px)",
+        "border-top-color": "rgba(255, 200, 120, 0.16)",
+        "border-right-color": "rgba(255, 200, 120, 0.16)",
+        "border-bottom-color": "rgba(255, 200, 120, 0.16)",
+        "border-left-color": "rgba(255, 200, 120, 0.16)"
+      }
+    },
+    {
+      "selector": ".footer-links a",
+      "changed": {
+        "background-image": "initial",
+        "background-position-x": "initial",
+        "background-position-y": "initial",
+        "background-size": "initial",
+        "background-repeat": "initial",
+        "background-attachment": "initial",
+        "background-origin": "initial",
+        "background-clip": "initial",
+        "background-color": "rgba(255, 255, 255, 0.06)",
+        "color": "rgb(255, 255, 255)"
+      }
+    },
+    {
+      "selector": "amber-button h-10 px-4 text-[10px] uppercase tracking-[0.26e",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(255, 255, 255, 0.498) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.298) 0px 29.4264px 59.044px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "amber-button px-7 shadow-[0_20px_40px_rgba(0,0,0,0.5)]",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(255, 255, 255, 0.5) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.3) 0px 30px 60px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "dense-panel rounded-[1rem] px-7 text-[10px] uppercase tracki",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)"
+      },
+      "live": true
+    },
+    {
+      "selector": "amber-button px-5",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(255, 255, 255, 0.498) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.298) 0px 29.4882px 59.147px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "dense-panel rounded-[1rem] px-5 text-[10px] uppercase tracki",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".amber-button",
+      "props": "transform, box-shadow",
+      "duration": "0.45s, 0.45s"
+    },
+    {
+      "selector": ".cross-section .layer",
+      "props": "transform, opacity",
+      "duration": "0.4s, 0.4s"
+    },
+    {
+      "selector": ".monolith",
+      "props": "transform, border-color",
+      "duration": "0.5s, 0.35s"
+    },
+    {
+      "selector": ".reveal",
+      "props": "opacity, transform",
+      "duration": "0.8s, 0.8s"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 5219,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~4319px of scroll"
+    },
+    {
+      "i": 1,
+      "kind": "pin",
+      "evidence": "pinned for ~4319px of scroll"
+    },
+    {
+      "i": 56,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 24,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 24,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 59,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 24,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 24,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~4319px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#1",
+      "evidence": "pinned for ~4319px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#56",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#59",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".amber-button",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".rail-nav a",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".monolith",
+      "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".footer-links a",
+      "evidence": "background-image, background-position-x, background-position-y, background-size change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

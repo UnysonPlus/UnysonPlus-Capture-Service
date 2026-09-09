@@ -1,0 +1,30 @@
+{"t":1788703720845,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=tech&slug=reactive-forest-intelligence … (can take up to ~60s on heavy SPAs)"}
+{"t":1788703729786,"elapsed":9.1,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788703732019,"elapsed":11.3,"msg":"extracted 2 sections"}
+{"t":1788703732020,"elapsed":11.3,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788703732021,"elapsed":11.3,"msg":"  §1 hero · “Reactive Forest Logic” (1 element)"}
+{"t":1788703732022,"elapsed":11.3,"msg":"  §2 section · “Reactivity designed like a living biome.” (1 element)"}
+{"t":1788703733172,"elapsed":12.5,"msg":"capturing sticky-header scroll state…"}
+{"t":1788703734977,"elapsed":14.3,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788703735729,"elapsed":15.1,"msg":"brand tokens → heading=Iowan Old Style · body=PP Neue Montreal · brand=?"}
+{"t":1788703735729,"elapsed":15.1,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788703745607,"elapsed":24.9,"msg":"animations → 11 finding(s)"}
+{"t":1788703745609,"elapsed":24.9,"msg":"building theme, pages & conversion report…"}
+{"t":1788703745616,"elapsed":24.9,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788703745617,"elapsed":24.9,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788703745618,"elapsed":24.9,"msg":"  🔤 Text Styles → 6 size(s)"}
+{"t":1788703745619,"elapsed":24.9,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788703745619,"elapsed":24.9,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788703751035,"elapsed":30.4,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788703751037,"elapsed":30.4,"msg":"  🎨 Box Presets → 4 kind(s) [Glass, Card] from 4 box(es); 0 with hover, 2 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788703751039,"elapsed":30.4,"msg":"🛡️ Self-containment guard → 2 element(s) carry their full computed box in custom_css; ⚠️ 1 still rely on a carried class [special_heading(border-radius)]"}
+{"t":1788703751055,"elapsed":30.4,"msg":"🧠 local AI (qwen3:4b) → naming sections…"}
+{"t":1788703752992,"elapsed":32.3,"msg":"  local AI → named 2 sections (2s)"}
+{"t":1788703753001,"elapsed":32.3,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788703753005,"elapsed":32.3,"msg":"🔎 local AI (qwen3:4b) → verifying class coverage…"}
+{"t":1788703754096,"elapsed":33.4,"msg":"  class coverage → 1 significant gap(s) flagged across 1 section(s) (see coverage-verification.csv) (1s)"}
+{"t":1788703754100,"elapsed":33.4,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788703754101,"elapsed":33.4,"msg":"writing files & bundle…"}
+{"t":1788703754309,"elapsed":33.6,"msg":"visual font match: Iowan Old Style → Libre Caslon Text"}
+{"t":1788703755638,"elapsed":35,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788703755657,"elapsed":35,"msg":"saving full-page screenshot…"}

@@ -1,0 +1,4 @@
+kind,target,evidence,suggested_fx,confidence
+css-animation,.float-1,infinite keyframes 'bob' (transform),physics float/pulse or backgrounds module,low
+css-animation,.float-2,infinite keyframes 'bob' (transform),physics float/pulse or backgrounds module,low
+hover,.chip,transform change on hover,interaction: {effect:'lift'},medium

@@ -1,0 +1,15 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1127px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~1127px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#11,document position drifts -100px over 1129px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.09),medium
+trace,trace#16,document position drifts -96px over 1129px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.09),medium
+css-animation,.kinetic-title,"infinite keyframes 'shimmer' (background-position-x,background-position-y)",physics float/pulse or backgrounds module,low
+css-animation,.section-reveal,keyframes 'reveal' auto,entrance animation (Animate.css picker),low
+hover,.liquid-btn,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.bento-card,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,px-4 py-2 hover:text-white transition,color change on hover,interaction: {effect:'color_shift'},medium
+hover,liquid-btn text-sm font-semibold,"transform, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,liquid-btn font-semibold,"transform, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,liquid-btn font-semibold bg-white/5,"transform, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,bento-card col-span-5,"transform, borderColor change on hover",interaction: {effect:'color_shift'},medium

@@ -1,0 +1,242 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "wind",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": true
+    },
+    {
+      "name": "pulseReact",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "drift",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "grow",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".wind-sway",
+      "name": "wind",
+      "duration": "8s",
+      "infinite": true
+    },
+    {
+      "selector": ".pulse-react",
+      "name": "pulseReact",
+      "duration": "4s",
+      "infinite": true
+    },
+    {
+      "selector": ".float-core",
+      "name": "drift",
+      "duration": "9s",
+      "infinite": true
+    },
+    {
+      "selector": ".scroll-grow",
+      "name": "grow",
+      "duration": "auto",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".dew",
+      "changed": {
+        "transform": "translateY(-5px) scale(1.02)",
+        "box-shadow": "rgba(255, 255, 255, 0.2) 0px 1px 0px inset, rgba(97, 218, 251, 0.28) 0px 0px 60px"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/\\[0\\.05\\]",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.05)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-reactor",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(97 218 251 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": "dew rounded-[1.8rem] px-6 py-3 font-sans text-[11px] upperca",
+      "changed": {
+        "transform": "matrix(1.0193, 0, 0, 1.0193, 0, -4.82451)",
+        "boxShadow": "rgba(255, 255, 255, 0.196) 0px 1px 0px 0px inset, rgba(97, 218, 251, 0.255) 0px 0px 55.4655px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "dew rounded-[2rem] px-8 py-5 font-sans text-[12px] uppercase",
+      "changed": {
+        "transform": "matrix(1.01937, 0, 0, 1.01937, 0, -4.84234)",
+        "boxShadow": "rgba(255, 255, 255, 0.196) 0px 1px 0px 0px inset, rgba(97, 218, 251, 0.26) 0px 0px 55.7614px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "rounded-[2rem] border border-white/10 bg-white/[0.03] px-8 p",
+      "changed": {
+        "background": "rgba(255, 255, 255, 0.05)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".dew",
+      "props": "transform, box-shadow",
+      "duration": "0.6s, 0.6s"
+    },
+    {
+      "selector": ".bloom",
+      "props": "opacity, transform",
+      "duration": "1.2s, 1.2s"
+    },
+    {
+      "selector": ".transition",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, opac",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 1680,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~747px of scroll"
+    },
+    {
+      "i": 3,
+      "kind": "pin",
+      "evidence": "pinned for ~747px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~747px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#3",
+      "evidence": "pinned for ~747px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".wind-sway",
+      "evidence": "infinite keyframes 'wind' translating X",
+      "suggest": "marquee fx: {mode:'left'}",
+      "confidence": "high"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".pulse-react",
+      "evidence": "infinite keyframes 'pulseReact' (transform,opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".float-core",
+      "evidence": "infinite keyframes 'drift' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".scroll-grow",
+      "evidence": "keyframes 'grow' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".dew",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/\\[0\\.05\\]",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-reactor",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "rounded-[2rem] border border-white/10 bg-white/[0.03] px-8 p",
+      "evidence": "background, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

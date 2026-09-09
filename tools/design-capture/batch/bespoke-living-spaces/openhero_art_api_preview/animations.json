@@ -1,0 +1,225 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "condense",
+      "props": [
+        "opacity",
+        "filter",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "slatIn",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "sheen",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".condense",
+      "name": "condense",
+      "duration": "1.2s",
+      "infinite": false
+    },
+    {
+      "selector": ".slat",
+      "name": "slatIn",
+      "duration": "1.2s",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".textural-touch",
+      "changed": {
+        "transform": "translateY(-4px)",
+        "box-shadow": "rgba(255, 255, 255, 0.74) 0px 1px 0px inset, rgba(125, 90, 40, 0.1) 0px -12px 16px inset, rgba(0, 0, 0, 0.28) 0px 28px 50px"
+      }
+    },
+    {
+      "selector": ".rail-nav a",
+      "changed": {
+        "color": "rgba(255, 214, 146, 0.92)"
+      }
+    },
+    {
+      "selector": "textural-touch btn-a",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(255, 255, 255, 0.733) 0px 1px 0px 0px inset, rgba(125, 90, 40, 0.098) 0px -12px 16px 0px inset, rgba(0, 0, 0, 0.275) 0px 26.8881px 48.6101px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "btn-b",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".textural-touch",
+      "props": "transform, box-shadow, background",
+      "duration": "0.5s, 0.5s, 0.4s"
+    },
+    {
+      "selector": ".shelf",
+      "props": "opacity, transform, box-shadow",
+      "duration": "0.7s, 0.7s, 0.4s"
+    },
+    {
+      "selector": ".reveal",
+      "props": "opacity, transform",
+      "duration": "0.8s, 0.8s"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 4955,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 1,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~4037px of scroll"
+    },
+    {
+      "i": 1,
+      "kind": "pin",
+      "evidence": "pinned for ~4037px of scroll"
+    },
+    {
+      "i": 26,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 32,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 32,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 33,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 32,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 0,
+        "ty": 32,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~4037px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#1",
+      "evidence": "pinned for ~4037px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#26",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#33",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".condense",
+      "evidence": "keyframes 'condense' 1.2s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".slat",
+      "evidence": "keyframes 'slatIn' 1.2s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".textural-touch",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".rail-nav a",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

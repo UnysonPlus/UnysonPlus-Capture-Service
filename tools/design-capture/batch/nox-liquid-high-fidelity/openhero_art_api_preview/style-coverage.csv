@@ -1,0 +1,26 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,background-image,7,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,background-color,1,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,box-shadow,3,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,border,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,border-radius,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,max-width,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,padding,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,margin,7,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,gap,2,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,transform,1,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,position-absolute,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,0,hero-grid relative min-h-screen max-w-[1600px] mx-auto pt-36 pb-16,display-flex,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,background-image,4,no
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,box-shadow,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,border,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,border-radius,4,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,max-width,6,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,padding,5,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,margin,10,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,gap,2,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,transform,1,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,display-flex,1,yes
+https://openhero.art/api/preview?category=abstract&slug=nox-liquid-high-fidelity,home,1,max-w-[1500px] mx-auto py-24 section-reveal,display-grid,1,yes

@@ -1,0 +1,13 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#2,pinned for ~2828px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#3,pinned for ~2828px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#35,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.portal,infinite keyframes 'portalFloat' (transform),physics float/pulse or backgrounds module,low
+css-animation,.kinetic,"infinite keyframes 'shimmer' (background-position-x,background-position-y)",physics float/pulse or backgrounds module,low
+css-animation,.floating-card,infinite keyframes 'drift' (transform),physics float/pulse or backgrounds module,low
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.tilt,transform change on hover,interaction: {effect:'lift'},medium
+hover,.hover\:bg-white\/\[\.06\],background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,rounded-full px-7 py-4 border border-white/10 bg-white/[.03],background change on hover,interaction: {effect:'color_shift'},medium

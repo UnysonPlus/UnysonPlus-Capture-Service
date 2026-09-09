@@ -1,0 +1,190 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "condense",
+      "props": [
+        "opacity",
+        "filter",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "float",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "zoom",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".hero-video",
+      "name": "zoom",
+      "duration": "18s",
+      "infinite": true
+    },
+    {
+      "selector": ".condense",
+      "name": "condense",
+      "duration": "1.4s",
+      "infinite": false
+    },
+    {
+      "selector": ".canopy",
+      "name": "float",
+      "duration": "10s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".mist-button",
+      "changed": {
+        "transform": "translateY(-4px) scale(1.02)",
+        "background-image": "initial",
+        "background-position-x": "initial",
+        "background-position-y": "initial",
+        "background-size": "initial",
+        "background-repeat": "initial",
+        "background-attachment": "initial",
+        "background-origin": "initial",
+        "background-clip": "initial",
+        "background-color": "rgba(255, 255, 255, 0.24)"
+      }
+    },
+    {
+      "selector": ".mist-button::before",
+      "changed": {
+        "opacity": "1",
+        "transform": "scale(1.3)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": "mist-button px-8 py-5 text-[11px] uppercase tracking-[0.24em",
+      "changed": {
+        "transform": "matrix(1.01893, 0, 0, 1.01893, 0, -3.78674)",
+        "background": "rgba(255, 255, 255, 0.235)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, opac",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 4477,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~3577px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~3577px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-video",
+      "evidence": "infinite keyframes 'zoom' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".condense",
+      "evidence": "keyframes 'condense' 1.4s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".canopy",
+      "evidence": "infinite keyframes 'float' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".mist-button",
+      "evidence": "transform, background-image, background-position-x, background-position-y change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".mist-button::before",
+      "evidence": "opacity, transform change on hover",
+      "suggest": "interaction: {effect:'scale', scale:{style:'in'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "mist-button px-8 py-5 text-[11px] uppercase tracking-[0.24em",
+      "evidence": "transform, background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

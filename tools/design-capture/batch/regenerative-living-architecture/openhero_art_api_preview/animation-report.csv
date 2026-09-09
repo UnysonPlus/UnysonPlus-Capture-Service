@@ -1,0 +1,13 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~2820px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#34,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#35,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#36,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.bloom,keyframes 'bloom' 0.9s,entrance animation (Animate.css picker),low
+css-animation,.wind,infinite keyframes 'wind' translating X,marquee fx: {mode:'left'},high
+hover,.lift,"transform, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:bg-white\/\[0\.05\],background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,dew lift shell squircle px-6 py-3.5 copy text-sm text-white,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,squircle border border-white/10 bg-white/20 px-6 py-3.5 copy,"transform, background change on hover",interaction: {effect:'color_shift'},medium
+hover,dew lift shell squircle w-full px-5 py-3.5 copy text-sm text,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium

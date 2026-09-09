@@ -1,0 +1,9 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1153px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#6,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#9,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#10,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#11,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#12,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.assemble-on-scroll,keyframes 'atomic-assemble' auto,entrance animation (Animate.css picker),low
+hover,.hover\:text-black,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium

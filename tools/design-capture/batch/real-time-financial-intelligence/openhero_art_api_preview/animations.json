@@ -1,0 +1,158 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "typedIn",
+      "props": [
+        "opacity",
+        "filter",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "glitchA",
+      "props": [
+        "clip-path"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "glitchB",
+      "props": [
+        "clip-path"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "sheen",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".typed",
+      "name": "typedIn",
+      "duration": "0.8s",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".audit-nav a",
+      "changed": {
+        "color": "var(--slate)"
+      }
+    },
+    {
+      "selector": ".aero",
+      "changed": {
+        "transform": "translateY(-2px)",
+        "border-top-color": "rgba(74, 145, 255, 0.4)",
+        "border-right-color": "rgba(74, 145, 255, 0.4)",
+        "border-bottom-color": "rgba(74, 145, 255, 0.4)",
+        "border-left-color": "rgba(74, 145, 255, 0.4)",
+        "box-shadow": "rgba(255, 255, 255, 0.96) 0px 1px 0px inset, rgba(74, 145, 255, 0.14) 0px 0px 0px 1px"
+      }
+    },
+    {
+      "selector": ".aero::after",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "aero",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)",
+        "boxShadow": "rgba(255, 255, 255, 0.96) 0px 1px 0px 0px inset, rgba(74, 145, 255, 0.137) 0px 0px 0px 0.97806px",
+        "borderColor": "rgba(73, 144, 253, 0.392)"
+      },
+      "live": true
+    },
+    {
+      "selector": "textured-touch",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, 0, -2)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".aero",
+      "props": "transform, border-color, box-shadow",
+      "duration": "0.45s, 0.35s, 0.35s"
+    },
+    {
+      "selector": ".tile",
+      "props": "opacity, transform",
+      "duration": "0.6s, 0.6s"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 4688,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "css-animation",
+      "target": ".typed",
+      "evidence": "keyframes 'typedIn' 0.8s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".audit-nav a",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".aero",
+      "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "aero",
+      "evidence": "transform, boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{"t":1788703757922,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=tech&slug=swiss-luxury-watches-and-chronographs … (can take up to ~60s on heavy SPAs)"}
+{"t":1788703765099,"elapsed":7.4,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788703767150,"elapsed":9.4,"msg":"extracted 3 sections"}
+{"t":1788703767151,"elapsed":9.4,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788703767152,"elapsed":9.4,"msg":"  §1 hero · “Orange Sapphire. Absolute Fusion.” (3 elements)"}
+{"t":1788703767153,"elapsed":9.4,"msg":"  §2 section · “Tourbillon Synchronization” (2 elements)"}
+{"t":1788703767154,"elapsed":9.4,"msg":"  §3 section · “Architect Time” (3 elements)"}
+{"t":1788703768306,"elapsed":10.6,"msg":"capturing sticky-header scroll state…"}
+{"t":1788703769155,"elapsed":11.4,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788703769915,"elapsed":12.2,"msg":"brand tokens → heading=Syncopate · body=SF Pro Display · brand=oklch(0.95 0.01 240 / 0.02)"}
+{"t":1788703769915,"elapsed":12.2,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788703777366,"elapsed":19.6,"msg":"animations → 12 finding(s)"}
+{"t":1788703777367,"elapsed":19.6,"msg":"building theme, pages & conversion report…"}
+{"t":1788703777373,"elapsed":19.6,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788703777374,"elapsed":19.6,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788703777374,"elapsed":19.6,"msg":"  🔤 Text Styles → 7 size(s)"}
+{"t":1788703777375,"elapsed":19.6,"msg":"  📏 Spacing Scale → 18 step(s)"}
+{"t":1788703777376,"elapsed":19.6,"msg":"  🔘 Button Presets → 2 style(s), 2 size(s)"}
+{"t":1788703783002,"elapsed":25.3,"msg":"motion profile → reveal×4 · button-hover×0 · card-hover×0"}
+{"t":1788703783004,"elapsed":25.3,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788703783009,"elapsed":25.3,"msg":"  🎨 Box Presets → 2 kind(s) [Glass] from 2 box(es); 0 with hover, 2 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788703783011,"elapsed":25.3,"msg":"🛡️ Self-containment guard → 8 element(s) carry their full computed box in custom_css; ⚠️ 3 still rely on a carried class [button(letter-spacing), button(letter-spacing), button(letter-spacing)]"}
+{"t":1788703783027,"elapsed":25.3,"msg":"🧠 local AI (qwen3:4b) → naming sections…"}
+{"t":1788703785383,"elapsed":27.6,"msg":"  local AI → named 3 sections (2s)"}
+{"t":1788703785389,"elapsed":27.6,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788703785391,"elapsed":27.6,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788703785391,"elapsed":27.6,"msg":"writing files & bundle…"}
+{"t":1788703785606,"elapsed":27.9,"msg":"visual font match: Syncopate → Cinzel"}
+{"t":1788703786978,"elapsed":29.2,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788703786997,"elapsed":29.3,"msg":"saving full-page screenshot…"}

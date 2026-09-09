@@ -1,0 +1,36 @@
+{"t":1788703370665,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=nature&slug=the-line-living-architecture … (can take up to ~60s on heavy SPAs)"}
+{"t":1788703377105,"elapsed":6.6,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788703380493,"elapsed":10,"msg":"extracted 6 sections"}
+{"t":1788703380494,"elapsed":10,"msg":"  chrome · header → nav (4 menu items)"}
+{"t":1788703380494,"elapsed":10,"msg":"  §1 hero · “LivingArchitecture” (2 elements)"}
+{"t":1788703380495,"elapsed":10,"msg":"  §2 section · “Structure isecology, notits antonym” (1 element)"}
+{"t":1788703380496,"elapsed":10,"msg":"  §3 section · “Doctrine of Living Form” (1 element)"}
+{"t":1788703380497,"elapsed":10,"msg":"  §4 section · “SelectedWorks” (1 element)"}
+{"t":1788703380499,"elapsed":10,"msg":"  §5 section · “The quiet intelligence of organic form” (1 element)"}
+{"t":1788703380500,"elapsed":10,"msg":"  §6 section · “Shape theLiving World” (1 element)"}
+{"t":1788703380500,"elapsed":10,"msg":"  chrome · footer → 0 columns"}
+{"t":1788703385088,"elapsed":14.6,"msg":"capturing sticky-header scroll state…"}
+{"t":1788703387565,"elapsed":17.1,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788703388341,"elapsed":17.9,"msg":"brand tokens → heading=DM Serif Display · body=Space Grotesk · brand=oklch(0.85 0.08 45 / 0.08)"}
+{"t":1788703388342,"elapsed":17.9,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788703406209,"elapsed":35.7,"msg":"animations → 24 finding(s)"}
+{"t":1788703406211,"elapsed":35.7,"msg":"building theme, pages & conversion report…"}
+{"t":1788703406218,"elapsed":35.7,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788703406219,"elapsed":35.7,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788703406220,"elapsed":35.7,"msg":"  🔤 Text Styles → 8 size(s)"}
+{"t":1788703406220,"elapsed":35.7,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788703406221,"elapsed":35.7,"msg":"  🔘 Button Presets → 2 style(s), 5 size(s)"}
+{"t":1788703406480,"elapsed":36,"msg":"motion profile → reveal×0 · button-hover×7 · card-hover×0"}
+{"t":1788703406481,"elapsed":36,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788703406484,"elapsed":36,"msg":"  🎨 Box Presets → 4 kind(s) [Glass, Outline] from 5 box(es); 0 with hover, 2 glass; box_style assigned to 1 icon-box(es)"}
+{"t":1788703406485,"elapsed":36,"msg":"🛡️ Self-containment guard → 19 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788703406504,"elapsed":36,"msg":"🧠 local AI (qwen3:4b) → naming sections…"}
+{"t":1788703410257,"elapsed":39.8,"msg":"  local AI → named 6 sections (4s)"}
+{"t":1788703410263,"elapsed":39.8,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788703410267,"elapsed":39.8,"msg":"🔎 local AI (qwen3:4b) → verifying class coverage…"}
+{"t":1788703411879,"elapsed":41.4,"msg":"  class coverage → 2 significant gap(s) flagged across 2 section(s) (see coverage-verification.csv) (2s)"}
+{"t":1788703411883,"elapsed":41.4,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788703411884,"elapsed":41.4,"msg":"writing files & bundle…"}
+{"t":1788703412051,"elapsed":41.6,"msg":"visual font match: DM Serif Display → Abril Fatface"}
+{"t":1788703413217,"elapsed":42.7,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788703413227,"elapsed":42.7,"msg":"saving full-page screenshot…"}

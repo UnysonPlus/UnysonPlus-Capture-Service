@@ -1,0 +1,370 @@
+<!DOCTYPE html><html lang="en" data-sc-cs="background-color:oklch(0.98 0.01 200);color:rgb(0, 0, 0)" data-sc-content-width="1376"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flexport | Autonomous Supply Chain</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --pearl-canvas: oklch(98% 0.01 200);
+  --alert-orange: oklch(68% 0.22 42);
+  --atmos-cyan: oklch(82% 0.06 210);
+  --text-core: oklch(20% 0.02 200);
+  --text-dim: oklch(50% 0.02 200);
+  --surface-top: oklch(100% 0 0 / 0.6);
+  --surface-bottom: oklch(96% 0.01 200 / 0.4);
+  --shadow-dark: oklch(20% 0.02 200 / 0.08);
+  --shadow-light: oklch(100% 0 0 / 1);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  color-scheme: light dark;
+}
+
+[data-theme="dark"] {
+  --pearl-canvas: oklch(12% 0.01 200);
+  --text-core: oklch(98% 0.01 200);
+  --text-dim: oklch(70% 0.02 200);
+  --surface-top: oklch(20% 0.01 200 / 0.4);
+  --surface-bottom: oklch(10% 0.01 200 / 0.6);
+  --shadow-dark: oklch(5% 0.02 200 / 0.8);
+  --shadow-light: oklch(30% 0.01 200 / 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--pearl-canvas);
+  color: var(--text-core);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: 0.8s cubic-bezier(0.22, 1, 0.36, 1) both filter-fade;
+}
+
+@keyframes filter-fade {
+  0% { opacity: 0; filter: blur(30px) saturate(0); }
+  100% { opacity: 1; filter: blur(0) saturate(100%); }
+}
+
+.visual-breach {
+  position: fixed;
+  top: 10vh;
+  right: -5vw;
+  width: 55vw;
+  height: 80vh;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse at 60% 50%, black 20%, rgba(0,0,0,0.8) 40%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 60% 50%, black 20%, rgba(0,0,0,0.8) 40%, transparent 75%);
+  will-change: transform;
+}
+
+.visual-breach video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(110%) contrast(105%) hue-rotate(-10deg);
+  transform: scale(1.1);
+}
+
+.debossed-volume {
+  background: linear-gradient(145deg, var(--surface-top), var(--surface-bottom));
+  backdrop-filter: blur(60px) saturate(140%);
+  -webkit-backdrop-filter: blur(60px) saturate(140%);
+  border-radius: 2rem;
+  box-shadow: 
+    inset 2px 2px 4px var(--shadow-light),
+    inset -2px -2px 8px var(--shadow-dark),
+    10px 20px 40px rgba(0,0,0,0.05);
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+}
+
+.debossed-volume::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    var(--atmos-cyan),
+    transparent 50%
+  );
+  opacity: 0;
+  mix-blend-mode: overlay;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.debossed-volume:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 
+    inset 2px 2px 6px var(--shadow-light),
+    inset -2px -2px 10px var(--shadow-dark),
+    15px 30px 60px rgba(0,0,0,0.08);
+}
+
+.debossed-volume:hover::before {
+  opacity: 0.15;
+}
+
+.liquid-mercury {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-core);
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.8),
+    inset 0 -2px 4px rgba(0,0,0,0.1),
+    0 8px 16px rgba(0,0,0,0.05),
+    0 0 0 1px rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.liquid-mercury::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, var(--alert-orange) 0%, transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.1s;
+  mix-blend-mode: color-burn;
+  pointer-events: none;
+  transform: translate(calc(var(--mouse-x) * 1px), calc(var(--mouse-y) * 1px));
+}
+
+.liquid-mercury:hover {
+  transform: scale(1.03) translateY(-2px);
+}
+
+.liquid-mercury:hover::after {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .liquid-mercury {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.4));
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.2),
+    inset 0 -2px 4px rgba(0,0,0,0.6),
+    0 8px 16px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.kinetic-heading {
+  background: linear-gradient(
+    110deg,
+    var(--text-core) 0%,
+    var(--text-dim) 25%,
+    var(--text-core) 50%,
+    var(--alert-orange) 75%,
+    var(--text-core) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: flow 8s linear infinite;
+}
+
+@keyframes flow {
+  to { background-position: 200% center; }
+}
+
+.parallax-card {
+  animation: parallax view() both;
+}
+
+@keyframes parallax {
+  0% { transform: translateY(60px) scale(0.95); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.fractal-grid {
+  container-type: inline-size;
+}
+
+.data-node {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+.theme-node {
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--surface-bottom);
+  box-shadow: inset 0 2px 4px var(--shadow-dark), 0 1px 1px var(--shadow-light);
+  position: relative;
+  cursor: pointer;
+}
+
+.theme-node::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text-core);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] .theme-node::before {
+  transform: translateX(20px);
+}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-x-0{left:0px;right:0px}.-right-20{right:-5rem}.-top-20{top:-5rem}.top-0{top:0px}.z-10{z-index:10}.z-20{z-index:20}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-20{margin-bottom:5rem}.mb-32{margin-bottom:8rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-12{margin-top:3rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.grid{display:grid}.h-1{height:0.25rem}.h-2{height:0.5rem}.h-8{height:2rem}.h-96{height:24rem}.h-full{height:100%}.min-h-\[200vh\]{min-height:200vh}.min-h-\[400px\]{min-height:400px}.w-2{width:0.5rem}.w-8{width:2rem}.w-96{width:24rem}.w-\[99\.9\%\]{width:99.9%}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-\[1600px\]{max-width:1600px}.max-w-md{max-width:28rem}.auto-rows-auto{grid-auto-rows:auto}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-6{gap:1.5rem}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.bg-\[var\(--alert-orange\)\]{background-color:var(--alert-orange)}.bg-\[var\(--atmos-cyan\)\]{background-color:var(--atmos-cyan)}.bg-\[var\(--shadow-dark\)\]{background-color:var(--shadow-dark)}.p-10{padding:2.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-32{padding-bottom:8rem}.pt-40{padding-top:10rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-7xl{font-size:4.5rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-light{font-weight:300}.font-medium{font-weight:500}.font-normal{font-weight:400}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-\[0\.85\]{line-height:0.85}.leading-\[1\.1\]{line-height:1.1}.leading-relaxed{line-height:1.625}.tracking-\[0\.3em\]{letter-spacing:0.3em}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-\[var\(--alert-orange\)\]{color:var(--alert-orange)}.text-\[var\(--text-core\)\]{color:var(--text-core)}.text-\[var\(--text-dim\)\]{color:var(--text-dim)}.opacity-10{opacity:0.1}.mix-blend-overlay{mix-blend-mode:overlay}.mix-blend-luminosity{mix-blend-mode:luminosity}.shadow-\[0_0_10px_var\(--alert-orange\)\]{--tw-shadow:0 0 10px var(--alert-orange);--tw-shadow-colored:0 0 10px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_0_12px_var\(--atmos-cyan\)\]{--tw-shadow:0 0 12px var(--atmos-cyan);--tw-shadow-colored:0 0 12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_0_20px_var\(--alert-orange\)\]{--tw-shadow:0 0 20px var(--alert-orange);--tw-shadow-colored:0 0 20px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-\[100px\]{--tw-blur:blur(100px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-700{transition-duration:700ms}.group:hover .group-hover\:opacity-30{opacity:0.3}@media (min-width: 768px){.md\:p-14{padding:3.5rem}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-\[7rem\]{font-size:7rem}}</style></head>
+<body class="min-h-[200vh]" data-sc-cs="background-color:oklch(0.98 0.01 200);color:oklch(0.2 0.02 200)">
+
+<div class="visual-breach" id="drone-breach" style="transform: translate3d(0px, 0px, 0px) scale(1);" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0);position:fixed">
+  <video autoplay="" muted="" loop="" playsinline="" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.1, 0, 0, 1.1, 0, 0)">
+    <source src="https://videos.openhero.art/downloads/enterprice/autonomous-supply-chain/video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<nav class="fixed top-0 inset-x-0 z-50 px-8 py-6 mix-blend-luminosity" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+  <div class="max-w-[1600px] mx-auto flex items-center justify-between" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+    <div class="flex items-center gap-3" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+      <div class="w-8 h-8 rounded-full bg-[var(--alert-orange)] shadow-[0_0_20px_var(--alert-orange)]" data-sc-cs="background-color:oklch(0.68 0.22 42);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.68 0.22 42) 0px 0px 20px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+      <span class="font-bold tracking-tighter text-xl" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:20px;font-weight:700;line-height:28px;letter-spacing:-1px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">FLEXPORT <span class="text-[var(--text-dim)] font-normal" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:20px;font-weight:400;line-height:28px;letter-spacing:-1px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all">INFRASTRUCTURE</span></span>
+    </div>
+    <div class="theme-node" id="theme-trigger" data-sc-cs="background-color:oklch(0.96 0.01 200 / 0.4);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:999px;box-shadow:oklch(0.2 0.02 200 / 0.08) 0px 2px 4px 0px inset, oklch(1 0 0) 0px 1px 1px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+  </div>
+</nav>
+
+<main class="relative z-10 max-w-[1600px] mx-auto px-8 pt-40 pb-32 fractal-grid" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 32px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1600px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+  
+  <header class="max-w-4xl mb-32 relative z-20" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <span class="text-xs uppercase tracking-[0.3em] text-[var(--text-dim)] font-semibold mb-6 block" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:12px;font-weight:600;line-height:16px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Global Logistics Ledger</span>
+    <h1 class="text-7xl md:text-[7rem] font-medium tracking-tighter leading-[0.85] kinetic-heading mb-10" data-sc-cs="background-image:linear-gradient(110deg, oklch(0.2 0.02 200) 0%, oklch(0.5 0.02 200) 25%, oklch(0.2 0.02 200) 50%, oklch(0.68 0.22 42) 75%, oklch(0.2 0.02 200) 100%);color:rgba(0, 0, 0, 0);font-family:Inter, sans-serif;font-size:112px;font-weight:500;line-height:95.2px;letter-spacing:-5.6px;text-align:start;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+      Autonomous<br>Routing.
+    </h1>
+    <p class="text-xl text-[var(--text-dim)] max-w-2xl leading-relaxed mb-12" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:20px;font-weight:400;line-height:32.5px;text-align:start;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      Sub-meter precision telemetry meets predictive SKU synchronization. 
+      Liquid infrastructure reacting to global supply chain variables in real-time.
+    </p>
+    <div class="flex items-center gap-6" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+      <button class="liquid-mercury interactive-el" data-sc-cs="background-image:linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.32px;text-align:center;padding:16px 32px;border-top-style:none;border-top-color:oklch(0.2 0.02 200);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.8) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.1) 0px -2px 4px 0px inset, rgba(0, 0, 0, 0.05) 0px 8px 16px 0px, rgba(255, 255, 255, 0.2) 0px 0px 0px 1px;backdrop-filter:blur(20px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)" data-sc-hover="after{content:&quot;&quot;;position:absolute;top:-50%;left:-50%;transform:translate(calc(var(--mouse-x) * 1px), calc(var(--mouse-y) * 1px));transition:opacity 0.3s, transform 0.1s;transition-property:opacity, transform;transition-duration:0.3s, 0.1s;transition-timing-function:ease, ease;opacity:0;width:200%;height:200%}|hover-self{transform:scale(1.03) translateY(-2px)}|hover-after{opacity:0.4}">Deploy Protocol</button>
+      <div class="flex flex-col" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+        <span class="data-node text-2xl text-[var(--text-core)]" data-sc-cs="color:oklch(0.2 0.02 200);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:24px;font-weight:500;line-height:32px;letter-spacing:-1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">12ms</span>
+        <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:0.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Sync Latency</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="grid grid-cols-1 @4xl:grid-cols-12 gap-6 auto-rows-auto" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    
+    <div class="debossed-volume @4xl:col-span-7 p-10 md:p-14 interactive-el parallax-card flex flex-col justify-between min-h-[400px]" style="animation-range: entry 0% cover 25%;" data-sc-cs="background-image:linear-gradient(145deg, oklch(1 0 0 / 0.6), oklch(0.96 0.01 200 / 0.4));color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;box-shadow:oklch(1 0 0) 2px 2px 4px 0px inset, oklch(0.2 0.02 200 / 0.08) -2px -2px 8px 0px inset, rgba(0, 0, 0, 0.05) 10px 20px 40px 0px;backdrop-filter:blur(60px) saturate(1.4);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s">
+      <div class="flex justify-between items-start mb-20" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all">
+        <span class="text-[var(--text-dim)] text-xs uppercase tracking-widest font-medium" data-sc-col="sccol-0" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Node Telemetry</span>
+        <div class="w-2 h-2 rounded-full bg-[var(--atmos-cyan)] shadow-[0_0_12px_var(--atmos-cyan)]" data-sc-col="sccol-1" data-sc-cs="background-color:oklch(0.82 0.06 210);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.82 0.06 210) 0px 0px 12px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+      </div>
+      <div data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <h2 class="text-4xl tracking-tight mb-4 font-medium" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:36px;font-weight:500;line-height:40px;letter-spacing:-0.9px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Predictive Density</h2>
+        <p class="text-[var(--text-dim)] max-w-md leading-relaxed" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:26px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Structural rigidities in data visualization have been eliminated. Logistics volumes are rendered via refractive layers.
+        </p>
+      </div>
+    </div>
+
+    <div class="debossed-volume @4xl:col-span-5 p-10 interactive-el parallax-card flex flex-col justify-between" style="animation-range: entry 10% cover 30%;" data-sc-cs="background-image:linear-gradient(145deg, oklch(1 0 0 / 0.6), oklch(0.96 0.01 200 / 0.4));color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;box-shadow:oklch(1 0 0) 2px 2px 4px 0px inset, oklch(0.2 0.02 200 / 0.08) -2px -2px 8px 0px inset, rgba(0, 0, 0, 0.05) 10px 20px 40px 0px;backdrop-filter:blur(60px) saturate(1.4);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s">
+      <span class="text-[var(--text-dim)] text-xs uppercase tracking-widest font-medium" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Throughput</span>
+      <div class="mt-16" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:64px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <div class="text-7xl font-light tracking-tighter data-node mb-2 flex items-baseline gap-2" data-sc-cs="color:oklch(0.2 0.02 200);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:72px;font-weight:300;line-height:72px;letter-spacing:-3.6px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:baseline;flex-direction:row;transition:all">
+          99.9<span class="text-2xl text-[var(--alert-orange)]" data-sc-cs="color:oklch(0.68 0.22 42);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:24px;font-weight:300;line-height:32px;letter-spacing:-3.6px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">%</span>
+        </div>
+        <div class="h-1 w-full bg-[var(--shadow-dark)] rounded-full mt-6 overflow-hidden" data-sc-cs="background-color:oklch(0.2 0.02 200 / 0.08);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <div class="h-full bg-[var(--alert-orange)] w-[99.9%] shadow-[0_0_10px_var(--alert-orange)]" data-sc-cs="background-color:oklch(0.68 0.22 42);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.68 0.22 42) 0px 0px 10px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="debossed-volume @4xl:col-span-4 p-10 interactive-el parallax-card" style="animation-range: entry 15% cover 35%;" data-sc-cs="background-image:linear-gradient(145deg, oklch(1 0 0 / 0.6), oklch(0.96 0.01 200 / 0.4));color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;box-shadow:oklch(1 0 0) 2px 2px 4px 0px inset, oklch(0.2 0.02 200 / 0.08) -2px -2px 8px 0px inset, rgba(0, 0, 0, 0.05) 10px 20px 40px 0px;backdrop-filter:blur(60px) saturate(1.4);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s">
+      <div class="flex flex-col h-full justify-between" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+        <span class="text-[var(--text-dim)] text-xs uppercase tracking-widest font-medium" data-sc-cs="color:oklch(0.5 0.02 200);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">SKU Refraction</span>
+        <p class="text-lg mt-12 text-[var(--text-core)] font-medium" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:18px;font-weight:500;line-height:28px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Zero predictable edges. Asset ledgers seamlessly bleed into the canvas via OkLCH integration.
+        </p>
+      </div>
+    </div>
+
+    <div class="debossed-volume @4xl:col-span-8 p-10 md:p-14 interactive-el parallax-card flex items-center overflow-hidden group" style="animation-range: entry 20% cover 40%;" data-sc-cs="background-image:linear-gradient(145deg, oklch(1 0 0 / 0.6), oklch(0.96 0.01 200 / 0.4));color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:56px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:32px;box-shadow:oklch(1 0 0) 2px 2px 4px 0px inset, oklch(0.2 0.02 200 / 0.08) -2px -2px 8px 0px inset, rgba(0, 0, 0, 0.05) 10px 20px 40px 0px;backdrop-filter:blur(60px) saturate(1.4);display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s">
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-[var(--alert-orange)] rounded-full mix-blend-overlay filter blur-[100px] opacity-10 group-hover:opacity-30 transition-opacity duration-700" data-sc-col="sccol-2" data-sc-cs="background-color:oklch(0.68 0.22 42);color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);position:absolute"></div>
+      <h3 class="text-4xl md:text-5xl font-light tracking-tight leading-[1.1] relative z-10" data-sc-col="sccol-3" data-sc-cs="color:oklch(0.2 0.02 200);font-family:Inter, sans-serif;font-size:48px;font-weight:300;line-height:48px;letter-spacing:-1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        "Absolute cleanliness, technical refraction, and the future of industrial movement."
+      </h3>
+    </div>
+
+  </section>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const droneBreach = document.getElementById('drone-breach');
+  let isScrolling = false;
+
+  const updateMouse = (e, el, global = false) => {
+    const target = global ? root : el;
+    const rect = global ? { left: 0, top: 0 } : el.getBoundingClientRect();
+    target.style.setProperty('--mouse-x', `${e.clientX - rect.left}`);
+    target.style.setProperty('--mouse-y', `${e.clientY - rect.top}`);
+  };
+
+  window.addEventListener('mousemove', (e) => updateMouse(e, root, true), { passive: true });
+
+  document.querySelectorAll('.interactive-el').forEach(el => {
+    el.addEventListener('mousemove', (e) => updateMouse(e, el), { passive: true });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (!isScrolling) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        droneBreach.style.transform = `translate3d(0, ${scrolled * 0.15}px, 0) scale(${1 + scrolled * 0.0003})`;
+        isScrolling = false;
+      });
+      isScrolling = true;
+    }
+  }, { passive: true });
+
+  document.getElementById('theme-trigger').addEventListener('click', () => {
+    const toggle = () => {
+      document.body.getAttribute('data-theme') === 'dark' 
+        ? document.body.removeAttribute('data-theme') 
+        : document.body.setAttribute('data-theme', 'dark');
+    };
+    document.startViewTransition ? document.startViewTransition(toggle) : toggle();
+  });
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+</body></html>

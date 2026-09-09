@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "engine": "qwen3:8b",
+ "sections": [
+  {
+   "sig": "engineering-the-empire",
+   "index": 0,
+   "kind": "content",
+   "pricing": false,
+   "video_role": "background"
+  },
+  {
+   "sig": "architectural-archeology",
+   "index": 1,
+   "kind": "content",
+   "pricing": false,
+   "video_role": "none"
+  }
+ ]
+}

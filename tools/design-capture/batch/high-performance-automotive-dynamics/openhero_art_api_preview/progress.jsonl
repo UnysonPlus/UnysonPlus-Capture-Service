@@ -1,0 +1,24 @@
+{"t":1788701743128,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=abstract&slug=high-performance-automotive-dynamics … (can take up to ~60s on heavy SPAs)"}
+{"t":1788701780582,"elapsed":37.6,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788701782283,"elapsed":39.3,"msg":"extracted 0 sections"}
+{"t":1788701782289,"elapsed":39.3,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788701782305,"elapsed":39.3,"msg":"capturing sticky-header scroll state…"}
+{"t":1788701783155,"elapsed":40.2,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788701783903,"elapsed":40.9,"msg":"brand tokens → heading=-apple-system · body=-apple-system · brand=?"}
+{"t":1788701783904,"elapsed":40.9,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788701790702,"elapsed":47.7,"msg":"animations → 4 finding(s)"}
+{"t":1788701790704,"elapsed":47.7,"msg":"building theme, pages & conversion report…"}
+{"t":1788701790712,"elapsed":47.7,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788701790713,"elapsed":47.7,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788701790714,"elapsed":47.7,"msg":"  🔤 Text Styles → 7 size(s)"}
+{"t":1788701790715,"elapsed":47.8,"msg":"  📏 Spacing Scale → 15 step(s)"}
+{"t":1788701790715,"elapsed":47.8,"msg":"  🔘 Button Presets → 1 style(s), 1 size(s)"}
+{"t":1788701790947,"elapsed":48,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788701790949,"elapsed":48,"msg":"  🎨 Box Presets → 3 kind(s) [Elevated, Outline] from 3 box(es); 0 with hover; box_style assigned to 0 icon-box(es)"}
+{"t":1788701790950,"elapsed":48,"msg":"🛡️ Self-containment guard → 0 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788701790965,"elapsed":48,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788701790967,"elapsed":48,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788701790968,"elapsed":48,"msg":"writing files & bundle…"}
+{"t":1788701793008,"elapsed":50,"msg":"visual font match: -apple-system → Libre Caslon Text"}
+{"t":1788701794365,"elapsed":51.4,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788701794374,"elapsed":51.4,"msg":"saving full-page screenshot…"}

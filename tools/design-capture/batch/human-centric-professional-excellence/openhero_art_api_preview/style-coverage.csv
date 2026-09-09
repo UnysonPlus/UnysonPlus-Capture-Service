@@ -1,0 +1,26 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,background-color,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,box-shadow,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,border,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,border-radius,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,max-width,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,padding,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,margin,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,transform,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,position-absolute,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,display-flex,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,0,min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20,display-grid,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,1,py-60 px-12 lg:px-24 relative overflow-hidden,max-width,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,1,py-60 px-12 lg:px-24 relative overflow-hidden,padding,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,1,py-60 px-12 lg:px-24 relative overflow-hidden,margin,7,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,1,py-60 px-12 lg:px-24 relative overflow-hidden,transform,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,1,py-60 px-12 lg:px-24 relative overflow-hidden,position-absolute,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,background-color,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,border,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,padding,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,margin,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,display-flex,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence,home,2,py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5,display-grid,1,yes

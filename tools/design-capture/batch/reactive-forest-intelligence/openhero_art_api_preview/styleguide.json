@@ -1,0 +1,1383 @@
+{
+  "pages": [
+    {
+      "title": "Style Guide",
+      "slug": "style-guide",
+      "status": "publish",
+      "front_page": false,
+      "builder": [
+        {
+          "type": "section",
+          "_items": [
+            {
+              "type": "column",
+              "width": "1_1",
+              "_items": [
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<p style=\"text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:#6c757d;margin:0;\">Style Guide</p><h1 style=\"font-size:2.6rem;font-weight:800;margin:.1em 0 .2em;\">Terraform OS</h1><p style=\"color:#6c757d;margin:0;\">Design system extracted from the source — colors, typography, buttons and spacing. Review this before converting the pages.</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "dcad640dad490422b14c16f9248486c0",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                }
+              ],
+              "atts": {
+                "full_height": "no",
+                "bg_color": {
+                  "predefined": "",
+                  "custom": ""
+                },
+                "spacing": {
+                  "margin": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "padding": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "advanced": []
+                },
+                "mobile_order": "",
+                "w_phone": "default",
+                "w_tablet": "default",
+                "w_desktop": "default",
+                "offset_phone": "none",
+                "offset_tablet": "none",
+                "offset_desktop": "none",
+                "align_self": "default",
+                "content_v": "default",
+                "content_h": "default",
+                "text_align": "",
+                "position": "",
+                "z_index": "",
+                "border_preset": "",
+                "inner_class": "",
+                "unique_id": "51808089c0d6cecbc6387cd8dfc8dc96",
+                "css_id": "",
+                "css_class": "",
+                "custom_css": "",
+                "responsive_hide": [],
+                "custom_attrs": [],
+                "animation": {
+                  "enable": "no",
+                  "yes": {
+                    "effect": "animate__fadeInUp",
+                    "speed_preset": "",
+                    "advanced_tweaks_heading": "",
+                    "delay": 0,
+                    "custom_duration": 0,
+                    "repeat_count": 1,
+                    "loop_forever": "no",
+                    "replay_on_scroll": "no",
+                    "easing": ""
+                  }
+                }
+              }
+            }
+          ],
+          "atts": {
+            "variant": "",
+            "is_fullwidth": false,
+            "background_color": "",
+            "background_image": {
+              "type": "custom",
+              "custom": "",
+              "predefined": "",
+              "data": {
+                "icon": "",
+                "css": []
+              }
+            },
+            "video": "",
+            "bleed_illustration": "",
+            "bleed_layout": {
+              "bleed_enabled": "no",
+              "yes": {
+                "bleed_bg_color": "",
+                "bleed_image": "",
+                "bleed_image_position": "center",
+                "bleed_image_side": "right",
+                "bleed_image_ratio": "5-7",
+                "bleed_vertical_align": "align-items-center",
+                "bleed_content_padding": "3rem",
+                "bleed_mobile_stacking": "content-first"
+              }
+            },
+            "bg_color": {
+              "predefined": "",
+              "custom": ""
+            },
+            "padding_top": "",
+            "padding_bottom": "",
+            "gap": "",
+            "gap_x": "",
+            "gap_y": "",
+            "min_height": {
+              "preset": "auto",
+              "custom": {
+                "custom_height": {
+                  "value": "",
+                  "unit": "px"
+                }
+              }
+            },
+            "content_valign": "top",
+            "text_align": "",
+            "background": {
+              "color": {
+                "value": {
+                  "predefined": "",
+                  "custom": ""
+                }
+              },
+              "gradient": {
+                "data": {
+                  "type": "linear",
+                  "angle": 90,
+                  "stops": []
+                }
+              },
+              "image": {
+                "src": [],
+                "position": "center center",
+                "size": {
+                  "selected": "cover",
+                  "custom": ""
+                },
+                "repeat": "no-repeat",
+                "attachment": "scroll"
+              },
+              "video": {
+                "enabled": "no",
+                "external_url": "",
+                "source_mp4": [],
+                "source_webm": [],
+                "poster": [],
+                "fallback": [],
+                "loop": "yes",
+                "autoplay": "yes",
+                "mute": "yes",
+                "playsinline": "yes"
+              },
+              "advanced": []
+            },
+            "unique_id": "fab8245ac7fe1adfd3402ac4996d9b55",
+            "css_id": "",
+            "css_class": "sg-intro",
+            "custom_css": "",
+            "responsive_hide": [],
+            "custom_attrs": [],
+            "animation": {
+              "enable": "no",
+              "yes": {
+                "effect": "animate__fadeInUp",
+                "speed_preset": "",
+                "advanced_tweaks_heading": "",
+                "delay": 0,
+                "custom_duration": 0,
+                "repeat_count": 1,
+                "loop_forever": "no",
+                "replay_on_scroll": "no",
+                "easing": ""
+              }
+            }
+          }
+        },
+        {
+          "type": "section",
+          "_items": [
+            {
+              "type": "column",
+              "width": "1_1",
+              "_items": [
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<h2 class=\"sg-h\" style=\"font-size:1.9rem;font-weight:700;margin:0 0 .15em;\">Colors</h2><p class=\"sg-sub\" style=\"margin:0 0 1.2em;color:#6c757d;\">Captured palette (Bootstrap roles + accent).</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "2ca24126ea377683f744288db7107102",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<div style=\"display:flex;flex-wrap:wrap;gap:16px;\"><div style=\"text-align:center;width:96px;\"><div style=\"height:72px;border-radius:10px;background:rgba(255, 255, 255, 0.45);border:1px solid rgba(0,0,0,.08);\"></div><div style=\"font-size:12px;font-weight:600;margin-top:7px;\">Primary</div><div style=\"font-size:11px;color:#888;word-break:break-all;\">rgba(255, 255, 255, 0.45)</div></div><div style=\"text-align:center;width:96px;\"><div style=\"height:72px;border-radius:10px;background:rgb(255, 255, 255);border:1px solid rgba(0,0,0,.08);\"></div><div style=\"font-size:12px;font-weight:600;margin-top:7px;\">Dark</div><div style=\"font-size:11px;color:#888;word-break:break-all;\">rgb(255, 255, 255)</div></div></div>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "071705b2a8d092040765f36728fd3f25",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                }
+              ],
+              "atts": {
+                "full_height": "no",
+                "bg_color": {
+                  "predefined": "",
+                  "custom": ""
+                },
+                "spacing": {
+                  "margin": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "padding": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "advanced": []
+                },
+                "mobile_order": "",
+                "w_phone": "default",
+                "w_tablet": "default",
+                "w_desktop": "default",
+                "offset_phone": "none",
+                "offset_tablet": "none",
+                "offset_desktop": "none",
+                "align_self": "default",
+                "content_v": "default",
+                "content_h": "default",
+                "text_align": "",
+                "position": "",
+                "z_index": "",
+                "border_preset": "",
+                "inner_class": "",
+                "unique_id": "52813fad511ae18fec938882e33313c2",
+                "css_id": "",
+                "css_class": "",
+                "custom_css": "",
+                "responsive_hide": [],
+                "custom_attrs": [],
+                "animation": {
+                  "enable": "no",
+                  "yes": {
+                    "effect": "animate__fadeInUp",
+                    "speed_preset": "",
+                    "advanced_tweaks_heading": "",
+                    "delay": 0,
+                    "custom_duration": 0,
+                    "repeat_count": 1,
+                    "loop_forever": "no",
+                    "replay_on_scroll": "no",
+                    "easing": ""
+                  }
+                }
+              }
+            }
+          ],
+          "atts": {
+            "variant": "",
+            "is_fullwidth": false,
+            "background_color": "",
+            "background_image": {
+              "type": "custom",
+              "custom": "",
+              "predefined": "",
+              "data": {
+                "icon": "",
+                "css": []
+              }
+            },
+            "video": "",
+            "bleed_illustration": "",
+            "bleed_layout": {
+              "bleed_enabled": "no",
+              "yes": {
+                "bleed_bg_color": "",
+                "bleed_image": "",
+                "bleed_image_position": "center",
+                "bleed_image_side": "right",
+                "bleed_image_ratio": "5-7",
+                "bleed_vertical_align": "align-items-center",
+                "bleed_content_padding": "3rem",
+                "bleed_mobile_stacking": "content-first"
+              }
+            },
+            "bg_color": {
+              "predefined": "",
+              "custom": ""
+            },
+            "padding_top": "",
+            "padding_bottom": "",
+            "gap": "",
+            "gap_x": "",
+            "gap_y": "",
+            "min_height": {
+              "preset": "auto",
+              "custom": {
+                "custom_height": {
+                  "value": "",
+                  "unit": "px"
+                }
+              }
+            },
+            "content_valign": "top",
+            "text_align": "",
+            "background": {
+              "color": {
+                "value": {
+                  "predefined": "",
+                  "custom": ""
+                }
+              },
+              "gradient": {
+                "data": {
+                  "type": "linear",
+                  "angle": 90,
+                  "stops": []
+                }
+              },
+              "image": {
+                "src": [],
+                "position": "center center",
+                "size": {
+                  "selected": "cover",
+                  "custom": ""
+                },
+                "repeat": "no-repeat",
+                "attachment": "scroll"
+              },
+              "video": {
+                "enabled": "no",
+                "external_url": "",
+                "source_mp4": [],
+                "source_webm": [],
+                "poster": [],
+                "fallback": [],
+                "loop": "yes",
+                "autoplay": "yes",
+                "mute": "yes",
+                "playsinline": "yes"
+              },
+              "advanced": []
+            },
+            "unique_id": "64b7f1d250bf853c0bbbcd62bd6f6fd8",
+            "css_id": "",
+            "css_class": "sg-colors",
+            "custom_css": "",
+            "responsive_hide": [],
+            "custom_attrs": [],
+            "animation": {
+              "enable": "no",
+              "yes": {
+                "effect": "animate__fadeInUp",
+                "speed_preset": "",
+                "advanced_tweaks_heading": "",
+                "delay": 0,
+                "custom_duration": 0,
+                "repeat_count": 1,
+                "loop_forever": "no",
+                "replay_on_scroll": "no",
+                "easing": ""
+              }
+            }
+          }
+        },
+        {
+          "type": "section",
+          "_items": [
+            {
+              "type": "column",
+              "width": "1_1",
+              "_items": [
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<h2 class=\"sg-h\" style=\"font-size:1.9rem;font-weight:700;margin:0 0 .15em;\">Typography</h2><p class=\"sg-sub\" style=\"margin:0 0 1.2em;color:#6c757d;\">Heading: Iowan Old Style  ·  Body: PP Neue Montreal</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "8ff3a9fa266a5b173d1dcafc7e9cfd0a",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<div style=\"margin-bottom:1.4em;\"><div style=\"font-family:'Iowan Old Style',serif;font-size:2.5rem;font-weight:700;margin:.15em 0;\">H1 — Irrelevant reason and fallacy.</div><div style=\"font-family:'Iowan Old Style',serif;font-size:2rem;font-weight:700;margin:.15em 0;\">H2 — Irrelevant reason and fallacy.</div><div style=\"font-family:'Iowan Old Style',serif;font-size:1.75rem;font-weight:700;margin:.15em 0;\">H3 — Irrelevant reason and fallacy.</div><div style=\"font-family:'Iowan Old Style',serif;font-size:1.5rem;font-weight:700;margin:.15em 0;\">H4 — Irrelevant reason and fallacy.</div><div style=\"font-family:'Iowan Old Style',serif;font-size:1.25rem;font-weight:700;margin:.15em 0;\">H5 — Irrelevant reason and fallacy.</div><div style=\"font-family:'Iowan Old Style',serif;font-size:1rem;font-weight:700;margin:.15em 0;\">H6 — Irrelevant reason and fallacy.</div></div><div style=\"margin-bottom:1.4em;\"><div style=\"font-family:'Iowan Old Style',serif;font-size:5rem;font-weight:300;line-height:1.1;\">Display 1</div><div style=\"font-family:'Iowan Old Style',serif;font-size:4.5rem;font-weight:300;line-height:1.1;\">Display 2</div><div style=\"font-family:'Iowan Old Style',serif;font-size:4rem;font-weight:300;line-height:1.1;\">Display 3</div></div><p style=\"font-family:'PP Neue Montreal',sans-serif;font-size:1.15rem;color:#333;margin:0 0 .6em;\">Lead paragraph — a slightly larger intro line set in the body font.</p><p style=\"font-family:'PP Neue Montreal',sans-serif;color:#444;max-width:60ch;margin:0;\">Body text. The quick brown fox jumps over the lazy dog. Literally species of nothing. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "4af7c6fc33dc270a3b4a32785578eb5f",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                }
+              ],
+              "atts": {
+                "full_height": "no",
+                "bg_color": {
+                  "predefined": "",
+                  "custom": ""
+                },
+                "spacing": {
+                  "margin": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "padding": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "advanced": []
+                },
+                "mobile_order": "",
+                "w_phone": "default",
+                "w_tablet": "default",
+                "w_desktop": "default",
+                "offset_phone": "none",
+                "offset_tablet": "none",
+                "offset_desktop": "none",
+                "align_self": "default",
+                "content_v": "default",
+                "content_h": "default",
+                "text_align": "",
+                "position": "",
+                "z_index": "",
+                "border_preset": "",
+                "inner_class": "",
+                "unique_id": "0852e20c2605eeca3030b3eaafc06b99",
+                "css_id": "",
+                "css_class": "",
+                "custom_css": "",
+                "responsive_hide": [],
+                "custom_attrs": [],
+                "animation": {
+                  "enable": "no",
+                  "yes": {
+                    "effect": "animate__fadeInUp",
+                    "speed_preset": "",
+                    "advanced_tweaks_heading": "",
+                    "delay": 0,
+                    "custom_duration": 0,
+                    "repeat_count": 1,
+                    "loop_forever": "no",
+                    "replay_on_scroll": "no",
+                    "easing": ""
+                  }
+                }
+              }
+            }
+          ],
+          "atts": {
+            "variant": "",
+            "is_fullwidth": false,
+            "background_color": "",
+            "background_image": {
+              "type": "custom",
+              "custom": "",
+              "predefined": "",
+              "data": {
+                "icon": "",
+                "css": []
+              }
+            },
+            "video": "",
+            "bleed_illustration": "",
+            "bleed_layout": {
+              "bleed_enabled": "no",
+              "yes": {
+                "bleed_bg_color": "",
+                "bleed_image": "",
+                "bleed_image_position": "center",
+                "bleed_image_side": "right",
+                "bleed_image_ratio": "5-7",
+                "bleed_vertical_align": "align-items-center",
+                "bleed_content_padding": "3rem",
+                "bleed_mobile_stacking": "content-first"
+              }
+            },
+            "bg_color": {
+              "predefined": "",
+              "custom": ""
+            },
+            "padding_top": "",
+            "padding_bottom": "",
+            "gap": "",
+            "gap_x": "",
+            "gap_y": "",
+            "min_height": {
+              "preset": "auto",
+              "custom": {
+                "custom_height": {
+                  "value": "",
+                  "unit": "px"
+                }
+              }
+            },
+            "content_valign": "top",
+            "text_align": "",
+            "background": {
+              "color": {
+                "value": {
+                  "predefined": "",
+                  "custom": ""
+                }
+              },
+              "gradient": {
+                "data": {
+                  "type": "linear",
+                  "angle": 90,
+                  "stops": []
+                }
+              },
+              "image": {
+                "src": [],
+                "position": "center center",
+                "size": {
+                  "selected": "cover",
+                  "custom": ""
+                },
+                "repeat": "no-repeat",
+                "attachment": "scroll"
+              },
+              "video": {
+                "enabled": "no",
+                "external_url": "",
+                "source_mp4": [],
+                "source_webm": [],
+                "poster": [],
+                "fallback": [],
+                "loop": "yes",
+                "autoplay": "yes",
+                "mute": "yes",
+                "playsinline": "yes"
+              },
+              "advanced": []
+            },
+            "unique_id": "619d62aebd9582cc84400b8feae09a6c",
+            "css_id": "",
+            "css_class": "sg-type",
+            "custom_css": "",
+            "responsive_hide": [],
+            "custom_attrs": [],
+            "animation": {
+              "enable": "no",
+              "yes": {
+                "effect": "animate__fadeInUp",
+                "speed_preset": "",
+                "advanced_tweaks_heading": "",
+                "delay": 0,
+                "custom_duration": 0,
+                "repeat_count": 1,
+                "loop_forever": "no",
+                "replay_on_scroll": "no",
+                "easing": ""
+              }
+            }
+          }
+        },
+        {
+          "type": "section",
+          "_items": [
+            {
+              "type": "column",
+              "width": "1_1",
+              "_items": [
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<h2 class=\"sg-h\" style=\"font-size:1.9rem;font-weight:700;margin:0 0 .15em;\">Buttons</h2><p class=\"sg-sub\" style=\"margin:0 0 1.2em;color:#6c757d;\">Button style captured from the source CTA, shown in its default and hover states.</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "5761832b70851fc59e6865673dfd31e9",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<div style=\"display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;\"><div style=\"text-align:center;\"><a href=\"#\" style=\"display:inline-block;text-decoration:none;background:rgba(255, 255, 255, 0.45);color:#fff;border:2px solid rgba(255, 255, 255, 0.45);border-radius:6px;padding:10px 24px;font-weight:600;\">Primary Button</a><div style=\"font-size:11px;color:#888;margin-top:7px;\">Default</div></div><div style=\"text-align:center;\"><a href=\"#\" style=\"display:inline-block;text-decoration:none;background:transparent;color:rgba(255, 255, 255, 0.45);border:2px solid rgba(255, 255, 255, 0.45);border-radius:6px;padding:10px 24px;font-weight:600;\">Primary Button</a><div style=\"font-size:11px;color:#888;margin-top:7px;\">Hover</div></div></div>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "3c39a97a70ccfe839b5f576603a07f00",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                }
+              ],
+              "atts": {
+                "full_height": "no",
+                "bg_color": {
+                  "predefined": "",
+                  "custom": ""
+                },
+                "spacing": {
+                  "margin": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "padding": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "advanced": []
+                },
+                "mobile_order": "",
+                "w_phone": "default",
+                "w_tablet": "default",
+                "w_desktop": "default",
+                "offset_phone": "none",
+                "offset_tablet": "none",
+                "offset_desktop": "none",
+                "align_self": "default",
+                "content_v": "default",
+                "content_h": "default",
+                "text_align": "",
+                "position": "",
+                "z_index": "",
+                "border_preset": "",
+                "inner_class": "",
+                "unique_id": "f245c4bd6799b7a4a43a17e36fc0c65f",
+                "css_id": "",
+                "css_class": "",
+                "custom_css": "",
+                "responsive_hide": [],
+                "custom_attrs": [],
+                "animation": {
+                  "enable": "no",
+                  "yes": {
+                    "effect": "animate__fadeInUp",
+                    "speed_preset": "",
+                    "advanced_tweaks_heading": "",
+                    "delay": 0,
+                    "custom_duration": 0,
+                    "repeat_count": 1,
+                    "loop_forever": "no",
+                    "replay_on_scroll": "no",
+                    "easing": ""
+                  }
+                }
+              }
+            }
+          ],
+          "atts": {
+            "variant": "",
+            "is_fullwidth": false,
+            "background_color": "",
+            "background_image": {
+              "type": "custom",
+              "custom": "",
+              "predefined": "",
+              "data": {
+                "icon": "",
+                "css": []
+              }
+            },
+            "video": "",
+            "bleed_illustration": "",
+            "bleed_layout": {
+              "bleed_enabled": "no",
+              "yes": {
+                "bleed_bg_color": "",
+                "bleed_image": "",
+                "bleed_image_position": "center",
+                "bleed_image_side": "right",
+                "bleed_image_ratio": "5-7",
+                "bleed_vertical_align": "align-items-center",
+                "bleed_content_padding": "3rem",
+                "bleed_mobile_stacking": "content-first"
+              }
+            },
+            "bg_color": {
+              "predefined": "",
+              "custom": ""
+            },
+            "padding_top": "",
+            "padding_bottom": "",
+            "gap": "",
+            "gap_x": "",
+            "gap_y": "",
+            "min_height": {
+              "preset": "auto",
+              "custom": {
+                "custom_height": {
+                  "value": "",
+                  "unit": "px"
+                }
+              }
+            },
+            "content_valign": "top",
+            "text_align": "",
+            "background": {
+              "color": {
+                "value": {
+                  "predefined": "",
+                  "custom": ""
+                }
+              },
+              "gradient": {
+                "data": {
+                  "type": "linear",
+                  "angle": 90,
+                  "stops": []
+                }
+              },
+              "image": {
+                "src": [],
+                "position": "center center",
+                "size": {
+                  "selected": "cover",
+                  "custom": ""
+                },
+                "repeat": "no-repeat",
+                "attachment": "scroll"
+              },
+              "video": {
+                "enabled": "no",
+                "external_url": "",
+                "source_mp4": [],
+                "source_webm": [],
+                "poster": [],
+                "fallback": [],
+                "loop": "yes",
+                "autoplay": "yes",
+                "mute": "yes",
+                "playsinline": "yes"
+              },
+              "advanced": []
+            },
+            "unique_id": "33ca83b8ea838bac48d79ad6f30b8121",
+            "css_id": "",
+            "css_class": "sg-buttons",
+            "custom_css": "",
+            "responsive_hide": [],
+            "custom_attrs": [],
+            "animation": {
+              "enable": "no",
+              "yes": {
+                "effect": "animate__fadeInUp",
+                "speed_preset": "",
+                "advanced_tweaks_heading": "",
+                "delay": 0,
+                "custom_duration": 0,
+                "repeat_count": 1,
+                "loop_forever": "no",
+                "replay_on_scroll": "no",
+                "easing": ""
+              }
+            }
+          }
+        },
+        {
+          "type": "section",
+          "_items": [
+            {
+              "type": "column",
+              "width": "1_1",
+              "_items": [
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<h2 class=\"sg-h\" style=\"font-size:1.9rem;font-weight:700;margin:0 0 .15em;\">Spacing &amp; Table</h2><p class=\"sg-sub\" style=\"margin:0 0 1.2em;color:#6c757d;\">Spacing scale (0–5) and a sample table.</p>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "4318af514ad4328901b10eff9ce47b02",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "simple",
+                  "shortcode": "text_block",
+                  "_items": [],
+                  "atts": {
+                    "text": "<div style=\"margin-bottom:1.6em;\"><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">0</span><span style=\"height:14px;width:2px;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">0</span></div><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">1</span><span style=\"height:14px;width:.25rem;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">.25rem</span></div><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">2</span><span style=\"height:14px;width:.5rem;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">.5rem</span></div><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">3</span><span style=\"height:14px;width:1rem;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">1rem</span></div><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">4</span><span style=\"height:14px;width:1.5rem;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">1.5rem</span></div><div style=\"display:flex;align-items:center;gap:12px;margin:6px 0;font-size:13px;\"><span style=\"width:18px;color:#6c757d;\">5</span><span style=\"height:14px;width:3rem;background:rgba(255, 255, 255, 0.45);border-radius:3px;\"></span><span style=\"color:#888;\">3rem</span></div></div><table style=\"border-collapse:collapse;width:100%;max-width:560px;font-size:14px;\"><thead><tr><th style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;background:#f6f7f9;font-weight:700;\">Name</th><th style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;background:#f6f7f9;font-weight:700;\">Role</th><th style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;background:#f6f7f9;font-weight:700;\">Status</th></tr></thead><tbody><tr><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Item one</td><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Primary</td><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Active</td></tr><tr><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Item two</td><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Secondary</td><td style=\"padding:8px 12px;border:1px solid #e3e6ea;text-align:left;\">Pending</td></tr></tbody></table>",
+                    "text_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "bg_color": {
+                      "predefined": "",
+                      "custom": ""
+                    },
+                    "font_size_preset": "",
+                    "spacing": {
+                      "margin": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "padding": {
+                        "all": "",
+                        "top": "",
+                        "right": "",
+                        "bottom": "",
+                        "left": ""
+                      },
+                      "advanced": []
+                    },
+                    "unique_id": "5b5d9592cedf5013a4137eda9acebb53",
+                    "css_id": "",
+                    "css_class": "",
+                    "custom_css": "",
+                    "responsive_hide": [],
+                    "custom_attrs": [],
+                    "animation": {
+                      "enable": "no",
+                      "yes": {
+                        "effect": "animate__fadeInUp",
+                        "speed_preset": "",
+                        "advanced_tweaks_heading": "",
+                        "delay": 0,
+                        "custom_duration": 0,
+                        "repeat_count": 1,
+                        "loop_forever": "no",
+                        "replay_on_scroll": "no",
+                        "easing": ""
+                      }
+                    }
+                  }
+                }
+              ],
+              "atts": {
+                "full_height": "no",
+                "bg_color": {
+                  "predefined": "",
+                  "custom": ""
+                },
+                "spacing": {
+                  "margin": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "padding": {
+                    "all": "",
+                    "top": "",
+                    "right": "",
+                    "bottom": "",
+                    "left": ""
+                  },
+                  "advanced": []
+                },
+                "mobile_order": "",
+                "w_phone": "default",
+                "w_tablet": "default",
+                "w_desktop": "default",
+                "offset_phone": "none",
+                "offset_tablet": "none",
+                "offset_desktop": "none",
+                "align_self": "default",
+                "content_v": "default",
+                "content_h": "default",
+                "text_align": "",
+                "position": "",
+                "z_index": "",
+                "border_preset": "",
+                "inner_class": "",
+                "unique_id": "9a2f582dde2e0f6f6d18aa76278cc824",
+                "css_id": "",
+                "css_class": "",
+                "custom_css": "",
+                "responsive_hide": [],
+                "custom_attrs": [],
+                "animation": {
+                  "enable": "no",
+                  "yes": {
+                    "effect": "animate__fadeInUp",
+                    "speed_preset": "",
+                    "advanced_tweaks_heading": "",
+                    "delay": 0,
+                    "custom_duration": 0,
+                    "repeat_count": 1,
+                    "loop_forever": "no",
+                    "replay_on_scroll": "no",
+                    "easing": ""
+                  }
+                }
+              }
+            }
+          ],
+          "atts": {
+            "variant": "",
+            "is_fullwidth": false,
+            "background_color": "",
+            "background_image": {
+              "type": "custom",
+              "custom": "",
+              "predefined": "",
+              "data": {
+                "icon": "",
+                "css": []
+              }
+            },
+            "video": "",
+            "bleed_illustration": "",
+            "bleed_layout": {
+              "bleed_enabled": "no",
+              "yes": {
+                "bleed_bg_color": "",
+                "bleed_image": "",
+                "bleed_image_position": "center",
+                "bleed_image_side": "right",
+                "bleed_image_ratio": "5-7",
+                "bleed_vertical_align": "align-items-center",
+                "bleed_content_padding": "3rem",
+                "bleed_mobile_stacking": "content-first"
+              }
+            },
+            "bg_color": {
+              "predefined": "",
+              "custom": ""
+            },
+            "padding_top": "",
+            "padding_bottom": "",
+            "gap": "",
+            "gap_x": "",
+            "gap_y": "",
+            "min_height": {
+              "preset": "auto",
+              "custom": {
+                "custom_height": {
+                  "value": "",
+                  "unit": "px"
+                }
+              }
+            },
+            "content_valign": "top",
+            "text_align": "",
+            "background": {
+              "color": {
+                "value": {
+                  "predefined": "",
+                  "custom": ""
+                }
+              },
+              "gradient": {
+                "data": {
+                  "type": "linear",
+                  "angle": 90,
+                  "stops": []
+                }
+              },
+              "image": {
+                "src": [],
+                "position": "center center",
+                "size": {
+                  "selected": "cover",
+                  "custom": ""
+                },
+                "repeat": "no-repeat",
+                "attachment": "scroll"
+              },
+              "video": {
+                "enabled": "no",
+                "external_url": "",
+                "source_mp4": [],
+                "source_webm": [],
+                "poster": [],
+                "fallback": [],
+                "loop": "yes",
+                "autoplay": "yes",
+                "mute": "yes",
+                "playsinline": "yes"
+              },
+              "advanced": []
+            },
+            "unique_id": "e3fd6ee8bc415336e613c4c4707589ab",
+            "css_id": "",
+            "css_class": "sg-spacing",
+            "custom_css": "",
+            "responsive_hide": [],
+            "custom_attrs": [],
+            "animation": {
+              "enable": "no",
+              "yes": {
+                "effect": "animate__fadeInUp",
+                "speed_preset": "",
+                "advanced_tweaks_heading": "",
+                "delay": 0,
+                "custom_duration": 0,
+                "repeat_count": 1,
+                "loop_forever": "no",
+                "replay_on_scroll": "no",
+                "easing": ""
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

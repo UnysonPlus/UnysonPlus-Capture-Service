@@ -1,0 +1,15 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1529px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,document position drifts -133px over 1529px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ -0.09),medium
+trace,trace#2,document position drifts 269px over 1529px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ 0.18),medium
+trace,trace#3,document position drifts 269px over 1529px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ 0.18),medium
+css-animation,.animate-\[spin_10s_linear_infinite\],infinite keyframes 'spin' (transform),physics float/pulse or backgrounds module,low
+hover,.stone-btn,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'lift'},medium
+hover,.stone-panel,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'lift'} or glow_border,medium
+hover,.nav-link,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:border-amber,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-amber,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-sandstone,color change on hover,interaction: {effect:'color_shift'},medium
+hover,stone-btn px-6 py-2.5 font-sans text-[11px] uppercase tracki,"transform, boxShadow, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,w-10 h-10 rounded-full border border-sandstone/20 flex items,"color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,font-sans text-sm text-sandstone/70 hover:text-amber transit,color change on hover,interaction: {effect:'color_shift'},medium

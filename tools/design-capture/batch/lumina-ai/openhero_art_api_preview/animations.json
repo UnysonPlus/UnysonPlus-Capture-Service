@@ -1,0 +1,366 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [],
+  "animated": [],
+  "hovers": [
+    {
+      "selector": ".hover\\:border-zinc-500",
+      "changed": {
+        "--tw-border-opacity": "1",
+        "border-top-color": "",
+        "border-right-color": "",
+        "border-bottom-color": "",
+        "border-left-color": ""
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(255 255 255 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-brand-light",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(212 237 170 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-zinc-900\\/80",
+      "changed": {
+        "background-color": "rgba(24, 24, 27, 0.8)"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-zinc-800",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(39 39 42 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-zinc-200",
+      "changed": {
+        "--tw-bg-opacity": "1",
+        "background-color": "rgb(228 228 231 / var(--tw-bg-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-black",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(0 0 0 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-brand-light",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(212 237 170 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:grayscale-0",
+      "changed": {
+        "--tw-grayscale": "grayscale(0)",
+        "filter": "var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:translate-x-1",
+      "changed": {
+        "--tw-translate-x": "0.25rem",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:rotate-90",
+      "changed": {
+        "--tw-rotate": "90deg",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:scale-110",
+      "changed": {
+        "--tw-scale-x": "1.1",
+        "--tw-scale-y": "1.1",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "hover:text-white flex items-center gap-1 transition-colors",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "hover:text-white transition-colors",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "hidden sm:block text-sm font-medium text-zinc-300 hover:text",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "px-5 py-2.5 rounded-full border border-zinc-700 text-sm font",
+      "changed": {
+        "background": "rgba(255, 255, 255, 1)",
+        "color": "rgb(0, 0, 0)"
+      },
+      "live": true
+    },
+    {
+      "selector": "group relative inline-flex items-center justify-center gap-2",
+      "changed": {
+        "background": "rgb(212, 237, 170)"
+      },
+      "live": true
+    },
+    {
+      "selector": "glass-card p-8 rounded-2xl hover:bg-zinc-900/80 transition-c",
+      "changed": {
+        "background": "rgba(24, 24, 27, 0.8)"
+      },
+      "live": true
+    },
+    {
+      "selector": "text-brand hover:text-brand-light font-medium flex items-cen",
+      "changed": {
+        "color": "rgb(212, 237, 170)"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-full py-3 rounded-xl border border-zinc-700 font-medium te",
+      "changed": {
+        "background": "rgb(39, 39, 42)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3855,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~2955px of scroll"
+    },
+    {
+      "i": 1,
+      "kind": "pin",
+      "evidence": "pinned for ~2955px of scroll"
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~2955px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#1",
+      "evidence": "pinned for ~2955px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:border-zinc-500",
+      "evidence": "--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-brand-light",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-zinc-900\\/80",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-zinc-800",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-zinc-200",
+      "evidence": "--tw-bg-opacity, background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-black",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-brand-light",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:grayscale-0",
+      "evidence": "--tw-grayscale, filter change on hover",
+      "suggest": "interaction: {effect:'grayscale'|'brightness'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hover:text-white flex items-center gap-1 transition-colors",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hover:text-white transition-colors",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hidden sm:block text-sm font-medium text-zinc-300 hover:text",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "px-5 py-2.5 rounded-full border border-zinc-700 text-sm font",
+      "evidence": "background, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "group relative inline-flex items-center justify-center gap-2",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "glass-card p-8 rounded-2xl hover:bg-zinc-900/80 transition-c",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "text-brand hover:text-brand-light font-medium flex items-cen",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-full py-3 rounded-xl border border-zinc-700 font-medium te",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

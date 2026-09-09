@@ -1,0 +1,739 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "min-h-screen flex items-center justify-start px-6 max-w-7xl mx-auto pt-20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".text-gradient-sun{background: linear-gradient(135deg, rgb(255, 255, 255) 30%, rgb(245, 158, 11) 100%) text; -webkit-text-fill-color: transparent;}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.min-h-screen{min-height: 100vh;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-xl{max-width: 36rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-start{justify-content: flex-start;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-4{gap: 1rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-clip-text{background-clip: text;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-20{padding-top: 5rem;}\n.pt-4{padding-top: 1rem;}\n.text-center{text-align: center;}\n.font-display{font-family: Syne, sans-serif;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-black{font-weight: 900;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-slate-300\\/80{color: rgba(203, 213, 225, 0.8);}\n.text-transparent{color: transparent;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-white\\/10:hover{background-color: rgba(255, 255, 255, 0.1);}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-lg{font-size: 1.125rem; line-height: 1.75rem;}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "80px 24px 0px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-3xl space-y-8\">                 <h1 class=\"font-display text-5xl sm:text-7xl font-black uppercase tracking-tight leading-[0.9] text-gradient-sun\">                     Where the winds <br><span class=\"text-transparent bg-clip-text bg-gradient-to-r from-azure-400 to-emerald-400\">meet tranquility.</span>                 </h1>                 <p class=\"font-sans text-base sm:text-lg text-slate-300/80 max-w-xl font-light leading-relaxed\">                     Immerse yourself in wide open spaces framed by rolling ridges, high mountain passes, and sweeping emerald lakes. Watch the world unfold as elements drift naturally across the sky.                 </p>                 <div class=\"flex flex-col sm:flex-row gap-4 pt-4\">                     <a href=\"#horizons\" class=\"bg-gradient-to-r from-azure-500 to-emerald-500 hover:from-azure-600 hover:to-emerald-600 text-white font-bold font-sans text-xs uppercase tracking-widest px-8 py-4 rounded-full shadow-xl shadow-azure-500/10 transition-all duration-300 text-center\">                         Explore Frontiers                     </a>                     <button class=\"flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full px-8 py-4 font-sans text-xs uppercase tracking-widest font-bold transition-all\">                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base text-emerald-400\"></iconify-icon>                         Watch Stream                     </button>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Where the winds <br>meet tranquility.",
+              "text": "Where the winds meet tranquility.",
+              "tag": "h1",
+              "cls": "font-display text-5xl sm:text-7xl font-black uppercase tracking-tight leading-[0.9] text-gradient-sun",
+              "wrapCls": "max-w-3xl space-y-8",
+              "fontSize": "72px",
+              "fontWeight": "900",
+              "color": "rgb(248, 250, 252)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "72px",
+              "letterSpacing": "-1.8px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-sans text-base sm:text-lg text-slate-300/80 max-w-xl font-light leading-relaxed\">                     Immerse yourself in wide open spaces framed by rolling ridges, high mountain passes, and sweeping emerald lakes. Watch the world unfold as elements drift naturally across the sky.                 </p>",
+              "text": "Immerse yourself in wide open spaces framed by rolling ridges, high mountain passes, and sweeping emerald lakes. Watch the world unfold as elements drift naturally across the sky.",
+              "tag": "p",
+              "cls": "font-sans text-base sm:text-lg text-slate-300/80 max-w-xl font-light leading-relaxed",
+              "fontSize": "18px",
+              "color": "rgba(203, 213, 225, 0.8)",
+              "lineHeight": "28px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "bg-gradient-to-r from-azure-500 to-emerald-500 hover:from-azure-600 hover:to-emerald-600 text-white font-bold font-sans text-xs uppercase tracking-widest px-8 py-4 rounded-full shadow-xl shadow-azure-500/10 transition-all duration-300 text-center",
+                  "colId": "sccol-0",
+                  "cw": 3,
+                  "html": "                         Explore Frontiers                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full px-8 py-4 font-sans text-xs uppercase tracking-widest font-bold transition-all",
+                  "colId": "sccol-1",
+                  "cw": 3,
+                  "html": "                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base text-emerald-400\"></iconify-icon>                         Watch Stream                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 3,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col sm:flex-row gap-4 pt-4\">                     <a href=\"#horizons\" class=\"bg-gradient-to-r from-azure-500 to-emerald-500 hover:from-azure-600 hover:to-emerald-600 text-white font-bold font-sans text-xs uppercase tracking-widest px-8 py-4 rounded-full shadow-xl shadow-azure-500/10 transition-all duration-300 text-center\" data-sc-col=\"sccol-0\">                         Explore Frontiers                     </a>                     <button class=\"flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full px-8 py-4 font-sans text-xs uppercase tracking-widest font-bold transition-all\" data-sc-col=\"sccol-1\">                         <iconify-icon icon=\"ph:play-fill\" class=\"text-base text-emerald-400\"></iconify-icon>                         Watch Stream                     </button>                 </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 px-6 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-card{background: rgba(12, 20, 31, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06);}\n.glass-card:hover{border-color: rgba(56, 189, 248, 0.2); box-shadow: rgba(0, 0, 0, 0.5) 0px 25px 50px -12px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-20{margin-bottom: 5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.w-12{width: 3rem;}\n.max-w-7xl{max-width: 80rem;}\n.items-end{align-items: flex-end;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-12{gap: 3rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-azure-500\\/20{border-color: rgba(14, 165, 233, 0.2);}\n.border-emerald-500\\/20{border-color: rgba(16, 185, 129, 0.2);}\n.border-solis\\/20{border-color: rgba(245, 158, 11, 0.2);}\n.bg-azure-500\\/10{background-color: rgba(14, 165, 233, 0.1);}\n.bg-emerald-500\\/10{background-color: rgba(16, 185, 129, 0.1);}\n.bg-solis\\/10{background-color: rgba(245, 158, 11, 0.1);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-display{font-family: Syne, sans-serif;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.font-extrabold{font-weight: 800;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-solis{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-azure-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.group:hover .group-hover\\:scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"grid lg:grid-cols-12 gap-12 items-end mb-20\">                 <div class=\"lg:col-span-7 space-y-4\">                     <span class=\"font-sans text-xs uppercase tracking-[0.4em] text-azure-400 font-bold block\">Vast Dimensions</span>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white\">The Anatomy of Scale</h2>                 </div>                 <div class=\"lg:col-span-5\">                     <p class=\"font-sans text-sm text-slate-400 leading-relaxed font-light\">                         Every valley is constructed around dynamic fluid grids. Terrains respond directly to atmospheric criteria, balancing pristine mountain topology with dense, whispering tree lines.                     </p>                 </div>             </div>             <div class=\"grid md:grid-cols-3 gap-6\">                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\">                     <div class=\"w-12 h-12 rounded-2xl bg-azure-500/10 border border-azure-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:mountains-fill\" class=\"text-2xl text-azure-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Ridge Formations</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         High-altitude peaks generated using noise metrics that replicate tectonic pressures, creating sheer drop-offs and jagged, striking profiles.                     </p>                 </div>                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\">                     <div class=\"w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:waves-fill\" class=\"text-2xl text-emerald-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Resin Lakes</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Expansive internal reservoirs utilizing screen-space reflections to mirror clouds, sweeping slopes, and shifting environmental illumination.                     </p>                 </div>                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\">                     <div class=\"w-12 h-12 rounded-2xl bg-solis/10 border border-solis/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:wind-fill\" class=\"text-2xl text-solis\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Aether Currents</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Real-time vector forces tracking leaf-drift and moisture dispersion, ensuring that every natural entity reacts predictably to background wind speed.                     </p>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 space-y-4",
+                  "colId": "sccol-2",
+                  "cw": 7,
+                  "html": "                     <span class=\"font-sans text-xs uppercase tracking-[0.4em] text-azure-400 font-bold block\">Vast Dimensions</span>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white\">The Anatomy of Scale</h2>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Vast Dimensions",
+                    "overlineClass": "font-sans text-xs uppercase tracking-[0.4em] text-azure-400 font-bold block",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Anatomy of Scale",
+                    "titleTag": "h2",
+                    "titleClass": "font-display text-4xl sm:text-5xl font-extrabold uppercase text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "lg:col-span-7 space-y-4",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5",
+                  "colId": "sccol-3",
+                  "cw": 5,
+                  "html": "                     <p class=\"font-sans text-sm text-slate-400 leading-relaxed font-light\">                         Every valley is constructed around dynamic fluid grids. Terrains respond directly to atmospheric criteria, balancing pristine mountain topology with dense, whispering tree lines.                     </p>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 48,
+              "gapResp": {
+                "base": 48,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-12 items-end mb-20\">                 <div class=\"lg:col-span-7 space-y-4\" data-sc-col=\"sccol-2\">                     <span class=\"font-sans text-xs uppercase tracking-[0.4em] text-azure-400 font-bold block\">Vast Dimensions</span>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white\">The Anatomy of Scale</h2>                 </div>                 <div class=\"lg:col-span-5\" data-sc-col=\"sccol-3\">                     <p class=\"font-sans text-sm text-slate-400 leading-relaxed font-light\">                         Every valley is constructed around dynamic fluid grids. Terrains respond directly to atmospheric criteria, balancing pristine mountain topology with dense, whispering tree lines.                     </p>                 </div>             </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                  "colId": "sccol-4",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-12 h-12 rounded-2xl bg-azure-500/10 border border-azure-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:mountains-fill\" class=\"text-2xl text-azure-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Ridge Formations</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         High-altitude peaks generated using noise metrics that replicate tectonic pressures, creating sheer drop-offs and jagged, striking profiles.                     </p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#38bdf8",
+                    "iconBadge": "solid-rounded",
+                    "iconBadgeColor": "rgba(14, 165, 233, 0.1)",
+                    "iconBadgeSize": 48,
+                    "iconBadgeRadius": "16px",
+                    "iconBadgeBorderWidth": "1px",
+                    "iconBadgeBorderColor": "#0ea5e9",
+                    "title": "Ridge Formations",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         High-altitude peaks generated using noise metrics that replicate tectonic pressures, creating sheer drop-offs and jagged, striking profiles.                     </p>",
+                    "link": null,
+                    "cls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(12, 20, 31, 0.4)",
+                      "fill": "rgba(12, 20, 31, 0.4)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.06)",
+                      "shadow": "",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                  "colId": "sccol-5",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:waves-fill\" class=\"text-2xl text-emerald-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Resin Lakes</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Expansive internal reservoirs utilizing screen-space reflections to mirror clouds, sweeping slopes, and shifting environmental illumination.                     </p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#34d399",
+                    "iconBadge": "solid-rounded",
+                    "iconBadgeColor": "rgba(16, 185, 129, 0.1)",
+                    "iconBadgeSize": 48,
+                    "iconBadgeRadius": "16px",
+                    "iconBadgeBorderWidth": "1px",
+                    "iconBadgeBorderColor": "#10b981",
+                    "title": "Resin Lakes",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Expansive internal reservoirs utilizing screen-space reflections to mirror clouds, sweeping slopes, and shifting environmental illumination.                     </p>",
+                    "link": null,
+                    "cls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(12, 20, 31, 0.4)",
+                      "fill": "rgba(12, 20, 31, 0.4)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.06)",
+                      "shadow": "",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                  "colId": "sccol-6",
+                  "cw": 4,
+                  "html": "                     <div class=\"w-12 h-12 rounded-2xl bg-solis/10 border border-solis/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:wind-fill\" class=\"text-2xl text-solis\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Aether Currents</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Real-time vector forces tracking leaf-drift and moisture dispersion, ensuring that every natural entity reacts predictably to background wind speed.                     </p>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#f59e0b",
+                    "iconBadge": "solid-rounded",
+                    "iconBadgeColor": "rgba(245, 158, 11, 0.1)",
+                    "iconBadgeSize": 48,
+                    "iconBadgeRadius": "16px",
+                    "iconBadgeBorderWidth": "1px",
+                    "iconBadgeBorderColor": "#f59e0b",
+                    "title": "Aether Currents",
+                    "titleTag": "h3",
+                    "titleWeight": "700",
+                    "text": "<p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Real-time vector forces tracking leaf-drift and moisture dispersion, ensuring that every natural entity reacts predictably to background wind speed.                     </p>",
+                    "link": null,
+                    "cls": "glass-card p-8 rounded-3xl transition-all duration-500 group",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "rgba(12, 20, 31, 0.4)",
+                      "fill": "rgba(12, 20, 31, 0.4)",
+                      "radius": "24px",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(255, 255, 255, 0.06)",
+                      "shadow": "",
+                      "backdrop": "blur(20px)",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid md:grid-cols-3 gap-6\">                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\" data-sc-col=\"sccol-4\">                     <div class=\"w-12 h-12 rounded-2xl bg-azure-500/10 border border-azure-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:mountains-fill\" class=\"text-2xl text-azure-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Ridge Formations</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         High-altitude peaks generated using noise metrics that replicate tectonic pressures, creating sheer drop-offs and jagged, striking profiles.                     </p>                 </div>                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\" data-sc-col=\"sccol-5\">                     <div class=\"w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:waves-fill\" class=\"text-2xl text-emerald-400\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Resin Lakes</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Expansive internal reservoirs utilizing screen-space reflections to mirror clouds, sweeping slopes, and shifting environmental illumination.                     </p>                 </div>                 <div class=\"glass-card p-8 rounded-3xl transition-all duration-500 group\" data-sc-col=\"sccol-6\">                     <div class=\"w-12 h-12 rounded-2xl bg-solis/10 border border-solis/20 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform\">                         <iconify-icon icon=\"ph:wind-fill\" class=\"text-2xl text-solis\"></iconify-icon>                     </div>                     <h3 class=\"font-display text-xl font-bold uppercase mb-3 text-white\">Aether Currents</h3>                     <p class=\"font-sans text-sm text-slate-400 font-light leading-relaxed\">                         Real-time vector forces tracking leaf-drift and moisture dispersion, ensuring that every natural entity reacts predictably to background wind speed.                     </p>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-20 bg-skyline/30 border-y border-white/5 relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-6{margin-bottom: 1.5rem;}\n.mt-1{margin-top: 0.25rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-10{height: 2.5rem;}\n.h-2{height: 0.5rem;}\n.h-80{height: 20rem;}\n.w-full{width: 100%;}\n.w-10{width: 2.5rem;}\n.w-2{width: 0.5rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-md{max-width: 28rem;}\n.animate-ping{animation: 1s cubic-bezier(0, 0, 0.2, 1) 0s infinite normal none running ping;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-16{gap: 4rem;}\n.gap-2{gap: 0.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-xl{border-radius: 0.75rem;}\n.rounded-full{border-radius: 9999px;}\n.rounded-3xl{border-radius: 1.5rem;}\n.border{border-width: 1px;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.border-l-2{border-left-width: 2px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-azure-400{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.border-emerald-500{--tw-border-opacity: 1; border-color: rgb(16 185 129 / var(--tw-border-opacity, 1));}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-skyline\\/30{background-color: rgba(12, 20, 31, 0.3);}\n.bg-azure-400{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.bg-black\\/40{background-color: rgba(0, 0, 0, 0.4);}\n.bg-gradient-to-tr{background-image: linear-gradient(to top right, var(--tw-gradient-stops));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-gradient-to-b{background-image: linear-gradient(to bottom, var(--tw-gradient-stops));}\n.p-6{padding: 1.5rem;}\n.p-3{padding: 0.75rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.pt-4{padding-top: 1rem;}\n.pl-4{padding-left: 1rem;}\n.text-center{text-align: center;}\n.font-display{font-family: Syne, sans-serif;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.font-bold{font-weight: 700;}\n.font-extrabold{font-weight: 800;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-wider{letter-spacing: 0.05em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-solis{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-slate-300{--tw-text-opacity: 1; color: rgb(203 213 225 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-azure-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.backdrop-blur-xl{--tw-backdrop-blur: blur(24px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}",
+          "computed": {
+            "background": "rgba(12, 20, 31, 0.3)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "80px 0px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 bg-gradient-to-r from-azure-600/5 to-emerald-500/5 pointer-events-none\"></div>             <div class=\"max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center\">                 <div class=\"space-y-6\">                     <div class=\"w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center\">                         <iconify-icon icon=\"ph:tree-evergreen-fill\" class=\"text-lg text-emerald-400\"></iconify-icon>                     </div>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white leading-tight\">                         Environmental <br>Cohesion Layer                     </h2>                     <p class=\"font-sans text-slate-300 font-light leading-relaxed\">                         The interface behaves like terrain: ridges overlap, valleys frame focus, and every element is integrated directly into the greater ecosystem. Content scales with wide landscapes, anchoring components gracefully against cinematic backdrops.                     </p>                     <div class=\"grid grid-cols-2 gap-6 pt-4\">                         <div class=\"border-l-2 border-emerald-500 pl-4\">                             <div class=\"font-display text-2xl font-bold text-white\">94.2%</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Biotope Density</div>                         </div>                         <div class=\"border-l-2 border-azure-400 pl-4\">                             <div class=\"font-display text-2xl font-bold text-white\">0.03ms</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Wind Vector Latency</div>                         </div>                     </div>                 </div>                 <div class=\"relative flex justify-center\">                     <div class=\"w-full max-w-md h-80 rounded-3xl bg-gradient-to-tr from-azure-600/20 to-emerald-500/20 border border-white/10 p-6 backdrop-blur-xl relative group overflow-hidden shadow-2xl\">                         <div class=\"absolute inset-0 bg-gradient-to-b from-transparent to-skyline pointer-events-none z-10\"></div>                         <div class=\"flex items-center justify-between mb-6\">                             <div class=\"flex items-center gap-2\">                                 <span class=\"w-2 h-2 rounded-full bg-azure-400 animate-ping\"></span>                                 <span class=\"font-mono text-xs text-azure-300\">Live Horizon Feed</span>                             </div>                             <iconify-icon icon=\"ph:activity-fill\" class=\"text-slate-400 animate-pulse\"></iconify-icon>                         </div>                         <div class=\"space-y-4 font-mono text-xs text-slate-400 relative z-20\">                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> wind-vector --analyze                                 <p class=\"text-slate-500 mt-1\">Velocity matches standard alpine draft (14kn)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> terrain-render --status                                 <p class=\"text-azure-400 mt-1\">Lake reflection cache optimized (1080p stream)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5 text-center text-solis animate-pulse font-sans font-bold text-[10px] tracking-widest uppercase\">                                 Horizon Matrix Steady                             </div>                         </div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-r from-azure-600/5 to-emerald-500/5 pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to right, rgba(2, 132, 199, 0.05), rgba(16, 185, 129, 0.05))",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 588
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "space-y-6",
+                  "colId": "sccol-7",
+                  "cw": 5,
+                  "html": "                     <div class=\"w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center\">                         <iconify-icon icon=\"ph:tree-evergreen-fill\" class=\"text-lg text-emerald-400\"></iconify-icon>                     </div>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white leading-tight\">                         Environmental <br>Cohesion Layer                     </h2>                     <p class=\"font-sans text-slate-300 font-light leading-relaxed\">                         The interface behaves like terrain: ridges overlap, valleys frame focus, and every element is integrated directly into the greater ecosystem. Content scales with wide landscapes, anchoring components gracefully against cinematic backdrops.                     </p>                     <div class=\"grid grid-cols-2 gap-6 pt-4\">                         <div class=\"border-l-2 border-emerald-500 pl-4\">                             <div class=\"font-display text-2xl font-bold text-white\">94.2%</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Biotope Density</div>                         </div>                         <div class=\"border-l-2 border-azure-400 pl-4\">                             <div class=\"font-display text-2xl font-bold text-white\">0.03ms</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Wind Vector Latency</div>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Environmental <br>Cohesion Layer",
+                    "titleTag": "h2",
+                    "titleClass": "font-display text-4xl sm:text-5xl font-extrabold uppercase text-white leading-tight",
+                    "subtitle": "The interface behaves like terrain: ridges overlap, valleys frame focus, and every element is integrated directly into the greater ecosystem. Content scales with wide landscapes, anchoring components gracefully against cinematic backdrops.",
+                    "subtitleClass": "font-sans text-slate-300 font-light leading-relaxed",
+                    "wrapClass": "space-y-6",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "relative flex justify-center",
+                  "colId": "sccol-10",
+                  "cw": 5,
+                  "html": "                     <div class=\"w-full max-w-md h-80 rounded-3xl bg-gradient-to-tr from-azure-600/20 to-emerald-500/20 border border-white/10 p-6 backdrop-blur-xl relative group overflow-hidden shadow-2xl\">                         <div class=\"absolute inset-0 bg-gradient-to-b from-transparent to-skyline pointer-events-none z-10\"></div>                         <div class=\"flex items-center justify-between mb-6\">                             <div class=\"flex items-center gap-2\">                                 <span class=\"w-2 h-2 rounded-full bg-azure-400 animate-ping\"></span>                                 <span class=\"font-mono text-xs text-azure-300\">Live Horizon Feed</span>                             </div>                             <iconify-icon icon=\"ph:activity-fill\" class=\"text-slate-400 animate-pulse\"></iconify-icon>                         </div>                         <div class=\"space-y-4 font-mono text-xs text-slate-400 relative z-20\">                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> wind-vector --analyze                                 <p class=\"text-slate-500 mt-1\">Velocity matches standard alpine draft (14kn)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> terrain-render --status                                 <p class=\"text-azure-400 mt-1\">Lake reflection cache optimized (1080p stream)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5 text-center text-solis animate-pulse font-sans font-bold text-[10px] tracking-widest uppercase\">                                 Horizon Matrix Steady                             </div>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center\">                 <div class=\"space-y-6\" data-sc-col=\"sccol-7\">                     <div class=\"w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center\">                         <iconify-icon icon=\"ph:tree-evergreen-fill\" class=\"text-lg text-emerald-400\"></iconify-icon>                     </div>                     <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white leading-tight\">                         Environmental <br>Cohesion Layer                     </h2>                     <p class=\"font-sans text-slate-300 font-light leading-relaxed\">                         The interface behaves like terrain: ridges overlap, valleys frame focus, and every element is integrated directly into the greater ecosystem. Content scales with wide landscapes, anchoring components gracefully against cinematic backdrops.                     </p>                     <div class=\"grid grid-cols-2 gap-6 pt-4\">                         <div class=\"border-l-2 border-emerald-500 pl-4\" data-sc-col=\"sccol-8\">                             <div class=\"font-display text-2xl font-bold text-white\">94.2%</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Biotope Density</div>                         </div>                         <div class=\"border-l-2 border-azure-400 pl-4\" data-sc-col=\"sccol-9\">                             <div class=\"font-display text-2xl font-bold text-white\">0.03ms</div>                             <div class=\"font-sans text-xs text-slate-400 uppercase tracking-wider mt-1\">Wind Vector Latency</div>                         </div>                     </div>                 </div>                 <div class=\"relative flex justify-center\" data-sc-col=\"sccol-10\">                     <div class=\"w-full max-w-md h-80 rounded-3xl bg-gradient-to-tr from-azure-600/20 to-emerald-500/20 border border-white/10 p-6 backdrop-blur-xl relative group overflow-hidden shadow-2xl\">                         <div class=\"absolute inset-0 bg-gradient-to-b from-transparent to-skyline pointer-events-none z-10\"></div>                         <div class=\"flex items-center justify-between mb-6\">                             <div class=\"flex items-center gap-2\" data-sc-col=\"sccol-11\">                                 <span class=\"w-2 h-2 rounded-full bg-azure-400 animate-ping\"></span>                                 <span class=\"font-mono text-xs text-azure-300\">Live Horizon Feed</span>                             </div>                             <iconify-icon icon=\"ph:activity-fill\" class=\"text-slate-400 animate-pulse\" data-sc-col=\"sccol-12\"></iconify-icon>                         </div>                         <div class=\"space-y-4 font-mono text-xs text-slate-400 relative z-20\">                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> wind-vector --analyze                                 <p class=\"text-slate-500 mt-1\">Velocity matches standard alpine draft (14kn)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5\">                                 <span class=\"text-emerald-400\">root@aetheris:~$</span> terrain-render --status                                 <p class=\"text-azure-400 mt-1\">Lake reflection cache optimized (1080p stream)</p>                             </div>                             <div class=\"p-3 rounded-xl bg-black/40 border border-white/5 text-center text-solis animate-pulse font-sans font-bold text-[10px] tracking-widest uppercase\">                                 Horizon Matrix Steady                             </div>                         </div>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 px-6 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".glass-card{background: rgba(12, 20, 31, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06);}\n.glass-card:hover{border-color: rgba(56, 189, 248, 0.2); box-shadow: rgba(0, 0, 0, 0.5) 0px 25px 50px -12px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, h3, p{margin: 0px;}\nbutton{cursor: pointer;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-20{margin-bottom: 5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-8{height: 2rem;}\n.h-96{height: 24rem;}\n.w-8{width: 2rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-2xl{max-width: 42rem;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.rounded-2xl{border-radius: 1rem;}\n.border-t{border-top-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.p-6{padding: 1.5rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pt-6{padding-top: 1.5rem;}\n.text-center{text-align: center;}\n.font-display{font-family: Syne, sans-serif;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.font-mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.font-bold{font-weight: 700;}\n.font-extrabold{font-weight: 800;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-widest{letter-spacing: 0.1em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-emerald-400{--tw-text-opacity: 1; color: rgb(52 211 153 / var(--tw-text-opacity, 1));}\n.text-solis{--tw-text-opacity: 1; color: rgb(245 158 11 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-azure-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.text-slate-500{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-white:hover{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.hover\\:text-skyline:hover{--tw-text-opacity: 1; color: rgb(12 20 31 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:grid-cols-4{grid-template-columns: repeat(4, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(248, 250, 252)",
+            "padding": "128px 24px",
+            "margin": "0px 80px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"text-center max-w-2xl mx-auto mb-20 space-y-4\">                 <span class=\"font-sans text-xs uppercase tracking-[0.4em] text-emerald-400 font-bold block\">Curated Viewports</span>                 <h2 class=\"font-display text-4xl sm:text-5xl font-extrabold uppercase text-white\">Vantage Points</h2>                 <p class=\"font-sans text-sm text-slate-400 font-light\">                     Select a geographical node to recalibrate the atmospheric overlay. Each sector presents distinct cloud configurations and unique lighting parameters.                 </p>             </div>             <div class=\"grid sm:grid-cols-2 lg:grid-cols-4 gap-6\">                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-azure-400 uppercase mb-1\">Sector 01</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Emerald Basin</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Deep shoreline focus flanked by ancient copper forests under high-contrast skies.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">42° N, 19° E</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-emerald-400 uppercase mb-1\">Sector 02</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Solis Ridge</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Peak configuration optimized for golden hour saturation and intense lens bloom.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">35° N, 112° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-solis uppercase mb-1\">Sector 03</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Aether Pass</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             High-velocity wind lane featuring constant particle density and active leaf-drift vectors.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">12° S, 74° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1\">Sector 04</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Basalt Terraces</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Dark layered volcanic rock shelves meeting misty lowlands with minimal color grading.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">64° N, 21° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "overline",
+              "html": "Curated Viewports",
+              "text": "Curated Viewports",
+              "cls": "font-sans text-xs uppercase tracking-[0.4em] text-emerald-400 font-bold block",
+              "pill": false,
+              "color": "rgb(52, 211, 153)",
+              "bg": "rgba(0, 0, 0, 0)",
+              "borderW": "0px",
+              "borderColor": "rgb(229, 231, 235)",
+              "radius": "0px",
+              "padding": "0px",
+              "backdropFilter": "",
+              "textTransform": "uppercase",
+              "fontSize": "12px",
+              "letterSpacing": "4.8px",
+              "fontWeight": "700",
+              "gap": "normal",
+              "iconSvg": "",
+              "iconPos": "before",
+              "lineHeight": "16px"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Vantage Points",
+              "text": "Vantage Points",
+              "tag": "h2",
+              "cls": "font-display text-4xl sm:text-5xl font-extrabold uppercase text-white",
+              "wrapCls": "text-center max-w-2xl mx-auto mb-20 space-y-4",
+              "fontSize": "48px",
+              "fontWeight": "800",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "16px",
+              "lineHeight": "48px",
+              "letterSpacing": "normal",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-sans text-sm text-slate-400 font-light\">                     Select a geographical node to recalibrate the atmospheric overlay. Each sector presents distinct cloud configurations and unique lighting parameters.                 </p>",
+              "text": "Select a geographical node to recalibrate the atmospheric overlay. Each sector presents distinct cloud configurations and unique lighting parameters.",
+              "tag": "p",
+              "cls": "font-sans text-sm text-slate-400 font-light",
+              "fontSize": "14px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "20px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6",
+                  "colId": "sccol-13",
+                  "cw": 3,
+                  "html": "                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-azure-400 uppercase mb-1\">Sector 01</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Emerald Basin</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Deep shoreline focus flanked by ancient copper forests under high-contrast skies.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">42° N, 19° E</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Sector 01",
+                    "overlineClass": "font-sans text-[10px] font-bold tracking-widest text-azure-400 uppercase mb-1",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Emerald Basin",
+                    "titleTag": "h3",
+                    "titleClass": "font-display text-xl font-bold uppercase text-white mb-2",
+                    "subtitle": "Deep shoreline focus flanked by ancient copper forests under high-contrast skies.",
+                    "subtitleClass": "font-sans text-xs text-slate-400 font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6",
+                  "colId": "sccol-16",
+                  "cw": 3,
+                  "html": "                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-emerald-400 uppercase mb-1\">Sector 02</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Solis Ridge</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Peak configuration optimized for golden hour saturation and intense lens bloom.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">35° N, 112° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Sector 02",
+                    "overlineClass": "font-sans text-[10px] font-bold tracking-widest text-emerald-400 uppercase mb-1",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Solis Ridge",
+                    "titleTag": "h3",
+                    "titleClass": "font-display text-xl font-bold uppercase text-white mb-2",
+                    "subtitle": "Peak configuration optimized for golden hour saturation and intense lens bloom.",
+                    "subtitleClass": "font-sans text-xs text-slate-400 font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6",
+                  "colId": "sccol-19",
+                  "cw": 3,
+                  "html": "                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-solis uppercase mb-1\">Sector 03</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Aether Pass</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             High-velocity wind lane featuring constant particle density and active leaf-drift vectors.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">12° S, 74° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Sector 03",
+                    "overlineClass": "font-sans text-[10px] font-bold tracking-widest text-solis uppercase mb-1",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Aether Pass",
+                    "titleTag": "h3",
+                    "titleClass": "font-display text-xl font-bold uppercase text-white mb-2",
+                    "subtitle": "High-velocity wind lane featuring constant particle density and active leaf-drift vectors.",
+                    "subtitleClass": "font-sans text-xs text-slate-400 font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 3
+                  }
+                },
+                {
+                  "width": "1_4",
+                  "cls": "",
+                  "fullCls": "glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6",
+                  "colId": "sccol-22",
+                  "cw": 3,
+                  "html": "                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1\">Sector 04</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Basalt Terraces</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Dark layered volcanic rock shelves meeting misty lowlands with minimal color grading.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\">64° N, 21° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Sector 04",
+                    "overlineClass": "font-sans text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Basalt Terraces",
+                    "titleTag": "h3",
+                    "titleClass": "font-display text-xl font-bold uppercase text-white mb-2",
+                    "subtitle": "Dark layered volcanic rock shelves meeting misty lowlands with minimal color grading.",
+                    "subtitleClass": "font-sans text-xs text-slate-400 font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid sm:grid-cols-2 lg:grid-cols-4 gap-6\">                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\" data-sc-col=\"sccol-13\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-azure-400 uppercase mb-1\">Sector 01</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Emerald Basin</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Deep shoreline focus flanked by ancient copper forests under high-contrast skies.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\" data-sc-col=\"sccol-14\">42° N, 19° E</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\" data-sc-col=\"sccol-15\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\" data-sc-col=\"sccol-16\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-emerald-400 uppercase mb-1\">Sector 02</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Solis Ridge</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Peak configuration optimized for golden hour saturation and intense lens bloom.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\" data-sc-col=\"sccol-17\">35° N, 112° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\" data-sc-col=\"sccol-18\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\" data-sc-col=\"sccol-19\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-solis uppercase mb-1\">Sector 03</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Aether Pass</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             High-velocity wind lane featuring constant particle density and active leaf-drift vectors.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\" data-sc-col=\"sccol-20\">12° S, 74° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\" data-sc-col=\"sccol-21\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>                 <div class=\"glass-card rounded-2xl overflow-hidden group transition-all duration-300 flex flex-col justify-between h-96 p-6\" data-sc-col=\"sccol-22\">                     <div>                         <div class=\"font-sans text-[10px] font-bold tracking-widest text-white/40 uppercase mb-1\">Sector 04</div>                         <h3 class=\"font-display text-xl font-bold uppercase text-white mb-2\">Basalt Terraces</h3>                         <p class=\"font-sans text-xs text-slate-400 font-light leading-relaxed\">                             Dark layered volcanic rock shelves meeting misty lowlands with minimal color grading.                         </p>                     </div>                     <div class=\"pt-6 border-t border-white/5 flex items-center justify-between\">                         <span class=\"font-mono text-xs text-slate-500\" data-sc-col=\"sccol-23\">64° N, 21° W</span>                         <button class=\"w-8 h-8 rounded-full bg-white/5 hover:bg-white text-white hover:text-skyline flex items-center justify-center transition-all\" data-sc-col=\"sccol-24\">                             <iconify-icon icon=\"ph:arrow-up-right-bold\" class=\"text-sm\"></iconify-icon>                         </button>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-20 relative overflow-hidden bg-skyline/20",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": "h2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.bottom-0{bottom: 0px;}\n.left-1\\/2{left: 50%;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.h-12{height: 3rem;}\n.h-40{height: 10rem;}\n.w-full{width: 100%;}\n.w-12{width: 3rem;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-xl{max-width: 36rem;}\n.max-w-md{max-width: 28rem;}\n.max-w-5xl{max-width: 64rem;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.animate-bounce{animation: 1s ease 0s infinite normal none running bounce;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-skyline\\/20{background-color: rgba(12, 20, 31, 0.2);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.bg-skyline\\/60{background-color: rgba(12, 20, 31, 0.6);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.pt-4{padding-top: 1rem;}\n.text-center{text-align: center;}\n.font-display{font-family: Syne, sans-serif;}\n.font-sans{font-family: \"Plus Jakarta Sans\", sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-base{font-size: 1rem; line-height: 1.5rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-black{font-weight: 900;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-skyline{--tw-text-opacity: 1; color: rgb(12 20 31 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-azure-400{--tw-text-opacity: 1; color: rgb(56 189 248 / var(--tw-text-opacity, 1));}\n.text-slate-400{--tw-text-opacity: 1; color: rgb(148 163 184 / var(--tw-text-opacity, 1));}\n.shadow-lg{--tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.placeholder\\:text-slate-500::placeholder{--tw-text-opacity: 1; color: rgb(100 116 139 / var(--tw-text-opacity, 1));}\n.hover\\:bg-azure-400:hover{--tw-bg-opacity: 1; background-color: rgb(56 189 248 / var(--tw-bg-opacity, 1));}\n.hover\\:text-white:hover{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.focus\\:border-azure-400:focus{--tw-border-opacity: 1; border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n.focus\\:ring-1:focus{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:text-6xl{font-size: 3.75rem; line-height: 1;}}",
+          "computed": {
+            "background": "rgba(12, 20, 31, 0.2)",
+            "color": "rgb(248, 250, 252)",
+            "padding": "80px 0px",
+            "fontFamily": "\"Plus Jakarta Sans\", sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10\">                 <div class=\"w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto animate-bounce\">                     <iconify-icon icon=\"ph:sketch-logo-fill\" class=\"text-xl text-azure-400\"></iconify-icon>                 </div>                 <h2 class=\"font-display text-4xl sm:text-6xl font-black uppercase text-white max-w-3xl mx-auto leading-tight\">                     Synchronize with <br>the mountain core.                 </h2>                 <p class=\"font-sans text-slate-400 text-base max-w-xl mx-auto font-light leading-relaxed\">                     Subscribe to receive vector adjustments, geographical telemetry updates, and exclusive entry credentials to high-altitude sandbox enclaves.                 </p>                                  <div class=\"max-w-md mx-auto pt-4\">                     <form onsubmit=\"event.preventDefault();\" class=\"flex flex-col sm:flex-row gap-3\">                         <input type=\"email\" placeholder=\"Enter proxy destination email...\" class=\"w-full bg-skyline/60 border border-white/10 rounded-full px-6 py-4 font-sans text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-azure-400 focus:ring-1 focus:ring-azure-400 transition-all backdrop-blur-md\">                         <button type=\"submit\" class=\"bg-white hover:bg-azure-400 text-skyline hover:text-white font-bold font-sans text-xs uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 shadow-lg\">                             Secure Entry                         </button>                     </form>                 </div>             </div>             <div class=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-40 bg-gradient-to-t from-azure-500/10 to-transparent blur-3xl pointer-events-none\"></div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"ph:sketch-logo-fill\" class=\"text-xl text-azure-400\"></iconify-icon>"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Synchronize with <br>the mountain core.",
+              "text": "Synchronize with the mountain core.",
+              "tag": "h2",
+              "cls": "font-display text-4xl sm:text-6xl font-black uppercase text-white max-w-3xl mx-auto leading-tight",
+              "wrapCls": "max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10",
+              "fontSize": "60px",
+              "fontWeight": "900",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "32px",
+              "lineHeight": "60px",
+              "letterSpacing": "normal",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"font-sans text-slate-400 text-base max-w-xl mx-auto font-light leading-relaxed\">                     Subscribe to receive vector adjustments, geographical telemetry updates, and exclusive entry credentials to high-altitude sandbox enclaves.                 </p>",
+              "text": "Subscribe to receive vector adjustments, geographical telemetry updates, and exclusive entry credentials to high-altitude sandbox enclaves.",
+              "tag": "p",
+              "cls": "font-sans text-slate-400 text-base max-w-xl mx-auto font-light leading-relaxed",
+              "fontSize": "16px",
+              "color": "rgb(148, 163, 184)",
+              "lineHeight": "26px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "newsletter",
+              "role": "newsletter",
+              "placeholder": "Enter proxy destination email...",
+              "name_placeholder": "",
+              "show_name": false,
+              "button_label": "Secure Entry",
+              "align": "center",
+              "rounded": "pill",
+              "button_bg": "rgb(255, 255, 255)",
+              "button_fg": "rgb(12, 20, 31)",
+              "field_bg": "rgba(12, 20, 31, 0.6)"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-40 bg-gradient-to-t from-azure-500/10 to-transparent blur-3xl pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to top, rgba(14, 165, 233, 0.1), rgba(0, 0, 0, 0))",
+                "blur": "64px",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "576px",
+                "right": "-304px",
+                "bottom": "0px",
+                "left": "720px",
+                "zIndex": "",
+                "w": 1024,
+                "h": 160
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

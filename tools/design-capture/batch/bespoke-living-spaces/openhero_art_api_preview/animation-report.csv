@@ -1,0 +1,9 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~4037px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~4037px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#26,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.condense,keyframes 'condense' 1.2s,entrance animation (Animate.css picker),low
+css-animation,.slat,keyframes 'slatIn' 1.2s,entrance animation (Animate.css picker),low
+hover,.textural-touch,"transform, box-shadow change on hover",interaction: {effect:'lift'},medium
+hover,.rail-nav a,color change on hover,interaction: {effect:'color_shift'},medium

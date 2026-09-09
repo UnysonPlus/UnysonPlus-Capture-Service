@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en" data-sc-cs="background-color:oklch(0.12 0.01 240);color:rgb(0, 0, 0)" data-sc-content-width="1280"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Vision Pro | A New Era of Spatial Computing</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@100;300;400;600&amp;family=Inter:wght@200;400;600&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --obsidian-void: oklch(12% 0.01 240);
+  --holo-cyan: oklch(65% 0.2 260);
+  --photon-white: oklch(98% 0.01 240);
+  --flare-leak: radial-gradient(circle at 50% 50%, oklch(65% 0.2 260 / 0.15), transparent 70%);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--obsidian-void);
+  color: var(--photon-white);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  view-transition-name: root;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.kinetic-anchor {
+  position: fixed;
+  top: 10vh;
+  right: -5vw;
+  width: 70vw;
+  height: 90vh;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%), polygon(15% 0%, 100% 10%, 85% 100%, 0% 90%);
+  mask-composite: intersect;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%), polygon(15% 0%, 100% 10%, 85% 100%, 0% 90%);
+  -webkit-mask-composite: source-in;
+  transform-style: preserve-3d;
+  animation: float 18s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.kinetic-anchor video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.2);
+}
+
+.lens-refraction {
+  background: color-mix(in oklch, var(--photon-white) 4%, transparent);
+  backdrop-filter: blur(40px) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) brightness(1.1);
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 0, 0, 0.8),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.photon-glow {
+  background: var(--holo-cyan);
+  color: #fff;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 
+    0 0 30px oklch(65% 0.2 260 / 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  border: none;
+  border-radius: 9999px;
+}
+
+.photon-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 0 50px oklch(65% 0.2 260 / 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6);
+}
+
+.optical-flare {
+  position: absolute;
+  width: 150vw;
+  height: 150vh;
+  background: var(--flare-leak);
+  top: -25vh;
+  left: -25vw;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(100px);
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotateX(2deg) rotateY(-2deg) scale(1); }
+  100% { transform: translateY(-40px) rotateX(-2deg) rotateY(3deg) scale(1.02); }
+}
+
+@keyframes atomic-assembly {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95) rotateX(5deg);
+    filter: blur(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+    filter: blur(0);
+  }
+}
+
+.scroll-assembly {
+  animation: atomic-assembly linear both;
+  animation-timeline: view();
+  animation-range: entry 10% cover 35%;
+  transform-style: preserve-3d;
+}
+
+h1, h2, h3 {
+  font-family: 'SF Pro Display', sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.asymmetric-hub {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(400px, 1.5fr);
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .asymmetric-hub {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.top-0{top:0px}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-12{margin-left:3rem}.mt-12{margin-top:3rem}.mt-6{margin-top:1.5rem}.mt-64{margin-top:16rem}.inline-block{display:inline-block}.flex{display:flex}.h-full{height:100%}.min-h-\[600px\]{min-height:600px}.min-h-\[80vh\]{min-height:80vh}.w-full{width:100%}.w-max{width:max-content}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.max-w-full{max-width:100%}.max-w-md{max-width:28rem}.-rotate-1{--tw-rotate:-1deg;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.rotate-1{--tw-rotate:1deg;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-3{gap:0.75rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.overflow-hidden{overflow:hidden}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-t{background-image:linear-gradient(to top, var(--tw-gradient-stops))}.from-\[oklch\(12\%_0\.01_240_\/_0\.8\)\]{--tw-gradient-from:oklch(12% 0.01 240 / 0.8) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-\[oklch\(65\%_0\.2_260_\/_0\.15\)\]{--tw-gradient-from:oklch(65% 0.2 260 / 0.15) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-white{--tw-gradient-from:#fff var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-gray-300{--tw-gradient-to:rgb(209 213 219 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), #d1d5db var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-\[oklch\(65\%_0\.2_260\)\]{--tw-gradient-to:oklch(65% 0.2 260) var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.p-10{padding:2.5rem}.p-12{padding:3rem}.p-16{padding:4rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.px-12{padding-left:3rem;padding-right:3rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-32{padding-bottom:8rem}.pt-48{padding-top:12rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}.text-7xl{font-size:4.5rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-light{font-weight:300}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-wide{letter-spacing:0.025em}.tracking-widest{letter-spacing:0.1em}.text-\[oklch\(65\%_0\.2_260\)\]{color:oklch(65% 0.2 260)}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-0{opacity:0}.backdrop-blur-3xl{--tw-backdrop-blur:blur(64px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-1000{transition-duration:1000ms}.duration-500{transition-duration:500ms}.duration-700{transition-duration:700ms}.selection\:bg-\[oklch\(65\%_0\.2_260\)\] *::selection{background-color:oklch(65% 0.2 260)}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:bg-\[oklch\(65\%_0\.2_260\)\]::selection{background-color:oklch(65% 0.2 260)}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:rotate-0:hover{--tw-rotate:0deg;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:text-\[oklch\(65\%_0\.2_260\)\]:hover{color:oklch(65% 0.2 260)}.group:hover .group-hover\:opacity-100{opacity:1}@media (min-width: 768px){.md\:p-24{padding:6rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-7xl{font-size:4.5rem;line-height:1}.md\:text-8xl{font-size:6rem;line-height:1}}</style></head>
+<body class="antialiased selection:bg-[oklch(65%_0.2_260)] selection:text-white" data-sc-cs="background-color:oklch(0.12 0.01 240);color:oklch(0.98 0.01 240)" style="opacity: 1;">
+
+<div class="kinetic-anchor" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix3d(1.00701, -4.49607e-05, 0.00431805, 0, 0, 1.00696, 0.0104848, 0, -0.00428819, -0.0104116, 0.999937, 0, 0, -14.0344, 0, 1);position:fixed">
+  <video autoplay="" loop="" muted="" playsinline="" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.2, 0, 0, 1.2, 0, 0)">
+    <source src="https://videos.openhero.art/downloads/tech/new-era-of-spatial-computing/video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="optical-flare" data-sc-cs="background-image:radial-gradient(circle, oklch(0.65 0.2 260 / 0.15), rgba(0, 0, 0, 0) 70%);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+<nav class="fixed top-0 w-full z-50 p-6 flex justify-between items-center transition-all duration-500 bg-gradient-to-b from-[oklch(12%_0.01_240_/_0.8)] to-transparent" data-sc-cs="background-image:linear-gradient(oklch(0.12 0.01 240 / 0.8), rgba(0, 0, 0, 0));color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:0.5s cubic-bezier(0.4, 0, 0.2, 1);position:fixed">
+  <div class="flex items-center gap-3" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-icon="ic:baseline-apple" class="iconify text-3xl iconify--ic"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35c-1.09-.46-2.09-.48-3.24 0c-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8c1.18-.24 2.31-.93 3.57-.84c1.51.12 2.65.72 3.4 1.8c-3.12 1.87-2.38 5.98.48 7.13c-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25c.29 2.58-2.34 4.5-3.74 4.25"></path></svg>
+    <span class="text-sm tracking-widest font-semibold uppercase" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:14px;font-weight:600;line-height:20px;letter-spacing:1.4px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Vision Pro</span>
+  </div>
+  <div class="flex gap-8 text-sm tracking-wide" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:0.35px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <a href="#" class="hover:text-[oklch(65%_0.2_260)] transition-colors transition-link" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:0.35px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.2 260)}">Spatial Architecture</a>
+    <a href="#" class="hover:text-[oklch(65%_0.2_260)] transition-colors transition-link" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:0.35px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.2 260)}">Neural Processing</a>
+    <a href="#" class="hover:text-[oklch(65%_0.2_260)] transition-colors transition-link" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:0.35px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.2 260)}">Immersive SDK</a>
+  </div>
+</nav>
+
+<main class="relative z-10 container mx-auto px-6 pt-48 pb-32" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:192px 24px 128px;margin:0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+  
+  <section class="min-h-[80vh] flex flex-col justify-center max-w-4xl @container" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:896px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all">
+    <div class="lens-refraction p-12 inline-block w-max max-w-full mb-8 backdrop-blur-3xl" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(64px);max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      <h1 class="text-7xl md:text-8xl font-light leading-tight bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-300 to-[oklch(65%_0.2_260)]" data-sc-cs="background-image:linear-gradient(to right bottom, rgb(255, 255, 255), rgb(209, 213, 219), oklch(0.65 0.2 260));color:rgba(0, 0, 0, 0);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:96px;font-weight:300;line-height:96px;letter-spacing:-3.84px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+        Spatial Computing.<br>
+        <span class="font-semibold" data-sc-cs="color:rgba(0, 0, 0, 0);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:96px;font-weight:600;line-height:96px;letter-spacing:-3.84px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Absolute Reality.</span>
+      </h1>
+    </div>
+    
+    <p class="text-xl md:text-2xl font-light max-w-2xl leading-relaxed mt-6 lens-refraction p-8 text-gray-300" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:rgb(209, 213, 219);font-family:Inter, sans-serif;font-size:24px;font-weight:300;line-height:32px;text-align:start;padding:32px;margin:24px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      Experience neural-engine orchestration combined with sub-millisecond inference. The new standard for immersive hardware interfaces.
+    </p>
+
+    <div class="mt-12 flex gap-6 items-center" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+      <button class="photon-glow px-10 py-5 text-lg font-medium flex items-center gap-3 transition-link" data-sc-cs="background-color:oklch(0.65 0.2 260);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:18px;font-weight:500;line-height:28px;text-align:center;padding:20px 40px;border-top-style:none;border-top-color:rgb(255, 255, 255);border-radius:9999px;box-shadow:oklch(0.65 0.2 260 / 0.3) 0px 0px 30px 0px, rgba(255, 255, 255, 0.4) 0px 2px 4px 0px inset;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:0.4s cubic-bezier(0.22, 1, 0.36, 1)" data-sc-hover="hover-self{transform:translateY(-2px) scale(1.02);box-shadow:oklch(0.65 0.2 260 / 0.6) 0px 0px 50px, rgba(255, 255, 255, 0.6) 0px 2px 4px inset}">
+        Initialize Sequence
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 256 256" data-icon="ph:arrow-right-light" class="iconify text-xl iconify--ph"><path fill="currentColor" d="m220.24 132.24l-72 72a6 6 0 0 1-8.48-8.48L201.51 134H40a6 6 0 0 1 0-12h161.51l-61.75-61.76a6 6 0 0 1 8.48-8.48l72 72a6 6 0 0 1 0 8.48"></path></svg>
+      </button>
+      <button class="lens-refraction px-10 py-5 text-lg font-medium hover:bg-white/10 transition-colors" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:18px;font-weight:500;line-height:28px;text-align:center;padding:20px 40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{background-color:rgba(255, 255, 255, 0.1)}">
+        View Telemetry
+      </button>
+    </div>
+  </section>
+
+  <section class="mt-64 asymmetric-hub scroll-assembly @container" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:256px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:64px;justify-content:normal;align-items:center;flex-direction:row;transition:all;transform:matrix3d(0.95, 0, 0, 0, 0, 0.946385, 0.0871557, 0, 0, -0.082798, 0.996195, 0, 0, 80, 0, 1)">
+    <div class="flex flex-col gap-12" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:48px;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+      <div class="lens-refraction p-10 transform -rotate-1 hover:rotate-0 transition-transform duration-700" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.999848, -0.0174524, 0.0174524, 0.999848, 0, 0)">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 256 256" data-icon="ph:cpu-light" class="iconify text-4xl text-[oklch(65%_0.2_260)] mb-6 iconify--ph"><path fill="currentColor" d="M152 98h-48a6 6 0 0 0-6 6v48a6 6 0 0 0 6 6h48a6 6 0 0 0 6-6v-48a6 6 0 0 0-6-6m-6 48h-36v-36h36Zm86 0h-18v-36h18a6 6 0 0 0 0-12h-18V56a14 14 0 0 0-14-14h-42V24a6 6 0 0 0-12 0v18h-36V24a6 6 0 0 0-12 0v18H56a14 14 0 0 0-14 14v42H24a6 6 0 0 0 0 12h18v36H24a6 6 0 0 0 0 12h18v42a14 14 0 0 0 14 14h42v18a6 6 0 0 0 12 0v-18h36v18a6 6 0 0 0 12 0v-18h42a14 14 0 0 0 14-14v-42h18a6 6 0 0 0 0-12m-30 54a2 2 0 0 1-2 2H56a2 2 0 0 1-2-2V56a2 2 0 0 1 2-2h144a2 2 0 0 1 2 2Z"></path></svg>
+        <h3 class="text-3xl font-semibold mb-4" data-sc-cs="color:oklch(0.98 0.01 240);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:30px;font-weight:600;line-height:36px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Terabit-Scale Throughput</h3>
+        <p class="text-lg text-gray-300 leading-relaxed" data-sc-cs="color:rgb(209, 213, 219);font-family:Inter, sans-serif;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Quantum-level data processing enables real-time spatial SKU visualization sin latencia. La geometría de tu mundo, calculada a la velocidad de la luz.
+        </p>
+      </div>
+      <div class="lens-refraction p-10 ml-12 transform rotate-1 hover:rotate-0 transition-transform duration-700" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;margin:0px 0px 0px 48px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(0.999848, 0.0174524, -0.0174524, 0.999848, 0, 0)">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 256 256" data-icon="ph:bounding-box-light" class="iconify text-4xl text-[oklch(65%_0.2_260)] mb-6 iconify--ph"><path fill="currentColor" d="M208 94a14 14 0 0 0 14-14V48a14 14 0 0 0-14-14h-32a14 14 0 0 0-14 14v10H94V48a14 14 0 0 0-14-14H48a14 14 0 0 0-14 14v32a14 14 0 0 0 14 14h10v68H48a14 14 0 0 0-14 14v32a14 14 0 0 0 14 14h32a14 14 0 0 0 14-14v-10h68v10a14 14 0 0 0 14 14h32a14 14 0 0 0 14-14v-32a14 14 0 0 0-14-14h-10V94Zm-34-46a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2v32a2 2 0 0 1-2 2h-32a2 2 0 0 1-2-2ZM46 80V48a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2v32a2 2 0 0 1-2 2H48a2 2 0 0 1-2-2m36 128a2 2 0 0 1-2 2H48a2 2 0 0 1-2-2v-32a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2Zm128-32v32a2 2 0 0 1-2 2h-32a2 2 0 0 1-2-2v-32a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2m-24-14h-10a14 14 0 0 0-14 14v10H94v-10a14 14 0 0 0-14-14H70V94h10a14 14 0 0 0 14-14V70h68v10a14 14 0 0 0 14 14h10Z"></path></svg>
+        <h3 class="text-3xl font-semibold mb-4" data-sc-cs="color:oklch(0.98 0.01 240);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:30px;font-weight:600;line-height:36px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Holographic Optics</h3>
+        <p class="text-lg text-gray-300 leading-relaxed" data-sc-cs="color:rgb(209, 213, 219);font-family:Inter, sans-serif;font-size:18px;font-weight:400;line-height:29.25px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Custom micro-OLED matrices powered by photonic grids. Precisión óptica absoluta que elimina efectos de malla para una verdadera presencia volumétrica.
+        </p>
+      </div>
+    </div>
+    
+    <div class="lens-refraction h-full min-h-[600px] flex flex-col justify-end p-12 relative overflow-hidden group" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);display:flex;justify-content:flex-end;align-items:normal;flex-direction:column;transition:all">
+      <div class="absolute inset-0 bg-gradient-to-t from-[oklch(65%_0.2_260_/_0.15)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" data-sc-cs="background-image:linear-gradient(to top, oklch(0.65 0.2 260 / 0.15), rgba(0, 0, 0, 0));color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.4, 0, 0.2, 1);position:absolute"></div>
+      <div class="relative z-10" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <h2 class="text-5xl font-light mb-6" data-sc-cs="color:oklch(0.98 0.01 240);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:48px;font-weight:300;line-height:48px;letter-spacing:-1.92px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Fluid Geometry</h2>
+        <p class="text-xl max-w-md text-gray-300" data-sc-cs="color:rgb(209, 213, 219);font-family:Inter, sans-serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:448px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          La interfaz ya no está limitada por el cristal. Responde a la intención fisiológica, ensamblándose y desensamblándose como un organismo digital vivo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-64 scroll-assembly" data-sc-cs="color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:256px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix3d(0.95, 0, 0, 0, 0, 0.946385, 0.0871557, 0, 0, -0.082798, 0.996195, 0, 0, 80, 0, 1)">
+    <div class="lens-refraction p-16 md:p-24 text-center max-w-5xl mx-auto flex flex-col items-center" data-sc-cs="background-color:oklch(0.98 0.01 240 / 0.04);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:96px;margin:0px 104px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:40px;box-shadow:rgba(0, 0, 0, 0.8) 0px 40px 100px -20px, rgba(255, 255, 255, 0.15) 0px 1px 1px 0px inset, rgba(255, 255, 255, 0.05) 0px -1px 1px 0px inset;backdrop-filter:blur(40px) brightness(1.1);max-width:1024px;display:flex;justify-content:normal;align-items:center;flex-direction:column;transition:all">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 256 256" data-icon="ph:aperture-light" class="iconify text-6xl text-[oklch(65%_0.2_260)] mb-8 animate-pulse iconify--ph"><path fill="currentColor" d="M200.12 55.88A102 102 0 0 0 55.87 200.12A102 102 0 1 0 200.12 55.88m-102 66.67l19.65-23.14l29.86 5.46l10.21 28.58l-19.65 23.14l-29.86-5.46Zm111.81-31.86a90.24 90.24 0 0 1-2 78.63l-56.14-10.24Zm-6.16-11.28l-36.94 43.48l-30.17-84.47a89.3 89.3 0 0 1 55 25.94a91.3 91.3 0 0 1 12.11 15.05m-139.41-15a89.37 89.37 0 0 1 59.45-26.31L143 91.82L54.75 75.71a91 91 0 0 1 9.61-11.35ZM48 86.68l56.14 10.24l-58.07 68.39a90.24 90.24 0 0 1 2-78.63Zm4.21 89.91l36.94-43.48l30.17 84.47a89.3 89.3 0 0 1-55-25.94a91.3 91.3 0 0 1-12.09-15.05Zm139.41 15a89.32 89.32 0 0 1-59.45 26.26L113 164.18l88.24 16.11a91 91 0 0 1-9.6 11.35Z"></path></svg>
+      <h2 class="text-5xl md:text-7xl font-light mb-8" data-sc-cs="color:oklch(0.98 0.01 240);font-family:&quot;SF Pro Display&quot;, sans-serif;font-size:72px;font-weight:300;line-height:72px;letter-spacing:-2.88px;text-align:center;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Enter the Vanguard</h2>
+      <p class="text-2xl text-gray-300 max-w-2xl mx-auto mb-12" data-sc-cs="color:rgb(209, 213, 219);font-family:Inter, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:center;margin:0px 79px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        Cero fronteras. Cero restricciones. Arquitecta la próxima dimensión de la simbiosis humano-computadora.
+      </p>
+      <button class="photon-glow px-12 py-6 text-xl font-medium" data-sc-cs="background-color:oklch(0.65 0.2 260);color:rgb(255, 255, 255);font-family:Inter, sans-serif;font-size:20px;font-weight:500;line-height:28px;text-align:center;padding:24px 48px;border-top-style:none;border-top-color:rgb(255, 255, 255);border-radius:9999px;box-shadow:oklch(0.65 0.2 260 / 0.3) 0px 0px 30px 0px, rgba(255, 255, 255, 0.4) 0px 2px 4px 0px inset;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.4s cubic-bezier(0.22, 1, 0.36, 1)" data-sc-hover="hover-self{transform:translateY(-2px) scale(1.02);box-shadow:oklch(0.65 0.2 260 / 0.6) 0px 0px 50px, rgba(255, 255, 255, 0.6) 0px 2px 4px inset}">
+        Deploy Prototype
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+document.querySelectorAll('.transition-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    if (!document.startViewTransition) {
+      window.location.reload();
+      return;
+    }
+    document.startViewTransition(() => {
+      document.body.style.opacity = '0.9';
+      setTimeout(() => { document.body.style.opacity = '1'; }, 100);
+    });
+  });
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+<div class="bg-white/10" style="position: absolute; left: -99999px; top: -99999px;" data-sc-cs="background-color:rgba(255, 255, 255, 0.1);color:oklch(0.98 0.01 240);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div></body></html>

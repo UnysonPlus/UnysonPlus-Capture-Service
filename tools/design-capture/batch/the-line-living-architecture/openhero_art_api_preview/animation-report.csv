@@ -1,0 +1,25 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~5168px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#59,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.atmospheric-mask,"infinite keyframes 'blob-drift' (border-top-left-radius,border-top-right-radius,border-bottom-right-radius,border-bottom-left-radius,transform)",physics float/pulse or backgrounds module,low
+css-animation,.hero-eyebrow,keyframes 'fade-rise' 1.2s,entrance animation (Animate.css picker),low
+css-animation,.hero-title,keyframes 'fade-rise' 1.4s,entrance animation (Animate.css picker),low
+css-animation,.hero-subtitle,keyframes 'fade-rise' 1.4s,entrance animation (Animate.css picker),low
+css-animation,.hero-cta-group,keyframes 'fade-rise' 1.2s,entrance animation (Animate.css picker),low
+css-animation,.scroll-hint,keyframes 'fade-rise' 1s,entrance animation (Animate.css picker),low
+css-animation,.scroll-line,"infinite keyframes 'scroll-pulse' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.ticker-inner,infinite keyframes 'ticker' translating X,marquee fx: {mode:'left'},high
+css-animation,.pre-logo,infinite keyframes 'pre-pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.btn-liquid,"border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius change on hover",interaction: {effect:'color_shift'},medium
+hover,.btn-ghost,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.nav-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.metric-orb,"border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius change on hover",interaction: {effect:'lift'},medium
+hover,.pillar-card,"border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius change on hover",interaction: {effect:'lift'},medium
+hover,.proj-btn,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.project-card,"border-top-left-radius, border-top-right-radius, border-bottom-right-radius, border-bottom-left-radius change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.project-card .project-bg,"filter, transform change on hover","interaction: {effect:'scale', scale:{style:'in'}}",medium
+hover,.footer-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,btn-liquid,"background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,btn-ghost,"color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,pillar-card reveal-up visible,"background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,proj-btn,"background, color, borderColor change on hover",interaction: {effect:'color_shift'},medium

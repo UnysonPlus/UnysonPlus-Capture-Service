@@ -1,0 +1,30 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,background-image,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,background-color,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,backdrop-filter,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,border,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,padding,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,margin,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,transform,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,position-absolute,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,0,w-full relative py-10 md:py-16 my-16 md:my-24 overflow-hidden border-y border-white/5 bg-black/30 backdrop-blur-md clip-edge-reverse cursor-none,display-flex,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,background-color,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,backdrop-filter,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,border,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,max-width,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,padding,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,margin,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,gap,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,transform,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,position-absolute,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,display-flex,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,1,mb-24 md:mb-32,display-grid,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,background-image,3,no
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,background-color,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,border,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,padding,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,margin,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,position-absolute,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=getty-images,home,2,mb-24,display-flex,5,yes

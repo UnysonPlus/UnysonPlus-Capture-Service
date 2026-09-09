@@ -1,0 +1,120 @@
+{
+  "theme": {
+    "name": "Summit Academy",
+    "slug": "summit-academy",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "768px"
+  },
+  "css_vars": {
+    "--scroll-reveal": "0"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "heading_weight": "inherit",
+    "body": "Manrope",
+    "google": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;600&display=swap",
+    "heading_visual": "Libre Caslon Text",
+    "heading_visual_top": [
+      "Libre Caslon Text",
+      "Source Serif 4",
+      "Philosopher",
+      "Cardo",
+      "Crimson Text"
+    ],
+    "body_visual": "Manrope",
+    "body_visual_top": [
+      "Manrope",
+      "Quicksand",
+      "Raleway",
+      "Oxygen",
+      "Open Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.25 0.01 240)",
+    "accent": "oklch(0.25 0.01 240)",
+    "bg": "oklch(0.98 0.01 240)",
+    "heading": "oklch(0.25 0.01 240)",
+    "footer_bg": "oklch(0.2 0.02 160)",
+    "footer_text": "oklch(0.98 0.01 240)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Telemetry",
+        "url": "/api/preview?category=enterprice&slug=human-centric-professional-excellence#metrics"
+      },
+      {
+        "label": "Contact",
+        "url": "/api/preview?category=enterprice&slug=human-centric-professional-excellence#footer"
+      }
+    ],
+    "logo": {
+      "font": "Manrope",
+      "size": "11px",
+      "weight": "300",
+      "color": "oklch(0.25 0.01 240)",
+      "letter_spacing": "2.2px"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [
+      {
+        "label": "Private Dossier",
+        "url": "/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Faculty Research",
+        "url": "/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Alumni Terminal",
+        "url": "/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<header class=\"fixed top-0 left-0 w-full z-50 px-12 py-8 flex justify-between items-center mix-blend-multiply\">         <div class=\"flex items-center gap-3\">             <div class=\"w-8 h-8 rounded-full border border-charcoal/20 flex items-center justify-center\">                 <div class=\"w-1 h-1 bg-charcoal rounded-full\"></div>             </div>             <span class=\"font-serif italic text-lg tracking-tight\">Summit Academy</span>         </div>         <nav class=\"hidden md:flex gap-12 text-[11px] uppercase tracking-[0.2em] font-light\">             <a href=\"#curriculum\" class=\"hover:opacity-70 transition-opacity\">Pedagogy</a>             <a href=\"#metrics\" class=\"hover:opacity-70 transition-opacity\">Telemetry</a>             <a href=\"#footer\" class=\"hover:opacity-70 transition-opacity\">Contact</a>         </nav>     </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer id=\"footer\" class=\"bg-atelier py-40 px-12 lg:px-24 text-canvas overflow-hidden relative\">             <div class=\"absolute inset-0 opacity-10 pointer-events-none\">                 <svg class=\"w-full h-full\" viewBox=\"0 0 100 100\">                     <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.1\"></circle>                 </svg>             </div>                          <!--SC_FCOPY-->         </footer>",
+    "footer_cols": [
+      "                         <a href=\"#\" class=\"block hover:opacity-50\">Private Dossier</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Faculty Research</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Alumni Terminal</a>                     ",
+      "                         <span>© 2026 Summit Academy</span>                         <span>Built for Human Focus</span>                     "
+    ],
+    "footer_copyright": "<div class=\"grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10\">                 <div>                     <h2 class=\"font-serif text-7xl leading-none italic mb-20\">The Atelier of<br>Professional Growth.</h2>                     <div class=\"flex gap-12 font-serif italic text-lg opacity-60\">                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">Geneva</a>                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">London</a>                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">Tokyo</a>                     </div>                 </div>                                  <div class=\"flex flex-col justify-end items-end text-right\">                     <nav class=\"space-y-4 text-xs uppercase tracking-[0.4em] font-light mb-24\">                         <a href=\"#\" class=\"block hover:opacity-50\">Private Dossier</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Faculty Research</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Alumni Terminal</a>                     </nav>                     <div class=\"w-full h-px bg-canvas/10 mb-8\"></div>                     <div class=\"flex justify-between w-full text-[9px] uppercase tracking-[0.3em] opacity-30\">                         <span>© 2026 Summit Academy</span>                         <span>Built for Human Focus</span>                     </div>                 </div>             </div>",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{background-color: oklch(0.98 0.01 240); --scroll-reveal: 0;}\n::-webkit-scrollbar{width: 4px;}\n::-webkit-scrollbar-thumb{background: oklch(0.25 0.01 240 / 0.1); border-radius: 10px;}\nbody{cursor: url(\"data:image/svg+xml;utf8,<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" width=\\\"12\\\" height=\\\"12\\\" viewBox=\\\"0 0 12 12\\\"><circle cx=\\\"6\\\" cy=\\\"6\\\" r=\\\"4\\\" fill=\\\"black\\\" opacity=\\\"0.2\\\"/></svg>\"), auto;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Manrope, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2{margin: 0px;}\n:disabled{cursor: default;}\nsvg{display: block; vertical-align: middle;}",
+    "util_css": ".squircle-mask{mask-image: radial-gradient(circle, black 30%, transparent 75%); border-radius: 40% 60% 70% 30% / 40% 50% 60%;}\n.vellum-overlay{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px) contrast(0.95);}\n.matte-silk{transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: rgba(0, 0, 0, 0) 0px 4px 0px;}\n.matte-silk:hover{transform: translateY(-2px) scale(1.02); box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 40px;}\n.reveal-text{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: reveal-fade; animation-timeline: view(); animation-range: entry 20% cover 40%;}\n@keyframes reveal-fade { \n  0% { opacity: 0; transform: translateY(30px); }\n  100% { opacity: 1; transform: translateY(0px); }\n}\n.timeline-line{height: 0%; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: grow-line; animation-range: normal; animation-timeline: view();}\n@keyframes grow-line { \n  0% { height: 0%; }\n  100% { height: 100%; }\n}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.bottom-24{bottom: 6rem;}\n.left-1\\/2{left: 50%;}\n.right-24{right: 6rem;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-32{margin-bottom: 8rem;}\n.mb-4{margin-bottom: 1rem;}\n.aspect-square{aspect-ratio: 1 / 1;}\n.h-\\[1px\\]{height: 1px;}\n.h-\\[80vh\\]{height: 80vh;}\n.h-\\[85\\%\\]{height: 85%;}\n.min-h-screen{min-height: 100vh;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-px{width: 1px;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-\\[200px\\]{max-width: 200px;}\n.max-w-sm{max-width: 24rem;}\n.origin-top{transform-origin: center top;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.translate-x-1\\/4{--tw-translate-x: 25%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.gap-4{gap: 1rem;}\n.gap-px{gap: 1px;}\n.rounded-2xl{border-radius: 1rem;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.bg-canvas{background-color: oklch(0.98 0.01 240);}\n.object-cover{object-fit: cover;}\n.p-16{padding: 4rem;}\n.p-8{padding: 2rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.py-60{padding-top: 15rem; padding-bottom: 15rem;}\n.pt-20{padding-top: 5rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: Manrope, sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-loose{line-height: 2;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.5em\\]{letter-spacing: 0.5em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-charcoal{color: oklch(0.25 0.01 240);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.opacity-40{opacity: 0.4;}\n.opacity-80{opacity: 0.8;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[0\\.9\\]{--tw-contrast: contrast(0.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-\\[0\\.8\\]{--tw-saturate: saturate(0.8); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.selection\\:bg-taupe ::selection{background-color: oklch(0.85 0.02 60);}\n.selection\\:text-charcoal ::selection{color: oklch(0.25 0.01 240);}\n.selection\\:bg-taupe::selection{background-color: oklch(0.85 0.02 60);}\n.selection\\:text-charcoal::selection{color: oklch(0.25 0.01 240);}\n@media (min-width: 768px){.md\\:aspect-auto{aspect-ratio: auto;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[40fr_60fr\\]{grid-template-columns: 40fr 60fr;}}\n@media (min-width: 1024px){.lg\\:text-8xl{font-size: 6rem; line-height: 1;}}",
+    "header_css": ".fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-1{height: 0.25rem;}\n.h-8{height: 2rem;}\n.w-1{width: 0.25rem;}\n.w-8{width: 2rem;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.gap-3{gap: 0.75rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-charcoal{background-color: oklch(0.25 0.01 240);}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:opacity-70:hover{opacity: 0.7;}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mb-20{margin-bottom: 5rem;}\n.mb-24{margin-bottom: 6rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.h-px{height: 1px;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-end{justify-content: flex-end;}\n.gap-24{gap: 6rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.bg-atelier{background-color: oklch(0.2 0.02 160);}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-right{text-align: right;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-canvas{color: oklch(0.98 0.01 240);}\n.opacity-10{opacity: 0.1;}\n.opacity-30{opacity: 0.3;}\n.opacity-60{opacity: 0.6;}\n.hover\\:opacity-100:hover{opacity: 1;}\n.hover\\:opacity-50:hover{opacity: 0.5;}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;600&display=swap"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{"t":1788697685970,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=the-art-of-the-burger … (can take up to ~60s on heavy SPAs)"}
+{"t":1788697690333,"elapsed":4.5,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788697693406,"elapsed":7.6,"msg":"extracted 4 sections"}
+{"t":1788697693407,"elapsed":7.6,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788697693408,"elapsed":7.6,"msg":"  §1 hero · “Prime Gravity” (1 element)"}
+{"t":1788697693409,"elapsed":7.6,"msg":"  §2 section · “Built like a production line, plated like a si” (1 element)"}
+{"t":1788697693410,"elapsed":7.6,"msg":"  §3 section · “Ingredients suspended in a luxury of heat and ” (1 element)"}
+{"t":1788697693411,"elapsed":7.6,"msg":"  §4 section · “A dining room tuned for texture, heat, and pre” (2 elements)"}
+{"t":1788697695709,"elapsed":9.9,"msg":"capturing sticky-header scroll state…"}
+{"t":1788697697595,"elapsed":11.8,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788697698376,"elapsed":12.6,"msg":"brand tokens → heading=Fraunces · body=Inter Tight · brand=rgb(235, 170, 84)"}
+{"t":1788697698377,"elapsed":12.6,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788697712571,"elapsed":26.8,"msg":"animations → 23 finding(s)"}
+{"t":1788697712572,"elapsed":26.8,"msg":"building theme, pages & conversion report…"}
+{"t":1788697712579,"elapsed":26.8,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788697712580,"elapsed":26.8,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788697712581,"elapsed":26.8,"msg":"  🔤 Text Styles → 8 size(s)"}
+{"t":1788697712582,"elapsed":26.8,"msg":"  📏 Spacing Scale → 18 step(s)"}
+{"t":1788697712583,"elapsed":26.8,"msg":"  🔘 Button Presets → 1 style(s), 1 size(s)"}
+{"t":1788697712837,"elapsed":27,"msg":"motion profile → reveal×8 · button-hover×0 · card-hover×0"}
+{"t":1788697712838,"elapsed":27.1,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788697712841,"elapsed":27.1,"msg":"  🎨 Box Presets → 8 kind(s) [Elevated, Card, Glass, Outline] from 8 box(es); 0 with hover, 2 glass; box_style assigned to 1 icon-box(es)"}
+{"t":1788697712843,"elapsed":27.1,"msg":"🛡️ Self-containment guard → 4 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788697712858,"elapsed":27.1,"msg":"🧠 local AI (qwen3:4b) → naming sections…"}
+{"t":1788697715647,"elapsed":29.9,"msg":"  local AI → named 4 sections (3s)"}
+{"t":1788697715653,"elapsed":29.9,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788697715655,"elapsed":29.9,"msg":"🔎 local AI (qwen3:4b) → verifying class coverage…"}
+{"t":1788697716659,"elapsed":30.9,"msg":"  class coverage → 1 significant gap(s) flagged across 1 section(s) (see coverage-verification.csv) (1s)"}
+{"t":1788697716662,"elapsed":30.9,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788697716662,"elapsed":30.9,"msg":"writing files & bundle…"}
+{"t":1788697716905,"elapsed":31.1,"msg":"visual font match: Fraunces → Merriweather"}
+{"t":1788697718198,"elapsed":32.4,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788697718208,"elapsed":32.4,"msg":"saving full-page screenshot…"}

@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,1,py-32 px-8 md:px-16 lg:px-24 max-w-[1600px] mx-auto border-t border-white/5,background-image,4,yes,
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,background-image,1,yes,
+home,0,min-h-screen grid grid-cols-1 lg:grid-cols-2 relative perspective-1000,border,1,yes,

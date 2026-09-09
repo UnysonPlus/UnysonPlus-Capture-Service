@@ -1,0 +1,27 @@
+{"t":1788702500410,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=urban-visionary-aesthetics … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702505568,"elapsed":5.3,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702507716,"elapsed":7.5,"msg":"extracted 3 sections"}
+{"t":1788702507717,"elapsed":7.5,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788702507718,"elapsed":7.5,"msg":"  §1 hero · “UrbanVisionary” (2 elements)"}
+{"t":1788702507720,"elapsed":7.5,"msg":"  §2 section · “Lookbook_01” (2 elements)"}
+{"t":1788702507721,"elapsed":7.5,"msg":"  §3 section (2 elements)"}
+{"t":1788702507722,"elapsed":7.5,"msg":"  chrome · footer → 2 columns"}
+{"t":1788702507739,"elapsed":7.5,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702508589,"elapsed":8.4,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702509332,"elapsed":9.1,"msg":"brand tokens → heading=Syncopate · body=Syncopate · brand=?"}
+{"t":1788702509333,"elapsed":9.1,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702516096,"elapsed":15.9,"msg":"animations → 5 finding(s)"}
+{"t":1788702516098,"elapsed":15.9,"msg":"building theme, pages & conversion report…"}
+{"t":1788702516104,"elapsed":15.9,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702516105,"elapsed":15.9,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702516105,"elapsed":15.9,"msg":"  🔤 Text Styles → 7 size(s)"}
+{"t":1788702516106,"elapsed":15.9,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788702516107,"elapsed":15.9,"msg":"  🔘 Button Presets → 1 style(s), 1 size(s)"}
+{"t":1788702516326,"elapsed":16.1,"msg":"🛡️ Self-containment guard → 4 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702516341,"elapsed":16.1,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702516343,"elapsed":16.1,"msg":"  class coverage → 1 significant gap(s) flagged across 1 section(s) (see coverage-verification.csv)"}
+{"t":1788702516345,"elapsed":16.1,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702516346,"elapsed":16.1,"msg":"writing files & bundle…"}
+{"t":1788702516524,"elapsed":16.3,"msg":"visual font match: Syncopate → Cinzel"}
+{"t":1788702517719,"elapsed":17.5,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702517725,"elapsed":17.5,"msg":"saving full-page screenshot…"}

@@ -1,0 +1,22 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~3572px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#33,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#37,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#39,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#41,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#43,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#45,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.animate-pulse-slow,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.text-stroke,"-webkit-text-stroke-color, color, background-image, background-position-x change on hover",interaction: {effect:'color_shift'},medium
+hover,.glass-card,"background-color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:border-sky-400,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:border-white,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-sky-400,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:text-zephyr-lime,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,group relative px-6 py-3 overflow-hidden rounded-sm border b,borderColor change on hover,interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 rounded-sm bg-white text-sky-950 font-jakarta text,"background, color change on hover",interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 rounded-sm border border-white/20 hover:border-whi,borderColor change on hover,interaction: {effect:'color_shift'},medium
+hover,glass-card rounded-xl overflow-hidden flex flex-col reveal-u,"transform, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,p-6 glass-card rounded-lg flex flex-col justify-between h-48,"transform, background, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,col-span-12 md:col-span-4 rounded-lg overflow-hidden relativ,"transform, background, borderColor change on hover",interaction: {effect:'color_shift'},medium

@@ -1,0 +1,129 @@
+{
+  "theme": {
+    "name": "Veridian Living",
+    "slug": "veridian-living",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1600px"
+  },
+  "css_vars": {
+    "--chlorophyll-light": "oklch(65% 0.10 140)",
+    "--sun-linen": "oklch(92% 0.03 85)",
+    "--deep-forest": "oklch(25% 0.08 140)",
+    "--oak-brown": "oklch(50% 0.08 60)",
+    "--sunlight-cream": "oklch(97% 0.02 90)",
+    "--warm-amber": "oklch(75% 0.15 65)",
+    "--chlorophyll": "oklch(45% 0.12 140)"
+  },
+  "fonts": {
+    "heading": "Cormorant Garamond",
+    "heading_weight": "inherit",
+    "body": "Manrope",
+    "google": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap",
+    "heading_visual": "Cormorant",
+    "heading_visual_top": [
+      "Cormorant",
+      "Cormorant Garamond",
+      "Cardo",
+      "Source Serif 4",
+      "Libre Caslon Text"
+    ],
+    "body_visual": "Manrope",
+    "body_visual_top": [
+      "Manrope",
+      "Quicksand",
+      "Raleway",
+      "Oxygen",
+      "Open Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.25 0.08 140)",
+    "accent": "oklch(0.25 0.08 140)",
+    "bg": "oklch(0.97 0.02 90)",
+    "heading": "rgb(255, 255, 255)",
+    "footer_bg": "oklch(0.25 0.08 140)",
+    "footer_text": "rgba(255, 255, 255, 0.6)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Tables",
+        "url": "/api/preview?category=enterprice&slug=biophilic-architecture-interior-soul#"
+      },
+      {
+        "label": "Lighting",
+        "url": "/api/preview?category=enterprice&slug=biophilic-architecture-interior-soul#"
+      },
+      {
+        "label": "Explore",
+        "url": "/api/preview?category=enterprice&slug=biophilic-architecture-interior-soul#"
+      },
+      {
+        "label": "Cart (0)",
+        "url": "/api/preview?category=enterprice&slug=biophilic-architecture-interior-soul"
+      }
+    ],
+    "logo": {
+      "font": "Manrope",
+      "size": "12.8px",
+      "weight": "400",
+      "color": "rgb(255, 255, 255)",
+      "letter_spacing": "2.56px"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [],
+    "social": [],
+    "contact": null,
+    "newsletter": {
+      "title": "Join the Ecosystem",
+      "tagline": "Receive news about launches and design philosophies.",
+      "placeholder": "Email",
+      "button": "Subscribe"
+    }
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav class=\"fixed top-0 left-0 w-full z-50 px-10 py-8 flex justify-between items-center text-white bg-black/20\">         <div class=\"text-2xl font-light tracking-tighter serif\">Veridian Living</div>         <div class=\"hidden md:flex gap-12\">             <a href=\"#\" class=\"nav-link\">Sofas</a>             <a href=\"#\" class=\"nav-link\">Tables</a>             <a href=\"#\" class=\"nav-link\">Lighting</a>             <a href=\"#\" class=\"nav-link\">Explore</a>         </div>         <div class=\"flex gap-6 items-center\">             <button class=\"nav-link\">Cart (0)</button>         </div>     </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"bg-[var(--deep-forest)] py-20 text-center text-white/60\">         <!--SC_FCOPY-->     </footer>",
+    "footer_cols": [
+      "Subscribe"
+    ],
+    "footer_copyright": "<div class=\"max-w-4xl mx-auto px-6\">             <h2 class=\"text-5xl text-[var(--warm-amber)] serif mb-8\">Join the Ecosystem</h2>             <p class=\"mb-12\">Receive news about launches and design philosophies.</p>             <div class=\"flex max-w-md mx-auto border-b border-white/20 pb-2 mb-16\">                 <input type=\"email\" placeholder=\"Email\" class=\"bg-transparent w-full outline-none text-white px-4\">                 <button class=\"uppercase text-sm tracking-widest font-bold\">Subscribe</button>             </div>             <div class=\"text-[0.6rem] tracking-widest uppercase\">                 © 2024 Veridian Living - Organic Aesthetics             </div>         </div>",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "color": "rgba(255, 255, 255, 0.6)"
+    },
+    "base_css": ":root{--sunlight-cream: oklch(97% 0.02 90); --sun-linen: oklch(92% 0.03 85); --chlorophyll: oklch(45% 0.12 140); --chlorophyll-light: oklch(65% 0.10 140); --oak-brown: oklch(50% 0.08 60); --deep-forest: oklch(25% 0.08 140); --warm-amber: oklch(75% 0.15 65);}\nbody{background-color: var(--sunlight-cream); color: var(--deep-forest); font-family: Manrope, sans-serif; margin: 0px; overflow-x: hidden; scroll-behavior: smooth;}\nh2{font-family: \"Cormorant Garamond\", serif;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": "h1, h3{font-family: \"Cormorant Garamond\", serif;}\n.hero-wrapper{position: relative; width: 100vw; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;}\n.video-bg{position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%) scale(1.1); object-fit: cover; z-index: 0;}\n.hero-overlay{position: absolute; inset: 0px; background: radial-gradient(circle, rgba(25, 40, 30, 0.2) 0%, rgba(25, 40, 30, 0.5) 100%); z-index: 1;}\n.dew-drop{display: inline-flex; align-items: center; justify-content: center; padding: 1.25rem 3rem; border-radius: 50vw; background: var(--deep-forest); color: var(--sunlight-cream); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; border-width: medium; border-style: none; border-color: currentcolor; border-image: none;}\n.dew-drop:hover{transform: translateY(-4px); background: var(--chlorophyll); box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 40px;}\n.kinetic-letter{display: inline-block; animation: 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) 0s infinite alternate none running sway;}\n@keyframes sway { \n  0% { transform: rotate(-1deg) translateY(0px); }\n  100% { transform: rotate(1deg) translateY(-2px); }\n}\n.bloom-element{opacity: 0; transform: translateY(30px); transition: 1s ease-out;}\n.bloom-element.bloomed{opacity: 1; transform: translateY(0px);}\n.furniture-card{background: white; padding: 1.5rem; border-radius: 0.5rem; transition: 0.5s;}\n.furniture-card:hover{box-shadow: rgba(0, 0, 0, 0.05) 0px 30px 60px; transform: translateY(-10px);}\nh1, h3{font-size: inherit; font-weight: inherit;}\nh1, h3{margin: 0px;}\nimg, video{display: block; vertical-align: middle;}\nimg, video{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.-bottom-10{bottom: -2.5rem;}\n.-left-10{left: -2.5rem;}\n.z-10{z-index: 10;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-20{margin-bottom: 5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.block{display: block;}\n.grid{display: grid;}\n.aspect-\\[4\\/5\\]{aspect-ratio: 4 / 5;}\n.aspect-square{aspect-ratio: 1 / 1;}\n.h-full{height: 100%;}\n.max-w-5xl{max-width: 64rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-\\[1600px\\]{max-width: 1600px;}\n.max-w-xl{max-width: 36rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.gap-20{gap: 5rem;}\n.gap-8{gap: 2rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.rounded-lg{border-radius: 0.5rem;}\n.border{border-width: 1px;}\n.border-black{--tw-border-opacity: 1; border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));}\n.bg-\\[var\\(--sun-linen\\)\\]{background-color: var(--sun-linen);}\n.bg-\\[var\\(--sunlight-cream\\)\\]{background-color: var(--sunlight-cream);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.object-cover{object-fit: cover;}\n.p-10{padding: 2.5rem;}\n.p-6{padding: 1.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[0\\.65rem\\]{font-size: 0.65rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.leading-\\[0\\.85\\]{line-height: 0.85;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-\\[var\\(--deep-forest\\)\\]{color: var(--deep-forest);}\n.text-\\[var\\(--oak-brown\\)\\]{color: var(--oak-brown);}\n.text-white\\/90{color: rgba(255, 255, 255, 0.9);}\n.opacity-40{opacity: 0.4;}\n.opacity-50{opacity: 0.5;}\n.opacity-70{opacity: 0.7;}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.shadow-xl{--tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.drop-shadow-lg{--tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1)); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.backdrop-blur-md{--tw-backdrop-blur: blur(12px); backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:scale-110:hover{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.hover\\:bg-white\\/30:hover{background-color: rgba(255, 255, 255, 0.3);}\n@media (min-width: 768px){.md\\:block{display: block;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:p-16{padding: 4rem;}}\n@media (min-width: 768px){.md\\:text-3xl{font-size: 1.875rem; line-height: 2.25rem;}}\n@media (min-width: 768px){.md\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-9xl{font-size: 8rem; line-height: 1;}}",
+    "header_css": ".serif{font-family: \"Cormorant Garamond\", serif;}\n.nav-link{position: relative; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: opacity 0.3s;}\n.nav-link::after{content: \"\"; position: absolute; bottom: -4px; left: 0px; width: 0px; height: 1px; background: currentcolor; transition: width 0.3s;}\n.nav-link:hover::after{width: 100%;}\n.fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.gap-6{gap: 1.5rem;}\n.bg-black\\/20{background-color: rgba(0, 0, 0, 0.2);}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.font-light{font-weight: 300;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-16{margin-bottom: 4rem;}\n.mb-8{margin-bottom: 2rem;}\n.max-w-4xl{max-width: 56rem;}\n.max-w-md{max-width: 28rem;}\n.border-b{border-bottom-width: 1px;}\n.border-white\\/20{border-color: rgba(255, 255, 255, 0.2);}\n.bg-\\[var\\(--deep-forest\\)\\]{background-color: var(--deep-forest);}\n.bg-transparent{background-color: transparent;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.pb-2{padding-bottom: 0.5rem;}\n.text-center{text-align: center;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-\\[0\\.6rem\\]{font-size: 0.6rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-bold{font-weight: 700;}\n.uppercase{text-transform: uppercase;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-\\[var\\(--warm-amber\\)\\]{color: var(--warm-amber);}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.outline-none{outline: transparent solid 2px; outline-offset: 2px;}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap"
+    ]
+  }
+}

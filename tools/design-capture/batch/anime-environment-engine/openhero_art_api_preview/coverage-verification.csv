@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,background-image,1,yes,background-image lost
+home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,box-shadow,1,yes,box-shadow lost
+home,0,relative min-h-screen flex flex-col items-center justify-center pt-20 overflow-hidden ,border,1,yes,border lost

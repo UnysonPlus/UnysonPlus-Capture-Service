@@ -1,0 +1,511 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "bioDive",
+      "props": [
+        "filter",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "spectralPulse",
+      "props": [
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse-slow",
+      "props": [
+        "transform",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "marquee",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": true
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".bionic-video",
+      "name": "bioDive",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".spectral-text",
+      "name": "spectralPulse",
+      "duration": "6s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-pulse-slow",
+      "name": "pulse-slow",
+      "duration": "8s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-marquee",
+      "name": "marquee",
+      "duration": "40s",
+      "infinite": true
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".magnetic-btn::before",
+      "changed": {
+        "width": "250px",
+        "height": "250px"
+      }
+    },
+    {
+      "selector": ".magnetic-btn",
+      "changed": {
+        "border-top-color": "oklch(0.65 0.25 330 / 0.5)",
+        "border-right-color": "oklch(0.65 0.25 330 / 0.5)",
+        "border-bottom-color": "oklch(0.65 0.25 330 / 0.5)",
+        "border-left-color": "oklch(0.65 0.25 330 / 0.5)"
+      }
+    },
+    {
+      "selector": ".spotlight-card::before, .spotlight-card::after",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".spotlight-card",
+      "changed": {
+        "transform": "translateY(-8px)",
+        "border-top-color": "rgba(255, 255, 255, 0.15)",
+        "border-right-color": "rgba(255, 255, 255, 0.15)",
+        "border-bottom-color": "rgba(255, 255, 255, 0.15)",
+        "border-left-color": "rgba(255, 255, 255, 0.15)",
+        "box-shadow": "rgba(0, 0, 0, 0.5) 0px 20px 40px, oklch(0.65 0.25 330 / 0.1) 0px 0px 40px"
+      }
+    },
+    {
+      "selector": ".spotlight-card .gradient-border-mask",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": ".bloom-nav-item::after",
+      "changed": {
+        "transform": "scaleX(1)"
+      }
+    },
+    {
+      "selector": ".hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/10",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.1)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-amber",
+      "changed": {
+        "color": "oklch(0.7 0.2 45)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-magenta",
+      "changed": {
+        "color": "oklch(0.65 0.25 330)"
+      }
+    },
+    {
+      "selector": ".hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "bloom-nav-item hover:text-white transition-colors interactiv",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    },
+    {
+      "selector": "magnetic-btn interactive px-6 py-3 rounded-full text-[10px] ",
+      "changed": {
+        "transform": "matrix(1, 0, 0, 1, -0.00624946, 0)",
+        "borderColor": "oklab(0.650031 0.216487 -0.124989 / 0.499825)"
+      },
+      "live": true
+    },
+    {
+      "selector": "spotlight-card p-10 reveal delay-100 interactive h-[400px] f",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0.33) 0px 13.064px 26.128px 0px, oklab(0.65 0.216506 -0.125 / 0.0653199) 0px 0px 26.128px 0px",
+        "borderColor": "rgba(255, 255, 255, 0.114)"
+      },
+      "live": true
+    },
+    {
+      "selector": "spotlight-card p-10 reveal delay-200 interactive h-[400px] f",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0.173) 0px 6.81481px 13.6296px 0px, oklab(0.65 0.216506 -0.125 / 0.0340741) 0px 0px 13.6296px 0px",
+        "borderColor": "rgba(255, 255, 255, 0.086)"
+      },
+      "live": true
+    },
+    {
+      "selector": "spotlight-card p-10 reveal delay-300 interactive h-[400px] f",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "spotlight-card p-8 reveal delay-200 interactive flex flex-co",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0.173) 0px 6.82309px 13.6462px 0px, oklab(0.65 0.216506 -0.125 / 0.0341155) 0px 0px 13.6462px 0px",
+        "borderColor": "rgba(255, 255, 255, 0.086)"
+      },
+      "live": true
+    },
+    {
+      "selector": "spotlight-card p-8 reveal delay-300 interactive flex flex-co",
+      "changed": {
+        "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px"
+      },
+      "live": true
+    },
+    {
+      "selector": "w-16 h-16 rounded-full border border-white/20 flex items-cen",
+      "changed": {
+        "background": "rgba(255, 255, 255, 0.1)"
+      },
+      "live": true
+    },
+    {
+      "selector": "absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-",
+      "changed": {
+        "transform": "matrix(1.05, 0, 0, 1.05, 0, -20)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".spectral-cursor",
+      "props": "width, height, background",
+      "duration": "0.3s, 0.3s, 0.3s"
+    },
+    {
+      "selector": ".magnetic-btn",
+      "props": "transform, border-color",
+      "duration": "0.3s, 0.3s"
+    },
+    {
+      "selector": ".magnetic-btn::before",
+      "props": "width, height",
+      "duration": "0.4s, 0.4s"
+    },
+    {
+      "selector": ".spotlight-card",
+      "props": "transform",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".spotlight-card::before",
+      "props": "opacity",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".spotlight-card::after",
+      "props": "opacity",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".gradient-border-mask",
+      "props": "opacity",
+      "duration": "0.3s"
+    },
+    {
+      "selector": ".bloom-nav-item::after",
+      "props": "transform",
+      "duration": "0.5s"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 3925,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 2,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~3025px of scroll"
+    },
+    {
+      "i": 3,
+      "kind": "parallax",
+      "evidence": "document position drifts -105px over 3025px of scroll",
+      "ratio": -0.03
+    },
+    {
+      "i": 36,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 40,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 40,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 42,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 40,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 40,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~3025px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#3",
+      "evidence": "document position drifts -105px over 3025px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.03)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#36",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#42",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".bionic-video",
+      "evidence": "keyframes 'bioDive' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".spectral-text",
+      "evidence": "infinite keyframes 'spectralPulse' (filter)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse-slow",
+      "evidence": "infinite keyframes 'pulse-slow' (transform,opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-marquee",
+      "evidence": "infinite keyframes 'marquee' translating X",
+      "suggest": "marquee fx: {mode:'left'}",
+      "confidence": "high"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".magnetic-btn",
+      "evidence": "border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".spotlight-card",
+      "evidence": "transform, border-top-color, border-right-color, border-bottom-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/10",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-amber",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-magenta",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "bloom-nav-item hover:text-white transition-colors interactiv",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "magnetic-btn interactive px-6 py-3 rounded-full text-[10px] ",
+      "evidence": "transform, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "spotlight-card p-10 reveal delay-100 interactive h-[400px] f",
+      "evidence": "boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "spotlight-card p-10 reveal delay-200 interactive h-[400px] f",
+      "evidence": "boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "spotlight-card p-8 reveal delay-200 interactive flex flex-co",
+      "evidence": "boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "w-16 h-16 rounded-full border border-white/20 flex items-cen",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

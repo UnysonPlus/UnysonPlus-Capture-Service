@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="en" data-sc-cs="background-color:oklch(0.12 0.05 280);color:rgb(255, 255, 255)" data-sc-content-width="1360"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthropic | Bio-Tech Computing Interface</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap');
+
+:root {
+  --obsidian: oklch(12% 0.05 280);
+  --electric-violet: oklch(60% 0.25 300);
+  --amber-glow: oklch(75% 0.15 50);
+  --text-core: oklch(98% 0.01 280);
+  --text-dim: oklch(65% 0.05 280);
+  --surface-top: oklch(25% 0.08 280 / 0.4);
+  --surface-bottom: oklch(15% 0.05 280 / 0.6);
+  --shadow-dark: oklch(5% 0.05 280 / 0.9);
+  --shadow-light: oklch(80% 0.15 300 / 0.15);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  color-scheme: dark;
+}
+
+[data-theme="synthesized"] {
+  --obsidian: oklch(95% 0.02 280);
+  --text-core: oklch(15% 0.05 280);
+  --text-dim: oklch(45% 0.05 280);
+  --surface-top: oklch(100% 0.02 280 / 0.5);
+  --surface-bottom: oklch(90% 0.02 280 / 0.7);
+  --shadow-dark: oklch(60% 0.1 280 / 0.2);
+  --shadow-light: oklch(100% 0 0 / 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--obsidian);
+  color: var(--text-core);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: 1.2s cubic-bezier(0.16, 1, 0.3, 1) both organic-fade;
+}
+
+@keyframes organic-fade {
+  0% { opacity: 0; filter: blur(40px) contrast(150%); transform: scale(0.95); }
+  100% { opacity: 1; filter: blur(0) contrast(100%); transform: scale(1); }
+}
+
+.bio-portal {
+  position: fixed;
+  top: 0;
+  right: -5vw;
+  width: 45vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 50%, black 10%, rgba(0,0,0,0.6) 40%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 70% 50%, black 10%, rgba(0,0,0,0.6) 40%, transparent 80%);
+  will-change: transform;
+}
+
+.bio-portal video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(140%) contrast(120%) hue-rotate(15deg);
+  transform: scale(1.1);
+  mix-blend-mode: screen;
+}
+
+.organic-volume {
+  background: linear-gradient(160deg, var(--surface-top), var(--surface-bottom));
+  backdrop-filter: blur(80px) saturate(180%);
+  -webkit-backdrop-filter: blur(80px) saturate(180%);
+  border-radius: 2.5rem;
+  position: relative;
+  isolation: isolate;
+  border: none;
+  box-shadow: 
+    inset 1px 1px 3px var(--shadow-light),
+    inset -2px -2px 12px var(--shadow-dark),
+    0 30px 60px rgba(0,0,0,0.4);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s ease;
+}
+
+.organic-volume::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y),
+    var(--electric-violet),
+    transparent 40%
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  z-index: 10;
+}
+
+.organic-volume::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 
+    inset 2px 0 8px rgba(255, 0, 0, 0.05),
+    inset -2px 0 8px rgba(0, 0, 255, 0.05);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.organic-volume:hover {
+  transform: translateY(-5px) scale(1.005);
+  border-radius: 2.2rem;
+}
+
+.organic-volume:hover::before {
+  opacity: 0.4;
+}
+
+.bio-elastic-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  padding: 1.2rem 2.5rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-core);
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  backdrop-filter: blur(40px);
+  box-shadow: 
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    inset 0 -4px 10px rgba(0,0,0,0.5),
+    0 10px 20px rgba(0,0,0,0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bio-elastic-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--amber-glow) 0%, transparent 60%);
+  opacity: 0;
+  mix-blend-mode: color-dodge;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.bio-elastic-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  border-radius: 1rem;
+  box-shadow: 
+    inset 0 2px 4px rgba(255,255,255,0.2),
+    inset 0 -4px 10px rgba(0,0,0,0.4),
+    0 15px 30px rgba(120, 30, 200, 0.15);
+}
+
+.bio-elastic-btn:hover::before {
+  opacity: 0.5;
+}
+
+@keyframes synaptic-pulse {
+  to { background-position: 200% center; }
+}
+
+.synaptic-shimmer {
+  background: linear-gradient(
+    120deg,
+    var(--text-core) 0%,
+    var(--electric-violet) 25%,
+    var(--text-core) 50%,
+    var(--amber-glow) 75%,
+    var(--text-core) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: synaptic-pulse linear;
+  animation-timeline: scroll(root block);
+}
+
+.scroll-reveal {
+  animation: organic-reveal view() both;
+}
+
+@keyframes organic-reveal {
+  0% { transform: translateY(80px) scale(0.92); opacity: 0; filter: blur(20px); }
+  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+}
+
+.fractal-grid {
+  container-type: inline-size;
+}
+
+.neural-stat {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: -0.04em;
+}
+
+.bio-toggle {
+  width: 52px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--surface-bottom);
+  box-shadow: inset 0 2px 6px var(--shadow-dark), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.bio-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--amber-glow);
+  box-shadow: 0 0 10px var(--amber-glow);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.6s;
+}
+
+[data-theme="synthesized"] .bio-toggle::before {
+  transform: translateX(24px);
+  background: var(--electric-violet);
+  box-shadow: 0 0 10px var(--electric-violet);
+}
+
+.chromatic-aberration {
+  text-shadow: 
+    -1px 0 2px rgba(255, 0, 0, 0.3),
+    1px 0 2px rgba(0, 255, 255, 0.3);
+}
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.left-0{left:0px}.top-0{top:0px}.z-10{z-index:10}.z-20{z-index:20}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-24{margin-bottom:6rem}.mb-40{margin-bottom:10rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-1{margin-left:0.25rem}.mt-1{margin-top:0.25rem}.mt-16{margin-top:4rem}.mt-20{margin-top:5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.grid{display:grid}.h-1{height:0.25rem}.h-10{height:2.5rem}.h-3{height:0.75rem}.h-full{height:100%}.min-h-\[220vh\]{min-height:220vh}.min-h-\[450px\]{min-height:450px}.w-10{width:2.5rem}.w-3{width:0.75rem}.w-\[85\%\]{width:85%}.w-full{width:100%}.max-w-3xl{max-width:48rem}.max-w-5xl{max-width:64rem}.max-w-\[1800px\]{max-width:1800px}.max-w-lg{max-width:32rem}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.auto-rows-auto{grid-auto-rows:auto}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-10{gap:2.5rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-l{border-left-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.bg-\[var\(--amber-glow\)\]{background-color:var(--amber-glow)}.bg-\[var\(--shadow-dark\)\]{background-color:var(--shadow-dark)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-\[var\(--electric-violet\)\]{--tw-gradient-from:var(--electric-violet) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-\[var\(--amber-glow\)\]{--tw-gradient-to:var(--amber-glow) var(--tw-gradient-to-position)}.to-\[var\(--electric-violet\)\]{--tw-gradient-to:var(--electric-violet) var(--tw-gradient-to-position)}.p-12{padding:3rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-40{padding-bottom:10rem}.pl-8{padding-left:2rem}.pt-48{padding-top:12rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-\[0\.65rem\]{font-size:0.65rem}.text-\[5\.5rem\]{font-size:5.5rem}.text-\[6rem\]{font-size:6rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-light{font-weight:300}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.leading-\[0\.85\]{line-height:0.85}.leading-\[1\.1\]{line-height:1.1}.leading-relaxed{line-height:1.625}.tracking-\[0\.2em\]{letter-spacing:0.2em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.tracking-\[0\.4em\]{letter-spacing:0.4em}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.text-\[var\(--amber-glow\)\]{color:var(--amber-glow)}.text-\[var\(--electric-violet\)\]{color:var(--electric-violet)}.text-\[var\(--text-core\)\]{color:var(--text-core)}.text-\[var\(--text-dim\)\]{color:var(--text-dim)}.opacity-0{opacity:0}.mix-blend-color-dodge{mix-blend-mode:color-dodge}.mix-blend-plus-lighter{mix-blend-mode:plus-lighter}.shadow-\[0_0_10px_var\(--amber-glow\)\]{--tw-shadow:0 0 10px var(--amber-glow);--tw-shadow-colored:0 0 10px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_0_20px_var\(--electric-violet\)\]{--tw-shadow:0 0 20px var(--electric-violet);--tw-shadow-colored:0 0 20px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-\[2px\]{--tw-blur:blur(2px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-\[0_0_15px_rgba\(200\2c 150\2c 50\2c 0\.4\)\]{--tw-drop-shadow:drop-shadow(0 0 15px rgba(200,150,50,0.4));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-1000{transition-duration:1000ms}.group:hover .group-hover\:opacity-10{opacity:0.1}@media (min-width: 768px){.md\:p-16{padding:4rem}.md\:text-\[3rem\]{font-size:3rem}.md\:text-\[8\.5rem\]{font-size:8.5rem}}</style></head>
+<body class="min-h-[220vh]" data-sc-cs="background-color:oklch(0.12 0.05 280);color:oklch(0.98 0.01 280)">
+
+<div class="bio-portal" id="organic-breach" style="transform: translate3d(0px, 0px, 0px) scale(1) rotate(0deg);" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0);position:fixed">
+  <video autoplay="" muted="" loop="" playsinline="" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.1, 0, 0, 1.1, 0, 0)">
+    <source src="https://videos.openhero.art/downloads/abstract/bio-tech-computing-interface/video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<nav class="fixed top-0 inset-x-0 z-50 px-10 py-8 mix-blend-plus-lighter" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+  <div class="max-w-[1800px] mx-auto flex items-center justify-between" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1800px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+    <div class="flex items-center gap-4" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+      <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center backdrop-blur-md shadow-[0_0_20px_var(--electric-violet)]" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.6 0.25 300) 0px 0px 20px 0px;backdrop-filter:blur(12px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+        <div class="w-3 h-3 rounded-full bg-[var(--amber-glow)] shadow-[0_0_10px_var(--amber-glow)] animate-pulse" data-sc-cs="background-color:oklch(0.75 0.15 50);color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.75 0.15 50) 0px 0px 10px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+      </div>
+      <div class="flex flex-col" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+        <span class="font-medium tracking-tighter text-xl" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:-1px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">ANTHROPIC</span>
+        <span class="text-[0.65rem] uppercase tracking-[0.4em] text-[var(--electric-violet)]" data-sc-cs="color:oklch(0.6 0.25 300);font-family:Inter, sans-serif;font-size:10.4px;font-weight:400;line-height:15.6px;letter-spacing:4.16px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Neural Orchestrator</span>
+      </div>
+    </div>
+    <div class="bio-toggle" id="state-toggle" data-sc-cs="background-color:oklch(0.15 0.05 280 / 0.6);color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:999px;box-shadow:oklch(0.05 0.05 280 / 0.9) 0px 2px 6px 0px inset, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+  </div>
+</nav>
+
+<main class="relative z-10 max-w-[1800px] mx-auto px-10 pt-48 pb-40 fractal-grid" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:192px 40px 160px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1800px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+  
+  <header class="max-w-5xl mb-40 relative z-20" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 160px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1024px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <span class="text-xs uppercase tracking-[0.4em] text-[var(--text-dim)] font-medium mb-8 block chromatic-aberration" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:4.8px;text-align:start;text-transform:uppercase;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Bio-Tech Computing Layer</span>
+    <h1 class="text-[6rem] md:text-[8.5rem] font-light tracking-tighter leading-[0.85] synaptic-shimmer mb-12" data-sc-cs="background-image:linear-gradient(120deg, oklch(0.98 0.01 280) 0%, oklch(0.6 0.25 300) 25%, oklch(0.98 0.01 280) 50%, oklch(0.75 0.15 50) 75%, oklch(0.98 0.01 280) 100%);color:rgba(0, 0, 0, 0);font-family:Inter, sans-serif;font-size:136px;font-weight:300;line-height:115.6px;letter-spacing:-6.8px;text-align:start;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+      Constitutional<br>Luminance.
+    </h1>
+    <p class="text-2xl text-[var(--text-dim)] max-w-3xl leading-relaxed mb-16 font-light" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:24px;font-weight:300;line-height:39px;text-align:start;margin:0px 0px 64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      Abstracting rigid data structures into organic mesh routing. Compute density simulated through bioluminescent refraction rather than static primitives.
+    </p>
+    <div class="flex items-center gap-10" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+      <button class="bio-elastic-btn fluid-node" data-sc-cs="background-image:linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:500;line-height:24px;letter-spacing:-0.16px;text-align:center;padding:19.2px 40px;border-top-style:none;border-top-color:oklch(0.98 0.01 280);border-radius:999px;box-shadow:rgba(255, 255, 255, 0.15) 0px 2px 4px 0px inset, rgba(0, 0, 0, 0.5) 0px -4px 10px 0px inset, rgba(0, 0, 0, 0.2) 0px 10px 20px 0px;backdrop-filter:blur(40px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:0.6s cubic-bezier(0.22, 1, 0.36, 1)" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:0px;right:0px;bottom:0px;left:0px;inset:0px;transition:opacity 0.4s;transition-property:opacity;transition-duration:0.4s;transition-timing-function:ease;opacity:0}|hover-self{transform:scale(1.05) translateY(-2px);box-shadow:rgba(255, 255, 255, 0.2) 0px 2px 4px inset, rgba(0, 0, 0, 0.4) 0px -4px 10px inset, rgba(120, 30, 200, 0.15) 0px 15px 30px}|hover-before{opacity:0.5}">Initialize Core</button>
+      <div class="flex flex-col border-l border-white/10 pl-8" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 0px 0px 32px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+        <span class="neural-stat text-3xl text-[var(--text-core)]" data-sc-cs="color:oklch(0.98 0.01 280);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:30px;font-weight:400;line-height:36px;letter-spacing:-1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">8.4<span class="text-sm text-[var(--amber-glow)] ml-1" data-sc-cs="color:oklch(0.75 0.15 50);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:14px;font-weight:400;line-height:20px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 0px 4px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all">pb/s</span></span>
+        <span class="text-xs text-[var(--text-dim)] uppercase tracking-[0.2em] mt-1" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:400;line-height:16px;letter-spacing:2.4px;text-align:start;text-transform:uppercase;margin:4px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Synaptic Bandwidth</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:32px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    
+    <div class="organic-volume @5xl:col-span-8 p-12 md:p-16 fluid-node scroll-reveal flex flex-col justify-between min-h-[450px]" style="animation-range: entry 0% cover 25%;" data-sc-cs="background-image:linear-gradient(160deg, oklch(0.25 0.08 280 / 0.4), oklch(0.15 0.05 280 / 0.6));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:none;border-top-color:oklch(0.98 0.01 280);border-radius:40px;box-shadow:oklch(0.8 0.15 300 / 0.15) 1px 1px 3px 0px inset, oklch(0.05 0.05 280 / 0.9) -2px -2px 12px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(80px) saturate(1.8);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s">
+      <div class="flex justify-between items-start mb-24" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all">
+        <span class="text-[var(--text-dim)] text-xs uppercase tracking-[0.3em] font-medium" data-sc-col="sccol-0" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Neuro-Symbolic Load</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--electric-violet)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-sc-col="sccol-1">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+      </div>
+      <div data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <h2 class="text-5xl tracking-tight mb-6 font-light" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:48px;font-weight:300;line-height:48px;letter-spacing:-1.2px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Organic Mesh Routing</h2>
+        <p class="text-[var(--text-dim)] max-w-lg leading-relaxed text-lg font-light" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:18px;font-weight:300;line-height:29.25px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:512px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Borders dissolved into light leaks. Volumes sculpted from digital fluid to handle dynamic constitutional inference loads without geometric friction.
+        </p>
+      </div>
+    </div>
+
+    <div class="organic-volume @5xl:col-span-4 p-12 fluid-node scroll-reveal flex flex-col justify-between" style="animation-range: entry 10% cover 30%;" data-sc-cs="background-image:linear-gradient(160deg, oklch(0.25 0.08 280 / 0.4), oklch(0.15 0.05 280 / 0.6));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px;border-top-style:none;border-top-color:oklch(0.98 0.01 280);border-radius:40px;box-shadow:oklch(0.8 0.15 300 / 0.15) 1px 1px 3px 0px inset, oklch(0.05 0.05 280 / 0.9) -2px -2px 12px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(80px) saturate(1.8);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s">
+      <span class="text-[var(--text-dim)] text-xs uppercase tracking-[0.3em] font-medium" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Latency</span>
+      <div class="mt-20" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:80px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <div class="text-[5.5rem] font-light tracking-tighter neural-stat mb-2 text-[var(--amber-glow)] drop-shadow-[0_0_15px_rgba(200,150,50,0.4)]" data-sc-cs="color:oklch(0.75 0.15 50);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;font-size:88px;font-weight:300;line-height:132px;letter-spacing:-4.4px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          0.02
+        </div>
+        <div class="text-sm text-[var(--text-core)] uppercase tracking-[0.2em]" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:14px;font-weight:400;line-height:20px;letter-spacing:2.8px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Milliseconds</div>
+      </div>
+    </div>
+
+    <div class="organic-volume @5xl:col-span-5 p-12 fluid-node scroll-reveal" style="animation-range: entry 15% cover 35%;" data-sc-cs="background-image:linear-gradient(160deg, oklch(0.25 0.08 280 / 0.4), oklch(0.15 0.05 280 / 0.6));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:48px;border-top-style:none;border-top-color:oklch(0.98 0.01 280);border-radius:40px;box-shadow:oklch(0.8 0.15 300 / 0.15) 1px 1px 3px 0px inset, oklch(0.05 0.05 280 / 0.9) -2px -2px 12px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(80px) saturate(1.8);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s">
+      <div class="flex flex-col h-full justify-between" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all">
+        <span class="text-[var(--text-dim)] text-xs uppercase tracking-[0.3em] font-medium" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:12px;font-weight:500;line-height:16px;letter-spacing:3.6px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Asymmetric Anchor</span>
+        <div class="mt-16 w-full h-1 bg-[var(--shadow-dark)] rounded-full overflow-hidden relative" data-sc-cs="background-color:oklch(0.05 0.05 280 / 0.9);color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:64px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <div class="absolute top-0 left-0 h-full w-[85%] bg-gradient-to-r from-[var(--electric-violet)] to-[var(--amber-glow)] blur-[2px]" data-sc-cs="background-image:linear-gradient(to right, oklch(0.6 0.25 300), oklch(0.75 0.15 50));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+          <div class="absolute top-0 left-0 h-full w-[85%] bg-gradient-to-r from-[var(--electric-violet)] to-[var(--amber-glow)]" data-sc-cs="background-image:linear-gradient(to right, oklch(0.6 0.25 300), oklch(0.75 0.15 50));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+        </div>
+        <p class="text-lg mt-8 text-[var(--text-dim)] font-light" data-sc-cs="color:oklch(0.65 0.05 280);font-family:Inter, sans-serif;font-size:18px;font-weight:300;line-height:28px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Fluid intelligence requires interface malleability. Tension replaces structure.
+        </p>
+      </div>
+    </div>
+
+    <div class="organic-volume @5xl:col-span-7 p-12 md:p-16 fluid-node scroll-reveal flex items-center overflow-hidden group relative" style="animation-range: entry 20% cover 40%;" data-sc-cs="background-image:linear-gradient(160deg, oklch(0.25 0.08 280 / 0.4), oklch(0.15 0.05 280 / 0.6));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:none;border-top-color:oklch(0.98 0.01 280);border-radius:40px;box-shadow:oklch(0.8 0.15 300 / 0.15) 1px 1px 3px 0px inset, oklch(0.05 0.05 280 / 0.9) -2px -2px 12px 0px inset, rgba(0, 0, 0, 0.4) 0px 30px 60px 0px;backdrop-filter:blur(80px) saturate(1.8);display:flex;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.8s">
+      <div class="absolute inset-0 bg-gradient-to-br from-transparent to-[var(--electric-violet)] opacity-0 group-hover:opacity-10 transition-opacity duration-1000 mix-blend-color-dodge" data-sc-col="sccol-2" data-sc-cs="background-image:linear-gradient(to right bottom, rgba(0, 0, 0, 0), oklch(0.6 0.25 300));color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 1s cubic-bezier(0.4, 0, 0.2, 1);position:absolute"></div>
+      <h3 class="text-4xl md:text-[3rem] font-light tracking-tight leading-[1.1] relative z-10 chromatic-aberration" data-sc-col="sccol-3" data-sc-cs="color:oklch(0.98 0.01 280);font-family:Inter, sans-serif;font-size:48px;font-weight:300;line-height:52.8px;letter-spacing:-1.2px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        "If a solid edge is detected, the biomorphic system has failed."
+      </h3>
+    </div>
+
+  </section>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const organicBreach = document.getElementById('organic-breach');
+  let ticking = false;
+
+  const updateFluidCoordinates = (e, el, isRoot = false) => {
+    const target = isRoot ? root : el;
+    const rect = isRoot ? { left: 0, top: 0 } : el.getBoundingClientRect();
+    target.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    target.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
+  window.addEventListener('mousemove', (e) => updateFluidCoordinates(e, root, true), { passive: true });
+
+  document.querySelectorAll('.fluid-node').forEach(el => {
+    el.addEventListener('mousemove', (e) => updateFluidCoordinates(e, el), { passive: true });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        organicBreach.style.transform = `translate3d(0, ${scrolled * 0.12}px, 0) scale(${1 + scrolled * 0.0004}) rotate(${scrolled * 0.01}deg)`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  document.getElementById('state-toggle').addEventListener('click', () => {
+    const synthesize = () => {
+      document.body.getAttribute('data-theme') === 'synthesized' 
+        ? document.body.removeAttribute('data-theme') 
+        : document.body.setAttribute('data-theme', 'synthesized');
+    };
+    document.startViewTransition ? document.startViewTransition(synthesize) : synthesize();
+  });
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+</body></html>

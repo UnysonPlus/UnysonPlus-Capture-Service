@@ -1,0 +1,19 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#18,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#22,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#24,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#27,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+trace,trace#32,opacity 0→1 with a transform while entering the viewport,"gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",medium
+css-animation,.nav-anim,keyframes 'slideDownFade' 0.8s,entrance animation (Animate.css picker),low
+css-animation,.hero-text-1,keyframes 'slideUpFade' 0.8s,entrance animation (Animate.css picker),low
+css-animation,.hero-text-2,keyframes 'slideUpFade' 0.8s,entrance animation (Animate.css picker),low
+css-animation,.svg-underline path,keyframes 'drawPath' 1.5s,entrance animation (Animate.css picker),low
+hover,.hover-glow,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'lift'},medium
+hover,.hover\:border-white\/30,"border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/5,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/90,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-accent,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,hidden md:flex items-center justify-center px-4 py-2 bg-whit,"transform, background change on hover",interaction: {effect:'color_shift'},medium
+hover,glass-card hover-glow rounded-3xl p-8 transition-all duratio,"boxShadow, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,text-accent hover:text-white transition-colors flex items-ce,color change on hover,interaction: {effect:'color_shift'},medium

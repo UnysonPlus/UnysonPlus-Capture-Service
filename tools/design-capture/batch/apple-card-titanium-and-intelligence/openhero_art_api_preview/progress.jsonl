@@ -1,0 +1,30 @@
+{"t":1788701872502,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=apple-card-titanium-and-intelligence … (can take up to ~60s on heavy SPAs)"}
+{"t":1788701879979,"elapsed":7.7,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788701883142,"elapsed":10.8,"msg":"extracted 5 sections"}
+{"t":1788701883143,"elapsed":10.8,"msg":"  chrome · header → nav (4 menu items)"}
+{"t":1788701883144,"elapsed":10.8,"msg":"  §1 hero · “The Card for the Future of Money” (5 elements)"}
+{"t":1788701883145,"elapsed":10.8,"msg":"  §2 section · “AnodizedDark TitaniumInfrastructure” (3 elements)"}
+{"t":1788701883145,"elapsed":10.8,"msg":"  §3 section · “BiometricAssembly Sequence” (3 elements)"}
+{"t":1788701883146,"elapsed":10.8,"msg":"  §4 section · “Real-TimeTransaction Stream” (3 elements)"}
+{"t":1788701883147,"elapsed":10.8,"msg":"  §5 section · “Built on theSecure Enclave” (3 elements)"}
+{"t":1788701884306,"elapsed":12,"msg":"capturing sticky-header scroll state…"}
+{"t":1788701886229,"elapsed":13.9,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788701886978,"elapsed":14.7,"msg":"brand tokens → heading=Playfair Display · body=Inter Tight · brand=?"}
+{"t":1788701886979,"elapsed":14.7,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788701903228,"elapsed":30.9,"msg":"animations → 24 finding(s)"}
+{"t":1788701903229,"elapsed":30.9,"msg":"building theme, pages & conversion report…"}
+{"t":1788701903236,"elapsed":30.9,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788701903236,"elapsed":30.9,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788701903237,"elapsed":30.9,"msg":"  🔤 Text Styles → 4 size(s)"}
+{"t":1788701903237,"elapsed":30.9,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788701903238,"elapsed":30.9,"msg":"  🔘 Button Presets → 2 style(s), 3 size(s)"}
+{"t":1788701903476,"elapsed":31.2,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788701903479,"elapsed":31.2,"msg":"  🎨 Box Presets → 5 kind(s) [Elevated, Glass, Outline] from 5 box(es); 0 with hover, 2 glass; box_style assigned to 0 icon-box(es)"}
+{"t":1788701903481,"elapsed":31.2,"msg":"🛡️ Self-containment guard → 9 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788701903500,"elapsed":31.2,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788701903503,"elapsed":31.2,"msg":"  class coverage → 3 significant gap(s) flagged across 3 section(s) (see coverage-verification.csv)"}
+{"t":1788701903505,"elapsed":31.2,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788701903505,"elapsed":31.2,"msg":"writing files & bundle…"}
+{"t":1788701903618,"elapsed":31.3,"msg":"visual font match: Playfair Display → Playfair Display"}
+{"t":1788701904972,"elapsed":32.7,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788701904988,"elapsed":32.7,"msg":"saving full-page screenshot…"}

@@ -1,0 +1,942 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "relative min-h-screen flex items-end justify-center overflow-hidden pb-24 md:pb-32",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".gale-overlay{background: linear-gradient(rgba(3, 7, 8, 0.3) 0%, rgba(3, 7, 8, 0.7) 70%, rgb(3, 7, 8) 100%);}\nh1{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nh1, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-0{z-index: 0;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-16{height: 4rem;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-full{width: 100%;}\n.w-16{width: 4rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xl{max-width: 36rem;}\n.animate-bounce{animation: 1s ease 0s infinite normal none running bounce;}\n.items-end{align-items: flex-end;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-12{gap: 3rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.bg-clip-text{background-clip: text;}\n.object-cover{object-fit: cover;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.pb-24{padding-bottom: 6rem;}\n.font-decorative{font-family: \"Cinzel Decorative\", serif;}\n.font-marcellus{font-family: Marcellus, serif;}\n.font-montserrat{font-family: Montserrat, sans-serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.font-normal{font-weight: 400;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[1\\.05\\]{line-height: 1.05;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-transparent{color: transparent;}\n.text-white\\/70{color: rgba(255, 255, 255, 0.7);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.hover\\:border-spirit-sun:hover{--tw-border-opacity: 1; border-color: rgb(251 191 36 / var(--tw-border-opacity, 1));}\n.hover\\:text-spirit-sun:hover{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 768px){.md\\:pb-32{padding-bottom: 8rem;}}\n@media (min-width: 768px){.md\\:text-7xl{font-size: 4.5rem; line-height: 1;}}\n@media (min-width: 1024px){.lg\\:col-span-3{grid-column: span 3 / span 3;}}\n@media (min-width: 1024px){.lg\\:col-span-9{grid-column: span 9 / span 9;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:justify-end{justify-content: flex-end;}}\n@media (min-width: 1024px){.lg\\:text-7xl{font-size: 4.5rem; line-height: 1;}}",
+          "computed": {
+            "color": "rgb(241, 245, 249)",
+            "padding": "0px 0px 128px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px",
+            "minHeight": "900px"
+          },
+          "assets": [],
+          "raw": "         <div class=\"absolute inset-0 z-0\">             <video id=\"hero-video\" autoplay=\"\" loop=\"\" muted=\"\" playsinline=\"\" class=\"w-full h-full object-cover\" style=\"transform: scale(1.02) translateY(0px);\">                 <source src=\"https://videos.openhero.art/downloads/enterprice/tale-of-the-gale/video.mp4\" type=\"video/mp4\">             </video>             <div class=\"absolute inset-0 gale-overlay\"></div>         </div>         <div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-12 items-end\">             <div class=\"lg:col-span-9 space-y-6\">                 <h1 class=\"font-marcellus text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-normal leading-[1.05] text-white uppercase tracking-tight\">                     Where the storm <br>                     <span class=\"font-decorative text-transparent bg-clip-text bg-gradient-to-r from-spirit-gale via-spirit-sun to-spirit-sky\">Meets the blade.</span>                 </h1>                                  <p class=\"max-w-xl font-montserrat text-sm sm:text-base text-white/70 font-light leading-relaxed\">                     Embrace the quiet fury of nature. Stand upon the precipice of legend, where swirling verdant leaves carry the ancient whispers of guardians past.                 </p>             </div>             <div class=\"lg:col-span-3 flex lg:justify-end\">                 <a href=\"#chronicles\" class=\"w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white text-xl hover:border-spirit-sun hover:text-spirit-sun transition-all duration-500 animate-bounce\">                     <iconify-icon icon=\"ph:arrow-down-light\"></iconify-icon>                 </a>             </div>         </div>     ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/enterprice/tale-of-the-gale/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+              "poster": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover absolute inset-0 z-0 relative min-h-screen flex items-end justify-center overflow-hidden pb-24 md:pb-32 antialiased",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 gale-overlay\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(rgba(3, 7, 8, 0.3) 0%, rgba(3, 7, 8, 0.7) 70%, rgb(3, 7, 8) 100%)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 900
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-9 space-y-6",
+                  "colId": "sccol-0",
+                  "cw": 8,
+                  "html": "                 <h1 class=\"font-marcellus text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-normal leading-[1.05] text-white uppercase tracking-tight\">                     Where the storm <br>                     <span class=\"font-decorative text-transparent bg-clip-text bg-gradient-to-r from-spirit-gale via-spirit-sun to-spirit-sky\">Meets the blade.</span>                 </h1>                                  <p class=\"max-w-xl font-montserrat text-sm sm:text-base text-white/70 font-light leading-relaxed\">                     Embrace the quiet fury of nature. Stand upon the precipice of legend, where swirling verdant leaves carry the ancient whispers of guardians past.                 </p>             ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Where the storm <br> Meets the blade.",
+                    "titleTag": "h1",
+                    "titleClass": "font-marcellus text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-normal leading-[1.05] text-white uppercase tracking-tight",
+                    "subtitle": "Embrace the quiet fury of nature. Stand upon the precipice of legend, where swirling verdant leaves carry the ancient whispers of guardians past.",
+                    "subtitleClass": "max-w-xl font-montserrat text-sm sm:text-base text-white/70 font-light leading-relaxed",
+                    "wrapClass": "lg:col-span-9 space-y-6",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 8
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-3 flex lg:justify-end",
+                  "colId": "sccol-1",
+                  "cw": 2,
+                  "html": "                 <a href=\"#chronicles\" class=\"w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white text-xl hover:border-spirit-sun hover:text-spirit-sun transition-all duration-500 animate-bounce\">                     <iconify-icon icon=\"ph:arrow-down-light\"></iconify-icon>                 </a>             ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 2
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 48,
+              "gapResp": {
+                "base": 48,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-12 items-end\">             <div class=\"lg:col-span-9 space-y-6\" data-sc-col=\"sccol-0\">                 <h1 class=\"font-marcellus text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-normal leading-[1.05] text-white uppercase tracking-tight\">                     Where the storm <br>                     <span class=\"font-decorative text-transparent bg-clip-text bg-gradient-to-r from-spirit-gale via-spirit-sun to-spirit-sky\">Meets the blade.</span>                 </h1>                                  <p class=\"max-w-xl font-montserrat text-sm sm:text-base text-white/70 font-light leading-relaxed\">                     Embrace the quiet fury of nature. Stand upon the precipice of legend, where swirling verdant leaves carry the ancient whispers of guardians past.                 </p>             </div>             <div class=\"lg:col-span-3 flex lg:justify-end\" data-sc-col=\"sccol-1\">                 <a href=\"#chronicles\" class=\"w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white text-xl hover:border-spirit-sun hover:text-spirit-sun transition-all duration-500 animate-bounce\">                     <iconify-icon icon=\"ph:arrow-down-light\"></iconify-icon>                 </a>             </div>         </div>"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "sectionClass": "py-32 px-6 md:px-12 max-w-7xl mx-auto",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".scroll-reveal{opacity: 0; transform: scale(0.97) translateY(30px); transition: 1.4s cubic-bezier(0.19, 1, 0.22, 1);}\n.scroll-reveal.active{opacity: 1; transform: scale(1) translateY(0px);}\n.clan-border{border: 1px solid rgba(74, 222, 128, 0.1); background: linear-gradient(135deg, rgba(11, 19, 22, 0.6) 0%, rgba(3, 7, 8, 0.8) 100%);}\n.clan-border:hover{border-color: rgba(251, 191, 36, 0.3); box-shadow: rgba(74, 222, 128, 0.03) 0px 0px 40px;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-12{height: 3rem;}\n.w-12{width: 3rem;}\n.max-w-7xl{max-width: 80rem;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-16{gap: 4rem;}\n.gap-6{gap: 1.5rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.border-l-2{border-left-width: 2px;}\n.border-spirit-gale{--tw-border-opacity: 1; border-color: rgb(34 197 94 / var(--tw-border-opacity, 1));}\n.bg-spirit-gale\\/10{background-color: rgba(34, 197, 94, 0.1);}\n.bg-spirit-sky\\/10{background-color: rgba(2, 132, 199, 0.1);}\n.bg-spirit-sun\\/10{background-color: rgba(251, 191, 36, 0.1);}\n.bg-white\\/5{background-color: rgba(255, 255, 255, 0.05);}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pl-6{padding-left: 1.5rem;}\n.pt-4{padding-top: 1rem;}\n.font-marcellus{font-family: Marcellus, serif;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-spirit-gale{--tw-text-opacity: 1; color: rgb(34 197 94 / var(--tw-text-opacity, 1));}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.text-spirit-sun{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-white\\/90{color: rgba(255, 255, 255, 0.9);}\n.text-spirit-sky{--tw-text-opacity: 1; color: rgb(2 132 199 / var(--tw-text-opacity, 1));}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 640px){.sm\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "color": "rgb(241, 245, 249)",
+            "padding": "128px 48px",
+            "margin": "0px 80px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-5 space-y-6 scroll-reveal active\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block\">ANCIENT PATHWAYS</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         The world breathes in perfect <span class=\"italic text-spirit-sun\">harmony</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         To walk the path of the gale is to realize that the sword is not merely a weapon of steel, but an extension of the wind. Every rustle of the forest and every ripple across the summit lake dictates the rhythm of the warrior's soul.                     </p>                     <div class=\"pt-4\">                         <div class=\"flex items-center gap-6 border-l-2 border-spirit-gale pl-6\">                             <p class=\"text-sm font-medium text-white/90 italic\">                                 \"The wind does not break the tree that bends. It sweeps away the shadow of doubt.\"                             </p>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\">                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\">                         <div class=\"w-12 h-12 bg-spirit-gale/10 flex items-center justify-center text-spirit-gale text-2xl\">                             <iconify-icon icon=\"ph:wind-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Gale Ascension</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Harness dynamic atmospheric pressure to elevate agility and outpace opponents through shifting wind streams.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 100ms;\">                         <div class=\"w-12 h-12 bg-spirit-sky/10 flex items-center justify-center text-spirit-sky text-2xl\">                             <iconify-icon icon=\"ph:waves-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Mirror Reflection</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Attune inner focus to the pristine tranquility of alpine lake surfaces, neutralizing aggressive stances instantly.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 200ms;\">                         <div class=\"w-12 h-12 bg-spirit-sun/10 flex items-center justify-center text-spirit-sun text-2xl\">                             <iconify-icon icon=\"ph:sun-dim-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Solar Radiance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Strike precisely when gold light pierces cloud barriers, weaponizing blinding horizons to secure strategic dominance.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 300ms;\">                         <div class=\"w-12 h-12 bg-white/5 flex items-center justify-center text-white/80 text-2xl\">                             <iconify-icon icon=\"ph:mountains-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Stone Endurance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Ground all focus deep into ancient tectonic roots, maintaining absolute defensive balance against violent assaults.                         </p>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-5 space-y-6 scroll-reveal active",
+                  "colId": "sccol-2",
+                  "cw": 5,
+                  "html": "                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block\">ANCIENT PATHWAYS</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         The world breathes in perfect <span class=\"italic text-spirit-sun\">harmony</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         To walk the path of the gale is to realize that the sword is not merely a weapon of steel, but an extension of the wind. Every rustle of the forest and every ripple across the summit lake dictates the rhythm of the warrior's soul.                     </p>                     <div class=\"pt-4\">                         <div class=\"flex items-center gap-6 border-l-2 border-spirit-gale pl-6\">                             <p class=\"text-sm font-medium text-white/90 italic\">                                 \"The wind does not break the tree that bends. It sweeps away the shadow of doubt.\"                             </p>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "ANCIENT PATHWAYS",
+                    "overlineClass": "font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The world breathes in perfect <span class=\"italic text-spirit-sun\" style=\"color:rgb(251, 191, 36)\"><em>harmony</em></span>.",
+                    "titleTag": "h2",
+                    "titleClass": "font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight",
+                    "subtitle": "To walk the path of the gale is to realize that the sword is not merely a weapon of steel, but an extension of the wind. Every rustle of the forest and every ripple across the summit lake dictates the rhythm of the warrior's soul.",
+                    "subtitleClass": "text-white/60 font-light leading-relaxed text-sm sm:text-base",
+                    "wrapClass": "lg:col-span-5 space-y-6 scroll-reveal active",
+                    "paras": [
+                      "<p class=\"text-sm font-medium text-white/90 italic\">                                 \"The wind does not break the tree that bends. It sweeps away the shadow of doubt.\"                             </p>"
+                    ]
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-7 grid sm:grid-cols-2 gap-6",
+                  "colId": "sccol-3",
+                  "cw": 7,
+                  "html": "                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\">                         <div class=\"w-12 h-12 bg-spirit-gale/10 flex items-center justify-center text-spirit-gale text-2xl\">                             <iconify-icon icon=\"ph:wind-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Gale Ascension</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Harness dynamic atmospheric pressure to elevate agility and outpace opponents through shifting wind streams.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 100ms;\">                         <div class=\"w-12 h-12 bg-spirit-sky/10 flex items-center justify-center text-spirit-sky text-2xl\">                             <iconify-icon icon=\"ph:waves-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Mirror Reflection</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Attune inner focus to the pristine tranquility of alpine lake surfaces, neutralizing aggressive stances instantly.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 200ms;\">                         <div class=\"w-12 h-12 bg-spirit-sun/10 flex items-center justify-center text-spirit-sun text-2xl\">                             <iconify-icon icon=\"ph:sun-dim-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Solar Radiance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Strike precisely when gold light pierces cloud barriers, weaponizing blinding horizons to secure strategic dominance.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 300ms;\">                         <div class=\"w-12 h-12 bg-white/5 flex items-center justify-center text-white/80 text-2xl\">                             <iconify-icon icon=\"ph:mountains-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Stone Endurance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Ground all focus deep into ancient tectonic roots, maintaining absolute defensive balance against violent assaults.                         </p>                     </div>                 ",
+                  "counter": null,
+                  "card": {
+                    "icon": "",
+                    "customIcon": "",
+                    "lucide": "",
+                    "iconLayout": "top-title",
+                    "iconColor": "#22c55e",
+                    "iconBadge": "solid-square",
+                    "iconBadgeColor": "rgba(34, 197, 94, 0.1)",
+                    "iconBadgeSize": 48,
+                    "iconBadgeRadius": "",
+                    "iconBadgeBorderWidth": "",
+                    "iconBadgeBorderColor": "",
+                    "title": "Gale Ascension",
+                    "titleTag": "h3",
+                    "titleWeight": "400",
+                    "text": "<p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Harness dynamic atmospheric pressure to elevate agility and outpace opponents through shifting wind streams.                         </p>",
+                    "link": null,
+                    "cls": "clan-border p-8 space-y-4 scroll-reveal active",
+                    "align": "left",
+                    "pad": "32px",
+                    "box": {
+                      "bg": "",
+                      "fill": "",
+                      "radius": "",
+                      "borderWidth": "1px",
+                      "borderStyle": "solid",
+                      "borderColor": "rgba(74, 222, 128, 0.1)",
+                      "shadow": "",
+                      "backdrop": "",
+                      "hoverLift": false,
+                      "padding": "32px"
+                    }
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 12,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-5 space-y-6 scroll-reveal active\" data-sc-col=\"sccol-2\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block\">ANCIENT PATHWAYS</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         The world breathes in perfect <span class=\"italic text-spirit-sun\">harmony</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         To walk the path of the gale is to realize that the sword is not merely a weapon of steel, but an extension of the wind. Every rustle of the forest and every ripple across the summit lake dictates the rhythm of the warrior's soul.                     </p>                     <div class=\"pt-4\">                         <div class=\"flex items-center gap-6 border-l-2 border-spirit-gale pl-6\">                             <p class=\"text-sm font-medium text-white/90 italic\">                                 \"The wind does not break the tree that bends. It sweeps away the shadow of doubt.\"                             </p>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-7 grid sm:grid-cols-2 gap-6\" data-sc-col=\"sccol-3\">                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\">                         <div class=\"w-12 h-12 bg-spirit-gale/10 flex items-center justify-center text-spirit-gale text-2xl\">                             <iconify-icon icon=\"ph:wind-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Gale Ascension</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Harness dynamic atmospheric pressure to elevate agility and outpace opponents through shifting wind streams.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 100ms;\">                         <div class=\"w-12 h-12 bg-spirit-sky/10 flex items-center justify-center text-spirit-sky text-2xl\">                             <iconify-icon icon=\"ph:waves-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Mirror Reflection</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Attune inner focus to the pristine tranquility of alpine lake surfaces, neutralizing aggressive stances instantly.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 200ms;\">                         <div class=\"w-12 h-12 bg-spirit-sun/10 flex items-center justify-center text-spirit-sun text-2xl\">                             <iconify-icon icon=\"ph:sun-dim-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Solar Radiance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Strike precisely when gold light pierces cloud barriers, weaponizing blinding horizons to secure strategic dominance.                         </p>                     </div>                     <div class=\"clan-border p-8 space-y-4 scroll-reveal active\" style=\"transition-delay: 300ms;\">                         <div class=\"w-12 h-12 bg-white/5 flex items-center justify-center text-white/80 text-2xl\">                             <iconify-icon icon=\"ph:mountains-bold\"></iconify-icon>                         </div>                         <h3 class=\"font-marcellus text-xl text-white uppercase tracking-wider\">Stone Endurance</h3>                         <p class=\"text-xs text-white/50 leading-relaxed font-light\">                             Ground all focus deep into ancient tectonic roots, maintaining absolute defensive balance against violent assaults.                         </p>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "sectionClass": "py-32 bg-spirit-ink/40 border-y border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".scroll-reveal{opacity: 0; transform: scale(0.97) translateY(30px); transition: 1.4s cubic-bezier(0.19, 1, 0.22, 1);}\n.scroll-reveal.active{opacity: 1; transform: scale(1) translateY(0px);}\n.tab-btn.active{color: rgb(251, 191, 36); border-color: rgb(251, 191, 36); background: rgba(251, 191, 36, 0.05);}\n.tab-content{display: none;}\n.tab-content.active{display: grid;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, h3, p{margin: 0px;}\nul{list-style: none; margin: 0px; padding: 0px;}\nbutton{cursor: pointer;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-16{margin-bottom: 4rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-80{height: 20rem;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-2xl{max-width: 42rem;}\n.max-w-md{max-width: 28rem;}\n.flex-1{flex: 1 1 0%;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-3{gap: 0.75rem;}\n.gap-12{gap: 3rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));}\n.border{border-width: 1px;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-b-2{border-bottom-width: 2px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-transparent{border-color: transparent;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-spirit-ink\\/40{background-color: rgba(11, 19, 22, 0.4);}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1518837695005-2083093ee35b\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&q=80&w=1200\");}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1507525428034-b723cf961d3e\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200\");}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1470252649358-9646cbe843e7\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1470252649358-9646cbe843e7?auto=format&fit=crop&q=80&w=1200\");}\n.bg-cover{background-size: cover;}\n.bg-center{background-position: center center;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.pb-4{padding-bottom: 1rem;}\n.text-center{text-align: center;}\n.font-marcellus{font-family: Marcellus, serif;}\n.font-montserrat{font-family: Montserrat, sans-serif;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-spirit-gale{--tw-text-opacity: 1; color: rgb(34 197 94 / var(--tw-text-opacity, 1));}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.text-spirit-sun{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-spirit-sky{--tw-text-opacity: 1; color: rgb(2 132 199 / var(--tw-text-opacity, 1));}\n.text-white\\/80{color: rgba(255, 255, 255, 0.8);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-40{opacity: 0.4;}\n.contrast-125{--tw-contrast: contrast(1.25); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.grayscale{--tw-grayscale: grayscale(100%); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}",
+          "computed": {
+            "background": "rgba(11, 19, 22, 0.4)",
+            "color": "rgb(241, 245, 249)",
+            "padding": "128px 0px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1470252649358-9646cbe843e7?auto=format&fit=crop&q=80&w=1200"
+          ],
+          "raw": "             <div class=\"max-w-7xl mx-auto px-6 md:px-12\">                 <div class=\"text-center max-w-2xl mx-auto mb-16 scroll-reveal active\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block mb-3\">MARTIAL PHILOSOPHY</span>                     <h2 class=\"font-marcellus text-3xl sm:text-5xl uppercase tracking-tight text-white\">Stances of the Elements</h2>                 </div>                 <div class=\"flex justify-center border-b border-white/10 mb-12 max-w-md mx-auto scroll-reveal active\">                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent active\" onclick=\"switchTab(event, 'wind-stance')\">Wind</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'water-stance')\">Water</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'sun-stance')\">Sun</button>                 </div>                 <div id=\"wind-stance\" class=\"tab-content active grid md:grid-cols-2 gap-12 items-center\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Zephyr Flow</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             A highly dynamic stance dedicated to deflecting incoming projectiles and piercing armored defenses. By synchronizing bodily movement with low-altitude wind drafts, the warrior flows effortlessly around threats, leaving glowing green leaf trails behind each rapid stride.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Increased evasion against long-range kinetic weaponry</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Seamless counter-attacks initiated straight from side-steps</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>                 <div id=\"water-stance\" class=\"tab-content grid md:grid-cols-2 gap-12 items-center\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Torrent Surge</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Fluid and relentless. Designed specifically to shatter the defensive shields of heavy combatants. Like water channeling down alpine valleys, this stance builds crushing forward momentum that cannot be blocked.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Heavy shield-breaking strike sequences</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Multi-target continuous fluid strikes</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>                 <div id=\"sun-stance\" class=\"tab-content grid md:grid-cols-2 gap-12 items-center\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Solstice Flare</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Uncompromising precision. Executed when the light angles flawlessly over the mountain horizon. It capitalizes on structural vulnerabilities, trading heavy movement for instantaneous lethal counters.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Critical strike multipliers against staggered foes</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Blinding aura generation upon successful parries</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1470252649358-9646cbe843e7?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_5",
+                  "cls": "",
+                  "fullCls": "text-center max-w-2xl mx-auto mb-16 scroll-reveal active",
+                  "colId": "sccol-4",
+                  "cw": 6,
+                  "html": "                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block mb-3\">MARTIAL PHILOSOPHY</span>                     <h2 class=\"font-marcellus text-3xl sm:text-5xl uppercase tracking-tight text-white\">Stances of the Elements</h2>                 ",
+                  "maxw": "672px",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "MARTIAL PHILOSOPHY",
+                    "overlineClass": "font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Stances of the Elements",
+                    "titleTag": "h2",
+                    "titleClass": "font-marcellus text-3xl sm:text-5xl uppercase tracking-tight text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "text-center max-w-2xl mx-auto mb-16 scroll-reveal active",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 6
+                  }
+                },
+                {
+                  "width": "1_5",
+                  "cls": "",
+                  "fullCls": "flex justify-center border-b border-white/10 mb-12 max-w-md mx-auto scroll-reveal active",
+                  "colId": "sccol-5",
+                  "cw": 4,
+                  "html": "                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent active\" onclick=\"switchTab(event, 'wind-stance')\">Wind</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'water-stance')\">Water</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'sun-stance')\">Sun</button>                 ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "center",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "maxw": "448px",
+                  "counter": null,
+                  "card": null,
+                  "buttons": [
+                    {
+                      "t": "button",
+                      "label": "Wind",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+                      "tag": "button",
+                      "cls": "tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent active",
+                      "align": "center",
+                      "icon": "",
+                      "iconPos": "after",
+                      "bs": {
+                        "bg": "rgba(251, 191, 36, 0.05)",
+                        "fg": "rgb(251, 191, 36)",
+                        "bd": "rgb(251, 191, 36)",
+                        "bds": "solid"
+                      },
+                      "sh": "",
+                      "rad": "0px",
+                      "bw": "0px",
+                      "bwStyle": "solid",
+                      "pad": "0px 0px 16px",
+                      "height": "34px",
+                      "radius": "0px",
+                      "fw": "400",
+                      "fs": "12px",
+                      "lh": "16px",
+                      "tw": {
+                        "fontSize": "12px",
+                        "lineHeight": "16px"
+                      },
+                      "hover": null
+                    },
+                    {
+                      "t": "button",
+                      "label": "Water",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+                      "tag": "button",
+                      "cls": "tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent",
+                      "align": "center",
+                      "icon": "",
+                      "iconPos": "after",
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgba(255, 255, 255, 0.4)",
+                        "bd": "rgba(0, 0, 0, 0)",
+                        "bds": "solid"
+                      },
+                      "sh": "",
+                      "rad": "0px",
+                      "bw": "0px",
+                      "bwStyle": "solid",
+                      "pad": "0px 0px 16px",
+                      "height": "34px",
+                      "radius": "0px",
+                      "fw": "400",
+                      "fs": "12px",
+                      "lh": "16px",
+                      "tw": {
+                        "fontSize": "12px",
+                        "lineHeight": "16px"
+                      },
+                      "hover": null
+                    },
+                    {
+                      "t": "button",
+                      "label": "Sun",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+                      "tag": "button",
+                      "cls": "tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent",
+                      "align": "center",
+                      "icon": "",
+                      "iconPos": "after",
+                      "bs": {
+                        "bg": "rgba(0, 0, 0, 0)",
+                        "fg": "rgba(255, 255, 255, 0.4)",
+                        "bd": "rgba(0, 0, 0, 0)",
+                        "bds": "solid"
+                      },
+                      "sh": "",
+                      "rad": "0px",
+                      "bw": "0px",
+                      "bwStyle": "solid",
+                      "pad": "0px 0px 16px",
+                      "height": "34px",
+                      "radius": "0px",
+                      "fw": "400",
+                      "fs": "12px",
+                      "lh": "16px",
+                      "tw": {
+                        "fontSize": "12px",
+                        "lineHeight": "16px"
+                      },
+                      "hover": null
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 7,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_5",
+                  "cls": "",
+                  "fullCls": "tab-content active grid md:grid-cols-2 gap-12 items-center",
+                  "colId": "sccol-6",
+                  "cw": 11,
+                  "html": "                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Zephyr Flow</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             A highly dynamic stance dedicated to deflecting incoming projectiles and piercing armored defenses. By synchronizing bodily movement with low-altitude wind drafts, the warrior flows effortlessly around threats, leaving glowing green leaf trails behind each rapid stride.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Increased evasion against long-range kinetic weaponry</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Seamless counter-attacks initiated straight from side-steps</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Zephyr Flow",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-3xl text-white uppercase",
+                    "subtitle": "A highly dynamic stance dedicated to deflecting incoming projectiles and piercing armored defenses. By synchronizing bodily movement with low-altitude wind drafts, the warrior flows effortlessly around threats, leaving glowing green leaf trails behind each rapid stride.",
+                    "subtitleClass": "text-white/60 text-sm font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 11
+                  }
+                },
+                {
+                  "width": "1_5",
+                  "cls": "",
+                  "fullCls": "tab-content grid md:grid-cols-2 gap-12 items-center",
+                  "colId": "sccol-7",
+                  "cw": 11,
+                  "html": "                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Torrent Surge</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Fluid and relentless. Designed specifically to shatter the defensive shields of heavy combatants. Like water channeling down alpine valleys, this stance builds crushing forward momentum that cannot be blocked.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Heavy shield-breaking strike sequences</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Multi-target continuous fluid strikes</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Torrent Surge",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-3xl text-white uppercase",
+                    "subtitle": "Fluid and relentless. Designed specifically to shatter the defensive shields of heavy combatants. Like water channeling down alpine valleys, this stance builds crushing forward momentum that cannot be blocked.",
+                    "subtitleClass": "text-white/60 text-sm font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 11
+                  }
+                },
+                {
+                  "width": "1_5",
+                  "cls": "",
+                  "fullCls": "tab-content grid md:grid-cols-2 gap-12 items-center",
+                  "colId": "sccol-8",
+                  "cw": 11,
+                  "html": "                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Solstice Flare</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Uncompromising precision. Executed when the light angles flawlessly over the mountain horizon. It capitalizes on structural vulnerabilities, trading heavy movement for instantaneous lethal counters.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Critical strike multipliers against staggered foes</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Blinding aura generation upon successful parries</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1470252649358-9646cbe843e7?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Solstice Flare",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-3xl text-white uppercase",
+                    "subtitle": "Uncompromising precision. Executed when the light angles flawlessly over the mountain horizon. It capitalizes on structural vulnerabilities, trading heavy movement for instantaneous lethal counters.",
+                    "subtitleClass": "text-white/60 text-sm font-light leading-relaxed",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 11
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto px-6 md:px-12\">                 <div class=\"text-center max-w-2xl mx-auto mb-16 scroll-reveal active\" data-sc-col=\"sccol-4\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block mb-3\">MARTIAL PHILOSOPHY</span>                     <h2 class=\"font-marcellus text-3xl sm:text-5xl uppercase tracking-tight text-white\">Stances of the Elements</h2>                 </div>                 <div class=\"flex justify-center border-b border-white/10 mb-12 max-w-md mx-auto scroll-reveal active\" data-sc-col=\"sccol-5\">                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent active\" onclick=\"switchTab(event, 'wind-stance')\">Wind</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'water-stance')\">Water</button>                     <button class=\"tab-btn flex-1 pb-4 font-marcellus text-xs uppercase tracking-widest text-white/40 border-b-2 border-transparent\" onclick=\"switchTab(event, 'sun-stance')\">Sun</button>                 </div>                 <div id=\"wind-stance\" class=\"tab-content active grid md:grid-cols-2 gap-12 items-center\" data-sc-col=\"sccol-6\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Zephyr Flow</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             A highly dynamic stance dedicated to deflecting incoming projectiles and piercing armored defenses. By synchronizing bodily movement with low-altitude wind drafts, the warrior flows effortlessly around threats, leaving glowing green leaf trails behind each rapid stride.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Increased evasion against long-range kinetic weaponry</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-gale text-lg\"></iconify-icon> Seamless counter-attacks initiated straight from side-steps</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>                 <div id=\"water-stance\" class=\"tab-content grid md:grid-cols-2 gap-12 items-center\" data-sc-col=\"sccol-7\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Torrent Surge</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Fluid and relentless. Designed specifically to shatter the defensive shields of heavy combatants. Like water channeling down alpine valleys, this stance builds crushing forward momentum that cannot be blocked.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Heavy shield-breaking strike sequences</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sky text-lg\"></iconify-icon> Multi-target continuous fluid strikes</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>                 <div id=\"sun-stance\" class=\"tab-content grid md:grid-cols-2 gap-12 items-center\" data-sc-col=\"sccol-8\">                     <div class=\"space-y-6\">                         <h3 class=\"font-marcellus text-3xl text-white uppercase\">The Solstice Flare</h3>                         <p class=\"text-white/60 text-sm font-light leading-relaxed\">                             Uncompromising precision. Executed when the light angles flawlessly over the mountain horizon. It capitalizes on structural vulnerabilities, trading heavy movement for instantaneous lethal counters.                         </p>                         <ul class=\"space-y-3 font-montserrat text-xs text-white/80\">                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Critical strike multipliers against staggered foes</li>                             <li class=\"flex items-center gap-3\"><iconify-icon icon=\"ph:check-circle\" class=\"text-spirit-sun text-lg\"></iconify-icon> Blinding aura generation upon successful parries</li>                         </ul>                     </div>                     <div class=\"h-80 bg-[url('https://images.unsplash.com/photo-1470252649358-9646cbe843e7?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center grayscale contrast-125 opacity-40 border border-white/10\"></div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "sectionClass": "py-32 max-w-7xl mx-auto px-6 md:px-12",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".scroll-reveal{opacity: 0; transform: scale(0.97) translateY(30px); transition: 1.4s cubic-bezier(0.19, 1, 0.22, 1);}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-16{margin-bottom: 4rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.line-clamp-3{overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[450px\\]{height: 450px;}\n.max-w-7xl{max-width: 80rem;}\n.max-w-xs{max-width: 20rem;}\n.flex-col{flex-direction: column;}\n.items-start{align-items: flex-start;}\n.items-end{align-items: flex-end;}\n.justify-between{justify-content: space-between;}\n.gap-6{gap: 1.5rem;}\n.gap-8{gap: 2rem;}\n.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.border{border-width: 1px;}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-spirit-ink{--tw-bg-opacity: 1; background-color: rgb(11 19 22 / var(--tw-bg-opacity, 1));}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1447752875215-b2761acb3c5d\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=1200\");}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1464822759023-fed622ff2c3b\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200\");}\n.bg-\\[url\\(\\'https\\:\\/\\/images\\.unsplash\\.com\\/photo-1501785888041-af3ef285b470\\?auto\\=format\\&fit\\=crop\\&q\\=80\\&w\\=1200\\'\\)\\]{background-image: url(\"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1200\");}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.bg-cover{background-size: cover;}\n.bg-center{background-position: center center;}\n.p-8{padding: 2rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.font-marcellus{font-family: Marcellus, serif;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-spirit-gale{--tw-text-opacity: 1; color: rgb(34 197 94 / var(--tw-text-opacity, 1));}\n.text-spirit-sun{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-spirit-sky{--tw-text-opacity: 1; color: rgb(2 132 199 / var(--tw-text-opacity, 1));}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-white\\/40{color: rgba(255, 255, 255, 0.4);}\n.opacity-30{opacity: 0.3;}\n.mix-blend-luminosity{mix-blend-mode: luminosity;}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.group:hover .group-hover\\:opacity-50{opacity: 0.5;}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:items-end{align-items: flex-end;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}",
+          "computed": {
+            "color": "rgb(241, 245, 249)",
+            "padding": "128px 48px",
+            "margin": "0px 80px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px",
+            "maxWidth": "1280px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200",
+            "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=1200"
+          ],
+          "raw": "             <div class=\"flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 scroll-reveal\">                 <div>                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block mb-3\">BOUNDLESS REFUGE</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white\">The Sacrificial Vistas</h2>                 </div>                 <p class=\"text-white/40 max-w-xs font-light text-sm\">                     Witness the geographic realms where the elements congregate to test the limits of ancient steel.                 </p>             </div>             <div class=\"grid md:grid-cols-3 gap-8\">                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sky\">THE LOWER BASIN</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">The Azure Veil</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">A mirrors-edge lake suspended thousands of feet high, capturing mountain reflections and cooling heavy winds instantly.</p>                     </div>                 </div>                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\" style=\"transition-delay: 150ms;\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sun\">THE HIGHEST PEAK</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Crest of Solitude</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Where sunlight punctures dense cloud mass, blinding uninvited guests and offering pristine clarity to master ronins.</p>                     </div>                 </div>                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\" style=\"transition-delay: 300ms;\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-gale\">THE ANCIENT WOODS</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Verdant Vortex</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Deep foliage zones dominated by high-speed swirling currents, detaching thousands of emerald leaves simultaneously.</p>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "",
+                  "colId": "sccol-9",
+                  "cw": 5,
+                  "html": "                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block mb-3\">BOUNDLESS REFUGE</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white\">The Sacrificial Vistas</h2>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "BOUNDLESS REFUGE",
+                    "overlineClass": "font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block mb-3",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Sacrificial Vistas",
+                    "titleTag": "h2",
+                    "titleClass": "font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "text-white/40 max-w-xs font-light text-sm",
+                  "colId": "sccol-10",
+                  "cw": 3,
+                  "html": "                     Witness the geographic realms where the elements congregate to test the limits of ancient steel.                 ",
+                  "maxw": "320px",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 6,
+                    "desktop": 3
+                  }
+                }
+              ],
+              "valign": "end",
+              "gap": 24,
+              "gapResp": {
+                "base": 24,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 scroll-reveal\">                 <div data-sc-col=\"sccol-9\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-gale block mb-3\">BOUNDLESS REFUGE</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white\">The Sacrificial Vistas</h2>                 </div>                 <p class=\"text-white/40 max-w-xs font-light text-sm\" data-sc-col=\"sccol-10\">                     Witness the geographic realms where the elements congregate to test the limits of ancient steel.                 </p>             </div>"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal",
+                  "colId": "sccol-11",
+                  "cw": 4,
+                  "html": "                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sky\">THE LOWER BASIN</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">The Azure Veil</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">A mirrors-edge lake suspended thousands of feet high, capturing mountain reflections and cooling heavy winds instantly.</p>                     </div>                 ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "flex-end",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "THE LOWER BASIN",
+                    "overlineClass": "font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sky",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "The Azure Veil",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-2xl text-white uppercase",
+                    "subtitle": "A mirrors-edge lake suspended thousands of feet high, capturing mountain reflections and cooling heavy winds instantly.",
+                    "subtitleClass": "text-xs text-white/50 font-light line-clamp-3",
+                    "wrapClass": "relative z-20 space-y-3",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal",
+                  "colId": "sccol-12",
+                  "cw": 4,
+                  "html": "                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sun\">THE HIGHEST PEAK</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Crest of Solitude</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Where sunlight punctures dense cloud mass, blinding uninvited guests and offering pristine clarity to master ronins.</p>                     </div>                 ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "flex-end",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "THE HIGHEST PEAK",
+                    "overlineClass": "font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sun",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Crest of Solitude",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-2xl text-white uppercase",
+                    "subtitle": "Where sunlight punctures dense cloud mass, blinding uninvited guests and offering pristine clarity to master ronins.",
+                    "subtitleClass": "text-xs text-white/50 font-light line-clamp-3",
+                    "wrapClass": "relative z-20 space-y-3",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_3",
+                  "cls": "",
+                  "fullCls": "group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal",
+                  "colId": "sccol-13",
+                  "cw": 4,
+                  "html": "                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-gale\">THE ANCIENT WOODS</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Verdant Vortex</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Deep foliage zones dominated by high-speed swirling currents, detaching thousands of emerald leaves simultaneously.</p>                     </div>                 ",
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "flex-end",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "THE ANCIENT WOODS",
+                    "overlineClass": "font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-gale",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Verdant Vortex",
+                    "titleTag": "h3",
+                    "titleClass": "font-marcellus text-2xl text-white uppercase",
+                    "subtitle": "Deep foliage zones dominated by high-speed swirling currents, detaching thousands of emerald leaves simultaneously.",
+                    "subtitleClass": "text-xs text-white/50 font-light line-clamp-3",
+                    "wrapClass": "relative z-20 space-y-3",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid md:grid-cols-3 gap-8\">                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\" data-sc-col=\"sccol-11\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sky\">THE LOWER BASIN</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">The Azure Veil</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">A mirrors-edge lake suspended thousands of feet high, capturing mountain reflections and cooling heavy winds instantly.</p>                     </div>                 </div>                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\" style=\"transition-delay: 150ms;\" data-sc-col=\"sccol-12\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-sun\">THE HIGHEST PEAK</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Crest of Solitude</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Where sunlight punctures dense cloud mass, blinding uninvited guests and offering pristine clarity to master ronins.</p>                     </div>                 </div>                 <div class=\"group relative overflow-hidden bg-spirit-ink border border-white/5 h-[450px] flex items-end p-8 scroll-reveal\" style=\"transition-delay: 300ms;\" data-sc-col=\"sccol-13\">                     <div class=\"absolute inset-0 bg-[url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&amp;fit=crop&amp;q=80&amp;w=1200')] bg-cover bg-center opacity-30 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 mix-blend-luminosity\"></div>                     <div class=\"absolute inset-0 bg-gradient-to-t from-spirit-void via-spirit-void/40 to-transparent z-10\"></div>                     <div class=\"relative z-20 space-y-3\">                         <span class=\"font-marcellus text-[10px] uppercase tracking-[0.3em] text-spirit-gale\">THE ANCIENT WOODS</span>                         <h3 class=\"font-marcellus text-2xl text-white uppercase\">Verdant Vortex</h3>                         <p class=\"text-xs text-white/50 font-light line-clamp-3\">Deep foliage zones dominated by high-speed swirling currents, detaching thousands of emerald leaves simultaneously.</p>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "sectionClass": "py-32 bg-spirit-ink/20 border-t border-white/5",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".scroll-reveal{opacity: 0; transform: scale(0.97) translateY(30px); transition: 1.4s cubic-bezier(0.19, 1, 0.22, 1);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-1\\/2{left: 50%;}\n.top-1\\/2{top: 50%;}\n.z-10{z-index: 10;}\n.order-1{order: 1;}\n.order-2{order: 2;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-80{height: 20rem;}\n.w-80{width: 20rem;}\n.max-w-7xl{max-width: 80rem;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.-translate-y-1\\/2{--tw-translate-y: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-16{gap: 4rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-b{border-bottom-width: 1px;}\n.border-t{border-top-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.border-white\\/5{border-color: rgba(255, 255, 255, 0.05);}\n.bg-spirit-gale\\/10{background-color: rgba(34, 197, 94, 0.1);}\n.bg-spirit-ink\\/20{background-color: rgba(11, 19, 22, 0.2);}\n.bg-spirit-void\\/90{background-color: rgba(3, 7, 8, 0.9);}\n.bg-white{--tw-bg-opacity: 1; background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));}\n.p-12{padding: 3rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.pt-4{padding-top: 1rem;}\n.pb-4{padding-bottom: 1rem;}\n.pb-2{padding-bottom: 0.5rem;}\n.font-decorative{font-family: \"Cinzel Decorative\", serif;}\n.font-marcellus{font-family: Marcellus, serif;}\n.font-montserrat{font-family: Montserrat, sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.font-medium{font-weight: 500;}\n.font-bold{font-weight: 700;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.leading-tight{line-height: 1.25;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-wider{letter-spacing: 0.05em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-spirit-gale{--tw-text-opacity: 1; color: rgb(34 197 94 / var(--tw-text-opacity, 1));}\n.text-white\\/60{color: rgba(255, 255, 255, 0.6);}\n.text-spirit-sun{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-spirit-void{--tw-text-opacity: 1; color: rgb(3 7 8 / var(--tw-text-opacity, 1));}\n.blur-\\[90px\\]{--tw-blur: blur(90px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.hover\\:bg-spirit-sun:hover{--tw-bg-opacity: 1; background-color: rgb(251 191 36 / var(--tw-bg-opacity, 1));}\n.hover\\:text-spirit-void:hover{--tw-text-opacity: 1; color: rgb(3 7 8 / var(--tw-text-opacity, 1));}\n@media (min-width: 640px){.sm\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 640px){.sm\\:text-5xl{font-size: 3rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}\n@media (min-width: 1024px){.lg\\:order-1{order: 1;}}\n@media (min-width: 1024px){.lg\\:order-2{order: 2;}}\n@media (min-width: 1024px){.lg\\:col-span-6{grid-column: span 6 / span 6;}}\n@media (min-width: 1024px){.lg\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}",
+          "computed": {
+            "background": "rgba(11, 19, 22, 0.2)",
+            "color": "rgb(241, 245, 249)",
+            "padding": "128px 0px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-6 relative order-2 lg:order-1\">                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-spirit-gale/10 blur-[90px] pointer-events-none\"></div>                     <div class=\"border border-white/10 p-12 bg-spirit-void/90 relative z-10 space-y-8\">                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Blade Length</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">73.4 cm</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Steel Composition</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Tamahagane / Folded 16x</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Hamon Pattern</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Midareba (Wild Wave)</span>                         </div>                         <div class=\"flex justify-between items-center pb-2\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Total Mass</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">1.18 kg</span>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-6 space-y-6 order-1 lg:order-2 scroll-reveal\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block\">FORGED IMMORTALITY</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         Steel tempered within the <span class=\"font-decorative text-spirit-gale\">vortex</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         Every katana crafted under the Sushima lineage goes through arduous volcanic tempering, followed by high-altitude cooling exposures. This allows the edge to maintain absolute micro-alignment, splitting air molecules effortlessly as you dance along windward horizons.                     </p>                     <div class=\"pt-4\">                         <button class=\"px-8 py-4 bg-white text-spirit-void font-marcellus text-xs uppercase tracking-[0.2em] font-bold hover:bg-spirit-sun hover:text-spirit-void transition-colors duration-300\">                             Request Commissions                         </button>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-6 relative order-2 lg:order-1",
+                  "colId": "sccol-14",
+                  "cw": 5,
+                  "html": "                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-spirit-gale/10 blur-[90px] pointer-events-none\"></div>                     <div class=\"border border-white/10 p-12 bg-spirit-void/90 relative z-10 space-y-8\">                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Blade Length</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">73.4 cm</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Steel Composition</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Tamahagane / Folded 16x</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Hamon Pattern</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Midareba (Wild Wave)</span>                         </div>                         <div class=\"flex justify-between items-center pb-2\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Total Mass</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">1.18 kg</span>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 11,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "lg:col-span-6 space-y-6 order-1 lg:order-2 scroll-reveal",
+                  "colId": "sccol-17",
+                  "cw": 5,
+                  "html": "                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block\">FORGED IMMORTALITY</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         Steel tempered within the <span class=\"font-decorative text-spirit-gale\">vortex</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         Every katana crafted under the Sushima lineage goes through arduous volcanic tempering, followed by high-altitude cooling exposures. This allows the edge to maintain absolute micro-alignment, splitting air molecules effortlessly as you dance along windward horizons.                     </p>                     <div class=\"pt-4\">                         <button class=\"px-8 py-4 bg-white text-spirit-void font-marcellus text-xs uppercase tracking-[0.2em] font-bold hover:bg-spirit-sun hover:text-spirit-void transition-colors duration-300\">                             Request Commissions                         </button>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "blocks": [
+                    {
+                      "t": "overline",
+                      "html": "FORGED IMMORTALITY",
+                      "text": "FORGED IMMORTALITY",
+                      "cls": "font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block",
+                      "pill": false,
+                      "color": "rgb(251, 191, 36)",
+                      "bg": "rgba(0, 0, 0, 0)",
+                      "borderW": "0px",
+                      "borderColor": "rgb(229, 231, 235)",
+                      "radius": "0px",
+                      "padding": "0px",
+                      "backdropFilter": "",
+                      "textTransform": "uppercase",
+                      "fontSize": "12px",
+                      "letterSpacing": "4.8px",
+                      "fontWeight": "400",
+                      "gap": "normal",
+                      "iconSvg": "",
+                      "iconPos": "before",
+                      "lineHeight": "16px"
+                    },
+                    {
+                      "t": "heading",
+                      "level": 2,
+                      "html": "Steel tempered within the <span class=\"font-decorative text-spirit-gale\" style=\"color:rgb(34, 197, 94)\">vortex</span>.",
+                      "text": "Steel tempered within the vortex.",
+                      "tag": "h2",
+                      "cls": "font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight",
+                      "wrapCls": "lg:col-span-6 space-y-6 order-1 lg:order-2 scroll-reveal",
+                      "fontSize": "48px",
+                      "fontWeight": "400",
+                      "color": "rgb(255, 255, 255)",
+                      "marginBottom": "0px",
+                      "marginTop": "24px",
+                      "lineHeight": "48px",
+                      "letterSpacing": "-1.2px",
+                      "align": "left"
+                    },
+                    {
+                      "t": "text",
+                      "html": "<p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         Every katana crafted under the Sushima lineage goes through arduous volcanic tempering, followed by high-altitude cooling exposures. This allows the edge to maintain absolute micro-alignment, splitting air molecules effortlessly as you dance along windward horizons.                     </p>",
+                      "text": "Every katana crafted under the Sushima lineage goes through arduous volcanic tempering, followed by high-altitude cooling exposures. This allows the edge to maintain absolute micro-alignment, splittin",
+                      "tag": "p",
+                      "cls": "text-white/60 font-light leading-relaxed text-sm sm:text-base",
+                      "fontSize": "16px",
+                      "color": "rgba(255, 255, 255, 0.6)",
+                      "lineHeight": "24px",
+                      "letterSpacing": "normal",
+                      "marginBottom": "0px",
+                      "textAlign": "start",
+                      "fontWeight": "300",
+                      "textTransform": "none"
+                    },
+                    {
+                      "t": "button",
+                      "label": "Request Commissions",
+                      "href": "https://openhero.art/api/preview?category=enterprice&slug=tale-of-the-gale",
+                      "tag": "button",
+                      "cls": "px-8 py-4 bg-white text-spirit-void font-marcellus text-xs uppercase tracking-[0.2em] font-bold hover:bg-spirit-sun hover:text-spirit-void transition-colors duration-300",
+                      "align": "center",
+                      "icon": "",
+                      "iconSvg": "",
+                      "iconPos": "after",
+                      "pad": "16px 32px",
+                      "height": "48px",
+                      "radius": "0px",
+                      "lineHeight": "16px",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "hover": {
+                        "color": "rgb(3, 7, 8)"
+                      },
+                      "groupRow": true,
+                      "groupFirst": true,
+                      "groupLast": true,
+                      "bs": {
+                        "bg": "rgb(255, 255, 255)",
+                        "fg": "rgb(3, 7, 8)",
+                        "bd": "rgb(229, 231, 235)",
+                        "bds": "solid",
+                        "bw": "0px"
+                      }
+                    }
+                  ],
+                  "wResp": {
+                    "phone": 10,
+                    "tablet": 10,
+                    "desktop": 5
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 64,
+              "gapResp": {
+                "base": 64,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-16 items-center\">                 <div class=\"lg:col-span-6 relative order-2 lg:order-1\" data-sc-col=\"sccol-14\">                     <div class=\"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-spirit-gale/10 blur-[90px] pointer-events-none\"></div>                     <div class=\"border border-white/10 p-12 bg-spirit-void/90 relative z-10 space-y-8\">                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\" data-sc-col=\"sccol-15\">Blade Length</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\" data-sc-col=\"sccol-16\">73.4 cm</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Steel Composition</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Tamahagane / Folded 16x</span>                         </div>                         <div class=\"flex justify-between items-center border-b border-white/5 pb-4\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Hamon Pattern</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">Midareba (Wild Wave)</span>                         </div>                         <div class=\"flex justify-between items-center pb-2\">                             <span class=\"font-marcellus text-sm uppercase text-white/60 tracking-wider\">Total Mass</span>                             <span class=\"font-montserrat text-sm text-spirit-sun font-medium\">1.18 kg</span>                         </div>                     </div>                 </div>                 <div class=\"lg:col-span-6 space-y-6 order-1 lg:order-2 scroll-reveal\" data-sc-col=\"sccol-17\">                     <span class=\"font-marcellus text-xs uppercase tracking-[0.4em] text-spirit-sun block\">FORGED IMMORTALITY</span>                     <h2 class=\"font-marcellus text-4xl sm:text-5xl uppercase tracking-tight text-white leading-tight\">                         Steel tempered within the <span class=\"font-decorative text-spirit-gale\">vortex</span>.                     </h2>                     <p class=\"text-white/60 font-light leading-relaxed text-sm sm:text-base\">                         Every katana crafted under the Sushima lineage goes through arduous volcanic tempering, followed by high-altitude cooling exposures. This allows the edge to maintain absolute micro-alignment, splitting air molecules effortlessly as you dance along windward horizons.                     </p>                     <div class=\"pt-4\">                         <button class=\"px-8 py-4 bg-white text-spirit-void font-marcellus text-xs uppercase tracking-[0.2em] font-bold hover:bg-spirit-sun hover:text-spirit-void transition-colors duration-300\">                             Request Commissions                         </button>                     </div>                 </div>             </div>"
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "sectionClass": "py-32 px-6 md:px-12 max-w-4xl mx-auto text-center relative overflow-hidden",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".scroll-reveal{opacity: 0; transform: scale(0.97) translateY(30px); transition: 1.4s cubic-bezier(0.19, 1, 0.22, 1);}\nh2{font-size: inherit; font-weight: inherit;}\nbutton, input{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh2, p{margin: 0px;}\ninput::placeholder{opacity: 1; color: rgb(156, 163, 175);}\nbutton{cursor: pointer;}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.flex{display: flex;}\n.w-full{width: 100%;}\n.max-w-xl{max-width: 36rem;}\n.max-w-md{max-width: 28rem;}\n.max-w-4xl{max-width: 56rem;}\n.animate-pulse{animation: 2s cubic-bezier(0.4, 0, 0.6, 1) 0s infinite normal none running pulse;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.gap-4{gap: 1rem;}\n.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(2rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.whitespace-nowrap{white-space: nowrap;}\n.rounded-none{border-radius: 0px;}\n.border{border-width: 1px;}\n.border-white\\/10{border-color: rgba(255, 255, 255, 0.1);}\n.bg-spirit-ink{--tw-bg-opacity: 1; background-color: rgb(11 19 22 / var(--tw-bg-opacity, 1));}\n.bg-spirit-gale{--tw-bg-opacity: 1; background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));}\n.bg-gradient-to-r{background-image: linear-gradient(to right, var(--tw-gradient-stops));}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-32{padding-top: 8rem; padding-bottom: 8rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.text-center{text-align: center;}\n.font-marcellus{font-family: Marcellus, serif;}\n.font-montserrat{font-family: Montserrat, sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.font-light{font-weight: 300;}\n.font-bold{font-weight: 700;}\n.uppercase{text-transform: uppercase;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-tight{letter-spacing: -0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.text-spirit-sun{--tw-text-opacity: 1; color: rgb(251 191 36 / var(--tw-text-opacity, 1));}\n.text-white\\/50{color: rgba(255, 255, 255, 0.5);}\n.text-spirit-void{--tw-text-opacity: 1; color: rgb(3 7 8 / var(--tw-text-opacity, 1));}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-300{transition-duration: 300ms;}\n.placeholder\\:text-white\\/30::placeholder{color: rgba(255, 255, 255, 0.3);}\n.hover\\:bg-spirit-sun:hover{--tw-bg-opacity: 1; background-color: rgb(251 191 36 / var(--tw-bg-opacity, 1));}\n.focus\\:border-spirit-gale:focus{--tw-border-opacity: 1; border-color: rgb(34 197 94 / var(--tw-border-opacity, 1));}\n.focus\\:outline-none:focus{outline: transparent solid 2px; outline-offset: 2px;}\n@media (min-width: 640px){.sm\\:w-auto{width: auto;}}\n@media (min-width: 640px){.sm\\:flex-row{flex-direction: row;}}\n@media (min-width: 640px){.sm\\:text-6xl{font-size: 3.75rem; line-height: 1;}}\n@media (min-width: 640px){.sm\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 768px){.md\\:px-12{padding-left: 3rem; padding-right: 3rem;}}",
+          "computed": {
+            "color": "rgb(241, 245, 249)",
+            "padding": "128px 48px",
+            "margin": "0px 272px",
+            "fontFamily": "Montserrat, sans-serif",
+            "fontSize": "16px",
+            "textAlign": "center",
+            "maxWidth": "896px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 bg-gradient-to-r from-spirit-gale/5 via-spirit-sun/5 to-transparent blur-3xl pointer-events-none\"></div>             <div class=\"relative z-10 space-y-8 scroll-reveal\">                 <iconify-icon icon=\"ri:sword-line\" class=\"text-4xl text-spirit-sun animate-pulse\"></iconify-icon>                 <h2 class=\"font-marcellus text-4xl sm:text-6xl uppercase tracking-tight text-white\">Join the Wanderer's Guild</h2>                 <p class=\"text-white/50 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed\">                     Receive direct dispatches regarding seasonal stances, landscape mappings, and legendary blade drops from our masters.                 </p>                 <div class=\"max-w-md mx-auto flex flex-col sm:flex-row items-center gap-4\">                     <input type=\"email\" placeholder=\"Enter ancestral signature (Email)...\" class=\"w-full bg-spirit-ink border border-white/10 px-6 py-4 font-montserrat text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-spirit-gale transition-colors rounded-none\">                     <button class=\"w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void font-marcellus text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-spirit-sun transition-colors duration-300\">                         Bind Soul                     </button>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-r from-spirit-gale/5 via-spirit-sun/5 to-transparent blur-3xl pointer-events-none\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "linear-gradient(to right, rgba(34, 197, 94, 0.05), rgba(251, 191, 36, 0.05), rgba(0, 0, 0, 0))",
+                "blur": "64px",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 896,
+                "h": 553
+              }
+            },
+            {
+              "t": "html",
+              "html": "<iconify-icon icon=\"ri:sword-line\" class=\"text-4xl text-spirit-sun animate-pulse\"></iconify-icon>"
+            },
+            {
+              "t": "heading",
+              "level": 2,
+              "html": "Join the Wanderer's Guild",
+              "text": "Join the Wanderer's Guild",
+              "tag": "h2",
+              "cls": "font-marcellus text-4xl sm:text-6xl uppercase tracking-tight text-white",
+              "wrapCls": "",
+              "fontSize": "60px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "32px",
+              "lineHeight": "60px",
+              "letterSpacing": "-1.5px",
+              "align": "center"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"text-white/50 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed\">                     Receive direct dispatches regarding seasonal stances, landscape mappings, and legendary blade drops from our masters.                 </p>",
+              "text": "Receive direct dispatches regarding seasonal stances, landscape mappings, and legendary blade drops from our masters.",
+              "tag": "p",
+              "cls": "text-white/50 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed",
+              "fontSize": "16px",
+              "color": "rgba(255, 255, 255, 0.5)",
+              "lineHeight": "24px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "center",
+              "fontWeight": "300",
+              "textTransform": "none"
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "",
+                  "fullCls": "w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void font-marcellus text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-spirit-sun transition-colors duration-300",
+                  "colId": "sccol-19",
+                  "cw": 4,
+                  "html": "                         Bind Soul                     ",
+                  "counter": null,
+                  "card": null,
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 4,
+                    "desktop": 4
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 16,
+              "gapResp": {
+                "base": 16,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-md mx-auto flex flex-col sm:flex-row items-center gap-4\">                     <input type=\"email\" placeholder=\"Enter ancestral signature (Email)...\" class=\"w-full bg-spirit-ink border border-white/10 px-6 py-4 font-montserrat text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-spirit-gale transition-colors rounded-none\" data-sc-col=\"sccol-18\">                     <button class=\"w-full sm:w-auto px-8 py-4 bg-spirit-gale text-spirit-void font-marcellus text-xs uppercase tracking-widest font-bold whitespace-nowrap hover:bg-spirit-sun transition-colors duration-300\" data-sc-col=\"sccol-19\">                         Bind Soul                     </button>                 </div>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

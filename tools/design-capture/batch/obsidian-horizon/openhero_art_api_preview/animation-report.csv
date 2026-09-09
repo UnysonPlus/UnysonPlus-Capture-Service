@@ -1,0 +1,17 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~2667px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~2667px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#4,pinned for ~1734px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#5,pinned for ~1734px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#6,pinned for ~1734px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#7,pinned for ~1734px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#8,pinned for ~1734px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#14,pinned for ~800px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#15,pinned for ~800px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#16,pinned for ~800px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#19,pinned for ~800px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#20,pinned for ~800px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#21,document position drifts 900px over 2700px of scroll,gsap_motion: {effect:'parallax'} (ratio ≈ 0.33),medium
+hover,.stealth-btn,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'lift'} or glow_border,medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,stealth-btn,"boxShadow, background, color change on hover",interaction: {effect:'color_shift'},medium

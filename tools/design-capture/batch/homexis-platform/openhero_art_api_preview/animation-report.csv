@@ -1,0 +1,25 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~1797px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#1,pinned for ~1697px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+css-animation,.chart-bar,keyframes 'growUp' 1.5s,entrance animation (Animate.css picker),low
+css-animation,.animate-pulse,infinite keyframes 'pulse' (opacity),physics float/pulse or backgrounds module,low
+hover,.hover\:border-zinc-600,"--tw-border-opacity, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-gray-200,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-white\/10,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-zinc-900,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-brand-light,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:bg-zinc-700,"--tw-bg-opacity, background-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-black,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-white,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-brand,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.hover\:text-gray-300,"--tw-text-opacity, color change on hover",interaction: {effect:'color_shift'},medium
+hover,.group .group-hover\:bg-brand\/20,background-color change on hover,interaction: {effect:'color_shift'},medium
+hover,hover:text-white transition-colors,color change on hover,interaction: {effect:'color_shift'},medium
+hover,hidden sm:block text-sm font-medium text-gray-300 hover:text,color change on hover,interaction: {effect:'color_shift'},medium
+hover,px-4 py-2 rounded-lg border border-white/20 text-sm font-med,"background, color change on hover",interaction: {effect:'color_shift'},medium
+hover,px-6 py-3 bg-white text-black rounded-lg font-medium hover:b,background change on hover,interaction: {effect:'color_shift'},medium
+hover,px-6 py-3 rounded-lg border border-white/30 text-white font-,background change on hover,interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 bg-brand text-white rounded-xl font-semibold text-,"background, color change on hover",interaction: {effect:'color_shift'},medium
+hover,px-8 py-4 bg-zinc-800 text-white rounded-xl font-semibold te,background change on hover,interaction: {effect:'color_shift'},medium
+hover,w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 fl,"color, borderColor change on hover",interaction: {effect:'color_shift'},medium

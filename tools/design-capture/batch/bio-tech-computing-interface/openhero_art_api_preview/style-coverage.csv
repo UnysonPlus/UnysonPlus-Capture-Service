@@ -1,0 +1,13 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,background-image,7,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,background-color,1,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,box-shadow,4,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,border-radius,5,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,max-width,1,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,padding,4,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,margin,6,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,gap,1,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,position-absolute,3,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,display-flex,5,yes
+https://openhero.art/api/preview?category=abstract&slug=bio-tech-computing-interface,home,0,grid grid-cols-1 @5xl:grid-cols-12 gap-8 auto-rows-auto,display-grid,1,yes

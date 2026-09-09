@@ -1,0 +1,465 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "slideDownFade",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "slideUpFade",
+      "props": [
+        "opacity",
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "drawPath",
+      "props": [
+        "stroke-dashoffset",
+        "opacity"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "floating",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulseGlow",
+      "props": [
+        "box-shadow"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "shine",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": true
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".nav-anim",
+      "name": "slideDownFade",
+      "duration": "0.8s",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-text-1",
+      "name": "slideUpFade",
+      "duration": "0.8s",
+      "infinite": false
+    },
+    {
+      "selector": ".hero-text-2",
+      "name": "slideUpFade",
+      "duration": "0.8s",
+      "infinite": false
+    },
+    {
+      "selector": ".svg-underline path",
+      "name": "drawPath",
+      "duration": "1.5s",
+      "infinite": false
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".glass-card::before",
+      "changed": {
+        "animation-duration": "1.4s",
+        "animation-timing-function": "ease",
+        "animation-delay": "0s",
+        "animation-iteration-count": "1",
+        "animation-direction": "normal",
+        "animation-fill-mode": "none",
+        "animation-play-state": "running",
+        "animation-name": "shine",
+        "animation-timeline": "auto",
+        "animation-range-start": "normal",
+        "animation-range-end": "normal"
+      }
+    },
+    {
+      "selector": ".hover-glow",
+      "changed": {
+        "border-top-color": "rgba(250, 204, 21, 0.45)",
+        "border-right-color": "rgba(250, 204, 21, 0.45)",
+        "border-bottom-color": "rgba(250, 204, 21, 0.45)",
+        "border-left-color": "rgba(250, 204, 21, 0.45)",
+        "transform": "translateY(-10px)",
+        "box-shadow": "rgba(250, 204, 21, 0.08) 0px 20px 60px"
+      }
+    },
+    {
+      "selector": ".hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:border-white\\/30",
+      "changed": {
+        "border-top-color": "rgba(255, 255, 255, 0.3)",
+        "border-right-color": "rgba(255, 255, 255, 0.3)",
+        "border-bottom-color": "rgba(255, 255, 255, 0.3)",
+        "border-left-color": "rgba(255, 255, 255, 0.3)"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/5",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.05)"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/90",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.9)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-white",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(255 255 255 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".hover\\:text-accent",
+      "changed": {
+        "--tw-text-opacity": "1",
+        "color": "rgb(250 204 21 / var(--tw-text-opacity, 1))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:translate-y-0",
+      "changed": {
+        "--tw-translate-y": "0px",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:scale-105",
+      "changed": {
+        "--tw-scale-x": "1.05",
+        "--tw-scale-y": "1.05",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "hidden md:flex items-center justify-center px-4 py-2 bg-whit",
+      "changed": {
+        "transform": "matrix(1.04992, 0, 0, 1.04992, 0, 0)",
+        "background": "rgba(255, 255, 255, 0.9)"
+      },
+      "live": true
+    },
+    {
+      "selector": "glass-card hover-glow rounded-3xl p-8 transition-all duratio",
+      "changed": {
+        "boxShadow": "rgba(250, 204, 21, 0.075) 0px 18.5393px 55.6179px 0px",
+        "borderColor": "rgba(250, 205, 24, 0.424)"
+      },
+      "live": true
+    },
+    {
+      "selector": "text-accent hover:text-white transition-colors flex items-ce",
+      "changed": {
+        "color": "rgb(255, 255, 255)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".glass-card",
+      "props": "transform, box-shadow, border-color, opacity",
+      "duration": "0.55s, 0.55s, 0.55s, 0.55s"
+    },
+    {
+      "selector": ".reveal-on-scroll",
+      "props": "opacity, transform, filter",
+      "duration": "0.9s, 0.9s, 0.9s"
+    },
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 4062,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 18,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "left",
+        "distance": 80,
+        "ease": "",
+        "scaled": false,
+        "sx": 1,
+        "tx": 80,
+        "ty": 24,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 22,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 56,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 56,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 24,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 60,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.92,
+        "tx": 0,
+        "ty": 0,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 27,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 60,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.92,
+        "tx": 0,
+        "ty": 0,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 32,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 56,
+        "ease": "",
+        "scaled": false,
+        "sx": 0.98,
+        "tx": 0,
+        "ty": 56,
+        "complex": false,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#18",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#22",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#24",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#27",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#32",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".nav-anim",
+      "evidence": "keyframes 'slideDownFade' 0.8s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-text-1",
+      "evidence": "keyframes 'slideUpFade' 0.8s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".hero-text-2",
+      "evidence": "keyframes 'slideUpFade' 0.8s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".svg-underline path",
+      "evidence": "keyframes 'drawPath' 1.5s",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover-glow",
+      "evidence": "border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:border-white\\/30",
+      "evidence": "border-top-color, border-right-color, border-bottom-color, border-left-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/5",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/90",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-white",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-accent",
+      "evidence": "--tw-text-opacity, color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hidden md:flex items-center justify-center px-4 py-2 bg-whit",
+      "evidence": "transform, background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "glass-card hover-glow rounded-3xl p-8 transition-all duratio",
+      "evidence": "boxShadow, borderColor change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "text-accent hover:text-white transition-colors flex items-ce",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}

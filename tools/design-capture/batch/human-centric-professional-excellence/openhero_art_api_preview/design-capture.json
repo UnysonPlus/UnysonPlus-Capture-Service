@@ -1,0 +1,1576 @@
+{
+  "url": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+  "renderedHtml": "<!DOCTYPE html><html lang=\"en\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:rgb(0, 0, 0)\" data-sc-content-width=\"768\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Summit Academy | Human-Centric Professional Excellence</title>\n    <script src=\"https://cdn.tailwindcss.com?plugins=container-queries\"></script>\n    <link href=\"https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@200;300;400;600&amp;display=swap\" rel=\"stylesheet\">\n    <script>\n        tailwind.config = {\n            theme: {\n                extend: {\n                    colors: {\n                        charcoal: 'oklch(25% 0.01 240)',\n                        canvas: 'oklch(98% 0.01 240)',\n                        taupe: 'oklch(85% 0.02 60)',\n                        atelier: 'oklch(20% 0.02 160)', \n                    },\n                    fontFamily: {\n                        serif: ['Playfair Display', 'serif'],\n                        sans: ['Manrope', 'sans-serif'],\n                    }\n                }\n            }\n        }\n    </script>\n    <style>\n        :root {\n            background-color: oklch(98% 0.01 240);\n            --scroll-reveal: 0;\n        }\n\n        ::-webkit-scrollbar { width: 4px; }\n        ::-webkit-scrollbar-thumb { background: oklch(25% 0.01 240 / 0.1); border-radius: 10px; }\n\n        .squircle-mask {\n            mask-image: radial-gradient(circle at center, black 30%, transparent 75%);\n            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 75%);\n            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;\n        }\n\n        .vellum-overlay {\n            background: rgba(255, 255, 255, 0.01);\n            backdrop-filter: blur(20px) contrast(0.95);\n            -webkit-backdrop-filter: blur(20px) contrast(0.95);\n        }\n\n        .matte-silk {\n            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);\n            box-shadow: 0 4px 0px rgba(0,0,0,0);\n        }\n\n        .matte-silk:hover {\n            transform: translateY(-2px) scale(1.02);\n            box-shadow: 0 20px 40px rgba(0,0,0,0.04);\n        }\n\n        .reveal-text {\n            animation: reveal-fade linear both;\n            animation-timeline: view();\n            animation-range: entry 20% cover 40%;\n        }\n\n        @keyframes reveal-fade {\n            from { opacity: 0; transform: translateY(30px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n\n        .timeline-line {\n            height: 0%;\n            animation: grow-line linear both;\n            animation-timeline: view();\n        }\n\n        @keyframes grow-line {\n            from { height: 0%; }\n            to { height: 100%; }\n        }\n\n        body {\n            cursor: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 12 12\"><circle cx=\"6\" cy=\"6\" r=\"4\" fill=\"black\" opacity=\"0.2\"/></svg>'), auto;\n        }\n    </style>\n<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Manrope, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-24{bottom:6rem}.left-0{left:0px}.left-1\\/2{left:50%}.right-24{right:6rem}.top-0{top:0px}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-20{margin-bottom:5rem}.mb-24{margin-bottom:6rem}.mb-32{margin-bottom:8rem}.mb-4{margin-bottom:1rem}.mb-8{margin-bottom:2rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.aspect-square{aspect-ratio:1 / 1}.h-1{height:0.25rem}.h-8{height:2rem}.h-\\[1px\\]{height:1px}.h-\\[80vh\\]{height:80vh}.h-\\[85\\%\\]{height:85%}.h-full{height:100%}.h-px{height:1px}.min-h-screen{min-height:100vh}.w-1{width:0.25rem}.w-8{width:2rem}.w-\\[85\\%\\]{width:85%}.w-full{width:100%}.w-px{width:1px}.max-w-3xl{max-width:48rem}.max-w-\\[200px\\]{max-width:200px}.max-w-sm{max-width:24rem}.origin-top{transform-origin:top}.-translate-x-1\\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-1\\/4{--tw-translate-x:25%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.scale-105{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-24{gap:6rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-px{gap:1px}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-y{border-top-width:1px;border-bottom-width:1px}.bg-atelier{background-color:oklch(20% 0.02 160)}.bg-canvas{background-color:oklch(98% 0.01 240)}.bg-charcoal{background-color:oklch(25% 0.01 240)}.object-cover{object-fit:cover}.p-16{padding:4rem}.p-8{padding:2rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.px-12{padding-left:3rem;padding-right:3rem}.py-40{padding-top:10rem;padding-bottom:10rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-60{padding-top:15rem;padding-bottom:15rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pt-20{padding-top:5rem}.text-center{text-align:center}.text-right{text-align:right}.font-sans{font-family:Manrope, sans-serif}.font-serif{font-family:Playfair Display, serif}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-6xl{font-size:3.75rem;line-height:1}.text-7xl{font-size:4.5rem;line-height:1}.text-\\[10px\\]{font-size:10px}.text-\\[11px\\]{font-size:11px}.text-\\[12px\\]{font-size:12px}.text-\\[9px\\]{font-size:9px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-light{font-weight:300}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-\\[0\\.9\\]{line-height:0.9}.leading-loose{line-height:2}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.tracking-\\[0\\.2em\\]{letter-spacing:0.2em}.tracking-\\[0\\.3em\\]{letter-spacing:0.3em}.tracking-\\[0\\.4em\\]{letter-spacing:0.4em}.tracking-\\[0\\.5em\\]{letter-spacing:0.5em}.tracking-tight{letter-spacing:-0.025em}.tracking-widest{letter-spacing:0.1em}.text-canvas{color:oklch(98% 0.01 240)}.text-charcoal{color:oklch(25% 0.01 240)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-10{opacity:0.1}.opacity-30{opacity:0.3}.opacity-40{opacity:0.4}.opacity-60{opacity:0.6}.opacity-80{opacity:0.8}.mix-blend-multiply{mix-blend-mode:multiply}.mix-blend-overlay{mix-blend-mode:overlay}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.contrast-\\[0\\.9\\]{--tw-contrast:contrast(0.9);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.saturate-\\[0\\.8\\]{--tw-saturate:saturate(0.8);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\\:bg-taupe *::selection{background-color:oklch(85% 0.02 60)}.selection\\:text-charcoal *::selection{color:oklch(25% 0.01 240)}.selection\\:bg-taupe::selection{background-color:oklch(85% 0.02 60)}.selection\\:text-charcoal::selection{color:oklch(25% 0.01 240)}.hover\\:opacity-100:hover{opacity:1}.hover\\:opacity-50:hover{opacity:0.5}.hover\\:opacity-70:hover{opacity:0.7}@media (min-width: 768px){.md\\:flex{display:flex}.md\\:aspect-auto{aspect-ratio:auto}.md\\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\\:h-screen{height:100vh}.lg\\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\\:grid-cols-\\[40fr_60fr\\]{grid-template-columns:40fr 60fr}.lg\\:px-24{padding-left:6rem;padding-right:6rem}.lg\\:text-8xl{font-size:6rem;line-height:1}}</style></head>\n<body class=\"bg-canvas text-charcoal font-sans antialiased selection:bg-taupe selection:text-charcoal\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.25 0.01 240)\">\n\n    <header class=\"fixed top-0 left-0 w-full z-50 px-12 py-8 flex justify-between items-center mix-blend-multiply\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all;position:fixed\">\n        <div class=\"flex items-center gap-3\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"w-8 h-8 rounded-full border border-charcoal/20 flex items-center justify-center\" data-sc-logo-svg=\"&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 32 32&quot; width=&quot;32&quot; height=&quot;32&quot; fill=&quot;none&quot; role=&quot;img&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;14&quot; y=&quot;14&quot; width=&quot;4&quot; height=&quot;4&quot; rx=&quot;2.00&quot; fill=&quot;oklch(0.25 0.01 240)&quot;/&gt;&lt;/svg&gt;\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n                <div class=\"w-1 h-1 bg-charcoal rounded-full\" data-sc-cs=\"background-color:oklch(0.25 0.01 240);color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n            </div>\n            <span class=\"font-serif italic text-lg tracking-tight\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;letter-spacing:-0.45px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Summit Academy</span>\n        </div>\n        <nav class=\"hidden md:flex gap-12 text-[11px] uppercase tracking-[0.2em] font-light\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:11px;font-weight:300;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <a href=\"#curriculum\" class=\"hover:opacity-70 transition-opacity\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:11px;font-weight:300;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.7}\">Pedagogy</a>\n            <a href=\"#metrics\" class=\"hover:opacity-70 transition-opacity\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:11px;font-weight:300;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.7}\">Telemetry</a>\n            <a href=\"#footer\" class=\"hover:opacity-70 transition-opacity\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:11px;font-weight:300;line-height:16.5px;letter-spacing:2.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:0.7}\">Contact</a>\n        </nav>\n    </header>\n\n    <main data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n        <section class=\"min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:80px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;justify-content:normal;align-items:center;flex-direction:row;transition:all\">\n            <div class=\"px-12 lg:px-24 flex flex-col justify-center\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:normal;flex-direction:column;transition:all\">\n                <span class=\"text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:4px;text-align:start;text-transform:uppercase;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Refining Human Capital</span>\n                <h1 class=\"font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:96px;font-weight:400;line-height:96px;text-align:start;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    Silent<br>Excellence.\n                </h1>\n                <p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:18px;font-weight:300;line-height:29.25px;text-align:start;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.\n                </p>\n                <div class=\"flex gap-4\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:16px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <button class=\"matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\" data-sc-cs=\"background-color:oklch(0.25 0.01 240);color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;padding:20px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 4px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.6s cubic-bezier(0.16, 1, 0.3, 1)\" data-sc-hover=\"hover-self{transform:translateY(-2px) scale(1.02);box-shadow:rgba(0, 0, 0, 0.04) 0px 20px 40px}\">\n                        Curate Path\n                    </button>\n                    <button class=\"matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:center;text-transform:uppercase;padding:20px 40px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 4px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:0.6s cubic-bezier(0.16, 1, 0.3, 1)\" data-sc-hover=\"hover-self{transform:translateY(-2px) scale(1.02);box-shadow:rgba(0, 0, 0, 0.04) 0px 20px 40px}\">\n                        Overview\n                    </button>\n                </div>\n            </div>\n\n            <div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all\">\n                <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\" data-sc-col=\"sccol-0\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.1, 0, 0, 1.1, 200.039, 0);position:absolute\"></div>\n                <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\" data-sc-col=\"sccol-1\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:40% 60% 70% 30% / 40% 50% 60%;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.05, 0, 0, 1.05, 0, 0)\">\n                        <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">\n                    </video>\n                    <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div>\n                </div>\n                <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\" data-sc-col=\"sccol-2\" data-sc-cs=\"background-color:rgba(255, 255, 255, 0.01);color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:16px;backdrop-filter:blur(20px) contrast(0.95);max-width:200px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                    <span class=\"font-serif italic block mb-2 text-lg\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Deep Focus</span>\n                    <p class=\"text-[12px] uppercase tracking-widest opacity-80\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:12px;font-weight:400;line-height:18px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Environment Optimized for Cognitive Flow</p>\n                </div>\n            </div>\n        </section>\n\n        <section id=\"curriculum\" class=\"py-60 px-12 lg:px-24 relative overflow-hidden\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:240px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <div class=\"absolute left-1/2 top-0 w-px h-full bg-charcoal/5 -translate-x-1/2\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -0.5, 0);position:absolute\">\n                <div class=\"timeline-line w-full bg-charcoal/20 origin-top\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n            </div>\n            \n            <div class=\"max-w-3xl mx-auto text-center\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 240px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:768px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <div class=\"mb-32 reveal-text reveal-active\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)\">\n                    <span class=\"font-serif text-4xl italic block mb-8\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:36px;font-weight:400;line-height:40px;text-align:center;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">01 / Career Pathing</span>\n                    <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:14px;font-weight:300;line-height:20px;letter-spacing:7px;text-align:center;text-transform:uppercase;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Dynamic Curriculum Orchestration</h2>\n                    <p class=\"text-charcoal/50 leading-loose font-light\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:300;line-height:32px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.\n                    </p>\n                </div>\n\n                <div class=\"mb-32 reveal-text reveal-active\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)\">\n                    <span class=\"font-serif text-4xl italic block mb-8\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:36px;font-weight:400;line-height:40px;text-align:center;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">02 / Wellness Synthesis</span>\n                    <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:14px;font-weight:300;line-height:20px;letter-spacing:7px;text-align:center;text-transform:uppercase;margin:0px 0px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Sustaining the Executive Mind</h2>\n                    <p class=\"text-charcoal/50 leading-loose font-light\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:300;line-height:32px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.\n                    </p>\n                </div>\n            </div>\n        </section>\n\n        <section id=\"metrics\" class=\"py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 96px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <div class=\"grid grid-cols-1 md:grid-cols-3 gap-px bg-charcoal/5\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:1px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <div class=\"bg-canvas p-16 flex flex-col justify-between aspect-square md:aspect-auto\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n                    <div class=\"w-8 h-[1px] bg-charcoal/20\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n                    <div data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <span class=\"font-serif text-6xl block mb-4 italic\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:60px;font-weight:400;line-height:60px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">92%</span>\n                        <p class=\"text-[10px] uppercase tracking-widest opacity-40\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Retention Rate via Cognitive Load Management</p>\n                    </div>\n                </div>\n                <div class=\"bg-canvas p-16 flex flex-col justify-between\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n                    <div class=\"w-8 h-[1px] bg-charcoal/20\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n                    <div data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <span class=\"font-serif text-6xl block mb-4 italic\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:60px;font-weight:400;line-height:60px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">120+</span>\n                        <p class=\"text-[10px] uppercase tracking-widest opacity-40\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Global Corporate Partners in Wellness</p>\n                    </div>\n                </div>\n                <div class=\"bg-canvas p-16 flex flex-col justify-between\" data-sc-cs=\"background-color:oklch(0.98 0.01 240);color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:64px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:all\">\n                    <div class=\"w-8 h-[1px] bg-charcoal/20\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n                    <div data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <span class=\"font-serif text-6xl block mb-4 italic\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:60px;font-weight:400;line-height:60px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">24/7</span>\n                        <p class=\"text-[10px] uppercase tracking-widest opacity-40\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Adaptive Telemetry Support</p>\n                    </div>\n                </div>\n            </div>\n        </section>\n\n        <footer id=\"footer\" class=\"bg-atelier py-40 px-12 lg:px-24 text-canvas overflow-hidden relative\" data-sc-cs=\"background-color:oklch(0.2 0.02 160);color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n            <div class=\"absolute inset-0 opacity-10 pointer-events-none\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\">\n                <svg class=\"w-full h-full\" viewBox=\"0 0 100 100\">\n                    <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.1\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></circle>\n                </svg>\n            </div>\n            \n            <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:96px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                <div data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                    <h2 class=\"font-serif text-7xl leading-none italic mb-20\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:72px;font-weight:400;line-height:72px;text-align:start;margin:0px 0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">The Atelier of<br>Professional Growth.</h2>\n                    <div class=\"flex gap-12 font-serif italic text-lg opacity-60\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <a href=\"#\" class=\"hover:opacity-100 transition-opacity\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:1}\">Geneva</a>\n                        <a href=\"#\" class=\"hover:opacity-100 transition-opacity\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:1}\">London</a>\n                        <a href=\"#\" class=\"hover:opacity-100 transition-opacity\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:&quot;Playfair Display&quot;, serif;font-size:18px;font-weight:400;line-height:28px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)\" data-sc-hover=\"hover-self{opacity:1}\">Tokyo</a>\n                    </div>\n                </div>\n                \n                <div class=\"flex flex-col justify-end items-end text-right\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:right;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:flex-end;align-items:flex-end;flex-direction:column;transition:all\">\n                    <nav class=\"space-y-4 text-xs uppercase tracking-[0.4em] font-light mb-24\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:12px;font-weight:300;line-height:16px;letter-spacing:4.8px;text-align:right;text-transform:uppercase;margin:0px 0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">\n                        <a href=\"#\" class=\"block hover:opacity-50\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:12px;font-weight:300;line-height:16px;letter-spacing:4.8px;text-align:right;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\" data-sc-hover=\"hover-self{opacity:0.5}\">Private Dossier</a>\n                        <a href=\"#\" class=\"block hover:opacity-50\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:12px;font-weight:300;line-height:16px;letter-spacing:4.8px;text-align:right;text-transform:uppercase;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\" data-sc-hover=\"hover-self{opacity:0.5}\">Faculty Research</a>\n                        <a href=\"#\" class=\"block hover:opacity-50\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:12px;font-weight:300;line-height:16px;letter-spacing:4.8px;text-align:right;text-transform:uppercase;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\" data-sc-hover=\"hover-self{opacity:0.5}\">Alumni Terminal</a>\n                    </nav>\n                    <div class=\"w-full h-px bg-canvas/10 mb-8\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:right;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\"></div>\n                    <div class=\"flex justify-between w-full text-[9px] uppercase tracking-[0.3em] opacity-30\" data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:2.7px;text-align:right;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:normal;flex-direction:row;transition:all\">\n                        <span data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:2.7px;text-align:right;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">© 2026 Summit Academy</span>\n                        <span data-sc-cs=\"color:oklch(0.98 0.01 240);font-family:Manrope, sans-serif;font-size:9px;font-weight:400;line-height:13.5px;letter-spacing:2.7px;text-align:right;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all\">Built for Human Focus</span>\n                    </div>\n                </div>\n            </div>\n        </footer>\n    </main>\n\n    <script>\n        document.addEventListener(\"DOMContentLoaded\", () => {\n            const observer = new IntersectionObserver((entries) => {\n                entries.forEach(entry => {\n                    if (entry.isIntersecting) {\n                        entry.target.classList.add('reveal-active');\n                    }\n                });\n            }, { threshold: 0.1 });\n\n            document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));\n        });\n    </script>\n<script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495\" integrity=\"sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==\" data-cf-beacon=\"{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}\" crossorigin=\"anonymous\"></script>\n\n<div style=\"position: absolute; left: -99999px; top: -99999px;\" data-sc-cs=\"color:oklch(0.25 0.01 240);font-family:Manrope, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute\"></div></body></html>",
+  "megaMenus": [],
+  "title": "Summit Academy | Human-Centric Professional Excellence",
+  "favicon": "https://openhero.art/favicon.ico",
+  "tailwind": true,
+  "typography": {
+    "body": {
+      "size": 16,
+      "family": "Manrope",
+      "line-height": "2"
+    },
+    "h1": {
+      "size": 96,
+      "weight": "400",
+      "family": "Playfair Display",
+      "line-height": "1"
+    },
+    "h2": {
+      "size": 14,
+      "weight": "300",
+      "family": "Manrope",
+      "line-height": "1.43",
+      "letter-spacing": "7",
+      "text-transform": "uppercase"
+    },
+    "textStyles": [
+      {
+        "name": "Display 1",
+        "size": "96",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-1"
+      },
+      {
+        "name": "Display 2",
+        "size": "72",
+        "weight": "400",
+        "line_height": "1",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "display-2"
+      },
+      {
+        "name": "Lead",
+        "size": "20",
+        "weight": "",
+        "line_height": "",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "lead"
+      },
+      {
+        "name": "Subtitle",
+        "size": "18",
+        "weight": "300",
+        "line_height": "1.63",
+        "letter_spacing": "",
+        "transform": "",
+        "class": "font-subtitle"
+      },
+      {
+        "name": "Caption",
+        "size": "12",
+        "weight": "",
+        "line_height": "1.5",
+        "letter_spacing": "1.2",
+        "transform": "",
+        "class": "font-caption"
+      },
+      {
+        "name": "Eyebrow",
+        "size": "9",
+        "weight": "400",
+        "line_height": "",
+        "letter_spacing": "2.7",
+        "transform": "uppercase",
+        "class": ""
+      }
+    ]
+  },
+  "usesTwContainer": false,
+  "tokens": {
+    "vars": {
+      "--tw-ring-offset-shadow": "0 0 #0000",
+      "--tw-ring-shadow": "0 0 #0000",
+      "--tw-skew-x": "0",
+      "--tw-shadow": "0 0 #0000",
+      "--tw-translate-x": "0",
+      "--tw-ring-offset-width": "0px",
+      "--scroll-reveal": "0",
+      "--tw-scroll-snap-strictness": "proximity",
+      "--tw-scale-x": "1",
+      "--tw-border-spacing-x": "0",
+      "--tw-shadow-colored": "0 0 #0000",
+      "--tw-border-spacing-y": "0",
+      "--tw-scale-y": "1",
+      "--tw-skew-y": "0",
+      "--tw-ring-color": "rgb(59 130 246 / 0.5)",
+      "--tw-translate-y": "0",
+      "--tw-rotate": "0",
+      "--tw-ring-offset-color": "#fff"
+    },
+    "brandColor": "oklch(0.25 0.01 240)",
+    "brandHover": null,
+    "body": {
+      "fontFamily": "Manrope, sans-serif",
+      "color": "oklch(0.25 0.01 240)",
+      "backgroundColor": "oklch(0.98 0.01 240)",
+      "lineHeight": "24px",
+      "fontSize": "16px"
+    }
+  },
+  "layout": {
+    "container_max": "768px"
+  },
+  "baseHeading": {
+    "weight": "inherit",
+    "fontFamily": "Playfair Display",
+    "color": "oklch(0.25 0.01 240)"
+  },
+  "header": {
+    "element": {
+      "display": "flex",
+      "justifyContent": "space-between",
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "position": "fixed",
+      "padding": "32px 48px"
+    },
+    "bar": {
+      "display": "flex",
+      "justifyContent": "normal",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "borderRadius": "0px",
+      "border": "0px solid rgb(229, 231, 235)",
+      "padding": "0px",
+      "maxWidth": "none",
+      "backdropFilter": "none"
+    },
+    "logo": {
+      "type": "text",
+      "text": "Pedagogy",
+      "icon": "",
+      "computed": {
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "11px",
+        "fontWeight": "300",
+        "color": "oklch(0.25 0.01 240)",
+        "letterSpacing": "2.2px"
+      },
+      "detail": {
+        "text": "Summit Academy",
+        "icon": "",
+        "image": "",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" width=\"32\" height=\"32\" fill=\"none\" role=\"img\" aria-hidden=\"true\"><rect x=\"14\" y=\"14\" width=\"4\" height=\"4\" rx=\"2.00\" fill=\"oklch(0.25 0.01 240)\"/></svg>",
+        "icon_color": "",
+        "frame": "none",
+        "frame_bg": "",
+        "title_color": "oklch(0.25 0.01 240)",
+        "title_size": "18px",
+        "title_weight": "400",
+        "title_font": "\"Playfair Display\", serif",
+        "title_ls": "-0.45px",
+        "title_hover": "",
+        "icon_size": "32px",
+        "title_accent_color": "",
+        "title_accent_text": "",
+        "layout": "inline-left"
+      }
+    },
+    "nav": [
+      {
+        "label": "Telemetry",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#metrics",
+        "computed": {
+          "fontFamily": "Manrope, sans-serif",
+          "fontSize": "11px",
+          "fontWeight": "300",
+          "color": "oklch(0.25 0.01 240)"
+        },
+        "hover": null
+      },
+      {
+        "label": "Contact",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#footer",
+        "computed": {
+          "fontFamily": "Manrope, sans-serif",
+          "fontSize": "11px",
+          "fontWeight": "300",
+          "color": "oklch(0.25 0.01 240)"
+        },
+        "hover": null
+      }
+    ],
+    "cta": null
+  },
+  "footer": {
+    "computed": {
+      "backgroundColor": "oklch(0.2 0.02 160)",
+      "color": "oklch(0.98 0.01 240)",
+      "padding": "160px 96px"
+    },
+    "brand": "The Atelier ofProfessional Growth.",
+    "groups": [
+      {
+        "title": "",
+        "links": [
+          {
+            "label": "Private Dossier",
+            "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+          },
+          {
+            "label": "Faculty Research",
+            "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+          },
+          {
+            "label": "Alumni Terminal",
+            "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+          }
+        ]
+      }
+    ],
+    "contact": null,
+    "newsletter": null,
+    "social": [],
+    "copyright": "© 2026 Summit Academy Built for Human Focus",
+    "links": [
+      {
+        "label": "Geneva",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "London",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Tokyo",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Private Dossier",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Faculty Research",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      },
+      {
+        "label": "Alumni Terminal",
+        "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence#"
+      }
+    ],
+    "text": "The Atelier ofProfessional Growth. Geneva London Tokyo Private Dossier Faculty Research Alumni Terminal © 2026 Summit Academy Built for Human Focus"
+  },
+  "sections": [
+    {
+      "heading": "SilentExcellence.",
+      "headingHtml": "Silent<br>Excellence.",
+      "level": 1,
+      "headingComputed": {
+        "fontFamily": "\"Playfair Display\", serif",
+        "fontSize": "96px",
+        "fontWeight": "400",
+        "color": "oklch(0.25 0.01 240)"
+      },
+      "overline": "Refining Human Capital",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.25 0.01 240)",
+        "textTransform": "uppercase",
+        "letterSpacing": "4px",
+        "borderRadius": "0px",
+        "fontSize": "10px"
+      },
+      "lead": "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+      "paragraphs": [
+        "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+        "Environment Optimized for Cognitive Flow"
+      ],
+      "buttons": [
+        {
+          "label": "Curate Path",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+          "primary": true
+        },
+        {
+          "label": "Overview",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+          "primary": false
+        }
+      ],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": {
+        "tokens": [
+          "text-canvas"
+        ],
+        "engine": ""
+      },
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.25 0.01 240)",
+        "padding": "80px 0px 0px",
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "16px",
+        "minHeight": "900px"
+      },
+      "text": "Refining Human Capital SilentExcellence. An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization. Curate Path Overview Deep Focus Environment Optimized for Cognitive Flow",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "80px 0px 0px",
+          "grid": {
+            "cols": "639.844px 800.156px",
+            "gap": "normal"
+          },
+          "transition": "all"
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "padding": "0px 96px",
+              "flex": {
+                "dir": "column",
+                "justify": "center",
+                "align": "normal",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all",
+              "tw": {
+                "px": "48px"
+              }
+            },
+            "children": [
+              {
+                "role": "text",
+                "html": "Refining Human Capital",
+                "text": "Refining Human Capital",
+                "styles": {
+                  "color": "oklch(0.25 0.01 240)",
+                  "fontFamily": "Manrope, sans-serif",
+                  "fontSize": "10px",
+                  "letterSpacing": "4px",
+                  "lineHeight": "15px",
+                  "textTransform": "uppercase",
+                  "transition": "all"
+                }
+              },
+              {
+                "role": "heading",
+                "level": 1,
+                "html": "Silent<br>Excellence.",
+                "text": "SilentExcellence.",
+                "styles": {
+                  "color": "oklch(0.25 0.01 240)",
+                  "fontFamily": "\"Playfair Display\", serif",
+                  "fontSize": "96px",
+                  "lineHeight": "96px",
+                  "transition": "all",
+                  "tw": {
+                    "fontSize": "60px",
+                    "lineHeight": "1"
+                  }
+                }
+              },
+              {
+                "role": "text",
+                "html": "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+                "text": "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+                "styles": {
+                  "color": "oklch(0.25 0.01 240)",
+                  "fontFamily": "Manrope, sans-serif",
+                  "fontSize": "18px",
+                  "fontWeight": "300",
+                  "lineHeight": "29.25px",
+                  "transition": "all",
+                  "tw": {
+                    "fontWeight": "300",
+                    "fontSize": "18px",
+                    "lineHeight": "28px"
+                  }
+                }
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "flex": {
+                    "dir": "row",
+                    "justify": "normal",
+                    "align": "normal",
+                    "gap": "16px",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all",
+                  "tw": {
+                    "gap": "16px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "button",
+                    "label": "Curate Path",
+                    "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+                    "styles": {
+                      "textAlign": "center",
+                      "bg": "oklch(0.25 0.01 240)",
+                      "padding": "20px 40px",
+                      "borderRadius": "9999px",
+                      "boxShadow": "rgba(0, 0, 0, 0) 0px 4px 0px 0px",
+                      "color": "oklch(0.98 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "10px",
+                      "letterSpacing": "1px",
+                      "lineHeight": "15px",
+                      "textTransform": "uppercase",
+                      "transition": "0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                      "tw": {
+                        "radius": "9999px",
+                        "px": "40px",
+                        "py": "20px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "button",
+                    "label": "Overview",
+                    "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+                    "styles": {
+                      "textAlign": "center",
+                      "padding": "20px 40px",
+                      "borderRadius": "9999px",
+                      "boxShadow": "rgba(0, 0, 0, 0) 0px 4px 0px 0px",
+                      "border": "1px solid rgb(229, 231, 235)",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "10px",
+                      "letterSpacing": "1px",
+                      "lineHeight": "15px",
+                      "textTransform": "uppercase",
+                      "transition": "0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                      "tw": {
+                        "radius": "9999px",
+                        "borderWidth": "1px",
+                        "px": "40px",
+                        "py": "20px"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "flex": {
+                "dir": "row",
+                "justify": "center",
+                "align": "center",
+                "gap": "normal",
+                "wrap": "nowrap"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bg": "rgba(255, 255, 255, 0.01)",
+                  "padding": "32px",
+                  "borderRadius": "16px",
+                  "border": "1px solid rgb(229, 231, 235)",
+                  "maxWidth": "200px",
+                  "transition": "all",
+                  "tw": {
+                    "radius": "16px",
+                    "borderWidth": "1px"
+                  }
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "Deep Focus",
+                    "text": "Deep Focus",
+                    "styles": {
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "18px",
+                      "lineHeight": "28px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "18px",
+                        "lineHeight": "28px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "Environment Optimized for Cognitive Flow",
+                    "text": "Environment Optimized for Cognitive Flow",
+                    "styles": {
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "12px",
+                      "letterSpacing": "1.2px",
+                      "lineHeight": "18px",
+                      "textTransform": "uppercase",
+                      "transition": "all"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section class=\"min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20\">             <div class=\"px-12 lg:px-24 flex flex-col justify-center\">                 <span class=\"text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block\">Refining Human Capital</span>                 <h1 class=\"font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic\">                     Silent<br>Excellence.                 </h1>                 <p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\">                     An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.                 </p>                 <div class=\"flex gap-4\">                     <button class=\"matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Curate Path                     </button>                     <button class=\"matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Overview                     </button>                 </div>             </div>             <div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\">                 <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\"></div>                 <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\">                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 </div>                 <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\">                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"px-12 lg:px-24 flex flex-col justify-center\">                 <span class=\"text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block\">Refining Human Capital</span>                 <h1 class=\"font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic\">                     Silent<br>Excellence.                 </h1>                 <p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\">                     An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.                 </p>                 <div class=\"flex gap-4\">                     <button class=\"matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Curate Path                     </button>                     <button class=\"matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full\">                         Overview                     </button>                 </div>             </div>             <div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\">                 <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\"></div>                 <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\">                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 </div>                 <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\">                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 </div>             </div>         ",
+      "sectionClass": "min-h-screen grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center pt-20",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "display-grid": 1,
+        "padding": 5,
+        "display-flex": 3,
+        "margin": 4,
+        "max-width": 3,
+        "gap": 1,
+        "background-color": 2,
+        "box-shadow": 3,
+        "border-radius": 5,
+        "border": 3,
+        "transform": 2,
+        "position-absolute": 3,
+        "backdrop-filter": 1
+      },
+      "h": 980,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "overline",
+          "html": "Refining Human Capital",
+          "text": "Refining Human Capital",
+          "cls": "text-[10px] uppercase tracking-[0.4em] text-charcoal/40 mb-8 block",
+          "pill": false,
+          "color": "oklch(0.25 0.01 240)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "borderW": "0px",
+          "borderColor": "rgb(229, 231, 235)",
+          "radius": "0px",
+          "padding": "0px",
+          "backdropFilter": "",
+          "textTransform": "uppercase",
+          "fontSize": "10px",
+          "letterSpacing": "4px",
+          "fontWeight": "400",
+          "gap": "normal",
+          "iconSvg": "",
+          "iconPos": "before",
+          "lineHeight": "15px"
+        },
+        {
+          "t": "heading",
+          "level": 1,
+          "html": "Silent<br>Excellence.",
+          "text": "SilentExcellence.",
+          "tag": "h1",
+          "cls": "font-serif text-6xl lg:text-8xl leading-[0.9] mb-12 italic",
+          "wrapCls": "px-12 lg:px-24 flex flex-col justify-center",
+          "fontSize": "96px",
+          "fontWeight": "400",
+          "color": "oklch(0.25 0.01 240)",
+          "marginBottom": "48px",
+          "marginTop": "0px",
+          "lineHeight": "96px",
+          "letterSpacing": "normal",
+          "align": "left"
+        },
+        {
+          "t": "text",
+          "html": "<p class=\"font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm\">                     An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.                 </p>",
+          "text": "An adaptive pedagogy designed for the modern executive. Orchestrating professional-life balance through cognitive-load optimization.",
+          "tag": "p",
+          "cls": "font-light text-lg leading-relaxed text-charcoal/70 mb-12 max-w-sm",
+          "fontSize": "18px",
+          "color": "oklch(0.25 0.01 240)",
+          "lineHeight": "29.25px",
+          "letterSpacing": "normal",
+          "marginBottom": "48px",
+          "textAlign": "start",
+          "fontWeight": "300",
+          "textTransform": "none"
+        },
+        {
+          "t": "button",
+          "label": "Curate Path",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+          "tag": "button",
+          "cls": "matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] uppercase tracking-widest rounded-full",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 40px",
+          "height": "57px",
+          "radius": "9999px",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": true,
+          "groupLast": false,
+          "bs": {
+            "bg": "oklch(0.25 0.01 240)",
+            "fg": "oklch(0.98 0.01 240)",
+            "bd": "rgb(229, 231, 235)",
+            "bds": "solid",
+            "bw": "0px"
+          }
+        },
+        {
+          "t": "button",
+          "label": "Overview",
+          "href": "https://openhero.art/api/preview?category=enterprice&slug=human-centric-professional-excellence",
+          "tag": "button",
+          "cls": "matte-silk border border-charcoal/10 px-10 py-5 text-[10px] uppercase tracking-widest rounded-full",
+          "align": "center",
+          "icon": "",
+          "iconSvg": "",
+          "iconPos": "after",
+          "pad": "20px 40px",
+          "height": "57px",
+          "radius": "9999px",
+          "lineHeight": "15px",
+          "fontSize": "10px",
+          "fontWeight": "400",
+          "hover": null,
+          "groupRow": true,
+          "groupFirst": false,
+          "groupLast": true,
+          "bs": {
+            "bg": "rgba(0, 0, 0, 0)",
+            "fg": "oklch(0.25 0.01 240)",
+            "bd": "rgb(229, 231, 235)",
+            "bds": "solid",
+            "bw": "1px"
+          }
+        },
+        {
+          "t": "row",
+          "cols": [
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl",
+              "colId": "sccol-1",
+              "cw": 10,
+              "html": "                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 ",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 10,
+                "tablet": 10,
+                "desktop": 10
+              }
+            },
+            {
+              "width": "1_3",
+              "cls": "",
+              "fullCls": "absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]",
+              "colId": "sccol-2",
+              "cw": 3,
+              "html": "                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 ",
+              "maxw": "200px",
+              "counter": null,
+              "card": null,
+              "wResp": {
+                "phone": 6,
+                "tablet": 3,
+                "desktop": 3
+              }
+            }
+          ],
+          "valign": "center",
+          "gap": 0,
+          "gapResp": {
+            "base": 0,
+            "md": 0,
+            "lg": 0
+          },
+          "html": "<div class=\"relative h-[80vh] lg:h-screen flex items-center justify-center overflow-hidden\">                 <div class=\"absolute inset-0 bg-taupe/20 scale-110 blur-3xl rounded-full translate-x-1/4\" data-sc-col=\"sccol-0\"></div>                 <div class=\"relative w-[85%] h-[85%] squircle-mask overflow-hidden shadow-2xl\" data-sc-col=\"sccol-1\">                     <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover scale-105 contrast-[0.9] saturate-[0.8]\">                         <source src=\"https://videos.openhero.art/downloads/enterprice/human-centric-professional-excellence/video.mp4\" type=\"video/mp4\">                     </video>                     <div class=\"absolute inset-0 bg-charcoal/5 mix-blend-overlay\"></div>                 </div>                 <div class=\"absolute bottom-24 right-24 vellum-overlay p-8 rounded-2xl border border-charcoal/5 max-w-[200px]\" data-sc-col=\"sccol-2\">                     <span class=\"font-serif italic block mb-2 text-lg\">Deep Focus</span>                     <p class=\"text-[12px] uppercase tracking-widest opacity-80\">Environment Optimized for Cognitive Flow</p>                 </div>             </div>"
+        }
+      ],
+      "css": ".squircle-mask{mask-image: radial-gradient(circle, black 30%, transparent 75%); border-radius: 40% 60% 70% 30% / 40% 50% 60%;}\n.vellum-overlay{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px) contrast(0.95);}\n.matte-silk{transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: rgba(0, 0, 0, 0) 0px 4px 0px;}\n.matte-silk:hover{transform: translateY(-2px) scale(1.02); box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 40px;}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.bottom-24{bottom: 6rem;}\n.right-24{right: 6rem;}\n.mb-12{margin-bottom: 3rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[80vh\\]{height: 80vh;}\n.h-\\[85\\%\\]{height: 85%;}\n.h-full{height: 100%;}\n.min-h-screen{min-height: 100vh;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-full{width: 100%;}\n.max-w-\\[200px\\]{max-width: 200px;}\n.max-w-sm{max-width: 24rem;}\n.translate-x-1\\/4{--tw-translate-x: 25%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-2xl{border-radius: 1rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-charcoal{background-color: oklch(0.25 0.01 240);}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.pt-20{padding-top: 5rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-canvas{color: oklch(0.98 0.01 240);}\n.opacity-80{opacity: 0.8;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[0\\.9\\]{--tw-contrast: contrast(0.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-\\[0\\.8\\]{--tw-saturate: saturate(0.8); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[40fr_60fr\\]{grid-template-columns: 40fr 60fr;}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}\n@media (min-width: 1024px){.lg\\:text-8xl{font-size: 6rem; line-height: 1;}}"
+    },
+    {
+      "heading": "Dynamic Curriculum Orchestration",
+      "headingHtml": "",
+      "level": 2,
+      "headingComputed": {
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": "300",
+        "color": "oklch(0.25 0.01 240)"
+      },
+      "overline": "01 / Career Pathing",
+      "overlineComputed": {
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "oklch(0.25 0.01 240)",
+        "textTransform": "none",
+        "letterSpacing": "normal",
+        "borderRadius": "0px",
+        "fontSize": "36px"
+      },
+      "lead": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+      "paragraphs": [
+        "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+        "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols."
+      ],
+      "buttons": [],
+      "cards": [],
+      "images": [],
+      "grids": [],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": null,
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.25 0.01 240)",
+        "padding": "240px 96px",
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "01 / Career Pathing Dynamic Curriculum Orchestration We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state. 02 / Wellness Synthesis Sustaining the Executive Mind High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "240px 96px",
+          "transition": "all",
+          "tw": {
+            "px": "48px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "textAlign": "center",
+              "maxWidth": "768px",
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "textAlign": "center",
+                  "animation": "reveal-fade auto linear 1",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "01 / Career Pathing",
+                    "text": "01 / Career Pathing",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "36px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Dynamic Curriculum Orchestration",
+                    "text": "Dynamic Curriculum Orchestration",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "14px",
+                      "fontWeight": "300",
+                      "letterSpacing": "7px",
+                      "lineHeight": "20px",
+                      "textTransform": "uppercase",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+                    "text": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "16px",
+                      "fontWeight": "300",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "textAlign": "center",
+                  "animation": "reveal-fade auto linear 1",
+                  "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "text",
+                    "html": "02 / Wellness Synthesis",
+                    "text": "02 / Wellness Synthesis",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "\"Playfair Display\", serif",
+                      "fontSize": "36px",
+                      "lineHeight": "40px",
+                      "transition": "all",
+                      "tw": {
+                        "fontSize": "36px",
+                        "lineHeight": "40px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "heading",
+                    "level": 2,
+                    "html": "Sustaining the Executive Mind",
+                    "text": "Sustaining the Executive Mind",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "14px",
+                      "fontWeight": "300",
+                      "letterSpacing": "7px",
+                      "lineHeight": "20px",
+                      "textTransform": "uppercase",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300",
+                        "fontSize": "14px",
+                        "lineHeight": "20px"
+                      }
+                    }
+                  },
+                  {
+                    "role": "text",
+                    "html": "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+                    "text": "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+                    "styles": {
+                      "textAlign": "center",
+                      "color": "oklch(0.25 0.01 240)",
+                      "fontFamily": "Manrope, sans-serif",
+                      "fontSize": "16px",
+                      "fontWeight": "300",
+                      "lineHeight": "32px",
+                      "transition": "all",
+                      "tw": {
+                        "fontWeight": "300"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section id=\"curriculum\" class=\"py-60 px-12 lg:px-24 relative overflow-hidden\">             <div class=\"absolute left-1/2 top-0 w-px h-full bg-charcoal/5 -translate-x-1/2\">                 <div class=\"timeline-line w-full bg-charcoal/20 origin-top\"></div>             </div>                          <div class=\"max-w-3xl mx-auto text-center\">                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">01 / Career Pathing</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Dynamic Curriculum Orchestration</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.                     </p>                 </div>                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">02 / Wellness Synthesis</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Sustaining the Executive Mind</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.                     </p>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"absolute left-1/2 top-0 w-px h-full bg-charcoal/5 -translate-x-1/2\">                 <div class=\"timeline-line w-full bg-charcoal/20 origin-top\"></div>             </div>                          <div class=\"max-w-3xl mx-auto text-center\">                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">01 / Career Pathing</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Dynamic Curriculum Orchestration</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.                     </p>                 </div>                 <div class=\"mb-32 reveal-text reveal-active\">                     <span class=\"font-serif text-4xl italic block mb-8\">02 / Wellness Synthesis</span>                     <h2 class=\"text-sm uppercase tracking-[0.5em] font-light mb-12\">Sustaining the Executive Mind</h2>                     <p class=\"text-charcoal/50 leading-loose font-light\">                         High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.                     </p>                 </div>             </div>         ",
+      "sectionClass": "py-60 px-12 lg:px-24 relative overflow-hidden",
+      "sectionId": "curriculum",
+      "colClass": "",
+      "diag": {},
+      "styleCensus": {
+        "padding": 1,
+        "transform": 3,
+        "position-absolute": 1,
+        "max-width": 1,
+        "margin": 7
+      },
+      "h": 1144,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "steps",
+          "items": [
+            {
+              "title": "Dynamic Curriculum Orchestration",
+              "content": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+              "number": "01",
+              "icon": null
+            },
+            {
+              "title": "Sustaining the Executive Mind",
+              "content": "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+              "number": "02",
+              "icon": null
+            }
+          ],
+          "design": {
+            "design": "horizontal",
+            "connector": "none"
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "t": "steps",
+          "items": [
+            {
+              "title": "Dynamic Curriculum Orchestration",
+              "content": "We move beyond linear learning. Our telemetry systems monitor skill-acquisition in real-time, adjusting difficulty and content density to maintain peak mental state.",
+              "number": "01",
+              "icon": null
+            },
+            {
+              "title": "Sustaining the Executive Mind",
+              "content": "High performance is a byproduct of balance. Every module integrates physiological wellness checkpoints and environmental optimization protocols.",
+              "number": "02",
+              "icon": null
+            }
+          ],
+          "design": {
+            "design": "horizontal",
+            "connector": "none"
+          }
+        }
+      ],
+      "css": ".reveal-text{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: reveal-fade; animation-timeline: view(); animation-range: entry 20% cover 40%;}\n.timeline-line{height: 0%; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: grow-line; animation-range: normal; animation-timeline: view();}\nh2{font-size: inherit; font-weight: inherit;}\nh2, p{margin: 0px;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.left-1\\/2{left: 50%;}\n.top-0{top: 0px;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-32{margin-bottom: 8rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.w-px{width: 1px;}\n.max-w-3xl{max-width: 48rem;}\n.origin-top{transform-origin: center top;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.overflow-hidden{overflow: hidden;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-60{padding-top: 15rem; padding-bottom: 15rem;}\n.text-center{text-align: center;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.leading-loose{line-height: 2;}\n.tracking-\\[0\\.5em\\]{letter-spacing: 0.5em;}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}"
+    },
+    {
+      "heading": "",
+      "headingHtml": "",
+      "level": 0,
+      "headingComputed": null,
+      "overline": "",
+      "overlineComputed": null,
+      "lead": "Retention Rate via Cognitive Load Management",
+      "paragraphs": [
+        "Retention Rate via Cognitive Load Management",
+        "Global Corporate Partners in Wellness",
+        "Adaptive Telemetry Support"
+      ],
+      "buttons": [],
+      "cards": [
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "Retention Rate via Cognitive Load Management",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "Global Corporate Partners in Wellness",
+          "image": ""
+        },
+        {
+          "number": "",
+          "icon": "",
+          "title": "",
+          "text": "Adaptive Telemetry Support",
+          "image": ""
+        }
+      ],
+      "images": [],
+      "grids": [
+        {
+          "cols": 3,
+          "tiles": [
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Retention Rate via Cognitive Load Management",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "plain",
+              "title": "",
+              "text": "Global Corporate Partners in Wellness",
+              "icon": "",
+              "image": ""
+            },
+            {
+              "kind": "stat",
+              "stat": "24",
+              "label": "/7 Adaptive Telemetry Support"
+            }
+          ]
+        }
+      ],
+      "bgPattern": null,
+      "bgEffects": [],
+      "bgFxCandidate": {
+        "tokens": [
+          "bg-canvas"
+        ],
+        "engine": ""
+      },
+      "divider": null,
+      "computed": {
+        "color": "oklch(0.25 0.01 240)",
+        "padding": "160px 96px",
+        "fontFamily": "Manrope, sans-serif",
+        "fontSize": "16px"
+      },
+      "text": "92% Retention Rate via Cognitive Load Management 120+ Global Corporate Partners in Wellness 24/7 Adaptive Telemetry Support",
+      "mirror": {
+        "role": "container",
+        "tag": "section",
+        "styles": {
+          "padding": "160px 96px",
+          "border": "1px solid rgb(229, 231, 235)",
+          "transition": "all",
+          "tw": {
+            "px": "48px"
+          }
+        },
+        "children": [
+          {
+            "role": "container",
+            "tag": "div",
+            "styles": {
+              "grid": {
+                "cols": "415.328px 415.328px 415.344px",
+                "gap": "1px"
+              },
+              "transition": "all"
+            },
+            "children": [
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bg": "oklch(0.98 0.01 240)",
+                  "padding": "64px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "92%",
+                        "text": "92%",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "\"Playfair Display\", serif",
+                          "fontSize": "60px",
+                          "lineHeight": "60px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "60px",
+                            "lineHeight": "1"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Retention Rate via Cognitive Load Management",
+                        "text": "Retention Rate via Cognitive Load Management",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "Manrope, sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "1px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bg": "oklch(0.98 0.01 240)",
+                  "padding": "64px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "120+",
+                        "text": "120+",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "\"Playfair Display\", serif",
+                          "fontSize": "60px",
+                          "lineHeight": "60px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "60px",
+                            "lineHeight": "1"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Global Corporate Partners in Wellness",
+                        "text": "Global Corporate Partners in Wellness",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "Manrope, sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "1px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "role": "container",
+                "tag": "div",
+                "styles": {
+                  "bg": "oklch(0.98 0.01 240)",
+                  "padding": "64px",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "space-between",
+                    "align": "normal",
+                    "gap": "normal",
+                    "wrap": "nowrap"
+                  },
+                  "transition": "all"
+                },
+                "children": [
+                  {
+                    "role": "container",
+                    "tag": "div",
+                    "styles": {
+                      "transition": "all"
+                    },
+                    "children": [
+                      {
+                        "role": "text",
+                        "html": "24/7",
+                        "text": "24/7",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "\"Playfair Display\", serif",
+                          "fontSize": "60px",
+                          "lineHeight": "60px",
+                          "transition": "all",
+                          "tw": {
+                            "fontSize": "60px",
+                            "lineHeight": "1"
+                          }
+                        }
+                      },
+                      {
+                        "role": "text",
+                        "html": "Adaptive Telemetry Support",
+                        "text": "Adaptive Telemetry Support",
+                        "styles": {
+                          "color": "oklch(0.25 0.01 240)",
+                          "fontFamily": "Manrope, sans-serif",
+                          "fontSize": "10px",
+                          "letterSpacing": "1px",
+                          "lineHeight": "15px",
+                          "textTransform": "uppercase",
+                          "transition": "all"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawHtml": "<section id=\"metrics\" class=\"py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5\">             <div class=\"grid grid-cols-1 md:grid-cols-3 gap-px bg-charcoal/5\">                 <div class=\"bg-canvas p-16 flex flex-col justify-between aspect-square md:aspect-auto\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">92%</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Retention Rate via Cognitive Load Management</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">120+</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Global Corporate Partners in Wellness</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">24/7</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Adaptive Telemetry Support</p>                     </div>                 </div>             </div>         </section>",
+      "rawInner": "             <div class=\"grid grid-cols-1 md:grid-cols-3 gap-px bg-charcoal/5\">                 <div class=\"bg-canvas p-16 flex flex-col justify-between aspect-square md:aspect-auto\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">92%</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Retention Rate via Cognitive Load Management</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">120+</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Global Corporate Partners in Wellness</p>                     </div>                 </div>                 <div class=\"bg-canvas p-16 flex flex-col justify-between\">                     <div class=\"w-8 h-[1px] bg-charcoal/20\"></div>                     <div>                         <span class=\"font-serif text-6xl block mb-4 italic\">24/7</span>                         <p class=\"text-[10px] uppercase tracking-widest opacity-40\">Adaptive Telemetry Support</p>                     </div>                 </div>             </div>         ",
+      "sectionClass": "py-40 px-12 lg:px-24 bg-charcoal/2 border-y border-charcoal/5",
+      "sectionId": "metrics",
+      "colClass": "",
+      "diag": {
+        "borderTop": "1px solid rgb(229, 231, 235)",
+        "borderBottom": "1px solid rgb(229, 231, 235)"
+      },
+      "styleCensus": {
+        "border": 1,
+        "padding": 4,
+        "display-grid": 1,
+        "gap": 1,
+        "background-color": 3,
+        "display-flex": 3,
+        "margin": 3
+      },
+      "h": 557,
+      "assets": [],
+      "mapBlocks": [
+        {
+          "t": "testimonials",
+          "items": [
+            {
+              "quote": "Retention Rate via Cognitive Load Management",
+              "image": "",
+              "name": "",
+              "position": "92%",
+              "siteName": "",
+              "siteUrl": "",
+              "rating": 4.5,
+              "extra": []
+            },
+            {
+              "quote": "Adaptive Telemetry Support",
+              "image": "",
+              "name": "",
+              "position": "24/7",
+              "siteName": "",
+              "siteUrl": "",
+              "rating": 5,
+              "extra": []
+            }
+          ],
+          "anim": ""
+        }
+      ],
+      "blocks": [
+        {
+          "t": "testimonials",
+          "items": [
+            {
+              "quote": "Retention Rate via Cognitive Load Management",
+              "image": "",
+              "name": "",
+              "position": "92%",
+              "siteName": "",
+              "siteUrl": "",
+              "rating": 4.5,
+              "extra": []
+            },
+            {
+              "quote": "Adaptive Telemetry Support",
+              "image": "",
+              "name": "",
+              "position": "24/7",
+              "siteName": "",
+              "siteUrl": "",
+              "rating": 5,
+              "extra": []
+            }
+          ],
+          "anim": ""
+        }
+      ],
+      "css": "p{margin: 0px;}\n.mb-4{margin-bottom: 1rem;}\n.block{display: block;}\n.flex{display: flex;}\n.grid{display: grid;}\n.aspect-square{aspect-ratio: 1 / 1;}\n.h-\\[1px\\]{height: 1px;}\n.w-8{width: 2rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-between{justify-content: space-between;}\n.gap-px{gap: 1px;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.bg-canvas{background-color: oklch(0.98 0.01 240);}\n.p-16{padding: 4rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.tracking-widest{letter-spacing: 0.1em;}\n.opacity-40{opacity: 0.4;}\n@media (min-width: 768px){.md\\:aspect-auto{aspect-ratio: auto;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}"
+    }
+  ],
+  "chrome": {
+    "header_html": "<header class=\"fixed top-0 left-0 w-full z-50 px-12 py-8 flex justify-between items-center mix-blend-multiply\">         <div class=\"flex items-center gap-3\">             <div class=\"w-8 h-8 rounded-full border border-charcoal/20 flex items-center justify-center\">                 <div class=\"w-1 h-1 bg-charcoal rounded-full\"></div>             </div>             <span class=\"font-serif italic text-lg tracking-tight\">Summit Academy</span>         </div>         <nav class=\"hidden md:flex gap-12 text-[11px] uppercase tracking-[0.2em] font-light\">             <a href=\"#curriculum\" class=\"hover:opacity-70 transition-opacity\">Pedagogy</a>             <a href=\"#metrics\" class=\"hover:opacity-70 transition-opacity\">Telemetry</a>             <a href=\"#footer\" class=\"hover:opacity-70 transition-opacity\">Contact</a>         </nav>     </header>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer id=\"footer\" class=\"bg-atelier py-40 px-12 lg:px-24 text-canvas overflow-hidden relative\">             <div class=\"absolute inset-0 opacity-10 pointer-events-none\">                 <svg class=\"w-full h-full\" viewBox=\"0 0 100 100\">                     <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.1\"></circle>                 </svg>             </div>                          <!--SC_FCOPY-->         </footer>",
+    "footer_cols": [
+      "                         <a href=\"#\" class=\"block hover:opacity-50\">Private Dossier</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Faculty Research</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Alumni Terminal</a>                     ",
+      "                         <span>© 2026 Summit Academy</span>                         <span>Built for Human Focus</span>                     "
+    ],
+    "footer_copyright": "<div class=\"grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10\">                 <div>                     <h2 class=\"font-serif text-7xl leading-none italic mb-20\">The Atelier of<br>Professional Growth.</h2>                     <div class=\"flex gap-12 font-serif italic text-lg opacity-60\">                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">Geneva</a>                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">London</a>                         <a href=\"#\" class=\"hover:opacity-100 transition-opacity\">Tokyo</a>                     </div>                 </div>                                  <div class=\"flex flex-col justify-end items-end text-right\">                     <nav class=\"space-y-4 text-xs uppercase tracking-[0.4em] font-light mb-24\">                         <a href=\"#\" class=\"block hover:opacity-50\">Private Dossier</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Faculty Research</a>                         <a href=\"#\" class=\"block hover:opacity-50\">Alumni Terminal</a>                     </nav>                     <div class=\"w-full h-px bg-canvas/10 mb-8\"></div>                     <div class=\"flex justify-between w-full text-[9px] uppercase tracking-[0.3em] opacity-30\">                         <span>© 2026 Summit Academy</span>                         <span>Built for Human Focus</span>                     </div>                 </div>             </div>",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": null,
+    "base_css": ":root{background-color: oklch(0.98 0.01 240); --scroll-reveal: 0;}\n::-webkit-scrollbar{width: 4px;}\n::-webkit-scrollbar-thumb{background: oklch(0.25 0.01 240 / 0.1); border-radius: 10px;}\nbody{cursor: url(\"data:image/svg+xml;utf8,<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" width=\\\"12\\\" height=\\\"12\\\" viewBox=\\\"0 0 12 12\\\"><circle cx=\\\"6\\\" cy=\\\"6\\\" r=\\\"4\\\" fill=\\\"black\\\" opacity=\\\"0.2\\\"/></svg>\"), auto;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Manrope, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2{margin: 0px;}\n:disabled{cursor: default;}\nsvg{display: block; vertical-align: middle;}",
+    "util_css": ".squircle-mask{mask-image: radial-gradient(circle, black 30%, transparent 75%); border-radius: 40% 60% 70% 30% / 40% 50% 60%;}\n.vellum-overlay{background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px) contrast(0.95);}\n.matte-silk{transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: rgba(0, 0, 0, 0) 0px 4px 0px;}\n.matte-silk:hover{transform: translateY(-2px) scale(1.02); box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 40px;}\n.reveal-text{animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: reveal-fade; animation-timeline: view(); animation-range: entry 20% cover 40%;}\n@keyframes reveal-fade { \n  0% { opacity: 0; transform: translateY(30px); }\n  100% { opacity: 1; transform: translateY(0px); }\n}\n.timeline-line{height: 0%; animation-duration: auto; animation-timing-function: linear; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: both; animation-play-state: running; animation-name: grow-line; animation-range: normal; animation-timeline: view();}\n@keyframes grow-line { \n  0% { height: 0%; }\n  100% { height: 100%; }\n}\nh1{font-size: inherit; font-weight: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\nh1, p{margin: 0px;}\nbutton{cursor: pointer;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.bottom-24{bottom: 6rem;}\n.left-1\\/2{left: 50%;}\n.right-24{right: 6rem;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-12{margin-bottom: 3rem;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-32{margin-bottom: 8rem;}\n.mb-4{margin-bottom: 1rem;}\n.aspect-square{aspect-ratio: 1 / 1;}\n.h-\\[1px\\]{height: 1px;}\n.h-\\[80vh\\]{height: 80vh;}\n.h-\\[85\\%\\]{height: 85%;}\n.min-h-screen{min-height: 100vh;}\n.w-\\[85\\%\\]{width: 85%;}\n.w-px{width: 1px;}\n.max-w-3xl{max-width: 48rem;}\n.max-w-\\[200px\\]{max-width: 200px;}\n.max-w-sm{max-width: 24rem;}\n.origin-top{transform-origin: center top;}\n.-translate-x-1\\/2{--tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.translate-x-1\\/4{--tw-translate-x: 25%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-105{--tw-scale-x: 1.05; --tw-scale-y: 1.05; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.scale-110{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n.gap-4{gap: 1rem;}\n.gap-px{gap: 1px;}\n.rounded-2xl{border-radius: 1rem;}\n.border-y{border-top-width: 1px; border-bottom-width: 1px;}\n.bg-canvas{background-color: oklch(0.98 0.01 240);}\n.object-cover{object-fit: cover;}\n.p-16{padding: 4rem;}\n.p-8{padding: 2rem;}\n.px-10{padding-left: 2.5rem; padding-right: 2.5rem;}\n.py-5{padding-top: 1.25rem; padding-bottom: 1.25rem;}\n.py-60{padding-top: 15rem; padding-bottom: 15rem;}\n.pt-20{padding-top: 5rem;}\n.text-center{text-align: center;}\n.font-sans{font-family: Manrope, sans-serif;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12px\\]{font-size: 12px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.leading-loose{line-height: 2;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.5em\\]{letter-spacing: 0.5em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-charcoal{color: oklch(0.25 0.01 240);}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.opacity-40{opacity: 0.4;}\n.opacity-80{opacity: 0.8;}\n.mix-blend-overlay{mix-blend-mode: overlay;}\n.shadow-2xl{--tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);}\n.blur-3xl{--tw-blur: blur(64px); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.contrast-\\[0\\.9\\]{--tw-contrast: contrast(0.9); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.saturate-\\[0\\.8\\]{--tw-saturate: saturate(0.8); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.selection\\:bg-taupe ::selection{background-color: oklch(0.85 0.02 60);}\n.selection\\:text-charcoal ::selection{color: oklch(0.25 0.01 240);}\n.selection\\:bg-taupe::selection{background-color: oklch(0.85 0.02 60);}\n.selection\\:text-charcoal::selection{color: oklch(0.25 0.01 240);}\n@media (min-width: 768px){.md\\:aspect-auto{aspect-ratio: auto;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:h-screen{height: 100vh;}}\n@media (min-width: 1024px){.lg\\:grid-cols-\\[40fr_60fr\\]{grid-template-columns: 40fr 60fr;}}\n@media (min-width: 1024px){.lg\\:text-8xl{font-size: 6rem; line-height: 1;}}",
+    "header_css": ".fixed{position: fixed;}\n.left-0{left: 0px;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.h-1{height: 0.25rem;}\n.h-8{height: 2rem;}\n.w-1{width: 0.25rem;}\n.w-8{width: 2rem;}\n.w-full{width: 100%;}\n.items-center{align-items: center;}\n.justify-center{justify-content: center;}\n.justify-between{justify-content: space-between;}\n.gap-12{gap: 3rem;}\n.gap-3{gap: 0.75rem;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.bg-charcoal{background-color: oklch(0.25 0.01 240);}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-8{padding-top: 2rem; padding-bottom: 2rem;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-lg{font-size: 1.125rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.italic{font-style: italic;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-tight{letter-spacing: -0.025em;}\n.mix-blend-multiply{mix-blend-mode: multiply;}\n.transition-opacity{transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.hover\\:opacity-70:hover{opacity: 0.7;}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.mb-20{margin-bottom: 5rem;}\n.mb-24{margin-bottom: 6rem;}\n.mb-8{margin-bottom: 2rem;}\n.block{display: block;}\n.grid{display: grid;}\n.h-full{height: 100%;}\n.h-px{height: 1px;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.items-end{align-items: flex-end;}\n.justify-end{justify-content: flex-end;}\n.gap-24{gap: 6rem;}\n.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.bg-atelier{background-color: oklch(0.2 0.02 160);}\n.py-40{padding-top: 10rem; padding-bottom: 10rem;}\n.text-right{text-align: right;}\n.text-7xl{font-size: 4.5rem; line-height: 1;}\n.text-\\[9px\\]{font-size: 9px;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.leading-none{line-height: 1;}\n.tracking-\\[0\\.3em\\]{letter-spacing: 0.3em;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-canvas{color: oklch(0.98 0.01 240);}\n.opacity-10{opacity: 0.1;}\n.opacity-30{opacity: 0.3;}\n.opacity-60{opacity: 0.6;}\n.hover\\:opacity-100:hover{opacity: 1;}\n.hover\\:opacity-50:hover{opacity: 0.5;}\n@media (min-width: 1024px){.lg\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;600&display=swap"
+    ]
+  },
+  "buttonSkins": [
+    {
+      "role": "Fill",
+      "bg": "oklch(0.25 0.01 240)",
+      "fg": "oklch(0.98 0.01 240)",
+      "bd": "",
+      "bw": "",
+      "shadow": "rgba(0, 0, 0, 0) 0px 4px 0px 0px",
+      "radius": "9999px",
+      "px": "40px",
+      "py": "20px",
+      "height": "",
+      "fs": "10px",
+      "lh": "15px",
+      "ff": "Manrope, sans-serif",
+      "ls": "1px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    },
+    {
+      "role": "Outline",
+      "bg": "",
+      "fg": "oklch(0.25 0.01 240)",
+      "bd": "rgb(229, 231, 235)",
+      "bw": "1px",
+      "shadow": "rgba(0, 0, 0, 0) 0px 4px 0px 0px",
+      "radius": "9999px",
+      "px": "40px",
+      "py": "20px",
+      "height": "",
+      "fs": "10px",
+      "lh": "15px",
+      "ff": "Manrope, sans-serif",
+      "ls": "1px",
+      "tt": "uppercase",
+      "fw": "400",
+      "hoverBg": ""
+    }
+  ],
+  "mobileBreakpoint": "md",
+  "spacingTokens": [
+    {
+      "value": "160px",
+      "px": 160
+    },
+    {
+      "value": "240px",
+      "px": 240
+    }
+  ],
+  "footerContainerMax": "",
+  "boxCensus": [
+    {
+      "fill": "",
+      "radius": "40%",
+      "borderWidth": "",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px",
+      "backdrop": "",
+      "padding": "0px",
+      "hoverLift": false,
+      "count": 1
+    },
+    {
+      "fill": "rgba(255, 255, 255, 0.01)",
+      "radius": "16px",
+      "borderWidth": "1px",
+      "borderStyle": "solid",
+      "borderColor": "rgb(229, 231, 235)",
+      "shadow": "",
+      "backdrop": "blur(20px) contrast(0.95)",
+      "padding": "32px",
+      "hoverLift": false,
+      "count": 1
+    }
+  ],
+  "assets": {
+    "images": [],
+    "fonts": [
+      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;600&display=swap"
+    ]
+  },
+  "animations": {
+    "libs": {
+      "gsap": false,
+      "scrollTrigger": false,
+      "lenis": false,
+      "swiper": false,
+      "lottie": false,
+      "three": false,
+      "aos": false,
+      "framer": false,
+      "canvases": 0,
+      "videos": 1
+    },
+    "scrollTriggers": [],
+    "keyframes": [
+      {
+        "name": "reveal-fade",
+        "props": [
+          "opacity",
+          "transform"
+        ],
+        "slidesLeft": false
+      },
+      {
+        "name": "grow-line",
+        "props": [
+          "height"
+        ],
+        "slidesLeft": false
+      }
+    ],
+    "animated": [
+      {
+        "selector": ".reveal-text",
+        "name": "reveal-fade",
+        "duration": "auto",
+        "infinite": false
+      },
+      {
+        "selector": ".timeline-line",
+        "name": "grow-line",
+        "duration": "auto",
+        "infinite": false
+      }
+    ],
+    "hovers": [
+      {
+        "selector": ".matte-silk",
+        "changed": {
+          "transform": "translateY(-2px) scale(1.02)",
+          "box-shadow": "rgba(0, 0, 0, 0.04) 0px 20px 40px"
+        }
+      },
+      {
+        "selector": ".hover\\:opacity-100",
+        "changed": {
+          "opacity": "1"
+        }
+      },
+      {
+        "selector": ".hover\\:opacity-50",
+        "changed": {
+          "opacity": "0.5"
+        }
+      },
+      {
+        "selector": ".hover\\:opacity-70",
+        "changed": {
+          "opacity": "0.7"
+        }
+      },
+      {
+        "selector": "matte-silk bg-charcoal text-canvas px-10 py-5 text-[10px] up",
+        "changed": {
+          "transform": "matrix(1.01938, 0, 0, 1.01938, 0, -1.93754)",
+          "boxShadow": "rgba(0, 0, 0, 0.04) 0px 19.5003px 38.7508px 0px"
+        },
+        "live": true
+      },
+      {
+        "selector": "matte-silk border border-charcoal/10 px-10 py-5 text-[10px] ",
+        "changed": {
+          "transform": "matrix(1.0193, 0, 0, 1.0193, 0, -1.92972)",
+          "boxShadow": "rgba(0, 0, 0, 0.04) 0px 19.4377px 38.5943px 0px"
+        },
+        "live": true
+      }
+    ],
+    "transitions": [
+      {
+        "selector": ".transition-opacity",
+        "props": "opacity",
+        "duration": "150ms"
+      }
+    ],
+    "hijack": {
+      "bodyScrollHeight": 3325,
+      "viewport": 900,
+      "virtualScroll": false,
+      "fixedFullscreenOverlays": 0,
+      "fixedCanvas": false
+    },
+    "traces": [
+      {
+        "i": 0,
+        "kind": "pin",
+        "evidence": "pinned for ~2425px of scroll"
+      }
+    ],
+    "sequences": [],
+    "suggestions": [
+      {
+        "kind": "trace",
+        "target": "trace#0",
+        "evidence": "pinned for ~2425px of scroll",
+        "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+        "confidence": "medium"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".reveal-text",
+        "evidence": "keyframes 'reveal-fade' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "css-animation",
+        "target": ".timeline-line",
+        "evidence": "keyframes 'grow-line' auto",
+        "suggest": "entrance animation (Animate.css picker)",
+        "confidence": "low"
+      },
+      {
+        "kind": "hover",
+        "target": ".matte-silk",
+        "evidence": "transform, box-shadow change on hover",
+        "suggest": "interaction: {effect:'lift'}",
+        "confidence": "medium"
+      }
+    ]
+  }
+}

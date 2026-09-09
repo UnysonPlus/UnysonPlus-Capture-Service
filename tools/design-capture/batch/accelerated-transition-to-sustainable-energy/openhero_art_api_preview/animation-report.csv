@@ -1,0 +1,21 @@
+kind,target,evidence,suggested_fx,confidence
+trace,trace#0,pinned for ~2685px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#3,pinned for ~2685px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+trace,trace#4,pinned for ~2685px of scroll,gsap_motion: {effect:'pin'} or a scrollytelling Section,medium
+css-animation,.status-dot,"infinite keyframes 'pulse-dot' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.hero-title .line-2,"infinite keyframes 'gradient-shift' (background-position-x,background-position-y)",physics float/pulse or backgrounds module,low
+css-animation,.scan-line,"infinite keyframes 'scan' (top,opacity)",physics float/pulse or backgrounds module,low
+css-animation,.glow-orb,infinite keyframes 'orb-drift' (transform),physics float/pulse or backgrounds module,low
+css-animation,.scroll-indicator-line,"infinite keyframes 'scroll-line' (opacity,transform)",physics float/pulse or backgrounds module,low
+css-animation,.animate-in,keyframes 'fade-in-up' 0.8s,entrance animation (Animate.css picker),low
+hover,.nav-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,.btn-primary,"box-shadow, transform change on hover",interaction: {effect:'lift'},medium
+hover,.btn-ghost,"color, border-top-color, border-right-color, border-bottom-color change on hover",interaction: {effect:'color_shift'},medium
+hover,.bento-cell,"background-image, background-position-x, background-position-y, background-size change on hover",interaction: {effect:'color_shift'},medium
+hover,.flow-node,border-left-color change on hover,interaction: {effect:'color_shift'},medium
+hover,.footer-links a,color change on hover,interaction: {effect:'color_shift'},medium
+hover,btn-ghost,"color, borderColor change on hover",interaction: {effect:'color_shift'},medium
+hover,bento-cell cell-b inset-card,background change on hover,interaction: {effect:'color_shift'},medium
+hover,bento-cell cell-d inset-card,background change on hover,interaction: {effect:'color_shift'},medium
+hover,bento-cell cell-f inset-card,background change on hover,interaction: {effect:'color_shift'},medium
+hover,bento-cell cell-i inset-card,background change on hover,interaction: {effect:'color_shift'},medium

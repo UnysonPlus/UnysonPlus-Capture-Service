@@ -1,0 +1,28 @@
+{"t":1788702947600,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=nature&slug=neural-landscapes … (can take up to ~60s on heavy SPAs)"}
+{"t":1788702952116,"elapsed":4.7,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788702954588,"elapsed":7.2,"msg":"extracted 3 sections"}
+{"t":1788702954588,"elapsed":7.2,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788702954590,"elapsed":7.2,"msg":"  §1 hero · “Living Architecture” (1 element)"}
+{"t":1788702954590,"elapsed":7.2,"msg":"  §2 section · “Cloud-Forest Cooling” (1 element)"}
+{"t":1788702954591,"elapsed":7.2,"msg":"  §3 section · “Return to the source” (1 element)"}
+{"t":1788702954608,"elapsed":7.2,"msg":"capturing sticky-header scroll state…"}
+{"t":1788702956521,"elapsed":9.1,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788702957270,"elapsed":9.9,"msg":"brand tokens → heading=Oswald · body=Space Grotesk · brand=?"}
+{"t":1788702957270,"elapsed":9.9,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702967967,"elapsed":20.6,"msg":"animations → 11 finding(s)"}
+{"t":1788702967968,"elapsed":20.6,"msg":"building theme, pages & conversion report…"}
+{"t":1788702967974,"elapsed":20.6,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702967975,"elapsed":20.6,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702967976,"elapsed":20.6,"msg":"  🔤 Text Styles → 7 size(s)"}
+{"t":1788702967977,"elapsed":20.6,"msg":"  📏 Spacing Scale → 16 step(s)"}
+{"t":1788702967977,"elapsed":20.6,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788702979424,"elapsed":32,"msg":"motion profile → reveal×0 · button-hover×0 · card-hover×1"}
+{"t":1788702979425,"elapsed":32,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702979427,"elapsed":32,"msg":"  🎨 Box Presets → 3 kind(s) [Glass] from 4 box(es); 0 with hover, 3 glass; box_style assigned to 1 icon-box(es)"}
+{"t":1788702979428,"elapsed":32,"msg":"🛡️ Self-containment guard → 3 element(s) carry their full computed box in custom_css; no dropped classes"}
+{"t":1788702979445,"elapsed":32,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702979447,"elapsed":32,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702979447,"elapsed":32,"msg":"writing files & bundle…"}
+{"t":1788702979675,"elapsed":32.3,"msg":"visual font match: Oswald → Oswald"}
+{"t":1788702981220,"elapsed":33.8,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702981236,"elapsed":33.8,"msg":"saving full-page screenshot…"}

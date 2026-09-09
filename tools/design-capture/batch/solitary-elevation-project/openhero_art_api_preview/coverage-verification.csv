@@ -1,0 +1,2 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,4,py-40 bg-[#04060e] border-t border-white/5 relative overflow-hidden,box-shadow,1,yes,box-shadow lost

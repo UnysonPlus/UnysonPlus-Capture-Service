@@ -1,0 +1,24 @@
+site,page,s_index,s_class,property,src_uses,carried
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,background-image,2,no
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,border,1,no
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,max-width,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,padding,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,margin,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,gap,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,transform,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,position-absolute,2,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,0,relative w-full h-[110vh] flex flex-col items-center justify-center overflow-hidden,display-flex,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,background-image,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,background-color,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,backdrop-filter,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,box-shadow,4,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,border,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,border-radius,5,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,max-width,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,padding,7,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,margin,11,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,gap,3,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,transform,6,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,position-absolute,1,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,display-flex,8,yes
+https://openhero.art/api/preview?category=enterprice&slug=memphis-and-its-necropolis,home,1,relative z-20 py-24 px-4 md:px-8 lg:px-16 bg-sandstone,display-grid,1,yes

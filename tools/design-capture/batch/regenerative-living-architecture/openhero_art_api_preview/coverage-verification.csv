@@ -1,0 +1,4 @@
+page,s_index,s_class,property,src_uses,significant,reason
+home,1,divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10,background-image,3,yes,
+home,3,divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10,background-image,3,yes,
+home,2,divider relative mx-auto max-w-[1600px] px-6 py-20 lg:px-10,background-image,2,yes,

@@ -1,0 +1,29 @@
+{"t":1788701959632,"elapsed":0.2,"msg":"navigating https://openhero.art/api/preview?category=enterprice&slug=biophilic-architecture-interior-soul … (can take up to ~60s on heavy SPAs)"}
+{"t":1788701985780,"elapsed":26.3,"msg":"rendered — scrolling to trigger lazy assets…"}
+{"t":1788701987846,"elapsed":28.4,"msg":"extracted 3 sections"}
+{"t":1788701987847,"elapsed":28.4,"msg":"  chrome · header → nav (0 menu items)"}
+{"t":1788701987848,"elapsed":28.4,"msg":"  §1 hero · “The Sculptureof Rest” (2 elements)"}
+{"t":1788701987848,"elapsed":28.4,"msg":"  §2 section · “Living Matter for your Interior” (1 element)"}
+{"t":1788701987849,"elapsed":28.4,"msg":"  §3 section · “Featured Pieces” (1 element)"}
+{"t":1788701987850,"elapsed":28.4,"msg":"  chrome · footer → 1 column"}
+{"t":1788701991258,"elapsed":31.8,"msg":"capturing sticky-header scroll state…"}
+{"t":1788701992108,"elapsed":32.7,"msg":"measuring responsive column widths (tablet + phone)…"}
+{"t":1788701992857,"elapsed":33.4,"msg":"brand tokens → heading=Cormorant Garamond · body=Manrope · brand=oklch(0.25 0.08 140)"}
+{"t":1788701992858,"elapsed":33.4,"msg":"tracing animations (libraries, hover, scroll motion)…"}
+{"t":1788702000623,"elapsed":41.2,"msg":"animations → 7 finding(s)"}
+{"t":1788702000625,"elapsed":41.2,"msg":"building theme, pages & conversion report…"}
+{"t":1788702000631,"elapsed":41.2,"msg":"🎛️ Theme Settings presets → deriving the design system from the source…"}
+{"t":1788702000632,"elapsed":41.2,"msg":"  🔡 Typography → heading + body scale set"}
+{"t":1788702000633,"elapsed":41.2,"msg":"  🔤 Text Styles → 9 size(s)"}
+{"t":1788702000634,"elapsed":41.2,"msg":"  📏 Spacing Scale → 15 step(s)"}
+{"t":1788702000634,"elapsed":41.2,"msg":"  🔘 Button Presets → 1 style(s), 2 size(s)"}
+{"t":1788702007801,"elapsed":48.4,"msg":"motion profile → reveal×0 · button-hover×0 · card-hover×2"}
+{"t":1788702007802,"elapsed":48.4,"msg":"🎨 Box Presets → detecting box skins (fill · border · radius · shadow · hover)…"}
+{"t":1788702007804,"elapsed":48.4,"msg":"  🎨 Box Presets → 3 kind(s) [Tinted, Elevated] from 4 box(es); 0 with hover; box_style assigned to 0 icon-box(es)"}
+{"t":1788702007805,"elapsed":48.4,"msg":"🛡️ Self-containment guard → 7 element(s) carry their full computed box in custom_css; ⚠️ 1 still rely on a carried class [button(letter-spacing)]"}
+{"t":1788702007822,"elapsed":48.4,"msg":"reports → conversion-report + style-coverage + animation-report (csv/html)"}
+{"t":1788702007824,"elapsed":48.4,"msg":"contrast → brand palette passes AA (no low-contrast pairs)"}
+{"t":1788702007824,"elapsed":48.4,"msg":"writing files & bundle…"}
+{"t":1788702008009,"elapsed":48.6,"msg":"visual font match: Cormorant Garamond → Cormorant"}
+{"t":1788702009499,"elapsed":50.1,"msg":"saved WordPress theme screenshot (1200×900) → screenshot.png"}
+{"t":1788702009512,"elapsed":50.1,"msg":"saving full-page screenshot…"}

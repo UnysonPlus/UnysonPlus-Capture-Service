@@ -1,0 +1,159 @@
+{
+  "theme": {
+    "name": "UNESCO",
+    "slug": "unesco",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {
+    "container_max": "1400px"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "heading_weight": "inherit",
+    "body": "Inter",
+    "google": "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@100;400;700&display=swap",
+    "heading_visual": "Playfair Display",
+    "heading_visual_top": [
+      "Playfair Display",
+      "Merriweather",
+      "Source Serif 4",
+      "Cormorant",
+      "Cormorant Garamond"
+    ],
+    "body_visual": "Archivo",
+    "body_visual_top": [
+      "Archivo",
+      "Source Sans 3",
+      "Oxygen",
+      "Roboto",
+      "Public Sans"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.25 0.05 50)",
+    "accent": "oklch(0.94 0.04 70 / 0.6)",
+    "bg": "oklch(0.94 0.04 70)",
+    "heading": "oklch(0.25 0.05 50)",
+    "footer_bg": "oklch(0.25 0.05 50)",
+    "footer_text": "oklch(0.94 0.04 70)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Solar Ship",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Archeo-astronomy",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Conservation",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      }
+    ],
+    "logo": {
+      "font": "Inter",
+      "size": "11px",
+      "weight": "500",
+      "color": "oklch(0.25 0.05 50 / 0.7)",
+      "letter_spacing": "2.2px"
+    },
+    "cta": {
+      "enabled": true,
+      "label": "Plan Expedition",
+      "href": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis",
+      "dedupe_from_menu": false,
+      "style": {
+        "bg": "oklch(0.94 0.04 70 / 0.6)",
+        "color": "oklch(0.25 0.05 50)",
+        "radius": "9999px",
+        "padding": "10px 24px",
+        "font_weight": "500"
+      }
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [
+      {
+        "label": "The Necropolis",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Solar Ship Archive",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Archeo-astronomy",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Virtual Mapping",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Conservation Status",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Historical Timeline",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "UNESCO Protocols",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Data Access",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Privacy",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      },
+      {
+        "label": "Terms",
+        "url": "/api/preview?category=enterprice&slug=memphis-and-its-necropolis#"
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav class=\"fixed top-0 w-full z-50 px-8 py-4 flex items-center justify-between subsurface-nav transition-all duration-500\" id=\"navbar\">         <div class=\"flex items-center gap-3 cursor-pointer group\">             <iconify-icon icon=\"ph:compass-rose-light\" class=\"text-3xl text-amber transition-transform duration-700 group-hover:rotate-180\"></iconify-icon>             <div class=\"flex flex-col\">                 <span class=\"font-serif tracking-widest text-[11px] uppercase text-basalt/60\">UNESCO</span>                 <span class=\"font-sans font-medium text-[13px] tracking-wide text-basalt\">World Heritage</span>             </div>         </div>         <div class=\"hidden md:flex items-center gap-10 font-sans text-[11px] uppercase tracking-[0.2em] font-medium\">             <a href=\"#\" class=\"nav-link\">Necropolis</a>             <a href=\"#\" class=\"nav-link\">Solar Ship</a>             <a href=\"#\" class=\"nav-link\">Archeo-astronomy</a>             <a href=\"#\" class=\"nav-link\">Conservation</a>         </div>         <button class=\"stone-btn px-6 py-2.5 font-sans text-[11px] uppercase tracking-[0.2em] font-medium flex items-center gap-2\">             Plan Expedition <iconify-icon icon=\"ph:arrow-right-light\" class=\"text-[14px] text-amber\"></iconify-icon>         </button>     </nav>",
+    "nav_tree": [],
+    "nav_style": null,
+    "footer_html": "<footer class=\"relative z-20 bg-basalt text-sandstone border-t border-amber/10 pt-24 pb-12 overflow-hidden\">         <div class=\"absolute inset-0 grid-bg opacity-5 pointer-events-none\"></div>         <div class=\"max-w-[1400px] mx-auto px-8 md:px-16 relative z-10\">             <div class=\"grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-20\">                 <div class=\"md:col-span-2 flex flex-col items-start reveal-up active\">                     <iconify-icon icon=\"ph:compass-rose-light\" class=\"text-4xl text-amber mb-6\"></iconify-icon>                     <!--SC_FCOL_0-->                     <!--SC_FCOL_1-->                     <div class=\"flex gap-4\">                         <a href=\"#\" class=\"w-10 h-10 rounded-full border border-sandstone/20 flex items-center justify-center text-sandstone/60 hover:text-amber hover:border-amber transition-colors\">                             <iconify-icon icon=\"ph:instagram-logo-light\" class=\"text-xl\"></iconify-icon>                         </a>                         <a href=\"#\" class=\"w-10 h-10 rounded-full border border-sandstone/20 flex items-center justify-center text-sandstone/60 hover:text-amber hover:border-amber transition-colors\">                             <iconify-icon icon=\"ph:twitter-logo-light\" class=\"text-xl\"></iconify-icon>                         </a>                         <a href=\"#\" class=\"w-10 h-10 rounded-full border border-sandstone/20 flex items-center justify-center text-sandstone/60 hover:text-amber hover:border-amber transition-colors\">                             <iconify-icon icon=\"ph:youtube-logo-light\" class=\"text-xl\"></iconify-icon>                         </a>                     </div>                 </div>                                  <div class=\"flex flex-col gap-4 reveal-up delay-100 active\">                     <span class=\"font-mono text-[10px] tracking-widest uppercase text-sandstone/40 mb-2\">Expedition</span>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">The Necropolis</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Solar Ship Archive</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Archeo-astronomy</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Virtual Mapping</a>                 </div>                                  <div class=\"flex flex-col gap-4 reveal-up delay-200 active\">                     <span class=\"font-mono text-[10px] tracking-widest uppercase text-sandstone/40 mb-2\">Heritage</span>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Conservation Status</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Historical Timeline</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">UNESCO Protocols</a>                     <a href=\"#\" class=\"font-sans text-sm text-sandstone/70 hover:text-amber transition-colors\">Data Access</a>                 </div>             </div>                          <!--SC_FCOPY-->         </div>     </footer>",
+    "footer_cols": [
+      "Preserving the resonance <br> of human endeavor.",
+      "                         The exactitude of the stonework stands as a masterpiece of heritage engineering transcending the boundaries of time.                     "
+    ],
+    "footer_copyright": "<div class=\"flex flex-col md:flex-row justify-between items-center pt-8 border-t border-sandstone/10 reveal-up delay-300\">                 <div class=\"font-mono text-[10px] text-sandstone/40 tracking-widest mb-4 md:mb-0\">                     © 2026 UNESCO HERITAGE INITIATIVE                 </div>                 <div class=\"flex gap-6 font-mono text-[10px] text-sandstone/40 tracking-widest uppercase\">                     <a href=\"#\" class=\"hover:text-sandstone transition-colors\">Privacy</a>                     <a href=\"#\" class=\"hover:text-sandstone transition-colors\">Terms</a>                     <span class=\"text-amber/50\">SYS.OP: ONLINE</span>                 </div>             </div>",
+    "footer_heading_style": null,
+    "footer_link_style": null,
+    "footer_tagline_style": {
+      "fontSize": "14px",
+      "lineHeight": "22.75px",
+      "color": "oklch(0.94 0.04 70)"
+    },
+    "base_css": "html, body{margin: 0px; padding: 0px; width: 100%; min-height: 100vh; background-color: oklch(0.94 0.04 70); color: oklch(0.25 0.05 50); scroll-behavior: smooth; overflow-x: hidden;}\n*, ::before, ::after{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n::backdrop{--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ;}\n*, ::after, ::before{box-sizing: border-box; border-width: 0px; border-style: solid; border-color: rgb(229, 231, 235);}\n::after, ::before{--tw-content: '';}\nhtml{line-height: 1.5; text-size-adjust: 100%; tab-size: 4; font-family: Inter, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent;}\nbody{margin: 0px; line-height: inherit;}\nh2{font-size: inherit; font-weight: inherit;}\na{color: inherit; text-decoration: inherit;}\nbutton{font-family: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-size: 100%; font-weight: inherit; line-height: inherit; letter-spacing: inherit; color: inherit; margin: 0px; padding: 0px;}\nbutton{text-transform: none;}\nbutton{appearance: button; background-color: transparent; background-image: none;}\n::-webkit-inner-spin-button, ::-webkit-outer-spin-button{height: auto;}\n::-webkit-search-decoration{appearance: none;}\n::-webkit-file-upload-button{appearance: button; font: inherit;}\nh2, p{margin: 0px;}\nbutton{cursor: pointer;}\n:disabled{cursor: default;}",
+    "util_css": ".vercel-grain{position: fixed; inset: 0px; z-index: 9999; pointer-events: none; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(https://openhero.art/api/%23noiseFilter)'/%3E%3C/svg%3E\"); opacity: 0.04; mix-blend-mode: multiply;}\n.stone-panel{position: relative; overflow: hidden; background: oklch(0.94 0.04 70 / 0.6); border-radius: 24px; box-shadow: oklch(1 0 0 / 0.3) 0px 0px 10px inset, rgba(0, 0, 0, 0.03) 0px 4px 20px; backdrop-filter: blur(20px); border: 0.5px solid oklch(0.7 0.15 45 / 0.2); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.stone-panel:hover{background: oklch(0.94 0.04 70 / 0.9); border-color: oklch(0.7 0.15 45 / 0.5); box-shadow: oklch(1 0 0 / 0.4) 0px 0px 15px inset, rgba(0, 0, 0, 0.05) 0px 8px 30px;}\n.sun-bleed{background: linear-gradient(oklch(0.7273 0.18197 47.683) 0%, oklch(1 0.00011 271.152) 100%) text; -webkit-text-fill-color: transparent; letter-spacing: 0.05em; filter: drop-shadow(oklch(0.7 0.15 45 / 0.3) 0px 15px 35px);}\n.golden-haze{position: absolute; inset: 0px; background: radial-gradient(circle, oklch(0.7 0.15 45 / 0.15) 0%, transparent 60%); filter: blur(40px); pointer-events: none; z-index: 0;}\n#giza-video{will-change: transform; transform: scale(1.05);}\n#hero-text{will-change: transform;}\nh1, h3{font-size: inherit; font-weight: inherit;}\nh1, h3{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.z-0{z-index: 0;}\n.row-span-2{grid-row: span 2 / span 2;}\n.mb-16{margin-bottom: 4rem;}\n.mt-10{margin-top: 2.5rem;}\n.mt-12{margin-top: 3rem;}\n.mb-3{margin-bottom: 0.75rem;}\n.mt-6{margin-top: 1.5rem;}\n.mb-1{margin-bottom: 0.25rem;}\n.mt-3{margin-top: 0.75rem;}\n.block{display: block;}\n.h-\\[110vh\\]{height: 110vh;}\n.h-\\[1px\\]{height: 1px;}\n.h-full{height: 100%;}\n.w-12{width: 3rem;}\n.max-w-5xl{max-width: 64rem;}\n.max-w-xl{max-width: 36rem;}\n.max-w-sm{max-width: 24rem;}\n.flex-1{flex: 1 1 0%;}\n@keyframes spin { \n  100% { transform: rotate(360deg); }\n}\n.animate-\\[spin_10s_linear_infinite\\]{animation: 10s linear 0s infinite normal none running spin;}\n.auto-rows-\\[250px\\]{grid-auto-rows: 250px;}\n.items-end{align-items: flex-end;}\n.rounded{border-radius: 0.25rem;}\n.bg-sandstone{background-color: oklch(0.94 0.04 70);}\n.bg-white\\/30{background-color: rgba(255, 255, 255, 0.3);}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.p-6{padding: 1.5rem;}\n.px-4{padding-left: 1rem; padding-right: 1rem;}\n.py-24{padding-top: 6rem; padding-bottom: 6rem;}\n.px-2{padding-left: 0.5rem; padding-right: 0.5rem;}\n.py-1{padding-top: 0.25rem; padding-bottom: 0.25rem;}\n.pt-4{padding-top: 1rem;}\n.text-center{text-align: center;}\n.text-right{text-align: right;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.text-2xl{font-size: 1.5rem; line-height: 2rem;}\n.text-\\[9px\\]{font-size: 9px;}\n.leading-\\[0\\.9\\]{line-height: 0.9;}\n.tracking-\\[0\\.4em\\]{letter-spacing: 0.4em;}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.antialiased{-webkit-font-smoothing: antialiased;}\n.opacity-30{opacity: 0.3;}\n.contrast-125{--tw-contrast: contrast(1.25); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.sepia-\\[0\\.15\\]{--tw-sepia: sepia(0.15); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.filter{filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.selection\\:text-basalt ::selection{color: oklch(0.25 0.05 50);}\n.selection\\:text-basalt::selection{color: oklch(0.25 0.05 50);}\n@media (min-width: 768px){.md\\:mt-0{margin-top: 0px;}}\n@media (min-width: 768px){.md\\:grid-cols-3{grid-template-columns: repeat(3, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:items-center{align-items: center;}}\n@media (min-width: 768px){.md\\:gap-6{gap: 1.5rem;}}\n@media (min-width: 768px){.md\\:px-8{padding-left: 2rem; padding-right: 2rem;}}\n@media (min-width: 768px){.md\\:text-8xl{font-size: 6rem; line-height: 1;}}\n@media (min-width: 768px){.md\\:text-base{font-size: 1rem; line-height: 1.5rem;}}\n@media (min-width: 1024px){.lg\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 1024px){.lg\\:grid-cols-4{grid-template-columns: repeat(4, minmax(0px, 1fr));}}\n@media (min-width: 1024px){.lg\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 1024px){.lg\\:text-\\[7\\.5rem\\]{font-size: 7.5rem;}}",
+    "header_css": ".stone-btn{position: relative; overflow: hidden; background: oklch(0.94 0.04 70 / 0.6); border-radius: 9999px; box-shadow: oklch(1 0 0 / 0.3) 0px 0px 10px inset, rgba(0, 0, 0, 0.03) 0px 4px 20px; backdrop-filter: blur(15px); border: 0.5px solid oklch(0.7 0.15 45 / 0.2); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);}\n.stone-btn:hover{background: oklch(0.94 0.04 70 / 0.9); border-color: oklch(0.7 0.15 45 / 0.5); box-shadow: oklch(1 0 0 / 0.4) 0px 0px 15px inset, rgba(0, 0, 0, 0.05) 0px 8px 30px; transform: translateY(-1px);}\n.subsurface-nav{background: linear-gradient(oklch(0.93949 0.03974 69.692 / 0.866) 0%, oklch(0.94 0.04 70 / 0) 100%); backdrop-filter: blur(10px);}\n.nav-link{position: relative; color: oklch(0.25 0.05 50 / 0.7); transition: color 0.4s;}\n.nav-link:hover{color: oklch(0.7 0.15 45);}\n.nav-link::after{content: \"\"; position: absolute; bottom: -4px; left: 0px; width: 100%; height: 1px; background: oklch(0.7 0.15 45); transform: scaleX(0); transform-origin: center center; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.nav-link:hover::after{transform: scaleX(1);}\n.fixed{position: fixed;}\n.top-0{top: 0px;}\n.z-50{z-index: 50;}\n.flex{display: flex;}\n.hidden{display: none;}\n.w-full{width: 100%;}\n.cursor-pointer{cursor: pointer;}\n.flex-col{flex-direction: column;}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-3{gap: 0.75rem;}\n.gap-10{gap: 2.5rem;}\n.gap-2{gap: 0.5rem;}\n.px-8{padding-left: 2rem; padding-right: 2rem;}\n.py-4{padding-top: 1rem; padding-bottom: 1rem;}\n.px-6{padding-left: 1.5rem; padding-right: 1.5rem;}\n.py-2\\.5{padding-top: 0.625rem; padding-bottom: 0.625rem;}\n.font-sans{font-family: Inter, sans-serif;}\n.font-serif{font-family: \"Playfair Display\", serif;}\n.text-3xl{font-size: 1.875rem; line-height: 2.25rem;}\n.text-\\[11px\\]{font-size: 11px;}\n.text-\\[13px\\]{font-size: 13px;}\n.text-\\[14px\\]{font-size: 14px;}\n.font-medium{font-weight: 500;}\n.uppercase{text-transform: uppercase;}\n.tracking-\\[0\\.2em\\]{letter-spacing: 0.2em;}\n.tracking-wide{letter-spacing: 0.025em;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-amber{color: oklch(0.7 0.15 45);}\n.text-basalt{color: oklch(0.25 0.05 50);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-500{transition-duration: 500ms;}\n.duration-700{transition-duration: 700ms;}\n.group:hover .group-hover\\:rotate-180{--tw-rotate: 180deg; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 768px){.md\\:flex{display: flex;}}",
+    "footer_css": ".reveal-up{opacity: 0; transform: translateY(40px); transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal-up.active{opacity: 1; transform: translateY(0px);}\n.delay-100{transition-delay: 0.1s;}\n.delay-200{transition-delay: 0.2s;}\n.delay-300{transition-delay: 0.3s;}\n.grid-bg{background-size: 20px 20px; background-image: linear-gradient(to right, oklch(0.7 0.15 45 / 0.1) 1px, transparent 1px), linear-gradient(oklch(0.7 0.15 45 / 0.1) 1px, transparent 1px);}\n.pointer-events-none{pointer-events: none;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-2{margin-bottom: 0.5rem;}\n.mb-8{margin-bottom: 2rem;}\n.mb-20{margin-bottom: 5rem;}\n.mb-4{margin-bottom: 1rem;}\n.mb-6{margin-bottom: 1.5rem;}\n.grid{display: grid;}\n.h-10{height: 2.5rem;}\n.w-10{width: 2.5rem;}\n.max-w-\\[1400px\\]{max-width: 1400px;}\n.max-w-md{max-width: 28rem;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.items-start{align-items: flex-start;}\n.justify-center{justify-content: center;}\n.gap-4{gap: 1rem;}\n.gap-6{gap: 1.5rem;}\n.gap-12{gap: 3rem;}\n.overflow-hidden{overflow: hidden;}\n.rounded-full{border-radius: 9999px;}\n.border{border-width: 1px;}\n.border-t{border-top-width: 1px;}\n.bg-basalt{background-color: oklch(0.25 0.05 50);}\n.pb-12{padding-bottom: 3rem;}\n.pt-24{padding-top: 6rem;}\n.pt-8{padding-top: 2rem;}\n.font-mono{font-family: \"JetBrains Mono\", monospace;}\n.text-4xl{font-size: 2.25rem; line-height: 2.5rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xl{font-size: 1.25rem; line-height: 1.75rem;}\n.font-light{font-weight: 300;}\n.leading-relaxed{line-height: 1.625;}\n.text-sandstone{color: oklch(0.94 0.04 70);}\n.opacity-5{opacity: 0.05;}\n.transition-colors{transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n.delay-300{transition-delay: 300ms;}\n.hover\\:border-amber:hover{border-color: oklch(0.7 0.15 45);}\n.hover\\:text-amber:hover{color: oklch(0.7 0.15 45);}\n.hover\\:text-sandstone:hover{color: oklch(0.94 0.04 70);}\n@media (min-width: 768px){.md\\:col-span-2{grid-column: span 2 / span 2;}}\n@media (min-width: 768px){.md\\:mb-0{margin-bottom: 0px;}}\n@media (min-width: 768px){.md\\:grid-cols-4{grid-template-columns: repeat(4, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:flex-row{flex-direction: row;}}\n@media (min-width: 768px){.md\\:gap-8{gap: 2rem;}}\n@media (min-width: 768px){.md\\:px-16{padding-left: 4rem; padding-right: 4rem;}}\n@media (min-width: 768px){.md\\:text-4xl{font-size: 2.25rem; line-height: 2.5rem;}}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@100;400;700&display=swap"
+    ]
+  }
+}

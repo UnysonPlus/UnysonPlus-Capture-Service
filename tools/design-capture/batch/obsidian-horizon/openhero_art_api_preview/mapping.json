@@ -1,0 +1,310 @@
+{
+  "pages": [
+    {
+      "slug": "home",
+      "front_page": true,
+      "sections": [
+        {
+          "index": 0,
+          "sectionClass": "tectonic-section z-10",
+          "colClass": "",
+          "innerWrapClass": "",
+          "css": ".tectonic-section{position: sticky; top: 0px; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; background: var(--basalt); border-top: 1px solid rgba(255, 255, 255, 0.05);}\n.blade-mask{clip-path: polygon(0px 0px, 100% 0px, 100% 85%, 25% 100%, 0px 90%);}\n.font-syne{font-family: Syncopate, sans-serif;}\n.text-edge{-webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent;}\n.reveal{opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1);}\n.reveal.active{opacity: 1; transform: translateY(0px);}\nh1, h4{font-size: inherit; font-weight: inherit;}\nh1, h4, p{margin: 0px;}\nvideo{display: block; vertical-align: middle;}\nvideo{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-10{z-index: 10;}\n.z-20{z-index: 20;}\n.mb-6{margin-bottom: 1.5rem;}\n.mt-10{margin-top: 2.5rem;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.max-w-md{max-width: 28rem;}\n.bg-gradient-to-t{background-image: linear-gradient(to top, var(--tw-gradient-stops));}\n.object-cover{object-fit: cover;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.text-\\[10px\\]{font-size: 10px;}\n.text-\\[12vw\\]{font-size: 12vw;}\n.font-bold{font-weight: 700;}\n.font-light{font-weight: 300;}\n.uppercase{text-transform: uppercase;}\n.leading-\\[0\\.8\\]{line-height: 0.8;}\n.leading-relaxed{line-height: 1.625;}\n.tracking-\\[0\\.6em\\]{letter-spacing: 0.6em;}\n.tracking-tighter{letter-spacing: -0.05em;}\n.text-gray-300{--tw-text-opacity: 1; color: rgb(209 213 219 / var(--tw-text-opacity, 1));}\n.brightness-75{--tw-brightness: brightness(.75); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.delay-100{transition-delay: 100ms;}\n.delay-200{transition-delay: 200ms;}\n@media (min-width: 768px){.md\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "background": "oklch(0.12 0.02 260)",
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [],
+          "raw": "             <div class=\"absolute inset-0 blade-mask\">                 <video autoplay=\"\" muted=\"\" loop=\"\" playsinline=\"\" class=\"w-full h-full object-cover brightness-75\">                     <source src=\"https://videos.openhero.art/downloads/nature/obsidian-horizon/video.mp4\" type=\"video/mp4\">                 </video>                 <div class=\"absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent\"></div>             </div>             <div class=\"relative z-20 px-12 md:px-24\">                 <h4 class=\"font-syne text-amber text-[10px] tracking-[0.6em] uppercase mb-6 reveal active\">Project: Silence /                     Location: Unknown</h4>                 <h1 class=\"font-syne text-[12vw] font-bold leading-[0.8] uppercase tracking-tighter reveal delay-100 active\">                     Stealth<br><span class=\"text-edge\">Systems</span>                 </h1>                 <p class=\"max-w-md mt-10 text-gray-300 font-light leading-relaxed reveal delay-200 active\">                     Arquitectura de baja observabilidad integrada en el permafrost volcánico. Residencias que no habitan                     el paisaje, sino que lo dominan desde la sombra.                 </p>             </div>         ",
+          "blocks": [
+            {
+              "t": "video",
+              "mode": "self_hosted",
+              "src": "https://videos.openhero.art/downloads/nature/obsidian-horizon/video.mp4",
+              "webm": "https://openhero.art/api/preview?category=nature&slug=obsidian-horizon",
+              "poster": "https://openhero.art/api/preview?category=nature&slug=obsidian-horizon",
+              "bg": true,
+              "aspect": "",
+              "cover": true,
+              "rhideCls": " w-full h-full object-cover brightness-75 absolute inset-0 blade-mask tectonic-section z-10 ",
+              "autoplay": "yes",
+              "muted": "yes",
+              "loop": "yes",
+              "controls": "no",
+              "playsinline": "yes"
+            },
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent\"></div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 899
+              }
+            },
+            {
+              "t": "heading",
+              "level": 4,
+              "html": "Project: Silence / Location: Unknown",
+              "text": "Project: Silence / Location: Unknown",
+              "tag": "h4",
+              "cls": "font-syne text-amber text-[10px] tracking-[0.6em] uppercase mb-6 reveal active",
+              "wrapCls": "relative z-20 px-12 md:px-24",
+              "fontSize": "10px",
+              "fontWeight": "400",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "24px",
+              "marginTop": "0px",
+              "lineHeight": "15px",
+              "letterSpacing": "6px",
+              "align": "left"
+            },
+            {
+              "t": "heading",
+              "level": 1,
+              "html": "Stealth<br>Systems",
+              "text": "StealthSystems",
+              "tag": "h1",
+              "cls": "font-syne text-[12vw] font-bold leading-[0.8] uppercase tracking-tighter reveal delay-100 active",
+              "wrapCls": "relative z-20 px-12 md:px-24",
+              "fontSize": "172.8px",
+              "fontWeight": "700",
+              "color": "rgb(255, 255, 255)",
+              "marginBottom": "0px",
+              "marginTop": "0px",
+              "lineHeight": "138.24px",
+              "letterSpacing": "-8.64px",
+              "align": "left"
+            },
+            {
+              "t": "text",
+              "html": "<p class=\"max-w-md mt-10 text-gray-300 font-light leading-relaxed reveal delay-200 active\">                     Arquitectura de baja observabilidad integrada en el permafrost volcánico. Residencias que no habitan                     el paisaje, sino que lo dominan desde la sombra.                 </p>",
+              "text": "Arquitectura de baja observabilidad integrada en el permafrost volcánico. Residencias que no habitan el paisaje, sino que lo dominan desde la sombra.",
+              "tag": "p",
+              "cls": "max-w-md mt-10 text-gray-300 font-light leading-relaxed reveal delay-200 active",
+              "fontSize": "16px",
+              "color": "rgb(209, 213, 219)",
+              "lineHeight": "26px",
+              "letterSpacing": "normal",
+              "marginBottom": "0px",
+              "textAlign": "start",
+              "fontWeight": "300",
+              "textTransform": "none"
+            }
+          ],
+          "css_id": "hero"
+        },
+        {
+          "index": 1,
+          "sectionClass": "tectonic-section z-20 bg-storm",
+          "colClass": "col-span-5",
+          "innerWrapClass": "",
+          "css": ".tectonic-section{position: sticky; top: 0px; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; background: var(--basalt); border-top: 1px solid rgba(255, 255, 255, 0.05);}\n.sharp-card{clip-path: polygon(0px 0px, 100% 5%, 95% 100%, 0% 95%); background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(217, 119, 66, 0.2);}\n.font-syne{font-family: Syncopate, sans-serif;}\nh2, h3{font-size: inherit; font-weight: inherit;}\nh2, h3, p{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.relative{position: relative;}\n.inset-0{inset: 0px;}\n.z-20{z-index: 20;}\n.col-span-12{grid-column: span 12 / span 12;}\n.col-span-5{grid-column: span 5 / span 5;}\n.mb-10{margin-bottom: 2.5rem;}\n.mb-4{margin-bottom: 1rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.hidden{display: none;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.grid-cols-1{grid-template-columns: repeat(1, minmax(0px, 1fr));}\n.flex-col{flex-direction: column;}\n.justify-center{justify-content: center;}\n.gap-10{gap: 2.5rem;}\n.object-cover{object-fit: cover;}\n.p-8{padding: 2rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.py-20{padding-top: 5rem; padding-bottom: 5rem;}\n.text-6xl{font-size: 3.75rem; line-height: 1;}\n.text-sm{font-size: 0.875rem; line-height: 1.25rem;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.uppercase{text-transform: uppercase;}\n.leading-loose{line-height: 2;}\n.leading-none{line-height: 1;}\n.tracking-widest{letter-spacing: 0.1em;}\n.text-gray-400{--tw-text-opacity: 1; color: rgb(156 163 175 / var(--tw-text-opacity, 1));}\n.text-white{--tw-text-opacity: 1; color: rgb(255 255 255 / var(--tw-text-opacity, 1));}\n.mix-blend-color{mix-blend-mode: color;}\n.brightness-75{--tw-brightness: brightness(.75); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.grayscale{--tw-grayscale: grayscale(100%); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n@media (min-width: 640px){.sm\\:grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:col-span-7{grid-column: span 7 / span 7;}}\n@media (min-width: 768px){.md\\:block{display: block;}}\n@media (min-width: 768px){.md\\:grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}}\n@media (min-width: 768px){.md\\:px-24{padding-left: 6rem; padding-right: 6rem;}}",
+          "computed": {
+            "background": "oklch(0.12 0.02 260)",
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ],
+          "raw": "             <div class=\"grid grid-cols-1 md:grid-cols-12 w-full h-full\">                 <div class=\"hidden md:block col-span-5 h-full relative\">                     <img src=\"https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale brightness-75\">                     <div class=\"absolute inset-0 bg-amber/10 mix-blend-color\"></div>                 </div>                 <div class=\"col-span-12 md:col-span-7 flex flex-col justify-center px-12 md:px-24 py-20\">                     <span class=\"font-syne text-xs text-amber mb-4 tracking-widest uppercase\">Structural Logic</span>                     <h2 class=\"font-syne text-6xl uppercase leading-none mb-10\">Aerodynamic<br>Structuralism</h2>                     <div class=\"grid grid-cols-1 sm:grid-cols-2 gap-10\">                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Monolithic Cantilevers</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Nuestros voladizos de hasta 35 metros                                 desafían la gravedad mediante núcleos de fibra de carbono y anclajes de roca viva.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Zero-Glare Glazing</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Cristal blindado con tratamiento fotocrómico                                 de baja reflectancia. Invisible desde el radar y la visión humana.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Thermal Obsidian</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Fachadas de obsidiana sintética que absorben                                 el calor residual para alimentar los sistemas de soporte vital off-grid.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Seismic Anchors</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Tecnología de amortiguación hidráulica                                 integrada directamente en el basalto del acantilado.</p>                         </div>                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "col-span-5",
+                  "fullCls": "hidden md:block col-span-5 h-full relative",
+                  "colId": "sccol-0",
+                  "cw": 5,
+                  "html": "                     <img src=\"https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale brightness-75\">                     <div class=\"absolute inset-0 bg-amber/10 mix-blend-color\"></div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "image": {
+                    "src": "https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    "alt": "",
+                    "objectFit": "cover",
+                    "maxWidth": "100%"
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 5,
+                    "desktop": 5
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "col-span-12",
+                  "fullCls": "col-span-12 md:col-span-7 flex flex-col justify-center px-12 md:px-24 py-20",
+                  "colId": "sccol-1",
+                  "cw": 7,
+                  "html": "                     <span class=\"font-syne text-xs text-amber mb-4 tracking-widest uppercase\">Structural Logic</span>                     <h2 class=\"font-syne text-6xl uppercase leading-none mb-10\">Aerodynamic<br>Structuralism</h2>                     <div class=\"grid grid-cols-1 sm:grid-cols-2 gap-10\">                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Monolithic Cantilevers</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Nuestros voladizos de hasta 35 metros                                 desafían la gravedad mediante núcleos de fibra de carbono y anclajes de roca viva.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Zero-Glare Glazing</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Cristal blindado con tratamiento fotocrómico                                 de baja reflectancia. Invisible desde el radar y la visión humana.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Thermal Obsidian</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Fachadas de obsidiana sintética que absorben                                 el calor residual para alimentar los sistemas de soporte vital off-grid.</p>                         </div>                         <div class=\"sharp-card p-8\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Seismic Anchors</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Tecnología de amortiguación hidráulica                                 integrada directamente en el basalto del acantilado.</p>                         </div>                     </div>                 ",
+                  "flex": {
+                    "dir": "column",
+                    "justify": "center",
+                    "align": "normal",
+                    "gap": "normal"
+                  },
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "Structural Logic",
+                    "overlineClass": "font-syne text-xs text-amber mb-4 tracking-widest uppercase",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Aerodynamic<br>Structuralism",
+                    "titleTag": "h2",
+                    "titleClass": "font-syne text-6xl uppercase leading-none mb-10",
+                    "subtitle": "Nuestros voladizos de hasta 35 metros desafían la gravedad mediante núcleos de fibra de carbono y anclajes de roca viva.",
+                    "subtitleClass": "text-xs text-gray-400 leading-loose",
+                    "wrapClass": "",
+                    "paras": [
+                      "<p class=\"text-xs text-gray-400 leading-loose\">Cristal blindado con tratamiento fotocrómico                                 de baja reflectancia. Invisible desde el radar y la visión humana.</p>",
+                      "<p class=\"text-xs text-gray-400 leading-loose\">Fachadas de obsidiana sintética que absorben                                 el calor residual para alimentar los sistemas de soporte vital off-grid.</p>",
+                      "<p class=\"text-xs text-gray-400 leading-loose\">Tecnología de amortiguación hidráulica                                 integrada directamente en el basalto del acantilado.</p>"
+                    ]
+                  },
+                  "wResp": {
+                    "phone": 12,
+                    "tablet": 7,
+                    "desktop": 7
+                  }
+                }
+              ],
+              "valign": "",
+              "gap": 0,
+              "gapResp": {
+                "base": 0,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"grid grid-cols-1 md:grid-cols-12 w-full h-full\">                 <div class=\"hidden md:block col-span-5 h-full relative\" data-sc-col=\"sccol-0\">                     <img src=\"https://plus.unsplash.com/premium_photo-1676657954811-9409c4830467?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale brightness-75\">                     <div class=\"absolute inset-0 bg-amber/10 mix-blend-color\"></div>                 </div>                 <div class=\"col-span-12 md:col-span-7 flex flex-col justify-center px-12 md:px-24 py-20\" data-sc-col=\"sccol-1\">                     <span class=\"font-syne text-xs text-amber mb-4 tracking-widest uppercase\">Structural Logic</span>                     <h2 class=\"font-syne text-6xl uppercase leading-none mb-10\">Aerodynamic<br>Structuralism</h2>                     <div class=\"grid grid-cols-1 sm:grid-cols-2 gap-10\">                         <div class=\"sharp-card p-8\" data-sc-col=\"sccol-2\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Monolithic Cantilevers</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Nuestros voladizos de hasta 35 metros                                 desafían la gravedad mediante núcleos de fibra de carbono y anclajes de roca viva.</p>                         </div>                         <div class=\"sharp-card p-8\" data-sc-col=\"sccol-3\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Zero-Glare Glazing</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Cristal blindado con tratamiento fotocrómico                                 de baja reflectancia. Invisible desde el radar y la visión humana.</p>                         </div>                         <div class=\"sharp-card p-8\" data-sc-col=\"sccol-4\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Thermal Obsidian</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Fachadas de obsidiana sintética que absorben                                 el calor residual para alimentar los sistemas de soporte vital off-grid.</p>                         </div>                         <div class=\"sharp-card p-8\" data-sc-col=\"sccol-5\">                             <h3 class=\"font-syne text-sm mb-4 text-white\">Seismic Anchors</h3>                             <p class=\"text-xs text-gray-400 leading-loose\">Tecnología de amortiguación hidráulica                                 integrada directamente en el basalto del acantilado.</p>                         </div>                     </div>                 </div>             </div>"
+            }
+          ],
+          "css_id": "content"
+        },
+        {
+          "index": 2,
+          "sectionClass": "tectonic-section z-30 bg-basalt",
+          "colClass": "col-span-12",
+          "innerWrapClass": "",
+          "css": ".tectonic-section{position: sticky; top: 0px; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; background: var(--basalt); border-top: 1px solid rgba(255, 255, 255, 0.05);}\n.sharp-card{clip-path: polygon(0px 0px, 100% 5%, 95% 100%, 0% 95%); background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(217, 119, 66, 0.2);}\n.hud-glass{background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(25px) brightness(0.6); border: 1px solid rgba(217, 119, 66, 0.3);}\n.font-syne{font-family: Syncopate, sans-serif;}\nh2{font-size: inherit; font-weight: inherit;}\nh2{margin: 0px;}\nimg{display: block; vertical-align: middle;}\nimg{max-width: 100%; height: auto;}\n.absolute{position: absolute;}\n.inset-0{inset: 0px;}\n.z-30{z-index: 30;}\n.col-span-12{grid-column: span 12 / span 12;}\n.mx-auto{margin-left: auto; margin-right: auto;}\n.mb-8{margin-bottom: 2rem;}\n.mt-12{margin-top: 3rem;}\n.flex{display: flex;}\n.grid{display: grid;}\n.h-\\[60vh\\]{height: 60vh;}\n.h-full{height: 100%;}\n.w-full{width: 100%;}\n.max-w-7xl{max-width: 80rem;}\n.cursor-pointer{cursor: pointer;}\n.grid-cols-12{grid-template-columns: repeat(12, minmax(0px, 1fr));}\n.grid-cols-2{grid-template-columns: repeat(2, minmax(0px, 1fr));}\n.items-center{align-items: center;}\n.justify-between{justify-content: space-between;}\n.gap-4{gap: 1rem;}\n.gap-8{gap: 2rem;}\n.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse: 0; margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse))); margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));}\n.overflow-hidden{overflow: hidden;}\n.bg-gray-900{--tw-bg-opacity: 1; background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));}\n.object-cover{object-fit: cover;}\n.p-6{padding: 1.5rem;}\n.px-12{padding-left: 3rem; padding-right: 3rem;}\n.text-5xl{font-size: 3rem; line-height: 1;}\n.text-xs{font-size: 0.75rem; line-height: 1rem;}\n.uppercase{text-transform: uppercase;}\n.leading-none{line-height: 1;}\n.opacity-10{opacity: 0.1;}\n.grayscale{--tw-grayscale: grayscale(100%); filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);}\n.transition-all{transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.transition-transform{transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;}\n.duration-700{transition-duration: 700ms;}\n.hover\\:scale-110:hover{--tw-scale-x: 1.1; --tw-scale-y: 1.1; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));}\n@media (min-width: 1024px){.lg\\:col-span-5{grid-column: span 5 / span 5;}}\n@media (min-width: 1024px){.lg\\:col-span-7{grid-column: span 7 / span 7;}}",
+          "computed": {
+            "background": "oklch(0.12 0.02 260)",
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "Manrope, sans-serif",
+            "fontSize": "16px"
+          },
+          "assets": [
+            "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1581250053637-02ad7eb70688?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ],
+          "raw": "             <div class=\"absolute inset-0 opacity-10\" style=\"background-image: radial-gradient(circle at 2px 2px, var(--amber) 1px, transparent 0); background-size: 40px 40px;\">             </div>             <div class=\"max-w-7xl mx-auto px-12 grid grid-cols-12 gap-8 items-center\">                 <div class=\"col-span-12 lg:col-span-5\">                     <h2 class=\"font-syne text-5xl uppercase leading-none mb-8\">Topographic<br>Integration</h2>                     <div class=\"space-y-6\">                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Acoustic Cloaking</span>                             <span class=\"text-amber text-xs\">Active</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Hydrological Recovery</span>                             <span class=\"text-amber text-xs\">98% Efficient</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Off-Grid Intelligence</span>                             <span class=\"text-amber text-xs\">Quantum Link</span>                         </div>                     </div>                 </div>                 <div class=\"col-span-12 lg:col-span-7 grid grid-cols-2 gap-4 h-[60vh]\">                     <div class=\"bg-gray-900 sharp-card overflow-hidden\">                         <img src=\"https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?q=80&amp;w=710&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                     <div class=\"bg-gray-900 sharp-card overflow-hidden mt-12\">                         <img src=\"https://images.unsplash.com/photo-1581250053637-02ad7eb70688?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                 </div>             </div>         ",
+          "blocks": [
+            {
+              "t": "html",
+              "html": "<div class=\"absolute inset-0 opacity-10\" style=\"background-image: radial-gradient(circle at 2px 2px, var(--amber) 1px, transparent 0); background-size: 40px 40px;\">             </div>",
+              "decor": true,
+              "paint": {
+                "bg": "rgba(0, 0, 0, 0)",
+                "bgImage": "radial-gradient(circle at 2px 2px, oklch(0.65 0.15 45) 1px, rgba(0, 0, 0, 0) 0px)",
+                "blur": "",
+                "blend": "",
+                "radius": "",
+                "opacity": "0.1",
+                "position": "absolute",
+                "top": "0px",
+                "right": "0px",
+                "bottom": "0px",
+                "left": "0px",
+                "zIndex": "",
+                "w": 1440,
+                "h": 899
+              }
+            },
+            {
+              "t": "row",
+              "cols": [
+                {
+                  "width": "1_2",
+                  "cls": "col-span-12",
+                  "fullCls": "col-span-12 lg:col-span-5",
+                  "colId": "sccol-6",
+                  "cw": 4,
+                  "html": "                     <h2 class=\"font-syne text-5xl uppercase leading-none mb-8\">Topographic<br>Integration</h2>                     <div class=\"space-y-6\">                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Acoustic Cloaking</span>                             <span class=\"text-amber text-xs\">Active</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Hydrological Recovery</span>                             <span class=\"text-amber text-xs\">98% Efficient</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Off-Grid Intelligence</span>                             <span class=\"text-amber text-xs\">Quantum Link</span>                         </div>                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "text": {
+                    "overline": "",
+                    "overlineClass": "",
+                    "overlineIcon": "",
+                    "overlineIconPos": "before",
+                    "title": "Topographic<br>Integration",
+                    "titleTag": "h2",
+                    "titleClass": "font-syne text-5xl uppercase leading-none mb-8",
+                    "subtitle": "",
+                    "subtitleClass": "",
+                    "wrapClass": "",
+                    "paras": []
+                  },
+                  "wResp": {
+                    "phone": 9,
+                    "tablet": 11,
+                    "desktop": 4
+                  }
+                },
+                {
+                  "width": "1_2",
+                  "cls": "col-span-12",
+                  "fullCls": "col-span-12 lg:col-span-7 grid grid-cols-2 gap-4 h-[60vh]",
+                  "colId": "sccol-9",
+                  "cw": 6,
+                  "html": "                     <div class=\"bg-gray-900 sharp-card overflow-hidden\">                         <img src=\"https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?q=80&amp;w=710&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                     <div class=\"bg-gray-900 sharp-card overflow-hidden mt-12\">                         <img src=\"https://images.unsplash.com/photo-1581250053637-02ad7eb70688?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                 ",
+                  "counter": null,
+                  "card": null,
+                  "image": {
+                    "src": "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?q=80&w=710&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    "alt": "",
+                    "objectFit": "cover",
+                    "maxWidth": "100%"
+                  },
+                  "wResp": {
+                    "phone": 9,
+                    "tablet": 11,
+                    "desktop": 6
+                  }
+                }
+              ],
+              "valign": "center",
+              "gap": 32,
+              "gapResp": {
+                "base": 32,
+                "md": 0,
+                "lg": 0
+              },
+              "html": "<div class=\"max-w-7xl mx-auto px-12 grid grid-cols-12 gap-8 items-center\">                 <div class=\"col-span-12 lg:col-span-5\" data-sc-col=\"sccol-6\">                     <h2 class=\"font-syne text-5xl uppercase leading-none mb-8\">Topographic<br>Integration</h2>                     <div class=\"space-y-6\">                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\" data-sc-col=\"sccol-7\">Acoustic Cloaking</span>                             <span class=\"text-amber text-xs\" data-sc-col=\"sccol-8\">Active</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Hydrological Recovery</span>                             <span class=\"text-amber text-xs\">98% Efficient</span>                         </div>                         <div class=\"hud-glass p-6 flex justify-between items-center group cursor-pointer hover:border-amber transition-all\">                             <span class=\"font-syne text-xs\">Off-Grid Intelligence</span>                             <span class=\"text-amber text-xs\">Quantum Link</span>                         </div>                     </div>                 </div>                 <div class=\"col-span-12 lg:col-span-7 grid grid-cols-2 gap-4 h-[60vh]\" data-sc-col=\"sccol-9\">                     <div class=\"bg-gray-900 sharp-card overflow-hidden\">                         <img src=\"https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?q=80&amp;w=710&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                     <div class=\"bg-gray-900 sharp-card overflow-hidden mt-12\">                         <img src=\"https://images.unsplash.com/photo-1581250053637-02ad7eb70688?q=80&amp;w=687&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\" class=\"w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700\">                     </div>                 </div>             </div>"
+            }
+          ],
+          "css_id": "features"
+        }
+      ]
+    }
+  ]
+}

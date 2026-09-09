@@ -1,0 +1,182 @@
+{
+  "theme": {
+    "name": "National Geographic",
+    "slug": "national-geographic",
+    "mode": "child"
+  },
+  "favicon": "https://openhero.art/favicon.ico",
+  "hero": {},
+  "layout": {},
+  "css_vars": {
+    "--obsidian": "oklch(12% 0.03 40)",
+    "--deep-earth": "oklch(22% 0.06 50)",
+    "--ivory-mist": "oklch(96% 0.03 75)",
+    "--ochre-glow": "oklch(78% 0.18 68)",
+    "--blur-glass": "blur(24px) saturate(1.8) brightness(1.05)",
+    "--r-pill": "72% 28% 34% 66% / 55% 62% 38% 45%",
+    "--font-display": "'DM Serif Display', serif",
+    "--sienna-mid": "oklch(55% 0.14 50)",
+    "--dust-amber": "oklch(75% 0.15 50)",
+    "--font-data": "'Space Mono', monospace",
+    "--gold-haze": "oklch(85% 0.12 70)",
+    "--blur-haze": "blur(80px) saturate(1.5) brightness(0.95)",
+    "--font-ui": "'Syne', sans-serif",
+    "--r-card": "32% 68% 55% 45% / 48% 36% 64% 52%",
+    "--font-title": "'Playfair Display', serif",
+    "--predator-dark": "oklch(18% 0.04 45)",
+    "--r-squircle": "38% 62% 63% 37% / 41% 44% 56% 59%",
+    "--warm-white": "oklch(98% 0.01 80)",
+    "--r-lens": "48% 52% 58% 42% / 44% 41% 59% 56%",
+    "--grass-green": "oklch(55% 0.12 145)"
+  },
+  "fonts": {
+    "heading": "DM Serif Display",
+    "heading_weight": "400",
+    "body": "Syne",
+    "google": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap",
+    "heading_visual": "Abril Fatface",
+    "heading_visual_top": [
+      "Abril Fatface",
+      "Playfair Display",
+      "Noto Serif Display",
+      "Merriweather",
+      "Cormorant"
+    ],
+    "body_visual": "Questrial",
+    "body_visual_top": [
+      "Questrial",
+      "Baloo 2",
+      "Open Sans",
+      "Archivo",
+      "Source Sans 3"
+    ]
+  },
+  "colors": {
+    "ink": "oklch(0.96 0.03 75)",
+    "accent": "oklch(0.85 0.12 70 / 0.12)",
+    "bg": "oklch(0.12 0.03 40)",
+    "heading": "oklch(0.96 0.03 75)",
+    "footer_text": "oklch(0.96 0.03 75)"
+  },
+  "header": {
+    "style": "bar",
+    "menu_location": "primary",
+    "sticky": true,
+    "menu": [
+      {
+        "label": "Biome Sync",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#biome"
+      },
+      {
+        "label": "Acoustic",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#acoustic"
+      },
+      {
+        "label": "Genomic",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#genomic"
+      }
+    ],
+    "logo": {
+      "font": "Syne",
+      "size": "10.88px",
+      "weight": "400",
+      "color": "oklch(0.85 0.12 70 / 0.7)",
+      "letter_spacing": "1.9584px"
+    },
+    "cta": {
+      "enabled": false,
+      "label": "Get started",
+      "href": "/#get-started",
+      "dedupe_from_menu": false,
+      "style": {}
+    }
+  },
+  "footer": {
+    "widget_area": true,
+    "brand": true,
+    "copyright": "",
+    "menu": [
+      {
+        "label": "Field Notes",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#"
+      },
+      {
+        "label": "Open Data",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#"
+      },
+      {
+        "label": "API Access",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#"
+      },
+      {
+        "label": "Partners",
+        "url": "/api/preview?category=nature&slug=national-geographic-conservation-technology#"
+      }
+    ],
+    "social": [],
+    "contact": null,
+    "newsletter": null
+  },
+  "background": {
+    "dotted": false
+  },
+  "raw_chrome": {
+    "header_html": "<nav style=\"background: oklch(0.12 0.03 40 / 0.4);\">   <div class=\"nav-logo\">     <div class=\"logo-rect\"></div>     <span>National Geographic<br>Conservation Technology</span>   </div>   <!--SC_NAV-->   <div class=\"nav-status\">     <div class=\"status-pulse\"></div>     Live Field Data · Serengeti   </div> </nav>",
+    "nav_tree": [
+      {
+        "label": "Telemetry",
+        "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#telemetry",
+        "children": []
+      },
+      {
+        "label": "Biome Sync",
+        "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#biome",
+        "children": []
+      },
+      {
+        "label": "Acoustic",
+        "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#acoustic",
+        "children": []
+      },
+      {
+        "label": "Genomic",
+        "href": "https://openhero.art/api/preview?category=nature&slug=national-geographic-conservation-technology#genomic",
+        "children": []
+      }
+    ],
+    "nav_style": {
+      "color": "oklch(0.85 0.12 70 / 0.7)",
+      "fontSize": "10.88px",
+      "fontWeight": "400",
+      "letterSpacing": "1.9584px",
+      "textTransform": "uppercase",
+      "fontFamily": "Syne, sans-serif",
+      "gap": "40px",
+      "ddBg": "",
+      "ddShadow": "",
+      "ddRadius": "",
+      "ddColor": ""
+    },
+    "footer_html": "<footer>   <div class=\"footer-inner\">     <div>       <div class=\"footer-brand\">Conservation<br>Technology</div>     </div>     <div>       <ul class=\"footer-links\">         <li><a href=\"#\">Field Notes</a></li>         <li><a href=\"#\">Open Data</a></li>         <li><a href=\"#\">API Access</a></li>         <li><a href=\"#\">Partners</a></li>       </ul>       <div class=\"footer-copy\" style=\"margin-top:1.5rem\">         © 2025 National Geographic Society<br>         Conservation Technology Division · Serengeti Field Operations<br>         <span style=\"color:oklch(85% 0.12 70 / 0.15)\">System v4.2.1 · All animal data anonymized for protection.</span>       </div>     </div>   </div> </footer>",
+    "footer_cols": [],
+    "footer_copyright": "",
+    "footer_heading_style": null,
+    "footer_link_style": {
+      "transform": "uppercase",
+      "letterSpacing": "1.44px",
+      "fontWeight": "400",
+      "fontSize": "9.6px",
+      "lineHeight": "normal",
+      "hover": "",
+      "gap": 32
+    },
+    "footer_tagline_style": null,
+    "base_css": ":root{--gold-haze: oklch(85% 0.12 70); --dust-amber: oklch(75% 0.15 50); --deep-earth: oklch(22% 0.06 50); --obsidian: oklch(12% 0.03 40); --ivory-mist: oklch(96% 0.03 75); --warm-white: oklch(98% 0.01 80); --sienna-mid: oklch(55% 0.14 50); --ochre-glow: oklch(78% 0.18 68); --grass-green: oklch(55% 0.12 145); --predator-dark: oklch(18% 0.04 45); --r-squircle: 38% 62% 63% 37% / 41% 44% 56% 59%; --r-lens: 48% 52% 58% 42% / 44% 41% 59% 56%; --r-card: 32% 68% 55% 45% / 48% 36% 64% 52%; --r-pill: 72% 28% 34% 66% / 55% 62% 38% 45%; --blur-haze: blur(80px) saturate(1.5) brightness(0.95); --blur-glass: blur(24px) saturate(1.8) brightness(1.05); --font-display: 'DM Serif Display', serif; --font-title: 'Playfair Display', serif; --font-data: 'Space Mono', monospace; --font-ui: 'Syne', sans-serif;}\n*, ::before, ::after{box-sizing: border-box; margin: 0px; padding: 0px;}\nhtml{scroll-behavior: smooth; overflow-x: hidden;}\nbody{background: var(--obsidian); color: var(--ivory-mist); font-family: var(--font-ui); overflow-x: hidden; cursor: none;}\n::-webkit-scrollbar{width: 3px;}\n::-webkit-scrollbar-track{background: var(--obsidian);}\n::-webkit-scrollbar-thumb{background: linear-gradient(to bottom, var(--gold-haze), var(--dust-amber)); border-radius: 99px;}\nbody::before{content: \"\"; position: fixed; inset: 0px; z-index: 1; background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(https://openhero.art/api/%23n)' opacity='0.04'/%3E%3C/svg%3E\"); opacity: 0.035; pointer-events: none;}\nnav{position: fixed; top: 0px; left: 0px; right: 0px; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 3rem; backdrop-filter: blur(40px) saturate(1.4); background: oklch(0.12 0.03 40 / 0.4); border-bottom: 1px solid oklch(0.85 0.12 70 / 0.08);}\nfooter{position: relative; padding: 5rem 4rem 3rem; border-top: 1px solid oklch(0.85 0.12 70 / 0.06); overflow: hidden;}\nfooter::before{content: \"\"; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 500px; height: 160px; background: radial-gradient(oklch(0.85 0.12 70 / 0.04) 0%, transparent 70%);}\n@media (max-width: 900px){nav{padding: 1rem 1.5rem;}}\n@media (max-width: 900px){footer{padding: 3rem 1.5rem 2rem;}}",
+    "util_css": "#cursor-ring{position: fixed; width: 40px; height: 40px; border: 1.5px solid oklch(0.85 0.12 70 / 0.6); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, border-color 0.3s, border-radius 0.3s; mix-blend-mode: screen;}\n#cursor-dot{position: fixed; width: 6px; height: 6px; background: var(--gold-haze); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);}\nbody:has(a:hover) #cursor-ring{width: 64px; height: 64px; border-color: var(--ochre-glow); border-radius: 40%;}\n.light-corridor{position: fixed; inset: 0px; z-index: 0; pointer-events: none; background: radial-gradient(oklch(0.85 0.12 70 / 0.3) 0%, oklch(0.75 0.15 50 / 0.1) 50%, transparent 85%); backdrop-filter: blur(120px) contrast(1.1); animation: 8s ease-in-out 0s infinite alternate none running corridor-breathe;}\n@keyframes corridor-breathe { \n  0% { opacity: 0.6; transform: scale(1) translateY(0px); }\n  100% { opacity: 1; transform: scale(1.08) translateY(-2%); }\n}\n.dust-field{position: fixed; inset: 0px; z-index: 0; pointer-events: none; overflow: hidden;}\n.dust-field span{position: absolute; width: 2px; height: 2px; background: var(--gold-haze); border-radius: 50%; animation: auto linear 0s infinite normal none running dust-drift; opacity: 0;}\n@keyframes dust-drift { \n  0% { transform: translateY(100vh) translateX(0px) scale(0); opacity: 0; }\n  10% { opacity: 0.6; }\n  90% { opacity: 0.3; }\n  100% { transform: translateY(-10vh) translateX(var(--drift-x, 30px)) scale(1.5); opacity: 0; }\n}\n@keyframes pulse-live { \n  0%, 100% { transform: scale(1); opacity: 1; }\n  50% { transform: scale(1.6); opacity: 0.4; }\n}\n.hero{position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding: 0px 4rem;}\n.savanna-portal{position: absolute; right: -5%; top: 50%; transform: translateY(-50%) rotate(-2deg); width: 62vw; height: 72vh; z-index: 1; animation: 12s ease-in-out 0s infinite alternate none running lens-drift;}\n@keyframes lens-drift { \n  0% { transform: translateY(-50%) rotate(-2deg) scale(1); right: -5%; }\n  50% { transform: translateY(-52%) rotate(-1deg) scale(1.02); right: -3%; }\n  100% { transform: translateY(-48%) rotate(-3deg) scale(0.99); right: -6%; }\n}\n.portal-mask{width: 100%; height: 100%; position: relative; border-radius: var(--r-lens); overflow: hidden; box-shadow: oklch(0.85 0.12 70 / 0.15) 0px 0px 80px inset, oklch(0.75 0.15 50 / 0.25) 0px 0px 120px, oklch(0.12 0.03 40 / 0.6) 0px 40px 100px;}\n.portal-mask::before{content: \"\"; position: absolute; inset: -2px; z-index: 3; background: transparent; border-radius: var(--r-lens); box-shadow: oklch(0.85 0.12 70 / 0.2) 0px 0px 0px 3px inset; pointer-events: none;}\n.portal-mask::after{content: \"\"; position: absolute; inset: 0px; z-index: 2; background: transparent; backdrop-filter: none; pointer-events: none; border-radius: var(--r-lens);}\n.portal-video{width: 100%; height: 100%; object-fit: cover; filter: none; transform: none; transition: none;}\n.grass-overlay{position: absolute; inset: 0px; z-index: 4; pointer-events: none; background: none; opacity: 0; border-radius: var(--r-lens);}\n.hero-content{position: relative; z-index: 10; max-width: 42%; padding-top: 6rem;}\n.hero-eyebrow{display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ochre-glow); margin-bottom: 1.5rem; opacity: 0; animation: 1s ease 0.3s 1 normal forwards running fade-up;}\n.eyebrow-line{width: 40px; height: 1px; background: linear-gradient(to right, var(--ochre-glow), transparent);}\n.hero-title{font-family: var(--font-display); font-size: clamp(3.2rem, 5.5vw, 7rem); font-weight: 400; line-height: 0.9; color: var(--ivory-mist); letter-spacing: -0.02em; margin-bottom: 2rem; opacity: 0; animation: 1s ease 0.5s 1 normal forwards running fade-up;}\n.hero-title em{font-style: italic; color: var(--ochre-glow); display: block;}\n.hero-body{font-family: var(--font-ui); font-size: 0.88rem; line-height: 1.75; font-weight: 400; color: oklch(0.85 0.12 70 / 0.65); max-width: 36ch; margin-bottom: 2.5rem; opacity: 0; animation: 1s ease 0.7s 1 normal forwards running fade-up;}\n@keyframes fade-up { \n  0% { opacity: 0; transform: translateY(24px); }\n  100% { opacity: 1; transform: translateY(0px); }\n}\n.hero-ctas{display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; opacity: 0; animation: 1s ease 0.9s 1 normal forwards running fade-up;}\n.btn-primary{position: relative; overflow: hidden; padding: 0.85rem 2rem; background: oklch(0.85 0.12 70 / 0.12); border: 1px solid oklch(0.85 0.12 70 / 0.3); border-radius: 44% 56% 38% 62% / 52% 44% 56% 48%; color: var(--ivory-mist); font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: none; text-decoration: none; backdrop-filter: var(--blur-glass); box-shadow: oklch(0.85 0.12 70 / 0.2) 0px 1px 0px inset, oklch(0.12 0.03 40 / 0.3) 0px -1px 0px inset, oklch(0.12 0.03 40 / 0.4) 0px 8px 32px; transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);}\n.btn-primary::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(at 50% 0%, oklch(0.85 0.12 70 / 0.25) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s;}\n.btn-primary:hover{transform: translateY(-2px) scale(1.02);}\n.btn-primary:hover::before{opacity: 1;}\n.btn-ghost{display: flex; align-items: center; gap: 0.5rem; color: oklch(0.85 0.12 70 / 0.55); font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: none; text-decoration: none; transition: color 0.3s;}\n.btn-ghost::after{content: \"→\"; font-size: 1rem; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);}\n.btn-ghost:hover{color: var(--ochre-glow);}\n.btn-ghost:hover::after{transform: translateX(6px);}\n.telemetry-hud{position: absolute; bottom: 2rem; left: 2rem; z-index: 12; opacity: 0; animation: 1s ease 1.2s 1 normal forwards running fade-up;}\n.hud-panel{background: oklch(0.12 0.03 40 / 0.65); backdrop-filter: var(--blur-glass); border: 1px solid oklch(0.85 0.12 70 / 0.12); border-radius: 28% 72% 22% 78% / 42% 32% 68% 58%; padding: 1rem 1.4rem; font-family: var(--font-data); font-size: 0.58rem; color: oklch(0.85 0.12 70 / 0.7); letter-spacing: 0.1em; box-shadow: oklch(0.85 0.12 70 / 0.1) 0px 1px 0px inset;}\n.hud-row{display: flex; gap: 1.5rem; margin-bottom: 0.3rem;}\n.hud-row:last-child{margin: 0px;}\n.hud-label{color: oklch(0.55 0.14 50 / 0.6);}\n.hud-value{color: var(--ochre-glow);}\n.scroll-hint{position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--font-data); font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: oklch(0.85 0.12 70 / 0.3); z-index: 10; animation: 1s ease 1.5s 1 normal both running fade-up;}\n.scroll-track{width: 1px; height: 48px; background: linear-gradient(to bottom, var(--ochre-glow), transparent); animation: 2.5s ease-in-out 0s infinite normal none running scroll-pulse;}\n@keyframes scroll-pulse { \n  0% { transform: scaleY(0); transform-origin: center top; opacity: 0; }\n  50% { transform: scaleY(1); opacity: 1; }\n  100% { transform: scaleY(0); transform-origin: center bottom; opacity: 0; }\n}\n.section-glow{position: relative; padding: 8rem 4rem;}\n.section-glow::before{content: \"\"; position: absolute; left: 50%; top: 0px; transform: translateX(-50%); width: 60%; height: 1px; background: radial-gradient(oklch(0.85 0.12 70 / 0.3) 0%, transparent 70%);}\n.telemetry-section{position: relative; padding: 7rem 4rem; overflow: hidden;}\n.section-label{display: flex; align-items: center; gap: 1rem; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 1rem;}\n.section-label-line{width: 32px; height: 1px; background: var(--sienna-mid);}\n.section-title{font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 4.5rem); font-weight: 700; line-height: 1; color: var(--ivory-mist); letter-spacing: -0.02em; max-width: 14ch; margin-bottom: 4rem;}\n.section-title span{color: var(--ochre-glow); font-style: italic;}\n.card-river{display: flex; gap: 2rem; flex-wrap: wrap; position: relative;}\n.card-river::before{content: \"\"; position: absolute; top: -40px; left: 10%; right: 10%; height: 80px; background: radial-gradient(oklch(0.85 0.12 70 / 0.06) 0%, transparent 70%); pointer-events: none;}\n.tech-card{position: relative; flex: 1 1 280px; max-width: 360px; padding: 2.2rem 2rem; background: oklch(0.18 0.04 45 / 0.7); backdrop-filter: var(--blur-glass); border: 1px solid oklch(0.85 0.12 70 / 0.08); border-radius: var(--r-card); overflow: hidden; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s; cursor: none; will-change: transform;}\n.tech-card::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(at 30% 0%, oklch(0.85 0.12 70 / 0.08) 0%, transparent 60%); opacity: 0; transition: opacity 0.4s; pointer-events: none;}\n.tech-card::after{content: \"\"; position: absolute; top: 0px; left: 0px; right: 0px; height: 1px; background: linear-gradient(to right, transparent, oklch(0.85 0.12 70 / 0.3), transparent); opacity: 0.5;}\n.tech-card:hover{transform: translateY(-8px) rotate(0.5deg); box-shadow: oklch(0.12 0.03 40 / 0.5) 0px 32px 80px, oklch(0.85 0.12 70 / 0.15) 0px 0px 0px 1px;}\n.tech-card:hover::before{opacity: 1;}\n.card-icon{width: 48px; height: 48px; margin-bottom: 1.5rem; border-radius: 35% 65% 42% 58% / 50% 38% 62% 50%; background: oklch(0.85 0.12 70 / 0.1); border: 1px solid oklch(0.85 0.12 70 / 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: oklch(0.85 0.12 70 / 0.1) 0px 0px 16px inset;}\n.card-kicker{font-family: var(--font-data); font-size: 0.56rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sienna-mid); margin-bottom: 0.5rem;}\n.card-name{font-family: var(--font-title); font-size: 1.3rem; font-weight: 700; line-height: 1.1; color: var(--ivory-mist); margin-bottom: 0.8rem;}\n.card-desc{font-size: 0.8rem; line-height: 1.7; color: oklch(0.85 0.12 70 / 0.5);}\n.card-metric{margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid oklch(0.85 0.12 70 / 0.08); display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-data); font-size: 0.6rem;}\n.metric-val{font-size: 1.4rem; color: var(--ochre-glow); font-weight: 700;}\n.metric-label{color: oklch(0.85 0.12 70 / 0.35); letter-spacing: 0.1em;}\n.data-strip{display: flex; gap: 0px; overflow: hidden; border-radius: 48px; margin: 3rem 0px; border: 1px solid oklch(0.85 0.12 70 / 0.08);}\n.data-cell{flex: 1 1 0%; padding: 1.5rem; border-right: 1px solid oklch(0.85 0.12 70 / 0.06); background: oklch(0.16 0.04 45 / 0.5); backdrop-filter: blur(20px); text-align: center; position: relative; overflow: hidden; transition: background 0.4s, transform 0.4s; cursor: none;}\n.data-cell:last-child{border-right-width: medium; border-right-style: none; border-right-color: currentcolor;}\n.data-cell:hover{background: oklch(0.2 0.05 50 / 0.7);}\n.data-cell::before{content: \"\"; position: absolute; bottom: 0px; left: 10%; right: 10%; height: 2px; background: linear-gradient(to right, transparent, var(--ochre-glow), transparent); transform: scaleX(0); transition: transform 0.4s; transform-origin: center center;}\n.data-cell:hover::before{transform: scaleX(1);}\n.data-big{font-family: var(--font-title); font-size: 2.4rem; font-weight: 900; color: var(--ochre-glow); line-height: 1; display: block; margin-bottom: 0.25rem;}\n.data-sub{font-family: var(--font-data); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.85 0.12 70 / 0.4);}\n.biome-section{position: relative; padding: 7rem 4rem; overflow: hidden;}\n.biome-grid{display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;}\n.biome-visual{position: relative; height: 500px;}\n.biome-orb{position: absolute; border-radius: var(--r-pill); animation: auto ease-in-out 0s infinite alternate none running orb-float;}\n.biome-orb-1{width: 340px; height: 340px; top: 0px; left: 0px; background: radial-gradient(at 35% 35%, oklch(0.78 0.18 68 / 0.15), oklch(0.22 0.06 50 / 0.05)); border: 1px solid oklch(0.85 0.12 70 / 0.1); backdrop-filter: blur(40px); animation-duration: 7s; box-shadow: oklch(0.85 0.12 70 / 0.06) 0px 0px 60px inset;}\n.biome-orb-2{width: 240px; height: 260px; bottom: 0px; right: 0px; background: radial-gradient(at 60% 60%, oklch(0.55 0.12 145 / 0.12), transparent); border: 1px solid oklch(0.55 0.12 145 / 0.15); animation-duration: 9s;}\n.biome-orb-3{width: 160px; height: 180px; top: 50%; left: 55%; transform: translate(-50%, -50%); background: radial-gradient(oklch(0.75 0.15 50 / 0.2), transparent); animation-duration: 5s; border: 1px solid oklch(0.75 0.15 50 / 0.2); backdrop-filter: blur(20px);}\n@keyframes orb-float { \n  0% { transform: translateY(0px) rotate(0deg) scale(1); }\n  100% { transform: translateY(-20px) rotate(3deg) scale(1.04); }\n}\n.acoustic-bar-wrap{display: flex; align-items: flex-end; gap: 4px; height: 80px; margin: 1rem 0px;}\n.acoustic-bar{flex: 1 1 0%; background: linear-gradient(to top, var(--ochre-glow), oklch(85% 0.12 70 / 0.3)); border-radius: 99px 99px 0px 0px; animation: 1.4s ease-in-out 0s infinite normal none running wave-pulse; min-height: 4px;}\n@keyframes wave-pulse { \n  0%, 100% { height: var(--bar-h, 30%); }\n  50% { height: var(--bar-h2, 70%); }\n}\n.spec-list{list-style: none; margin-top: 1.5rem;}\n.spec-list li{display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0px; border-bottom: 1px solid oklch(0.85 0.12 70 / 0.06); font-size: 0.8rem; transition: background 0.2s;}\n.spec-list li:last-child{border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor;}\n.spec-key{color: oklch(0.85 0.12 70 / 0.45); font-family: var(--font-data); font-size: 0.62rem; letter-spacing: 0.1em;}\n.spec-val{color: var(--ivory-mist); font-weight: 600;}\n.spec-badge{font-family: var(--font-data); font-size: 0.52rem; letter-spacing: 0.15em; padding: 0.2rem 0.5rem; border-radius: 99px; background: oklch(0.55 0.12 145 / 0.15); border: 1px solid oklch(0.55 0.12 145 / 0.3); color: oklch(0.7 0.14 145);}\n.genomic-section{padding: 7rem 4rem; position: relative;}\n.genomic-grid{display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;}\n.genome-node{position: relative; padding: 1.5rem; background: oklch(0.16 0.04 45 / 0.6); border: 1px solid oklch(0.85 0.12 70 / 0.07); border-radius: var(--r-squircle); backdrop-filter: blur(20px); transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1); cursor: none; overflow: hidden;}\n.genome-node::before{content: \"\"; position: absolute; inset: 0px; background: radial-gradient(ellipse at var(--mx, 50%) var(--my, 50%), oklch(85% 0.12 70 / 0.07) 0%, transparent 60%); pointer-events: none;}\n.genome-node:hover{transform: scale(1.03) rotate(-0.5deg); border-color: oklch(0.85 0.12 70 / 0.2); box-shadow: oklch(0.12 0.03 40 / 0.4) 0px 20px 60px;}\n.genome-code{font-family: var(--font-data); font-size: 0.55rem; color: oklch(0.55 0.14 50 / 0.6); letter-spacing: 0.2em; margin-bottom: 0.5rem;}\n.genome-name{font-family: var(--font-title); font-size: 1rem; font-weight: 700; color: var(--ivory-mist); margin-bottom: 0.3rem;}\n.genome-sci{font-family: var(--font-data); font-size: 0.6rem; font-style: italic; color: oklch(0.85 0.12 70 / 0.35); margin-bottom: 1rem;}\n.genome-bar{height: 3px; border-radius: 99px; background: oklch(0.85 0.12 70 / 0.1); overflow: hidden; margin-bottom: 0.4rem;}\n.genome-bar-fill{height: 100%; background: linear-gradient(to right, var(--ochre-glow), var(--sienna-mid)); border-radius: 99px; animation: 2s cubic-bezier(0.22, 1, 0.36, 1) 0.5s 1 normal both running fill-expand; transform-origin: left center;}\n@keyframes fill-expand { \n  0% { transform: scaleX(0); }\n  100% { transform: scaleX(1); }\n}\n.genome-pct{font-family: var(--font-data); font-size: 0.6rem; color: oklch(0.85 0.12 70 / 0.4); text-align: right;}\n.stalk{opacity: 0; transform: translateY(32px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity;}\n.stalk.in-view{opacity: 1; transform: translateY(0px);}\n.stalk-delay-1{transition-delay: 0.1s;}\n.stalk-delay-2{transition-delay: 0.2s;}\n.stalk-delay-3{transition-delay: 0.3s;}\n@media (max-width: 900px){.hero{padding: 0px 1.5rem;}}\n@media (max-width: 900px){.hero-content{max-width: 100%; z-index: 10;}}\n@media (max-width: 900px){.savanna-portal{opacity: 0.3; width: 100vw; right: 0px; height: 55vh; top: auto; bottom: 0px; transform: none; animation: auto ease 0s 1 normal none running none;}}\n@media (max-width: 900px){.hero-title{font-size: 2.8rem;}}\n@media (max-width: 900px){.section-glow, .telemetry-section, .biome-section, .genomic-section{padding: 4rem 1.5rem;}}\n@media (max-width: 900px){.biome-grid{grid-template-columns: 1fr;}}\n@media (max-width: 900px){.genomic-grid{grid-template-columns: 1fr 1fr;}}\n@media (max-width: 900px){.data-strip{border-radius: 24px;}}\n@media (max-width: 900px){.data-cell{padding: 1rem;}}\n@media (max-width: 900px){.data-big{font-size: 1.6rem;}}",
+    "header_css": ".nav-logo{display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-ui); font-weight: 800; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ivory-mist);}\n.nav-logo .logo-rect{width: 36px; height: 24px; background: var(--ochre-glow); border-radius: 4px 12px; flex-shrink: 0;}\n.nav-links{display: flex; gap: 2.5rem; list-style: none; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;}\n.nav-links a{color: oklch(0.85 0.12 70 / 0.7); text-decoration: none; transition: color 0.3s; position: relative;}\n.nav-links a::after{content: \"\"; position: absolute; bottom: -4px; left: 0px; right: 100%; height: 1px; background: var(--ochre-glow); transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);}\n.nav-links a:hover{color: var(--ochre-glow);}\n.nav-links a:hover::after{right: 0px;}\n.nav-status{display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-data); font-size: 0.6rem; color: var(--grass-green); letter-spacing: 0.1em;}\n.status-pulse{width: 6px; height: 6px; background: var(--grass-green); border-radius: 50%; animation: 2s ease-in-out 0s infinite normal none running pulse-live; box-shadow: 0 0 8px var(--grass-green);}\n@media (max-width: 900px){.nav-links{display: none;}}",
+    "footer_css": ".footer-inner{display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem;}\n.footer-brand{font-family: var(--font-display); font-size: 3rem; font-weight: 400; font-style: italic; color: oklch(0.85 0.12 70 / 0.12); letter-spacing: -0.03em; line-height: 1;}\n.footer-copy{font-family: var(--font-data); font-size: 0.6rem; color: oklch(0.85 0.12 70 / 0.25); letter-spacing: 0.1em; line-height: 1.8;}\n.footer-links{display: flex; gap: 2rem; list-style: none; font-family: var(--font-data); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;}\n.footer-links a{color: oklch(0.85 0.12 70 / 0.3); text-decoration: none; transition: color 0.3s;}\n.footer-links a:hover{color: var(--ochre-glow);}",
+    "linked_css": [
+      "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    ]
+  }
+}

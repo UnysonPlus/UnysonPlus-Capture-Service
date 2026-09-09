@@ -1,0 +1,631 @@
+<!DOCTYPE html><html lang="en" data-sc-cs="background-color:oklch(0.12 0.03 260);color:rgb(0, 0, 0)" data-sc-content-width="1248"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Carbon | Rebalancing the planet with photosynthesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        midnight: "oklch(12% 0.03 260)",
+        magenta: "oklch(65% 0.25 330)",
+        amber: "oklch(70% 0.2 45)",
+        surface: "oklch(18% 0.02 260)",
+      },
+      fontFamily: {
+        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display"', 'serif'],
+      },
+      animation: {
+        'marquee': 'marquee 40s linear infinite',
+        'pulse-slow': 'pulse-slow 8s ease-in-out infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        'pulse-slow': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.3' },
+          '50%': { transform: 'scale(1.1)', opacity: '0.6' },
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+  html {
+    scroll-behavior: smooth;
+    background-color: oklch(12% 0.03 260);
+  }
+  
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    color: white;
+    background-color: oklch(12% 0.03 260);
+    cursor: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(12% 0.03 260);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(65% 0.25 330 / 0.5);
+    border-radius: 10px;
+  }
+
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+  }
+
+  .spectral-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, oklch(70% 0.2 45) 0%, transparent 80%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+    box-shadow: 0 0 20px oklch(65% 0.25 330 / 0.6);
+  }
+
+  .spectral-cursor.hovering {
+    width: 60px; height: 60px;
+    background: radial-gradient(circle, oklch(65% 0.25 330 / 0.8) 0%, transparent 70%);
+    box-shadow: 0 0 40px oklch(65% 0.25 330 / 0.8);
+  }
+
+  .bionic-video-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 150% 120% at 50% -20%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 150% 120% at 50% -20%, black 40%, transparent 100%);
+  }
+
+  .bionic-video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform-origin: center top;
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, oklch(12% 0.03 260 / 0.8) 100%);
+    z-index: 1;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .bionic-video {
+      animation: bioDive linear both;
+      animation-timeline: scroll(block root);
+    }
+  }
+
+  @keyframes bioDive {
+    0% { filter: saturate(1.2) brightness(0.9); transform: scale(1) translateY(0); }
+    100% { filter: saturate(3) brightness(0.1); transform: scale(1.15) translateY(10%); }
+  }
+
+  .light-bleed-nav {
+    backdrop-filter: blur(24px) saturate(2.5);
+    -webkit-backdrop-filter: blur(24px) saturate(2.5);
+    background: linear-gradient(to bottom, oklch(12% 0.03 260 / 0.6), transparent);
+    border-bottom: 1px solid oklch(100% 0 0 / 0.03);
+  }
+
+  .spectral-text {
+    mix-blend-mode: plus-lighter;
+    animation: spectralPulse 6s ease-in-out infinite;
+    background: linear-gradient(180deg, #fff 0%, oklch(65% 0.25 330 / 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes spectralPulse {
+    0%, 100% { filter: drop-shadow(0 0 30px oklch(65% 0.25 330 / 0.4)); }
+    50% { filter: drop-shadow(0 0 60px oklch(65% 0.25 330 / 0.8)) drop-shadow(0 0 20px oklch(70% 0.2 45 / 0.4)); }
+  }
+
+  .liquid-terminals i {
+    font-style: italic;
+    letter-spacing: -0.05em;
+    padding-right: 0.05em;
+    font-weight: 300;
+  }
+
+  .magnetic-btn {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: oklch(100% 0 0 / 0.03);
+    border: 1px solid oklch(100% 0 0 / 0.1);
+    box-shadow: inset 0 0 20px oklch(100% 0 0 / 0.05);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
+  }
+
+  .magnetic-btn::before {
+    content: '';
+    position: absolute;
+    top: var(--y, 50%);
+    left: var(--x, 50%);
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle closest-side, oklch(65% 0.25 330 / 0.4), transparent);
+    transition: width 0.4s ease, height 0.4s ease;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .magnetic-btn:hover::before {
+    width: 250px;
+    height: 250px;
+  }
+
+  .magnetic-btn:hover {
+    border-color: oklch(65% 0.25 330 / 0.5);
+  }
+
+  .spotlight-card {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(40px) saturate(1.5);
+    -webkit-backdrop-filter: blur(40px) saturate(1.5);
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.15), transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .spotlight-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), oklch(70% 0.2 45 / 0.08), transparent 40%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .spotlight-card:hover::before, .spotlight-card:hover::after {
+    opacity: 1;
+  }
+
+  .spotlight-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 40px oklch(65% 0.25 330 / 0.1);
+  }
+
+  .spotlight-content {
+    position: relative;
+    z-index: 3;
+  }
+
+  .gradient-border-mask {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), oklch(65% 0.25 330 / 0.8), transparent 40%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .spotlight-card:hover .gradient-border-mask {
+    opacity: 1;
+  }
+
+  .bloom-nav-item { position: relative; padding: 4px 0; }
+  .bloom-nav-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, oklch(65% 0.25 330), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .bloom-nav-item:hover::after { transform: scaleX(1); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
+  
+  .atmospheric-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .huge-footer-text {
+    font-size: clamp(4rem, 15vw, 15rem);
+    line-height: 0.8;
+    background: linear-gradient(180deg, oklch(100% 0 0 / 0.1) 0%, oklch(100% 0 0 / 0.02) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+</style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:"Inter", ui-sans-serif, system-ui, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.inset-x-0{left:0px;right:0px}.top-0{top:0px}.bottom-\[20\%\]{bottom:20%}.left-\[20\%\]{left:20%}.right-\[10\%\]{right:10%}.top-\[30\%\]{top:30%}.right-0{right:0px}.bottom-0{bottom:0px}.left-1\/2{left:50%}.right-2{right:0.5rem}.top-1\/2{top:50%}.z-10{z-index:10}.z-50{z-index:50}.z-20{z-index:20}.z-0{z-index:0}.m-0{margin:0px}.mx-auto{margin-left:auto;margin-right:auto}.mb-8{margin-bottom:2rem}.mt-12{margin-top:3rem}.mr-2{margin-right:0.5rem}.mb-24{margin-bottom:6rem}.mb-6{margin-bottom:1.5rem}.mb-4{margin-bottom:1rem}.mt-8{margin-top:2rem}.mb-20{margin-bottom:5rem}.mb-2{margin-bottom:0.5rem}.mt-6{margin-top:1.5rem}.mb-10{margin-bottom:2.5rem}.inline{display:inline}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-2{height:0.5rem}.h-\[30vw\]{height:30vw}.h-\[40vw\]{height:40vw}.h-14{height:3.5rem}.h-\[400px\]{height:400px}.h-\[60vw\]{height:60vw}.h-px{height:1px}.h-1{height:0.25rem}.h-16{height:4rem}.h-full{height:100%}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-full{width:100%}.w-2{width:0.5rem}.w-\[30vw\]{width:30vw}.w-\[40vw\]{width:40vw}.w-14{width:3.5rem}.w-\[60vw\]{width:60vw}.w-16{width:4rem}.w-\[60\%\]{width:60%}.w-\[85\%\]{width:85%}.w-\[92\%\]{width:92%}.w-\[80vw\]{width:80vw}.max-w-2xl{max-width:42rem}.max-w-6xl{max-width:72rem}.max-w-7xl{max-width:80rem}.max-w-xs{max-width:20rem}.max-w-xl{max-width:36rem}.max-w-sm{max-width:24rem}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse-slow{0%, 100%{transform:scale(1);opacity:0.3}50%{transform:scale(1.1);opacity:0.6}}.animate-pulse-slow{animation:pulse-slow 8s ease-in-out infinite}@keyframes marquee{0%{transform:translateX(0%)}100%{transform:translateX(-100%)}}.animate-marquee{animation:marquee 40s linear infinite}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.auto-rows-\[250px\]{grid-auto-rows:250px}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-10{gap:2.5rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.gap-2{gap:0.5rem}.gap-12{gap:3rem}.gap-4{gap:1rem}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.whitespace-nowrap{white-space:nowrap}.rounded-full{border-radius:9999px}.rounded-2xl{border-radius:1rem}.rounded-t-\[3rem\]{border-top-left-radius:3rem;border-top-right-radius:3rem}.rounded-t-full{border-top-left-radius:9999px;border-top-right-radius:9999px}.border{border-width:1px}.border-y{border-top-width:1px;border-bottom-width:1px}.border-t{border-top-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/5{border-color:rgb(255 255 255 / 0.05)}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.bg-white\/5{background-color:rgb(255 255 255 / 0.05)}.bg-amber{background-color:oklch(70% 0.2 45)}.bg-midnight{background-color:oklch(12% 0.03 260)}.bg-magenta{background-color:oklch(65% 0.25 330)}.bg-surface{background-color:oklch(18% 0.02 260)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-\[radial-gradient\(circle_at_bottom_left\2c oklch\(65\%_0\.25_330\/0\.1\)_0\%\2c transparent_50\%\)\]{background-image:radial-gradient(circle at bottom left,oklch(65% 0.25 330/0.1) 0%,transparent 50%)}.bg-\[url\(\'https\:\/\/images\.unsplash\.com\/photo-1518531933037-91b2f5f229cc\?q\=80\&w\=2000\&auto\=format\&fit\=crop\'\)\]{background-image:url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop')}.from-magenta{--tw-gradient-from:oklch(65% 0.25 330) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-transparent{--tw-gradient-from:transparent var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-amber{--tw-gradient-to:rgb(255 255 255 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), oklch(70% 0.2 45) var(--tw-gradient-via-position), var(--tw-gradient-to)}.via-magenta{--tw-gradient-to:rgb(255 255 255 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), oklch(65% 0.25 330) var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.bg-cover{background-size:cover}.bg-center{background-position:center}.p-10{padding:2.5rem}.p-8{padding:2rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-40{padding-top:10rem;padding-bottom:10rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.pb-20{padding-bottom:5rem}.pt-32{padding-top:8rem}.pb-10{padding-bottom:2.5rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.font-sans{font-family:"Inter", ui-sans-serif, system-ui, sans-serif}.font-serif{font-family:"Playfair Display", serif}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\[10px\]{font-size:10px}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.text-5xl{font-size:3rem;line-height:1}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-6xl{font-size:3.75rem;line-height:1}.font-medium{font-weight:500}.font-light{font-weight:300}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-\[0\.9\]{line-height:0.9}.leading-relaxed{line-height:1.625}.tracking-\[0\.15em\]{letter-spacing:0.15em}.tracking-\[0\.2em\]{letter-spacing:0.2em}.tracking-tight{letter-spacing:-0.025em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.tracking-widest{letter-spacing:0.1em}.tracking-tighter{letter-spacing:-0.05em}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/60{color:rgb(255 255 255 / 0.6)}.text-amber{color:oklch(70% 0.2 45)}.text-white\/50{color:rgb(255 255 255 / 0.5)}.text-white\/80{color:rgb(255 255 255 / 0.8)}.text-magenta{color:oklch(65% 0.25 330)}.text-white\/40{color:rgb(255 255 255 / 0.4)}.text-midnight{color:oklch(12% 0.03 260)}.text-white\/30{color:rgb(255 255 255 / 0.3)}.text-white\/70{color:rgb(255 255 255 / 0.7)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-40{opacity:0.4}.opacity-30{opacity:0.3}.opacity-50{opacity:0.5}.mix-blend-multiply{mix-blend-mode:multiply}.mix-blend-screen{mix-blend-mode:screen}.shadow-\[0_0_10px_oklch\(70\%_0\.2_45\)\]{--tw-shadow:0 0 10px oklch(70% 0.2 45);--tw-shadow-colored:0 0 10px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-\[0_-20px_60px_rgba\(0\2c 0\2c 0\2c 0\.5\)\]{--tw-shadow:0 -20px 60px rgba(0,0,0,0.5);--tw-shadow-colored:0 -20px 60px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.blur-3xl{--tw-blur:blur(64px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-\[150px\]{--tw-blur:blur(150px);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-opacity{transition-property:opacity;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.delay-100{transition-delay:100ms}.delay-200{transition-delay:200ms}.delay-300{transition-delay:300ms}.duration-500{transition-duration:500ms}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:text-amber:hover{color:oklch(70% 0.2 45)}.hover\:text-magenta:hover{color:oklch(65% 0.25 330)}.hover\:opacity-100:hover{opacity:1}@media (min-width: 640px){.sm\:block{display:block}}@media (min-width: 768px){.md\:col-span-2{grid-column:span 2 / span 2}.md\:col-span-5{grid-column:span 5 / span 5}.md\:col-start-8{grid-column-start:8}.md\:flex{display:flex}.md\:w-\[200\%\]{width:200%}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-end{align-items:flex-end}.md\:px-12{padding-left:3rem;padding-right:3rem}.md\:text-8xl{font-size:6rem;line-height:1}.md\:text-base{font-size:1rem;line-height:1.5rem}.md\:text-7xl{font-size:4.5rem;line-height:1}.md\:text-6xl{font-size:3.75rem;line-height:1}}@media (min-width: 1024px){.lg\:translate-y-12{--tw-translate-y:3rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:px-24{padding-left:6rem;padding-right:6rem}.lg\:text-\[8rem\]{font-size:8rem}}</style></head>
+<body class="antialiased selection:bg-magenta/30 selection:text-white" data-sc-cs="background-color:oklch(0.12 0.03 260);color:rgb(255, 255, 255)">
+
+<div class="noise-overlay" data-sc-cs="background-image:url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed"></div>
+<div class="spectral-cursor" id="cursor" data-sc-cs="background-image:radial-gradient(circle, oklch(0.7 0.2 45) 0%, rgba(0, 0, 0, 0) 80%);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;box-shadow:oklch(0.65 0.25 330 / 0.6) 0px 0px 20px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:width 0.3s, height 0.3s, background 0.3s;transform:matrix(1, 0, 0, 1, -10, -10);position:fixed"></div>
+
+<div class="bionic-video-container" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:fixed">
+  <video autoplay="" loop="" muted="" playsinline="" class="bionic-video" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:100%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, 0, 0)">
+    <source src="https://videos.openhero.art/downloads/nature/rebalancing-the-planet-with-photosynthesis/video.mp4" type="video/mp4">
+  </video>
+  <div class="vignette" data-sc-cs="background-image:radial-gradient(circle, rgba(0, 0, 0, 0) 0%, oklch(0.12 0.03 260 / 0.8) 100%);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+  <div class="absolute inset-0 bg-midnight/40 mix-blend-multiply z-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+</div>
+
+<nav class="fixed top-0 inset-x-0 z-50 px-6 md:px-12 py-5 light-bleed-nav flex justify-between items-center w-full" data-sc-cs="background-image:linear-gradient(oklch(0.12 0.03 260 / 0.6), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:20px 48px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;backdrop-filter:blur(24px) saturate(2.5);display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all;position:fixed">
+  <div class="flex items-center gap-3 interactive" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+    <div class="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 overflow-hidden" data-sc-logo-svg="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 40 40&quot; width=&quot;40&quot; height=&quot;40&quot; fill=&quot;none&quot; role=&quot;img&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;40&quot; height=&quot;40&quot; rx=&quot;20.00&quot; fill=&quot;rgba(255, 255, 255, 0.05)&quot;/&gt;&lt;/svg&gt;" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+      <div class="absolute inset-0 bg-magenta/20 animate-pulse-slow" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.03486, 0, 0, 1.03486, 0, 0);position:absolute"></div>
+      <iconify-icon icon="ph:plant-light" class="text-2xl text-white relative z-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+    </div>
+    <span class="font-serif italic text-xl tracking-tight text-white hidden sm:block" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:20px;font-weight:400;line-height:28px;letter-spacing:-0.5px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Living Carbon</span>
+  </div>
+  
+  <div class="hidden md:flex gap-10 text-[10px] font-sans tracking-[0.2em] uppercase text-white/60 font-medium" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <a href="#ecology" class="bloom-nav-item hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:4px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="after{content:&quot;&quot;;position:absolute;bottom:0px;left:0px;transform:scaleX(0);transform-origin:center center;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.5s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:initial;background-image:linear-gradient(90deg, transparent, oklch(0.65 0.25 330), transparent);width:100%;height:1px}|hover-after{transform:scaleX(1)}|hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">Spectral Ecology</a>
+    <a href="#genetics" class="bloom-nav-item hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:4px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="after{content:&quot;&quot;;position:absolute;bottom:0px;left:0px;transform:scaleX(0);transform-origin:center center;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.5s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:initial;background-image:linear-gradient(90deg, transparent, oklch(0.65 0.25 330), transparent);width:100%;height:1px}|hover-after{transform:scaleX(1)}|hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">Genomic Labs</a>
+    <a href="#phenotype" class="bloom-nav-item hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:2px;text-align:start;text-transform:uppercase;padding:4px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="after{content:&quot;&quot;;position:absolute;bottom:0px;left:0px;transform:scaleX(0);transform-origin:center center;transition:transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);transition-property:transform;transition-duration:0.5s;transition-timing-function:cubic-bezier(0.16, 1, 0.3, 1);background-color:initial;background-image:linear-gradient(90deg, transparent, oklch(0.65 0.25 330), transparent);width:100%;height:1px}|hover-after{transform:scaleX(1)}|hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">Phenotypic Data</a>
+  </div>
+
+  <button class="magnetic-btn interactive px-6 py-3 rounded-full text-[10px] font-medium tracking-[0.15em] uppercase flex items-center gap-3" data-sc-cs="background-color:oklch(1 0 0 / 0.03);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:1.5px;text-align:center;text-transform:uppercase;padding:12px 24px;border-top-width:1px;border-top-style:solid;border-top-color:oklch(1 0 0 / 0.1);border-radius:9999px;box-shadow:oklch(1 0 0 / 0.05) 0px 0px 20px 0px inset;backdrop-filter:blur(20px);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s" data-sc-hover="before{content:&quot;&quot;;position:absolute;top:var(--y, 50%);left:var(--x, 50%);transform:translate(-50%, -50%);transition:width 0.4s, height 0.4s;transition-property:width, height;transition-duration:0.4s, 0.4s;transition-timing-function:ease, ease;background-color:initial;background-image:radial-gradient(circle closest-side, oklch(0.65 0.25 330 / 0.4), transparent);width:0px;height:0px}|hover-before{width:250px;height:250px}|hover-self{border-color:oklch(0.65 0.25 330 / 0.5)}">
+    <span class="relative z-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:500;line-height:15px;letter-spacing:1.5px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Initialize Sequence</span>
+    <iconify-icon icon="ph:dna-light" class="text-base text-amber relative z-10" data-sc-cs="color:oklch(0.7 0.2 45);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;line-height:24px;letter-spacing:1.5px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+  </button>
+</nav>
+
+<main class="relative z-10 w-full flex flex-col" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:normal;align-items:normal;flex-direction:column;transition:all">
+  
+  <section class="min-h-screen w-full flex flex-col justify-center items-center text-center px-4 pt-32 pb-20 relative" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:128px 16px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:center;align-items:center;flex-direction:column;transition:all">
+    <div class="absolute top-[30%] left-[20%] w-[40vw] h-[40vw] atmospheric-orb bg-magenta/20 animate-pulse-slow mix-blend-screen" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1.04928, 0, 0, 1.04928, 0, 0);position:absolute"></div>
+    <div class="absolute bottom-[20%] right-[10%] w-[30vw] h-[30vw] atmospheric-orb bg-amber/10 mix-blend-screen" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+
+    <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-magenta/30 bg-magenta/5 backdrop-blur-md mb-8 reveal active delay-100" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:6px 16px;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;backdrop-filter:blur(12px);display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)">
+      <span class="w-2 h-2 rounded-full bg-amber shadow-[0_0_10px_oklch(70%_0.2_45)]" data-sc-cs="background-color:oklch(0.7 0.2 45);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklch(0.7 0.2 45) 0px 0px 10px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></span>
+      <p class="font-sans text-[10px] tracking-[0.3em] uppercase text-white/80 m-0" data-sc-cs="color:rgba(255, 255, 255, 0.8);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:10px;font-weight:400;line-height:15px;letter-spacing:3px;text-align:center;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        Anthocyanin Hyper-pigmentation
+      </p>
+    </div>
+
+    <h1 class="font-serif text-5xl md:text-8xl lg:text-[8rem] leading-[0.9] spectral-text liquid-terminals reveal active delay-200 max-w-6xl mx-auto" data-sc-cs="background-image:linear-gradient(rgb(255, 255, 255) 0%, oklch(0.65 0.25 330 / 0.8) 100%);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:128px;font-weight:400;line-height:128px;text-align:center;margin:0px 128px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1152px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">
+      Rebalancing the <i data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:128px;font-weight:300;line-height:128px;letter-spacing:-6.4px;text-align:center;padding:0px 6.4px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all">planet</i> with photosynthesis
+    </h1>
+    
+    <p class="mt-12 font-sans font-light text-sm md:text-base text-white/50 max-w-2xl leading-relaxed reveal active delay-300" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;margin:48px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:672px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;transform:matrix(1, 0, 0, 1, 0, 0)">
+      We engineer circadian rhythm optimization to unlock the latent potential of botanical life. Bridging the gap between high-tech precision and raw spectral vitality to reverse atmospheric decay.
+    </p>
+  </section>
+
+  <div class="w-full overflow-hidden border-y border-white/5 bg-midnight/80 backdrop-blur-md py-4 flex relative z-20" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:16px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;backdrop-filter:blur(12px);display:flex;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <div class="flex whitespace-nowrap animate-marquee items-center gap-10 opacity-40 hover:opacity-100 transition-opacity duration-500" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:40px;justify-content:normal;align-items:center;flex-direction:row;transition:opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(1, 0, 0, 1, -260.532, 0)">
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-magenta mr-2" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Genotype Sequencing</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-amber mr-2" data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> C4 Pathway Optimization</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-magenta mr-2" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Photoreceptor Modulation</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-amber mr-2" data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Subcellular Structuring</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-magenta mr-2" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Genotype Sequencing</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-amber mr-2" data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> C4 Pathway Optimization</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-magenta mr-2" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Photoreceptor Modulation</span>
+      <span class="text-xs font-mono tracking-widest uppercase" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><iconify-icon icon="ph:asterisk-light" class="inline text-amber mr-2" data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;text-transform:uppercase;margin:0px 8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon> Subcellular Structuring</span>
+    </div>
+  </div>
+
+  <section id="ecology" class="min-h-screen w-full relative z-20 py-40 px-6 md:px-12 lg:px-24 bg-midnight" data-sc-cs="background-color:oklch(0.12 0.03 260);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <div class="absolute top-0 right-0 w-[60vw] h-[60vw] atmospheric-orb bg-magenta/5" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:50%;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+    
+    <div class="max-w-7xl mx-auto" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      <div class="mb-24 reveal flex flex-col md:flex-row md:items-end justify-between gap-8 active" data-sc-col="sccol-0" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:32px;justify-content:space-between;align-items:flex-end;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(1, 0, 0, 1, 0, 0)">
+        <div data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <h2 class="font-serif text-5xl md:text-7xl text-white mb-6 tracking-tight" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:72px;font-weight:400;line-height:72px;letter-spacing:-1.8px;text-align:start;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Spectral <br><i class="text-white/40" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:&quot;Playfair Display&quot;, serif;font-size:72px;font-weight:400;line-height:72px;letter-spacing:-1.8px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Irradiance</i></h2>
+          <div class="h-px w-full md:w-[200%] bg-gradient-to-r from-magenta via-amber to-transparent opacity-30" data-sc-cs="background-image:linear-gradient(to right, oklch(0.65 0.25 330), oklch(0.7 0.2 45), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+        </div>
+        <p class="max-w-xs text-sm font-light text-white/50 leading-relaxed" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:320px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          The structural geometry of our synthetic flora adapts in real-time, responding to atmospheric carbon density.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-sc-col="sccol-1" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <div class="spotlight-card p-10 reveal delay-100 interactive h-[400px] flex flex-col justify-between active" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(1, 0, 0, 1, 0, 0)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(24px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+              <iconify-icon icon="ph:drop-half-bottom-light" class="text-3xl text-magenta" data-sc-cs="color:oklch(0.65 0.25 330);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </div>
+            <h3 class="font-serif text-3xl mb-4 text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Liquid Synthesis</h3>
+            <p class="font-sans font-light text-sm text-white/50 leading-relaxed" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Harnessing specific wavelengths to accelerate chlorophyll production. The UI mirrors this bioluminescent radiation.
+            </p>
+          </div>
+          <div class="spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-magenta" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <span data-sc-col="sccol-2" data-sc-cs="color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">SYS_READY</span> <div class="w-2 h-2 rounded-full bg-magenta animate-pulse" data-sc-col="sccol-3" data-sc-cs="background-color:oklch(0.65 0.25 330);color:oklch(0.65 0.25 330);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+          </div>
+        </div>
+
+        <div class="spotlight-card p-10 reveal delay-200 interactive h-[400px] flex flex-col justify-between lg:translate-y-12 active" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(1, 0, 0, 1, 0, 0)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(24px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+              <iconify-icon icon="ph:hexagon-light" class="text-3xl text-amber" data-sc-cs="color:oklch(0.7 0.2 45);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </div>
+            <h3 class="font-serif text-3xl mb-4 text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Phenotypic Plasticity</h3>
+            <p class="font-sans font-light text-sm text-white/50 leading-relaxed" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Flora engineered to adapt its structural geometry in real-time, responding to atmospheric carbon density and light.
+            </p>
+          </div>
+          <div class="spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-amber" data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <span data-sc-cs="color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">ACT_VAR_01</span> <div class="w-2 h-2 rounded-full bg-amber animate-pulse" data-sc-cs="background-color:oklch(0.7 0.2 45);color:oklch(0.7 0.2 45);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+          </div>
+        </div>
+
+        <div class="spotlight-card p-10 reveal delay-300 interactive h-[400px] flex flex-col justify-between active" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;transform:matrix(1, 0, 0, 1, 0, 0)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 backdrop-blur-xl" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:16px;backdrop-filter:blur(24px);display:flex;justify-content:center;align-items:center;flex-direction:row;transition:all">
+              <iconify-icon icon="ph:wind-light" class="text-3xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </div>
+            <h3 class="font-serif text-3xl mb-4 text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Atmospheric Sync</h3>
+            <p class="font-sans font-light text-sm text-white/50 leading-relaxed" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              Deploying bio-engineered canopies that act as high-efficiency carbon sinks, wrapping molecular structures seamlessly.
+            </p>
+          </div>
+          <div class="spotlight-content mt-8 flex items-center gap-2 text-xs font-mono text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;margin:32px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:8px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+            <span data-sc-cs="color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">DATA_STREAM</span> <div class="w-2 h-2 rounded-full bg-white animate-pulse" data-sc-cs="background-color:rgb(255, 255, 255);color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="genetics" class="py-40 px-6 md:px-12 lg:px-24 w-full bg-surface relative z-20 overflow-hidden rounded-t-[3rem] border-t border-white/10 shadow-[0_-20px_60px_rgba(0,0,0,0.5)]" data-sc-cs="background-color:oklch(0.18 0.02 260);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:160px 96px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:48px 48px 0px 0px;box-shadow:rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.5) 0px -20px 60px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,oklch(65%_0.25_330/0.1)_0%,transparent_50%)] pointer-events-none" data-sc-cs="background-image:radial-gradient(circle at 0% 100%, oklch(0.65 0.25 330 / 0.1) 0%, rgba(0, 0, 0, 0) 50%);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+    <div class="max-w-7xl mx-auto" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+      <div class="mb-20 text-center reveal active" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+        <h2 class="font-serif text-4xl md:text-6xl text-white mb-6" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:60px;font-weight:400;line-height:60px;text-align:center;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Genomic Architecture</h2>
+        <p class="text-white/50 max-w-xl mx-auto font-light" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;margin:0px 336px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:576px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Advanced bento-grid visualization of real-time cellular data and engineered chromosomal adaptations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        
+        <div class="md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&amp;w=2000&amp;auto=format&amp;fit=crop')] bg-cover bg-center relative active" data-sc-col="sccol-4" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);background-image:url(&quot;https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&amp;w=2000&amp;auto=format&amp;fit=crop&quot;);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+          <div class="absolute inset-0 bg-midnight/80 mix-blend-multiply backdrop-blur-sm z-0" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;backdrop-filter:blur(4px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+          <div class="gradient-border-mask z-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content flex justify-between items-start" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:flex-start;flex-direction:row;transition:all">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-[10px] tracking-widest font-mono uppercase backdrop-blur-md" data-sc-col="sccol-5" data-sc-cs="background-color:rgba(255, 255, 255, 0.1);color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;padding:4px 12px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;backdrop-filter:blur(12px);display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Cellular Growth</span>
+            <iconify-icon icon="ph:trend-up-light" class="text-2xl text-magenta" data-sc-col="sccol-6" data-sc-cs="color:oklch(0.65 0.25 330);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+          </div>
+          <div class="spotlight-content" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <h3 class="text-4xl font-serif text-white mb-2" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:36px;font-weight:400;line-height:40px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">3.4x</h3>
+            <p class="text-sm text-white/60" data-sc-cs="color:rgba(255, 255, 255, 0.6);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:400;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Increased carbon sequestration per leaf surface area.</p>
+          </div>
+        </div>
+
+        <div class="spotlight-card p-8 reveal delay-200 interactive flex flex-col justify-center items-center text-center active" data-sc-col="sccol-7" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:center;align-items:center;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content relative" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <div class="absolute inset-0 bg-amber/20 blur-3xl rounded-full" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+            <iconify-icon icon="ph:sun-dim-light" class="text-6xl text-amber relative z-10 mb-4" data-sc-cs="color:oklch(0.7 0.2 45);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:60px;font-weight:400;line-height:60px;text-align:center;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            <h4 class="font-serif text-xl text-white mb-2" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:20px;font-weight:400;line-height:28px;text-align:center;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Photon Yield</h4>
+            <p class="text-xs text-white/50" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:12px;font-weight:400;line-height:16px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Optimal at 450nm</p>
+          </div>
+        </div>
+
+        <div class="spotlight-card p-8 reveal delay-300 interactive flex flex-col justify-between active" data-sc-col="sccol-8" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+            <iconify-icon icon="ph:dna-light" class="text-3xl text-white/50 mb-4" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;margin:0px 0px 16px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            <h4 class="font-serif text-xl text-white mb-2" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:20px;font-weight:400;line-height:28px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Sequence Align</h4>
+            <div class="space-y-2 mt-6" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:24px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+              <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><div class="h-full w-[85%] bg-magenta" data-sc-cs="background-color:oklch(0.65 0.25 330);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div></div>
+              <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><div class="h-full w-[60%] bg-amber" data-sc-cs="background-color:oklch(0.7 0.2 45);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div></div>
+              <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:8px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><div class="h-full w-[92%] bg-white/80" data-sc-cs="background-color:rgba(255, 255, 255, 0.8);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 spotlight-card p-8 reveal delay-100 interactive flex flex-col justify-between active" data-sc-col="sccol-9" data-sc-cs="background-color:rgba(255, 255, 255, 0.01);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:32px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:24px;backdrop-filter:blur(40px) saturate(1.5);display:flex;justify-content:space-between;align-items:normal;flex-direction:column;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+          <div class="gradient-border-mask" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:1px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:24px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:opacity 0.3s;position:absolute"></div>
+          <div class="spotlight-content flex items-center justify-between h-full" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;justify-content:space-between;align-items:center;flex-direction:row;transition:all">
+            <div data-sc-col="sccol-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+               <h4 class="font-serif text-3xl text-white mb-2" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;margin:0px 0px 8px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Global Impact</h4>
+               <p class="text-sm text-white/50 max-w-sm leading-relaxed" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Monitoring live canopy deployments across 4 biomes. The neural root network stabilizes soil integrity.</p>
+            </div>
+            <button class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors" data-sc-col="sccol-11" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.2);border-radius:9999px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)">
+              <iconify-icon icon="ph:arrow-right-light" class="text-2xl text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:24px;font-weight:400;line-height:32px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="relative bg-midnight border-t border-white/5 pt-32 pb-10 overflow-hidden z-20" data-sc-cs="background-color:oklch(0.12 0.03 260);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:128px 0px 40px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.05);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-magenta to-transparent opacity-50" data-sc-cs="background-image:linear-gradient(to right, rgba(0, 0, 0, 0), oklch(0.65 0.25 330), rgba(0, 0, 0, 0));color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div>
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[400px] bg-magenta/10 blur-[150px] pointer-events-none rounded-t-full" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px 9999px 0px 0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;transform:matrix(1, 0, 0, 1, -576, 0);position:absolute"></div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 relative z-10" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;padding:0px 96px;margin:0px 80px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:1280px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24 reveal" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 96px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:grid;gap:48px;justify-content:normal;align-items:normal;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+      
+      <div class="md:col-span-5" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <div class="flex items-center gap-3 mb-8" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;margin:0px 0px 32px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:12px;justify-content:normal;align-items:center;flex-direction:row;transition:all">
+          <iconify-icon icon="ph:plant-light" class="text-3xl text-magenta" data-sc-cs="color:oklch(0.65 0.25 330);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:30px;font-weight:400;line-height:36px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+          <span class="font-serif italic text-2xl tracking-tight text-white" data-sc-cs="color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:24px;font-weight:400;line-height:32px;letter-spacing:-0.6px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Living Carbon</span>
+        </div>
+        <p class="text-white/50 text-sm leading-relaxed max-w-sm mb-10" data-sc-cs="color:rgba(255, 255, 255, 0.5);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:400;line-height:22.75px;text-align:start;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;max-width:384px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          Synthesizing a cooler planet through engineered botanical structures. We are designing the lungs of the future.
+        </p>
+        <div class="relative" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <input type="email" placeholder="ENTER EMAIL FOR RESEARCH UPDATES" class="w-full bg-white/5 border border-white/10 rounded-full px-6 py-4 text-xs font-mono tracking-widest text-white outline-none focus:border-magenta/50 transition-colors backdrop-blur-md" data-sc-cs="background-color:rgba(255, 255, 255, 0.05);color:rgb(255, 255, 255);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:12px;font-weight:400;line-height:16px;letter-spacing:1.2px;text-align:start;padding:16px 24px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:9999px;backdrop-filter:blur(12px);display:inline-block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)">
+          <button class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white text-midnight flex items-center justify-center hover:scale-105 transition-transform interactive" data-sc-cs="background-color:rgb(255, 255, 255);color:oklch(0.12 0.03 260);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:9999px;display:flex;justify-content:center;align-items:center;flex-direction:row;transition:transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);transform:matrix(1, 0, 0, 1, 0, -20);position:absolute">
+            <iconify-icon icon="ph:arrow-right-bold" data-sc-cs="color:oklch(0.12 0.03 260);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="md:col-span-2 md:col-start-8" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <h5 class="text-[10px] font-mono tracking-widest uppercase text-white/40 mb-6" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Initiatives</h5>
+        <ul class="space-y-4 text-sm font-light text-white/70" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-magenta transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.25 330)}">Canopy Project</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-magenta transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.25 330)}">Root Stabilization</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-magenta transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.25 330)}">Spectral Labs</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-magenta transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.65 0.25 330)}">Data Yields</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-2" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <h5 class="text-[10px] font-mono tracking-widest uppercase text-white/40 mb-6" data-sc-cs="color:rgba(255, 255, 255, 0.4);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;margin:0px 0px 24px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">Company</h5>
+        <ul class="space-y-4 text-sm font-light text-white/70" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-amber transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.7 0.2 45)}">About Us</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-amber transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.7 0.2 45)}">Careers</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-amber transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.7 0.2 45)}">Press</a></li>
+          <li data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;margin:16px 0px 0px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:list-item;justify-content:normal;align-items:normal;flex-direction:row;transition:all"><a href="#" class="hover:text-amber transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.7);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:14px;font-weight:300;line-height:20px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:inline;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:oklch(0.7 0.2 45)}">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="text-center mb-10 reveal" data-sc-cs="color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:center;margin:0px 0px 40px;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+      <h2 class="huge-footer-text font-serif italic tracking-tighter" data-sc-cs="background-image:linear-gradient(oklch(1 0 0 / 0.1) 0%, oklch(1 0 0 / 0.02) 100%);color:rgb(255, 255, 255);font-family:&quot;Playfair Display&quot;, serif;font-size:216px;font-weight:400;line-height:172.8px;letter-spacing:-10.8px;text-align:center;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Living Carbon</h2>
+    </div>
+
+    <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono tracking-widest text-white/30 uppercase reveal" data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;padding:32px 0px 0px;border-top-width:1px;border-top-style:solid;border-top-color:rgba(255, 255, 255, 0.1);border-radius:0px;display:flex;gap:16px;justify-content:space-between;align-items:center;flex-direction:row;transition:1.2s cubic-bezier(0.16, 1, 0.3, 1);transform:matrix(0.98, 0, 0, 0.98, 0, 40)">
+      <p data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all">© 2026 LIVING CARBON. ALL RIGHTS RESERVED.</p>
+      <div class="flex gap-6" data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:flex;gap:24px;justify-content:normal;align-items:normal;flex-direction:row;transition:all">
+        <a href="#" class="hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">PRIVACY</a>
+        <a href="#" class="hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">TERMS</a>
+        <a href="#" class="hover:text-white transition-colors interactive" data-sc-cs="color:rgba(255, 255, 255, 0.3);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:10px;font-weight:400;line-height:15px;letter-spacing:1px;text-align:start;text-transform:uppercase;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1), -webkit-text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)" data-sc-hover="hover-self{color:rgb(255 255 255 / var(--tw-text-opacity, 1))}">SYSTEM STATUS</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom Cursor Logic
+  const cursor = document.getElementById('cursor');
+  const interactiveElements = document.querySelectorAll('.interactive, a, button');
+
+  window.addEventListener('mousemove', (e) => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+  });
+
+  // Magnetic Button Logic
+  document.querySelectorAll('.magnetic-btn').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      btn.style.setProperty('--x', `${x}px`);
+      btn.style.setProperty('--y', `${y}px`);
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const deltaX = (x - centerX) * 0.1;
+      const deltaY = (y - centerY) * 0.1;
+      
+      btn.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = `translate(0px, 0px)`;
+    });
+  });
+
+  // Spotlight Cards Mouse Tracking
+  document.querySelectorAll(".spotlight-card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+  });
+
+  // Scroll Reveal Observer
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -10% 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;ac27ddb26a844a04abcca34136bdce35&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+<div class="bg-white/10" style="position: absolute; left: -99999px; top: -99999px;" data-sc-cs="background-color:rgba(255, 255, 255, 0.1);color:rgb(255, 255, 255);font-family:Inter, ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-align:start;border-top-style:solid;border-top-color:rgb(229, 231, 235);border-radius:0px;display:block;justify-content:normal;align-items:normal;flex-direction:row;transition:all;position:absolute"></div></body></html>

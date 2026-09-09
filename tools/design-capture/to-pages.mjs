@@ -1166,11 +1166,20 @@ export function toPages(capture, opts = {}) {
     const cls = ' ' + String(b.cls || '').toLowerCase() + ' ';
     const bg = String((b.bs && b.bs.bg) || '');
     const opaque = /rgba?\([^)]*(?:,\s*(?:0?\.[1-9]|1)\s*)?\)/.test(bg) && !/rgba?\([^)]*,\s*0\s*\)/.test(bg) && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)';
-    const white = /rgb\(255,\s*255,\s*255\)/.test(bg) || /\sbg-white\s/.test(cls);
+    const white = /rgb\(255,\s*255,\s*255\)/.test(bg) || /\sbg-white\b/.test(cls);
     const hasBorder = (b.bs && b.bs.bd && b.bs.bds && b.bs.bds !== 'none') || /\sborder\b/.test(cls);
+    const bgClass = /\sbg-(?!transparent)/.test(cls);
+    // A PILL radius or FROSTED backdrop marks a BUTTON surface even when a very-translucent fill (bg-white/8)
+    // was not captured as a computed background — so it is NEVER a bare underlined text link. Mirror of PHP
+    // button_kind(): only a truly bare text CTA becomes 'link' (→ the native underlined .btn-link).
+    const surface = /\srounded-full\s/.test(cls) || /\srounded-(?:2xl|3xl)\s/.test(cls)
+      || /(?:^|;)\s*border-radius:\s*(?:9999|[3-9]\d)/.test(String((b.bs && b.bs.radius) || ''))
+      || /\sbackdrop-blur/.test(cls) || /blur/i.test(String((b.bs && b.bs.backdrop) || ''));
     if (opaque && !white) return 'primary';
     if (white || hasBorder) return 'outline';
-    return opaque ? 'fill' : 'link';
+    if (opaque || bgClass) return 'fill';
+    if (surface) return 'outline';   // pill/frosted ghost, no captured fill → a button, not a link
+    return 'link';                   // truly bare text CTA
   };
   // Drop Tailwind spacing/gap utilities (p*/m*/gap-*/space-*, incl. responsive/hover variants + negative
   // + arbitrary `px-[12px]`) from a carried class list — they collide by name with the plugin's own

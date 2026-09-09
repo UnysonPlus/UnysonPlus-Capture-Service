@@ -1,0 +1,298 @@
+{
+  "libs": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "swiper": false,
+    "lottie": false,
+    "three": false,
+    "aos": false,
+    "framer": false,
+    "canvases": 0,
+    "videos": 1
+  },
+  "scrollTriggers": [],
+  "keyframes": [
+    {
+      "name": "float",
+      "props": [
+        "transform"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "atomic-assembly",
+      "props": [
+        "opacity",
+        "transform",
+        "filter"
+      ],
+      "slidesLeft": false
+    },
+    {
+      "name": "pulse",
+      "props": [
+        "opacity"
+      ],
+      "slidesLeft": false
+    }
+  ],
+  "animated": [
+    {
+      "selector": ".kinetic-anchor",
+      "name": "float",
+      "duration": "18s",
+      "infinite": true
+    },
+    {
+      "selector": ".scroll-assembly",
+      "name": "atomic-assembly",
+      "duration": "auto",
+      "infinite": false
+    },
+    {
+      "selector": ".animate-pulse",
+      "name": "pulse",
+      "duration": "2s",
+      "infinite": true
+    }
+  ],
+  "hovers": [
+    {
+      "selector": ".photon-glow",
+      "changed": {
+        "transform": "translateY(-2px) scale(1.02)",
+        "box-shadow": "oklch(0.65 0.2 260 / 0.6) 0px 0px 50px, rgba(255, 255, 255, 0.6) 0px 2px 4px inset"
+      }
+    },
+    {
+      "selector": ".hover\\:rotate-0",
+      "changed": {
+        "--tw-rotate": "0deg",
+        "transform": "translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))"
+      }
+    },
+    {
+      "selector": ".hover\\:bg-white\\/10",
+      "changed": {
+        "background-color": "rgba(255, 255, 255, 0.1)"
+      }
+    },
+    {
+      "selector": ".hover\\:text-\\[oklch\\(65\\%_0\\.2_260\\)\\]",
+      "changed": {
+        "color": "oklch(0.65 0.2 260)"
+      }
+    },
+    {
+      "selector": ".group .group-hover\\:opacity-100",
+      "changed": {
+        "opacity": "1"
+      }
+    },
+    {
+      "selector": "hover:text-[oklch(65%_0.2_260)] transition-colors transition",
+      "changed": {
+        "color": "oklch(0.65 0.2 260)"
+      },
+      "live": true
+    },
+    {
+      "selector": "photon-glow px-10 py-5 text-lg font-medium flex items-center",
+      "changed": {
+        "transform": "matrix(1.01989, 0, 0, 1.01989, 0, -1.98947)",
+        "boxShadow": "oklab(0.65 -0.0347296 -0.196962 / 0.598421) 0px 0px 49.8947px 0px, rgba(255, 255, 255, 0.6) 0px 2px 4px 0px inset"
+      },
+      "live": true
+    },
+    {
+      "selector": "lens-refraction px-10 py-5 text-lg font-medium hover:bg-whit",
+      "changed": {
+        "background": "rgba(255, 255, 255, 0.1)"
+      },
+      "live": true
+    }
+  ],
+  "transitions": [
+    {
+      "selector": ".transition-colors",
+      "props": "color, background-color, border-color, text-decoration-color, fill, stroke, -web",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-opacity",
+      "props": "opacity",
+      "duration": "150ms"
+    },
+    {
+      "selector": ".transition-transform",
+      "props": "transform",
+      "duration": "150ms"
+    }
+  ],
+  "hijack": {
+    "bodyScrollHeight": 2829,
+    "viewport": 900,
+    "virtualScroll": false,
+    "fixedFullscreenOverlays": 0,
+    "fixedCanvas": false
+  },
+  "libsBundled": {
+    "gsap": false,
+    "scrollTrigger": false,
+    "lenis": false,
+    "three": false,
+    "lottie": false,
+    "swiper": false,
+    "framerMotion": false,
+    "aos": false,
+    "splitText": false
+  },
+  "traces": [
+    {
+      "i": 0,
+      "kind": "pin",
+      "evidence": "pinned for ~1886px of scroll"
+    },
+    {
+      "i": 8,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 80,
+        "ease": "power2.in",
+        "scaled": true,
+        "sx": 0.95,
+        "tx": 0,
+        "ty": 80,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    },
+    {
+      "i": 10,
+      "kind": "parallax",
+      "evidence": "document position drifts -99px over 1929px of scroll",
+      "ratio": -0.05
+    },
+    {
+      "i": 12,
+      "kind": "parallax",
+      "evidence": "document position drifts -80px over 1929px of scroll",
+      "ratio": -0.04
+    },
+    {
+      "i": 18,
+      "kind": "reveal",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "motion": {
+        "direction": "up",
+        "distance": 80,
+        "ease": "",
+        "scaled": true,
+        "sx": 0.95,
+        "tx": 0,
+        "ty": 80,
+        "complex": true,
+        "noisy": false,
+        "scrub": false
+      }
+    }
+  ],
+  "sequences": [],
+  "suggestions": [
+    {
+      "kind": "trace",
+      "target": "trace#0",
+      "evidence": "pinned for ~1886px of scroll",
+      "suggest": "gsap_motion: {effect:'pin'} or a scrollytelling Section",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#8",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#10",
+      "evidence": "document position drifts -99px over 1929px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.05)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#12",
+      "evidence": "document position drifts -80px over 1929px of scroll",
+      "suggest": "gsap_motion: {effect:'parallax'} (ratio ≈ -0.04)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trace",
+      "target": "trace#18",
+      "evidence": "opacity 0→1 with a transform while entering the viewport",
+      "suggest": "gsap_motion: {effect:'reveal', reveal:{direction:'up'}}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".kinetic-anchor",
+      "evidence": "infinite keyframes 'float' (transform)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".scroll-assembly",
+      "evidence": "keyframes 'atomic-assembly' auto",
+      "suggest": "entrance animation (Animate.css picker)",
+      "confidence": "low"
+    },
+    {
+      "kind": "css-animation",
+      "target": ".animate-pulse",
+      "evidence": "infinite keyframes 'pulse' (opacity)",
+      "suggest": "physics float/pulse or backgrounds module",
+      "confidence": "low"
+    },
+    {
+      "kind": "hover",
+      "target": ".photon-glow",
+      "evidence": "transform, box-shadow change on hover",
+      "suggest": "interaction: {effect:'lift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:bg-white\\/10",
+      "evidence": "background-color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": ".hover\\:text-\\[oklch\\(65\\%_0\\.2_260\\)\\]",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "hover:text-[oklch(65%_0.2_260)] transition-colors transition",
+      "evidence": "color change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    },
+    {
+      "kind": "hover",
+      "target": "lens-refraction px-10 py-5 text-lg font-medium hover:bg-whit",
+      "evidence": "background change on hover",
+      "suggest": "interaction: {effect:'color_shift'}",
+      "confidence": "medium"
+    }
+  ]
+}
