@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
  * capture-residue.mjs — what the capture DID NOT record.
  *

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // to-block-bundle.mjs — assemble a complete BLOCK-THEME output bundle from a capture.
 //
 // The `target: 'block-theme'` branch of the converter. Ties the two emitters together:

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Offline per-region re-run harness (Rule −1 prerequisite): replay the deterministic
 // extractor + to-pages against a PINNED snapshot (rendered.html) — no network — so the
 // converter-improvement loop is fast and reproducible. Prints the hero section's builder

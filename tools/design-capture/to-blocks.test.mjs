@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free golden fixtures for the block emitter (to-blocks.mjs). Feeds synthetic capture
 // intermediates through the real toBlocks() and asserts the emitted core-block markup: the right
 // blocks, correct nesting/balance, key content, attribute escaping, and edge-case skipping. Guards

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Header translation — the FIRST real use of guides/header-translation-guide.md.
 //
 // Turns a captured website <header> (markup + per-element `data-sc-cs` computed styles) into a small

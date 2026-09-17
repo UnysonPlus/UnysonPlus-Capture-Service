@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Regenerate ../font-index.json — the offline Google-Fonts shape index used by the visual font matcher.
 //
 // Pipeline: download-fonts.py fetches TTFs (per families.txt) into ./fonts, then this script (a) reads each

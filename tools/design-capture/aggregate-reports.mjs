@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // aggregate-reports.mjs — the MAINTAINER side of report-sharing.
 //
 // Reads the shared-report submissions (the Google Form's responses) and ranks the SYSTEMATIC

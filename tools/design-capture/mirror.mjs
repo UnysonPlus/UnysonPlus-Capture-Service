@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
  * UnysonPlus — Verbatim SITE MIRROR ("Duplicate as landing page").
  *

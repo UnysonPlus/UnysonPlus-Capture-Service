@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Map a design-capture's body sections → an editable page-builder page (the "copy the
 // whole thing" body path). Emits the { pages: [ … ] } payload the Site Converter's Pages
 // importer consumes — which sets the post's page-builder option so the plugin's own encoder
@@ -20,8 +21,11 @@
 // export); only the CONTENT is swapped, per "clone shapes from a real export, only swap content."
 
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { sectionStyles } from './to-presets.mjs';
 import { buildButtonPresets } from './to-theme-settings.mjs';
+import { parseLinearGradient } from './box-presets.mjs';
+import { makeButtonResolver } from './button-match.mjs';
 
 // 32-hex unique id for each builder node (matches the export's unique_id shape).
 // Web Crypto works in both Node (19+) and Cloudflare Workers, so the mapper is
@@ -302,6 +306,33 @@ export function toPages(capture, opts = {}) {
     for (const p of textPresets) { const d = Math.abs(p.size - px); if (d < bestd) { bestd = d; best = p.class; } }
     return bestd <= 1.5 ? best : '';
   };
+  // EVERY Text Style (the full treatment): a style with no class is picked by its name slug (font-<slug>), the class the
+  // Text Style dropdown offers — so the style-only Eyebrow counts. PHP: Mapper::$text_styles.
+  const textStyles = (((capture && capture.typography && capture.typography.textStyles) || []))
+    .filter((e) => e && parseFloat(e.size) > 0)
+    .map((e) => ({ class: String(e.class || '').trim() || ('font-' + String(e.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')), size: parseFloat(e.size), weight: String(e.weight || '').trim(), lh: String(e.line_height || '').trim(), ls: String(e.letter_spacing || '').trim(), transform: String(e.transform || '').trim().toLowerCase() }))
+    .filter((e) => e.class && e.class !== 'font-' && !e.class.startsWith('display-'));
+  // A text's FULL measured treatment (size + transform + tracking + weight) → the matching Text Style entry, or null. A
+  // tracked uppercase 12px label matches the Eyebrow, never the 11px Caption the size-only match would pick. Each
+  // property the preset declares must agree (size ±1.5px; transform equal; tracking within 0.2px — an em preset scaled by
+  // its size; weight equal when both set); a preset with a transform never matches plain text. PHP: text_style_for.
+  const textStyleFor = (t) => {
+    const px = parseFloat(t && t.size) || 0; if (px <= 0 || !textStyles.length) return null;
+    let tt = String(t.transform || '').trim().toLowerCase(); if (tt === 'none') tt = '';
+    const ls = String(t.ls || '').trim(); let lsv = (ls === '' || ls === 'normal') ? 0 : parseFloat(ls) || 0; if (/^-?[0-9.]+r?em$/.test(ls)) lsv = parseFloat(ls) * px;
+    let wt = String(t.weight || '').trim(); if (wt === 'normal') wt = '400'; if (wt === 'bold') wt = '700';
+    let best = null, bestd = Infinity;
+    for (const st of textStyles) {
+      const d = Math.abs(st.size - px); if (d > 1.5) continue;
+      const stt = st.transform === 'none' ? '' : st.transform; if (stt !== tt) continue;
+      if (st.ls !== '') { let pls = parseFloat(st.ls) || 0; if (!/px$/.test(st.ls)) pls = pls * st.size; if (Math.abs(pls - lsv) > 0.2) continue; }
+      else if (Math.abs(lsv) > 0.2 && tt === '') continue;
+      if (st.weight !== '' && wt !== '' && st.weight !== wt) continue;
+      const score = d + (st.ls !== '' ? 0 : 0.5) + (stt !== '' ? 0 : 0.25);
+      if (score < bestd) { bestd = score; best = st; }
+    }
+    return best;
+  };
   const origin = (() => { try { return new URL(capture.url || '').origin; } catch { return ''; } })();
   // De-brand absolute links back to the source origin → site-relative (used for carousel buttons).
   const localize = (href) => {
@@ -380,95 +411,15 @@ export function toPages(capture, opts = {}) {
   // the matching color-preset slug (style=btn-{slug}) + size-preset slug (size=btn-{slug}), exactly like
   // the header CTA. Built from capture.home.buttonSkins (or opts.buttonPresets when the caller precomputed
   // them). The per-node custom_css (exact fill/padding) stays as the ADDITIVE safety net.
-  const _btnPresets = (() => {
-    let bp = opts.buttonPresets || null;
-    if (!bp) { try { bp = buildButtonPresets(capture.home || capture); } catch { bp = null; } }
-    const colors = []; const sizes = [];
-    const seen = {};
-    for (const c of ((bp && bp.button_colors) || [])) {
-      let slug = String(c.color_name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      if (!slug) slug = String(c.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
-      if (!slug) continue;
-      const base = slug; let n = 1; while (seen[slug]) { n++; slug = base + '-' + n; } seen[slug] = true;
-      const def = (c.states && c.states.default) || {};
-      const pick = (f) => (def[f] && (def[f].custom || def[f].predefined)) || '';
-      const bg = _rgb(pick('bg_color')); const fg = _rgb(pick('text_color')); const bd = _rgb(pick('border_color'));
-      colors.push({ slug, role: String(c.color_name || '').toLowerCase(), bg, fg, bd });
-    }
-    for (const s of ((bp && bp.button_sizes) || [])) {
-      if (!s || !s.slug) continue;
-      const num = (f) => (s[f] && s[f].value !== '' && s[f].value != null ? parseFloat(s[f].value) : null);
-      sizes.push({ slug: String(s.slug).toLowerCase().replace(/[^a-z0-9_-]/g, ''), fs: num('font_size'), py: num('padding_y'), px: num('padding_x') });
-    }
-    return { colors, sizes };
-  })();
+  // BUTTON preset linking — the SHARED resolver (button-match.mjs, also used for the header CTAs in
+  // to-theme-settings.mjs): the SAME button_colors / button_sizes presets theme-settings carries → a converted
+  // BODY button attaches the matching color-preset slug (style=btn-{slug}) + size-preset slug (size=btn-{slug}),
+  // exactly like the header CTA. Built from capture.home.buttonSkins (or opts.buttonPresets when the caller
+  // precomputed them). The per-node custom_css (exact fill/padding) stays as the ADDITIVE safety net.
+  const _btnResolver = makeButtonResolver(opts.buttonPresets || (() => { try { return buildButtonPresets(capture.home || capture); } catch { return null; } })());
+  const _btnPresets = _btnResolver.presets;
   const _pxNum = (v) => { const m = String(v == null ? '' : v).trim().match(/^(-?[0-9.]+)\s*px?$/i); return m ? parseFloat(m[1]) : null; };
-  const _matchBtnColor = (bg, fg, bd) => {
-    if (!_btnPresets.colors.length) return '';
-    const dist = (a, b) => (a && b ? Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]) : null);
-    let best = '', bestd = Infinity;
-    for (const p of _btnPresets.colors) {
-      let d;
-      if (bg && p.bg) { d = dist(bg, p.bg); const dt = dist(fg, p.fg); if (dt != null) d += Math.round(dt / 3); }
-      else if (!bg && !p.bg) { if (!bd) continue; d = dist(bd, p.bd); if (d == null) continue; }
-      else continue;
-      if (d < bestd) { bestd = d; best = p.slug; }
-    }
-    return bestd <= 40 ? best : '';
-  };
-  const _buttonPresetFor = (b) => {
-    const out = { style: '', size: '' };
-    if (!_btnPresets.colors.length && !_btnPresets.sizes.length) return out;
-    const lc = ' ' + String(b.cls || '').toLowerCase() + ' ';
-    const bs = b.bs || {};
-    // COLOR — semantic fill class → the role's preset; else match computed colours.
-    let role = '';
-    if (/\s(?:btn-primary|bg-primary|bg-brand)\b/.test(lc)) role = 'primary';
-    else if (/\s(?:btn-secondary|bg-secondary|bg-accent|bg-cta)\b/.test(lc)) role = 'secondary';
-    else if ((/\sbg-white\b/.test(lc) || /\sbg-surface\b/.test(lc)) && /\sborder\b/.test(lc)) role = 'outline';
-    let style = '';
-    if (role) { const p = _btnPresets.colors.find((x) => x.role === role); if (p) style = 'btn-' + p.slug; }
-    if (!style) {
-      const bg = _rgb(bs.bg); const fg = _rgb(bs.fg);
-      // a border only counts with a real width
-      const bd = (bs.bw && bs.bw !== '0px' && bs.bw !== '0' && bs.bds && bs.bds !== 'none') ? _rgb(bs.bd) : null;
-      if (bg || bd) { const slug = _matchBtnColor(bg, fg, bd); if (slug) style = 'btn-' + slug; }
-    }
-    out.style = style;
-    // SIZE — explicit btn-lg/md/sm, else match computed font-size + padding.
-    let size = '';
-    const m = lc.match(/\sbtn-(lg|md|sm|xl|xs)\b/);
-    if (m && _btnPresets.sizes.some((s) => s.slug === m[1])) size = m[1];
-    if (!size) {
-      const fs = _pxNum(b.fontSize || b.fs);
-      let py = null, px = null;
-      const pp = String(b.pad || '').trim().split(/\s+/).map(_pxNum);
-      if (pp.length) { py = pp[0]; px = pp.length >= 2 ? pp[1] : pp[0]; }
-      if (fs != null) {
-        for (const s of _btnPresets.sizes) {
-          if (s.fs == null || Math.abs(s.fs - fs) > 1) continue;
-          if (py != null && s.py != null && Math.abs(s.py - py) > 3) continue;
-          if (px != null && s.px != null && Math.abs(s.px - px) > 4) continue;
-          size = s.slug; break;
-        }
-        // CLOSEST-MATCH FALLBACK — never leave a real button unassigned (→ thin `.btn` base). Pick the preset
-        // nearest in font-size (weighted), then padding, so the button still gets a size class. Parity w/ PHP.
-        if (!size) {
-          let best = '', bestD = Infinity;
-          for (const s of _btnPresets.sizes) {
-            if (s.fs == null) continue;
-            let d = Math.abs(s.fs - fs) * 4;
-            if (px != null && s.px != null) d += Math.abs(s.px - px);
-            if (py != null && s.py != null) d += Math.abs(s.py - py);
-            if (d < bestD) { bestD = d; best = s.slug; }
-          }
-          size = best;
-        }
-      }
-    }
-    out.size = size ? 'btn-' + size : '';
-    return out;
-  };
+  const _buttonPresetFor = (b) => _btnResolver.presetFor(b);
 
   // Optional conversion-report trace (no-op unless opts.trace is an array). Records the
   // per-section decision and per-element source→shortcode mapping so the deterministic
@@ -502,6 +453,7 @@ export function toPages(capture, opts = {}) {
     // text_color; font-size / line-height / letter-spacing / weight / alignment / bottom margin → the
     // shortcode's Advanced Custom CSS (`selector` = the text block). Only non-default values are set.
     let fontSizePreset = '';
+    let owned = {};
     if (s) {
       const clean = (v) => String(v || '').trim();
       if (/^rgb/i.test(clean(s.color))) { n.atts.text_color = { predefined: '', custom: rgbToCss(s.color) }; }
@@ -510,8 +462,10 @@ export function toPages(capture, opts = {}) {
       // Base (16) / no match within tolerance → '' (Default). MIRROR of PHP n_text. When a preset IS
       // assigned, the redundant `font-size` decl below is dropped so the editable preset owns the size.
       const fsm = clean(s.fontSize).match(/^([0-9.]+)px$/);
-      fontSizePreset = fsm ? textPresetFor(parseFloat(fsm[1])) : '';
+      fontSizePreset = fsm ? (() => { const st = textStyleFor({ size: parseFloat(fsm[1]), transform: clean(s.textTransform), ls: clean(s.letterSpacing), weight: clean(s.fontWeight) }); return st ? st.class : textPresetFor(parseFloat(fsm[1])); })() : ''; // the FULL treatment first (a tracked uppercase label → the Eyebrow), the size-only body role second (PHP: n_text)
       n.atts.font_size_preset = fontSizePreset;
+      // what the matched Text Style OWNS (the weight / tracking / transform / leading it declares) is not repeated on the block (PHP: the mirror leaf's owned list)
+      owned = fontSizePreset ? (textStyles.find((e) => e.class === fontSizePreset) || {}) : {};
       const d = [];
       // PASS #2 NATIVE STRUCTURE PROMOTION — horizontal alignment → the text_block's NATIVE, editable
       // `text_align` option (a Bootstrap `text-*` class on the wrapper — node-scoped, never body-wide)
@@ -521,24 +475,76 @@ export function toPages(capture, opts = {}) {
       if (/^(center|right)$/.test(ta)) { n.atts.text_align = ta; }
       else if (ta === 'justify') { d.push('text-align:justify'); }
       const fs = clean(s.fontSize); if (fs && fs !== '16px' && !fontSizePreset) d.push('font-size:' + fs);
-      const lh = clean(s.lineHeight); if (lh && lh !== 'normal') d.push('line-height:' + lh);
-      const ls = clean(s.letterSpacing); if (ls && ls !== 'normal') d.push('letter-spacing:' + ls);
-      const fw = parseInt(s.fontWeight, 10) || 0; if (fw >= 600) d.push('font-weight:' + fw);
-      const tt = clean(s.textTransform); if (tt && tt !== 'none') d.push('text-transform:' + tt);
+      const lh = clean(s.lineHeight); if (lh && lh !== 'normal' && !owned.lh) d.push('line-height:' + lh);
+      const ls = clean(s.letterSpacing); if (ls && ls !== 'normal' && !owned.ls) d.push('letter-spacing:' + ls);
+      const fw = parseInt(s.fontWeight, 10) || 0; if (fw >= 600 && !owned.weight) d.push('font-weight:' + fw);
+      const tt = clean(s.textTransform); if (tt && tt !== 'none' && !owned.transform) d.push('text-transform:' + tt);
       const mb = clean(s.marginBottom); if (mb && mb !== '0px') d.push('margin-bottom:' + mb + ' !important');
       if (d.length) { n.atts.custom_css = 'selector{' + d.map((x) => x.replace(/[{}<>;]/g, '')).join(';') + ';}'; }
+      // PHONE PASS: the paragraph's measured phone size (differs from desktop) → a max-width:767px rule. PHP parity: csSm.
+      { const fsm = String(s.fontSizeSm || '').trim(); if (/^[0-9.]+px$/.test(fsm)) { const lsm = String(s.lineHeightSm || '').trim(); n.atts.custom_css = ((n.atts.custom_css || '') + '\n@media (max-width:767px){selector,selector p{font-size:' + fsm + ' !important;' + (/^[0-9.]+px$/.test(lsm) ? 'line-height:' + lsm + ' !important;' : '') + '}}').trim(); } }
+      // The first inline link's own skin (capture-extract linkSkin). PHP: linkCs → selector a{…}.
+      { const lk = String(s.linkSkin || '').trim(); if (lk && /^[a-z0-9()%.,:;\s#-]+$/i.test(lk)) n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector a{' + lk + ';}').trim(); }
+      // The text long tail (capture-extract textLongTailOf). PHP: the 'text' profile + block_rule_fixups.
+      { const lt = String(s.longTail || '').trim(); if (lt && /^[a-z0-9()%.,:;"'\s#\/-]+$/i.test(lt)) n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector,selector p{' + lt + ';}').trim(); }
     }
     // HI-FI Pass-2 faithful base — text_block has no native spacing slot, so its vertical margins + the
     // font/color/line-height the unified styler re-asserts are `already`; the base fills the rest (font-weight,
     // letter-spacing, text-transform, background, border, …). Parity with PHP text builder.
-    if (hifiCss && s) {
+    if (s) { // (the box / position mapping below is NOT hi-fi-only; only the faithful base is)
       // FONT-SIZE single source of truth (parity with PHP text builder): the faithful base NEVER emits
       // font-size — when a Text Style preset is assigned the preset owns the size, and when none is
       // assigned the `selector{font-size:…}` custom_css above already carries the faithful px fallback.
       // (Previously the `fontSizePreset ? filter-out : keep` was INVERTED, re-emitting font-size in the
       // base exactly when a preset already owned it → a double-applied size.)
       const props = ['font-family', 'font-size', 'line-height', 'color', 'text-align', 'margin-top', 'margin-bottom'];
-      applyHifiBase(n, csFromFields(s), props, hifiCss);
+      if (owned.weight) props.push('font-weight'); if (owned.ls) props.push('letter-spacing'); if (owned.transform) props.push('text-transform'); // the matched Text Style owns these too
+      // A text block that IS a box (a glass callout, a floating note) → its skin becomes a real Box Preset on the
+      // block's native Box Style — never a per-node background/border/shadow base. Stashed on _box; capture.mjs
+      // clusters every _box into border_presets and assigns box_style. The preset owns fill / border / radius /
+      // shadow / padding / backdrop, so the base skips them; the block keeps its OWN line-height at normal
+      // specificity (the section styler would otherwise average it with a band's chips). Parity with PHP.
+      const bd = String(s.border || '').match(/^([0-9.]+px)\s+(\w+)\s+(.+)$/);
+      const boxed = !!(s.bg || s.bgImage || bd || s.boxShadow);
+      if (boxed) {
+        n.atts._box = { fill: s.bg || '', gradient: s.bgImage || '', radius: s.borderRadius || '', shadow: s.boxShadow || '', borderWidth: bd ? bd[1] : '', borderStyle: bd ? bd[2] : '', borderColor: bd ? bd[3] : '', backdrop: s.backdrop || '', padding: s.padding || '' };
+        props.push('background-color', 'background-image', 'border', 'border-radius', 'box-shadow', 'padding', 'backdrop-filter', 'transition');
+        const lh = String(s.lineHeight || '').trim();
+        if (lh && lh !== 'normal') n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector,selector p{line-height:' + lh.replace(/[{}<>;]/g, '') + ';}').trim();
+        // A BOXED SHORT LABEL that sat content-sized in the source (a flex item / inline-block "SCAN_01" chip) stays so — a
+        // block-level text block would stretch its fill across the cell. PHP: the text builder's contentSized rule.
+        if (s.contentSized) n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector{display:inline-block;width:max-content;max-width:100%;}').trim();
+      }
+      // The leaf's OWN face (a mono chip / value / label inside a sans card) rides the block — no section styler reaches a
+      // nested block. PHP: nested_face_decl.
+      { const of = String(s.ownFace || '').trim(); if (of && /^[a-z0-9"',\s-]+$/i.test(of)) n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector,selector p{font-family:' + of + ';}').trim(); }
+      // An out-of-flow text (a chip pinned over a hero) → the native Position option: the DECLARED sides from the
+      // source's Tailwind classes (`left-[8%] top-[18%]` — a % stays a %), else the computed offsets anchored to
+      // the nearer edge per axis (a computed `auto` resolves to px on every side). Parity with PHP.
+      if (s.position === 'absolute' || s.position === 'fixed') {
+        const AUTO = { value: '', unit: 'auto' };
+        const off = { top: AUTO, right: AUTO, bottom: AUTO, left: AUTO };
+        let declared = false;
+        const cls = ' ' + String(s.cls || '') + ' ';
+        for (const side of ['top', 'right', 'bottom', 'left']) {
+          const m = cls.match(new RegExp('\\s-?' + side + '-(\\[([-0-9.]+)(px|%|rem|em|vh|vw)\\]|(\\d+(?:\\.\\d+)?))\\s'));
+          if (!m) continue;
+          const neg = /\s-/.test(m[0].slice(0, 2)) ? -1 : 1;
+          off[side] = m[2] !== undefined ? { value: String(neg * parseFloat(m[2])), unit: m[3] } : { value: String(neg * parseFloat(m[4]) * 4), unit: 'px' };
+          declared = true;
+        }
+        if (!declared) {
+          const num = (v) => { const x = parseFloat(v); return Number.isNaN(x) ? null : x; };
+          const px = (v) => ({ value: String(Math.round(v)), unit: 'px' });
+          const t = num(s.top), r = num(s.right), b2 = num(s.bottom), l = num(s.left);
+          if (t != null && (b2 == null || Math.abs(t) <= Math.abs(b2))) off.top = px(t); else if (b2 != null) off.bottom = px(b2);
+          if (l != null && (r == null || Math.abs(l) <= Math.abs(r))) off.left = px(l); else if (r != null) off.right = px(r);
+        }
+        const z = String(s.zIndex || '').trim();
+        n.atts.element_position = { position: s.position, [s.position]: { pos_offsets: off, element_zindex: (z && z !== 'auto' && z !== '0') ? z : '' } };
+        props.push('position', 'top', 'right', 'bottom', 'left', 'z-index');
+      }
+      if (hifiCss) applyHifiBase(n, csFromFields(s), props, hifiCss);
     }
     return n;
   };
@@ -585,7 +591,7 @@ export function toPages(capture, opts = {}) {
     const ch = String(a.content_h || ''), cv = String(a.content_v || '');
     const isRow = cd === 'row';
     const hMap = { left: 'start', start: 'start', center: 'center', right: 'end', end: 'end', between: 'between', around: 'around' };
-    const vMap = { top: 'start', start: 'start', middle: 'center', center: 'center', bottom: 'end', end: 'end' };
+    const vMap = { top: 'start', start: 'start', middle: 'center', center: 'center', bottom: 'end', end: 'end', between: 'between', around: 'around' };
     const h = hMap[ch] || '', v = vMap[cv] || '';
     if (isRow || cgap !== '' || h !== '' || v !== '') {
       over.display = 'flex';
@@ -634,12 +640,22 @@ export function toPages(capture, opts = {}) {
     }
     // OUTER-track carries (grid-cell level). element_position (floating-card ancestor) now CARRIED.
     if (a.align_self && typeof a.align_self === 'object') over.align_self = a.align_self;
+    if (a.order && typeof a.order === 'object' && a.order.base) over.order = a.order; // a source order:-1 (PHP: column_to_flexbox_cell)
     if (a.responsive_hide && (Array.isArray(a.responsive_hide) ? a.responsive_hide.length : Object.keys(a.responsive_hide).length)) over.responsive_hide = a.responsive_hide;
     if (a.spacing) over.spacing = a.spacing;
     if (a.animation) over.animation = a.animation;
+    if (a.gsap_motion && a.gsap_motion.effect && a.gsap_motion.effect !== 'none') over.gsap_motion = a.gsap_motion; // a measured CSS-class reveal on the cell (the stagger); PHP twin
     if (a.css_id) over.css_id = String(a.css_id);
     if (a.custom_attrs) over.custom_attrs = a.custom_attrs;
     if (a.element_position) over.element_position = a.element_position;
+    // Source cell geometry: the exact grid track (read by flexifyItems) + a fixed min-height card. PHP twin.
+    if (a.track_px > 0) over.track_px = a.track_px;
+    if (a._row_box) over._row_box = a._row_box;
+    if (a._row_minh > 0) over._row_minh = a._row_minh;
+    if (a.bg_gradient || (a.bg_color && a.bg_color.custom)) over.background = { color: { value: (a.bg_color && a.bg_color.custom) ? a.bg_color : { predefined: '', custom: '' } }, gradient: a.bg_gradient || { data: { type: 'linear', angle: 90, stops: [] } }, image: { src: [], position: 'center center', size: { selected: 'cover', custom: '' }, repeat: 'no-repeat', attachment: 'scroll' }, video: { enabled: 'no', external_url: '', source_mp4: [], source_webm: [], poster: [], fallback: [], loop: 'yes', autoplay: 'yes', mute: 'yes', playsinline: 'yes' }, advanced: [] };
+    if (a.min_height_px > 0) over.min_height = { base: { value: String(Math.round(a.min_height_px)), unit: 'px' }, md: { value: '', unit: 'vh' }, lg: { value: '', unit: 'vh' } };
+    // PHONE PASS: a different (or no) phone minimum → base = phone, desktop → lg. PHP parity: min_height_sm_px.
+    if (a.min_height_px > 0 && a.min_height_sm_px !== undefined) over.min_height = { base: { value: a.min_height_sm_px > 0 ? String(a.min_height_sm_px) : '', unit: 'px' }, md: { value: (a.min_height_md_px !== undefined && a.min_height_md_px !== a.min_height_sm_px) ? (a.min_height_md_px > 0 ? String(a.min_height_md_px) : '0') : '', unit: 'px' }, lg: { value: String(Math.round(a.min_height_px)), unit: 'px' } };
     // RECURSE: flex any nested column runs inside this cell too (mutual recursion with flexifyItems()).
     const items = Array.isArray(col._items) ? flexifyItems(col._items) : [];
     // TWO-NODE cell: an inner-wrapper column (box skin / max-width cap on inner_class) → OUTER width track
@@ -654,6 +670,7 @@ export function toPages(capture, opts = {}) {
       if (ta2 === 'center' || ta2 === 'right' || ta2 === 'left') innerCss = (innerCss + (innerCss !== '' ? '\n' : '') + 'selector{text-align:' + ta2 + ';}').trim();
       if (innerCss !== '') innerOver.custom_css = innerCss;
       if (a.border_preset) innerOver.border_preset = String(a.border_preset);
+      if (a._box) innerOver._box = a._box; // stashed card skin → the Box-Preset census assigns border_preset on the inner Div
       if (a.css_class) innerOver.css_class = String(a.css_class);
       const innerDiv = nFlexbox(items, innerOver);
       over.display = 'block';
@@ -663,6 +680,7 @@ export function toPages(capture, opts = {}) {
     // SINGLE-NODE cell: content-layout maps onto the cell's own flex props.
     Object.assign(over, contentLayoutOver(a));
     if (a.border_preset) over.border_preset = String(a.border_preset);
+    if (a._box) over._box = a._box; // stashed card skin → the Box-Preset census assigns border_preset on this cell
     if (a.css_class) over.css_class = String(a.css_class);
     const ta = String(a.text_align || '');
     let css = String(a.custom_css || '');
@@ -695,6 +713,76 @@ export function toPages(capture, opts = {}) {
   // Recursively flex NESTED column runs (PHP twin of Mapper::flexify_items): a run of ≥2 consecutive
   // flex-safe `column` siblings → one flexbox Div of flexbox cells; non-column / unsafe / lone columns
   // pass through. columnToFlexboxCell calls back here, so nesting is handled at every depth.
+  // Cells whose source grid tracks are UNEQUAL (`1.08fr .92fr` → 737px / 627px): the 12-column span model
+  // rounds both to 6/6. Returns the tracks as an `fr` list (each = track/sum × N) for a native Grid, or ''
+  // when any cell lacks a track or the tracks are equal within 2%. PHP twin: Mapper::cells_track_list().
+  const trackList = (cells) => {
+    const tr = cells.map((c) => parseFloat(c.atts && c.atts.track_px) || 0);
+    if (tr.length < 2 || tr.some((t) => t <= 0)) return '';
+    const mx = Math.max(...tr), mn = Math.min(...tr);
+    if ((mx - mn) / mx <= 0.02) return '';
+    const sum = tr.reduce((a, b) => a + b, 0);
+    // a NARROW track (≤ 120px: a disc's `80px`, a pill's `auto`) is a fixed px measure; the wide tracks split the rest as fr (PHP: cells_track_list fixed)
+    const fixed = tr.map((t) => t <= 120 && mx > 240);
+    if (fixed.some(Boolean) && fixed.filter(Boolean).length < tr.length) {
+      const fsum = tr.reduce((a, t, i) => a + (fixed[i] ? 0 : t), 0), fn = tr.length - fixed.filter(Boolean).length;
+      return tr.map((t, i) => fixed[i] ? (Math.round(t * 10) / 10) + 'px' : String(Math.round((t / Math.max(1e-6, fsum)) * fn * 1000) / 1000) + 'fr').join(' ');
+    }
+    return tr.map((t) => String(Math.round((t / sum) * tr.length * 1000) / 1000) + 'fr').join(' ');
+  };
+  // A decor pseudo-layer → its scoped rule ('' when a value fails the whitelist). Twin of PHP Mapper::decor_pseudo_css.
+  const decorPseudoCss = (d) => {
+    const ok = (v, re) => re.test(String(v == null ? '' : v));
+    const pos = /^-?[0-9.]+(?:%|px)$/;
+    if (d && d.sweep) return sweepPseudoCss(d);
+    // Stacking: the source's own z-index, else ABOVE the fill for a small bar / dot (`above`), else behind (a glow). PHP: decor_pseudo_css.
+    const z = (d.z != null && /^-?\d+$/.test(String(d.z))) ? String(d.z) : (d.above ? '1' : '-1');
+    const decl = ['content:""', 'position:absolute', 'pointer-events:none', 'z-index:' + z];
+    for (const k of ['top', 'left', 'right', 'bottom', 'width', 'height']) if (d[k] != null && ok(d[k], pos)) decl.push(k + ':' + d[k]);
+    const painted = ok(d.background, /^[a-z0-9()%.,\s#-]+$/i) && d.background;
+    const bordered = (d.border && ok(d.border, /^[a-z0-9()%.,\s#-]+$/i)) || (d.shadow && ok(d.shadow, /^[a-z0-9()%.,\s#-]+$/i));
+    if (!painted && !bordered) return '';
+    if (painted) decl.push('background:' + d.background);
+    if (d.border && ok(d.border, /^[a-z0-9()%.,\s#-]+$/i)) decl.push('border:' + d.border);
+    if (d.shadow && ok(d.shadow, /^[a-z0-9()%.,\s#-]+$/i)) decl.push('box-shadow:' + d.shadow);
+    if (d.filter && ok(d.filter, /^[a-z0-9()%.,\s-]+$/i)) decl.push('filter:' + d.filter);
+    if (d.opacity && ok(d.opacity, /^[0-9.]+$/)) decl.push('opacity:' + d.opacity);
+    if (d.radius && ok(d.radius, /^[0-9.%px\s\/]+$/)) decl.push('border-radius:' + d.radius);
+    return 'selector{position:relative;isolation:isolate;}selector::' + (d.pe === 'after' ? 'after' : 'before') + '{' + decl.join(';') + ';}';
+  };
+  // A SWEEP pseudo-layer (capture-extract sweepLayerOf): a painted pseudo that MOVES — declared inset / transform /
+  // animation / blend, plus the @keyframes it names. Emitted verbatim on the node's scoped CSS: the host clips + isolates,
+  // the pseudo paints ABOVE the content like the source (no z-index:-1), and the keyframes ride along under a
+  // per-element name (`sc-<name>-<hash>`) so two converted sites' "sheen" never collide. PHP twin: Mapper::sweep_pseudo_css.
+  const sweepPseudoCss = (d) => {
+    const ok = (v, re) => re.test(String(v == null ? '' : v));
+    const len = /^-?[0-9.]+(?:%|px|rem|em|vw|vh)?$/;
+    if (!d || !ok(d.background, /^[a-z0-9()%.,\s#-]+$/i) || !d.background) return '';
+    const decl = ['content:""', 'position:absolute', 'pointer-events:none'];
+    if (d.inset && ok(d.inset, /^(-?[0-9.]+(?:%|px|rem|em|vw|vh)?\s*){1,4}$/)) decl.push('inset:' + String(d.inset).trim());
+    for (const k of ['top', 'left', 'right', 'bottom', 'width', 'height']) if (d[k] != null && ok(d[k], len)) decl.push(k + ':' + d[k]);
+    decl.push('background:' + d.background);
+    if (d.transform && ok(d.transform, /^[a-z0-9()%.,\s-]+$/i)) decl.push('transform:' + d.transform);
+    let anim = d.animation && ok(d.animation, /^[a-z0-9_.,\s()-]+$/i) ? String(d.animation).trim() : '';
+    let kf = d.keyframes && /^@keyframes\s+[a-z0-9_-]+\s*\{/i.test(String(d.keyframes).trim()) && !/<|url\(|expression\(|javascript:|@import/i.test(d.keyframes) && String(d.keyframes).length <= 4000 ? String(d.keyframes).trim() : '';
+    if (anim && kf) {
+      const name = anim.split(/\s+/)[0];
+      const kfName = (kf.match(/^@keyframes\s+([a-z0-9_-]+)/i) || [])[1] || '';
+      if (name && kfName && name === kfName) {
+        const scoped = 'sc-' + name.replace(/[^a-z0-9_-]/gi, '') + '-' + createHash('md5').update(kf).digest('hex').slice(0, 6);
+        anim = scoped + anim.slice(name.length); // name is whitelisted [a-z0-9_-] (the animation regex above), so a plain prefix swap is exact
+        kf = kf.replace(/^@keyframes\s+[a-z0-9_-]+/i, '@keyframes ' + scoped);
+      } else kf = '';
+    } else kf = '';
+    if (!kf) anim = ''; // no carried @keyframes (unreadable sheet / mismatched name) → no dangling animation
+    if (anim) decl.push('animation:' + anim);
+    if (d.blend && ok(d.blend, /^[a-z-]+$/)) decl.push('mix-blend-mode:' + d.blend);
+    if (d.opacity && ok(d.opacity, /^[0-9.]+$/)) decl.push('opacity:' + d.opacity);
+    if (d.filter && ok(d.filter, /^[a-z0-9()%.,\s-]+$/i)) decl.push('filter:' + d.filter);
+    if (d.radius && ok(d.radius, /^[0-9.%px\s\/]+$/)) decl.push('border-radius:' + d.radius);
+    const host = 'selector{position:relative;isolation:isolate;' + (d.clip ? 'overflow:hidden;' : '') + '}';
+    return host + 'selector::' + (d.pe === 'after' ? 'after' : 'before') + '{' + decl.join(';') + ';}' + (kf ? kf : '');
+  };
   const flexifyItems = (items) => {
     const out = [];
     let run = [];
@@ -702,12 +790,28 @@ export function toPages(capture, opts = {}) {
       if (!run.length) return;
       if (run.length >= 2 && rowFlexSafe(run)) {
         const cells = run.map(columnToFlexboxCell);
-        // UNIFORM NON-RESPONSIVE GRID → grow the cells to fill the row. A wrapping flex row sizes each span
-        // cell width:calc(pct - gap), subtracting the FULL gap from every cell though only N-1 gaps sit between
-        // N cells, so the row ends one gap short (a trailing empty strip). flex-grow:1 on equal cells distributes
-        // that remainder back. Twin of PHP Mapper::cells_uniform_grid + the flexify flex-grow push.
-        if (cellsUniformGrid(cells)) { for (const uc of cells) uc.atts.flex_grow = { base: 'yes', md: '', lg: '' }; }
-        out.push(nFlexbox(cells, { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } }));
+        const over = { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } };
+        // UNEQUAL source tracks (`1.08fr .92fr`) → a native Grid carrying the exact track list (grid_columns
+        // accepts a raw template); the 12-span model would round it to 6/6. PHP twin: cells_track_list().
+        const tl = trackList(cells);
+        if (tl) {
+          over.display = 'grid';
+          over.grid_columns = tl;
+          for (const gc of cells) delete gc.atts.width;
+        } else if (cellsUniformGrid(cells)) {
+          // UNIFORM NON-RESPONSIVE GRID → grow the cells to fill the row. A wrapping flex row sizes each span
+          // cell width:calc(pct - gap), subtracting the FULL gap from every cell though only N-1 gaps sit between
+          // N cells, so the row ends one gap short (a trailing empty strip). flex-grow:1 on equal cells distributes
+          // that remainder back. Twin of PHP Mapper::cells_uniform_grid + the flexify flex-grow push.
+          for (const uc of cells) uc.atts.flex_grow = { base: 'yes', md: '', lg: '' };
+        }
+        // The ROW is a CARD (a band): the cells carry its skin + min-height → the row flexbox wears the card's box
+        // (the census assigns border_preset on a flexbox) at the card's height. PHP twin: flexify_items.
+        const rb = cells[0] && cells[0].atts && cells[0].atts._row_box;
+        if (rb) over._box = rb;
+        if (cells[0] && cells[0].atts && cells[0].atts._row_minh > 0) over.min_height = { base: { value: String(cells[0].atts._row_minh), unit: 'px' }, md: { value: '', unit: 'vh' }, lg: { value: '', unit: 'vh' } };
+        for (const tc of cells) { delete tc.atts.track_px; delete tc.atts._row_box; delete tc.atts._row_minh; }
+        out.push(nFlexbox(cells, over));
       } else {
         // A LONE column still becomes a flexbox Div, never a classic fw-row/fw-col (PHP twin: flexify_items).
         for (const rc of run) out.push(columnToFlexboxCell(rc));
@@ -934,9 +1038,11 @@ export function toPages(capture, opts = {}) {
       for (const d of DISPLAY_PX) { if (Math.abs(d[0] - hpx) < Math.abs(best[0] - hpx)) best = d; }
       // Snap ONLY when the source size is genuinely CLOSE to a display preset (a hero/display heading).
       // The smallest preset is 48px, so a 36px SECTION heading (text-3xl md:text-4xl) is 12px away and
-      // would balloon to display-5 (the "Why Pets Love FreshPaws" 36px→48px bug). Beyond the tolerance,
+      // would balloon to display-5 (the "Why Pets Love …" 36px→48px bug). Beyond the tolerance,
       // reproduce the EXACT size instead of promoting it to a display preset.
-      if (Math.abs(best[0] - hpx) <= 7) { n.atts.display_size = best[1]; }
+      // A FLUID source size (a declared clamp()/vw) is carried as the expression below — never pin its px snapshot.
+      if (b.fsDecl) { /* fluid: no preset, no px */ }
+      else if (Math.abs(best[0] - hpx) <= 7) { n.atts.display_size = best[1]; }
       else { exactHeadingSize = hpx + 'px'; }
     }
     // Title color — carry the source heading's computed color into the native title_color pick.
@@ -1011,6 +1117,9 @@ export function toPages(capture, opts = {}) {
     // A heading whose size didn't match a display preset (e.g. a 36px section heading) → reproduce its
     // exact font-size here rather than promoting it to the nearest (too-large) display preset.
     if (exactHeadingSize) td.push('font-size:' + exactHeadingSize);
+    // A display preset is the editable base, but the SOURCE size is pinned exactly (a 44px h3 would render at the preset's
+    // 48). A fluid title carries its clamp() instead. PHP parity: heading_metrics_css / the section-scoped hN rule.
+    else if (n.atts.display_size && !b.fsDecl && hpx > 0) td.push('font-size:' + hpx + 'px');
     // Re-assert the SOURCE font-weight (any 100–900) so it beats the shortcode's
     // `hN.heading-title{font-weight:var(--hN-font-weight, revert)}` = the UA BOLD default — a source
     // heading at 400 (regular) otherwise renders bold. Scoped `.uHASH .heading-title` (0,2,0) wins.
@@ -1019,23 +1128,39 @@ export function toPages(capture, opts = {}) {
     if (hw >= 100 && hw <= 900) td.push('font-weight:' + hw);
     // line-height needs custom_css when the display preset out-specificities the class OR the source used
     // an arbitrary `leading-[…]` (dropped as mangle-prone above, so its effect must come from here).
-    const lh = _clean(b.lineHeight); if (lh && lh !== 'normal' && (n.atts.display_size || clsHasArbLeading)) td.push('line-height:' + lh);
+    // The title's computed line-height + letter-spacing ride on the node (a heading inside a panel / card gets no
+    // section-scoped rule; a stat value's 'line-height:1' = 42px otherwise took the theme's). A FLUID title carries its
+    // RELATIVE metrics instead (fsDecl below). PHP twin: heading_metrics_css.
+    const lh = _clean(b.lineHeight); if (lh && lh !== 'normal' && !b.fsDecl && /^[0-9.]+px$/.test(lh)) td.push('line-height:' + lh);
+    const lsp = _clean(b.letterSpacing); if (lsp && lsp !== 'normal' && !b.fsDecl && /^-?[0-9.]+px$/.test(lsp)) td.push('letter-spacing:' + lsp);
     const mb = _clean(b.marginBottom); if (mb && mb !== '0px') td.push('margin-bottom:' + mb);
     const mt = _clean(b.marginTop); if (mt && mt !== '0px') td.push('margin-top:' + mt);
+    // a captured ZERO is a value: without an overline nothing else asserts the title's top margin and the theme's default
+    // hN margin-top (48px on an h1) doubled the carried group margin (PHP parity: title_mt_px)
+    else if (mt === '0px' && !String(b.overline || '').trim()) td.push('margin-top:0px');
     measureDecls(b.cls, td); // title's own max-w-* mx-auto (never-drop)
     const rules = [];
     if (td.length) { rules.push('selector .heading-title{' + td.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    // The title's TEXT LONG TAIL (capture-extract textLongTailOf: italic / shadow / decoration metrics / clamp / columns /
+    // writing-mode / wrap / indent / hyphens / numeric variants / white-space / text-stroke / gradient text). PHP: profiles.
+    { const lt = String(b.longTail || '').trim(); if (lt && /^[a-z0-9()%.,:;"'\s#\/-]+$/i.test(lt)) rules.push('selector .heading-title{' + lt.split(';').map((d) => d + ' !important').join(';') + ';}'); }
+    // PHONE PASS: the title's measured phone size (differs from desktop) → a max-width:767px rule. PHP parity: csSm.
+    { const fsm = String(b.fontSizeSm || '').trim(); if (/^[0-9.]+px$/.test(fsm) && !b.fsDecl) { const lsm = String(b.lineHeightSm || '').trim(); rules.push('@media (max-width:767px){selector .heading-title{font-size:' + fsm + ' !important;' + (/^[0-9.]+px$/.test(lsm) ? 'line-height:' + lsm + ' !important;' : '') + '}}'); } }
     // Subtitle tier-3: its size / colour classes are routinely mangle-prone (`md:text-xl`, `text-…/70`) and
     // there's no native subtitle size/colour option, so reproduce the computed font-size / colour /
     // line-height. Only emitted for non-default values; the sanitizer-safe subtitle classes still ride
     // `subtitle_class` for editability.
     const ss = b.subtitleStyle || {};
     const sd = [];
-    const sfs = _clean(ss.fontSize); if (sfs && sfs !== '16px') sd.push('font-size:' + sfs);
+    const sfs = _clean(ss.fontSize); if (sfs && (sfs !== '16px' || !n.atts.subtitle_size)) sd.push('font-size:' + sfs); // 16px too when no preset matched (the subtitle scale would enlarge it) — PHP parity
     const slh = _clean(ss.lineHeight); if (slh && slh !== 'normal') sd.push('line-height:' + slh);
     if (/^rgb/i.test(_clean(ss.color))) sd.push('color:' + rgbToCss(ss.color));
     measureDecls(b.subtitleCls, sd); // subtitle's own max-w-* mx-auto (never-drop) — the max-w-2xl case
     if (sd.length) { rules.push('selector .heading-subtitle{' + sd.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
+    { const lt = String(b.subtitleLongTail || '').trim(); if (lt && /^[a-z0-9()%.,:;"'\s#\/-]+$/i.test(lt)) rules.push('selector .heading-subtitle{' + lt.split(';').map((d) => d + ' !important').join(';') + ';}'); }
+    { const lk = String(b.subtitleLinkSkin || '').trim(); if (lk && /^[a-z0-9()%.,:;\s#-]+$/i.test(lk)) rules.push('selector .heading-subtitle a{' + lk + ';}'); } // the subtitle's inline link (PHP: link_skin_decls)
+    // PHONE PASS: the folded subtitle's phone size → a max-width:767px rule. PHP parity: subtitle_fs_sm.
+    { const sfm = String(ss.fontSizeSm || '').trim(); if (/^[0-9.]+px$/.test(sfm)) { const slm = String(ss.lineHeightSm || '').trim(); rules.push('@media (max-width:767px){selector .heading-subtitle{font-size:' + sfm + ' !important;' + (/^[0-9.]+px$/.test(slm) ? 'line-height:' + slm + ' !important;' : '') + '}}'); } }
     // NEVER-DROP overline typography: the overline has native casing/colour/align + weight, but NO native
     // font-size or letter-spacing option. A source eyebrow like `text-[11px] tracking-[0.3em] uppercase`
     // lost its 11px size + 0.3em tracking (mangle-prone classes dropped), rendering in the theme default —
@@ -1047,6 +1172,12 @@ export function toPages(capture, opts = {}) {
       const ols = _clean(b.overlineLetterSpacing); if (ols && ols !== 'normal') od.push('letter-spacing:' + ols);
       const ofw = _clean(b.overlineFontWeight); if (ofw && /^[1-9]00$/.test(ofw)) od.push('font-weight:' + ofw);
       const ocl = _clean(b.overlineColor2 || b.overlineColor); if (/^rgb/i.test(ocl)) od.push('color:' + rgbToCss(ocl));
+      const olh = _clean(b.overlineLineHeight); if (olh && olh !== 'normal') od.push('line-height:' + olh);
+      // The overline→title gap = the overline's own margin-bottom + the title's margin-top (both computed). ZERO is a
+      // value: a label flush on its h2 must not open the theme's 16px default. Emitted whenever the title's margin was
+      // captured (PHP parity: title_mt_px, absent-in-capture = 0 handled by the capture stamping computed margins).
+      const tmt = _clean(b.marginTop); const omb = _clean(b.overlineMarginBottom);
+      if (/^[0-9.]+px$/.test(tmt)) od.push('margin-bottom:' + Math.round(parseFloat(tmt) + (/^[0-9.]+px$/.test(omb) ? parseFloat(omb) : 0)) + 'px');
       if (od.length) { rules.push('selector .heading-overline{' + od.map((d) => d.replace(/[{}<>;]/g, '') + ' !important').join(';') + ';}'); }
     }
     // NEVER-DROP pill overline SKIN → the INNER `.heading-overline__label` (the element that IS the pill: it
@@ -1072,13 +1203,26 @@ export function toPages(capture, opts = {}) {
     // EXACT px here as scoped .heading-title CSS — never-drop, reproduced faithfully. Parity with PHP n_heading.
     if (!(b.subtitle && String(b.subtitle).trim() !== '')) {
       rules.push('selector .heading-title{margin-bottom:0 !important;}');
+      // NO subtitle: the block's outer bottom margin is the TITLE's own computed margin-bottom — zero included (a stat
+      // card's value otherwise grew the card by the theme's default block margin). PHP parity.
+      { const tmb = _clean(b.marginBottom); if (/^[0-9.]+px$/.test(tmb) && n.atts.spacing && n.atts.spacing.margin && !n.atts.spacing.margin.bottom) n.atts.spacing.margin.bottom = parseFloat(tmb) > 0 ? spacingToken('mb', parseFloat(tmb)) : 'mb-0'; }
     } else {
       // Prefer the title's COMPUTED bottom margin (survives class stripping — `mb-8` is removed from the
       // class), falling back to an `mb-*` still on the class. Parity with PHP cs_margin_bottom_px.
       const _mbc = _clean(b.marginBottom);
       let _tmbPx = /^([0-9.]+)px$/.test(_mbc) ? Math.round(parseFloat(_mbc)) : 0;
       if (!_tmbPx) { const _tmb = String(b.cls || '').match(/\bmb-(\d+(?:\.\d+)?)\b/); _tmbPx = _tmb ? Math.round(parseFloat(_tmb[1]) * 4) : 0; }
+      if (!_tmbPx) { const _smt = _clean(b.subtitleStyle && b.subtitleStyle.marginTop); if (/^[0-9.]+px$/.test(_smt) && parseFloat(_smt) > 0) _tmbPx = Math.round(parseFloat(_smt)); } // the gap on the SUBTITLE's margin-top — PHP parity
+      if (_tmbPx > 0 && !n.atts.element_spacing) n.atts.element_spacing = _tmbPx <= 6 ? 'tight' : (_tmbPx <= 20 ? 'relaxed' : '');
       if (_tmbPx > 0) { rules.push('selector .heading-title{margin-bottom:' + _tmbPx + 'px !important;}'); }
+    }
+    // FLUID title (a declared clamp()/vw size) → the expression itself, so the title scales with the viewport.
+    // Its relative line-height / letter-spacing (lhDecl / lsDecl) ride along so they keep scaling with the font.
+    if (b.fsDecl && /^[a-z0-9()%.,\s+*\/-]+$/i.test(String(b.fsDecl))) {
+      const fl = ['font-size:' + String(b.fsDecl)];
+      if (b.lhDecl && /^[0-9.]+(?:em|%)?$/.test(String(b.lhDecl))) fl.push('line-height:' + String(b.lhDecl));
+      if (b.lsDecl && /^-?[0-9.]+(?:em|%)$/.test(String(b.lsDecl))) fl.push('letter-spacing:' + String(b.lsDecl));
+      rules.push('selector .heading-title{' + fl.map((d) => d + ' !important').join(';') + ';}');
     }
     n.atts.custom_css = rules.join('');
     // Translate the heading-group wrapper's Tailwind LAYOUT/SPACING classes into NATIVE special_heading
@@ -1128,9 +1272,16 @@ export function toPages(capture, opts = {}) {
       const _subCs = String(b.subtitleCs || '').match(/margin-bottom:\s*([\d.]+)px/);
       if (_subCs) subMbPx = parseFloat(_subCs[1]);
       if (subMbPx == null || subMbPx <= 0) { const _sc = String(b.subtitleCls || '').match(/\bmb-(\d+(?:\.\d+)?)\b/); if (_sc) subMbPx = parseFloat(_sc[1]) * 4; }
+      // …plus the paragraph's OWN padding-bottom (a hero intro's 240px that keeps the video subject clear before the CTAs) — the same below-gap in another property (PHP parity)
+      { const _pb = parseFloat(_clean(b.subtitleStyle && b.subtitleStyle.paddingBottom)) || 0; if (_pb > 0) subMbPx = (subMbPx || 0) + _pb; }
       if (subMbPx && subMbPx > 0) {
         if (!n.atts.spacing || typeof n.atts.spacing !== 'object') n.atts.spacing = emptySpacing();
         n.atts.spacing.margin.bottom = spacingToken('mb', subMbPx);
+      } else if (/^0px$/.test(_clean(b.subtitleStyle && b.subtitleStyle.marginBottom))) {
+        // An EXPLICIT zero: the source puts the gap on the NEXT block's margin-top, so the theme's default block
+        // margin would double it (a 28px row gap read 46px). PHP parity.
+        if (!n.atts.spacing || typeof n.atts.spacing !== 'object') n.atts.spacing = emptySpacing();
+        n.atts.spacing.margin.bottom = 'mb-0';
       }
     }
     // Overline pill colour: the source pill's text colour → native overline_color (drives the pill tint),
@@ -1158,6 +1309,12 @@ export function toPages(capture, opts = {}) {
     // The title→subtitle gap already went to element_spacing above; don't let it ALSO sit on the outer
     // bottom margin (applyNativeMargin would re-read the heading's own mb). Keep the two from double-counting.
     if (_gapToElementSpacing && n.atts.spacing && n.atts.spacing.margin) n.atts.spacing.margin.bottom = '';
+    // The heading GROUP wrapper's own vertical margin (capture-extract mtAdd / mbAdd on the boundary parts) → the Spacing
+    // when nothing more specific set it. PHP: the flush_head mbAdd / mtAdd carry.
+    if (n.atts && n.atts.spacing && n.atts.spacing.margin) {
+      if (b.mbAdd > 0 && (!n.atts.spacing.margin.bottom || n.atts.spacing.margin.bottom === 'mb-0')) n.atts.spacing.margin.bottom = spacingToken('mb', b.mbAdd); // an inner part's explicit ZERO is not the group's gap
+      if (b.mtAdd > 0 && (!n.atts.spacing.margin.top || n.atts.spacing.margin.top === 'mt-0')) n.atts.spacing.margin.top = spacingToken('mt', b.mtAdd);
+    }
     return n;
   };
   // Classify a captured button by its RESOLVED look (parity with the PHP mapper's button_style_class):
@@ -1320,7 +1477,11 @@ export function toPages(capture, opts = {}) {
         bg: bs.bg, color: bs.fg,
         border: (bs.bw && bs.bw !== '0px' && bs.bds && bs.bds !== 'none') ? (bs.bw + ' ' + bs.bds + ' ' + bs.bd) : undefined,
       }));
-      applyHifiBase(node, bcs, ['background-color', 'color', 'border', 'border-radius', 'box-shadow', 'font-family', 'font-size', 'font-weight', 'letter-spacing', 'text-transform'], hifiCss);
+      const already = ['background-color', 'color', 'border', 'border-radius', 'box-shadow', 'font-family', 'font-size', 'font-weight', 'letter-spacing', 'text-transform'];
+      // A PRESET-owned button: the preset also carries its gradient (background-image), transition and shadow; the
+      // size preset its line-height; the .btn base its text-align — none of it belongs per-node. Parity with PHP.
+      if (_btnStyle && _btnStyle !== 'btn-link') already.push('background-image', 'transition', 'text-align', 'line-height');
+      applyHifiBase(node, bcs, already, hifiCss);
     }
     return node;
   };
@@ -1365,7 +1526,9 @@ export function toPages(capture, opts = {}) {
     const ratio = ['16x9', '4x3', '1x1', '21x9', '9x16', '3x4'].includes(String(b.aspect || '')) ? String(b.aspect) : '16x9';
     const vwidth = (ratio === '9x16' || ratio === '3x4') ? 320 : 600;
     const rhide = b.rhideCls && String(b.rhideCls).trim() ? responsiveHideFromClasses(String(b.rhideCls)) : {};
-    return { type: 'simple', shortcode: 'media_video', _items: [], atts: { source_type: st, width: { value: vwidth, unit: 'px' }, ratio, responsive_hide: rhide, unique_id: uid() } };
+    const vn = { type: 'simple', shortcode: 'media_video', _items: [], atts: { source_type: st, width: { value: vwidth, unit: 'px' }, ratio, responsive_hide: rhide, unique_id: uid() } };
+    if (b.shapeCss && String(b.shapeCss).trim()) vn.atts.custom_css = String(b.shapeCss).trim(); // the clip's shell: radius / mask / filter / aspect + cap / animation (PHP: media_shape_css)
+    return vn;
   };
 
   // A standalone image → the native media_image element (NOT a gallery — that's for multiple
@@ -1385,9 +1548,20 @@ export function toPages(capture, opts = {}) {
     const wrap = ['position:relative'];
     if (b.aspect) { wrap.push(`aspect-ratio:${b.aspect}`, 'overflow:hidden'); decl.push('width:100%', 'height:100%'); if (!fit || fit === 'fill') fit = 'cover'; }
     if (fit && fit !== 'fill') decl.push(`object-fit:${fit}`);
-    if (b.borderWidth && b.borderColor) decl.push(`border:${b.borderWidth} solid ${b.borderColor}`);
+    if (b.borderWidth && b.borderColor) decl.push(`border:${b.borderWidth} ${b.borderStyle || 'solid'} ${b.borderColor}`);
+    if (b.outline) decl.push(`outline:${b.outline}`);
     if (b.shadow) decl.push(`box-shadow:${b.shadow}`);
     let custom_css = decl.length ? `selector img{${decl.join(';')};}` : '';
+    // a CSS-painted photo cell (capture-extract bgPhotoOf) covers its measured box (PHP: bg_photo_block)
+    if (b.bgPhoto && typeof b.bgPhoto === 'object') { const h = (b.bgPhoto.h | 0) > 0 ? (b.bgPhoto.h | 0) : 240; const pos = /^[a-z0-9.%\s-]+$/i.test(String(b.bgPhoto.pos || '')) ? b.bgPhoto.pos : 'center'; custom_css = (custom_css + ' selector{height:100%;min-height:' + h + 'px;}selector .image,selector figure{height:100%;margin:0;}selector img{width:100%;height:100%;object-fit:cover;object-position:' + pos + ';display:block;}').trim(); }
+    // The image's own filter / object-position / aspect-ratio (capture-extract imgExtraOf). PHP: img_extra_css → skinCss.
+    { const ex = String(b.extra || '').trim(); if (ex && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(ex)) custom_css = (custom_css + ' selector img{' + ex + ';}').trim(); }
+    // FILL (a photo tile: the image stretches to its framed cell, object-fit cover): the media_image grows in
+    // its flex-column cell and the <img> covers it. The core image helper only honours object-fit with an
+    // aspect ratio (width+height both set → contain), so the fill is a scoped rule. PHP twin: image builder.
+    // A cover-FILL only makes sense beside its text cell (a side-by-side row); stacked on a phone the source image sits at
+    // its natural height, so the fill rides a min-width:992px rule. PHP parity: the 'image' builder.
+    if (b.fill && !b.aspect) custom_css = (custom_css + ' @media (min-width:992px){selector{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}selector img{flex:1 1 auto;width:100%;min-height:0;object-fit:cover;display:block;}}').trim();
     // An overlay layer → a scoped `selector::before` (no extra element / code_block), mirroring the PHP
     // img_composite_skin_css. A full-bleed `inset-0` SCRIM paints ON TOP (z-index above the img) and clears
     // on hover when `hover:bg-transparent`; an offset/rounded BLOB stays BEHIND (z-index:0). `selector` needs
@@ -1562,7 +1736,7 @@ export function toPages(capture, opts = {}) {
   // A DECORATIVE layer (a scrim, a gradient wash, a blur glow, a pattern overlay) is an empty
   // positioned box whose entire purpose is its background. Emitting it as a code_block made it the
   // single largest source of raw markup in a converted page — 300 of 359 unmapped `html` leaves
-  // (83.6%) across a 120-site Wegic corpus — and left it uneditable. It is a Div with a background,
+  // (83.6%) across a 120-site a second AI-page generator corpus — and left it uneditable. It is a Div with a background,
   // so emit exactly that, using the paint captured alongside the block (capture-extract stamps
   // `paint` because rawHtmlOf() carries no data-sc-cs for the engine to read).
   //
@@ -1640,14 +1814,467 @@ export function toPages(capture, opts = {}) {
     if (node && b && b.anim && node.atts && node.atts.animation && typeof node.atts.animation === 'object' && 'enable' in node.atts.animation) {
       node.atts.animation = { ...node.atts.animation, enable: 'yes', yes: { ...(node.atts.animation.yes || {}), effect: b.anim } };
     }
+    applyReveal(node, b && b.reveal);
+    applyLoopAnim(node, b && b.loopAnim);
     return node;
   };
-  const blockToNode = (b) => applyAnim(_blockToNode(b), b);
+  // The element's own running class animation ({ css, kf }) → the node's Custom CSS (the shorthand on the node, its
+  // @keyframes alongside). PHP: apply_loop_anim.
+  const applyLoopAnim = (node, la) => {
+    if (!node || !la || !la.css || !node.atts) return node;
+    const css = 'selector{' + String(la.css).replace(/[;\s]+$/, '') + ';}' + (la.kf ? '\n' + String(la.kf).trim() : '');
+    if (String(node.atts.custom_css || '').includes(css)) return node;
+    node.atts.custom_css = ((node.atts.custom_css || '') + '\n' + css).trim();
+    return node;
+  };
+  // A measured CSS-class reveal (capture data-sc-reveal → b.reveal / c.reveal) → the Scroll Motion REVEAL on the node's
+  // gsap_motion: the source's direction + exact distance + per-element delay (the stagger), the character by the rest
+  // scale (a plain slide = Subtle, a scaled-in = Standard / Dramatic), the ease mapped to GSAP. PHP: gsap_reveal_value.
+  const applyReveal = (node, rv) => {
+    if (!node || !rv || !node.atts || node.type === 'section') return node; // every shortcode carries the Scroll Motion stack (the JS atom templates omit the default)
+    if (node.atts.gsap_motion && node.atts.gsap_motion.effect && node.atts.gsap_motion.effect !== 'none' && node.atts.gsap_motion.effect !== '') return node;
+    const dir = /^(up|down|left|right|none)$/.test(rv.dir) ? rv.dir : 'up';
+    const style = rv.scale < 0.95 ? 'dramatic' : (rv.scale < 1 ? 'standard' : 'subtle');
+    const ease = gsapEaseOf(rv.ease);
+    const reveal = { direction: dir, style, distance: Math.max(0, Math.round(rv.distance || 0)), delay: Math.round((rv.delay || 0) * 100) / 100, start: 'top 85%', once: 'yes', run_on_mobile: 'yes' };
+    if (ease) reveal.advanced = { mode: 'custom', custom: { ease, ease_custom: '', scrub_smooth: 0, markers: 'no' } };
+    node.atts.gsap_motion = { effect: 'reveal', reveal };
+    return node;
+  };
+  // A CSS timing function → the nearest GSAP ease (the Scroll Motion Advanced ease vocabulary); '' keeps the Style preset's.
+  const gsapEaseOf = (v) => {
+    v = String(v || '').trim();
+    if (!v || v === 'ease') return 'power1.out';
+    if (v === 'linear') return 'none';
+    if (v === 'ease-out') return 'power2.out';
+    if (v === 'ease-in') return 'power2.in';
+    if (v === 'ease-in-out') return 'power2.inOut';
+    const m = /cubic-bezier\(\s*([0-9.]+)\s*,\s*(-?[0-9.]+)\s*,\s*([0-9.]+)\s*,\s*(-?[0-9.]+)\s*\)/.exec(v);
+    if (!m) return '';
+    const [x1, y1, x2, y2] = [+m[1], +m[2], +m[3], +m[4]];
+    if (y2 > 1.05) return 'back.out(1.7)';
+    if (x1 <= 0.25 && y1 >= 0.9 && x2 <= 0.4) return 'expo.out';
+    if (x1 <= 0.3 && y1 >= 0.6) return 'power3.out';
+    if (x1 >= 0.4 && x2 <= 0.3 && y1 <= 0.1) return 'power2.inOut';
+    if (x1 >= 0.4 && y1 <= 0.1) return 'power2.in';
+    return 'power2.out';
+  };
+  // A CHIP ROW (capture-extract chipRowOf): a wrapping flex row carrying the source gap + alignment + vertical
+  // margin, whose cells are the chips themselves — each a Text Block through textBlock(), so the boxed-text rule
+  // stashes its Box Preset skin (_box → box_style) and the text presets its typography. The chips size to
+  // their content (a flex item's default), never to equal-width cells. PHP twin: the 'chips' builder.
+  const chipsNode = (b) => {
+    const nodes = (b.items || []).map((it) => textBlock(it.html, it)).filter(Boolean);
+    if (!nodes.length) return null;
+    const over = { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' }, align_items: { base: 'center', md: '', lg: '' } };
+    const gs = gapSlug(b.gap || '');
+    if (gs) over.gap = { base: gs, md: '', lg: '' };
+    if (b.align) over.justify_content = { base: b.align, md: '', lg: '' };
+    const row = nFlexbox(nodes, over);
+    if (b.keepRowSm && row && row.atts) row.atts.responsive_collapse = 'no'; // the source keeps the chips on one row at 390px (PHP: keepRowSm)
+    if (row && row.atts && row.atts.spacing && row.atts.spacing.margin) {
+      if (b.mt > 0) row.atts.spacing.margin.top = spacingToken('mt', b.mt);
+      if (b.mb > 0) row.atts.spacing.margin.bottom = spacingToken('mb', b.mb);
+    }
+    return row;
+  };
+  // A ROW block → its builder items (the flexed row, or bare columns). Lifted out of the section loop so a row
+  // nested in a STACK (a band card inside a single-track grid) is built by the SAME cell logic. PHP twin: the
+  // nested-row path of build_cell_items + the section-level column loop.
+  // A HORIZONTAL SCROLL STRIP: the row never wraps, every cell keeps the source's item width (flex-basis max(78%, 980px)), the
+  // strip scrolls on x with snap points and a hidden scrollbar. Native first (wrap:no, content-sized cells), the rest scoped.
+  const applyScrollStrip = (row, scroll) => {
+    const item = String(scroll.item || '').trim(); if (!item || !/^[a-z0-9()%.,\s+*\/-]+$/i.test(item)) return row;
+    row.atts.wrap = { base: 'no', md: '', lg: '' };
+    const css = 'selector{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;' + (scroll.snap ? 'scroll-snap-type:x mandatory;' : '') + (scroll.padB > 0 ? 'padding-bottom:' + scroll.padB + 'px;' : '') + '}selector::-webkit-scrollbar{display:none;}'
+      + 'selector>*{flex:0 0 ' + item + ';width:' + item + ';max-width:none;' + (scroll.snap ? 'scroll-snap-align:start;' : '') + '}';
+    for (const ci of (row._items || [])) { if (ci.atts) { ci.atts.width = { base: { preset: 'none' }, md: { preset: 'none' }, lg: { preset: 'none' } }; delete ci.atts.flex_grow; } }
+    row.atts.custom_css = [row.atts.custom_css || '', css].filter(Boolean).join('\n');
+    return row;
+  };
+  const rowBlockToItems = (b, sIndex) => {
+    const out = [];
+    const rowCols = [];
+    for (const c of b.cols) {
+      // Map each grid cell to a dedicated, editable shortcode using the role the extractor
+      // already detected (parity with the PHP mapper). A cell with plain text (but no media /
+      // structure) → editable text_block rather than an opaque code_block; a truly EMPTY /
+      // decorative cell is DROPPED (no column emitted). Only a media/structural blob stays verbatim.
+      const cInner = String(c.html || '');
+      const cPlain = cInner.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+      const cMedia = /<(img|svg|video|iframe|picture|canvas|input|button|select|textarea)\b/i.test(cInner);
+      if (!c.counter && !c.card && !(c.buttons && c.buttons.length) && !c.text && !c.grid && !cPlain && !cMedia && !c.paint && !c.image && !(c.blocks && c.blocks.length)) { continue; } // drop empty / decorative cell (a PAINTED panel / a CSS-painted photo stays)
+      let detected, cellItems, why;
+      if (c.counter) {
+        detected = 'counter'; why = 'counter → counter shortcode';
+        cellItems = [counterNode(c.counter)];
+        const lbl = String(c.counter.label || '').trim();
+        if (lbl) { const ln = textBlock('<p>' + esc(lbl) + '</p>', c.counter.labelStyle || undefined); if (c.counter.labelFirst) cellItems.unshift(ln); else cellItems.push(ln); } // the caption keeps its side of the number (PHP: counter_label_node / labelFirst)
+      } else if (c.card) {
+        detected = 'card'; why = 'card → icon_box'; cellItems = [iconBoxNode(c.card)];
+      } else if (c.buttons && c.buttons.length) {
+        detected = 'buttons'; why = 'button group → button(s)';
+        cellItems = c.buttons.map((bt) => buttonBlockNode(bt));
+      } else if (c.text) {
+        const tx = c.text;
+        // A text cell WITH an overline / subtitle → a native special_heading (preserving the overline PILL
+        // + its ICON), not a flat text_block that would drop the eyebrow. Plain single-heading cells still
+        // fall to a text block. Mirrors the decomposed-heading path so the overline icon isn't lost.
+        if (tx && typeof tx === 'object' && (String(tx.overline || '').trim() || String(tx.subtitle || '').trim())) {
+          const lvl = { h1: 1, h2: 2, h3: 3, h4: 4, h5: 5, h6: 6 }[String(tx.titleTag || 'h2')] || 2;
+          const hb = {
+            t: 'heading', html: tx.title || '', level: lvl, cls: tx.titleClass || '',
+            overline: tx.overline || '', overlineCls: tx.overlineClass || '',
+            overlinePill: /rounded-full|inline-flex|inline-block|pill/i.test(tx.overlineClass || ''),
+            overlineIcon: tx.overlineIcon || '', overlineIconPos: tx.overlineIconPos || 'before',
+            subtitle: tx.subtitle || '', subtitleCls: tx.subtitleClass || '', wrapCls: tx.wrapClass || '',
+            longTail: tx.titleLongTail || '', subtitleLongTail: tx.subtitleLongTail || '', // the text long tail (capture-extract textLongTailOf)
+            subtitleStyle: tx.subtitleStyle || null, subtitleLinkSkin: tx.subtitleLinkSkin || '', // the subtitle's own colour / size + its inline link
+          };
+          detected = 'text'; why = 'text cell (overline/subtitle) → special_heading';
+          cellItems = [headingNode(hb)];
+          // EMPTY PAINTED BOXES beside the text (capture-extract decorBoxesOf) → a raw box per layer, its paint inline (a code
+          // block prints verbatim, so a data: pattern URL survives). PHP: bodyDecor (a class hook + scoped CSS on the icon_box).
+          for (const bd of (Array.isArray(tx.decorBoxes) ? tx.decorBoxes : [])) { if (bd && bd.css && !/<\/style/i.test(String(bd.css))) cellItems.push(codeBlock('<div class="sc-deco-' + (bd.n | 0) + '" style="display:block;width:100%;' + String(bd.css).replace(/"/g, "'") + '"></div>')); }
+          for (const p of (tx.paras || [])) { const pn = textBlock(p); if (pn) cellItems.push(pn); }
+        } else {
+          detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
+        }
+      } else if (c.blocks && c.blocks.length) {
+        detected = 'blocks'; why = 'content column → decomposed shortcodes';
+        // A nested ROW among the blocks builds through rowBlockToItems (a strip card that is itself a grid); the rest as one group.
+        cellItems = []; { let run = []; const flush = () => { if (run.length) { for (const n of flexifyItems(blocksToNodes(run))) cellItems.push(n); run = []; } };
+          for (const it of c.blocks) { if (it && it.t === 'row') { flush(); for (const n of flexifyItems(rowBlockToItems(it, -1))) cellItems.push(n); } else run.push(it); } flush(); }
+      } else if (c.paint) {
+        // A PAINTED EMPTY PANEL (the gradient 'visual' half of a band card) → an empty cell carrying the paint.
+        detected = 'panel'; why = 'painted empty panel → empty cell with the source background'; cellItems = [];
+      } else if (c.image) {
+        detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
+      } else if (c.imgComposite && c.imgComposite.image) {
+        // Image + content overlay → DECOMPOSE into native, editable elements (P0 fidelity fix):
+        // a media_image (organic radius / white border / shadow + the blob backdrop, all via scoped
+        // Custom CSS) + one icon_box per floating badge (icon + title + subtitle, positioned via
+        // scoped CSS). Parity with the PHP Stitch image_composite_decompose path.
+        detected = 'image-composite';
+        why = 'image + content overlay → native media_image + icon_box (decomposed, editable)';
+        const comp = c.imgComposite;
+        cellItems = [mediaImageNode({ ...comp.image, blob: comp.blob || null })];
+        for (const fc of (comp.cards || [])) cellItems.push(floatingCardNode(fc));
+      } else if (c.imgComposite) {
+        // Un-decomposable composite (imgCompositeOf → null): keep VERBATIM, WRAPPED in a positioned
+        // container that carries the source cell's own classes (`relative lg:h-[600px] flex …`) + an
+        // inline `position:relative` so the absolute overlays keep their anchor inside the code_block.
+        detected = 'image-composite';
+        why = 'image + content overlay → verbatim in a positioned wrapper (overlays anchor to the image)';
+        cellItems = [codeBlock('<div class="' + esc(c.fullCls || c.cls || '') + '" style="position:relative;width:100%">' + cInner + '</div>')];
+      } else if (c.grid) {
+        detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
+      } else if (cPlain && !cMedia) {
+        detected = 'text'; why = 'unrecognized text cell → text_block'; cellItems = [textBlock(cInner)];
+      } else {
+        detected = 'html'; why = 'unrecognized cell → code_block'; cellItems = [codeBlock(c.html)];
+      }
+      const sc = (cellItems[0] && cellItems[0].shortcode) || (cellItems.length ? 'simple' : 'panel'); // a painted panel has no items
+      rec({ kind: 'element', sIndex, role: 'row-cell', detected, shortcode: sc, why, width: c.width,
+            sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
+            fallback: sc === 'code_block', opportunity: false });
+      // a bento cell carries its MEASURED span (cw) in place of a slug (capture-extract bentoRowsOf; PHP: wResp desktop)
+      if (!c.width && c.cw > 0) { const W12B = { 12: '1_1', 9: '3_4', 8: '2_3', 6: '1_2', 4: '1_3', 3: '1_4', 2: '1_6' }; c.width = W12B[c.cw] || c.width; }
+      const col = column(c.width, cellItems);
+      // A DECOMPOSED card cell (icon_box + feature_list) → the box goes on the COLUMN's Border Preset so
+      // it wraps ALL the shortcodes (not just the icon_box header). Stash the skin for the Box-Preset
+      // census, which assigns border_preset to a column (box_style to an icon_box). Parity with PHP.
+      if (c.cardBox && col.atts) col.atts._box = c.cardBox;
+      // The cell's own placement (capture-extract rowCols): order → native Order; align-self → native Align Self;
+      // min-width / sticky → scoped CSS. PHP twin: carry_cell_geometry.
+      if (col.atts) {
+        if (Number.isInteger(c.order) && c.order !== 0) col.atts.order = { base: String(c.order), md: '', lg: '' };
+        if (c.alignSelf && ['start', 'center', 'end', 'stretch', 'baseline'].includes(c.alignSelf)) col.atts.align_self = { base: c.alignSelf, md: '', lg: '' };
+        if (c.cellCss && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(String(c.cellCss))) col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{' + c.cellCss + ';}';
+        // a FIXED SMALL BOX cell (capture-extract fixedBox): the inner wrapper takes the disc's size and centres the glyph (PHP: carry_cell_geometry fixedBox)
+        if (c.fixedBox && c.fixedBox.w > 0 && c.fixedBox.h > 0) { col.atts.inner_class = (String(col.atts.inner_class || '') + ' sc-fixbox').trim(); col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector .sc-fixbox{width:' + c.fixedBox.w + 'px;height:' + c.fixedBox.h + 'px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box;}selector .sc-fixbox p{margin:0;}'; }
+        if (c.nowrapText) col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{white-space:nowrap;}'; // a one-line pill leaf (PHP: nowrapText)
+        if (col.atts.spacing && col.atts.spacing.margin) { if (c.mt > 0 && !col.atts.spacing.margin.top) col.atts.spacing.margin.top = spacingToken('mt', c.mt); if (c.mb > 0 && !col.atts.spacing.margin.bottom) col.atts.spacing.margin.bottom = spacingToken('mb', c.mb); } // the cell's own vertical margin (PHP: carry_cell_geometry mt / mb)
+        if (c.hideSm) col.atts.responsive_hide = { 'hide-xs': true, 'hide-sm': true }; // PHONE PASS: a cell hidden on phones (PHP: hide_sm)
+        if (c.reveal) applyReveal(col, c.reveal); // the cell's own CSS-class reveal (a staggered card) → the column's Scroll Motion
+        if (c.loopAnim) applyLoopAnim(col, c.loopAnim); // the cell's own running animation
+        if (c.hide && typeof c.hide === 'object') { const rh = {}; for (const k of Object.keys(c.hide)) if (c.hide[k]) rh[k] = true; col.atts.responsive_hide = rh; } // …and per tier (md:hidden / lg:hidden)
+        // TABLET / PHONE PASS: the grid's MEASURED track count at 820px / 390px → the cell's base / md / lg device widths, so
+        // tablets get the source's two-up instead of the desktop split (PHP: the tracksMd / tracksSm col_resp).
+        if ((b.tracksMd >= 1 || b.tracksSm >= 1) && /^\d+_\d+$/.test(String(c.width || ''))) {
+          const span = slugToSpan(c.width), fr = (n) => Math.max(1, Math.min(12, Math.round(12 / n)));
+          col.atts.w_phone = String(b.tracksSm >= 1 ? fr(b.tracksSm) : span); col.atts.w_tablet = String(b.tracksMd >= 1 ? fr(b.tracksMd) : span); col.atts.w_desktop = String(span);
+          if (c.fracMd > 0) col.atts.w_tablet = String(Math.max(1, Math.min(12, Math.round(c.fracMd * 12)))); // the cell's OWN measured fraction (a col-span cell) beats the equal split
+          if (c.fracSm > 0) col.atts.w_phone = String(Math.max(1, Math.min(12, Math.round(c.fracSm * 12))));
+        }
+      }
+      // PAINT: one linear layer → the cell's native Background gradient; a multi-layer stack → scoped background-image.
+      if (c.paint && col.atts) {
+        const layers = String(c.paint.bgi || '').trim();
+        const gv = layers && !/,\s*(?:linear|radial|conic)-gradient/i.test(layers) && /^linear-gradient\(/i.test(layers) ? parseLinearGradient(layers) : null;
+        if (gv) col.atts.bg_gradient = { data: gv };
+        else if (layers && /^[a-z0-9()%.,\s#-]+$/i.test(layers)) { const cur = col.atts.custom_css ? String(col.atts.custom_css) : ''; col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{background-image:' + layers + ';}').trim(); }
+        else if (c.paint.bg) col.atts.bg_color = { predefined: '', custom: c.paint.bg };
+      }
+      // The ROW is a CARD (a band): its skin + min-height ride on every cell so the flexed row wears the Box Preset.
+      if (b.rowBox && col.atts) { col.atts._row_box = b.rowBox; if (b.cols.some((x) => x && x.paint)) col.atts._row_box.clip = true; }
+      if (b.minh > 0 && col.atts) col.atts._row_minh = b.minh;
+      // A media-FILL cell (a framed photo tile): the column is a flex column so its image can grow to the
+      // card height (the media_image's flex:1 does the filling). PHP twin: carry_cell_geometry `stretch`.
+      if (c.image && c.image.fill && col.atts && !/^(middle|center|bottom|end)$/.test(String(col.atts.content_v || ''))) col.atts.content_v = 'top'; // the atom default is the string 'default'
+      // Fidelity fixes on the column's scoped custom_css:
+      //  (1) an image-composite cell with FLOATING CARD(s) needs the column to be the POSITIONED
+      //      ancestor, or each card's `position:absolute; top/left` resolves against the section/page
+      //      and lands at the page top-left (overlapping the logo). Marking the column position:relative
+      //      anchors the card to the image area.
+      //  (2) the source cell's own max-width (`max-w-2xl` on a hero text column) constrains the
+      //      column content so its paragraph wraps like the source (a full 50% track wraps too few lines).
+      // Parity with the PHP mapper.
+      {
+        const decl = [];
+        const hasFloating = detected === 'image-composite' && c.imgComposite && c.imgComposite.image
+          && Array.isArray(c.imgComposite.cards) && c.imgComposite.cards.length;
+        if (hasFloating) decl.push('position:relative');
+        if (c.maxw && /^[0-9.]+(?:px|rem|em|%|ch|vw)$/.test(String(c.maxw))) decl.push('max-width:' + c.maxw);
+        // A centered stat cell → centre the column so BOTH the counter number and its separate label
+        // caption centre (the counter's own alignment only moves the number). Parity with PHP.
+        if (c.counter && (c.counter.align === 'center' || c.counter.align === 'right')) decl.push('text-align:' + c.counter.align);
+        if (decl.length && col.atts) {
+          const cur = col.atts.custom_css ? String(col.atts.custom_css) : '';
+          col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{' + decl.join(';') + ';}').trim();
+        }
+      }
+      // Replay the cell's OWN flex layout via the column's NATIVE options (content_direction / gap)
+      // instead of a CSS wrapper — a flex-ROW cell lays its children side-by-side with the source gap.
+      if (c.stackGap > 0 && col.atts) { const sgs = gapSlug(c.stackGap + 'px'); if (sgs) col.atts.content_gap = { base: sgs, md: '', lg: '' }; } // the cell is a stack: its gap → native Gap (PHP: stack_gap)
+      const fx = c.flex;
+      if (fx && /^row/.test(fx.dir || '') && col.atts) {
+        col.atts.content_direction = 'row';
+        const g = gapSlug(fx.gap);
+        if (g) col.atts.content_gap = { base: g, md: '', lg: '' };
+        if (/^row-reverse/.test(fx.dir)) col.atts.content_order = 'reverse';
+      }
+      // Cell GEOMETRY (PHP Mapper::carry_cell_geometry): a flex-COLUMN cell that centres its content
+      // vertically → content_v = middle; a fixed min-height card → min_height_px; the exact grid track →
+      // track_px (flexifyItems renders unequal tracks as a native Grid with the ratio).
+      // A DECORATIVE pseudo-layer (a blurred corner glow) → a scoped `selector::before` on the column, under the
+      // content but over the card's fill (z-index:-1 inside an isolated stacking context). PHP: decor_pseudo_css.
+      if (c.decorPseudo && col.atts) {
+        // A glow that reaches OUTSIDE the box (a negative offset, or offset + size past 100%) is clipped by the source card.
+        const dp = c.decorPseudo; const reaches = ['top','left','right','bottom'].some((k) => dp[k] != null && parseFloat(dp[k]) < 0) || (parseFloat(dp.left != null ? dp.left : dp.right) || 0) + (parseFloat(dp.width) || 0) > 100 || (parseFloat(dp.top != null ? dp.top : dp.bottom) || 0) + (parseFloat(dp.height) || 0) > 100;
+        if (reaches && col.atts._box) col.atts._box.clip = true;
+        const rule = decorPseudoCss(c.decorPseudo);
+        if (rule) { const cur = col.atts.custom_css ? String(col.atts.custom_css) : ''; col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + rule).trim(); }
+      }
+      if (col.atts) {
+        if (fx && /^column/.test(fx.dir || '') && /center/.test(fx.justify || '')) col.atts.content_v = 'middle';
+        else if (fx && /^column/.test(fx.dir || '') && /space-between/.test(fx.justify || '')) col.atts.content_v = 'between'; // a copy cell that spreads its content (PHP vjustify)
+        else if (fx && /^column/.test(fx.dir || '') && /space-around/.test(fx.justify || '')) col.atts.content_v = 'around';
+        else if (fx && /^column/.test(fx.dir || '') && /(flex-)?end/.test(fx.justify || '')) col.atts.content_v = 'bottom';
+        if (c.minH > 0) { col.atts.min_height_px = c.minH; if (c.minHSm !== undefined) col.atts.min_height_sm_px = c.minHSm; if (c.minHMd !== undefined) col.atts.min_height_md_px = c.minHMd; }
+        if (c.track > 0) col.atts.track_px = c.track;
+      }
+      // A grid CELL that centers/right-aligns its own text (source `text-center` / `text-right`
+      // on the cell wrapper) → the column's native `text_align`, so the cell's mixed content
+      // (heading + prose + buttons) inherits that alignment as one. Parity with the PHP mapper.
+      {
+        const cellTa = clsTextAlign(c.fullCls || c.cls || '');
+        if (cellTa && col.atts) col.atts.text_align = cellTa;
+      }
+      // A CTA button group with 2+ buttons sits side-by-side — via the native content_direction
+      // (not the old `.btn-row` CSS wrapper), even when the source cell's flex wasn't captured.
+      if (detected === 'buttons' && cellItems.length > 1 && col.atts) {
+        col.atts.content_direction = 'row';
+        if (!(col.atts.content_gap && col.atts.content_gap.base)) {
+          col.atts.content_gap = { base: gapSlug((c.flex && c.flex.gap) || '') || '3', md: '', lg: '' };
+        }
+        col.atts.content_h = 'center';
+        // Size buttons to content so a flex-row + flex-wrap column doesn't wrap two full-width .btns to
+        // stacked (parity with PHP group_buttons). Kept when the column has no other custom_css.
+        if (!col.atts.custom_css) col.atts.custom_css = 'selector .btn{flex:0 0 auto !important;width:auto !important;}';
+      }
+      rowCols.push(col);
+    }
+    // HYBRID row emission (PHP twin of Mapper 7904-7918): a clean multi-cell row → ONE flex-Div
+    // (flexbox, direction row) whose cells are child flex-Divs carrying their Width; otherwise
+    // (single cell, or a cell needing the column inner-wrapper / positioned ancestor) emit the
+    // columns unchanged. No fw-row for the flexed rows.
+    if (rowFlexSafe(rowCols)) {
+      const rowAtts = { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } };
+      const rgap = gapSlug(b.gap || '');
+      if (rgap) rowAtts.gap = { base: rgap, md: '', lg: '' };
+      const rcells = rowCols.map(columnToFlexboxCell);
+      // UNEQUAL source tracks → a native Grid with the exact track list (PHP twin: cells_track_list()).
+      const tl = trackList(rcells);
+      if (tl) { rowAtts.display = 'grid'; rowAtts.grid_columns = tl; for (const gc of rcells) delete gc.atts.width; }
+      const rb2 = rcells[0] && rcells[0].atts && rcells[0].atts._row_box;
+      if (rb2) rowAtts._box = rb2;
+      // The row's own layout: align-items → native Align Items; space-between / center / end → native Justify with
+      // CONTENT-sized cells (no 12-span width). PHP twin: carry_row_skin → _row_lay in flexify_items.
+      if (/^(start|center|end)$/.test(String(b.valign || ''))) rowAtts.align_items = { base: b.valign, md: '', lg: '' };
+      { const jmap = { 'space-between': 'between', 'space-around': 'around', 'space-evenly': 'around', 'center': 'center', 'flex-end': 'end', 'end': 'end' };
+        if (b.justify && jmap[b.justify]) { rowAtts.justify_content = { base: jmap[b.justify], md: '', lg: '' }; if (rowAtts.display !== 'grid') { rowAtts.custom_css = [rowAtts.custom_css || '', 'selector>*{flex:0 1 auto;min-width:0;}'].filter(Boolean).join('\n'); for (const jc of rcells) { jc.atts.width = { base: { preset: 'none' }, md: { preset: 'none' }, lg: { preset: 'none' } }; delete jc.atts.flex_grow;
+          // a max-width-capped cell is size-frozen at its cap (the source's flex clamps it there); the rest shrink. PHP: freeze_capped_cell
+          const jin = (jc._items && jc._items.length === 1 && jc._items[0].type === 'flexbox') ? jc._items[0] : null; // the cap may live on the sole inner wrapper (two-node cell)
+          if (/max-width:/.test(String(jc.atts.custom_css || '')) || /sc-cw-/.test(String(jc.atts.inner_class || '')) || (jin && /max-width:/.test(String(jin.atts.custom_css || '')))) jc.atts.custom_css = [jc.atts.custom_css || '', 'selector{flex-shrink:0;}'].filter(Boolean).join('\n'); } } } }
+      if (b.nowrap && rowAtts.display !== 'grid') rowAtts.wrap = { base: 'no', md: '', lg: '' }; // the source row does not wrap (PHP: nowrap)
+      if (rcells[0] && rcells[0].atts && rcells[0].atts._row_minh > 0) rowAtts.min_height = { base: { value: String(rcells[0].atts._row_minh), unit: 'px' }, md: { value: '', unit: 'vh' }, lg: { value: '', unit: 'vh' } };
+      for (const tc of rcells) { delete tc.atts.track_px; delete tc.atts._row_box; delete tc.atts._row_minh; }
+      const rowfb = nFlexbox(rcells, rowAtts);
+      applyTabletStack(rowfb, b); // TABLET PASS: a one-track grid at 820px stacks on tablets too (PHP: apply_tablet_stack)
+      if (b.scroll && b.scroll.item) applyScrollStrip(rowfb, b.scroll); // a horizontal scroll strip (PHP: apply_scroll_strip)
+      // …and its margins + own padding (a footer row's 64px above / 26px top inset).
+      if (rowfb.atts && rowfb.atts.spacing && rowfb.atts.spacing.margin) { if (b.mt > 0) rowfb.atts.spacing.margin.top = spacingToken('mt', b.mt); if (b.mb > 0) rowfb.atts.spacing.margin.bottom = spacingToken('mb', b.mb); }
+      if (b.pad && b.pad.base && rowfb.atts) { const pd = b.pad.base; rowfb.atts.custom_css = [rowfb.atts.custom_css || '', 'selector{padding-top:' + (pd.top || 0) + 'px;padding-right:' + (pd.right || 0) + 'px;padding-bottom:' + (pd.bottom || 0) + 'px;padding-left:' + (pd.left || 0) + 'px;}', padLgCss(b.pad)].filter(Boolean).join('\n'); }
+      applyInsetX(rowfb, b); // the flattened shell wrapper's side inset (PHP: apply_inset_x on the band)
+      out.push(rowfb);
+    } else {
+      for (const rc of rowCols) out.push(rc);
+    }
+    return out;
+  };
+  // A STACK WITH A GAP (capture-extract stackOf): a native flexbox COLUMN carrying the source gap + margin, whose
+  // items are the children built ON THEIR OWN (a band row → its flexed row, a card → its icon_box), each flexified
+  // separately so two consecutive band rows never merge. PHP twin: the 'stack' builder.
+  // A SKINNED PANEL (capture panelOf): ONE flexbox column wearing the panel's Box Preset, its padding, the sheet's width /
+  // max-width / aspect-ratio (scoped), centred by its parent when the source centres it, its content centred when the
+  // source does, the decor pseudo-layers, and its blocks built + flexified inside. PHP twin: the 'panel' builder.
+  const panelNode = (b) => {
+    // The panel's blocks are ONE group (the eyebrow / title / intro coalesce across neighbours, as in a cell); a nested
+    // row builds through rowBlockToItems on its own so its cells never merge with the prose.
+    const nodes = []; let run = [];
+    const flushRun = () => { if (run.length) { for (const n of flexifyItems(blocksToNodes(run))) nodes.push(n); run = []; } };
+    for (const it of (b.blocks || [])) {
+      if (it && it.t === 'row') { flushRun(); for (const n of flexifyItems(rowBlockToItems(it, -1))) nodes.push(n); }
+      else run.push(it);
+    }
+    flushRun();
+    if (!nodes.length) return null;
+    const over = { display: 'flex', direction: { base: 'column', md: '', lg: '' }, wrap: { base: 'no', md: '', lg: '' } };
+    if (b.centerH) over.align_items = { base: 'center', md: '', lg: '' };
+    if (b.centerV) over.justify_content = { base: 'center', md: '', lg: '' };
+    if (b.align === 'center') over.text_align = 'center';
+    const col = nFlexbox(nodes, over);
+    if (b.box) col.atts._box = b.box; // the census assigns the Box Preset (border_preset) from the skin
+    const css = [];
+    const pd = b.pad && b.pad.base; if (pd && (pd.top || pd.right || pd.bottom || pd.left)) { css.push('selector{padding-top:' + (pd.top || 0) + 'px;padding-right:' + (pd.right || 0) + 'px;padding-bottom:' + (pd.bottom || 0) + 'px;padding-left:' + (pd.left || 0) + 'px;}'); const lgc = padLgCss(b.pad); if (lgc) css.push(lgc); }
+    const okv = (v) => v && /^[a-z0-9()%.,\s+*\/-]+$/i.test(String(v));
+    let sz = '';
+    if (okv(b.width)) sz += 'width:' + b.width + ';max-width:100%;';
+    if (okv(b.maxw)) sz += 'max-width:' + b.maxw + ';';
+    if (okv(b.aspect)) sz += 'aspect-ratio:' + b.aspect + ';';
+    if (b.selfCenter) sz += 'margin-left:auto;margin-right:auto;';
+    if (sz) css.push('selector{' + sz + '}');
+    for (const d of (b.decor || [])) { const dc = d ? decorPseudoCss(d) : ''; if (dc) css.push(dc); }
+    col.atts.custom_css = [col.atts.custom_css || '', ...css].filter(Boolean).join('\n');
+    if (col.atts.spacing && col.atts.spacing.margin) {
+      if (b.mt > 0) col.atts.spacing.margin.top = spacingToken('mt', b.mt);
+      if (b.mb > 0) col.atts.spacing.margin.bottom = spacingToken('mb', b.mb);
+    }
+    return col;
+  };
+  const stackNode = (b) => {
+    const nodes = [];
+    // a HEADING GROUP the stack split apart (a flattened overline + h2 wrapper became two items): consecutive parts in
+    // overline → heading → subtitle order (each once) build together so they fold into ONE special_heading (PHP parity)
+    const rank = { overline: 0, heading: 1, title: 1, subtitle: 2 };
+    const src = (b.items || []).filter(Boolean); let i = 0;
+    while (i < src.length) {
+      const it = src[i];
+      if (it && it.t === 'row') { for (const n of flexifyItems(rowBlockToItems(it, -1))) nodes.push(n); i++; continue; }
+      const run = [it]; let last = rank[it && it.t] ?? null; let j = i + 1;
+      while (last != null && j < src.length) { const r = rank[src[j] && src[j].t] ?? null; if (r == null || r <= last) break; run.push(src[j]); last = r; j++; }
+      for (const n of flexifyItems(blocksToNodes(run))) nodes.push(n);
+      i = j;
+    }
+    if (!nodes.length) return null;
+    const over = { display: 'flex', direction: { base: 'column', md: '', lg: '' }, wrap: { base: 'no', md: '', lg: '' } };
+    const gs = gapSlug(b.gap || '');
+    if (gs) over.gap = { base: gs, md: '', lg: '' };
+    const col = nFlexbox(nodes, over);
+    if (col && col.atts && col.atts.spacing && col.atts.spacing.margin) {
+      if (b.mt > 0) col.atts.spacing.margin.top = spacingToken('mt', b.mt);
+      if (b.mb > 0) col.atts.spacing.margin.bottom = spacingToken('mb', b.mb);
+    }
+    if (col && col.atts) {
+      // a PADDED stack (a card body's `p-6` under a flush photo) keeps its inset; a `flex-grow justify-between` body fills the card
+      // and pushes its meta row to the bottom; a photo FRAME (a badge card's image + pinned chip) is the chip's containing block at
+      // the frame's height, the photo covering it. PHP: the stack builder pad / grow / rel.
+      if (b.padPx && typeof b.padPx === 'object') { const pp = []; for (const sd of ['top', 'right', 'bottom', 'left']) { const v = b.padPx[sd] | 0; if (v > 0) pp.push('padding-' + sd + ':' + v + 'px'); } if (pp.length) col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{' + pp.join(';') + ';}'; }
+      if (b.grow) col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{flex:1 1 auto;justify-content:space-between;}';
+      if (b.rel) { const fh = b.frameH | 0; col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{position:relative;overflow:hidden;' + (fh > 0 ? 'height:' + fh + 'px;' : '') + '}' + (fh > 0 ? 'selector .image{height:100%;margin:0;}selector .image img{width:100%;height:100%;object-fit:cover;display:block;}' : ''); }
+    }
+    return col;
+  };
+  // A flattened band wrapper's horizontal inset (capture-extract mxAdd {l,r} px) → the node's native Spacing margin
+  // (ms-*/me-* tokens; off-scale → ms-[24px], rendered by the dynamic-CSS arbitrary-spacing rule). A node without a
+  // Spacing option gets the same as scoped CSS. PHP twin: Mapper::apply_inset_x.
+  const applyInsetX = (node, b) => {
+    if (!node || !b || !b.mxAdd || typeof b.mxAdd !== 'object') return node;
+    const l = +b.mxAdd.l || 0, r = +b.mxAdd.r || 0;
+    if (l <= 0 && r <= 0) return node;
+    // A SELF-CENTRED block (a capped panel with auto side margins) ignores the inset — a side margin would override the
+    // centring and shove it left; its measure already rides its own width / max-width. PHP: same guard.
+    if (b.selfCenter || b.self_center || /margin-(?:left|right|inline)\s*:\s*auto/.test(String(node.atts && node.atts.custom_css || ''))) return node;
+    // The MEASURED tiers (capture-extract insetXOf lSm/rSm/lMd/rMd): when the inset differs at 390 / 820 those tiers ride
+    // max-width:767px / 768–991px rules (the base token paints the desktop value at every width). PHP: apply_inset_x.
+    let tierCss = '';
+    for (const [kl, kr, mq] of [['lSm', 'rSm', '@media (max-width:767px)'], ['lMd', 'rMd', '@media (min-width:768px) and (max-width:991px)']]) {
+      if (b.mxAdd[kl] == null) continue; const tl = +b.mxAdd[kl] || 0, tr = +b.mxAdd[kr] || 0;
+      if (Math.abs(tl - l) > 0.5 || Math.abs(tr - r) > 0.5) tierCss += mq + '{selector[class]{margin-left:' + Math.round(tl) + 'px !important;margin-right:' + Math.round(tr) + 'px !important;}}';
+    }
+    if (node.atts && node.atts.spacing && node.atts.spacing.margin) {
+      if (l > 0 && !node.atts.spacing.margin.left) node.atts.spacing.margin.left = spacingToken('ms', l);
+      if (r > 0 && !node.atts.spacing.margin.right) node.atts.spacing.margin.right = spacingToken('me', r);
+      if (tierCss) node.atts.custom_css = ((node.atts.custom_css || '') + '\n' + tierCss).trim();
+      return node;
+    }
+    if (node.atts) {
+      const css = 'selector{' + (l > 0 ? 'margin-left:' + Math.round(l) + 'px;' : '') + (r > 0 ? 'margin-right:' + Math.round(r) + 'px;' : '') + '}' + tierCss;
+      const cur = String(node.atts.custom_css || '').trim();
+      node.atts.custom_css = (cur ? cur + '\n' : '') + css;
+    }
+    return node;
+  };
+  // PHONE PASS: a pad record whose lg tier differs from its (phone) base → a min-width:992px rule for desktop. PHP: apply_cell_pad tiers.
+  const padLgCss = (pad) => {
+    const lg = pad && pad.lg, b = pad && pad.base, md = pad && pad.md; if (!b) return '';
+    const same = (x, y) => ['top', 'right', 'bottom', 'left'].every((k) => (x[k] || 0) === (y[k] || 0));
+    const decl = (t) => 'selector{padding-top:' + (t.top || 0) + 'px;padding-right:' + (t.right || 0) + 'px;padding-bottom:' + (t.bottom || 0) + 'px;padding-left:' + (t.left || 0) + 'px;}';
+    let css = '';
+    if (md && !same(md, b)) css += '@media (min-width:768px){' + decl(md) + '}'; // the TABLET tier
+    if (lg && !same(lg, md || b)) css += (css ? '\n' : '') + '@media (min-width:992px){' + decl(lg) + '}';
+    return css;
+  };
+  // PHONE PASS (capture-extract hideSm): hidden below 768px in the source → the native Responsive Hide (mobile + tablet). PHP: apply_block_anim.
+  const applyHideSm = (node, b) => { if (node && b && b.hideSm && node.atts && Object.prototype.hasOwnProperty.call(node.atts, 'responsive_hide')) node.atts.responsive_hide = { 'hide-xs': true, 'hide-sm': true }; return node; };
+  // TABLET PASS (capture-extract tracksMd): ONE grid track at 820px → a 768–991px rule stacks the row. PHP: apply_tablet_stack.
+  const applyTabletStack = (row, b) => {
+    if (!row || !row.atts || !b) return row;
+    const isGrid = row.atts.display === 'grid', tMd = b.tracksMd | 0, tSm = b.tracksSm | 0, rules = [];
+    if (tMd === 1) rules.push('@media (min-width:768px) and (max-width:991px){selector{' + (isGrid ? 'grid-template-columns:1fr !important;' : 'flex-direction:column !important;flex-wrap:wrap !important;') + '}selector>*{width:100% !important;max-width:100% !important;}}');
+    // N measured tracks at 820px (a md:grid-cols-2 two-up under a three-up desktop) → a 768–991px track rule (PHP: apply_tablet_stack).
+    else if (tMd >= 2 && isGrid) rules.push('@media (min-width:768px) and (max-width:991px){selector{grid-template-columns:repeat(' + tMd + ',minmax(0,1fr)) !important;}}');
+    // …and the PHONE track count when the source keeps >= 2 columns at 390px (the theme's grid collapses to one below 768).
+    if (tSm >= 2 && isGrid) rules.push('@media (max-width:767px){selector{grid-template-columns:repeat(' + tSm + ',minmax(0,1fr)) !important;}}');
+    if (!rules.length) return row;
+    row.atts.custom_css = ((row.atts.custom_css || '') + '\n' + rules.join('\n')).trim();
+    return row;
+  };
+  const blockToNode = (b) => applyHideSm(applyInsetX(applyAnim(_blockToNode(b), b), b), b);
   // An email-signup form → the native `newsletter` shortcode. Title/description stay blank (the section's
   // own heading renders them above); map the form's email/name placeholder, submit label, alignment,
   // roundness and the button's real colours. The view hard-codes white button text, so a non-white source
   // text colour is re-asserted via scoped Custom CSS. Parity with PHP n_newsletter.
+  // Another icon set's id ('ph:envelope-simple', 'tabler:phone') → the nearest LUCIDE glyph by meaning. PHP: icon_semantic_lucide.
+  const iconSemanticLucide = (id) => {
+    const name = String(id || '').toLowerCase().replace(/^[a-z0-9-]+:/, '');
+    const map = [[/envelope|mail|letter/, 'mail'], [/phone|call/, 'phone'], [/user|person|account|profile/, 'user'], [/search|magnif/, 'search'], [/lock|password/, 'lock'], [/send|paper-plane|plane/, 'send'], [/arrow-right|chevron-right|caret-right/, 'arrow-right'], [/arrow-left|chevron-left/, 'arrow-left'], [/check|tick/, 'check'], [/star/, 'star'], [/heart/, 'heart'], [/calendar|date/, 'calendar'], [/clock|time/, 'clock'], [/map-pin|location|pin/, 'map-pin'], [/globe|world/, 'globe'], [/home|house/, 'house'], [/gift/, 'gift'], [/bell|notif/, 'bell'], [/tag|label/, 'tag'], [/link/, 'link'], [/download/, 'download'], [/upload/, 'upload']];
+    for (const [re, lu] of map) if (re.test(name)) return lu;
+    return '';
+  };
   const newsletterNode = (b) => {
+    const _clean = (v) => String(v || '').trim();
     const atts = {
       title: '', description: '', show_name: b.show_name ? 'yes' : 'no',
       email_placeholder: (b.placeholder || '').trim() || 'Your email address',
@@ -1656,6 +2283,8 @@ export function toPages(capture, opts = {}) {
     };
     if (b.show_name && (b.name_placeholder || '').trim()) atts.name_placeholder = b.name_placeholder.trim();
     if (/^(left|center|right)$/.test(String(b.align || ''))) atts.align = b.align;
+    // The field's :focus skin (capture.mjs data-sc-focus) → the input's :focus (PHP: n_newsletter field_focus).
+    { const ff = String(b.fieldFocus || '').trim(); if (ff && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(ff)) atts.custom_css = (atts.custom_css ? atts.custom_css + '\n' : '') + 'selector .fw-nl__input:focus{' + ff + ' !important;}'; }
     if (/^(rounded-0|rounded|pill)$/.test(String(b.rounded || ''))) atts.rounded = b.rounded;
     const bg = b.button_bg ? rgbToCss(b.button_bg) : '';
     const fg = b.button_fg ? rgbToCss(b.button_fg) : '';
@@ -1663,9 +2292,85 @@ export function toPages(capture, opts = {}) {
     if (bg) atts.accent_color = { predefined: '', custom: bg };
     if (fbg) atts.field_bg = { predefined: '', custom: fbg };
     if (fg && !/^#?(fff|ffffff)$/i.test(fg.replace('#', ''))) atts.custom_css = ('selector .fw-nl__btn{color:' + fg + ' !important;}');
+    if (/^(inline|stacked|boxed|capsule)$/.test(String(b.design || ''))) atts.design = b.design;
+    const capsule = atts.design === 'capsule';
+    const css = [];
+    // BUTTON PRESET — the submit resolves through the same matcher every CTA uses (button-match.mjs), so it wears the
+    // site's own Button Preset via the native button_preset option instead of a one-off accent. PHP: n_newsletter.
+    if (b.button) {
+      const bp = _buttonPresetFor(b.button);
+      if (bp.style && bp.style !== 'btn-link') { atts.button_preset = bp.style + (bp.size ? ' ' + bp.size : ''); delete atts.accent_color; atts.custom_css = ''; }
+      // …and the submit's OWN type (the preset carries the site's button font; this one is 14px sentence-case).
+      const bt = b.button; const bd = [];
+      if (/^[0-9.]+px$/.test(_clean(bt.fontSize))) bd.push('font-size:' + _clean(bt.fontSize));
+      bd.push('text-transform:' + (/^(uppercase|lowercase|capitalize)$/.test(_clean(bt.textTransform)) ? _clean(bt.textTransform) : 'none'));
+      bd.push('letter-spacing:' + (/^-?[0-9.]+px$/.test(_clean(bt.letterSpacing)) ? _clean(bt.letterSpacing) : 'normal'));
+      if (/^[0-9.]+px$/.test(_clean(bt.lineHeight))) bd.push('line-height:' + _clean(bt.lineHeight));
+      if (/^[1-9]00$/.test(_clean(bt.fontWeight))) bd.push('font-weight:' + _clean(bt.fontWeight));
+      if (/^[0-9.]+px$/.test(_clean(bt.height))) bd.push('height:' + _clean(bt.height), 'padding-top:0', 'padding-bottom:0', 'display:inline-flex', 'align-items:center', 'justify-content:center');
+      css.push('selector .fw-nl__btn{' + bd.map((d) => d + ' !important').join(';') + ';}');
+    }
+    // FIELD SKIN — the wrapper that IS the field (a paper pill around icon + input) rides on the input.
+    const fsk = b.fieldSkin;
+    if (fsk) {
+      const dec = [];
+      const okc = (v) => v && /^[a-z0-9()%.,\s#-]+$/i.test(String(v));
+      if (okc(fsk.bgi)) dec.push('background:' + fsk.bgi); else if (fsk.bg && !/rgba?\([^)]*,\s*0\s*\)|transparent/i.test(fsk.bg)) dec.push('background:' + fsk.bg);
+      if (okc(fsk.border)) dec.push('border:' + fsk.border);
+      if (okc(fsk.shadow)) dec.push('box-shadow:' + fsk.shadow);
+      if (fsk.backdrop && /^[a-z0-9()%.,\s-]+$/i.test(fsk.backdrop)) dec.push('backdrop-filter:' + fsk.backdrop, '-webkit-backdrop-filter:' + fsk.backdrop);
+      if (/^[0-9.]+px(\s+[0-9.]+px){0,3}$/.test(_clean(fsk.padding))) dec.push('padding:' + _clean(fsk.padding));
+      if (/^[0-9.]+px$/.test(_clean(fsk.height))) dec.push('height:' + _clean(fsk.height), 'box-sizing:border-box');
+      if (/^[0-9.]+px$/.test(_clean(fsk.fontSize))) dec.push('font-size:' + _clean(fsk.fontSize));
+      if (/^rgba?\(/i.test(_clean(fsk.color))) dec.push('color:' + _clean(fsk.color));
+      if (capsule) {
+        // CAPSULE: the wrapper's skin IS the field ROW's pill; only the type stays on the input (PHP: n_newsletter capsule).
+        const row = dec.filter((d) => !/^(font-size|color):/.test(d)), inp = dec.filter((d) => /^(font-size|color):/.test(d));
+        if (row.length) css.push('selector .fw-nl__fields{' + row.join(';') + ';}');
+        if (/^[0-9.]+px(\s+[0-9.]+px){0,3}$/.test(_clean(b.inputPadding))) inp.push('padding:' + _clean(b.inputPadding));
+        if (inp.length) css.push('selector .fw-nl__input{' + inp.join(';') + ';}');
+      } else if (dec.length) css.push('selector .fw-nl__input{' + dec.join(';') + ';}');
+    }
+    if (/^[0-9.]+px$/.test(_clean(b.wrapMaxWidth))) css.push('selector{max-width:' + _clean(b.wrapMaxWidth) + ';' + (b.align === 'center' ? 'margin-left:auto;margin-right:auto;' : '') + '}');
+    // The field wrapper's OWN :hover (a glass pill that brightens under the pointer) → the element the rest skin rides (PHP parity).
+    { const fh = _clean(b.fieldHover);
+      if (fh && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(fh)) {
+        const hd = {}; for (const part of fh.split(';')) { const i = part.indexOf(':'); if (i > 0) hd[part.slice(0, i).trim()] = part.slice(i + 1).trim(); }
+        const hdec = [];
+        if (hd['background-color']) hdec.push('background:' + hd['background-color']);
+        if (hd['border-color']) hdec.push('border-color:' + hd['border-color']); else if (hd['border-top-color']) hdec.push('border-color:' + hd['border-top-color']);
+        if (hd['box-shadow'] && hd['box-shadow'] !== 'none') hdec.push('box-shadow:' + hd['box-shadow']);
+        const tgt = capsule ? '.fw-nl__fields' : '.fw-nl__input';
+        if (hdec.length) { css.push('selector ' + tgt + ':hover{' + hdec.join(';') + ';}'); css.push('selector ' + tgt + '{transition:background .3s,border-color .3s,box-shadow .3s;}'); }
+      } }
+    if (b.placeholderColor && /^(#[0-9a-f]{3,8}|rgba?\([^)]*\))$/i.test(String(b.placeholderColor))) css.push('selector .fw-nl__input::placeholder{color:' + b.placeholderColor + ';opacity:1;}');
+    if (b.gap > 0) css.push('selector .fw-nl__fields{gap:' + b.gap + 'px;}');
+    // FIELD ICON — the glyph inside the field → the native field_icon (an inline svg, a Lucide id, a font class, or a semantic
+    // fallback for another icon set: envelope | mail → lucide mail) + its colour. PHP: icon_semantic_lucide.
+    if (b.icon) {
+      let val = null;
+      if (b.icon.svg) val = { type: 'svg', 'svg-source': 'inline', markup: String(b.icon.svg), 'svg-id': '' };
+      else if (b.icon.id) { const iid = String(b.icon.id).toLowerCase(); const lm = iid.match(/^lucide:([a-z0-9-]+)$/); const lu = lm ? lm[1] : iconSemanticLucide(iid); if (lu) val = { type: 'svg', 'svg-source': 'library', 'svg-id': 'lucide/' + lu, markup: '' }; }
+      else if (b.icon.cls) val = { type: 'icon-font', 'icon-class': String(b.icon.cls), 'icon-class-without-root': false, 'pack-name': false, 'pack-css-uri': false };
+      if (val) { atts.field_icon = val; if (/^rgba?\(/i.test(String(b.iconColor || ''))) atts.field_icon_color = { predefined: '', custom: rgbToCss(b.iconColor) }; }
+    }
+    if (css.length) atts.custom_css = [atts.custom_css || '', ...css].filter(Boolean).join('\n');
     return { type: 'simple', shortcode: 'newsletter', _items: [], atts };
   };
-  const _blockToNode = (b) => (b.decor ? decorNode(b.html, b.paint) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
+  // A flattened grouping wrapper's own vertical margin + padding (capture-extract mtAdd / mbAdd on the boundary blocks it
+  // produced) → the node's Spacing when nothing more specific set it, else a scoped margin. PHP: the block rule carry.
+  const carryWrapMargins = (n, b) => {
+    if (!n || !b || (!(b.mtAdd > 0) && !(b.mbAdd > 0))) return n;
+    if (!n.atts) return n;
+    if (!n.atts.spacing || !n.atts.spacing.margin) n.atts.spacing = emptySpacing(); // a widget node gets its Spacing here (finalize keeps it)
+    const sp = n.atts.spacing.margin;
+    // an inner part's explicit ZERO (mb-0: "this element has no margin") is not the group's gap — the wrapper's mbAdd is
+    if (b.mtAdd > 0 && (!sp.top || sp.top === 'mt-0')) sp.top = spacingToken('mt', b.mtAdd);
+    if (b.mbAdd > 0 && (!sp.bottom || sp.bottom === 'mb-0')) sp.bottom = spacingToken('mb', b.mbAdd);
+    return n;
+  };
+  const _blockToNode = (b) => carryWrapMargins(_blockToNode0(b), b);
+  const _blockToNode0 = (b) => (b.t === 'panel' ? panelNode(b) : b.decor ? decorNode(b.html, b.paint) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'chips' ? chipsNode(b) : b.t === 'lone_icon' ? (loneIconNode(b) || codeBlock(b.svg || '')) : b.t === 'paint' ? (paintNode(b) || codeBlock('')) : b.t === 'stack' ? stackNode(b) : b.t === 'floating_card' ? floatingCardNode(b.card || {}) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -1702,6 +2407,9 @@ export function toPages(capture, opts = {}) {
   // block-level structure, under a two-sentence cap. Parity with PHP Mapper::is_heading_subtitle.
   const isHeadingSubtitle = (b) => {
     if (b && b.cls === 'sc-link-strip') return false;                        // a link strip is its own block
+    // A paragraph that is ALSO a box (a glass callout: fill / border / shadow) is not a subtitle — a heading's subtitle
+    // can't carry a box, so it stays its own text block wearing a Box Preset. Parity with PHP is_heading_subtitle.
+    if (b && (b.bg || b.bgImage || b.border || b.boxShadow)) return false;
     const html = String((b && (b.html || b.text)) || '');
     if (/<(ul|ol|h[1-6]|table|blockquote|figure|hr|div)\b/i.test(html)) return false;
     if ((html.match(/<a\b/gi) || []).length >= 2) return false;             // a row of links, not intro prose
@@ -1730,6 +2438,8 @@ export function toPages(capture, opts = {}) {
         if (h.overlinePill) { h.overlineBg = prev.bg || ''; h.overlineBorderW = prev.borderW || ''; h.overlineBorderColor = prev.borderColor || ''; h.overlineRadius = prev.radius || ''; h.overlineBackdrop = prev.backdropFilter || ''; h.overlinePad = prev.padding || ''; h.overlineGap = prev.gap || ''; }
         h.overlineFontWeight = prev.fontWeight || ''; h.overlineColor2 = prev.color || ''; h.overlineFontSize = prev.fontSize || '';         // NEVER-DROP: no native overline size option → scoped CSS
         h.overlineLetterSpacing = (prev.letterSpacing && prev.letterSpacing !== 'normal') ? prev.letterSpacing : '';
+        h.overlineLineHeight = prev.lineHeight || ''; // the kicker's line box (PHP parity)
+        h.overlineMarginBottom = prev.marginBottom || ''; // its own gap below (adds to the title's margin-top)
         out.pop();
       }
       const next = blocks[i + 1];
@@ -1740,7 +2450,8 @@ export function toPages(capture, opts = {}) {
         // Subtitle = the paragraph's INNER content (strip a single outer <p>), parity with textBlockOf.
         h.subtitle = String(next.html || '').replace(/^\s*<p[^>]*>([\s\S]*)<\/p>\s*$/i, '$1');
         h.subtitleCls = next.cls || '';                   // subtitle's own classes → native subtitle_class
-        h.subtitleStyle = { fontSize: next.fontSize || '', color: next.color || '', lineHeight: next.lineHeight || '' };
+        if (next.mbAdd > 0) h.mbAdd = Math.max(+h.mbAdd || 0, next.mbAdd); // the group wrapper's bottom margin landed on the LAST part (PHP: head mbAdd)
+        h.subtitleStyle = { fontSize: next.fontSize || '', color: next.color || '', lineHeight: next.lineHeight || '', marginTop: next.marginTop || '', marginBottom: next.marginBottom || '', paddingBottom: next.paddingBottom || '', fontSizeSm: next.fontSizeSm || '', lineHeightSm: next.lineHeightSm || '' }; // + the phone-pass size (PHP: subtitle_fs_sm)
         i++;
       }
       out.push(h);
@@ -1774,8 +2485,10 @@ export function toPages(capture, opts = {}) {
     return 'fa fa-star';
   };
   const iconValue = (cls) => ({ type: 'icon-font', 'icon-class': faIcon(cls), 'icon-class-without-root': false, 'pack-name': false, 'pack-css-uri': false });
-  const counterFont = (weight, size) => ({
-    google_font: false, subset: false, variation: false, family: '', style: 'normal',
+  // A named family is (almost always) a Google face: the option type keeps a Google font's weight as its `variation` (and
+  // blanks `weight`), so carry both — the counter view reads the variation when the weight is blank. PHP: counter_font.
+  const counterFont = (weight, size, family = '') => ({
+    google_font: !!family, subset: family ? 'latin' : false, variation: family ? (String(weight || '700') === '400' ? 'regular' : String(weight || '700')) : false, family: String(family || ''), style: 'normal',
     weight: (weight !== '' && weight != null) ? String(weight) : '700',
     size: (size !== '' && size != null) ? String(size) : '44',
     'line-height': '', 'letter-spacing': '0', color: false,
@@ -1789,6 +2502,17 @@ export function toPages(capture, opts = {}) {
     const n = stamp(clone('icon_box'));
     const a = n.atts;
     a.title = String(card.title || '');
+    // The card's EYEBROW → the native Overline; its captured type as scoped CSS (PHP parity: n_icon_box overline)
+    if (card.overline && String(card.overline.text || '').trim()) {
+      a.overline = String(card.overline.text).trim();
+      const o = card.overline, ol = [];
+      for (const [k, v] of [['font-size', o.fontSize], ['letter-spacing', o.letterSpacing], ['line-height', o.lineHeight], ['margin-bottom', o.marginBottom]]) if (/^-?[0-9.]+px$/.test(String(v || ''))) ol.push(k + ':' + v);
+      if (/^(uppercase|none|capitalize)$/.test(String(o.textTransform || ''))) ol.push('text-transform:' + o.textTransform);
+      if (/^[1-9]00$/.test(String(o.fontWeight || ''))) ol.push('font-weight:' + o.fontWeight);
+      if (/^[a-z0-9(),.\s#%\/]+$/i.test(String(o.color || ''))) ol.push('color:' + o.color + ';opacity:1');
+      if (/^[a-z0-9"',\s-]+$/i.test(String(o.fontFamily || ''))) ol.push('font-family:' + String(o.fontFamily).replace(/"/g, "'"));
+      if (ol.length) a.custom_css = ((a.custom_css || '') + '\nselector .icon-box__overline{' + ol.join(';') + ';}').trim();
+    }
     const tag = String(card.titleTag || 'h3').toLowerCase();
     a.title_tag = IB_TAGS.indexOf(tag) !== -1 ? tag : 'h3';
     let content = String(card.text || '');
@@ -1853,6 +2577,42 @@ export function toPages(capture, opts = {}) {
       if (a.spacing) applyNativeMargin(a.spacing, ics, hifiCss);
       applyHifiBase(n, ics, ['background-color', 'border', 'border-radius', 'box-shadow', 'color', 'font-family', 'font-size', 'font-weight', 'line-height'], hifiCss);
     }
+    // The TEXT LONG TAIL on the card's title / description + the card image's own treatment (capture-extract
+    // textLongTailOf / imgExtraOf) → scoped CSS. PHP twin: n_icon_box titleCs / bodyCs / image.extra.
+    // A coloured card's inherited ink → native Title / Content Colour when it differs from the page ink (PHP: page_ink).
+    if (card.titleInk && a.title_color && typeof a.title_color === 'object' && !a.title_color.custom) { const hx = rgbToCss(card.titleInk); if (hx && /^(?:#|rgb)/i.test(hx)) a.title_color = { predefined: '', custom: hx }; }
+    if (card.bodyInk && a.content_color && typeof a.content_color === 'object' && !a.content_color.custom) { const hx = rgbToCss(card.bodyInk); if (hx && /^(?:#|rgb)/i.test(hx)) a.content_color = { predefined: '', custom: hx }; }
+    if (card.bodyColor && a.content_color && typeof a.content_color === 'object' && !a.content_color.custom) { const hx = rgbToCss(card.bodyColor); if (hx && /^(?:#|rgb)/i.test(hx)) a.content_color = { predefined: '', custom: hx }; } // PHP: content_color from bodyCs
+    { const lk = String(card.bodyLinkSkin || '').trim(); if (lk && /^[a-z0-9()%.,:;\s#-]+$/i.test(lk)) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector .icon-box__content a{' + lk + ';}'; } // PHP: bodyLinkCs
+    for (const [k, sel] of [['titleExtra', '.icon-box__title'], ['bodyExtra', '.icon-box__content']]) { const ex = String(card[k] || '').trim(); if (ex && /^[a-z0-9()%.,:;"'\s#\/-]+$/i.test(ex)) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector ' + sel + '{' + ex + ';}'; }
+    // The description's OWN measure → .icon-box__content{max-width} (PHP parity: n_icon_box bodyCs max-width).
+    if (/^[0-9.]+px$/.test(String(card.bodyMaxWidth || '')) && parseFloat(card.bodyMaxWidth) < 900) a.custom_css = ((a.custom_css || '') + '\nselector .icon-box__content{max-width:' + card.bodyMaxWidth + ';}').trim();
+    // WIDE PASS: the card's >= 1536px inset when it differs (capture-extract padXl) → a min-width:1536px rule on the box. PHP: cardCsXl.
+    { const px = String(card.padXl || '').trim(); if (/^[0-9.]+px(?:\s+[0-9.]+px){0,3}$/.test(px)) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + '@media (min-width:1536px){selector{padding:' + px + ' !important;}}'; }
+    // CHILD RHYTHM (capture-extract bodyRhythm) → .icon-box__content p + p (PHP: n_icon_box bodyRhythm).
+    { const brh = String(card.bodyRhythm || '').trim(); if (brh && /^[a-z0-9()%.,:;\s#-]+$/i.test(brh)) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector .icon-box__content p + p{' + brh + ' !important;}'; }
+    // A SIDE-BY-SIDE card (capture-extract cardRow) → the icon_box inner becomes a row from the source's tier (PHP: cardRow).
+    if (card.cardRow && typeof card.cardRow === 'object') { const cr = card.cardRow; const mq = cr.from === 'lg' ? '@media (min-width:992px)' : '@media (min-width:768px)'; const gap = cr.gap | 0; a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + mq + '{selector .icon-box__inner{display:flex;flex-direction:row;align-items:flex-start;' + (gap > 0 ? 'gap:' + gap + 'px;' : '') + '}selector .icon-box__head,selector .icon-box__inner>.icon-box__title{flex:0 0 auto;' + (cr.titleLast ? 'order:2;' : '') + '}selector .icon-box__body,selector .icon-box__inner>.icon-box__content{flex:1 1 auto;}}'; }
+    // EMPTY PAINTED BOXES carried in the description (capture-extract decorBoxes) → scoped CSS on the class hook (PHP: bodyDecor).
+    for (const bd of (Array.isArray(card.decorBoxes) ? card.decorBoxes : [])) { if (bd && bd.css && !String(bd.css).includes('</')) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector .icon-box__content .sc-deco-' + (bd.n | 0) + '{display:block;width:100%;' + bd.css + ';}'; }
+    // HOVER on the title / description (own or group) + the card's hover ink inherited by them → selector:hover rules (PHP: n_icon_box titleHover).
+    { const hov = (card.box && card.box.hover) || card.hover || null; const hcol = hov && hov.color ? String(hov.color) : '';
+      for (const [hk, sel, inh] of [['titleHover', '.icon-box__title', 'titleInherits'], ['bodyHover', '.icon-box__content', 'bodyInherits']]) {
+        let decl = String(card[hk] || '').trim();
+        if (hcol && !/color:/i.test(decl) && card[inh] !== false) decl = decl + (decl ? ';' : '') + 'color:' + hcol;
+        if (decl && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(decl)) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector:hover ' + sel + '{' + decl + ' !important;}';
+      } }
+    // PHONE / TABLET PASS: the title's / description's measured phone / tablet font-size → scoped media rules (PHP: n_icon_box titleCsSm/Md).
+    for (const [key, sel] of [['title', '.icon-box__title'], ['body', '.icon-box__content']]) {
+      for (const [tier, mq] of [['Sm', '@media (max-width:767px)'], ['Md', '@media (min-width:768px) and (max-width:991px)'], ['Xl', '@media (min-width:1536px)']]) {
+        const fsv = String(card[key + 'Fs' + tier] || ''), lhv = String(card[key + 'Lh' + tier] || '');
+        if (!/^[0-9.]+px$/.test(fsv)) continue;
+        a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + mq + '{selector ' + sel + '{font-size:' + fsv + (/^[0-9.]+px$/.test(lhv) ? ';line-height:' + lhv : '') + ' !important;}}';
+      }
+    }
+    if (card.image && card.image.extra && /^[a-z0-9()%.,:;\s#\/-]+$/i.test(String(card.image.extra))) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + 'selector .icon-box__image img, selector img{' + card.image.extra + ';}';
+    // The card's decorative / SWEEP pseudo-layers (capture-extract cardOf decor) → scoped CSS. PHP twin: n_icon_box decor.
+    for (const dl of (card.decor || [])) { const dc = dl ? decorPseudoCss(dl) : ''; if (dc) a.custom_css = (a.custom_css ? a.custom_css + '\n' : '') + dc; }
     return n;
   };
   // A FLOATING badge/card overlaid on a hero image → an editable icon_box, POSITIONED + skinned over
@@ -1878,10 +2638,13 @@ export function toPages(capture, opts = {}) {
       text: fc.subtitle ? '<p>' + esc(fc.subtitle) + '</p>' : '',
       customIcon: fc.customIcon || '', iconCls: fc.iconCls || '', iconColor: fc.iconColor || '',
       iconBadge: fc.iconBadge || '', iconBadgeColor: fc.iconBadgeColor || '',
-      iconLayout: fc.iconLayout || 'inline-left', align: 'left',
+      iconLayout: fc.iconLayout || 'inline-left', align: fc.center ? 'center' : 'left',
+      overline: fc.overline || null, titleExtra: fc.titleExtra || '', // a stacked chip's month over its day; the title's own size / leading / margin (PHP: n_icon_box)
     };
     const n = iconBoxNode(card);
-    const pos = floatingCardPosCss(fc.pos);
+    let pos = floatingCardPosCss(fc.pos);
+    if (/^[0-9.]+px$/.test(String(fc.minWidth || ''))) pos = pos.replace(/;}$/, ';min-width:' + fc.minWidth + ';}');
+    if (fc.innerGap !== undefined && /^(?:0|[0-9.]+px)$/.test(String(fc.innerGap))) pos += 'selector .icon-box__inner{gap:' + fc.innerGap + ';}'; // the chip's own gap between its lines (PHP: floating_card_pos_css)
     if (n.atts && pos) { n.atts.custom_css = (n.atts.custom_css ? n.atts.custom_css + '\n' : '') + pos; }
     return n;
   };
@@ -1939,12 +2702,12 @@ export function toPages(capture, opts = {}) {
     a.decimals = String(c.decimals || '0');
     // Source stat cell alignment (hero stats are centered) → the counter aligns to match. Parity with PHP n_counter.
     a.alignment = (c.align === 'center' || c.align === 'right') ? c.align : (a.alignment || '');
-    a.number_font = counterFont(c.numberWeight, c.numberSize);
+    a.number_font = counterFont(c.numberWeight, c.numberSize, c.numberFamily); // the digits' own face (a mono stat) — PHP: counter_number_treatment
     a.number_color = counterColor(c.numberColor);
     // Prefix ($) + suffix (K) match the NUMBER's size so `$12K` reads as one uniform unit (was a fixed 24px
     // prefix beside a 44px number). Falls back to the old sizes when the source size wasn't captured.
-    a.prefix_font = counterFont(c.numberWeight, c.prefixSize || '24');
-    a.suffix_font = counterFont(c.suffixWeight || c.numberWeight, c.suffixSize);
+    a.prefix_font = counterFont(c.numberWeight, c.prefixSize || '24', c.numberFamily);
+    a.suffix_font = counterFont(c.suffixWeight || c.numberWeight, c.suffixSize, c.numberFamily);
     a.suffix_color = counterColor(c.suffixColor);
     return n;
   };
@@ -1956,6 +2719,37 @@ export function toPages(capture, opts = {}) {
   //     writes; a below-min payload falls back to a code_block, exactly like PHP. ===
   const iconNone = () => ({ type: 'none', 'icon-class': '', 'icon-class-without-root': false, 'pack-name': false, 'pack-css-uri': false });
   const widgetNode = (shortcode, atts) => ({ type: 'simple', shortcode, _items: [], atts: { css_id: '', css_class: '', ...atts, unique_id: uid() } });
+  // An EMPTY PAINTED block → a native empty Div wearing the paint + its height / growth. PHP: the 'paint' builder.
+  const paintNode = (b) => {
+    const css = String(b.css || '').trim(); if (!css) return null;
+    const n = stamp(clone('flexbox')); n.atts.custom_css = ((n.atts.custom_css || '') + '\nselector{' + css.replace(/[{}<>]/g, '') + ';}').trim();
+    return carryWrapMargins(n, { mtAdd: b.mt || 0, mbAdd: b.mb || 0 });
+  };
+  // A lone glyph block → the icon shortcode: the inline svg (or an icon-font class), its measured size + ink. PHP: n_lone_icon.
+  const loneIconNode = (b) => {
+    const svg = String(b.svg || '').trim(), fa = String(b.fa || '').trim();
+    if (!svg && !fa) return null;
+    const atts = { title: '', icon: svg ? { type: 'svg', 'svg-source': 'inline', markup: svg, 'svg-id': '' } : { type: 'icon-font', 'icon-class': fa, 'icon-class-without-root': '', 'pack-name': '', 'pack-css-uri': '' } };
+    // a Lucide glyph whose inline svg carries no geometry → the library icon (PHP n_lone_icon lucide)
+    const lucide = String(b.lucide || '');
+    if (/^lucide\/[a-z0-9-]+$/.test(lucide) && !/\s(?:d|points|cx|x1|x)="[^"]{2,}"/.test(svg)) atts.icon = { type: 'svg', 'svg-source': 'library', 'svg-id': lucide, markup: '' };
+    if (b.size > 0) atts.icon_size = { value: String(b.size), unit: 'px' };
+    if (/^rgb/i.test(String(b.color || ''))) atts.icon_color = { predefined: '', custom: rgbToCss(b.color) };
+    if (b.align === 'center' || b.align === 'right') atts.custom_css = 'selector{text-align:' + b.align + ';}';
+    // the glyph's TILE (capture-extract loneIconOf tile: a ring emblem) → the badge skin for the presets pass (_badge) + the
+    // tile drawn around the glyph as scoped CSS (PHP: chip_skin_from → an Icon Badge Preset on the icon)
+    if (b.tile && b.tile.w > 0) {
+      const t = b.tile; const circle = /9999|50%/.test(String(t.radius || ''));
+      atts._badge = { shape: circle ? 'solid-circle' : (t.radius && t.radius !== '0px' ? 'solid-rounded' : 'solid-square'), fill: t.bg || '', iconColor: b.color || '', size: t.w, radius: circle ? '' : (t.radius || ''), borderWidth: t.borderW || '', borderColor: t.borderW ? (t.borderColor || '') : '' };
+      const d = ['display:inline-flex', 'align-items:center', 'justify-content:center', 'width:' + t.w + 'px', 'height:' + t.h + 'px', 'border-radius:' + (t.radius || '0'), 'box-sizing:border-box'];
+      if (t.bg && !/rgba\(\d+, \d+, \d+, 0\)|transparent/.test(t.bg)) d.push('background:' + t.bg);
+      if (t.borderW) d.push('border:' + t.borderW + ' solid ' + (t.borderColor || 'currentColor'));
+      if (t.shadow) d.push('box-shadow:' + t.shadow);
+      atts.custom_css = ((atts.custom_css || '') + ' selector .sc-icon-glyph{' + d.join(';') + ';}').trim();
+    }
+    const n = widgetNode('icon', atts);
+    return carryWrapMargins(n, { mtAdd: b.mt || 0, mbAdd: b.mb || 0 });
+  };
 
   // A <table> → native `table` (tabular render). Leading all-<th> rows → header_rows (<thead>). Parity
   // with n_table. NOTE: the Table Preset slug is chosen PHP-side (reads the WP preset library), which the
@@ -1964,7 +2758,7 @@ export function toPages(capture, opts = {}) {
     const rows = Array.isArray(b.rows) ? b.rows : [];
     let ncol = 0; for (const r of rows) if (Array.isArray(r)) ncol = Math.max(ncol, r.length);
     if (ncol < 1 || !rows.length) return codeBlock('');
-    const cols = []; for (let c = 0; c < ncol; c++) cols.push({ name: 'default-col', align: '', width: '' });
+    const cols = []; for (let c = 0; c < ncol; c++) { const votes = {}; for (const r of rows) { const a = (Array.isArray(r) && r[c] && r[c].align) || ''; votes[a] = (votes[a] || 0) + 1; } const al = Object.entries(votes).sort((x, y) => y[1] - x[1])[0][0]; cols.push({ name: 'default-col', align: al === 'right' || al === 'center' ? al : '', width: '' }); } // the column's alignment = the mode of its cells' measured text-align
     let headerRows = 0, seenBody = false;
     for (const r of rows) {
       let allTh = Array.isArray(r) && r.length > 0;
@@ -1980,7 +2774,37 @@ export function toPages(capture, opts = {}) {
     });
     const atts = { table: { header_options: { table_purpose: 'tabular', header_rows: headerRows, footer_rows: 0 }, cols, rows: rowmeta, content } };
     if (b.caption && String(b.caption).trim()) atts.caption = String(b.caption).trim();
+    // The table's MEASURED skin → a Table Preset (PHP register_table_preset → build_table_presets): the node points at
+    // 'tbl-table-<hash>' and stashes the normalised skin on '_tableSkin' for capture.mjs to hand to buildTablePresets.
+    const skin = tableSkinOf(b.style || {});
+    if (skin) { atts.table_preset = 'tbl-' + skin.slug; atts._tableSkin = skin; atts.style_striped = 'no'; atts.style_hover = 'no'; atts.style_bordered = 'no'; } // the preset owns zebra / hover / frame
     return widgetNode('table', atts);
+  };
+  // PHP register_table_preset: the evidence normalised to the preset's vocabulary, keyed by a hash of itself.
+  const tableSkinOf = (st) => {
+    const td = st.td || {}, th = st.th || {}, tf = st.tf || {};
+    if (!Object.keys(td).length) return null;
+    const col = (v) => { v = String(v || '').trim(); return !v || /^transparent$/i.test(v) || /,\s*0\s*\)\s*$/.test(v) ? '' : v; };
+    const px = (v) => (/^-?[0-9.]+px$/.test(String(v || '').trim()) ? String(v).trim() : '');
+    const face = (v) => { v = String(v || '').trim(); return !v || !/^[a-z0-9"',\s-]+$/i.test(v) ? '' : v.replace(/"/g, "'"); };
+    const tt = (v) => (['', 'none'].includes(String(v || '').toLowerCase()) ? '' : String(v).toLowerCase());
+    const ls = (v) => (['', 'normal'].includes(String(v || '').toLowerCase()) ? '' : String(v));
+    const bodyFace = face(td['font-family']), headFace = face(th['font-family']);
+    const pad = (d) => { const t = px(d['padding-top']), r = px(d['padding-right']), b2 = px(d['padding-bottom']), l = px(d['padding-left']); if (!t && !b2) return ''; return (t || '0px') + ' ' + (r || '0px') + ' ' + (b2 || '0px') + ' ' + (l || '0px'); };
+    const tdPad = pad(td), thPad = pad(th);
+    const skin = {
+      pad_y: px(td['padding-top']) ? Math.max(parseFloat(td['padding-top']), parseFloat(td['padding-bottom'] || 0)) + 'px' : '',
+      pad_x: px(td['padding-left']) ? Math.max(parseFloat(td['padding-left']), parseFloat(td['padding-right'] || 0)) + 'px' : '',
+      hline: st.hline || '', vline: st.vline || '', frame: st.frame || {},
+      header: st.has_head ? { bg: col(th['background-color']), color: col(th.color), weight: th['font-weight'] || '', transform: tt(th['text-transform']), family: headFace && headFace.toLowerCase() !== bodyFace.toLowerCase() ? headFace : '', size: px(th['font-size']) !== px(td['font-size']) ? px(th['font-size']) : '', tracking: ls(th['letter-spacing']), lh: px(th['line-height']) !== px(td['line-height']) ? px(th['line-height']) : '', pad: thPad && thPad !== tdPad ? thPad : '', line: st.hdline || '' } : {},
+      body: { bg: col(st.row_bg), color: col(td.color), size: px(td['font-size']), weight: td['font-weight'] && !['400', 'normal'].includes(String(td['font-weight'])) ? String(td['font-weight']) : '', family: '', tracking: ls(td['letter-spacing']), transform: tt(td['text-transform']), lh: px(td['line-height']) },
+      footer: st.has_foot ? { bg: col(tf['background-color']), color: col(tf.color), weight: tf['font-weight'] || '', line: st.ftline || '' } : {},
+      stripe_bg: col(st.stripe_bg), hover: st.hover || '',
+      caption: st.caption && Object.keys(st.caption).length ? { color: col(st.caption.color), size: px(st.caption['font-size']), style: st.caption['font-style'] || '' } : {},
+      transition: st.transition || '',
+    };
+    skin.slug = 'table-' + createHash('md5').update(JSON.stringify(skin)).digest('hex').slice(0, 8);
+    return skin;
   };
 
   // An accordion/FAQ toggle group → native `accordion`; each item → one `tabs` row. Parity n_accordion.
@@ -2153,7 +2977,25 @@ export function toPages(capture, opts = {}) {
       link_target: (l.link_target === '_self' ? '_self' : '_blank'),
     })).filter((l) => l.image.url || l.svg);
     if (!logos.length) return codeBlock(String(b.html || ''));
-    return widgetNode('logo_grid', { logos, design: 'grid', columns: String(Math.min(6, Math.max(2, logos.length))), grayscale: 'yes', show_labels: 'no' });
+    // SHOW the brand names only for an icon / svg "trusted by" row — a mark beside VISIBLE text (`label`, or a non-image
+    // mark with a name); an image logo carries the brand in its artwork, its name is alt text. PHP: n_logo_grid.
+    const src = b.logos || [];
+    const iconNamed = src.filter((l) => l && String(l.name || '').trim() && (l.label || !l.url)).length;
+    const atts = { logos, design: 'grid', columns: String(Math.min(6, Math.max(2, logos.length))), grayscale: (b.grayscale === 'no' ? 'no' : 'yes'), show_labels: iconNamed >= Math.ceil(logos.length * 0.5) ? 'yes' : 'no' };
+    // the SOURCE strip's treatment: mark height from the icon size, the inter-logo gap, the opacity dim as scoped CSS
+    if (/^\d+$/.test(String(b.iconSize || '')) && +b.iconSize >= 12 && +b.iconSize <= 96) atts.logo_height = String(+b.iconSize);
+    if (b.gap !== undefined && b.gap !== '') { const g = gapSlug(String(b.gap) + 'px'); if (g) atts.gap = g; }
+    if (b.opacity !== undefined && b.opacity !== '' && +b.opacity > 0 && +b.opacity < 1) atts.custom_css = 'selector{opacity:' + (+b.opacity) + ';}';
+    // the source ITEM's own gap / padding + label typography as scoped CSS (PHP: n_logo_grid item)
+    if (b.item && typeof b.item === 'object') {
+      const it = b.item, id = [], ld = [];
+      if (it.gap > 0) id.push('gap:' + Math.round(it.gap) + 'px');
+      if (it.pad && /^[0-9.px\s]+$/.test(String(it.pad))) id.push('padding:' + it.pad);
+      if (it.fs) ld.push('font-size:' + it.fs); if (it.fw) ld.push('font-weight:' + it.fw); if (it.lh) ld.push('line-height:' + it.lh);
+      const css = (id.length ? 'selector .fw-lg__item{' + id.join(';') + ';}' : '') + (ld.length ? 'selector .fw-lg__label{' + ld.join(';') + ';}' : '');
+      if (css) atts.custom_css = ((atts.custom_css || '') + '\n' + css).trim();
+    }
+    return widgetNode('logo_grid', atts);
   };
 
   // A CTA band (centered heading + subtext + one button) → native `call_to_action`. Parity n_cta. The
@@ -2194,7 +3036,7 @@ export function toPages(capture, opts = {}) {
   // Translate a section's Tailwind + captured COMPUTED style into NATIVE section options. bg + padding
   // come from the exact computed values (beats parsing `bg-pink-100/40` / `py-20`); layout/bg utility
   // classes are dropped from css_class (they're dead in the builder), unmapped classes are kept.
-  const sectionLayout = (cls, computed) => {
+  const sectionLayout = (cls, computed, computedSm = null, phonePass = false, computedMd = null) => {
     computed = computed || {};
     const out = { bg: null, padding_top: null, padding_bottom: null, css_class: '' };
     const kept = [];
@@ -2223,8 +3065,34 @@ export function toPages(capture, opts = {}) {
     // exact value on `lg` (desktop) and CLAMP the base layer so smaller screens aren't over-spaced.
     const BASE_CAP = 112; // px (~7rem) — beyond this a base padding reads as an empty gap on mobile
     const layer = (prefix, v) => { const b = Math.min(v, BASE_CAP); return { base: spacingToken(prefix, b), md: '', lg: b < v ? spacingToken(prefix, v) : '' }; };
-    if (top > 0)    out.padding_top    = layer('pt', top);
-    if (bottom > 0) out.padding_bottom = layer('pb', bottom);
+    // PHONE PASS (capture-extract computedSm): when the source declares a different phone rhythm, the BASE tier is the
+    // MEASURED phone value and desktop rides `lg` — no clamp guesswork. PHP parity: Pass #5 sectionCsSm.
+    const smc = computedSm || null;
+    // md = the TABLET pass value when it differs from the phone value (else it inherits the base tier).
+    const mdc = computedMd || null;
+    const mdTop = mdc ? (sides(mdc.padding || computed.padding)[0] + sides(mdc.margin || computed.margin)[0]) : null;
+    const mdBot = mdc ? (sides(mdc.padding || computed.padding)[1] + sides(mdc.margin || computed.margin)[1]) : null;
+    const layerSm = (prefix, v, vsm, vmd) => ({ base: spacingToken(prefix, vsm), md: (vmd != null && Math.abs(vmd - vsm) > 0.5) ? spacingToken(prefix, vmd) : '', lg: (Math.abs(vsm - v) > 0.5 || (vmd != null && Math.abs(vmd - v) > 0.5)) ? spacingToken(prefix, v) : '' }); // lg = desktop whenever a lower tier differs from it
+    if (smc || mdc) {
+      const [spt, spb] = sides((smc && smc.padding) || computed.padding); const [smt, smb] = sides((smc && smc.margin) || computed.margin);
+      const stop = spt + smt, sbot = spb + smb;
+      if (top > 0)    out.padding_top    = layerSm('pt', top, stop, mdTop);
+      if (bottom > 0) out.padding_bottom = layerSm('pb', bottom, sbot, mdBot);
+    } else if (phonePass) {
+      // The phone pass ran and found NO difference: the desktop rhythm IS the phone rhythm — no clamp guesswork.
+      if (top > 0)    out.padding_top    = { base: spacingToken('pt', top), md: '', lg: '' };
+      if (bottom > 0) out.padding_bottom = { base: spacingToken('pb', bottom), md: '', lg: '' };
+    } else {
+      if (top > 0)    out.padding_top    = layer('pt', top);
+      if (bottom > 0) out.padding_bottom = layer('pb', bottom);
+    }
+    // ZERO IS A VALUE: a computed padding of exactly 0px on a side (a `pt-0` band, a flush strip) → the explicit
+    // zero token; an empty value falls back to the theme's default section padding. PHP parity (Pass #5).
+    const padDecl = String(computed.padding || '').trim();
+    if (padDecl !== '') {
+      if (top <= 0 && pt === 0)    out.padding_top    = { base: 'pt-[0px]', md: '', lg: '' };
+      if (bottom <= 0 && pb === 0) out.padding_bottom = { base: 'pb-[0px]', md: '', lg: '' };
+    }
     return out;
   };
 
@@ -2237,8 +3105,15 @@ export function toPages(capture, opts = {}) {
       // Translate the section's Tailwind + captured COMPUTED style into NATIVE section options
       // (bg color, padding) instead of dead classes on css_class. The bg/padding come from the
       // captured computed values (exact — beats parsing `bg-pink-100/40` + `py-20`).
-      const lay = sectionLayout(sec.sectionClass, sec.computed);
+      const lay = sectionLayout(sec.sectionClass, sec.computed, sec.computedSm || null, !!((capture.home || capture).phonePass), sec.computedMd || null);
+      // WIDE PASS (capture-extract computedXl): the >= 1536px padding when it differs → a min-width:1536px rule on the section
+      // (the native rhythm has base / md / lg tiers only). PHP: Pass #5 sectionCsXl.
+      if (sec.computedXl && sec.computedXl.padding && /^[0-9.]+px(?:\s+[0-9.]+px){0,3}$/.test(String(sec.computedXl.padding).trim())) {
+        const pp = String(sec.computedXl.padding).trim().split(/\s+/); const top = parseFloat(pp[0]) || 0, bot = parseFloat(pp.length >= 3 ? pp[2] : pp[0]) || 0;
+        lay.xlCss = '@media (min-width:1536px){selector{padding-top:' + Math.round(top) + 'px !important;padding-bottom:' + Math.round(bot) + 'px !important;}}';
+      }
       s.atts.css_class = lay.css_class;
+      if (lay.xlCss) s.atts.custom_css = ((s.atts.custom_css || '') + '\n' + lay.xlCss).trim(); // the >= 1536px rhythm (wide pass)
       // Pass #6 — carry a source band's responsive VISIBILITY onto the native responsive_hide option
       // (class-derived; {} for the common case). Parity with PHP Mapper::responsive_hide_from_classes.
       const rhide = responsiveHideFromClasses(sec.sectionClass);
@@ -2254,6 +3129,29 @@ export function toPages(capture, opts = {}) {
       }
       if (lay.padding_top) s.atts.padding_top = lay.padding_top;
       if (lay.padding_bottom) s.atts.padding_bottom = lay.padding_bottom;
+      // The band's OWN edge rules / shadow / radius (capture-extract sectionDiag: a `border-t border-white/5` band, a rounded
+      // sheet) → the section's scoped CSS, then out of the drop diag (they are carried, not dropped). PHP: n_section band css.
+      if (sec.diag && typeof sec.diag === 'object') {
+        const dg = sec.diag; const d = [];
+        for (const [k, prop] of [['borderTop', 'border-top'], ['borderBottom', 'border-bottom'], ['borderLeft', 'border-left'], ['borderRight', 'border-right'], ['boxShadow', 'box-shadow'], ['borderRadius', 'border-radius']]) {
+          if (dg[k] && /^[a-z0-9#(),.%\s-]+$/i.test(String(dg[k]))) { d.push(prop + ':' + dg[k]); delete dg[k]; }
+        }
+        if (d.length) s.atts.custom_css = ((s.atts.custom_css || '') + String.fromCharCode(10) + 'selector{' + d.join(';') + ';}').trim();
+      }
+      // The section's COVERING VIDEO (capture-extract sec.bgVideo) → the native Background-Pro video, its scrim the
+      // Background Overlay — the section decomposes around it instead of staying verbatim. PHP: apply_bg_video.
+      if (sec.bgVideo && (sec.bgVideo.src || sec.bgVideo.webm) && s.atts.background) {
+        const bv = sec.bgVideo;
+        s.atts.background.video = { enabled: 'yes', external_url: '', source_mp4: bv.src ? { attachment_id: '', url: bv.src } : [], source_webm: bv.webm ? { attachment_id: '', url: bv.webm } : [], poster: bv.poster ? { attachment_id: '', url: bv.poster } : [], fallback: [], loop: 'yes', autoplay: 'yes', mute: 'yes', playsinline: 'yes', allow_interaction: 'no' };
+        const ov = String(bv.overlay || '').trim();
+        if (ov) {
+          const grad = /gradient\(/i.test(ov) ? gradientToStops(ov) : null;
+          if (grad) s.atts.background.overlay = { color: '', gradient: grad };
+          else if (/^(rgba?\(|#|hsla?\()/i.test(ov)) s.atts.background.overlay = { color: ov, gradient: { type: 'linear', angle: 90, stops: [] } };
+        }
+        rec({ kind: 'element', sIndex, role: 'bg-video', detected: 'covering <video>', shortcode: 'section', why: 'covering video layer → the section Background video (+ its scrim as the overlay)' });
+      }
+
       // A CENTERED source band → the section's native `text_align='center'` so the whole band's
       // heading + paragraph + buttons inherit text-align:center together (parity with PHP n_section).
       if (centered) s.atts.text_align = 'center';
@@ -2329,148 +3227,7 @@ export function toPages(capture, opts = {}) {
                 text: snip(b.cols.map((c) => c.html).join(' ')), fallback: false, opportunity: true });
           continue;
         }
-        const rowCols = [];
-        for (const c of b.cols) {
-          // Map each grid cell to a dedicated, editable shortcode using the role the extractor
-          // already detected (parity with the PHP mapper). A cell with plain text (but no media /
-          // structure) → editable text_block rather than an opaque code_block; a truly EMPTY /
-          // decorative cell is DROPPED (no column emitted). Only a media/structural blob stays verbatim.
-          const cInner = String(c.html || '');
-          const cPlain = cInner.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-          const cMedia = /<(img|svg|video|iframe|picture|canvas|input|button|select|textarea)\b/i.test(cInner);
-          if (!c.counter && !c.card && !(c.buttons && c.buttons.length) && !c.text && !c.grid && !cPlain && !cMedia) { continue; } // drop empty / decorative cell
-          let detected, cellItems, why;
-          if (c.counter) {
-            detected = 'counter'; why = 'counter → counter shortcode';
-            cellItems = [counterNode(c.counter)];
-            const lbl = String(c.counter.label || '').trim();
-            if (lbl) { cellItems.push(textBlock('<p>' + esc(lbl) + '</p>')); }
-          } else if (c.card) {
-            detected = 'card'; why = 'card → icon_box'; cellItems = [iconBoxNode(c.card)];
-          } else if (c.buttons && c.buttons.length) {
-            detected = 'buttons'; why = 'button group → button(s)';
-            cellItems = c.buttons.map((bt) => buttonBlockNode(bt));
-          } else if (c.text) {
-            const tx = c.text;
-            // A text cell WITH an overline / subtitle → a native special_heading (preserving the overline PILL
-            // + its ICON), not a flat text_block that would drop the eyebrow. Plain single-heading cells still
-            // fall to a text block. Mirrors the decomposed-heading path so the overline icon isn't lost.
-            if (tx && typeof tx === 'object' && (String(tx.overline || '').trim() || String(tx.subtitle || '').trim())) {
-              const lvl = { h1: 1, h2: 2, h3: 3, h4: 4, h5: 5, h6: 6 }[String(tx.titleTag || 'h2')] || 2;
-              const hb = {
-                t: 'heading', html: tx.title || '', level: lvl, cls: tx.titleClass || '',
-                overline: tx.overline || '', overlineCls: tx.overlineClass || '',
-                overlinePill: /rounded-full|inline-flex|inline-block|pill/i.test(tx.overlineClass || ''),
-                overlineIcon: tx.overlineIcon || '', overlineIconPos: tx.overlineIconPos || 'before',
-                subtitle: tx.subtitle || '', subtitleCls: tx.subtitleClass || '', wrapCls: tx.wrapClass || '',
-              };
-              detected = 'text'; why = 'text cell (overline/subtitle) → special_heading';
-              cellItems = [headingNode(hb)];
-              for (const p of (tx.paras || [])) { const pn = textBlock(p); if (pn) cellItems.push(pn); }
-            } else {
-              detected = 'text'; why = 'text cell → text_block'; cellItems = [textBlock(c.html)];
-            }
-          } else if (c.blocks && c.blocks.length) {
-            detected = 'blocks'; why = 'content column → decomposed shortcodes'; cellItems = blocksToNodes(c.blocks);
-          } else if (c.image) {
-            detected = 'image'; why = 'image cell → media_image'; cellItems = [mediaImageNode(c.image)];
-          } else if (c.imgComposite && c.imgComposite.image) {
-            // Image + content overlay → DECOMPOSE into native, editable elements (P0 fidelity fix):
-            // a media_image (organic radius / white border / shadow + the blob backdrop, all via scoped
-            // Custom CSS) + one icon_box per floating badge (icon + title + subtitle, positioned via
-            // scoped CSS). Parity with the PHP Stitch image_composite_decompose path.
-            detected = 'image-composite';
-            why = 'image + content overlay → native media_image + icon_box (decomposed, editable)';
-            const comp = c.imgComposite;
-            cellItems = [mediaImageNode({ ...comp.image, blob: comp.blob || null })];
-            for (const fc of (comp.cards || [])) cellItems.push(floatingCardNode(fc));
-          } else if (c.imgComposite) {
-            // Un-decomposable composite (imgCompositeOf → null): keep VERBATIM, WRAPPED in a positioned
-            // container that carries the source cell's own classes (`relative lg:h-[600px] flex …`) + an
-            // inline `position:relative` so the absolute overlays keep their anchor inside the code_block.
-            detected = 'image-composite';
-            why = 'image + content overlay → verbatim in a positioned wrapper (overlays anchor to the image)';
-            cellItems = [codeBlock('<div class="' + esc(c.fullCls || c.cls || '') + '" style="position:relative;width:100%">' + cInner + '</div>')];
-          } else if (c.grid) {
-            detected = 'grid'; why = 'nested grid → code_block (not yet split into nested columns)'; cellItems = [codeBlock(c.html)];
-          } else if (cPlain && !cMedia) {
-            detected = 'text'; why = 'unrecognized text cell → text_block'; cellItems = [textBlock(cInner)];
-          } else {
-            detected = 'html'; why = 'unrecognized cell → code_block'; cellItems = [codeBlock(c.html)];
-          }
-          const sc = cellItems[0].shortcode || 'simple';
-          rec({ kind: 'element', sIndex, role: 'row-cell', detected, shortcode: sc, why, width: c.width,
-                sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
-                fallback: sc === 'code_block', opportunity: false });
-          const col = column(c.width, cellItems);
-          // A DECOMPOSED card cell (icon_box + feature_list) → the box goes on the COLUMN's Border Preset so
-          // it wraps ALL the shortcodes (not just the icon_box header). Stash the skin for the Box-Preset
-          // census, which assigns border_preset to a column (box_style to an icon_box). Parity with PHP.
-          if (c.cardBox && col.atts) col.atts._box = c.cardBox;
-          // Fidelity fixes on the column's scoped custom_css:
-          //  (1) an image-composite cell with FLOATING CARD(s) needs the column to be the POSITIONED
-          //      ancestor, or each card's `position:absolute; top/left` resolves against the section/page
-          //      and lands at the page top-left (overlapping the logo). Marking the column position:relative
-          //      anchors the card to the image area.
-          //  (2) the source cell's own max-width (`max-w-2xl` on a hero text column) constrains the
-          //      column content so its paragraph wraps like the source (a full 50% track wraps too few lines).
-          // Parity with the PHP mapper.
-          {
-            const decl = [];
-            const hasFloating = detected === 'image-composite' && c.imgComposite && c.imgComposite.image
-              && Array.isArray(c.imgComposite.cards) && c.imgComposite.cards.length;
-            if (hasFloating) decl.push('position:relative');
-            if (c.maxw && /^[0-9.]+(?:px|rem|em|%|ch|vw)$/.test(String(c.maxw))) decl.push('max-width:' + c.maxw);
-            // A centered stat cell → centre the column so BOTH the counter number and its separate label
-            // caption centre (the counter's own alignment only moves the number). Parity with PHP.
-            if (c.counter && (c.counter.align === 'center' || c.counter.align === 'right')) decl.push('text-align:' + c.counter.align);
-            if (decl.length && col.atts) {
-              const cur = col.atts.custom_css ? String(col.atts.custom_css) : '';
-              col.atts.custom_css = (cur + (cur !== '' ? '\n' : '') + 'selector{' + decl.join(';') + ';}').trim();
-            }
-          }
-          // Replay the cell's OWN flex layout via the column's NATIVE options (content_direction / gap)
-          // instead of a CSS wrapper — a flex-ROW cell lays its children side-by-side with the source gap.
-          const fx = c.flex;
-          if (fx && /^row/.test(fx.dir || '') && col.atts) {
-            col.atts.content_direction = 'row';
-            const g = gapSlug(fx.gap);
-            if (g) col.atts.content_gap = { base: g, md: '', lg: '' };
-            if (/^row-reverse/.test(fx.dir)) col.atts.content_order = 'reverse';
-          }
-          // A grid CELL that centers/right-aligns its own text (source `text-center` / `text-right`
-          // on the cell wrapper) → the column's native `text_align`, so the cell's mixed content
-          // (heading + prose + buttons) inherits that alignment as one. Parity with the PHP mapper.
-          {
-            const cellTa = clsTextAlign(c.fullCls || c.cls || '');
-            if (cellTa && col.atts) col.atts.text_align = cellTa;
-          }
-          // A CTA button group with 2+ buttons sits side-by-side — via the native content_direction
-          // (not the old `.btn-row` CSS wrapper), even when the source cell's flex wasn't captured.
-          if (detected === 'buttons' && cellItems.length > 1 && col.atts) {
-            col.atts.content_direction = 'row';
-            if (!(col.atts.content_gap && col.atts.content_gap.base)) {
-              col.atts.content_gap = { base: gapSlug((c.flex && c.flex.gap) || '') || '3', md: '', lg: '' };
-            }
-            col.atts.content_h = 'center';
-            // Size buttons to content so a flex-row + flex-wrap column doesn't wrap two full-width .btns to
-            // stacked (parity with PHP group_buttons). Kept when the column has no other custom_css.
-            if (!col.atts.custom_css) col.atts.custom_css = 'selector .btn{flex:0 0 auto !important;width:auto !important;}';
-          }
-          rowCols.push(col);
-        }
-        // HYBRID row emission (PHP twin of Mapper 7904-7918): a clean multi-cell row → ONE flex-Div
-        // (flexbox, direction row) whose cells are child flex-Divs carrying their Width; otherwise
-        // (single cell, or a cell needing the column inner-wrapper / positioned ancestor) emit the
-        // columns unchanged. No fw-row for the flexed rows.
-        if (rowFlexSafe(rowCols)) {
-          const rowAtts = { display: 'flex', direction: { base: 'row', md: '', lg: '' }, wrap: { base: 'yes', md: '', lg: '' } };
-          const rgap = gapSlug(b.gap || '');
-          if (rgap) rowAtts.gap = { base: rgap, md: '', lg: '' };
-          items.push(nFlexbox(rowCols.map(columnToFlexboxCell), rowAtts));
-        } else {
-          for (const rc of rowCols) items.push(rc);
-        }
+        for (const n of rowBlockToItems(b, sIndex)) items.push(n);
       } else {
         const node = blockToNode(b);
         rec({ kind: 'element', sIndex, role: b.t, detected: b.t, shortcode: node.shortcode || 'simple',
@@ -2481,6 +3238,7 @@ export function toPages(capture, opts = {}) {
                  : b.t === 'image' ? 'image → media_image'
                  : b.t === 'video' ? 'video → media_video (' + (b.mode === 'embed' ? 'oEmbed URL' : 'self-hosted') + ')'
                  : b.t === 'testimonials' ? 'testimonials → testimonials'
+                 : (node.shortcode || '') !== 'code_block' ? `${b.t} → ${node.type === 'flexbox' ? 'flexbox (native div)' : (node.shortcode || node.type)}` + (b.decor ? ' — decor layer (its paint carried)' : '')
                  : `${b.t} → code_block (unmapped)`,
               sourceTag: b.tag || '', sourceClass: b.cls || '', text: snip(b.text || b.label || b.html),
               textFull: snipFull(b.text || b.label || b.html), html: rawCap(b.html || ''),
@@ -2538,6 +3296,33 @@ export function toPages(capture, opts = {}) {
     // keeps the new band constrained.
     items = flexifyItems(items);
     s._items = items.length ? items : [column('1_1', [codeBlock(sec.rawHtml || '')])];
+    // HOIST a chip pinned via the native Position option OUT of the band's content wrapper to be a direct child of
+    // the section: the theme positions every direct child of a media band, so a chip left inside would measure its
+    // percentages against the content block, not the band. The SECTION becomes the anchor (Position: relative); the
+    // chip's auto container is freed from that theme rule (scoped by the chip's unique class), and the chip paints
+    // above the band's media / overlay (z:2). Parity with PHP Mapper::anchor_abs_overlays().
+    {
+      const hoisted = [];
+      const isPinned = (n) => n && n.atts && n.atts.element_position && n.atts.element_position.position === 'absolute';
+      for (const it of s._items) {
+        if (!it || !Array.isArray(it._items)) continue;
+        for (const ch of it._items.slice()) {
+          if (isPinned(ch)) { hoisted.push(ch); it._items.splice(it._items.indexOf(ch), 1); continue; }
+          if (ch && Array.isArray(ch._items)) { for (const gc of ch._items.slice()) { if (isPinned(gc)) { hoisted.push(gc); ch._items.splice(ch._items.indexOf(gc), 1); } } }
+        }
+      }
+      if (hoisted.length && s.atts) {
+        const rules = [];
+        for (const gc of hoisted) {
+          if (!gc.atts.element_position.absolute.element_zindex) gc.atts.element_position.absolute.element_zindex = '2';
+          const u8 = String(gc.atts.unique_id || '').replace(/[^a-z0-9]/gi, '').slice(0, 8);
+          if (u8) rules.push('selector > .fw-container:has(.u' + u8 + '){position:static !important;}');
+        }
+        s._items.push(...hoisted);
+        if (!s.atts.element_position || !s.atts.element_position.position || s.atts.element_position.position === 'default') s.atts.element_position = { position: 'relative' };
+        s.atts.custom_css = ((s.atts.custom_css || '') + '\n' + [...new Set(rules)].join('')).trim();
+      }
+    }
     // Push the section's container_width cap onto any DIRECT flexbox child's content_width — a flexbox
     // escapes the section's .fw-container (rendered full-width), so it needs its own cap to stay centred
     // at the source's max-width. Parity with the PHP mapper's flexbox content_width push.
@@ -2783,7 +3568,9 @@ export function toPages(capture, opts = {}) {
   builder.forEach(anchorAbs);
 
   return {
-    pages: [{ title: 'Home', slug: 'home', status: 'publish', front_page: true, builder }],
+    pages: [{ title: 'Home', slug: 'home', status: 'publish', front_page: true, builder,
+      // The native per-page Hide switches for chrome the source doesn't render (no <footer> → hide_site_footer). PHP: chrome_page_options.
+      page_options: Object.assign({}, (capture.home || capture).footer ? {} : { hide_site_footer: 'yes' }, ((capture.home || capture).header || (capture.home || capture).nav) ? {} : { hide_site_header: 'yes' }) }],
     patternsApplied,
     dividersApplied,
     css: '', // styling comes from the captured used-CSS shipped with the theme (raw_chrome.css)

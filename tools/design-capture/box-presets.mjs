@@ -1,3 +1,27 @@
+// EVERY captured state of an element → preset Custom CSS ({{SELECTOR}}-scoped): ::before / ::after layers, their hover state,
+// :hover / :active / :focus* rules, a hover-revealed descendant (hover-child{rel}{decls}) and the @keyframes. PHP: state_css.
+export function stateCss(hov, kf = '', skipPseudo = false, skipSelf = []) {
+  hov = String(hov || ''); if (!hov.trim()) return '';
+  const rules = []; let rel = false;
+  const clean = (body, drop) => { const pd = {}; for (const decl of String(body).split(';')) { const cp = decl.indexOf(':'); if (cp < 0) continue; const k = decl.slice(0, cp).trim().toLowerCase(); let v = decl.slice(cp + 1).trim(); if (!v || v === 'initial' || k.startsWith('--') || drop.includes(k)) continue; if (!/^[a-z0-9()%.,\s#\/"'-]+$/i.test(v) || /expression\(|javascript:|url\(/i.test(v)) continue; if (k === 'content') v = '""'; pd[k] = v; } return pd; };
+  const selOf = { before: '{{SELECTOR}}::before', after: '{{SELECTOR}}::after', 'hover-self': '{{SELECTOR}}:hover', 'hover-before': '{{SELECTOR}}:hover::before', 'hover-after': '{{SELECTOR}}:hover::after', active: '{{SELECTOR}}:active', focus: '{{SELECTOR}}:focus', 'focus-visible': '{{SELECTOR}}:focus-visible', 'focus-within': '{{SELECTOR}}:focus-within', 'active-before': '{{SELECTOR}}:active::before', 'active-after': '{{SELECTOR}}:active::after' };
+  const trDrop = ['transition-property', 'transition-duration', 'transition-timing-function'];
+  for (const chunk of hov.split('|')) {
+    const m = chunk.trim().match(/^([a-z-]+)(?:\{([^{}]*)\})?\{([^{}]*)\}$/i); if (!m) continue;
+    const state = m[1].toLowerCase(), desc = (m[2] || '').trim(), body = m[3];
+    if (state === 'hover-child') { if (!desc || !/^[a-z0-9_.#>+~:\[\]="'\s,-]{1,120}$/i.test(desc)) continue; const pd = clean(body, trDrop); const ks = Object.keys(pd); if (!ks.length) continue; rules.push('{{SELECTOR}}:hover ' + desc + ' { ' + ks.map((k) => k + ':' + pd[k]).join('; ') + '; }'); continue; }
+    if (!selOf[state]) continue;
+    if (skipPseudo && /before|after/.test(state)) continue;
+    const pd = clean(body, state === 'hover-self' ? trDrop.concat(skipSelf) : trDrop); const ks = Object.keys(pd); if (!ks.length) continue;
+    if (state === 'before' || state === 'after') { if ((pd.position || '').toLowerCase() === 'absolute') rel = true; if (!pd['pointer-events']) { pd['pointer-events'] = 'none'; ks.push('pointer-events'); } }
+    rules.push(selOf[state] + ' { ' + ks.map((k) => k + ':' + pd[k]).join('; ') + '; }');
+  }
+  if (!rules.length) return '';
+  if (rel) rules.unshift('{{SELECTOR}} { position: relative; overflow: hidden; isolation: isolate; }');
+  kf = String(kf || '').trim(); if (kf && /@keyframes/i.test(kf) && !/<\/|expression\(|javascript:|url\(/i.test(kf)) rules.push(kf);
+  return rules.join('\n');
+}
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Box Presets (Theme Settings → Components → Box Presets = the `border_presets` data model) for the
 // URL/JS conversion path — the JS counterpart of PHP `FW_Site_Converter_Stitch::build_box_presets()`.
 // It clusters the DISTINCT card/box SKINS captured from the page (border + corner radius + shadow +
@@ -13,6 +37,51 @@
 const _u = (value, unit = 'px') => ({ value: String(value), unit });
 const _col = (slug) => ({ predefined: String(slug), custom: '' });
 const _empty = { predefined: '', custom: '' };
+
+/**
+ * Parse a CSS linear-gradient into the preset gradient shape { type:'linear', angle, stops:[{color,position}] } —
+ * the SAME shape the button preset's Background Gradient (gradient-v2) and the box preset's Background-Pro
+ * gradient.data consume. EXACT mirror of PHP FW_Site_Converter_Mapper::parse_linear_gradient(), shared by the
+ * button (to-theme-settings.mjs) and box builders so both twins emit identical presets. Directionless default =
+ * 180deg (to bottom); "to X" mapped; a stop's position defaults to its even spread. null unless >= 2 stops.
+ */
+export const parseLinearGradient = (css) => {
+  css = String(css || '').trim();
+  // A MULTI-LAYER stack (a radial glow OVER a linear wash) is not "a linear gradient": the native field holds one
+  // layer, so the caller carries the whole value verbatim instead of keeping only the linear layer. PHP parity.
+  if ((css.match(/[a-z-]*gradient\(/gi) || []).length > 1) return null;
+  const gm = css.match(/linear-gradient\(\s*([\s\S]+)\)\s*$/i);
+  if (!gm) return null;
+  const parts = []; let buf = '', depth = 0;
+  for (const ch of gm[1]) {
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) { parts.push(buf.trim()); buf = ''; continue; }
+    buf += ch;
+  }
+  if (buf !== '') parts.push(buf.trim());
+  let angle = 180; let am;
+  if (parts[0] && (am = parts[0].match(/^(-?[0-9.]+)deg$/))) { angle = parseFloat(am[1]); parts.shift(); }
+  else if (parts[0] && /^to\s/i.test(parts[0])) {
+    const dir = parts[0].slice(3).trim().toLowerCase();
+    const map = { top: 0, right: 90, bottom: 180, left: 270, 'top right': 45, 'bottom right': 135, 'bottom left': 225, 'top left': 315 };
+    angle = (map[dir] != null) ? map[dir] : 90; parts.shift();
+  }
+  const stops = []; const count = parts.length;
+  parts.forEach((part, idx) => {
+    const pm = part.match(/^(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\)|hsla?\([^)]*\))\s*([0-9.]+)?%?/);
+    if (!pm) return;
+    const pos = (pm[2] !== undefined && pm[2] !== '') ? parseFloat(pm[2]) : (count > 1 ? Math.round(idx * 100 / (count - 1)) : 0);
+    stops.push({ color: pm[1], position: pos });
+  });
+  return stops.length >= 2 ? { type: 'linear', angle, stops } : null;
+};
+// A box's linear-gradient fill (background-image), '' when none. A gradient card has a TRANSPARENT background-color,
+// so without this it read as "no fill" and was dropped / never became a Box Preset. Parity with PHP box_slug().
+const gradOf = (b) => { const g = String((b && b.gradient) || '').trim(); return /linear-gradient\(/i.test(g) ? g : ''; };
+// A NON-LINEAR fill (a radial / conic gradient, or several layers): no native gradient field (Background-Pro is
+// linear-only) → the preset CSS carries it verbatim (a radial ring keeps its fill). Parity with PHP $reg_grad.
+const rawGradOf = (b) => { const g = String((b && b.gradient) || '').trim(); return (g && /gradient\(/i.test(g) && !parseLinearGradient(g) && /^[a-z0-9()%.,\s#-]+$/i.test(g)) ? g : ''; };
 const _sh = (y, blur, alpha) => ({ x: 0, y, blur, spread: 0, color: 'rgba(0,0,0,' + alpha + ')', inset: false });
 const _pad = (all) => ({
   margin: { all: '', top: '', right: '', bottom: '', left: '' },
@@ -44,6 +113,9 @@ export const DEFAULT_BORDER_PRESETS = [
     states: { default: { border_style: '', border_color: _empty, box_shadow: _sh(4, 14, '0.08') }, hover: { box_shadow: _sh(12, 30, '0.16') } } },
   { id: 'b000000004', preset_name: 'Hover Lift', border_sides: 'all', border_radius: _u(8), padding: _pad('p-4'), transition: '200', hover_fx: ['lift', 'glow'], custom_css: '',
     states: { default: { border_style: 'solid', border_width: _u(1), border_color: _col('light-gray') }, hover: { border_color: _col('primary'), box_shadow: _sh(10, 24, '0.14') } } },
+  // Hover Grow — grows on hover via the SHARED Hover Animations library (hover_animation = the built-in Grow).
+  { id: 'b000000005', preset_name: 'Hover Grow', border_sides: 'all', border_radius: _u(12), padding: _pad('p-4'), transition: '200', hover_animation: 'btnfx-grow', custom_css: '',
+    states: { default: { border_style: 'solid', border_width: _u(1), border_color: _col('light-gray'), box_shadow: _sh(2, 8, '0.06') }, hover: { border_color: _col('primary') } } },
 ];
 
 // The plugin's built-in Icon Badge presets — mirror of unysonplus_default_icon_badge_presets()
@@ -155,9 +227,11 @@ const unitOf = (v) => {
 };
 
 // A computed color → a clean rgb()/rgba(), or '' for transparent.
+const _csrgb = (c) => { const cm = String(c || '').trim().match(/^color\(\s*(srgb|srgb-linear|display-p3|a98-rgb|prophoto-rgb|rec2020)\s+([0-9.]+%?)\s+([0-9.]+%?)\s+([0-9.]+%?)(?:\s*\/\s*([0-9.]+%?))?\s*\)$/i); if (!cm) return null; const ch = (v) => { const f = /%$/.test(v) ? parseFloat(v) / 100 : parseFloat(v); return Math.max(0, Math.min(1, f)); }; let r = ch(cm[2]), g = ch(cm[3]), b = ch(cm[4]); if (cm[1] === 'srgb-linear') { const gam = (x) => x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055; r = gam(r); g = gam(g); b = gam(b); } const a = cm[5] == null ? 1 : (/%$/.test(cm[5]) ? parseFloat(cm[5]) / 100 : parseFloat(cm[5])); return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), a]; };
 const normColor = (c) => {
   c = String(c || '').trim().toLowerCase();
   let m;
+  { const cs = _csrgb(c); if (cs) { if (cs[3] === 0) return ''; return cs[3] < 1 ? 'rgba(' + cs[0] + ', ' + cs[1] + ', ' + cs[2] + ', ' + cs[3] + ')' : 'rgb(' + cs[0] + ', ' + cs[1] + ', ' + cs[2] + ')'; } } // color(srgb …) (PHP: color_to_hex)
   if ((m = c.match(/rgba?\(\s*([0-9.]+)[,\s]+([0-9.]+)[,\s]+([0-9.]+)(?:[,\s/]+([0-9.]+))?/))) {
     const a = m[4] === undefined ? 1 : parseFloat(m[4]);
     if (a === 0) return '';
@@ -171,30 +245,53 @@ const normColor = (c) => {
 };
 
 // Parse the FIRST layer of a computed box-shadow ("rgba(…) 0px 1px 3px 0px") → { x,y,blur,spread,color,inset }.
-const parseShadow = (s) => {
+// The VISIBLE layers of a (possibly multi-layer) box-shadow, split on top-level commas — each
+// { x, y, blur, spread, color, inset, raw }; transparent and all-zero layers are dropped. PHP: $shadow_layers.
+const shadowLayersOf = (s) => {
   s = String(s || '').trim();
-  if (!s || s.toLowerCase() === 'none') return null;
-  let depth = 0, first = '';
-  for (const ch of s) { if (ch === '(') depth++; else if (ch === ')') depth--; else if (ch === ',' && depth === 0) break; first += ch; }
-  first = first.trim();
-  const inset = /inset/i.test(first);
-  first = first.replace(/inset/ig, '').trim();
-  let color = 'rgba(0, 0, 0, 0.1)';
-  const cm = first.match(/(rgba?\([^)]*\)|#[0-9a-fA-F]{3,8})/);
-  if (cm) { const nc = normColor(cm[1]); if (nc) color = nc; first = first.replace(cm[1], ''); }
-  const nums = (first.match(/-?[0-9.]+/g) || []).map(Number);
-  return { x: Math.round(nums[0] || 0), y: Math.round(nums[1] || 0), blur: Math.round(nums[2] || 0), spread: Math.round(nums[3] || 0), color, inset };
-};
-
-// First non-transparent box-shadow layer (a computed shadow often starts with a transparent placeholder).
-const firstRealShadow = (s) => {
-  s = String(s || '').trim();
-  if (!s || s.toLowerCase() === 'none') return '';
+  if (!s || s.toLowerCase() === 'none') return [];
   let depth = 0, layer = '', layers = [];
   for (const ch of s) { if (ch === '(') depth++; else if (ch === ')') depth--; if (ch === ',' && depth === 0) { layers.push(layer.trim()); layer = ''; continue; } layer += ch; }
   if (layer.trim()) layers.push(layer.trim());
-  for (const L of layers) { if (!/rgba\([^)]*,\s*0\s*\)/.test(L) && /[1-9]/.test(L)) return L; }
-  return '';
+  const out = [];
+  for (const raw of layers) {
+    const inset = /inset/i.test(raw);
+    let rest = raw.replace(/inset/ig, '').trim();
+    let color = '';
+    const cm = rest.match(/(rgba?\([^)]*\)|#[0-9a-fA-F]{3,8})/);
+    if (cm) { color = normColor(cm[1]); rest = rest.replace(cm[1], ''); }
+    if (!color) continue; // transparent layer
+    const nums = (rest.match(/-?[0-9.]+/g) || []).map(Number);
+    if (!nums.some((n) => n !== 0)) continue; // a 0 0 0 0 layer is no shadow
+    out.push({ x: Math.round(nums[0] || 0), y: Math.round(nums[1] || 0), blur: Math.round(nums[2] || 0), spread: Math.round(nums[3] || 0), color, inset, raw });
+  }
+  return out;
+};
+// The native Box Shadow field holds ONE layer: the MOST VISIBLE — a non-inset drop over an inset highlight,
+// then the widest blur. (The first layer of `inset 0 1px 0 …, 0 22px 60px …` was only the 1px highlight.)
+const parseShadow = (s) => {
+  const c = shadowLayersOf(s);
+  if (!c.length) return null;
+  c.sort((p, q) => (p.inset !== q.inset) ? (p.inset ? 1 : -1) : ((q.blur + q.spread) - (p.blur + p.spread)));
+  const { raw, ...best } = c[0];
+  return best;
+};
+// The FULL multi-layer shadow (>= 2 visible layers) as a preset-CSS rule; '' for a single layer (the native
+// field carries it exactly). Native first, the rest advanced — the button-preset rule. PHP: $shadow_css.
+const shadowCss = (s) => {
+  const c = shadowLayersOf(s);
+  if (c.length < 2) return '';
+  const full = c.map((l) => l.raw).join(', ');
+  // !important: the preset's native state rule is !important too; this lands later in source order, so it wins.
+  return /^[a-z0-9()%.,\s#-]+$/i.test(full) ? '{{SELECTOR}}{box-shadow:' + full + ' !important;}' : '';
+};
+
+// The most visible box-shadow layer's raw text (for the skin signature / the derived preset).
+const firstRealShadow = (s) => {
+  const c = shadowLayersOf(s);
+  if (!c.length) return '';
+  c.sort((p, q) => (p.inset !== q.inset) ? (p.inset ? 1 : -1) : ((q.blur + q.spread) - (p.blur + p.spread)));
+  return c[0].raw;
 };
 
 // A box qualifies as a "skin" if it has ANY of fill / radius / shadow / border / backdrop. The full skin
@@ -202,13 +299,23 @@ const firstRealShadow = (s) => {
 const realBw = (v) => { const s = String(v || '').trim(); return (unitOf(s) && !['0', '0px', '0.0px'].includes(s)) ? s : ''; };
 const skinSig = (b) => {
   const fill = normColor(b.fill || b.bg);
-  const radius = unitOf(b.radius) ? String(b.radius).trim() : '';
+  const radius = (unitOf(b.radius) || /^[0-9.]+(?:px|rem|em|%)?(?:\s+[0-9.]+(?:px|rem|em|%)?){1,3}$/.test(String(b.radius || '').trim())) ? String(b.radius).trim() : '';
   const shadow = firstRealShadow(b.shadow).replace(/\s+/g, '');
   const bw = realBw(b.borderWidth);
   const backdrop = (b.backdrop && String(b.backdrop).toLowerCase() !== 'none') ? String(b.backdrop).replace(/\s+/g, '') : '';
-  if (!fill && !radius && !shadow && !bw && !backdrop) return null;
+  const grad = (gradOf(b) || rawGradOf(b)).replace(/\s+/g, '');
+  if (!fill && !radius && !shadow && !bw && !backdrop && !grad) return null;
   const bdcol = bw ? normColor(b.borderColor) : ''; // border colour only counts with a real border width
-  return fill + '|' + radius + '|' + shadow + '|' + bw + '|' + bdcol + '|' + backdrop;
+  const pad = String(b.padding || '').trim(); // the card's inner padding rides IN the preset, so it keys the skin too
+  const clip = b.clip ? '|clip' : ''; // a media frame (clips to its radius) is a distinct preset from the same skin on a text card
+  const sides = (b.sides && b.sides !== 'all') ? '|' + b.sides : ''; // a one-sided hairline (a footer row's top rule) is its own preset
+  // The long-tail EXTRA props and a lift / border / shadow HOVER key the skin too (a card that only lifts on hover, or
+  // carries an opacity / accent bar, is a DIFFERENT preset); only appended when set, so every existing key stays stable.
+  const extra = String(b.extra || '').trim() ? '|x:' + String(b.extra).replace(/\s+/g, '') : '';
+  const hv = (b.hover && typeof b.hover === 'object') ? b.hover : {};
+  const hovKey = ((hv.lift || b.hoverLift) ? '|lift' : '') + (hv.scale ? '|sc:' + hv.scale : '') + (hv.fill ? '|hf:' + normColor(hv.fill) : '') + (hv.bdcol ? '|hbd:' + normColor(hv.bdcol) : '') + (hv.shadow ? '|hsh:' + String(hv.shadow).replace(/\s+/g, '') : '');
+  const st = String(b.hov || '').trim() ? '|st:' + String(b.hov).length + ':' + String(b.hov).slice(0, 40).replace(/\s+/g, '') : ''; // distinct captured STATES → a distinct preset (PHP: box_slug st:)
+  return fill + '|' + radius + '|' + shadow + '|' + bw + '|' + bdcol + '|' + backdrop + (grad ? '|' + grad : '') + (pad ? '|' + pad : '') + clip + sides + extra + hovKey + st;
 };
 
 /**
@@ -227,8 +334,15 @@ export function buildBorderPresets(skins) {
   }
   if (!groups.size) return { presets: DEFAULT_BORDER_PRESETS.slice(), boxpFor: () => '' };
 
-  const fillVal = (rgba) => ({ color: { value: { predefined: '', custom: rgba || '' } } });
-  const ordered = [...groups.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 12);
+  // Background-Pro fill: the solid colour, plus the gradient on gradient.data when the box paints a
+  // linear-gradient (mirror of the PHP stitch $fill_val — a gradient card is a REAL Box Preset, never scoped CSS).
+  const fillVal = (rgba, gradient = '') => {
+    const bg = { color: { value: { predefined: '', custom: rgba || '' } } };
+    const gv = gradient ? parseLinearGradient(gradient) : null;
+    if (gv) bg.gradient = { data: gv };
+    return bg;
+  };
+  const ordered = [...groups.entries()].sort((a, b) => b[1].count - a[1].count).slice(0, 40); // PHP registers every distinct skin; 40 keeps a long showcase page whole
   const used = {}; const derived = []; const sigToId = new Map();
   let n = 0;
   for (const [sig, g] of ordered) {
@@ -236,14 +350,14 @@ export function buildBorderPresets(skins) {
     const shadow = firstRealShadow(b.shadow);
     const hasShadow = !!shadow;
     const hasBorder = !!realBw(b.borderWidth);
-    const hasFill = !!normColor(b.fill || b.bg);
+    const hasFill = !!normColor(b.fill || b.bg) || !!gradOf(b);
     const hasGlass = !!(b.backdrop && String(b.backdrop).toLowerCase() !== 'none');
     const base = hasGlass ? 'Glass' : ((hasFill && hasBorder) ? 'Card' : (hasShadow ? 'Elevated' : (hasBorder ? 'Outline' : (hasFill ? 'Tinted' : 'Rounded'))));
     used[base] = (used[base] || 0) + 1;
     const name = used[base] > 1 ? base + ' ' + used[base] : base;
 
     // DEFAULT state: fill + border + shadow.
-    const def = { background: fillVal(normColor(b.fill || b.bg)) };
+    const def = { background: fillVal(normColor(b.fill || b.bg), gradOf(b)) };
     if (hasBorder) {
       def.border_style = (b.borderStyle && b.borderStyle !== 'none') ? b.borderStyle : 'solid';
       def.border_width = unitOf(realBw(b.borderWidth));
@@ -260,23 +374,50 @@ export function buildBorderPresets(skins) {
     if (normColor(hv.bdcol)) hover.border_color = { predefined: '', custom: normColor(hv.bdcol) };
     const hsh = parseShadow(firstRealShadow(hv.shadow));
     if (hsh) hover.box_shadow = hsh;
+    // The card's captured hover MOTION → the SHARED Hover Animations library (the same native effects a button
+    // gets): a grow → Grow; a lift → Lift — with the buttons' FIDELITY GUARD: the cloned Lift forces a hover
+    // drop-shadow, so a card that keeps its own resting shadow with no hover shadow change keeps the plain
+    // hover_fx lift (bare translateY) instead. Parity with the PHP stitch.
+    let hoverAnimation = '';
+    if (hv.scale && parseFloat(hv.scale) > 1) hoverAnimation = 'btnfx-grow';
+    else if (hv.lift || b.hoverLift) { const restSh = String(shadow || '').trim(); const hasRest = restSh && restSh.toLowerCase() !== 'none' && /[1-9]/.test(restSh); if (hsh || !hasRest) hoverAnimation = 'btnfx-lift'; }
     const hoverFx = [];
-    if (hv.lift || b.hoverLift) hoverFx.push('lift');
+    if ((hv.lift || b.hoverLift) && hoverAnimation !== 'btnfx-lift') hoverFx.push('lift');
     if (hv.shadow || hsh) hoverFx.push('glow');
 
     let ccss = '';
+    // The card's inner padding (1–4 value shorthand, e.g. a `22px 26px` callout) → the preset's own custom_css,
+    // exact source px, no !important so a column's own Padding can still override it. Parity with PHP.
+    const padPx = String(b.padding || '').trim();
+    if (/^[0-9.]+px(?:\s+[0-9.]+px){0,3}$/.test(padPx)) ccss += `{{SELECTOR}}{padding:${padPx};box-sizing:border-box;}`;
     if (hasGlass) ccss += `{{SELECTOR}}{backdrop-filter:${b.backdrop};-webkit-backdrop-filter:${b.backdrop};}`;
-    if (hv.scale) ccss += `{{SELECTOR}}:hover{transform:scale(${hv.scale});}`;
+    // MEDIA FRAME — a rounded box around an image / video clips its content to the radius (the source's
+    // overflow:hidden); no native field, so it rides in the preset CSS. Parity with PHP build_box_presets.
+    if (b.clip) ccss += '{{SELECTOR}}{overflow:hidden;}';
+    // a PER-CORNER radius (`20px 20px 0px 0px`) has no single-value field → the preset CSS carries it (PHP: reg_rad)
+    { const rr = String(b.radius || '').trim(); if (rr && !unitOf(rr) && /^[0-9.]+(?:px|rem|em|%)?(?:\s+[0-9.]+(?:px|rem|em|%)?){1,3}$/.test(rr)) ccss += '{{SELECTOR}}{border-radius:' + rr + ';}'; }
+    // The long tail of box-level visual props (capture-extract boxExtraOf: opacity / filter / clip / mask / blend /
+    // outline / side border / border-image / bg geometry / transforms / sticky) → the preset's own CSS. PHP parity.
+    { const ex = String(b.extra || '').trim(); if (ex && /^[a-z0-9()%.,:;\s#\/+!-]+$/i.test(ex)) ccss += '{{SELECTOR}}{' + ex + ';}'; } // (`!important` allowed: a side colour must outrank the preset's own border rule)
+    // MULTI-LAYER shadow (an inset highlight + a drop): the native field holds the most visible layer; the full
+    // value rides in the preset CSS so the card keeps both. Parity with PHP $shadow_css.
+    ccss += shadowCss(b.shadow);
+    if (rawGradOf(b)) ccss += '{{SELECTOR}}{background-image:' + rawGradOf(b) + ';}';
+    if (hv.scale && hoverAnimation !== 'btnfx-grow') ccss += `{{SELECTOR}}:hover{transform:scale(${hv.scale});}`;
+    // EVERY captured state (::before / ::after, their hover state, :hover extras, :active, :focus*, a hover-revealed
+    // descendant, the @keyframes) → the preset CSS; the native hover fields keep the fill / border / shadow (PHP parity)
+    { const sc = stateCss(b.hov, b.kf, !!b.pseudoOwned, ['background-color', 'background', 'border-color', 'box-shadow']); if (sc) ccss += '\n' + sc; }
 
     const id = 'b' + String(100 + (++n)).padStart(9, '0');
     sigToId.set(sig, id);
     const states = { default: def };
     if (Object.keys(hover).length) states.hover = hover;
     derived.push({
-      id, preset_name: name, border_sides: 'all',
+      id, preset_name: name, border_sides: (b.sides && b.sides !== 'all') ? String(b.sides) : 'all', // a one-sided hairline keeps its side (PHP parity)
       border_radius: unitOf(b.radius) || _u('', 'px'),
       padding: _padFromCss(b.padding),
       transition: '200',
+      hover_animation: hoverAnimation, // the shared library's native effect (Lift / Grow), when the source's hover is one
       hover_fx: [...new Set(hoverFx)],
       custom_css: ccss,
       states,

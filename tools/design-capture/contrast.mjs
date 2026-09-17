@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // WCAG contrast review for the Site Converter (capture service, JS side).
 //
 // This is the JS mirror of the PHP FW_Site_Converter_Theme_Generator contrast helpers

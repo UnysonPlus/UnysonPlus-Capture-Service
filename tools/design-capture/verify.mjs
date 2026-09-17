@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // verify.mjs — self-verification for the converter (roadmap item: "measure your own output").
 //
 // Renders two pages in real Chrome, screenshots them full-page at the same width, and pixel-diffs the

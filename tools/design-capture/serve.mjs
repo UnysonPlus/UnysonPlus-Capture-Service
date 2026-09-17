@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Local capture service for the Site Converter's "Site Analyzer".
 //
 // Renders a URL in headless Chrome (by running capture.mjs) and returns a ready
@@ -197,15 +198,8 @@ const json = (res, code, obj) => {
  * Slug for a URL's capture subfolder — MUST match capture.mjs's siteSlug() so /capture-screenshot
  * finds the dir that /capture wrote. hostname (sans www) + path, non-alphanumerics → '_'.
  */
-const siteSlug = (u) => {
-  try {
-    const url = new URL(u);
-    let s = url.hostname.replace(/^www\./i, '').replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
-    const path = url.pathname.replace(/^\/+|\/+$/g, '');
-    if (path) s += '_' + path.replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
-    return s || 'site';
-  } catch { return 'site'; }
-};
+// (shared with capture.mjs — the ONE definition, so the query-aware slug never drifts between the writer and the reader)
+import { siteSlug } from './site-slug.mjs';
 
 const findFile = (out, name) => {
   const direct = join(out, name);

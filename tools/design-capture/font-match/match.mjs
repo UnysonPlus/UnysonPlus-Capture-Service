@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Self-owned visual font matcher for the Site Converter.
 //
 // When a source site sets type in a LICENSED / self-hosted face we can't legally rehost (Neutraface,

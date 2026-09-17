@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // AI STRUCTURE CLASSIFIER (prototype) — the "AI as classifier, deterministic engine as builder" tier.
 //
 // The deterministic converter (PHP Stitch/Mapper) is great at extracting exact styles/text and emitting valid
@@ -56,7 +57,7 @@ Decide each field from the signals:
 Keep the SAME index values you were given. Output only the JSON.`;
 
 function summaryFromPhp(dir, php, wp) {
-  const rendered = existsSync(join(dir, 'rendered.html')) ? dir : join(dir, 'openhero_art_api_preview');
+  const rendered = existsSync(join(dir, 'rendered.html')) ? dir : join(dir, 'ai_page_source');
   const code = `require getenv('WP_LOAD'); echo json_encode(FW_Site_Converter_Stitch::structure_summary(file_get_contents(getenv('RH'))));`;
   const out = execFileSync(php, ['-d', 'memory_limit=1024M', '-r', code],
     { encoding: 'utf8', maxBuffer: 1 << 24, timeout: 90000,
@@ -126,7 +127,7 @@ if (isMain) {
   const engine = chosen || backend;
   console.error(`[classify-structure] ${summary.sections.length} section(s) via ${engine}`);
   const verdicts = await classifyStructure(summary, chosen ? { model: chosen } : {});
-  const target = existsSync(join(dir, 'rendered.html')) ? dir : join(dir, 'openhero_art_api_preview');
+  const target = existsSync(join(dir, 'rendered.html')) ? dir : join(dir, 'ai_page_source');
   const outPath = join(target, 'ai-structure.json');
   const doc = { version: 1, engine, sections: verdicts.sections };
   writeFileSync(outPath, JSON.stringify(doc, null, 1));

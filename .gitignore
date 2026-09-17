@@ -27,3 +27,4 @@ batch/
 .share-last-send
 _active.json
 _ai.json
+*.local.txt

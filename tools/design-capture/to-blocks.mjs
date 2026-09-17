@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // to-blocks.mjs — emit WordPress CORE block markup from the capture intermediate.
 //
 // Tier C1 of the block-theme output roadmap (see the AI Dev Kit "Block Theme Roadmap").

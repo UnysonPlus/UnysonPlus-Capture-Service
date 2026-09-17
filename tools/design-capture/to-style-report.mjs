@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Style-coverage report (NO AI) — the CSS-fidelity training instrument.
 //
 // Content mapping asks "what shortcode does this element become" (discrete, measured by
@@ -42,12 +43,44 @@ function carries(css, prop) {
   return new RegExp(prop.replace(/-/g, '\\-') + '\\s*:', 'i').test(css);
 }
 
+// A DECOMPOSED section carries its styling NATIVELY — in shortcode options (a Div's background gradient, a Box Preset's
+// radius / shadow / backdrop, a column's Spacing, a media_video's shape rule) rather than in verbatim CSS — so the carried-
+// CSS test alone reads every native reproduction as "dropped". `builtOf(section)` is the serialized builder node (+ the
+// presets it references); a property counts as carried when the built tree expresses it under any of its native names.
+const BUILT_KEYS = {
+  'background-image': ['background-image', 'gradient', 'background_image', '"image":{"src":[{'],
+  'background-color': ['background-color', 'background:', 'bg_color', '"fill":"', '"color":{"value":{"predefined":"","custom":"'],
+  'backdrop-filter': ['backdrop-filter', 'backdrop', 'glass'],
+  'box-shadow': ['box-shadow', '"shadow":"', 'shadow_'],
+  'border': ['border:', 'border-top', 'border_', '"borderWidth":"1', 'border-width'],
+  'border-radius': ['border-radius', '"radius":"', 'roundness'],
+  'max-width': ['max-width', 'max_width', 'content_width', 'block_max_width'],
+  'padding': ['padding', '"pad"'],
+  'margin': ['margin', '"spacing":{"margin"', 'mt-', 'mb-'],
+  'gap': ['"gap":{', 'gap:', 'gap-'],
+  'transform': ['transform', 'gsap_motion', 'animation'],
+  'position-absolute': ['position:absolute', 'element_position', 'position:fixed'],
+  'display-flex': ['"display":"flex"', 'flexbox', 'display:flex'],
+  'display-grid': ['"display":"grid"', 'grid_columns', 'display:grid'],
+  'opacity': ['opacity'],
+  'filter': ['filter:'],
+  'mask-image': ['mask-image'],
+  'clip-path': ['clip-path'],
+  'letter-spacing': ['letter-spacing', 'font_size_preset'],
+  'text-transform': ['text-transform', 'overline_uppercase', 'font_size_preset'],
+};
+function carriedByBuilt(built, prop) {
+  if (!built) return false;
+  const keys = BUILT_KEYS[prop] || [prop];
+  return keys.some((k) => built.indexOf(k) !== -1);
+}
+
 const csvCell = (v) => { const s = String(v == null ? '' : v); return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
 const htmlEsc = (v) => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 export function toStyleReport(input) {
   const site = (input && input.url) || '';
-  const rows = [['site', 'page', 's_index', 's_class', 'property', 'src_uses', 'carried']];
+  const rows = [['site', 'page', 's_index', 's_class', 'property', 'src_uses', 'carried', 'how']];
   // per-property aggregate: { used: Σ element-uses, secUsing: #sections, secCarried: #sections-with-it-in-css }
   const agg = {};
   PROPS.forEach((p) => { agg[p] = { used: 0, secUsing: 0, secCarried: 0 }; });
@@ -64,12 +97,12 @@ export function toStyleReport(input) {
       for (const prop of PROPS) {
         const uses = census[prop] || 0;
         if (!uses) continue;
-        const carried = carries(css, prop);
+        const carried = carries(css, prop) || carriedByBuilt(s.built || '', prop); // verbatim CSS, or the native decomposition
         agg[prop].used += uses;
         agg[prop].secUsing += 1;
         if (carried) agg[prop].secCarried += 1;
         else gaps.push({ page: pg.slug, s_index: s.index, s_class: s.sectionClass || '', property: prop, uses, significant: SIGNIFICANT.has(prop) });
-        rows.push([site, pg.slug, s.index, s.sectionClass || '', prop, uses, carried ? 'yes' : 'no']);
+        rows.push([site, pg.slug, s.index, s.sectionClass || '', prop, uses, carried ? 'yes' : 'no', carried ? (carries(css, prop) ? 'verbatim css' : 'native option') : '']);
       }
     }
   }

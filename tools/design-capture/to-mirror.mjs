@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Generic DOM-mirror mapper — the "clone any site" fallback. Maps a section's
 // captured mirror subtree (see capture-extract.mjs) into UnysonPlus builder nodes
 // (section → column → text_block / image / button), carrying each element's computed

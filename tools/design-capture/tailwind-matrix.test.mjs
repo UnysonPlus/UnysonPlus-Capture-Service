@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Official-Tailwind → native-option TEST MATRIX.
 //
 // WHY: the converter reads COMPUTED styles (source-agnostic, arbitrary values free), so it does NOT

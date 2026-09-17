@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // benchmark-models.mjs — score AI models on the header-translation task.
 //
 //   node benchmark-models.mjs [--models a,b,c]
 //
 // Runs the SAME header-translation prompt (guides/header-translation-guide.md) against each candidate
-// model on a FIXED, known-answer header (the "wegic" FreshPaws capture) and scores the returned JSON
+// model on a FIXED, known-answer header (the fixed benchmark sample capture) and scores the returned JSON
 // against a transparent rubric (0–100). Prints a ranked table and writes <CAPTURE_OUT>/_benchmark.json.
 //
 // Candidates: the --models list if given, else EVERY already-pulled Ollama tag (GET /api/tags) PLUS
@@ -130,8 +131,8 @@ function printLeaderboard(capOut = CAPTURE_OUT) {
   });
   console.log('');
 }
-// The fixed benchmark input: the FreshPaws (wegic) header — its correct mapping is what the rubric encodes.
-const SAMPLE_HTML = join(CAPTURE_OUT, 'my_website_3qzyf6ez_wegic_net', 'rendered.html');
+// The fixed benchmark input: the benchmark sample header — its correct mapping is what the rubric encodes.
+const SAMPLE_HTML = join(CAPTURE_OUT, process.env.BENCH_SAMPLE_DIR || 'benchmark-sample', 'rendered.html') // the fixed sample capture folder (set BENCH_SAMPLE_DIR);
 
 /* ---------------------------------------------------------------------- *
  * Extract the <header>…</header> region from a captured rendered.html.
@@ -173,8 +174,8 @@ function hue(c) {
 }
 
 /* ---------------------------------------------------------------------- *
- * RUBRIC — score the wegic FreshPaws header against its KNOWN-CORRECT mapping.
- * Correct answer: logo "FreshPaws" (icon+text) LEFT; nav Home/Services/Facility/Contact;
+ * RUBRIC — score the benchmark sample header against its KNOWN-CORRECT mapping.
+ * Correct answer: logo "the sample" (icon+text) LEFT; nav Home/Services/Facility/Contact;
  * a rounded "Book a Stay" CTA RIGHT; header transparent over hero → white on scroll;
  * dark-green brand text; green icon. Every point below is transparent + commented so the
  * user can trust WHY a model scored what it did. Total = 100 (bonuses can't exceed cap).
@@ -210,7 +211,7 @@ function scoreHeader(j) {
     score += 20; fields.identity = true; notes.push(`+20 identity custom "${id.site_title}"`);
   } else if (/fresh\s*paws/i.test(String(id.site_title || ''))) {
     score += 12; notes.push(`+12 site_title ok but logo_type="${id.logo_type}" (want "custom")`);
-  } else { notes.push('+0 identity not custom/FreshPaws'); }
+  } else { notes.push('+0 identity not custom/the sample'); }
 
   // (4) +15 — exactly ONE menu_area (menu=="primary") in center or right.
   const menus = els.filter((e) => e && e.type === 'menu_area');
@@ -277,7 +278,7 @@ async function main() {
   // No-run mode: just print the accumulated all-time leaderboard (fast, offline).
   if (leaderboardOnly) { printLeaderboard(CAPTURE_OUT); return; }
 
-  if (!existsSync(SAMPLE_HTML)) { console.error(`Sample header not found: ${SAMPLE_HTML}\nSet CAPTURE_OUT or capture the wegic site first.`); process.exit(1); }
+  if (!existsSync(SAMPLE_HTML)) { console.error(`Sample header not found: ${SAMPLE_HTML}\nSet CAPTURE_OUT or capture the benchmark sample site first.`); process.exit(1); }
   const headerHtml = extractHeader(SAMPLE_HTML);
   const models = await candidates(argModels);
 
@@ -286,7 +287,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\nHeader-translation benchmark — ${models.length} model(s), input = FreshPaws (wegic) header (${headerHtml.length} chars)\n`);
+  console.log(`\nHeader-translation benchmark — ${models.length} model(s), input = the benchmark sample header (${headerHtml.length} chars)\n`);
 
   const svcVer = serviceVersion();
   const sampleName = basename(dirname(SAMPLE_HTML));

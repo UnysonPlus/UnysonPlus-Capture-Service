@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Conversion report (NO AI). Turns the deterministic converter's per-section/per-element
 // decision trace (collected by to-pages.mjs's opts.trace) into:
 //   • conversion-report.csv  — one row per source element, flat + denormalized, so a batch of

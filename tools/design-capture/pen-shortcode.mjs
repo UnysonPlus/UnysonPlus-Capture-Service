@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // pen-shortcode.mjs — turn a pasted pen (HTML/CSS/JS) into an INSTALLABLE UnysonPlus shortcode package
 // (a slug folder: config.php + options.php + views/view.php + static.php + static/css|js), zipped so it
 // uploads at wp-admin → Site Converter → "Add a shortcode" → Upload a .zip. The shortcode renders the pen

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free fixture: a captured PRODUCT-CARD grid → wc_products with the ribbon slot ON and the
 // card skin/hover + ribbon translated into scoped section CSS. Guards the two misses from the
 // pinky-bites conversion: (1) show_ribbon hardcoded 'no' (badge dropped), (2) the card wrapper's

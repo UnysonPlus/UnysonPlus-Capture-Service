@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free, model-free unit tests for the SCOPED local job (refineSectionsLight's apply logic) and the
 // "test the model" handler shape. No live GPU/Ollama needed — the model call is mocked via global.fetch.
 // Run: node --test local-ai-light.test.mjs

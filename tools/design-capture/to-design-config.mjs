@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Map a design-capture → the Site Converter's design-config (stylings only — the
 // logo and brand stay the WordPress site's own at render time). Mirror of the PHP
 // FW_Site_Converter_Theme_Generator::from_capture so EITHER file feeds the generator
@@ -83,8 +84,10 @@ export function toDesignConfig(cap) {
   // DEFAULT and override the real brand color only on custom classes (e.g. the gold CTA button).
   // So when `--primary` is exactly a Bootstrap default AND the CTA carries a non-neutral color,
   // trust the CTA — otherwise it's blue everywhere when the site is actually orange/gold/etc.
+  const _csrgb = (c) => { const cm = String(c || '').trim().match(/^color\(\s*(srgb|srgb-linear|display-p3|a98-rgb|prophoto-rgb|rec2020)\s+([0-9.]+%?)\s+([0-9.]+%?)\s+([0-9.]+%?)(?:\s*\/\s*([0-9.]+%?))?\s*\)$/i); if (!cm) return null; const ch = (v) => { const f = /%$/.test(v) ? parseFloat(v) / 100 : parseFloat(v); return Math.max(0, Math.min(1, f)); }; let r = ch(cm[2]), g = ch(cm[3]), b = ch(cm[4]); if (cm[1] === 'srgb-linear') { const gam = (x) => x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055; r = gam(r); g = gam(g); b = gam(b); } const a = cm[5] == null ? 1 : (/%$/.test(cm[5]) ? parseFloat(cm[5]) / 100 : parseFloat(cm[5])); return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), a]; };
   const toRGB = (c) => {
     c = String(c || '').trim();
+    { const cs = _csrgb(c); if (cs) return [cs[0], cs[1], cs[2]]; } // color(srgb …) from color-mix() / wide-gamut sources (PHP: color_to_hex)
     let m = /^#([0-9a-f]{3})$/i.exec(c);
     if (m) return m[1].split('').map((h) => parseInt(h + h, 16));
     m = /^#([0-9a-f]{6})$/i.exec(c);
@@ -197,6 +200,9 @@ export function toDesignConfig(cap) {
 
   return {
     theme: { name, slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''), mode: 'child' },
+    // The source <title> verbatim — the importer derives the site tagline from its second segment ("Brand | Tagline") on
+    // every import path (PHP build_bundle emits the same key).
+    ...(cap.title ? { site_title: String(cap.title).trim() } : {}),
     // Source favicon (absolute URL) — bundled into the child theme + used as the Site Icon / <head> link
     // by the PHP theme generator. Same field name the PHP path emits, so the generator consumes either.
     ...(cap.favicon ? { favicon: cap.favicon } : {}),
@@ -211,7 +217,7 @@ export function toDesignConfig(cap) {
       ink: nz(body.color), accent, bg: nz(body.backgroundColor),
       // The theme's DEFAULT heading colour must be the DOMINANT heading tone (usually the ink used by
       // the h1's base text), NOT an accent. The brand-token sampler can land on a coloured <span>
-      // inside a heading (FreshPaws: h1 = ink "Your Pet's" + green "Second Home"), which mis-set every
+      // inside a heading (a pet-care demo: h1 = ink "Your Pet's" + green "Second Home"), which mis-set every
       // heading to green — turning the ink hero title green AND the white-on-green CTA heading invisible
       // (green on green). Prefer the first real section heading's own colour; per-heading overrides
       // (e.g. a white CTA heading) are carried separately by headingNode's title_color.

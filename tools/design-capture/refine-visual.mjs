@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // refine-visual.mjs — the self-verify → AI-fix loop.
 //
 // Convert deterministically (already done), then: render SOURCE + CONVERTED, measure pixel drift, ask the AI

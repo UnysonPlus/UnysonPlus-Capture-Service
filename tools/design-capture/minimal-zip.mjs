@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Minimal dependency-free ZIP writer (STORE method, no compression). Produces a
 // standard .zip that WordPress's unzip_file() reads — enough to assemble a Convert
 // bundle from the capture artifacts without pulling in a zip dependency.

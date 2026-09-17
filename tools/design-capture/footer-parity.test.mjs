@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Footer element-TYPE parity guard (browser-free). Feeds a synthetic footer config through the real
 // toThemeSettings() and asserts each footer column maps to the correct NATIVE element type — matching the
 // PHP Stitch footer_group_to_column()/build_footer_bar(). Locks the JS↔PHP drift the audit flagged: the

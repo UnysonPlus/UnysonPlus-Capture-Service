@@ -146,6 +146,29 @@ them so it wins the cascade). A small reset neutralizes the parent theme's `#pag
 source header & footer pixel-for-pixel (hover, responsive, webfonts included). Trade-off: it's
 a static visual mirror — the nav isn't a WordPress menu yet, and the logo is the source's own.
 
+## Reporting a converter miss (the findings feed)
+
+A conversion that differs from its source is reported as a MEASURED tuple, streamed one finding at a time:
+
+```
+node send-finding.mjs --url=<src> --finding='{"region":"s2","property":"font-weight","got":"400","expected":"700",
+  "construct":"button.btn-amber .font-bold","path":"capture-out/<site>","twin":"php","loss":"overridden","recurs":true,
+  "severity":"style","computed":"font-weight 400 from .btn (0,1,0) — the preset rule lost","note":"…",
+  "fixture":"@capture-out/<site>/fixture.html","twin_shows":"button weight 400 (same as the page)","solution":"the general rule, not a per-site patch"}'
+node make-fixture.mjs capture-out/<site> "<css selector>"      # the stamped repro fixture (structure only, ≤ 32 KB; repeated siblings pruned to 3 per run when over)
+node send-finding.mjs --url=<src> --summary --stats=capture-out/<site>/share-stats.json --positives="hero cover + 3 icon boxes"  # once per site (the POSITIVES go here)
+node pull-findings.mjs [--since=<ISO>] [--json=<file>] [--fixtures=<dir>]                # the maintainer's side
+```
+
+The sender refuses a finding without `region · property · got · expected · construct · path · twin · loss`, an
+unstamped fixture, a fixture without `twin_shows` (what the PHP twin emitted for it — the proof it reproduces), a
+`solution` that is a `#id{…}` site patch, a note that says "fixed per-site" without the general `solution`, or a
+POSITIVE row (it goes in the summary's `--positives`). `severity` (`layout | content-loss | style | cosmetic`) orders
+the maintainer's batch; `computed` (what `getComputedStyle` returned on the built page, and which rule won) settles an
+`overridden` loss. `got` / `expected` are computed values read on the
+BUILT page (`twin: php` = the WordPress import) and the source at the same viewport; `construct` is the source
+class / rule / tag; `path` is the capture-out folder. Full contract: the AI Dev Kit's `docs/site-build-protocol.md`.
+
 ## Multi-page conversion
 
 `capture.mjs` captures the **home** page, then crawls the **header nav's internal links**

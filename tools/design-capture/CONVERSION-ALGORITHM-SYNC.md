@@ -98,7 +98,7 @@ page‑matched" treatment vendor sheets already get, which makes vendor‑name d
 for completeness**. The **PHP upload path needed no change** (it carries the whole reproduced CSS blob
 as `css` → the theme generator treats it as `util`, already complete), but the **invariant now holds on
 both sides: global `util_css` must carry ALL page‑matching utilities — not just header/footer‑scoped or
-vendor‑named ones.** Verified on the real freshpaws source (Wegic, hash‑named bundle): `util_css`
+vendor‑named ones.** Verified on the real freshpaws source (a second AI-page generator, hash‑named bundle): `util_css`
 **203 B → 2089 B**. **Lesson: never let CSS completeness depend on a source's stylesheet *filename* or on
 a later per‑section merge — a section that renders must carry its full CSS at theme‑generation time.**
 

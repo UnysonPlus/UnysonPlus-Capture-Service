@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Scroll-animation capture — scrolls a page in steps and records (a) a filmstrip of screenshots and
 // (b) per-element transform/opacity KEYFRAMES across the scroll, then flags the elements that actually
 // animate on scroll (transform / opacity varies beyond plain document scroll). Emits a machine-readable

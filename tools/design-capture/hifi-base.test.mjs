@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Parity tests for the JS hi-fi faithful-base twins (mirror of the PHP golden test's Pass-1/Pass-2 checks).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

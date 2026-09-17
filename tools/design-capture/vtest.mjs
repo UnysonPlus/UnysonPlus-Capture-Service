@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 import { verifyUrls } from './verify.mjs';
 const rendered = process.argv[2];
 const label = process.argv[3] || 'SITE';

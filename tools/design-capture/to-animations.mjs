@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
  * to-animations.mjs — the ANIMATION TRACER.
  *
@@ -97,7 +98,9 @@ function inPageScan() {
           const st = r.style; if (!st) continue;
           const sel = r.selectorText || '';
           if (st.animationName && st.animationName !== 'none') {
-            animRules.push({ selector: sel.slice(0, 120), name: st.animationName, duration: st.animationDuration || '', infinite: /infinite/.test(st.animationIterationCount || '') });
+            // stamped = an element matching the rule carries the capture's data-sc-anim (the converter keeps the loop as-is)
+            let stamped = false; try { const m = document.querySelector(sel.replace(/::?[a-z-]+(\([^)]*\))?/gi, '') || 'x'); stamped = !!(m && m.hasAttribute('data-sc-anim')); } catch { /* an unmatched selector */ }
+            animRules.push({ selector: sel.slice(0, 120), name: st.animationName, duration: st.animationDuration || '', infinite: /infinite/.test(st.animationIterationCount || ''), stamped });
           }
           if (/:hover\b/.test(sel)) {
             const key = sel.replace(/:hover\b/g, '').trim().slice(0, 120);
@@ -168,6 +171,8 @@ function collectTraceTargets() {
     const r = el.getBoundingClientRect ? el.getBoundingClientRect() : null;
     if (!r || r.width < 120 || r.height < 80) continue;
     if (r.width >= vw * 0.98 && r.height >= document.body.scrollHeight * 0.9) continue; // page wrapper
+    // a FIXED / STICKY element (a nav bar, a floating CTA) stays put by CSS, not by a scroll animation — tracing it reports a bogus "pin"
+    { let fixed = false; for (let a = el; a && a !== document.body; a = a.parentElement) { const ps = getComputedStyle(a).position; if (ps === 'fixed' || ps === 'sticky') { fixed = true; break; } } if (fixed) continue; }
     const key = Math.round(r.top + window.pageYOffset) + ':' + Math.round(r.left) + ':' + Math.round(r.width);
     if (seen.has(key)) continue;
     seen.add(key);
@@ -332,6 +337,9 @@ function buildSuggestions(anim) {
   (anim.animated || []).forEach((a) => {
     const k = (anim.keyframes || []).find((x) => a.name.split(',')[0].trim() === x.name);
     if (a.infinite && k && k.slidesLeft) { push('css-animation', a.selector, `infinite keyframes '${a.name}' translating X`, "marquee fx: {mode:'left'}", 'high'); }
+    // an INFINITE loop is CARRIED by the converter as-is (the capture's data-sc-anim + keyframes stamp rides the element's own
+    // CSS: PHP loop_anim_of / JS loopAnimOf) — the report says so instead of suggesting a module the agent would add twice
+    else if (a.infinite && a.stamped) { push('css-animation', a.selector, `infinite keyframes '${a.name}' (${(k && k.props || []).join(',')})`, 'CARRIED as-is (data-sc-anim + @keyframes on the element) — nothing to add', 'high'); }
     else if (a.infinite) { push('css-animation', a.selector, `infinite keyframes '${a.name}' (${(k && k.props || []).join(',')})`, "physics float/pulse or backgrounds module", 'low'); }
     else { push('css-animation', a.selector, `keyframes '${a.name}' ${a.duration}`, 'entrance animation (Animate.css picker)', 'low'); }
   });

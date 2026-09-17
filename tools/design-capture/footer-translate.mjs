@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Footer translation — the MIRROR of header-translate.mjs for the site FOOTER.
 //
 // Turns a captured website <footer> (markup + per-element `data-sc-cs` computed styles) into a small

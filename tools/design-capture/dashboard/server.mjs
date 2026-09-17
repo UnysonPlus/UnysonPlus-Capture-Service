@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // UnysonPlus Converter — live dashboard server.
 // A dependency-free local front-end for the deterministic site converter: enter a URL, watch
 // every pipeline stage run in real time (the tool writes progress.json / progress.jsonl as it
@@ -456,7 +457,7 @@ const server = createServer((req, res) => {
       if (!/^https?:\/\//i.test(t.url) || !t.token) return json(res, { error: 'Set the destination WordPress + token in Settings first.' }, 400);
 
       // RENDER FIRST: ask the local capture service to render the source in headless Chrome and hand
-      // back the FULLY RENDERED HTML, so client-rendered / SPA sites (wegic, etc.) convert from their
+      // back the FULLY RENDERED HTML, so client-rendered / SPA sites (a second AI-page generator, etc.) convert from their
       // real DOM instead of the empty SPA shell a raw wp_remote_get would return. If the render fails
       // or comes back too small, fall back to letting WordPress raw-fetch the URL (current behavior).
       const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);

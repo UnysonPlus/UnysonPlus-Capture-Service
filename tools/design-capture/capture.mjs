@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Design-capture for the Site Converter.
 // Renders source site(s) in the installed Chrome and produces the convert bundle + conversion
 // report for each. QUEUE: pass one OR MANY URLs and they're captured sequentially (one at a time)
@@ -172,15 +173,8 @@ const step = (m) => {
 
 // A report folder name from the site URL: host (minus leading "www."), dots/punct → "_".
 // e.g. https://www.mintlify.com → "mintlify_com", https://docs.stripe.com/x → "docs_stripe_com_x".
-function siteSlug(u) {
-  try {
-    const url = new URL(u);
-    let s = url.hostname.replace(/^www\./i, '').replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
-    const path = url.pathname.replace(/^\/+|\/+$/g, '');
-    if (path) s += '_' + path.replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase();
-    return s || 'site';
-  } catch { return 'site'; }
-}
+// siteSlug lives in site-slug.mjs (shared with serve.mjs: the ONE query-aware definition)
+import { siteSlug } from './site-slug.mjs';
 
 // A WP-friendly slug from a URL path's last segment (drops extension). '' / index → home.
 function slugFromUrl(u) {
@@ -249,7 +243,7 @@ function traceStory(trace, sIndex, node, scenes, story) {
 // comes back empty or the content collapses — so a mis-detection never mangles a page.
 // Same SPA route? Compare PATHNAME only (trailing slash normalized), so a tab widget that merely updates the
 // hash/query on the SAME page (`#tab=reviews`) is NOT mistaken for a router navigation, while a real nav
-// (`/` → `/contact`, `/` → `/NotFound`) is. Used by the tab-reveal + capture route-drift guards (Wegic §8.51).
+// (`/` → `/contact`, `/` → `/NotFound`) is. Used by the tab-reveal + capture route-drift guards (a second AI-page generator §8.51).
 function samePath(a, b) {
   try { return new URL(a).pathname.replace(/\/+$/, '') === new URL(b).pathname.replace(/\/+$/, ''); }
   catch { return a === b; }
@@ -259,7 +253,7 @@ async function revealTabPanels(p) {
   // The route the page is CORRECTLY sitting on before we start clicking. On an SPA a mis-detected "tab bar"
   // that is really router nav (a <nav> of <button>s, or JS-routed links our isTabBtn guard doesn't catch)
   // navigates away on click — after which the DOM, and any rendered.html serialized from it, is the WRONG
-  // page (rest_home → /contact ×79, dreamcake → NotFound; Wegic audit §8.51: capture analysed Home but wrote
+  // page (rest_home → /contact ×79, dreamcake → NotFound; a second AI-page generator audit §8.51: capture analysed Home but wrote
   // NotFound). Capture the route now so the click loop can detect that and bail before it clicks further.
   const startUrl = p.url();
   const groups = await p.evaluate(() => {
@@ -401,7 +395,7 @@ async function renderPage(p, target, retry = false) {
     return (root.innerText || '').trim().length > 200 && root.children.length >= 2;
   }, { timeout: 20000 }).then(() => true).catch(() => false);
   await p.waitForTimeout(1200);
-  // HYDRATION-RACE RETRY (Wegic audit §8.53). When the SPA root never filled within the window, a snapshot now
+  // HYDRATION-RACE RETRY (a second AI-page generator audit §8.53). When the SPA root never filled within the window, a snapshot now
   // serializes an EMPTY shell (`<div id="root"></div>` → 0 usable sections) yet the process still exits 0, so
   // the empty page was silently converted as a zero-section "failure" that is not the converter's. The audit
   // found 5 of 6 such shells recover on a plain re-navigation (the first load just serialized before hydration);
@@ -413,7 +407,7 @@ async function renderPage(p, target, retry = false) {
   }
   // The route the SPA settled on after load — the page we INTEND to serialize. Interaction passes below
   // (mega-menu expansion, tab-panel reveal) click elements that can navigate a client-side router; if that
-  // happens the DOM becomes a DIFFERENT page and rendered.html would be wrong (Wegic audit §8.51: rest_home
+  // happens the DOM becomes a DIFFERENT page and rendered.html would be wrong (a second AI-page generator audit §8.51: rest_home
   // captured Home, wrote /contact; dreamcake captured Home, wrote NotFound). Captured here so the post-reveal
   // route self-check can detect the drift and re-capture cleanly.
   const loadUrl = p.url();
@@ -541,6 +535,141 @@ async function renderPage(p, target, retry = false) {
     }
   });
   await p.waitForTimeout(150);
+  // PHONE PASS (second viewport, first cut). The capture samples ONE desktop viewport, so every `@media` rule the
+  // source wrote for phones was invisible. Render the page at 390px and record, per element, the handful of properties
+  // the converted site can express responsively (padding / margin / font-size / line-height / gap / display /
+  // flex-direction / grid tracks / text-align / max-width) as `data-sc-sm`; the desktop stamp loop below keeps only the
+  // values that DIFFER from desktop as `data-sc-cs-sm` (nothing stamps on a page with no phone rules). Runs BEFORE the
+  // extraction so both engines read it. Consumers: section padding_top/bottom base tier (PHP Pass #5 / JS sectionNode),
+  // heading + text phone font-size (a max-width:767px rule). Best-effort: a resize failure leaves no stamp.
+  try {
+    // Two extra viewports: PHONE (390 → data-sc-sm) and TABLET (820 → data-sc-md). The tablet pass feeds the md tier of the
+    // same tiered options (section padding / cell padding / cell min-height), so 768–991px no longer inherits the phone tier.
+    // …and a WIDE pass (1920 → data-sc-xl): a source's `2xl:` tier (>= 1536px) — a roomier section / card inset, a bigger
+    // display size — that the 1440 desktop capture cannot see. Diffed like the others (data-sc-cs-xl = only what differs).
+    for (const [w, h, attr] of [[390, 844, 'data-sc-sm'], [820, 1180, 'data-sc-md'], [1920, 1080, 'data-sc-xl']]) {
+      await p.setViewportSize({ width: w, height: h });
+      await p.waitForTimeout(450);
+      await evalSafe(p, (attr) => {
+        const PR = ['padding', 'margin', 'font-size', 'line-height', 'gap', 'display', 'flex-direction', 'grid-template-columns', 'text-align', 'max-width', 'min-height'];
+        const els = document.querySelectorAll('section, section *, main, main *, header, header *, footer, footer *');
+        let n = 0;
+        for (const el of els) {
+          if (n++ > 6000) break;
+          const tag = el.tagName.toLowerCase(); if (['script', 'style', 'noscript', 'svg', 'path', 'br'].includes(tag)) continue;
+          let cs; try { cs = getComputedStyle(el); } catch { continue; }
+          const add = []; for (const pr of PR) { const v = cs.getPropertyValue(pr); if (v) add.push(pr + ':' + v); }
+          // A grid / flex-row CHILD's measured width as a FRACTION of its parent at this viewport (`track-frac`, 0–1): a
+          // `md:col-span-2` card spans the whole two-track tablet grid while its siblings take half — the engines turn it into
+          // the cell's tablet / phone device width (PHP: cell_geometry frac; JS: rowCols fracMd / fracSm).
+          try { const pe = el.parentElement; if (pe) { const pcs = getComputedStyle(pe); if (pcs.display === 'grid' || (pcs.display === 'flex' && pcs.flexDirection.indexOf('row') === 0)) { const r = el.getBoundingClientRect(), pr = pe.getBoundingClientRect(); const pw = pr.width - (parseFloat(pcs.paddingLeft) || 0) - (parseFloat(pcs.paddingRight) || 0); if (r.width > 0 && pw > 0) add.push('track-frac:' + Math.min(1, Math.round((r.width / pw) * 1000) / 1000)); } } } catch { /* detached */ }
+          if (add.length) el.setAttribute(attr, add.join(';'));
+        }
+      }, attr);
+    }
+    await p.setViewportSize({ width: 1440, height: 900 });
+    await p.waitForTimeout(450);
+    await evalSafe(p, () => document.documentElement.setAttribute('data-sc-phone-pass', '1')); // "no data-sc-cs-sm" now means "same as desktop", not "unknown"
+  } catch { /* best-effort */ }
+  // CSS-CLASS REVEALS (entrance animations without a library). The pattern behind most hand-authored / AI pages:
+  // a rule that HIDES an element at rest (opacity:0 + a translate / scale, with a transition on opacity/transform) and a
+  // compound rule that SHOWS it (.reveal.active / .reveal.is-visible / .in-view .reveal), toggled by an
+  // IntersectionObserver. Nothing in the DOM names the motion, and by capture time the hero copy is already active, so
+  // it is read from the STYLESHEETS (static, state-independent): each element carrying a reveal class is stamped
+  // data-sc-reveal="dir:up;distance:30;duration:1.2;delay:0.2;ease:…" — the direction + distance from the rest transform,
+  // the duration / per-element delay / ease from the element's COMPUTED transition (a \`.delay-200\` stagger class lands
+  // as transition-delay). Both engines map it to the Scroll Motion reveal (PHP reveal_of / JS revealOf).
+  await evalSafe(p, () => {
+    const pairs = new Map(); // class → { transform }
+    const rules = [];
+    for (const ss of document.styleSheets) { let cr; try { cr = ss.cssRules; } catch { continue; } const walk = (list) => { for (const r of list) { if (r.cssRules && r.cssRules.length && !r.selectorText) { walk(r.cssRules); continue; } if (r.selectorText && r.style) rules.push(r); } }; walk(cr); }
+    const simple = /^\.([A-Za-z0-9_-]+)$/;
+    for (const r of rules) {
+      const st = r.style;
+      const hidden = st.opacity === '0' || st.visibility === 'hidden';
+      if (!hidden) continue;
+      const tr = (st.transition || '') + ' ' + (st.transitionProperty || '');
+      if (!/opacity|transform|all|visibility/.test(tr) && !st.animationName) continue;
+      for (const sel of r.selectorText.split(',')) {
+        const m = simple.exec(sel.trim()); if (!m) continue;
+        const cls = m[1];
+        // the SHOW rule: the same class compounded with a state (.cls.active / .cls.is-visible / .cls[data-x]) or under a
+        // state ancestor (.in-view .cls), setting a non-zero opacity / visible
+        const esc = cls.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const reCompound = new RegExp('^\\.' + esc + '(\\.[\\w-]+|\\[[^\\]]+\\])+$');
+        const reAncestor = new RegExp('^[.\\[][^\\s]+\\s+\\.' + esc + '$');
+        const shown = rules.some((r2) => r2 !== r && r2.style && ((r2.style.opacity !== '' && r2.style.opacity !== '0') || r2.style.visibility === 'visible')
+          && r2.selectorText.split(',').some((s2) => { s2 = s2.trim(); return s2 !== sel.trim() && (reCompound.test(s2) || reAncestor.test(s2)); }));
+        if (shown) pairs.set(cls, { transform: st.transform || '' });
+      }
+    }
+    if (!pairs.size) return;
+    const px = (v) => parseFloat(v) || 0;
+    for (const [cls, info] of pairs) {
+      for (const el of document.getElementsByClassName(cls)) {
+        if (el.hasAttribute('data-sc-reveal')) continue;
+        let dir = 'none', dist = 0, scale = 1;
+        const t = info.transform || '';
+        let m;
+        if ((m = /translate3d\(\s*(-?[0-9.]+)px\s*,\s*(-?[0-9.]+)px/.exec(t)) || (m = /translate\(\s*(-?[0-9.]+)px\s*,\s*(-?[0-9.]+)px/.exec(t))) { const x = px(m[1]), y = px(m[2]); if (Math.abs(y) >= Math.abs(x) && y) { dir = y > 0 ? 'up' : 'down'; dist = Math.abs(y); } else if (x) { dir = x < 0 ? 'left' : 'right'; dist = Math.abs(x); } }
+        else if ((m = /translateY\(\s*(-?[0-9.]+)px/.exec(t))) { dir = px(m[1]) > 0 ? 'up' : 'down'; dist = Math.abs(px(m[1])); }
+        else if ((m = /translateX\(\s*(-?[0-9.]+)px/.exec(t))) { dir = px(m[1]) < 0 ? 'left' : 'right'; dist = Math.abs(px(m[1])); }
+        if ((m = /scale\(\s*([0-9.]+)/.exec(t))) scale = px(m[1]) || 1;
+        const cs = getComputedStyle(el);
+        const durs = String(cs.transitionDuration || '').split(',').map((v) => px(v) * (/ms$/.test(v.trim()) ? 0.001 : 1));
+        const dels = String(cs.transitionDelay || '').split(',').map((v) => px(v) * (/ms$/.test(v.trim()) ? 0.001 : 1));
+        const duration = Math.max(0, ...durs), delay = Math.max(0, ...dels);
+        const ease = String(cs.transitionTimingFunction || '').split(/,(?![^(]*\))/)[0].trim();
+        el.setAttribute('data-sc-reveal', 'dir:' + dir + ';distance:' + Math.round(dist) + ';scale:' + scale + ';duration:' + (Math.round(duration * 100) / 100) + ';delay:' + (Math.round(delay * 100) / 100) + ';ease:' + ease);
+      }
+    }
+  });
+  // LOOPING / SCROLL-DRIVEN CLASS ANIMATIONS — a dot that pulses, a heading word that sways, a hero shell that drifts
+  // (.float-core{animation:drift 9s infinite}), a scroll-grown card (animation-timeline: view()). Not an entrance (those
+  // are transitions, stamped as data-sc-reveal) and not a pseudo layer (data-sc-hover carries those): the element's OWN
+  // running animation. Stamped as data-sc-anim="<animation shorthand>[;animation-timeline:…;animation-range:…]" with its
+  // @keyframes appended to data-sc-keyframes, so both converters carry it on the block's own CSS. Bounded.
+  await evalSafe(p, () => {
+    const kfs = {};
+    for (const ss of document.styleSheets) { let rules; try { rules = ss.cssRules; } catch { continue; } const walk = (list) => { for (const r of list) { if (r.type === 7 && r.name) { if (!kfs[r.name]) kfs[r.name] = r.cssText; } else if (r.cssRules) walk(r.cssRules); } }; walk(rules); }
+    let n = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      if (n > 300) break;
+      if (/^(SCRIPT|STYLE|SVG|PATH|G|DEFS)$/.test(el.tagName)) continue;
+      let cs; try { cs = getComputedStyle(el); } catch { continue; }
+      const name = (cs.animationName || 'none').split(',')[0].trim();
+      if (!name || name === 'none' || !kfs[name]) continue;
+      const iter = (cs.animationIterationCount || '1').split(',')[0].trim();
+      const timeline = (cs.animationTimeline || 'auto').split(',')[0].trim();
+      const scrollDriven = timeline && timeline !== 'auto';
+      if (iter !== 'infinite' && !scrollDriven) continue; // a one-shot keyframe run is an entrance — the reveal stamp's job
+      // the FIRST animation's timing function — split on top-level commas only (a `cubic-bezier(0.4, 0, 0.6, 1)` holds commas;
+      // a naive split left `cubic-bezier(0.4` with an unclosed paren that swallowed the rest of the converted page's stylesheet)
+      const firstTop = (v) => { let d = 0, out = ''; for (const ch of String(v)) { if (ch === '(') d++; else if (ch === ')') d--; else if (ch === ',' && d === 0) break; out += ch; } return out.trim(); };
+      const dur = (cs.animationDuration || '0s').split(',')[0].trim(), ease = firstTop(cs.animationTimingFunction || 'ease'), delay = (cs.animationDelay || '0s').split(',')[0].trim(), dir = (cs.animationDirection || 'normal').split(',')[0].trim(), fill = (cs.animationFillMode || 'none').split(',')[0].trim();
+      let decl = 'animation:' + name + ' ' + dur + ' ' + ease + ' ' + delay + ' ' + iter + ' ' + dir + ' ' + fill;
+      if (scrollDriven) { decl += ';animation-timeline:' + timeline; const rg = (cs.animationRange || '').trim(); if (rg && rg !== 'normal') decl += ';animation-range:' + rg; }
+      el.setAttribute('data-sc-anim', decl);
+      const cur = el.getAttribute('data-sc-keyframes') || ''; if (!cur.includes(kfs[name])) el.setAttribute('data-sc-keyframes', (cur ? cur + '\n' : '') + kfs[name].slice(0, 4000));
+      n++;
+    }
+  });
+  // ICONIFY web components render their glyph in SHADOW DOM — rendered.html carried an EMPTY <iconify-icon>, so every
+  // card / step / feature icon built with them vanished (only the logo had a special shadow-root read). Copy each
+  // rendered <svg> into the light DOM as the element's child (data-sc-iconify = the icon id): serialization keeps it,
+  // both engines read it as an inline svg, and the page's own render is untouched (the shadow root has no <slot>).
+  await evalSafe(p, () => {
+    for (const ii of document.querySelectorAll('iconify-icon')) {
+      if (ii.querySelector('svg')) continue;
+      const sh = ii.shadowRoot ? ii.shadowRoot.querySelector('svg') : null;
+      if (!sh) continue;
+      const c = sh.cloneNode(true);
+      c.setAttribute('data-sc-iconify', ii.getAttribute('icon') || '');
+      if (!c.getAttribute('width')) c.setAttribute('width', '1em');
+      if (!c.getAttribute('height')) c.setAttribute('height', '1em');
+      ii.appendChild(c);
+    }
+  });
   const data = await evalSafe(p, extractDesign);
   step(`extracted ${(data.sections || []).length} sections`);
   // EMPTY-RENDER DIAGNOSTIC: 0 sections + an unmounted client-side app shell (`<div id="root"></div>`) /
@@ -573,8 +702,31 @@ async function renderPage(p, target, retry = false) {
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
   await evalSafe(p, () => {
-    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-radius','box-shadow','backdrop-filter','max-width','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position'];
-    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'letter-spacing':v=>v==='normal',
+    // border-bottom-* — a bar's hairline (`.header{border-bottom:1px solid …}`) is a BOTTOM border; only the top
+    // edge was stamped, so the PHP import path could never see it (it fell back to scanning the source sheet).
+    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-bottom-width','border-bottom-style','border-bottom-color','border-radius','box-shadow','backdrop-filter','max-width','height','min-height','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position','top','right','bottom','left','z-index',
+      // object-fit (a cover-filled photo tile) + overflow (a rounded frame that clips its media) — read by the
+      // PHP lone-image cell path (image_fills_cell / the box preset clip); only the non-default values stamp.
+      'object-fit','overflow',
+      // THE LONG TAIL (capture >= 1.10.95) — every one of these was invisible to the deterministic PHP path before
+      // (it only sees what is stamped here). Non-default values only (see `skip`), so a plain element stays lean.
+      // Text: italic / shadow / decoration metrics / clamp / columns / writing-mode / wrap / indent / hyphens / numeric
+      // variants / features / white-space / text-stroke. Box: opacity / filter / clip-path / mask / blend / outline /
+      // LEFT + RIGHT borders (an accent bar) / border-image / background geometry / individual transforms /
+      // aspect-ratio / min-width / order / align-self / object-position.
+      'opacity','filter','clip-path','mask-image','-webkit-mask-image','mix-blend-mode','text-shadow','font-style',
+      'text-decoration-thickness','text-underline-offset','text-decoration-color','-webkit-line-clamp','column-count','column-gap',
+      'writing-mode','text-wrap','text-indent','hyphens','font-variant-numeric','font-feature-settings','white-space','text-overflow','justify-items',
+      '-webkit-text-stroke-width','-webkit-text-stroke-color','outline-width','outline-style','outline-color','outline-offset',
+      'border-left-width','border-left-style','border-left-color','border-right-width','border-right-style','border-right-color',
+      'border-image-source','border-image-slice','background-size','background-position','background-repeat','object-position',
+      'translate','rotate','scale','aspect-ratio','min-width','order','align-self'];
+    // HEIGHT / MIN-HEIGHT — a source CTA frequently sizes itself by a FIXED height (`.btn-primary{height:58px}`)
+    // + flex centring, NOT vertical padding. The JS URL path reads this from a LIVE measurement, but the PHP
+    // import path only has data-sc-cs — so without stamping the height here, a 58px pill collapsed to text
+    // height (17px) on import (the size-preset min_height came back empty). Stamped for every element (the
+    // button-preset builder gates it to a sane 28-80px button range with padding-Y≈0), skipping auto/0.
+    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'height':v=>v==='auto', 'min-height':v=>v==='auto'||v==='0px', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'border-bottom-width':v=>v==='0px', 'letter-spacing':v=>v==='normal', 'object-fit':v=>v==='fill', 'overflow':v=>v==='visible',
       // grid-template-columns — the actual TRACKS of a CSS grid (computed to px widths, e.g. `560px 560px` = a
       // 2-column grid, `400px 800px` = an asymmetric 1:2 split). This is what lets the deterministic converter
       // read a section's COLUMN STRUCTURE from computed CSS instead of guessing from `grid-cols-N` class names
@@ -584,17 +736,54 @@ async function renderPage(p, target, retry = false) {
       'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none',
       // Only stamp a NON-default position (absolute/fixed/sticky) — the deterministic engine needs it to detect a
       // full-bleed hero video/image/overlay whose positioning lives in a `<style>` rule, not a Tailwind class
-      // (openhero's `.portal-container{position:absolute;inset:0}` around a cover-fill hero <video>). static/
+      // (an AI page's `.portal-container{position:absolute;inset:0}` around a cover-fill hero <video>). static/
       // relative are the defaults and carry no signal, so skip them to avoid bloating every element's data-sc-cs.
-      'position':v=>v==='static'||v==='relative' };
+      'position':v=>v==='static'||v==='relative', 'top':v=>v==='auto', 'right':v=>v==='auto', 'bottom':v=>v==='auto', 'left':v=>v==='auto', 'z-index':v=>v==='auto'||v==='0',
+      // long-tail defaults (skipped so only a real signal stamps)
+      'opacity':v=>v==='1', 'filter':v=>v==='none', 'clip-path':v=>v==='none', 'mask-image':v=>v==='none', '-webkit-mask-image':v=>v==='none', 'mix-blend-mode':v=>v==='normal',
+      'text-shadow':v=>v==='none', 'font-style':v=>v==='normal', 'text-decoration-thickness':v=>v==='auto'||v==='from-font', 'text-underline-offset':v=>v==='auto',
+      'text-decoration-color':(v,cs)=>v===cs.getPropertyValue('color'), '-webkit-line-clamp':v=>v==='none', 'column-count':v=>v==='auto', 'column-gap':(v,cs)=>cs.getPropertyValue('column-count')==='auto',
+      'writing-mode':v=>v==='horizontal-tb', 'text-wrap':v=>v==='wrap'||v==='', 'text-indent':v=>v==='0px', 'hyphens':v=>v==='manual', 'font-variant-numeric':v=>v==='normal', 'font-feature-settings':v=>v==='normal',
+      'white-space':v=>v==='normal', 'text-overflow':v=>v==='clip', 'justify-items':v=>v==='normal'||v==='legacy'||v==='stretch', '-webkit-text-stroke-width':v=>v==='0px', '-webkit-text-stroke-color':(v,cs)=>cs.getPropertyValue('-webkit-text-stroke-width')==='0px',
+      'outline-width':(v,cs)=>cs.getPropertyValue('outline-style')==='none', 'outline-style':v=>v==='none', 'outline-color':(v,cs)=>cs.getPropertyValue('outline-style')==='none', 'outline-offset':(v,cs)=>cs.getPropertyValue('outline-style')==='none'||v==='0px',
+      'border-left-width':v=>v==='0px', 'border-left-style':(v,cs)=>cs.getPropertyValue('border-left-width')==='0px'||v==='none', 'border-left-color':(v,cs)=>cs.getPropertyValue('border-left-width')==='0px',
+      'border-right-width':v=>v==='0px', 'border-right-style':(v,cs)=>cs.getPropertyValue('border-right-width')==='0px'||v==='none', 'border-right-color':(v,cs)=>cs.getPropertyValue('border-right-width')==='0px',
+      'border-image-source':v=>v==='none', 'border-image-slice':(v,cs)=>cs.getPropertyValue('border-image-source')==='none',
+      'background-size':(v,cs)=>v==='auto'||v==='auto auto'||cs.getPropertyValue('background-image')==='none', 'background-position':(v,cs)=>v==='0% 0%'||v==='0px 0px'||cs.getPropertyValue('background-image')==='none', 'background-repeat':(v,cs)=>v==='repeat'||cs.getPropertyValue('background-image')==='none',
+      'object-position':(v,cs)=>v==='50% 50%'||cs.getPropertyValue('object-fit')==='fill', 'translate':v=>v==='none', 'rotate':v=>v==='none', 'scale':v=>v==='none', 'aspect-ratio':v=>v==='auto', 'min-width':v=>v==='auto'||v==='0px', 'order':v=>v==='0', 'align-self':v=>v==='auto'||v==='normal' };
     const els = document.querySelectorAll('body *');
     for (let i = 0; i < els.length; i++) {
       const el = els[i], tag = el.tagName.toLowerCase();
       if (['script','style','noscript','svg','path','br','head','link','meta'].includes(tag)) continue;
       const cs = getComputedStyle(el), add = [];
+      // A JS-driven REVEAL FROM-STATE (GSAP / ScrollTrigger / IntersectionObserver writes `opacity:0; transform:translateY(…)`
+      // as an INLINE style until the element scrolls into view — no CSS pair to read): stamping it as the resting look made
+      // converted cards invisible forever. A hidden element that holds content and is either inline-hidden or below the
+      // fold is a from-state: its opacity / transform / filter / visibility are NOT stamped, a data-sc-reveal is (the
+      // converter turns it into Scroll Motion). RECURS across three converted sites.
+      let fromState = false;
+      try {
+        const op = parseFloat(cs.opacity); const hiddenNow = (!isNaN(op) && op <= 0.05) || cs.visibility === 'hidden';
+        if (hiddenNow && ((el.textContent || '').trim() || el.querySelector('img, video, svg, picture'))) {
+          const r = el.getBoundingClientRect();
+          const inlineHidden = (el.style && (el.style.opacity !== '' || el.style.transform !== '' || el.style.visibility !== ''));
+          if (inlineHidden || r.top > window.innerHeight || r.bottom < 0) {
+            fromState = true;
+            if (!el.hasAttribute('data-sc-reveal')) {
+              const t = cs.transform || ''; let dir = 'none', dist = 0, scale = 1, m;
+              if ((m = /matrix\(([^)]+)\)/.exec(t))) { const p = m[1].split(',').map(parseFloat); const tx = p[4] || 0, ty = p[5] || 0; if (Math.abs(ty) >= Math.abs(tx) && Math.abs(ty) > 1) { dir = ty > 0 ? 'up' : 'down'; dist = Math.abs(ty); } else if (Math.abs(tx) > 1) { dir = tx < 0 ? 'left' : 'right'; dist = Math.abs(tx); } if (p[0] && Math.abs(p[0] - 1) > 0.02) scale = Math.round(p[0] * 100) / 100; }
+              el.setAttribute('data-sc-reveal', 'dir:' + dir + ';distance:' + Math.round(dist) + ';scale:' + scale + ';duration:0.8;delay:0;ease:ease');
+            }
+          }
+        }
+      } catch { /* detached */ }
       for (const pr of PROPS) {
-        const v = cs.getPropertyValue(pr);
-        if (!v || (skip[pr] && skip[pr](v))) continue;
+        let v = cs.getPropertyValue(pr);
+        if (!v || (skip[pr] && skip[pr](v, cs))) continue;
+        if (fromState && (pr === 'opacity' || pr === 'transform' || pr === 'filter' || pr === 'visibility' || pr === 'translate' || pr === 'scale')) continue;
+        // A `;` INSIDE a url() (a data: SVG pattern: `url("data:image/svg+xml;utf8,…")`) would split the stamp's `;`-separated
+        // list — CSS-escape it (`b `, which the browser decodes back when the value is emitted as CSS).
+        if (v.includes(';') && v.includes('url(')) v = v.replace(/;/g, '\\3b ');
         add.push(pr + ':' + v);
       }
       // Gradient TEXT (background-clip:text) — harvest the clip + transparent fill ONLY when the
@@ -610,13 +799,34 @@ async function renderPage(p, target, retry = false) {
           if (fill === 'transparent' || fill === 'rgba(0, 0, 0, 0)') add.push('-webkit-text-fill-color:transparent');
         }
       }
+      // An <img>'s rendered WIDTH (width is not a stamped prop — it is the layout's business — but an image's OWN
+      // box, a 64px avatar / a 96px thumb, is a design fact the engines need: PHP img_extra_css / JS imgExtraOf).
+      if (tag === 'img') { try { const r = el.getBoundingClientRect(); if (r.width > 0) add.push('width:' + Math.round(r.width) + 'px'); } catch { /* detached */ } }
+      // …and an EMPTY painted leaf (a `w-px h-10` hairline divider, a dot): its width is its whole design (PHP divider_cell_size).
+      else if (!el.children.length && !(el.textContent || '').trim() && cs.backgroundColor && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) { try { const r = el.getBoundingClientRect(); if (r.width > 0 && r.width <= 64 && !add.some((d) => d.startsWith('width:'))) add.push('width:' + Math.round(r.width * 100) / 100 + 'px'); } catch { /* detached */ } }
+      // A GRID child's DESKTOP geometry: its measured width as a fraction of the grid (`track-frac`, as the tier passes
+      // stamp) and its top offset inside the grid (`track-y`). A BENTO grid (a 12-track grid whose items span 8 / 4 tracks
+      // through a stylesheet class, several visual rows) has no per-item class or computed grid-column to read, so the
+      // engines rebuild it from these: cells grouped by y into rows, each cell's width = its fraction (PHP: layout_bento;
+      // JS: bentoRowsOf). A FLEX-ROW child gets its desktop fraction too (a content-sized stat row — no cell declares a
+      // width — is told apart from an even split only by the measured tracks: PHP row_is_content_sized / JS rowCols).
+      try { const pe = el.parentElement; const pcs = pe ? getComputedStyle(pe) : null; const isGrid = !!(pcs && pcs.display === 'grid'); const isFlexRow = !!(pcs && pcs.display === 'flex' && pcs.flexDirection.indexOf('row') === 0); if (isGrid || isFlexRow) { const r = el.getBoundingClientRect(), pr = pe.getBoundingClientRect(); const pw = pr.width - (parseFloat(pcs.paddingLeft) || 0) - (parseFloat(pcs.paddingRight) || 0); if (r.width > 0 && pw > 0) { add.push('track-frac:' + Math.min(1, Math.round((r.width / pw) * 1000) / 1000)); if (isGrid) { add.push('track-y:' + Math.round(r.top - pr.top - (parseFloat(pcs.paddingTop) || 0))); add.push('track-x:' + Math.round(r.left - pr.left - (parseFloat(pcs.paddingLeft) || 0))); add.push('track-h:' + Math.round(r.height)); } } } } catch { /* detached */ }
       if (add.length) el.setAttribute('data-sc-cs', add.join(';'));
+      // PHONE DIFF: keep only the phone-pass values that differ from desktop (data-sc-sm → data-sc-cs-sm); drop the rest.
+      for (const [raw, out] of [['data-sc-sm', 'data-sc-cs-sm'], ['data-sc-md', 'data-sc-cs-md'], ['data-sc-xl', 'data-sc-cs-xl']]) {
+        const sm = el.getAttribute(raw);
+        if (sm === null) continue;
+        const keep = [];
+        for (const d of sm.split(';')) { const i = d.indexOf(':'); if (i < 0) continue; const pr = d.slice(0, i), v = d.slice(i + 1); const dv = cs.getPropertyValue(pr); if (dv !== v) keep.push(d); }
+        el.removeAttribute(raw);
+        if (keep.length) el.setAttribute(out, keep.join(';'));
+      }
     }
     // PAGE CANVAS — stamp the computed background-color (+ text color) of <body> AND <html>. The loop above
     // walks only `body *`, so the body/html backgrounds were NEVER recorded — yet that is exactly where a
     // dark AI page sets its canvas (a `class="dark"` theme, a `body{background:oklch(...)}` rule, or a CSS
     // var). Without it the deterministic converter defaulted the Site Background to WHITE and the page's
-    // light body text rendered invisible in every uncovered gap (openhero: apple-vision-pro / orbital-horizon
+    // light body text rendered invisible in every uncovered gap (AI-page: apple-vision-pro / orbital-horizon
     // / the-art-of-the-burger all went white below the hero). The browser has already resolved the value to
     // rgb()/oklch(), which the PHP detect_body_background + color_to_hex carry to the Site Background option.
     {
@@ -663,6 +873,7 @@ async function renderPage(p, target, retry = false) {
     try {
       const vw = window.innerWidth;
       const buckets = new Map();
+      const bucketEls = new Map();
       for (const el of document.querySelectorAll('div,section,header,footer,main,article,nav,ul')) {
         const r = el.getBoundingClientRect();
         if (r.width < 600 || r.width > vw - 24) continue; // ≥600 = a real container; < vw-24 = inset, not full-bleed
@@ -670,12 +881,93 @@ async function renderPage(p, target, retry = false) {
         if (Math.abs(leftGap - rightGap) > Math.max(8, r.width * 0.06)) continue; // horizontally centered
         const key = Math.round(r.width / 8) * 8;
         buckets.set(key, (buckets.get(key) || 0) + r.width * Math.max(1, r.height));
+        if (!bucketEls.has(key)) bucketEls.set(key, []);
+        if (bucketEls.get(key).length < 40) bucketEls.get(key).push(el);
       }
       let best = 0, bestW = 0;
       for (const [px, w] of buckets) { if (w > bestW) { bestW = w; best = px; } }
+      // THE OUTER CONTAINER WINS over the inner caps it wraps: a `.container max-w-7xl px-6` (1280) whose bands centre a
+      // `max-w-6xl` (1152) block inside it out-weighs by area, so 1152 got stamped and the theme's Container Width came out
+      // 128px under the design (a feed regression on a site whose content sits in nested caps). When every sampled
+      // element of the heaviest bucket sits INSIDE an element of a wider bucket that spans as many bands, that wider
+      // box is the site container and the narrow one a per-section cap. PHP twin: Stitch::outer_container_wins().
+      if (best > 0) {
+        const bandOf = (el) => el.closest('section, header, footer, main > div, main, body') || document.body;
+        const bands = (px) => new Set((bucketEls.get(px) || []).map(bandOf)).size;
+        const innerEls = bucketEls.get(best) || [];
+        let outer = 0;
+        for (const px of buckets.keys()) {
+          if (px <= best || px > best * 1.25 || px <= outer) continue;
+          const outerEls = bucketEls.get(px) || [];
+          const wraps = innerEls.every((ie) => outerEls.some((oe) => oe !== ie && oe.contains(ie)));
+          if (wraps && bands(px) >= Math.ceil(bands(best) * 0.6)) outer = px;
+        }
+        if (outer) best = outer;
+      }
+      // The measurement is VIEWPORT-LIMITED: a `.shell{width:min(1440px, calc(100% - 48px))}` container
+      // measures 1392 at this 1440px viewport, and stamping 1392 capped the converted site below the design's
+      // real 1440. Read the DECLARED cap of the winning container's own root-level rules (`width:min(Npx…)`,
+      // `max-width:min(Npx…)`, `max-width:Npx`; @media steps are the ladder's job) and stamp N when it is
+      // larger — bounded to 1.25× the measurement so an unrelated wide rule can't hijack it. PHP twin:
+      // Stitch::declared_container_cap() (for captures stamped before this).
+      if (best >= 600) {
+        try {
+          const capPx = (v) => { const m = /^(?:min\(\s*)?([0-9.]+)px/.exec(String(v || '').trim()); return m ? parseFloat(m[1]) : 0; };
+          const capRules = [];
+          for (const ss of document.styleSheets) {
+            let rules; try { rules = ss.cssRules; } catch { continue; }
+            for (const r of rules) {
+              if (r.type !== 1 || !r.style || !r.selectorText) continue;
+              const n = capPx(r.style.maxWidth) || (/^min\(/.test(String(r.style.width || '').trim()) ? capPx(r.style.width) : 0);
+              // The rule's own side gutter: `100% - Gpx` inside the min() (both sides together) → per side. PHP: declared_container_rule.
+              const gm = /min\([^;]*100%\s*-\s*([0-9.]+)px/.exec(String(r.style.width || r.style.maxWidth || ''));
+              const g = gm ? Math.round(parseFloat(gm[1]) / 2) : 0;
+              if (n >= best && n <= best * 1.25 && n <= 2400) capRules.push({ sel: r.selectorText, n, g });
+            }
+          }
+          let declared = 0, gutter = 0, gutterSm = 0;
+          for (const el of (bucketEls.get(best) || [])) {
+            for (const cr of capRules) { if (cr.n > declared) { try { if (el.matches(cr.sel)) { declared = cr.n; gutter = cr.g || 0; } } catch { /* bad selector */ } } }
+            // The container's PHONE gutter (the phone pass stamped its resolved margin at 390px when it differs — a
+            // `width:min(100% - 32px, …)` media rule → margin:0 16px). Stamped as data-sc-content-gutter-sm (theme-settings emit a
+            // max-width:767px --container-gutter override). PHP: declared_container_gutter_sm.
+            if (!gutterSm) { const smm = /(?:^|;)\s*margin:\s*0px\s+([0-9.]+)px/.exec(el.getAttribute('data-sc-cs-sm') || ''); if (smm) gutterSm = Math.round(parseFloat(smm[1])); }
+          }
+          if (gutterSm > 0 && gutterSm <= 120) document.documentElement.setAttribute('data-sc-content-gutter-sm', String(gutterSm));
+          const measuredEls = bucketEls.get(best) || []; // (before `best` becomes the DECLARED cap, which has no bucket)
+          if (declared > best) best = Math.round(declared);
+          // No calc() gutter rule: the gutter is the container's (or its section's) equal side PADDING — `mx-auto max-w-[1600px] px-8`
+          // → 32px. The mode over the winning containers. Without it the theme's ~24px default shifted every band 8px (measured).
+          if (!gutter) {
+            const tally = new Map();
+            for (const el of measuredEls) {
+              const own = getComputedStyle(el); let pl = parseFloat(own.paddingLeft) || 0, pr = parseFloat(own.paddingRight) || 0;
+              if (!(pl > 0 && Math.abs(pl - pr) < 1)) { const sec = el.closest('section, header, footer, main > div'); if (sec && sec !== el) { const ss = getComputedStyle(sec); pl = parseFloat(ss.paddingLeft) || 0; pr = parseFloat(ss.paddingRight) || 0; } }
+              if (pl > 0 && pl <= 200 && Math.abs(pl - pr) < 1) { const k = Math.round(pl); tally.set(k, (tally.get(k) || 0) + 1); }
+            }
+            let bk = 0, bc = 0; for (const [k, c] of tally) { if (c > bc) { bc = c; bk = k; } }
+            // a PADDING gutter sits INSIDE the measured container (`max-w-7xl px-6`: 1280 outer, 1232 content) — stamped so the
+            // theme's Container Width (a CONTENT width, gutter outside) gets 1232, not 1280 (+48px on every band — RECURS x3 in the feed)
+            if (bk > 0) { gutter = bk; document.documentElement.setAttribute('data-sc-content-gutter-inside', '1'); }
+          }
+          // The container's declared side gutter → Theme Settings Container Gutter (to-theme-settings / PHP declared_container_gutter).
+          if (gutter > 0 && gutter <= 200) document.documentElement.setAttribute('data-sc-content-gutter', String(gutter));
+        } catch (e) { /* best-effort */ }
+      }
       if (best >= 600) document.documentElement.setAttribute('data-sc-content-width', String(best));
     } catch (e) { /* best-effort */ }
   });
+  // The extraction above ran BEFORE these stamps existed, so its `home.contentWidth` / gutter reads were 0 and the JS
+  // twin's Container Width silently fell back to the header / footer box. Re-read the stamps into the data now.
+  try {
+    const stamps = await evalSafe(p, () => { const h = document.documentElement; const n = (a) => parseInt(h.getAttribute(a) || '0', 10) || 0; return { contentWidth: n('data-sc-content-width'), contentGutter: n('data-sc-content-gutter'), contentGutterSm: n('data-sc-content-gutter-sm'), contentGutterInside: h.getAttribute('data-sc-content-gutter-inside') === '1' }; });
+    if (stamps && typeof stamps === 'object') {
+      if (stamps.contentWidth >= 600 && stamps.contentWidth <= 2400) data.contentWidth = stamps.contentWidth;
+      if (stamps.contentGutter > 0 && stamps.contentGutter <= 200) data.contentGutter = stamps.contentGutter;
+      if (stamps.contentGutterSm > 0 && stamps.contentGutterSm <= 120) data.contentGutterSm = stamps.contentGutterSm;
+      data.contentGutterInside = !!stamps.contentGutterInside;
+    }
+  } catch (e) { /* best-effort */ }
   // HOVER / PSEUDO-ELEMENT rule harvest for BUTTONS. Hover animations live on `:hover` and
   // `::before`/`::after` rules that getComputedStyle(el) can NEVER see, so the deterministic converter's
   // hover-animation classifier (→ a `.btnfx-*` preset like fill-up / grow / lift / sweep) needs the raw
@@ -683,22 +975,34 @@ async function renderPage(p, target, retry = false) {
   // selector matches it AND targets a state/pseudo, stamped as `data-sc-hover` (bounded). Best-effort:
   // cross-origin sheets throw on cssRules and are skipped.
   await evalSafe(p, () => {
-    const rules = [];
-    for (const sheet of Array.from(document.styleSheets)) {
-      let cr; try { cr = sheet.cssRules; } catch { continue; }
-      if (!cr) continue;
-      for (const rule of Array.from(cr)) { if (rule.type === 1 && rule.selectorText) rules.push(rule); }
-    }
-    const PSEUDO = /::?(hover|before|after|focus-visible)\b/i;
+    const rules = []; const kfs = {};
+    // Walk NESTED rules too: a utility framework (v4) wraps every hover rule in `@media (hover: hover)` inside `@layer utilities`,
+    // and a plain stylesheet nests a media query — a top-level-only walk saw none of them (a `hover:bg-white/12` was lost).
+    // A media rule that does not match this viewport is skipped; @keyframes are collected by name for the pseudo layers.
+    const walk = (list) => { for (const rule of Array.from(list || [])) {
+      if (rule.type === 1 && rule.selectorText) { rules.push(rule); continue; }
+      if (rule.type === 7 && rule.name) { if (!kfs[rule.name]) kfs[rule.name] = rule.cssText; continue; }
+      // only a VIEWPORT media query can exclude a rule; a headless capture reports no hover-capable pointer, so `(hover: hover)` /
+      // `(pointer: fine)` (the wrapper a utility framework puts every hover rule in) must count as matching
+      if (rule.type === 4) { try { const ct = rule.conditionText || ''; if (/width|height|orientation|resolution/i.test(ct) && !matchMedia(ct).matches) continue; } catch { /* keep */ } }
+      if (rule.cssRules) walk(rule.cssRules);
+    } };
+    for (const sheet of Array.from(document.styleSheets)) { let cr; try { cr = sheet.cssRules; } catch { continue; } walk(cr); }
+    const PSEUDO = /::?(hover|before|after|focus-visible|focus-within|focus|active)\b/i;
     const KEEP = ['content','position','top','right','bottom','left','inset','transform','transform-origin',
       '--tw-translate-x','--tw-translate-y','--tw-scale-x','--tw-scale-y','--tw-rotate','transition','transition-property',
       'transition-duration','transition-timing-function','background-color','background-image','opacity','box-shadow',
-      'filter','width','height','clip-path','animation','animation-name','letter-spacing','color','border-color','text-decoration'];
-    const strip = (s) => s.replace(/::?(hover|before|after|focus-visible|focus|active)\b(\([^)]*\))?/gi, '').trim() || '*';
-    const btns = document.querySelectorAll('a,button,[role="button"]');
-    for (const el of btns) {
-      const txt = (el.textContent || '').trim();
-      if (!txt || txt.length > 40) continue;
+      'filter','width','height','clip-path','animation','animation-name','letter-spacing','color','border-color','text-decoration','text-decoration-line'];
+    const strip = (s) => s.replace(/::?(hover|before|after|focus-visible|focus-within|focus|active)\b(\([^)]*\))?/gi, '').trim() || '*';
+    // BUTTONS (any size) and BOXES (a card / panel / chip: at least 120×40, painted, bordered, rounded or shadowed) — every
+    // element a preset can own. Bounded so a huge page stays cheap.
+    const isBoxish = (el) => { let cs; try { cs = getComputedStyle(el); } catch { return false; } const r = el.getBoundingClientRect(); if (r.width < 120 || r.height < 40) return false; const bg = cs.backgroundColor, bi = cs.backgroundImage; return (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') || (bi && bi !== 'none') || (parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none') || (cs.borderRadius && cs.borderRadius !== '0px') || (cs.boxShadow && cs.boxShadow !== 'none'); };
+    const btns = [...document.querySelectorAll('a,button,[role="button"]')].filter((el) => { const t = (el.textContent || '').trim(); return t && t.length <= 40; });
+    const boxes = [...document.querySelectorAll('section *, main *, footer *')].filter((el) => !/^(A|BUTTON|IMG|SVG|PATH|SCRIPT|STYLE|BR|SPAN|P|H[1-6]|LI|UL|OL)$/.test(el.tagName) && isBoxish(el)).slice(0, 400);
+    // A DESCENDANT hover rule (`.card:hover .cta`: a caption revealed on hover) is stamped on the CARD as
+    // hover-child{<relative selector>}{decls} — the preset carries it as {{SELECTOR}}:hover <relative>.
+    const KEEP_CHILD = ['opacity', 'transform', 'color', 'background-color', 'visibility', 'max-height', 'letter-spacing', 'text-decoration', 'filter', 'box-shadow', 'border-color', 'width', 'height', 'clip-path'];
+    for (const el of new Set([...btns, ...boxes])) {
       const found = [];
       for (const rule of rules) {
         const sel = rule.selectorText;
@@ -706,6 +1010,17 @@ async function renderPage(p, target, retry = false) {
         for (let part of sel.split(',')) {
           part = part.trim();
           if (!PSEUDO.test(part)) continue;
+          // a DESCENDANT hover rule: split at the first ":hover " (`.card:hover .cta`)
+          const dm = part.match(/^(.*?):hover\s+([^:]+)$/i);
+          if (dm) {
+            const base = dm[1].trim(), rel = dm[2].trim();
+            if (!base || base === '*') continue;
+            let m0 = false; try { m0 = el.matches(base) && !!el.querySelector(rel); } catch { m0 = false; }
+            if (!m0) continue;
+            const decls = []; for (const pr of KEEP_CHILD) { const v = rule.style.getPropertyValue(pr); if (v) decls.push(pr + ':' + v.trim()); }
+            if (decls.length) found.push('hover-child{' + rel.slice(0, 120) + '}{' + decls.join(';') + '}');
+            break;
+          }
           const base = strip(part);
           // Skip the framework PREFLIGHT reset (`*`, `::before`, `:where(*)`) — it sets --tw-* vars on every
           // pseudo and is pure noise, not the element's own animation. Require a SPECIFIC base selector.
@@ -715,17 +1030,93 @@ async function renderPage(p, target, retry = false) {
           const decls = [];
           for (const pr of KEEP) { const v = rule.style.getPropertyValue(pr); if (v) decls.push(pr + ':' + v.trim()); }
           if (decls.length) {
-            const hov = /:hover/i.test(part), ps = /::?(before|after)/i.test(part);
+            const ps = /::?(before|after)/i.test(part);
             const which = ps ? (/::?after/i.test(part) ? 'after' : 'before') : 'self';
-            const state = hov ? (ps ? 'hover-' + which : 'hover-self') : (ps ? which : 'self');
+            const st = /:hover/i.test(part) ? 'hover' : (/:active/i.test(part) ? 'active' : (/:focus-visible/i.test(part) ? 'focus-visible' : (/:focus-within/i.test(part) ? 'focus-within' : (/:focus/i.test(part) ? 'focus' : ''))));
+            const state = st ? (ps ? st + '-' + which : (st === 'hover' ? 'hover-self' : st)) : (ps ? which : 'self');
             found.push(state + '{' + decls.join(';') + '}');
           }
           break;
         }
         if (found.join('|').length > 1600) break;
       }
-      if (found.length) el.setAttribute('data-sc-hover', found.join('|').slice(0, 1600));
+      if (found.length) {
+        el.setAttribute('data-sc-hover', found.join('|').slice(0, 1600));
+        // the @keyframes a pseudo layer animates with (a button's sweeping sheen) ride along, so the preset can carry them
+        const names = new Set(); for (const f of found) { const m = f.match(/animation(?:-name)?:([^;}]+)/g) || []; for (const x of m) { for (const tok of x.split(':')[1].split(/[\s,]+/)) { if (kfs[tok]) names.add(tok); } } }
+        if (names.size) { const cur = el.getAttribute('data-sc-keyframes') || ''; const add = [...names].map((n) => kfs[n]).filter((k) => !cur.includes(k)).join('\n'); if (add) el.setAttribute('data-sc-keyframes', (cur ? cur + '\n' : '') + add.slice(0, 4000)); }
+      }
     }
+    // FORM FIELD :focus — a `focus:ring-2 focus:ring-brand focus:outline-none` field's focus skin lives in :focus / :focus-visible /
+    // :focus-within rules the computed style never shows. Resolve the rules that target each input / textarea / select and
+    // stamp the paint (box-shadow / border-color / outline / outline-offset / background-color) as data-sc-focus. Read by the
+    // newsletter builders (PHP field_focus ↔ JS fieldFocus). Tailwind's ring rides --tw-ring-* vars: resolve them to the
+    // literal ring the source draws (offset ring + ring) when the rule sets them.
+    try {
+      const fields = document.querySelectorAll('input:not([type=hidden]):not([type=checkbox]):not([type=radio]),textarea,select');
+      const FKEEP = ['box-shadow', 'border-color', 'outline', 'outline-width', 'outline-style', 'outline-color', 'outline-offset', 'background-color'];
+      for (const f of fields) {
+        const decls = {}; let ring = null;
+        for (const rule of rules) {
+          const sel = rule.selectorText; if (!/:focus(?:-visible|-within)?\b/i.test(sel)) continue;
+          for (let part of sel.split(',')) {
+            part = part.trim(); if (!/:focus(?:-visible|-within)?\b/i.test(part)) continue;
+            let m = false; try { m = f.matches(strip(part)); } catch { m = false; }
+            if (!m) continue;
+            for (const k of FKEEP) { const v = rule.style.getPropertyValue(k); if (v) decls[k] = v.trim(); }
+            const rw = rule.style.getPropertyValue('--tw-ring-shadow'), rc = rule.style.getPropertyValue('--tw-ring-color'), ow = rule.style.getPropertyValue('--tw-ring-offset-width');
+            if (rw || rc || ow) { ring = ring || {}; if (rw) ring.w = rw.trim(); if (rc) ring.c = rc.trim(); if (ow) ring.ow = ow.trim(); }
+          }
+        }
+        if (ring) {
+          // '--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)' → a literal 0 0 0 Npx colour
+          const wm = String(ring.w || '').match(/calc\((\d+)px\s*\+/); const w = wm ? parseInt(wm[1], 10) : 2; const ow = parseInt(String(ring.ow || '0'), 10) || 0;
+          let c = String(ring.c || ''); c = c.replace(/\s*\/\s*var\([^)]*\)/, ''); if (!c || /var\(/.test(c)) { try { c = getComputedStyle(f).getPropertyValue('--tw-ring-color').trim() || 'rgb(59, 130, 246)'; } catch { c = 'rgb(59, 130, 246)'; } }
+          decls['box-shadow'] = (ow > 0 ? '0 0 0 ' + ow + 'px rgb(255, 255, 255), ' : '') + '0 0 0 ' + (w + ow) + 'px ' + c;
+        }
+        const parts = Object.keys(decls).map((k) => k + ':' + decls[k]);
+        if (parts.length) f.setAttribute('data-sc-focus', parts.join(';').slice(0, 600));
+      }
+    } catch { /* best-effort */ }
+    // SECOND PASS — CARD / BLOCK hovers. A `.card:hover{transform:translateY(-6px)}` lift lives in a stylesheet rule the
+    // computed style never shows, and the button pass above only looks at a/button. Walk the :hover rules once, resolve
+    // each to the sizeable blocks it targets (>= 120x60, not a button, not already stamped) and stamp the same
+    // `hover-self{…}` shape read by the PHP card-skin fallback (read_card_skin) and JS boxHoverOf. Bounded.
+    try {
+      let stamped = 0;
+      for (const rule of rules) {
+        if (stamped >= 120) break;
+        const sel = rule.selectorText; if (!/:hover\b/i.test(sel)) continue;
+        for (let part of sel.split(',')) {
+          part = part.trim(); if (!/:hover\b/i.test(part) || /::?(before|after)\b/i.test(part)) continue;
+          const base = strip(part); let targets; try { targets = document.querySelectorAll(base); } catch { continue; }
+          const decls = [];
+          for (const k of KEEP) { const v = rule.style.getPropertyValue(k); if (v) decls.push(k + ':' + v); }
+          if (!decls.length) continue;
+          // GROUP hover — the :hover lives on an ANCESTOR compound (`.group:hover .child`, `.card:hover h3`): the DESCENDANT
+          // carries the change (its colour / underline / transform when the card is hovered) as data-sc-hover-group. PHP:
+          // card_from_cell titleHover / bodyHover; JS: cardOf hoverGroupOf.
+          const groupHover = /:hover\b[^,]*[\s>+~]/i.test(part);
+          for (const t of targets) {
+            if (stamped >= 120) break;
+            if (t.matches('a,button,[role="button"]')) continue;
+            if (groupHover) {
+              const cur = t.getAttribute('data-sc-hover-group') || '';
+              t.setAttribute('data-sc-hover-group', (cur ? cur + ';' : '') + decls.join(';')); stamped++;
+              continue;
+            }
+            let r; try { r = t.getBoundingClientRect(); } catch { continue; }
+            if (r.width < 120 || r.height < 60) continue;
+            // Several :hover rules can target one block (Tailwind emits one rule per utility) — MERGE into the stamp.
+            const cur = t.getAttribute('data-sc-hover') || '';
+            const mm = cur.match(/^hover-self\{([^}]*)\}$/);
+            if (mm) { t.setAttribute('data-sc-hover', ('hover-self{' + mm[1] + ';' + decls.join(';') + '}').slice(0, 1600)); continue; }
+            if (cur) continue; // a button-pass stamp (multi-state) — leave it
+            t.setAttribute('data-sc-hover', ('hover-self{' + decls.join(';') + '}').slice(0, 1600)); stamped++;
+          }
+        }
+      }
+    } catch { /* best-effort */ }
   });
   // SECTION BACKDROP PATTERN harvest. A section's decorative backdrop — a faint diagonal-stripe
   // `repeating-linear-gradient`, a data-URI SVG grid — is very often painted on a `::before`/`::after` pseudo,
@@ -754,10 +1145,183 @@ async function renderPage(p, target, retry = false) {
         hit = { image: bg, opacity: op };
         break;
       }
+      // …or a COVERING CHILD layer (an `absolute inset-0` div, possibly nested in an opacity / blend wrapper) painted
+      // with a TILE — a data-URI SVG, a repeating gradient, or any gradient tiled by a small `background-size`
+      // (`radial-gradient(#38bdf8 1px, transparent 1px)` at 32px = a dot grid). The wrapper chain's opacity multiplies
+      // in, and the tile's size / blend ride as `data-sc-pattern-extra` (PHP detect_section_pattern → the preset css).
+      if (!hit) {
+        let er; try { er = el.getBoundingClientRect(); } catch { er = null; }
+        if (er && er.height > 0) {
+          for (const ch of el.querySelectorAll('div, span')) {
+            if (ch.children.length || (ch.textContent || '').trim()) continue;
+            let cs2, r2; try { cs2 = getComputedStyle(ch); r2 = ch.getBoundingClientRect(); } catch { continue; }
+            if (cs2.position !== 'absolute' || r2.width < er.width * 0.9 || r2.height < er.height * 0.9) continue;
+            const bg = cs2.backgroundImage; if (!bg || bg === 'none' || bg.length > 2000) continue;
+            const bs = cs2.backgroundSize; const tiled = /^\d+(?:\.\d+)?px \d+(?:\.\d+)?px$/.test(bs) && parseFloat(bs) <= 96;
+            if (!PAT.test(bg) && !(tiled && /gradient\(/.test(bg))) continue;
+            let op = Math.min(1, parseFloat(cs2.opacity) || 1); let blend = cs2.mixBlendMode && cs2.mixBlendMode !== 'normal' ? cs2.mixBlendMode : '';
+            for (let a = ch.parentElement; a && a !== el; a = a.parentElement) { let acs; try { acs = getComputedStyle(a); } catch { break; } op *= Math.min(1, parseFloat(acs.opacity) || 1); if (!blend && acs.mixBlendMode && acs.mixBlendMode !== 'normal') blend = acs.mixBlendMode; }
+            const extra = [];
+            if (tiled) extra.push('background-size:' + bs);
+            if (blend) extra.push('mix-blend-mode:' + blend);
+            hit = { image: bg, opacity: Math.round(op * 1000) / 1000, extra: extra.join(';') };
+            ch.setAttribute('data-sc-pattern-layer', '1'); // the layer is the section's pattern now — not a decor block
+            break;
+          }
+        }
+      }
       if (hit) {
         el.setAttribute('data-sc-pattern', hit.image.slice(0, 2000));
         el.setAttribute('data-sc-pattern-opacity', String(hit.opacity));
+        if (hit.extra) el.setAttribute('data-sc-pattern-extra', hit.extra);
         stamped++;
+      }
+    }
+    // PSEUDO-ELEMENT SCRIM — a band's dark tint painted by `::before` / `::after` (`.hero::after{inset:0;
+    // background: radial-gradient(…), linear-gradient(…)}`) exists in no element the serialized DOM carries, so
+    // the converter could not see it and the hero lost its tint. Stamp the covering pseudo-layer's own
+    // background (gradient layers or a translucent colour) on the element as `data-sc-scrim` → the PHP
+    // media_bg_overlay / video-band readers fall back to it for the section Background Overlay.
+    // DECORATIVE pseudo-layer — a NON-covering `::before` / `::after` glow / blob on a card (`.split-left::before
+    // {inset:-20% auto auto -8%;width:42%;height:42%;background:radial-gradient(…);filter:blur(30px)}`). No DOM
+    // element carries it; stamp its geometry as PERCENTAGES of the element box (so it scales with the card) plus
+    // its background / filter / opacity / radius as `data-sc-decor-pseudo`. Read by the PHP grid-cell path and the
+    // JS twin (cell.decorPseudo) → a scoped `selector::before` on the converted column. Text-free, absolute,
+    // smaller than the box (a covering layer is a scrim, above), and painted (a gradient / colour / filter).
+
+  // ---- ANIMATED / SWEEP pseudo-layer helpers (shared text: capture.mjs ↔ capture-extract.mjs; PHP: parse_decor_pseudo 'sweep') ----
+  // The DECLARED stylesheet rule of `el::pe` (last matching rule wins; @media that apply are entered). The computed style of an
+  // ANIMATED pseudo is one mid-animation frame (a transform matrix), so a sweep layer must be read from what the author
+  // wrote: its inset / transform / animation shorthand / blend mode, plus the @keyframes it names.
+  const declaredPseudoRule = (el, pe) => {
+    const suffix = new RegExp('::?' + pe.slice(2) + '\\s*$', 'i');
+    let hit = null;
+    const pick = (st) => {
+      const o = {};
+      const get = (p) => { const v = st.getPropertyValue(p); return v ? String(v).trim() : ''; };
+      for (const p of ['inset', 'top', 'right', 'bottom', 'left', 'width', 'height', 'transform', 'mix-blend-mode', 'opacity', 'filter', 'border-radius']) { const v = get(p); if (v) o[p] = v; }
+      const bg = get('background-image') || get('background'); if (bg && bg !== 'none') o.background = bg;
+      // Rebuild the shorthand NAME-FIRST from the longhands (the browser serialises the shorthand with the name LAST:
+      // '8s ease-in-out 0s infinite normal none running sheen'); drop the defaults so it reads like the author's rule.
+      const anName = get('animation-name');
+      const an = (anName && anName !== 'none') ? [anName, get('animation-duration') || '1s', get('animation-timing-function'), get('animation-delay'), get('animation-iteration-count'), get('animation-direction'), get('animation-fill-mode')].filter((x, i) => x && (i < 2 || (x !== 'normal' && x !== 'none' && x !== '0s' && x !== 'ease' && x !== '1'))).join(' ') : '';
+      if (an) o.animation = an;
+      return o;
+    };
+    const walk = (rules) => { for (const r of rules) { try {
+      if (r.media && r.cssRules) { if (window.matchMedia(r.media.mediaText).matches) walk(r.cssRules); continue; }
+      if (!r.selectorText || !r.style) { if (r.cssRules && r.type !== 7) walk(r.cssRules); continue; }
+      for (const sel of r.selectorText.split(',')) { const s = sel.trim(); if (!suffix.test(s)) continue; const base = s.replace(suffix, '').trim(); if (!base) continue; try { if (el.matches(base)) hit = Object.assign(hit || {}, pick(r.style)); } catch { /* unsupported selector */ } }
+    } catch { /* cross-origin / bad rule */ } } };
+    for (const ss of document.styleSheets) { let rules; try { rules = ss.cssRules; } catch { continue; } walk(rules); }
+    return hit;
+  };
+  // The @keyframes block a declared animation names (last definition wins), as its cssText — '' when none.
+  const keyframesFor = (name) => {
+    let text = '';
+    const walk = (rules) => { for (const r of rules) { try {
+      if (r.type === 7 && r.name === name) { text = r.cssText; continue; }
+      if (r.cssRules && (!r.media || window.matchMedia(r.media.mediaText).matches)) walk(r.cssRules);
+    } catch { /* skip */ } } };
+    for (const ss of document.styleSheets) { let rules; try { rules = ss.cssRules; } catch { continue; } walk(rules); }
+    return text;
+  };
+  // A SWEEP layer: a painted pseudo that MOVES (a declared transform and/or animation — the `.silk::after` sheen sweeping a
+  // light band across a card). It is typically LARGER than its box (inset:-120%), so the "covering = scrim" gate must
+  // not swallow it. Returns the layer (declared geometry / paint / motion + the host's overflow clip) or null.
+  const sweepLayerOf = (el, pe, ps) => {
+    const d = declaredPseudoRule(el, pe);
+    if (!d || !(d.animation || d.transform)) return null;
+    const bg = d.background || ((ps && ps.backgroundImage && ps.backgroundImage !== 'none') ? ps.backgroundImage : '');
+    if (!bg || !/gradient\(/i.test(bg) || /url\(/i.test(bg) || bg.length > 1200) return null;
+    const out = { pe: pe.slice(2), sweep: true, background: bg };
+    if (d.inset) out.inset = d.inset; else for (const k of ['top', 'right', 'bottom', 'left']) if (d[k]) out[k] = d[k];
+    if (d.width) out.width = d.width; if (d.height) out.height = d.height;
+    if (d.transform && d.transform !== 'none') out.transform = d.transform;
+    if (d.animation) { out.animation = d.animation; const nm = d.animation.split(/\s+/)[0]; const kf = nm ? keyframesFor(nm) : ''; if (kf) out.keyframes = kf; }
+    if (d['mix-blend-mode'] && d['mix-blend-mode'] !== 'normal') out.blend = d['mix-blend-mode'];
+    if (d.opacity && parseFloat(d.opacity) < 1) out.opacity = String(parseFloat(d.opacity));
+    if (d.filter && d.filter !== 'none') out.filter = d.filter;
+    if (d['border-radius'] && d['border-radius'] !== '0px' && d['border-radius'] !== '0') out.radius = d['border-radius'];
+    try { const ov = getComputedStyle(el).overflow; if (/hidden|clip/.test(ov)) out.clip = true; } catch { /* ignore */ }
+    return out;
+  };
+    let decors = 0;
+    const allEls = document.querySelectorAll('section *, main *');
+    for (const el of allEls) {
+      if (decors >= 60) break;
+      if (el.hasAttribute('data-sc-decor-pseudo') || el.hasAttribute('data-sc-scrim')) continue;
+      let er; try { er = el.getBoundingClientRect(); } catch { continue; }
+      if (er.width < 120 || er.height < 60) continue;
+      // BOTH pseudos may decorate one box (a ring's inner hairline ::before + its blurred bloom ::after) → every
+      // qualifying layer is stamped, joined with '||'. A layer qualifies when PAINTED (gradient / colour) OR BORDERED
+      // (a border or a box-shadow with no paint — an inner ring). PHP: parse_decor_pseudos; JS: decorPseudosOf.
+      const layers = [];
+      for (const pe of ['::before', '::after']) {
+        let s; try { s = getComputedStyle(el, pe); } catch { continue; }
+        if (!s || s.content === 'none' || s.content === 'normal' || s.display === 'none' || s.position !== 'absolute') continue;
+        const w = parseFloat(s.width), h = parseFloat(s.height);
+        // A glow / blob (both sides >= 24px) or a thin ACCENT BAR (a 4px top rule, a 3px side stripe: one side >= 24px, the
+        // other >= 2px). PHP: parse_decor_pseudo; JS: decorPseudosOf.
+        if (!((w >= 24 && h >= 2) || (h >= 24 && w >= 2))) continue;
+        // A SWEEP layer (declared transform / animation on a painted pseudo) rides its DECLARED rule + keyframes; it is
+        // usually larger than the box, so it is read BEFORE the covering gate. Stamped as `sweep:1;…` (+ data-sc-keyframes).
+        { const sw = sweepLayerOf(el, pe, s); if (sw) {
+          const sp = [pe.slice(2), 'sweep:1'];
+          for (const k of ['inset', 'top', 'right', 'bottom', 'left', 'width', 'height', 'background', 'transform', 'animation', 'blend', 'opacity', 'filter']) if (sw[k] != null) sp.push(k + ':' + sw[k]);
+          if (sw.radius) sp.push('radius:' + sw.radius);
+          if (sw.clip) sp.push('clip:1');
+          if (sw.keyframes) { const cur = el.getAttribute('data-sc-keyframes') || ''; if (!cur.includes(sw.keyframes)) el.setAttribute('data-sc-keyframes', (cur ? cur + '\n' : '') + sw.keyframes.slice(0, 4000)); }
+          layers.push(sp.join(';')); continue;
+        } }
+        if (w >= er.width * 0.9 && h >= er.height * 0.9) continue; // a covering layer is a scrim (stamped above)
+        const bgi = s.backgroundImage || 'none', bgc = s.backgroundColor || '';
+        const painted = (bgi !== 'none' && /gradient\(/i.test(bgi) && !/url\(/i.test(bgi) && bgi.length <= 1200) || (/^rgba?\(/i.test(bgc) && !/,\s*0\s*\)$/.test(bgc));
+        const bw = parseFloat(s.borderTopWidth) || 0;
+        const bordered = (bw > 0 && s.borderTopStyle !== 'none' && /^rgba?\(/i.test(s.borderTopColor) && !/,\s*0\s*\)$/.test(s.borderTopColor)) || (s.boxShadow && s.boxShadow !== 'none');
+        if (!painted && !bordered) continue;
+        const pct = (px, base) => (Math.round((parseFloat(px) / base) * 1000) / 10) + '%';
+        const parts = [pe.slice(2)];
+        const top = s.top, left = s.left, right = s.right, bottom = s.bottom;
+        // Anchor on the two nearest edges (smaller absolute offset), as percentages of the box.
+        if (Math.abs(parseFloat(top)) <= Math.abs(parseFloat(bottom))) parts.push('top:' + pct(top, er.height)); else parts.push('bottom:' + pct(bottom, er.height));
+        if (Math.abs(parseFloat(left)) <= Math.abs(parseFloat(right))) parts.push('left:' + pct(left, er.width)); else parts.push('right:' + pct(right, er.width));
+        // A thin side (< 12px) is a px rule, not a percentage of the box (a 4px bar must stay 4px at every width).
+        parts.push('width:' + (w < 12 ? Math.round(w) + 'px' : pct(w, er.width)), 'height:' + (h < 12 ? Math.round(h) + 'px' : pct(h, er.height)));
+        // STACKING: the source's own z-index when set; else a SMALL layer (< 15% of the box — a bar, a dot) paints ABOVE the
+        // fill like a positioned child does (`above:1`), a large glow stays behind (the emitters' z-index:-1 default).
+        { const zi = s.zIndex; if (zi && zi !== 'auto') parts.push('z:' + zi); else if (w * h < er.width * er.height * 0.15) parts.push('above:1'); }
+        if (painted) parts.push('background:' + ((bgi !== 'none') ? bgi : bgc));
+        if (bw > 0 && s.borderTopStyle !== 'none') parts.push('border:' + s.borderTopWidth + ' ' + s.borderTopStyle + ' ' + s.borderTopColor);
+        if (s.boxShadow && s.boxShadow !== 'none' && !/;/.test(s.boxShadow)) parts.push('shadow:' + s.boxShadow);
+        if (s.filter && s.filter !== 'none') parts.push('filter:' + s.filter);
+        const op = Math.min(1, parseFloat(s.opacity) || 1); if (op < 1) parts.push('opacity:' + op);
+        if (s.borderRadius && s.borderRadius !== '0px') parts.push('radius:' + s.borderRadius);
+        layers.push(parts.join(';'));
+      }
+      if (layers.length) { el.setAttribute('data-sc-decor-pseudo', layers.join('||')); decors++; }
+    }
+    let scrims = 0;
+    for (const el of cands) {
+      if (scrims >= 40 || el.hasAttribute('data-sc-scrim')) continue;
+      let er; try { er = el.getBoundingClientRect(); } catch { continue; }
+      if (er.width < 200 || er.height < 120) continue;
+      for (const pe of ['::before', '::after']) {
+        let s; try { s = getComputedStyle(el, pe); } catch { continue; }
+        if (!s || s.content === 'none' || s.content === 'normal' || s.display === 'none') continue;
+        if (s.position !== 'absolute' && s.position !== 'fixed') continue;
+        const covers = s.inset === '0px' || (s.top === '0px' && s.left === '0px' && s.right === '0px' && s.bottom === '0px')
+          || (parseFloat(s.width) >= er.width * 0.9 && parseFloat(s.height) >= er.height * 0.9);
+        if (!covers) continue;
+        const bgi = s.backgroundImage || 'none', bgc = s.backgroundColor || '';
+        let layer = '';
+        if (bgi !== 'none' && /gradient\(/i.test(bgi) && !/url\(/i.test(bgi) && bgi.length <= 1500) layer = bgi;
+        else if (/^rgba\(/i.test(bgc) && !/,\s*0\s*\)$/.test(bgc)) layer = bgc;
+        if (!layer) continue;
+        el.setAttribute('data-sc-scrim', layer);
+        const op = Math.min(1, parseFloat(s.opacity) || 1);
+        if (op < 1) el.setAttribute('data-sc-scrim-opacity', String(op));
+        scrims++; break;
       }
     }
   });
@@ -766,7 +1330,7 @@ async function renderPage(p, target, retry = false) {
   // Reviews) otherwise loses every inactive panel from rendered.html. See revealTabPanels().
   if (!retry) { try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ } }
 
-  // ROUTE SELF-CHECK (Wegic audit §8.51, remedy #3). If an interaction pass navigated the SPA away from the
+  // ROUTE SELF-CHECK (a second AI-page generator audit §8.51, remedy #3). If an interaction pass navigated the SPA away from the
   // route we loaded, the live DOM — and any rendered.html serialized from it — is the WRONG page. Re-capture
   // ONCE with the navigating passes disabled (retry=true), which re-runs the full navigate→settle→tag pipeline
   // from a clean load and serializes the intended route. `retry` guards against any loop.
@@ -985,9 +1549,11 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
             + ';justify:' + rs.justifyContent + ';zones:' + kids.length);
           kids.forEach((k) => {
             const s = cs(k), r = k.getBoundingClientRect();
+            const rr = row.getBoundingClientRect();
             const p = [
               'w:' + Math.round(r.width) + 'px',
               'h:' + Math.round(r.height) + 'px',
+              'x:' + Math.round(r.left - rr.left) + 'px', 'y:' + Math.round(r.top - rr.top) + 'px', // the cell's offset in the row (PHP header_rows: stacked vs side by side)
               'bg:' + s.backgroundColor,
               'border:' + s.borderTopWidth + ' ' + s.borderTopStyle + ' ' + s.borderTopColor,
               'radius:' + s.borderRadius,
@@ -1273,7 +1839,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     } catch (e) { step('section-style naming skipped: ' + e.message); }
     // FIDELITY FIRST (Rule 0.1 — header/footer MUST match the source). The Theme-Settings chrome path
     // is editable but LOSSY — it can't reproduce a custom logo lockup (icon + multi-tone text), a
-    // multi-column footer, or social icons, so a rich source (e.g. FreshPaws) converts to a bare
+    // multi-column footer, or social icons, so a rich source (e.g. a pet-care demo) converts to a bare
     // text-logo header with no nav + a one-column footer. When we captured the source's REAL chrome
     // markup (raw_chrome header/footer HTML + its CSS), render THAT verbatim (the faithful mirror —
     // theme-generator bakes header.php/footer.php) instead. Fall back to Theme-Settings chrome only
@@ -1355,6 +1921,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // (defaults + derived), point each icon_box's `box_style` at its matching preset, then drop `_box`.
     // This is the URL/JS counterpart of the PHP `build_box_presets()` (which only ran on file uploads).
     const iconBadgeSkins = [];
+    const tableSkins = []; // every native table's measured skin (to-pages tableSkinOf) → buildTablePresets
     {
       const iconBoxes = [];
       const boxStyleNodes = []; // other shortcodes that carry a stashed card skin on `_box` (e.g. steps cards)
@@ -1366,7 +1933,8 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
           // Harvest every icon_box's badge skin (stashed on `_badge`) for the icon_badge_presets
           // clustering below — collect it independently of `_box` so a badge on a card with no box
           // skin is still counted, then drop it.
-          if (n.shortcode === 'icon_box' && n.atts && n.atts._badge) { iconBadgeSkins.push(n.atts._badge); delete n.atts._badge; }
+          if ((n.shortcode === 'icon_box' || n.shortcode === 'icon') && n.atts && n.atts._badge) { iconBadgeSkins.push(n.atts._badge); delete n.atts._badge; } // (+ a lone icon's tile)
+          if (n.shortcode === 'table' && n.atts && n.atts._tableSkin) { tableSkins.push(n.atts._tableSkin); delete n.atts._tableSkin; } // a converted table's measured skin → table_presets
           if (n._items) collect(n._items);
         }
       };
@@ -1405,7 +1973,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         // icon_box + feature_list), every other node on `box_style`.
         for (const n of boxStyleNodes) {
           const boxp = boxpFor(n.atts._box);
-          if (boxp) { if (n.type === 'column') { n.atts.border_preset = boxp; } else { n.atts.box_style = boxp; } assigned++; }
+          if (boxp) { if (n.type === 'column' || n.type === 'flexbox') { n.atts.border_preset = boxp; } else { n.atts.box_style = boxp; } assigned++; } // a flexbox CELL (a flexified grid cell / photo tile) wears the box on border_preset like a column
           delete n.atts._box;
         }
         // Merge into the theme-settings values so the importer writes the `border_presets` option (the
@@ -1484,7 +2052,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       url: srcUrl,
       pages: captures.map((c) => ({
         slug: c.slug,
-        sections: (c.capture.sections || []).map((s, i) => ({ index: i, sectionClass: s.sectionClass || '', css: s.css || '', styleCensus: s.styleCensus || {} })),
+        // the built section nodes (+ the box presets they reference) so a NATIVELY reproduced style counts as carried —
+        // aligned by index only when the builder emitted one section per captured section
+        sections: (c.capture.sections || []).map((s, i) => { const bp = builderPages.find((p) => p && p.slug === c.slug); const nodes = bp && Array.isArray(bp.builder) && bp.builder.length === (c.capture.sections || []).length ? bp.builder : null; let built = ''; if (nodes && nodes[i]) { built = JSON.stringify(nodes[i]); const refs = built.match(/boxp-[a-z0-9-]+/g) || []; if (refs.length && themeSettings && themeSettings.values && Array.isArray(themeSettings.values.border_presets)) { for (const bpv of themeSettings.values.border_presets) { if (refs.includes(bpv.slug) || refs.includes(bpv.id)) built += JSON.stringify(bpv); } } } return { index: i, sectionClass: s.sectionClass || '', css: s.css || '', styleCensus: s.styleCensus || {}, built }; }),
       })),
     });
 
@@ -1494,19 +2064,25 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // Harvest EVERY http(s) url the emitted builder trees reference (scroll-story backdrop frames,
     // slide media_image, …) so the media phase sideloads them and the pages phase rewrites each to
     // its local attachment — nothing the converted page needs stays hotlinked to the source.
-    const harvestUrls = (n) => {
-      if (Array.isArray(n)) { n.forEach(harvestUrls); return; }
+    // Only MEDIA urls: a `url` under a link / button / embed / external field is a page, not an asset — the source page's own
+    // URL rode media.json on every conversion and the importer tried to sideload it ("not allowed file type", a RECURRING
+    // finding). The page URL itself, a bare origin and a `/api/` / `/preview` route are never assets.
+    const LINK_KEYS = new Set(['link', 'href', 'external_url', 'embed', 'button_link', 'link_url', 'page_url', 'action', 'target_url', 'form_action', 'url_link']);
+    const isPageUrl = (v) => { try { const u = new URL(v); if (u.href === new URL(srcUrl).href || rtrimSlash(v) === rtrimSlash(srcUrl)) return true; const path = u.pathname.replace(/\/+$/, ''); if (!path) return true; if (/\.[a-z0-9]{2,5}$/i.test(path)) return false; return /\/(api|preview)(\/|$)/i.test(path); } catch { return true; } };
+    const rtrimSlash = (v) => String(v || '').replace(/\/+$/, '');
+    const harvestUrls = (n, parentKey = '') => {
+      if (Array.isArray(n)) { n.forEach((x) => harvestUrls(x, parentKey)); return; }
       if (n && typeof n === 'object') {
         for (const [k, v] of Object.entries(n)) {
-          if (k === 'url' && typeof v === 'string' && /^https?:\/\//i.test(v)) mediaSet.add(v);
-          else harvestUrls(v);
+          if (k === 'url' && typeof v === 'string' && /^https?:\/\//i.test(v)) { if (!LINK_KEYS.has(parentKey) && !isPageUrl(v)) mediaSet.add(v); }
+          else harvestUrls(v, k);
         }
       }
     };
     builderPages.forEach((pg) => harvestUrls(pg.builder));
     const media = { urls: [...mediaSet] };
     const styleguide = { pages: [toStyleGuide(home, config)] };
-    const presets = toPresets(config, home, iconBadgeSkins);
+    const presets = toPresets(config, home, iconBadgeSkins, tableSkins);
     // Make the remaining COMPONENT presets EXPLICIT in Live progress — they were built silently. Background
     // patterns (captured SVG/gradient tiles), icon-badge tile skins, and image styles each get a step; each
     // is emitted ONLY when the source actually has that component (so an absent one just doesn't print).
@@ -1514,6 +2090,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       const pv = (presets && presets.values) || {};
       const pc = (k) => (Array.isArray(pv[k]) ? pv[k].length : 0);
       if (pc('background_patterns')) step(`  🌐 Background Patterns → ${pc('background_patterns')} pattern(s) captured${patternsAppliedTotal ? `, applied to ${patternsAppliedTotal} section(s)` : ''}`);
+      if (pc('table_presets')) step('  Table Presets -> ' + pc('table_presets') + ' table skin(s) from the source');
       if (pc('icon_badge_presets')) step(`  🔷 Icon Badge Presets → ${pc('icon_badge_presets')} badge tile style(s)`);
       if (pc('image_styles')) step(`  🖼️ Image Styles → ${pc('image_styles')} style(s)`);
       if (dividersAppliedTotal) step(`  〰️ Shape Dividers → applied to ${dividersAppliedTotal} section edge(s)`);
@@ -1572,6 +2149,8 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     let coverageVerifyCsv = '';
     try {
       const covGaps = styleReport.gaps || [];
+      const covHead0 = 'page,s_index,s_class,property,src_uses,significant,reason';
+      if (!covGaps.length) { try { writeFileSync(`${outdir}/coverage-verification.csv`, covHead0 + String.fromCharCode(10)); } catch { /* best-effort */ } } // (never leave a previous run's gaps behind)
       if (covGaps.length) {
         const covAi = microBackend() === 'ollama' && !!selectedLocalModel();
         if (covAi) { step(`🔎 local AI (${selectedLocalModel()}) → verifying class coverage…`); writeAiActivity({ status: 'thinking', note: 'verifying class coverage', startedAt: Date.now() }); }
@@ -1609,6 +2188,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
 
     // Opt-in, anonymized report sharing (structural only — no URL/content/PII). Default OFF: nothing is
     // built or sent unless the developer explicitly passes --share-preview / --share.
+    // The once-per-site `--summary` reads a STATS file; design-config.json (the old docs' pointer) carries none, so the
+    // aggregate arrived empty. Always write the lean structural stats here (no URL / content) for `--stats=…/share-stats.json`.
+    try { writeFileSync(`${outdir}/share-stats.json`, JSON.stringify({ converterVersion: PKG_VERSION, stats: report.stats }, null, 2)); } catch { /* best-effort */ }
     if (SHARE_PREVIEW) {
       const findings = (() => {
         for (const p of [FINDINGS_PATH, `${outdir}/share-findings.json`, `${baseOutdir}/share-findings.json`, 'share-findings.json'].filter(Boolean)) {
@@ -1753,6 +2335,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       step('saving full-page screenshot…');
       await page.setViewportSize({ width: 1440, height: 900 });
       await page.goto(srcUrl, { waitUntil: 'networkidle', timeout: 30000 }).catch(() => {});
+      // scroll the page through first so scroll-revealed content (opacity 0 until in view) and lazy media are shown —
+      // the screenshot used to show blank bands below the fold
+      try { const h = await page.evaluate(() => document.documentElement.scrollHeight); for (let y = 0; y < h; y += 400) { await page.evaluate((yy) => window.scrollTo(0, yy), y); await page.waitForTimeout(120); } await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(500); } catch { /* best-effort */ }
       await page.screenshot({ path: `${outdir}/full.png`, fullPage: true }).catch(() => {});
     }
 

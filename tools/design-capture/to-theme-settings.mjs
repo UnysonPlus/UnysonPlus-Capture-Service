@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Chrome → parent-theme Theme Settings (`theme-settings.json`) — the URL-path MIRROR of the PHP
 // FW_Site_Converter_Stitch::tokens_to_theme_settings_chrome(). The playbook's "chrome = theme,
 // not page content" model: emit the source header/footer as native Header/Footer Theme-Settings
@@ -17,7 +18,12 @@
 //
 // KEEP IN SYNC with the PHP emitter (see CONVERSION-ALGORITHM-SYNC.md).
 
-const hex = (h) => ({ predefined: '', custom: String(h || '') });
+import { parseLinearGradient } from './box-presets.mjs';
+import { makeButtonResolver } from './button-match.mjs';
+// A colour fit for a theme option: drop a utility framework's `/ var(--tw-*-opacity, 1)` alpha; a value still carrying var() → ''
+// (the theme default), never a broken string the CSS generator swaps for the brand primary. PHP: clean_color_value.
+const cleanColor = (h) => { let v = String(h || '').trim(); if (!v) return ''; v = v.replace(/\s*\/\s*var\([^)]*\)/g, ''); if (/var\(/i.test(v)) return ''; while ((v.match(/\(/g) || []).length > (v.match(/\)/g) || []).length) v += ')'; if ((v.match(/\(/g) || []).length !== (v.match(/\)/g) || []).length) return ''; const m = v.match(/^rgba?\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/); if (m) v = 'rgb(' + m[1] + ', ' + m[2] + ', ' + m[3] + ')'; return v; };
+const hex = (h) => ({ predefined: '', custom: cleanColor(h) });
 const el = (type, settings) => {
   const et = { element: type };
   if (settings && typeof settings === 'object') et[type] = settings;
@@ -113,6 +119,7 @@ const shadow1 = (css) => {
   const layers = []; let depth = 0, cur = '';
   for (const ch of css) { if (ch === '(') depth++; else if (ch === ')') depth--; if (ch === ',' && depth === 0) { layers.push(cur); cur = ''; } else cur += ch; }
   if (cur) layers.push(cur);
+  const cands = [];
   for (let layer of layers) {
     layer = layer.trim();
     const inset = /inset/i.test(layer);
@@ -122,9 +129,19 @@ const shadow1 = (css) => {
     if (cm) { color = normc(cm[1]); rest = rest.replace(cm[1], ''); }
     if (!color) continue;
     const nums = []; for (const tok of rest.trim().split(/\s+/)) { const tm = tok.match(/^(-?[0-9.]+)(?:px)?$/); if (tm) nums.push(Math.round(parseFloat(tm[1]))); }
-    return { x: nums[0] || 0, y: nums[1] || 0, blur: nums[2] || 0, spread: nums[3] || 0, color, inset };
+    cands.push({ x: nums[0] || 0, y: nums[1] || 0, blur: nums[2] || 0, spread: nums[3] || 0, color, inset });
   }
-  return null;
+  if (!cands.length) return null;
+  // The native field holds ONE layer: pick the MOST VISIBLE — a non-inset drop over an inset highlight, then the
+  // widest blur. (Taking the FIRST layer lost a `inset 0 1px 0 …, 0 16px 42px …` CTA's real drop.) Parity w/ PHP.
+  cands.sort((a, b) => (a.inset !== b.inset) ? (a.inset ? 1 : -1) : ((b.blur + b.spread) - (a.blur + a.spread)));
+  return cands[0];
+};
+// Top-level layer count of a box-shadow (commas outside parens + 1); 0 for none.
+const shadowLayers = (css) => {
+  css = String(css || '').trim(); if (!css || css.toLowerCase() === 'none') return 0;
+  let n = 1, depth = 0; for (const ch of css) { if (ch === '(') depth++; else if (ch === ')') depth--; else if (ch === ',' && depth === 0) n++; }
+  return n;
 };
 /**
  * Derive Button Colour + Size Presets from the source's REAL button skins (deterministic, no AI).
@@ -137,13 +154,16 @@ const shadow1 = (css) => {
 export function buildButtonPresets(home) {
   const skins = (home && Array.isArray(home.buttonSkins) ? home.buttonSkins : []).map((s) => ({
     role: s.role || 'Fill',
+    cls: String(s.cls || ''),
     bg: normc(s.bg), fg: normc(s.fg), bd: normc(s.bd),
     bw: (s.bw && s.bw !== '0px' && s.bw !== '0') ? s.bw : '',
+    grad: (s.grad || '').trim(),
     shadow: s.shadow || '', radius: (s.radius || '').trim(),
     px: s.px || '', py: s.py || '', fs: s.fs || '', lh: s.lh || '', height: s.height || '',
     // Typography extras → the preset Custom CSS (parity with PHP appearance_css).
     ff: (s.ff || '').trim(), ls: (s.ls || '').trim(), tt: (s.tt || '').trim(), fw: (s.fw || '').trim(),
     hoverBg: normc(s.hoverBg),
+    hov: (s.hov || '').trim(), tr: (s.tr || '').trim(), kf: (s.kf || '').trim(),
   }));
   if (!skins.length) return null;
 
@@ -169,7 +189,7 @@ export function buildButtonPresets(home) {
   // Cluster by role + colours; the most common skin wins each role.
   const groups = new Map();
   for (const s of skins) {
-    const key = s.role + '|' + s.bg + '|' + s.bw + s.bd;
+    const key = s.role + '|' + s.bg + '|' + s.bw + s.bd + '|' + s.grad;
     if (!groups.has(key)) groups.set(key, { ...s, count: 0 });
     const g = groups.get(key);
     g.count++;
@@ -177,11 +197,25 @@ export function buildButtonPresets(home) {
     // member (e.g. a single outline button with hover:bg-secondary). Adopt a later member's hoverBg when the
     // stored one has none — parity with the PHP stitch's cluster-adopt.
     if (!g.hoverBg && s.hoverBg) g.hoverBg = s.hoverBg;
+    if (!g.hov && s.hov) { g.hov = s.hov; g.kf = s.kf; }
   }
-  const order = { Primary: 0, Secondary: 1, Outline: 2, Fill: 3 };
+  const order = { Primary: 0, Secondary: 1, Accent: 2, Outline: 3, Fill: 4 };
   const byRole = {};
   for (const g of groups.values()) { const r = g.role; if (!byRole[r] || g.count > byRole[r].count) byRole[r] = g; }
   const roles = Object.values(byRole).sort((a, b) => (order[a.role] ?? 9) - (order[b.role] ?? 9));
+  // A role's OTHER distinct skins (a white-bordered header CTA beside slate-bordered plan buttons — both "Outline") → their
+  // own "<Role> 2" / "<Role> 3" presets, reached only by a COLOUR match (a semantic class keeps the winner). PHP: $variants.
+  const variants = {};
+  for (const g of groups.values()) {
+    const r = g.role;
+    if (!byRole[r] || byRole[r] === g) continue;
+    if (!g.bg && !g.bd && !g.grad) continue;
+    variants[r] = variants[r] || [];
+    if (variants[r].length >= 2) continue;
+    if (variants[r].some((v) => v.bg === g.bg && v.bd === g.bd && v.grad === g.grad)) continue;
+    variants[r].push({ ...g, role: r + ' ' + (variants[r].length + 2) });
+  }
+  for (const vs of Object.values(variants)) roles.push(...vs);
 
   const colState = (fg, bg, bd, bw, bstyle, sh) => {
     const st = { text_color: fg ? hex(fg) : { predefined: '', custom: '' }, bg_color: isFilled(bg) ? hex(bg) : { predefined: '', custom: '' } };
@@ -191,7 +225,51 @@ export function buildButtonPresets(home) {
     if (sh) { const b = shadow1(sh); if (b) st.box_shadow = b; }
     return st;
   };
-  const roleId = { Primary: '0000000001', Secondary: '0000000002', Outline: '0000000003', Fill: '0000000004' };
+  const roleId = { Primary: '0000000001', Secondary: '0000000002', Outline: '0000000003', Fill: '0000000004', Accent: '0000000005' };
+  // The source's hover MOTION → the preset's Custom CSS ({{SELECTOR}}-aware), eased with the source's own transition.
+  // Mirror of the PHP stitch $hover_transform_css: the capture's resolved `hover-self{transform:…}` first, else a
+  // Tailwind `hover:scale-N`; `active:scale-N` too. The preset owns it — the page builder never substitutes a
+  // `.btnfx-*` effect (which would add a shadow / easing the source lacks).
+  const hoverTransformCss = (g) => {
+    const cls = ' ' + String(g.cls || '').toLowerCase() + ' ';
+    const rules = [];
+    const hm = String(g.hov || '').match(/hover-self\{([^}]*)\}/i);
+    const tm = hm && hm[1].match(/(?:^|;)\s*transform\s*:\s*([^;]+)/i);
+    if (tm && tm[1].trim() && tm[1].trim().toLowerCase() !== 'none') rules.push('{{SELECTOR}}:hover { transform: ' + tm[1].trim() + '; }');
+    // the REST of the hover state (a lifted shadow, a glow filter, a wider tracking) — verbatim (PHP parity)
+    if (hm) { const hd = []; for (const hp of ['box-shadow', 'filter', 'letter-spacing', 'opacity']) { const pm = hm[1].match(new RegExp('(?:^|;)\\s*' + hp + '\\s*:\\s*([^;]+)', 'i')); if (pm && /^[a-z0-9()%.,\s#\/-]+$/i.test(pm[1].trim())) hd.push(hp + ': ' + pm[1].trim()); } if (hd.length) rules.push('{{SELECTOR}}:hover { ' + hd.join('; ') + '; }'); }
+    // PSEUDO LAYERS — the button's own ::before / ::after (+ their hover state + @keyframes), positioned + clipped (PHP parity)
+    { const pr = []; let rel = false;
+      for (const pk of ['before', 'after', 'hover-before', 'hover-after']) {
+        const mm = String(g.hov || '').match(new RegExp('(?:^|\\|)' + pk + '\\{([^}]*)\\}', 'i')); if (!mm) continue;
+        const pd = [];
+        for (const decl of mm[1].split(';')) { const cp = decl.indexOf(':'); if (cp < 0) continue; const k = decl.slice(0, cp).trim().toLowerCase(); let v = decl.slice(cp + 1).trim(); if (!v || v === 'initial' || k.startsWith('--') || /^transition-(property|duration|timing-function)$/.test(k)) continue; if (!/^[a-z0-9()%.,\s#\/"'-]+$/i.test(v)) continue; if (k === 'content') v = '""'; if (k === 'position' && v.toLowerCase() === 'absolute') rel = true; pd.push(k + ':' + v); }
+        if (!pd.length) continue;
+        if (!pk.startsWith('hover-') && !pd.includes('pointer-events:none')) pd.push('pointer-events:none');
+        pr.push((pk.startsWith('hover-') ? '{{SELECTOR}}:hover::' + pk.slice(6) : '{{SELECTOR}}::' + pk) + ' { ' + pd.join('; ') + '; }');
+      }
+      if (pr.length) { if (rel) pr.unshift('{{SELECTOR}} { position: relative; overflow: hidden; isolation: isolate; }'); rules.push(...pr); const kf = String(g.kf || '').trim(); if (kf && /@keyframes/i.test(kf) && !/<\/|expression\(|javascript:/i.test(kf)) rules.push(kf); }
+    }
+    let m;
+    if (!rules.length && (m = cls.match(/\shover:scale-(\d{1,3})\s/))) rules.push('{{SELECTOR}}:hover { transform: scale(' + String(parseInt(m[1], 10) / 100) + '); }');
+    if ((m = cls.match(/\sactive:scale-(\d{1,3})\s/))) rules.push('{{SELECTOR}}:active { transform: scale(' + String(parseInt(m[1], 10) / 100) + '); }');
+    // A source-declared transition rides the preset even with NO hover transform (a colour-only hover still eases
+    // at the source's own speed, not the button base's). Parity with PHP.
+    const tr = String(g.tr || '').trim();
+    const hasTr = tr && !/^(?:all\s+)?0s\b/i.test(tr) && tr.toLowerCase() !== 'none';
+    if (!rules.length && !hasTr) return '';
+    rules.unshift('{{SELECTOR}} { transition: ' + (hasTr ? tr : 'transform .15s ease') + '; }');
+    return rules.join('\n');
+  };
+  // Preset Custom CSS (advanced) = only what the native fields can't hold: the hover MOTION (+ transition) and,
+  // for a MULTI-LAYER shadow (inset highlight + drop), the exact full box-shadow — the native Box Shadow field
+  // holds one layer (the most visible). Native first, the rest advanced. Parity with the PHP stitch.
+  const presetCustomCss = (g) => {
+    let css = hoverTransformCss(g);
+    const sh = String(g.shadow || '').trim();
+    if (shadowLayers(sh) >= 2 && /^[a-z0-9()%.,\s#-]+$/i.test(sh)) css = (css ? css + '\n' : '') + '{{SELECTOR}} { box-shadow: ' + sh + '; }';
+    return css;
+  };
   const colors = [];
   for (const g of roles) {
     const name = g.role;
@@ -204,6 +282,9 @@ export function buildButtonPresets(home) {
     const { font, textTransform } = fontFields(g);
     const defState = colState(g.fg, g.bg, g.bw ? (g.bd || g.fg) : '', g.bw, g.bw ? 'solid' : (isOutline ? 'solid' : 'none'), g.shadow);
     if (textTransform) defState.text_transform = textTransform;
+    // GRADIENT FILL → the preset's native Background Gradient (gradient-v2). Parity with the PHP stitch, which
+    // emits $def_state['gradient'] from parse_linear_gradient(); the solid bg_color stays empty so the gradient shows.
+    if (g.grad) { const gv = parseLinearGradient(g.grad); if (gv) defState.gradient = gv; }
     colors.push({
       id: roleId[name] || ('00000000' + (colors.length + 1)),
       color_name: name,
@@ -213,6 +294,8 @@ export function buildButtonPresets(home) {
       role: String(name).toLowerCase(),
       // Typography on the NATIVE font field (shows in the UI, one .btn-{slug} rule) — not Custom CSS.
       font,
+      // Custom CSS holds ONLY the source's hover/active MOTION (transform + its transition) — parity with PHP.
+      custom_css: presetCustomCss(g),
       states: {
         default: defState,
         hover: hoverBg ? { bg_color: hex(hoverBg) } : {},
@@ -230,8 +313,12 @@ export function buildButtonPresets(home) {
     if (s.fs === '' && s.px === '' && s.radius === '') continue;
     const fsn = pxOf(s.fs), pxn = pxOf(s.px), pyn = pxOf(s.py), hn = pxOf(s.height);
     let hit = clusters.find((c) => Math.abs(c.fsn - fsn) <= 1 && Math.abs(c.pxn - pxn) <= 3 && Math.abs(c.pyn - pyn) <= 3 && Math.abs(c.hn - hn) <= 3);
-    if (!hit) { hit = { fsn, pxn, pyn, hn, count: 0, modes: {} }; clusters.push(hit); }
+    if (!hit) { hit = { fsn, pxn, pyn, hn, count: 0, modes: {}, names: {} }; clusters.push(hit); }
     hit.count++;
+    // The source's OWN size name on this button (btn-sm / btn-lg / button--large / btn-xl …) — a vote for the
+    // cluster's name. Same "the author already named it" principle as the colour roles. Parity with PHP.
+    const snm = (' ' + String(s.cls || '').toLowerCase() + ' ').match(/\s(?:btn|button|cta)[-_]{1,2}(xxs|xs|sm|md|lg|xl|xxl|2xl|small|medium|large|x-?small|x-?large|2x-?large|2x-?small)\s/);
+    if (snm) hit.names[snm[1]] = (hit.names[snm[1]] || 0) + 1;
     for (const [p, val] of Object.entries({ fs: s.fs, px: s.px, py: s.py, radius: s.radius, height: s.height || '', lh: s.lh })) {
       const v = String(val); (hit.modes[p] = hit.modes[p] || {})[v] = (hit.modes[p][v] || 0) + 1;
     }
@@ -239,19 +326,42 @@ export function buildButtonPresets(home) {
   const mode = (counts) => { if (!counts) return ''; let best = '', bc = -1; for (const [k, v] of Object.entries(counts)) { if (v > bc) { bc = v; best = k; } } return best; };
   const sizeDefs = clusters.map((c) => {
     const rep = {}; for (const p of ['fs', 'px', 'py', 'radius', 'height', 'lh']) rep[p] = mode(c.modes[p]);
-    rep._visual = Math.max(c.hn, c.fsn * 1.3 + 2 * c.pyn); rep._fs = c.fsn; rep._count = c.count; return rep;
+    rep._visual = Math.max(c.hn, c.fsn * 1.3 + 2 * c.pyn); rep._fs = c.fsn; rep._count = c.count; rep._srcname = mode(c.names); return rep;
   });
   // Rank by visual size, then font-size (same-height tie), then frequency.
   sizeDefs.sort((a, b) => (b._visual - a._visual) || (b._fs - a._fs) || (b._count - a._count));
   let domIdx = 0, domCt = -1;
   sizeDefs.forEach((d, i) => { if (d._count > domCt) { domCt = d._count; domIdx = i; } });
-  const sizeNames = (sizeDefs.length <= 3)
-    ? [['Large', 'lg', '0000010004'], ['Medium', 'md', '0000010003'], ['Small', 'sm', '0000010002']]
-    : [['X-Large', 'xl', '0000010005'], ['Large', 'lg', '0000010004'], ['Medium', 'md', '0000010003'], ['Small', 'sm', '0000010002'], ['X-Small', 'xs', '0000010001'], ['2X-Small', 'xxs', '0000010000']];
+  // NAMING — a size name describes a button RELATIVE to the site's normal button: (a) the source's OWN size
+  // names win (btn-sm / btn-lg / button--large …); (b) otherwise the MOST-USED size is "Default" (slug md) and
+  // the rest are named by where they sit relative to it — bigger → Large, X-Large, 2X-Large; smaller → Small,
+  // X-Small, 2X-Small. 1 size → Default; 2 → Default + Large (or + Small); 3 → Small / Default / Large.
+  // EXACT mirror of the PHP stitch.
+  const defs = sizeDefs.slice(0, 7);
+  const ladder = { xxl: ['2X-Large', 'xxl', '0000010006'], xl: ['X-Large', 'xl', '0000010005'], lg: ['Large', 'lg', '0000010004'], md: ['Default', 'md', '0000010003'], sm: ['Small', 'sm', '0000010002'], xs: ['X-Small', 'xs', '0000010001'], xxs: ['2X-Small', 'xxs', '0000010000'] };
+  const srcSlug = (n) => { n = String(n || '').toLowerCase().replace(/[_ ]/g, '-'); const map = { small: 'sm', medium: 'md', large: 'lg', 'x-small': 'xs', xsmall: 'xs', 'x-large': 'xl', xlarge: 'xl', '2x-large': 'xxl', '2xlarge': 'xxl', '2xl': 'xxl', '2x-small': 'xxs', '2xsmall': 'xxs' }; return map[n] || n; };
+  const assigned = {}, used = {}, auto = {};
+  defs.forEach((s, i) => { const sl = srcSlug(s._srcname); if (sl && ladder[sl] && !used[sl]) { assigned[i] = sl; used[sl] = true; } });
+  const up = ['lg', 'xl', 'xxl'], down = ['sm', 'xs', 'xxs'];
+  if (assigned[domIdx] === undefined && !used.md) { assigned[domIdx] = 'md'; used.md = true; }
+  const anchor = assigned[domIdx] !== undefined ? domIdx : -1;
+  let ui = 0, di = 0;
+  defs.forEach((s, i) => {
+    if (assigned[i] !== undefined) return;
+    const bigger = (anchor < 0) ? (i < domIdx) : (i < anchor);
+    const pool = bigger ? up : down; let sl = '';
+    while (!sl) { const cand = bigger ? pool[ui] : pool[di]; if (!cand) break; if (bigger) ui++; else di++; if (!used[cand]) sl = cand; }
+    if (!sl) return;
+    assigned[i] = sl; used[sl] = true; auto[i] = true;
+  });
+  const freeUp = up.filter((u) => !Object.keys(assigned).some((j) => assigned[j] === u && !auto[j]));
+  const above = Object.keys(assigned).map(Number).filter((i) => auto[i] && up.includes(assigned[i])).sort((a, b) => b - a);
+  above.forEach((i, k) => { if (freeUp[k]) assigned[i] = freeUp[k]; });
   const sizes = [];
-  sizeDefs.slice(0, sizeNames.length).forEach((s, i) => {
-    const [nm0, slug, sid] = sizeNames[i];
-    const nm = (i === domIdx && sizeDefs.length > 1) ? nm0 + ' (Default)' : nm0;
+  defs.forEach((s, i) => {
+    if (assigned[i] === undefined) return;
+    const [nm0, slug, sid] = ladder[assigned[i]];
+    const nm = (i === domIdx && defs.length > 1 && slug !== 'md') ? nm0 + ' (Default)' : nm0;
     const sz = { id: sid, size_name: nm, slug };
     if (s.fs) { const u = unitOf(s.fs); if (u) sz.font_size = u; }
     if (s.lh && s.lh !== 'normal') sz.line_height = /px|rem|em/.test(s.lh) ? s.lh : String(s.lh);
@@ -337,6 +447,30 @@ export function toThemeSettings(config, home) {
 
   const values = {};
   const miscCssParts = []; // accumulates every scoped rule → one `misc_custom_css.custom_css` at the end
+  // A colour for a custom colour field: translucent (alpha < 1) keeps its rgba() so a hairline stays a hairline;
+  // opaque → #hex (PHP color_keep_alpha).
+  const keepAlpha = (c) => {
+    const m = /^rgba?\(\s*([0-9.]+)[,\s]+([0-9.]+)[,\s]+([0-9.]+)(?:[,\s\/]+([0-9.]+%?))?\s*\)$/i.exec(String(c || '').trim());
+    if (!m) return String(c || '').trim();
+    const a = m[4] === undefined ? 1 : (m[4].includes('%') ? parseFloat(m[4]) / 100 : parseFloat(m[4]));
+    if (a < 0.99) return String(c).replace(/\s+/g, ' ');
+    return '#' + [m[1], m[2], m[3]].map((v) => Math.max(0, Math.min(255, Math.round(+v))).toString(16).padStart(2, '0')).join('');
+  };
+  // ONE linear-gradient → gradient-v2 data { type, angle, stops }; null for a multi-layer stack / radial (PHP parse_linear_gradient).
+  const parseLinearGradient = (css) => {
+    css = String(css || '').trim();
+    if ((css.match(/[a-z-]*gradient\(/gi) || []).length > 1) return null;
+    const m = /linear-gradient\(\s*(.+)\)\s*$/is.exec(css); if (!m) return null;
+    const parts = []; let buf = '', depth = 0;
+    for (const ch of m[1]) { if (ch === '(') depth++; else if (ch === ')') depth--; if (ch === ',' && depth === 0) { parts.push(buf.trim()); buf = ''; continue; } buf += ch; }
+    if (buf.trim()) parts.push(buf.trim());
+    let angle = 180;
+    if (/^-?[0-9.]+deg$/.test(parts[0] || '')) { angle = parseFloat(parts.shift()); }
+    else if (/^to /i.test(parts[0] || '')) { const map = { top: 0, right: 90, bottom: 180, left: 270, 'top right': 45, 'bottom right': 135, 'bottom left': 225, 'top left': 315 }; const d = parts.shift().slice(3).trim().toLowerCase(); angle = map[d] !== undefined ? map[d] : 90; }
+    const stops = []; const n = parts.length;
+    parts.forEach((part, i) => { const pm = /^(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\)|hsla?\([^)]*\))\s*([0-9.]+)?%?/.exec(part); if (!pm) return; stops.push({ color: pm[1], position: pm[2] !== undefined && pm[2] !== '' ? parseFloat(pm[2]) : (n > 1 ? Math.round(i * 100 / (n - 1)) : 0) }); });
+    return stops.length >= 2 ? { type: 'linear', angle, stops } : null;
+  };
 
   /* --- header_logo — faithful to the SOURCE brand (nested logo_type/custom shape, MIRROR of PHP
      tokens_to_theme_settings_chrome()): the wordmark's own size/weight/colour + an optional icon
@@ -404,21 +538,71 @@ export function toThemeSettings(config, home) {
   values.header_logo = { logo_type: { logo_type: logoType, custom: logoCustom, simple: logoSimple } };
 
   /* --- header_main: logo · menu · CTA --- */
+  // HEADER CTAs — EVERY masthead action (home.header.ctas, DOM order), each resolved through the SHARED
+  // button-preset resolver (button-match.mjs) to the colour + size preset matching its OWN skin, exactly as
+  // body buttons are. The presets are built here (once; re-used for the emitted button_colors/button_sizes
+  // below). A CTA the resolver can't place falls back to its fill-class role (first CTA only — the legacy
+  // single-CTA read) and to Default size; the style falls back to '' (the bare `.btn`, which the theme
+  // generator maps the source's own button onto) — parity with PHP tokens_to_theme_settings_chrome().
+  const btnPresets = buildButtonPresets(home);
+  const btnResolver = makeButtonResolver(btnPresets);
+  const hasLgSize = !!(btnPresets && (btnPresets.button_sizes || []).some((s) => s.slug === 'lg'));
   const homeCta = (home && home.header && home.header.cta) || {};
+  const homeHdr = (home && home.header) || {};
   const right = [];
-  if (header.cta && header.cta.enabled && header.cta.label) {
-    right.push(el('cta_button', {
-      cta_text: header.cta.label,
-      cta_link: header.cta.href || '#',
-      cta_style: homeCta.style || 'btn-primary',
-      cta_size: 'btn-md',
-    }));
-  }
-  values.header_main = {
-    main_left: [el('logo')],
-    main_center: [el('menu_area', { menu_location: 'primary' })],
-    main_right: right,
-  };
+  // SECONDARY TEXT LINKS (home.header.textLinks): "Sign in" beside the CTA → list_items ahead of the buttons (PHP: textLinks).
+  (Array.isArray(homeHdr.textLinks) ? homeHdr.textLinks : []).forEach((tl, i) => {
+    if (!tl || !tl.label) return;
+    const tcls = 'sc-hdr-link' + (i > 0 ? '-' + (i + 1) : '');
+    const node = el('list_item', { li_text: tl.label, li_link_type: 'url', li_link: tl.href || '#', li_target: '_self' });
+    node.element_css_class = tcls; right.push(node);
+    const d = ['white-space:nowrap'];
+    for (const [k, v] of [['color', tl.color], ['font-size', tl.fontSize], ['font-weight', tl.fontWeight], ['letter-spacing', tl.letterSpacing], ['text-transform', tl.textTransform]]) if (v && !/^(none|normal)$/i.test(String(v))) d.push(k + ':' + v);
+    miscCssParts.push('\n/* Source header text link */\n.site-header .' + tcls + ' .list-item, .site-header .' + tcls + ' .list-item a{' + d.join(';') + ';}');
+    if (tl.hover && tl.hover.color) miscCssParts.push('\n.site-header .' + tcls + ' .list-item a:hover{color:' + tl.hover.color + ';}');
+  });
+  let ctas = Array.isArray(homeHdr.ctas) ? homeHdr.ctas : [];
+  if (!ctas.length && header.cta && header.cta.enabled && header.cta.label) ctas = [{ label: header.cta.label, href: header.cta.href || '', cls: '', bs: null }];
+  ctas.forEach((c, i) => {
+    const res = (c.cls || c.bs) ? btnResolver.presetFor(c) : { style: '', size: '' };
+    const style = res.style || (i === 0 && homeCta.style ? homeCta.style : '');
+    const size = res.size || (hasLgSize ? 'btn-lg' : 'btn-md');
+    right.push(el('cta_button', { cta_text: c.label, cta_link: c.href || '#', cta_style: style, cta_size: size }));
+  });
+  // TEXT CHIPS (home.header.chips) → native list_item elements: text + an SVG dot icon, the source's responsive
+  // hide as the element's Hide On, the pill skin as scoped CSS keyed by the element CSS Class (parity w/ PHP).
+  const chipEls = [];
+  const _clear = (c) => { c = String(c || '').trim().toLowerCase(); return c === '' || c === 'transparent' || /rgba?\([^)]*[,/]\s*0\s*\)/.test(c); };
+  (Array.isArray(homeHdr.chips) ? homeHdr.chips : []).forEach((chip, i) => {
+    const ccls = 'sc-hdr-chip' + (i > 0 ? '-' + (i + 1) : '');
+    const li = { li_text: chip.text, li_link_type: 'none', li_link: '' };
+    if (chip.dot) {
+      const sz = chip.dot.size;
+      li.li_icon = { type: 'svg', 'svg-source': 'inline', 'svg-id': '', markup: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="' + sz + '" height="' + sz + '" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="' + String(chip.dot.color).replace(/"/g, '&quot;') + '"/></svg>' };
+    }
+    const node = el('list_item', li);
+    if (Array.isArray(chip.hide) && chip.hide.length) node.visibility = chip.hide;
+    node.element_css_class = ccls;
+    chipEls.push(node);
+    // Only properties the source set are carried (no invented defaults) — same list/order as PHP header_chip_css().
+    const cs = chip.cs || {}; const d = ['display:inline-flex', 'align-items:center', 'white-space:nowrap'];
+    for (const [k, p] of [['gap', 'gap'], ['padding', 'padding'], ['borderRadius', 'border-radius'], ['backgroundColor', 'background-color'], ['color', 'color'], ['fontSize', 'font-size'], ['fontWeight', 'font-weight'], ['letterSpacing', 'letter-spacing'], ['textTransform', 'text-transform'], ['lineHeight', 'line-height'], ['boxShadow', 'box-shadow']]) {
+      const v = String(cs[k] || '').trim();
+      if (!v || v === 'normal' || v === 'none' || v === '0px' || (p === 'background-color' && _clear(v))) continue;
+      d.push(p + ':' + v);
+    }
+    if (parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle && cs.borderTopStyle !== 'none' && cs.borderTopColor) d.push('border:' + cs.borderTopWidth + ' ' + cs.borderTopStyle + ' ' + cs.borderTopColor);
+    const sel = '.site-header .' + ccls;
+    let css = '\n/* Source header chip */\n' + sel + ' .list-item{' + d.join(';') + ';}';
+    if (chip.dot) { const sz = chip.dot.size; css += sel + ' .list-item__icon{width:' + sz + 'px;height:' + sz + 'px;border-radius:999px;' + (chip.dot.shadow ? 'box-shadow:' + chip.dot.shadow + ';' : '') + '}' + sel + ' .list-item__icon svg{width:' + sz + 'px;height:' + sz + 'px;display:block;}'; }
+    miscCssParts.push(css);
+  });
+  // TWO-ROW masthead (home.header.rows): the brand row keeps logo · chips · CTAs and the links-only nav row
+  // becomes the native Bottom Bar (or Top Bar) carrying the menu — assembled below once header_layout exists.
+  const hdrRows = (homeHdr.rows && homeHdr.rows.nav_pos) ? homeHdr.rows : null;
+  values.header_main = hdrRows
+    ? { main_left: [el('logo')], main_center: chipEls, main_right: right }
+    : { main_left: [el('logo')], main_center: [el('menu_area', { menu_location: 'primary' })], main_right: chipEls.concat(right) };
 
   /* --- header_menu --- */
   // Prefer the captured menu-<ul> nav_style; when the header nav is bare <nav><a> anchors (an SPA menu with
@@ -447,6 +631,24 @@ export function toThemeSettings(config, home) {
   };
   // NEVER-DROP menu typography — FONT FAMILY / size / weight / letter-spacing / uppercase. Font family was
   // previously only in the .sc-menu generated CSS; route it into the native menu_font option.
+  // Link padding (PHP H3 parity): the median measured inset when the links carry one; PADDING-LESS links (a
+  // flex row spaced by its gap) pin both insets to 0 — the theme's default 0.5rem × 1rem inset otherwise
+  // inflates every item box — and the row's gap rides as a scoped rule (no native menu-gap field).
+  {
+    const pads = navLinks0.map((n) => (n && n.computed) || {}).filter((c) => c.paddingLeft !== undefined || c.paddingTop !== undefined);
+    if (pads.length >= 2) {
+      const med = (arr) => { if (!arr.length) return 0; const s = arr.slice().sort((a, b) => a - b); return s[Math.floor((s.length - 1) / 2)]; };
+      const pxs = pads.map((c) => parseFloat(c.paddingLeft)).filter((n) => n > 0);
+      const pys = pads.map((c) => parseFloat(c.paddingTop)).filter((n) => n > 0);
+      if (pxs.length) values.header_menu.menu_link_padding_x = { value: Math.round(med(pxs)), unit: 'px' };
+      if (pys.length) values.header_menu.menu_link_padding_y = { value: Math.round(med(pys)), unit: 'px' };
+      if (!pxs.length && !pys.length) {
+        values.header_menu.menu_link_padding_x = { value: 0, unit: 'px' };
+        values.header_menu.menu_link_padding_y = { value: 0, unit: 'px' };
+        if (homeHdr.navGap > 0) miscCssParts.push('\n/* Source nav item gap (padding-less links) */\n.site-header .primary-menu{gap:' + homeHdr.navGap + 'px;}');
+      }
+    }
+  }
   const navFamily = nsGet('fontFamily');
   if (navFamily && !/^(inherit|initial|unset)$/i.test(navFamily)) values.header_menu.menu_font = { family: navFamily };
   const nfs = unitOf(nsGet('fontSize')); if (nfs) values.header_menu.menu_link_font_size = nfs;
@@ -482,7 +684,11 @@ export function toThemeSettings(config, home) {
   // Include the header ELEMENT: many sources frost the <header> itself rather than an inner bar,
   // and those were coming through as header_glass:'no' — the frost was dropped entirely.
   const restBlur = _hasBlur(_hbar.backdropFilter) || _hasBlur(_hel.backdropFilter) || _hasBlur(_hsTop.backdrop);
-  const restBorder = _hasBorder(_hbar.border) || _hasBorder(_hsTop.borderBottom);
+  // The header ELEMENT's own bottom border (a plain-CSS `.header{border-bottom:1px solid …}`) is the
+  // hairline on most non-utility sites — read it alongside the inner bar / scroll-snapshot borders.
+  const _helBorder = (parseFloat(_hel.borderBottomWidth) > 0 && _hel.borderBottomStyle && _hel.borderBottomStyle !== 'none')
+    ? (_hel.borderBottomWidth + ' ' + _hel.borderBottomStyle + ' ' + (_hel.borderBottomColor || '')) : '';
+  const restBorder = _hasBorder(_hbar.border) || _hasBorder(_hsTop.borderBottom) || _hasBorder(_helBorder);
   const restShadow = _hasShadow(_hsTop.shadow) || _hasShadow(_hbar.boxShadow) || _hasShadow(_hel.boxShadow);
   const scrBlur = _hasBlur(_hsScr.backdrop);
   const scrBorder = _hasBorder(_hsScr.borderBottom);
@@ -528,6 +734,18 @@ export function toThemeSettings(config, home) {
     header_border: restBorder ? 'yes' : 'no',
     header_shadow: restShadow ? 'yes' : 'no',
   };
+  // Two-row masthead: the at-rest height the theme applies to its main row is the BRAND row's own height,
+  // not the two source rows stacked (the nav row is laid out as its own Bottom / Top Bar).
+  if (hdrRows && hdrRows.brand_height >= 32) values.header_layout.min_height = _unit(hdrRows.brand_height);
+  // A 1px hairline in the SOURCE's own colour (often a faint translucent tint) — the native toggle draws the
+  // theme's default hairline tint; reproduce the exact rule so the line reads the same (parity w/ PHP).
+  {
+    const _bsrc = [_helBorder, _hbar.border, _hsTop.borderBottom].find(_hasBorder) || '';
+    const _bcol = _colOf(_bsrc);
+    if (restBorder && _bcol && /^(?:#[0-9a-f]{3,8}|rgba?\([^)]*\))$/i.test(_bcol) && (parseFloat(_bsrc) || 1) < 2) {
+      miscCssParts.push('\n/* Source header hairline colour */\n.site-header.site-header--border{box-shadow:none !important;border-bottom:1px solid ' + _bcol + ' !important;}');
+    }
+  }
   if (scrollChange) {
     values.header_layout.header_scroll_change = 'yes';
     if (onGlass) values.header_layout.scroll_glass = 'yes';
@@ -616,6 +834,16 @@ export function toThemeSettings(config, home) {
     values.header_layout.container_width = { value: '1024', unit: 'px' };
   } else if (/^(none|100%|full)$/i.test(String(barMw).trim())) {
     values.header_layout.container = 'container-fluid';
+    // A full-width bar keeps the SOURCE's own side inset (the theme's fluid container pads by the site gutter
+    // otherwise); the Bottom/Top Bar row already carries its padding, so its inner container goes flush. PHP twin.
+    const _padX = (hdrRows && hdrRows.brand_pad_x) || (() => {
+      const p = String(_hbar.padding || _hel.padding || '').trim().split(/\s+/).map(parseFloat);
+      if (!p.length || isNaN(p[0])) return 0;
+      const l = p.length === 1 ? p[0] : (p.length === 4 ? p[3] : p[1]);
+      return l > 0 ? Math.round(l) : 0;
+    })();
+    if (_padX > 0) miscCssParts.push('\n/* Source header side inset (full-width bar) */\n.site-header .header-main .fw-container-fluid{padding-left:' + _padX + 'px;padding-right:' + _padX + 'px;}');
+    if (hdrRows) miscCssParts.push('.site-header .header-bottombar .fw-container-fluid,.site-header .header-topbar .fw-container-fluid{padding-left:0;padding-right:0;}');
   }
 
   /* --- footer colors (background-pro shape for the fill) --- */
@@ -624,6 +852,16 @@ export function toThemeSettings(config, home) {
   values.footer_background = { color: { value: { predefined: '', custom: footerBg } } };
   values.footer_text_color = hex(footerText);
   values.footer_link_color = hex(footerText);
+  // A GRADIENT footer background (PHP parity): one linear layer → the native gradient; a multi-layer stack →
+  // the whole value verbatim on .footer (the native field holds one layer).
+  {
+    const _fbgi = String(((home && home.footer && home.footer.computed) || {}).backgroundImage || '').trim();
+    if (_fbgi && /gradient/.test(_fbgi) && !/url\(/.test(_fbgi)) {
+      const gv = parseLinearGradient(_fbgi);
+      if (gv) values.footer_background.gradient = { data: gv };
+      else miscCssParts.push('.footer{background-image:' + _fbgi + ';}');
+    }
+  }
 
   /* --- footer numeric refinements (theme 2.5.92). The footer's own captured computed styles carry
      padding; the column gap and link-hover colour come from the footer chrome probe. --- */
@@ -725,8 +963,46 @@ export function toThemeSettings(config, home) {
   const boxToContent = (boxPx) => { const box = Math.round(parseFloat(boxPx) || 0); const content = box - 48; return content >= 320 ? content : box; };
   const barMwNum = (String(barMw).match(/^([0-9.]+)px$/) || [])[1] || '';        // header bar content wrapper width (px)
   const fMaxNum = /^[0-9]+$/.test(String((home && home.footerContainerMax) || '')) ? String(home.footerContainerMax) : '';
+  // The source container's DECLARED side gutter (capture stamp data-sc-content-gutter, from a
+  // `min(1440px, calc(100% - 48px))` shell → 24) → the native Container Gutter, so the flexbox Content Width cap
+  // (`min(cap, 100% - 2×gutter)`) keeps the source's exact inset at every viewport. PHP: declared_container_gutter.
+  if (home && home.contentGutter > 0) values.general_layout = Object.assign({}, values.general_layout, { layout_container_gutter: { value: String(home.contentGutter), unit: 'px' } });
+  // PAGE-WIDE fixed video backdrop → Site Background → video (FIXED): the theme prints it once behind every transparent
+  // section (unysonplus_render_site_bg_video). PHP parity: tokens_to_theme_settings_chrome detect_page_fixed_video.
+  if (home && typeof home.pageShellCss === 'string' && home.pageShellCss.trim()) miscCssParts.push('\n/* Source page shell (main) */\n' + home.pageShellCss.trim()); // PHP: page_shell_css
+  if (home && home.pageFixedPattern && home.pageFixedPattern.image) {
+    // the same deterministic id to-presets mints (djb2 of the image) — the pattern preset must exist for the option to resolve
+    const id = 'captured-' + (() => { const s = String(home.pageFixedPattern.image).trim(); let h = 5381; for (let j = 0; j < s.length; j++) h = ((h << 5) + h + s.charCodeAt(j)) >>> 0; return h.toString(16).padStart(8, '0').slice(0, 8); })();
+    values.general_layout = Object.assign({}, values.general_layout, { site_background_pattern: { pattern: id } });
+  }
+  if (home && home.pageFixedVideo && (home.pageFixedVideo.mp4 || home.pageFixedVideo.webm)) {
+    const pfv = home.pageFixedVideo;
+    const video = { enabled: 'yes', position: 'fixed', loop: 'yes', autoplay: 'yes', mute: 'yes', playsinline: 'yes' };
+    if (pfv.mp4) video.source_mp4 = { url: pfv.mp4, attachment_id: '' };
+    if (pfv.webm) video.source_webm = { url: pfv.webm, attachment_id: '' };
+    if (pfv.poster) video.poster = { url: pfv.poster, attachment_id: '' };
+    const gl = Object.assign({}, values.general_layout);
+    gl.site_background = Object.assign({}, gl.site_background || {}, { video });
+    values.general_layout = gl;
+    // the layer's own geometry (a right-anchored 60vw layer), mask, filter and glow — the theme prints the video inset:0 (PHP: page_backdrop_css)
+    if (typeof pfv.css === 'string' && pfv.css.trim()) miscCssParts.push('\n/* Site background video layer */\n' + pfv.css.trim());
+  }
+  // The container's PHONE gutter (data-sc-content-gutter-sm): the native Container Gutter is ONE value, so the phone value
+  // rides a max-width:767px --container-gutter override in the misc CSS (the flexbox Content Width cap and .fw-container
+  // both read the variable). PHP: declared_container_gutter_sm.
+  if (home && home.contentGutterSm > 0 && home.contentGutterSm !== home.contentGutter) miscCssParts.push('\n/* Source container gutter on phones */\n@media (max-width:767px){:root{--container-gutter:' + home.contentGutterSm + 'px !important;}}');
   let siteBox = 0;
   for (const cwv of [barMwNum, fMaxNum]) { const n = parseFloat(cwv); if (!isNaN(n)) siteBox = Math.max(siteBox, Math.round(n)); }
+  // No header / footer container to read? The capture's stamped site content width (a shell-container site whose
+  // masthead is full-width) is ALREADY a content width — emit it directly. PHP twin: detect_site_content_width.
+  if (siteBox <= 0 && home && home.contentWidth > 0) {
+    // The theme's Container Width is a CONTENT width (its gutter sits outside). A container whose gutter is its own PADDING
+    // (`max-w-7xl px-6` — stamped gutter-inside) measures 1280 OUTER, 1232 content: subtract the gutters, or every band renders
+    // +2×gutter wider than the source (RECURS x3 in the findings feed). PHP twin: detect_site_content_width.
+    let cwPx = home.contentWidth;
+    if (home.contentGutterInside && home.contentGutter > 0 && cwPx > 4 * home.contentGutter) cwPx = cwPx - 2 * home.contentGutter;
+    values.general_layout = Object.assign({}, values.general_layout, { layout_container_width: { base: { value: '100', unit: '%' }, md: { value: '720', unit: 'px' }, lg: { value: String(cwPx), unit: 'px' } } });
+  }
   if (siteBox > 0) {
     const contentW = boxToContent(siteBox);
     values.general_layout = Object.assign({}, values.general_layout, {
@@ -872,10 +1148,10 @@ export function toThemeSettings(config, home) {
     const fn = footer.newsletter;
     if (fn && fn.title) {
       cols.push([{ element_type: { element: 'newsletter', newsletter: {
-        title: fn.title,
-        description: fn.tagline || '',
-        email_placeholder: fn.placeholder || 'Your email address',
-        button_label: fn.button || 'Subscribe',
+        newsletter_title: fn.title,
+        newsletter_desc: fn.tagline || '',
+        newsletter_email_ph: fn.placeholder || 'Your email address',
+        newsletter_button: fn.button || 'Subscribe',
         show_name: 'no',
         design: 'inline',
       } } }]);
@@ -888,10 +1164,145 @@ export function toThemeSettings(config, home) {
     let countKey = String(n);
     if (n === 4) { mfc.main_footer_layout = 'f5-2-1-1-1'; countKey = '5'; }
     values.main_footer_columns = { count: countKey, [countKey]: mfc };
+  } else if ((home && home.footer) && (home.footer.brand || home.footer.tagline)) {
+    const hf = home.footer; // the capture-side footer record (the design-config copy carries only the classic fields)
+    // BRAND-ONLY footer (PHP parity): a wordmark / logo beside ONE disclaimer paragraph and no link columns. The paragraph
+    // takes its own column when the source lays the two side by side; its type rides the .footer-tagline residual.
+    const brandCol = [el('logo')];
+    const tg = hf.tagline;
+    const tagEl = tg ? { element_type: { element: 'text', text: { text_content: '<p class="footer-tagline">' + String(tg.html || escHtml(tg.text)).replace(/<br\s*\/?>/gi, '<br>') + '</p>' } } } : null;
+    const cols = (tagEl && hf.brandRow) ? [brandCol, [tagEl]] : [tagEl ? brandCol.concat([tagEl]) : brandCol];
+    const mfc = {}; cols.forEach((c, i) => { mfc['main_footer_col_' + (i + 1)] = c; });
+    if (cols.length === 2) mfc.main_footer_split = [{ w: 50, name: '' }, { w: 50, name: '' }];
+    values.main_footer_columns = { count: String(cols.length), [String(cols.length)]: mfc };
+    if (tg && tg.computed) {
+      const c = tg.computed, d = [];
+      if (/^[0-9.]+px$/.test(String(c.maxWidth || ''))) d.push('max-width:' + c.maxWidth);
+      if (/^[0-9.]+px$/.test(String(c.fontSize || ''))) d.push('font-size:' + c.fontSize);
+      if (/^[0-9.]+px$/.test(String(c.lineHeight || ''))) d.push('line-height:' + c.lineHeight);
+      if (/^(right|center)$/.test(String(c.textAlign || ''))) d.push('text-align:' + c.textAlign);
+      if (/^rgba?\(/.test(String(c.color || ''))) d.push('color:' + c.color);
+      if (d.length) miscCssParts.push('.footer-tagline{' + d.map((x) => x + ' !important').join(';') + ';}');
+    }
+    values._footer_brand_only = true;
+  }
+  /* --- MEASURED footer column split (PHP footer_measured_split): the main row's grid tracks when their count
+     matches the column count and they differ ≥ 5 %. --- */
+  {
+    const mr = (home && home.footer && home.footer.mainRow) || null;
+    const mfcv = values.main_footer_columns;
+    if (mr && mfcv && mfcv[mfcv.count] && !mfcv[mfcv.count].main_footer_layout) {
+      const tracks = (String(mr.gridTemplateColumns || '').match(/([0-9.]+)px/g) || []).map(parseFloat);
+      const n = Object.keys(mfcv[mfcv.count]).filter((k) => /^main_footer_col_\d+$/.test(k)).length;
+      const sum = tracks.reduce((a, b) => a + b, 0);
+      if (tracks.length === n && n >= 2 && n !== 5 && sum > 0 && (Math.max(...tracks) - Math.min(...tracks)) / sum >= 0.05) {
+        const segs = tracks.map((t) => ({ w: Math.round(t / sum * 100), name: '' }));
+        segs[0].w += 100 - segs.reduce((a, x) => a + x.w, 0);
+        mfcv[mfcv.count].main_footer_split = segs;
+      }
+    }
+  }
+  /* --- BOXED BODY (PHP detect_footer_shell / footer_box_values): the footer's content rows in ONE inset panel →
+     Footer → Layout → Boxed Body (theme 2.5.96); the bars inside go Full Width; decor strips → pseudo rules. --- */
+  const _fsh = (home && home.footer && home.footer.shell) || null;
+  const _fcs = (prefix, extra) => { // merge fields into <prefix>_custom_styling.yes
+    const key = prefix + '_custom_styling';
+    const cur = (values[key] && values[key].yes) ? values[key].yes : {};
+    values[key] = { enabled: 'yes', yes: Object.assign(cur, extra) };
+  };
+  if (_fsh) {
+    const f = {};
+    const px = (v) => { const m = /^(-?[0-9.]+)px$/.exec(String(v || '').trim()); return m ? parseFloat(m[1]) : null; };
+    const mm = String(_fsh.margin || '').trim().split(/\s+/); const ml = px(mm[1] !== undefined ? mm[1] : mm[0]);
+    if (_fsh.cappedWidth > 0) f.footer_box_max_width = _unit(Math.round(_fsh.cappedWidth));
+    if (ml !== null && ml > 0) f.footer_box_gutter = _unit(Math.round(ml));
+    const pp = String(_fsh.padding || '').trim().split(/\s+/); const pt = px(pp[0]); const pr = pp[1] !== undefined ? px(pp[1]) : pt;
+    if (pt !== null) f.footer_box_padding_y = _unit(Math.round(pt));
+    if (pr !== null) f.footer_box_padding_x = _unit(Math.round(pr));
+    const bgv = { color: { value: { predefined: '', custom: '' } } };
+    const bgc = String(_fsh.backgroundColor || '');
+    if (bgc && bgc !== 'transparent' && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(bgc)) bgv.color.value.custom = keepAlpha(bgc);
+    const bgi = String(_fsh.backgroundImage || '');
+    if (bgi && /gradient/.test(bgi) && !/url\(/.test(bgi)) { const gv = parseLinearGradient(bgi); if (gv) bgv.gradient = { data: gv }; else miscCssParts.push('.footer--boxed .footer__body{background-image:' + bgi + ';}'); }
+    if (bgv.color.value.custom || bgv.gradient) f.footer_box_background = bgv;
+    const edges = Object.values(_fsh.border || {});
+    if (edges.length === 4 && new Set(edges).size === 1) {
+      const m = /^([0-9.]+)px\s+(\w+)\s+(.+)$/.exec(edges[0]);
+      if (m) f.footer_box_border = { width: _unit(Math.max(1, Math.round(parseFloat(m[1])))), style: m[2], color: { predefined: '', custom: keepAlpha(m[3]) } };
+    } else if (edges.length) {
+      miscCssParts.push('.footer--boxed .footer__body{' + Object.entries(_fsh.border).map(([k, v]) => 'border-' + k + ':' + v).join(';') + ';}');
+    }
+    const rad = px(_fsh.radius); if (rad !== null && rad > 0) f.footer_box_radius = _unit(Math.round(rad));
+    const sh = String(_fsh.boxShadow || '');
+    if (sh && sh !== 'none') {
+      let first = sh.split(/\),\s*/)[0]; if ((first.match(/\(/g) || []).length > (first.match(/\)/g) || []).length) first += ')';
+      let col = ''; const cm = /(rgba?\([^)]*\)|#[0-9a-f]{3,8})/i.exec(first); if (cm) { col = cm[1]; first = first.replace(cm[1], '').trim(); }
+      const n = first.replace(/inset/i, '').trim().split(/\s+/).map(px).filter((v) => v !== null);
+      if (n.length >= 2) f.footer_box_shadow = { x: Math.round(n[0]), y: Math.round(n[1]), blur: Math.round(n[2] || 0), spread: Math.round(n[3] || 0), color: col, inset: /inset/i.test(first) };
+    }
+    f.footer_box_copyright_inside = _fsh.copyrightInside ? 'yes' : 'no';
+    values.footer_body_box = { enabled: 'yes', yes: f };
+    (_fsh.decor || []).slice(0, 2).forEach((k, i) => {
+      const d = ['content:""', 'position:absolute', 'pointer-events:none', 'z-index:0'];
+      if (k.bottom === '0px' && px(k.height) !== null) d.push('bottom:0'); else if (px(k.top) !== null) d.push('top:' + k.top);
+      for (const side of ['left', 'right']) if (px(k[side]) !== null) d.push(side + ':' + k[side]);
+      if (px(k.height) !== null) d.push('height:' + k.height);
+      if (px(k.width) !== null) d.push('width:' + k.width);
+      for (const [prop, key] of [['background-image', 'backgroundImage'], ['background-color', 'backgroundColor'], ['background-size', 'backgroundSize'], ['background-position', 'backgroundPosition'], ['background-repeat', 'backgroundRepeat'], ['opacity', 'opacity'], ['clip-path', 'clipPath'], ['border-radius', 'borderRadius'], ['filter', 'filter'], ['mix-blend-mode', 'mixBlendMode']]) {
+        const v = String(k[key] || ''); if (!v || v === 'none' || v === 'normal' || (prop === 'opacity' && v === '1') || (prop === 'border-radius' && v === '0px')) continue; d.push(prop + ':' + v);
+      }
+      miscCssParts.push('.footer--boxed .footer__body' + (i === 0 ? '::before' : '::after') + '{' + d.join(';') + ';}');
+    });
+    for (const bp of ['pre_footer', 'main_footer', 'post_footer', 'copyright']) _fcs(bp, { [bp + '_container']: 'container-fluid' });
+    // Inside a panel the theme's default 1rem bar padding is replaced by the rows' own measured box.
+    if (_fsh.mainRowPadding) { const q = String(_fsh.mainRowPadding).split(/\s+/); const a = /^[0-9.]+px$/.test(q[0]) ? q[0] : '0', b = q[2] !== undefined ? (/^[0-9.]+px$/.test(q[2]) ? q[2] : '0') : a; miscCssParts.push('.footer--boxed .footer__body > .footer-section--main-footer{padding-top:' + a + ';padding-bottom:' + b + ';}'); }
+    if (_fsh.copyrightInside) { const mq = String(_fsh.lastRowMargin || '0px').split(/\s+/), pq = String(_fsh.lastRowPadding || '0px').split(/\s+/); const v = (x) => /^[0-9.]+px$/.test(x || '') ? x : '0'; miscCssParts.push('.footer--boxed .footer__body > .footer-section--copyright{margin-top:' + v(mq[0]) + ';padding-top:' + v(pq[0]) + ';padding-bottom:' + v(pq[2] !== undefined ? pq[2] : pq[0]) + ';}'); }
+  }
+  /* --- COLUMN ALIGNMENT (PHP footer_row_valign): the main row's align-items → Main Footer → Custom Styling. --- */
+  {
+    const mr = (home && home.footer && home.footer.mainRow) || null;
+    const ai = String((mr && mr.alignItems) || '').toLowerCase();
+    const va = (ai === 'end' || ai === 'flex-end' || ai === 'last baseline') ? 'end' : (ai === 'center' ? 'center' : '');
+    if (va) _fcs('main_footer', { main_footer_valign: va });
   }
 
   /* --- copyright bar --- */
   let copy = (home && home.footer && String(home.footer.copyright || '').trim()) || '';
+  const _lbar = (home && home.footer && home.footer.labelBar) || null;
+  if (!copy && values._footer_brand_only) {
+    // A brand-only footer with NO © line in the source: the disclaimer paragraph IS its bottom text — no © bar invented.
+    delete values._footer_brand_only;
+    values.copyright_settings = { enabled: 'no' };
+  } else if (!copy && _lbar && Array.isArray(_lbar.cells) && _lbar.cells.length >= 2) {
+    // A LABEL BAR (the last row: ≥ 2 short small labels, no © line) IS the source's bottom bar → the Copyright
+    // bar's columns as-is, with its typography / hairline; a flex space-between row → Auto Width + Between.
+    // PHP parity: the label-bar branch of the copyright composer.
+    const n = Math.min(3, _lbar.cells.length);
+    const cols = {};
+    for (let i = 0; i < n; i++) cols['copyright_col_' + (i + 1)] = [{ element_type: { element: 'text', text: { text_content: '<p>' + escHtml(_lbar.cells[i]) + '</p>' } } }];
+    if (_lbar.display === 'flex' && /space-(between|around)|flex-start|flex-end|center/.test(String(_lbar.justifyContent || ''))) { cols.copyright_auto = 'yes'; cols.copyright_justify = String(_lbar.justifyContent).replace(/^space-|^flex-/, ''); }
+    const cf = {};
+    if (parseFloat(_lbar.borderTopWidth) > 0 && _lbar.borderTopStyle !== 'none' && _lbar.borderTopColor && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(_lbar.borderTopColor)) {
+      cf.copyright_border = { width: _unit(Math.max(1, Math.round(parseFloat(_lbar.borderTopWidth)))), style: _lbar.borderTopStyle, color: { predefined: '', custom: keepAlpha(_lbar.borderTopColor) } };
+      cf.copyright_border_sides = ['top']; cf.copyright_border_extent = { mode: 'full' };
+    }
+    const typo = {};
+    const fam = String(_lbar.fontFamily || '').split(',')[0].replace(/["']/g, '').trim(); if (fam) typo.family = fam;
+    const fsz = parseFloat(_lbar.fontSize); if (isFinite(fsz)) typo.size = _unit(Math.round(fsz));
+    if (/^\d{3}$/.test(String(_lbar.fontWeight || ''))) typo.weight = String(_lbar.fontWeight);
+    if (_lbar.color && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(_lbar.color)) typo.color = keepAlpha(_lbar.color);
+    const lsp = parseFloat(_lbar.letterSpacing); if (isFinite(lsp) && lsp !== 0) typo['letter-spacing'] = lsp;
+    if (Object.keys(typo).length) cf.copyright_typography = typo;
+    _fcs('copyright', cf);
+    values.copyright_settings = { enabled: 'yes', yes: { copyright_columns: { count: String(n), [String(n)]: cols }, copyright_custom_styling: values.copyright_custom_styling } };
+    delete values.copyright_custom_styling;
+    const lb = [];
+    if (/^(uppercase|lowercase|capitalize)$/.test(String(_lbar.textTransform || ''))) lb.push('text-transform:' + _lbar.textTransform);
+    if (/^-?[0-9.]+px$/.test(String(_lbar.letterSpacing || ''))) lb.push('letter-spacing:' + _lbar.letterSpacing);
+    if (/^[0-9.]+px$/.test(String(_lbar.lineHeight || ''))) lb.push('line-height:' + _lbar.lineHeight);
+    if (lb.length) miscCssParts.push('.footer .footer-section--copyright{' + lb.join(';') + ';}');
+    miscCssParts.push('.footer .footer-section--copyright .builder-text-element p{margin:0;}');
+  } else {
   if (copy) { copy = copy.replace(/\b(19|20)\d{2}\b/, '{{current_year}}'); }
   else { copy = `&copy; {{current_year}} ${title}. All rights reserved.`; }
   values.copyright_settings = {
@@ -903,18 +1314,48 @@ export function toThemeSettings(config, home) {
       },
     },
   };
+  }
 
-  /* --- button_colors / button_sizes: presets derived from the source's real button skin --- */
-  const btnPresets = buildButtonPresets(home);
-  if (btnPresets) {
-    Object.assign(values, btnPresets);
-    // A Large size preset exists → the header CTA should use it (matches the source's chunky CTA).
-    if (btnPresets.button_sizes && values.header_main && Array.isArray(values.header_main.main_right)) {
-      for (const node of values.header_main.main_right) {
-        const cta = node && node.element_type && node.element_type.cta_button;
-        if (cta && cta.cta_size === 'btn-md') cta.cta_size = 'btn-lg';
-      }
+  /* --- button_colors / button_sizes: presets derived from the source's real button skin (built up front,
+     beside header_main, so the header CTAs could resolve against them). --- */
+  delete values._footer_brand_only;
+  if (btnPresets) Object.assign(values, btnPresets);
+
+  /* --- TWO-ROW MASTHEAD → the nav row becomes the native Bottom Bar (below the brand row) or Top Bar (above
+     it): the primary menu in the column matching the source's alignment, the row's rule line as the bar's
+     Custom Styling border on the edge facing the brand row, its fill as the bar background, and its exact
+     padding / link gap (no native field) as a scoped rule. Always emitted (empty) so a prior conversion's
+     bar never persists through the overlay-only importer. Parity with PHP. --- */
+  values.header_bottombar = { bottombar_left: [], bottombar_center: [], bottombar_right: [] };
+  if (hdrRows) {
+    const bar = (hdrRows.nav_pos === 'top' && !(values.header_topbar && (values.header_topbar.topbar_left || []).length)) ? 'topbar' : 'bottombar';
+    const barK = 'header_' + bar;
+    if (!values[barK] || typeof values[barK] !== 'object') values[barK] = {};
+    values[barK][bar + '_' + (hdrRows.align || 'center')] = [el('menu_area', { menu_location: 'primary' })];
+    const bcs = {};
+    if (hdrRows.border) {
+      const bcol = String(hdrRows.border.color);
+      // A translucent hairline stays translucent — hex() would drop its alpha into a solid line.
+      bcs[bar + '_border'] = { width: { value: String(hdrRows.border.width), unit: 'px' }, style: String(hdrRows.border.style), color: { predefined: '', custom: /^rgba\(/i.test(bcol) ? bcol : _rgbHex(bcol) } };
+      bcs[bar + '_border_sides'] = [String(hdrRows.border.side)];
+      bcs[bar + '_border_extent'] = { mode: 'full' };
     }
+    if (hdrRows.bg) bcs[bar + '_background'] = { color: { value: { predefined: '', custom: _rgbHex(hdrRows.bg) } } };
+    if (values.header_layout && values.header_layout.container) bcs[bar + '_container'] = values.header_layout.container;
+    if (Object.keys(bcs).length) values[barK][bar + '_custom_styling'] = { enabled: 'yes', yes: bcs };
+    const decl = [];
+    if (hdrRows.padding) decl.push('padding:' + hdrRows.padding);
+    if (hdrRows.nav_height) decl.push('min-height:' + hdrRows.nav_height + 'px');
+    // line-height on the BAR: the theme's 30px menu line box is inherited by the inline-block nav wrapper too.
+    if (hdrRows.link_lh) decl.push('line-height:' + hdrRows.link_lh + 'px');
+    let css = '';
+    if (decl.length) css += '\n/* Source nav row (two-row masthead) */\n.site-header .header-' + bar + '{' + decl.join(';') + ';}';
+    // The bar's height is the source padding + the links' line box: drop the theme row minimum and pin the
+    // menu's line-height to the source links' so the row measures like the source (parity with PHP).
+    css += '.site-header .header-' + bar + ' .header-row{min-height:0;}';
+    if (hdrRows.link_lh) css += '.site-header .header-' + bar + ' .primary-menu,.site-header .header-' + bar + ' .primary-menu a{line-height:' + hdrRows.link_lh + 'px;}';
+    if (hdrRows.gap) css += '.site-header .header-' + bar + ' .primary-menu{gap:' + hdrRows.gap + 'px;}';
+    if (css) miscCssParts.push(css);
   }
 
   /* --- font_sizes (Text Styles): the Display scale + BODY roles (Lead/Subtitle/Small/Caption) + Eyebrow

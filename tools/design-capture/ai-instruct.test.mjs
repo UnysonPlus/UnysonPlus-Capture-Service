@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free, GPU-free unit tests for the user-directed tweak feature (POST /ai-instruct → instructTweak).
 // Covers the CSS SANITIZER (the security/trust boundary), the response-shape normalizer, and instructTweak
 // end-to-end with the model call MOCKED via global.fetch (Anthropic API backend), like local-ai-light.test.mjs.

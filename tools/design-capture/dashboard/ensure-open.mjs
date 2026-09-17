@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Auto-open the converter dashboard (http://localhost:4600) whenever a converter tool is used, and
 // start the dashboard server itself if it isn't already running. Called from serve.mjs (when the
 // capture service boots) and capture.mjs (when a CLI capture runs) — i.e. any time the AI Dev Kit
@@ -119,8 +120,12 @@ export async function ensureDashboard({ open = true } = {}) {
       await new Promise((r) => setTimeout(r, 800)); // let it bind
     }
 
-    // Open a tab when we (re)started the dashboard, or when a launch forces it. (The same-version reuse
-    // path returns above, itself honoring force.) markOpened() is telemetry only — it no longer gates.
-    if (open && (started || force)) { openBrowser(DASH_URL); markOpened(); }
+    // Open a tab when a launch forces it, or when we (re)started the dashboard AND no tab was opened in the
+    // last 30 min (the lockfile). A restart alone is not a reason for a new tab: the tab the user already has
+    // reconnects to the restarted server, and a code-version drift (a package bump between CLI captures)
+    // restarted + re-opened on EVERY capture — a fresh tab per conversion. (The same-version reuse path
+    // returns above, itself honoring force.) Agents driving the converter headless set DASHBOARD_AUTO_OPEN=0.
+    if (open && (force || (started && !recentlyOpened()))) { openBrowser(DASH_URL); markOpened(); }
+    else if (open && started) { markOpened(); } // the running tab now shows this server — keep the window rolling
   } catch { /* never let dashboard auto-open break a conversion */ }
 }

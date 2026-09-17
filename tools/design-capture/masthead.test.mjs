@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
  * masthead.test.mjs — prove the scored masthead resolver beats querySelector('header')
  * on real sources. No localhost, no WordPress, no conversion: it loads each URL and
@@ -19,21 +20,18 @@ import { readMastheadState, describeMasthead } from './masthead.mjs';
 const argv = process.argv.slice(2);
 const flag = (n, d) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
 
-const DEFAULT = [
-  // <header> IS the masthead (must not regress)
-  'https://sweetwish-patisserie-shop.wegic.net/',
-  'https://luxora-eyewear-store.wegic.net/',
-  'https://serenity-spa-wellness.wegic.net/',
-  // <header> is the HERO, the real bar is a <nav> (the bug this fixes)
-  'https://openhero.art/api/preview?category=tech&slug=lumina-ai',
-  'https://openhero.art/api/preview?category=tech&slug=anime-environment-engine',
-  'https://openhero.art/api/preview?category=nature&slug=crystal-universe',
-  // detached / floating bar (top offset > 8px)
-  'https://openhero.art/api/preview?category=nature&slug=solitary-elevation-project',
-];
+// The built-in sample lives OUTSIDE the repo: masthead-sample.local.txt (gitignored) — one URL, or `category|slug` for a
+// preview host named in the same file's first `host=` line — so no source site is named in the codebase.
+const DEFAULT = (() => {
+  try {
+    const raw = fs.readFileSync(new URL('./masthead-sample.local.txt', import.meta.url), 'utf8');
+    const lines = raw.split(/[\r\n]+/).map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+    const host = (lines.find((l) => l.startsWith('host=')) || 'host=').slice(5);
+    return lines.filter((l) => !l.startsWith('host=')).map((l) => (/^https?:\/\//i.test(l) ? l : (host && l.includes('|') ? host + '?category=' + l.split('|')[0].trim() + '&slug=' + l.split('|')[1].trim() : null))).filter(Boolean);
+  } catch { return []; }
+})();
 
-const expand = l => /^https?:\/\//i.test(l) ? l
-  : (l.includes('|') ? `https://openhero.art/api/preview?category=${l.split('|')[0].trim()}&slug=${l.split('|')[1].trim()}` : null);
+const expand = (l) => (/^https?:\/\//i.test(l) ? l : null);
 
 const listFile = flag('urls');
 let urls = listFile

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Style Guide generator — turns a capture into a single, reviewable "Style Guide" page
 // (built from page-builder atoms) that VISUALIZES the extracted design system: Colors,
 // Typography, Buttons, Spacing + a sample Table. This is the reliable half of a conversion

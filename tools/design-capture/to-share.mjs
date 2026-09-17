@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // to-share.mjs — OPT-IN, anonymized "share report".
 //
 // Turns a conversion report into a structural-only document a developer can CHOOSE to send upstream
@@ -39,7 +40,7 @@ const sanitizeNote = (s) => String(s || '')
   .replace(/https?:\/\/\S+/gi, '[url]')
   .replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi, '[email]')
   .replace(/["'“”‘’][^"'“”‘’]{16,}["'“”‘’]/g, '[…]')
-  .replace(/\s+/g, ' ').trim().slice(0, 120);
+  .replace(/\s+/g, ' ').trim().slice(0, 240);
 
 // An OPTIONAL `solution` — the agent's own fix sketch for a REUSABLE pattern (a recognizer approach, or the
 // child-theme shortcode it wrote), for the MAINTAINER to review and promote — NEVER auto-applied. It's the
@@ -50,17 +51,41 @@ const sanitizeSolution = (s) => String(s || '')
   .replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi, '[email]')
   .trim().slice(0, 2000);
 
+// A REPRO FIXTURE (the stamped construct, structure only) — see fixture.mjs.
+import { sanitizeFixture, FIXTURE_MAX } from './fixture.mjs';
+export { sanitizeFixture, FIXTURE_MAX };
+
 // The AGENT's diagnosis of a miss: got vs. expected + a structural note (+ an optional solution sketch).
 // This is the got-vs-expected signal the protocol asks for; the converter's own trace never carries it.
 // Kept to a converter/vocab shape (shortcode / option / token names) + a redacted note — never source content.
+// The finding carries the REPORTING CONTRACT tuple (kit docs: "How to report a discrepancy so the converter can be fixed"):
+//   region · property · source value · converted value · the source CONSTRUCT (a class / rule / tag — structural, never
+//   content) · the converter PATH that lost it · which TWIN (php / js / both) · the LOSS kind (not-captured /
+//   dropped / overridden / wrong-mapping / wrong-value). Each field is a short structural string; the older
+//   ref / got / expected / note still work and are widened (40 → 120 chars) so a measured pair is never cut mid-value.
+// (selector punctuation survives — `[data-sc-anim*=marquee]`, `.max-w-[1600px]`, `:nth-of-type(3)` — a construct IS a selector)
+const _val = (v, n) => String(v || '').replace(/[^\w :>/+.,%()#\[\]*=~^$|!"'-]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
+export const LOSS_KINDS = ['not-captured', 'dropped', 'overridden', 'wrong-mapping', 'wrong-value', 'wrong-order', 'missing-option'];
 const sanitizeFindings = (arr) => (Array.isArray(arr) ? arr : []).slice(0, 40).map((f) => ({
-  ref: String((f && f.ref) || '').replace(/[^\w :>/.-]/g, '').slice(0, 40),        // structural ref (e.g. "s2:heading h2")
-  got: String((f && f.got) || '').replace(/[^\w :/+.-]/g, '').slice(0, 40),         // what the converter produced
-  expected: String((f && f.expected) || '').replace(/[^\w :/+.-]/g, '').slice(0, 40), // the correct shortcode/option/token
+  ref: _val(f && f.ref, 60),                 // structural ref (e.g. "s2:heading h2")
+  got: _val(f && f.got, 120),                // what the converter produced (a measured value: "578x325 contain")
+  expected: _val(f && f.expected, 120),      // what the source shows (a measured value: "692x728 cover")
+  ...(f && f.region   ? { region:   _val(f.region, 40) } : {}),   // hero / s2 / footer / chrome:header
+  ...(f && f.property ? { property: _val(f.property, 40) } : {}), // the CSS property / option / layout fact
+  ...(f && f.construct ? { construct: _val(f.construct, 120) } : {}), // the SOURCE construct: `aspect-[.95] max-w-[880px]`, `body::before{position:fixed}`
+  ...(f && f.path     ? { path:     _val(f.path, 80) } : {}),      // the capture-out/<site> folder the finding reproduces from
+  ...(f && f.twin && /^(php|js|both)$/i.test(String(f.twin)) ? { twin: String(f.twin).toLowerCase() } : {}),
+  ...(f && f.loss && LOSS_KINDS.includes(String(f.loss)) ? { loss: String(f.loss) } : {}),
   note: sanitizeNote(f && f.note),
   systematic: !!(f && f.systematic),
-  ...(f && f.solution ? { solution: sanitizeSolution(f.solution) } : {}),           // OPTIONAL maintainer-review fix sketch
+  ...(f && f.recurs ? { recurs: Math.min(99, f.recurs === true ? 1 : (parseInt(f.recurs, 10) || 0)) } : {}),   // how many sites this was seen on (true = 1)
+  ...(f && f.solution ? { solution: sanitizeSolution(f.solution) } : {}),           // OPTIONAL maintainer-review fix sketch (the GENERAL rule, never a per-site patch)
+  ...(f && f.fixture ? { fixture: sanitizeFixture(f.fixture) } : {}),               // OPTIONAL repro: the stamped construct, structure only (see sanitizeFixture)
+  ...(f && f.severity && SEVERITIES.includes(String(f.severity)) ? { severity: String(f.severity) } : {}), // layout | content-loss | style | cosmetic — the maintainer orders a batch by it
+  ...(f && f.computed ? { computed: _val(f.computed, 160) } : {}),                  // what getComputedStyle / the cascade returned on the BUILT page (settles "which layer won")
+  ...(f && f.twin_shows ? { twin_shows: _val(f.twin_shows, 160) } : {}),            // the twin's output for the FIXTURE — proof the repro reproduces the miss
 })).filter((f) => f.got || f.expected || f.note || f.solution);
+export const SEVERITIES = ['layout', 'content-loss', 'style', 'cosmetic'];
 
 /**
  * Build the anonymized share report from the same input toReport() consumes.
@@ -135,7 +160,7 @@ export function buildFindingPayload({ url, converterVersion, finding } = {}) {
     finding: sanitizeFindings([finding])[0] || null,
   };
 }
-export function buildStatsPayload({ url, converterVersion, stats } = {}) {
+export function buildStatsPayload({ url, converterVersion, stats, positives } = {}) {
   return {
     schema: SCHEMA, tool: 'unysonplus-site-capture', kind: 'summary',
     converterVersion: converterVersion || '',
@@ -145,6 +170,9 @@ export function buildStatsPayload({ url, converterVersion, stats } = {}) {
       opportunities: stats.opportunities, stylingDrops: stats.stylingDrops,
       shortcodes: stats.shortcodes || {}, roles: stats.roles || {},
     } : undefined,
+    // what the converter got RIGHT on this site, as ONE line (structural: "hero cover + 3 icon boxes + pricing 3 plans") —
+    // this is where a POSITIVE goes; a POSITIVE finding row carries nothing a rule can use and is refused by the sender
+    ...(positives ? { positives: _val(positives, 240) } : {}),
   };
 }
 
@@ -154,7 +182,7 @@ export function oneLineSummary(p) {
   const h = (p && p.site && p.site.hostHash) || '?';
   if (p && p.kind === 'finding' && p.finding) {
     const f = p.finding;
-    return `converter ${v} · finding: ${f.got || '?'} → ${f.expected || '?'}${f.systematic ? ' (systematic)' : ''} · host ${h}`;
+    return `converter ${v} · finding${f.region ? ' [' + f.region + (f.property ? ':' + f.property : '') + ']' : ''}: ${f.got || '?'} → ${f.expected || '?'}${f.twin ? ' · ' + f.twin : ''}${f.loss ? ' · ' + f.loss : ''}${f.systematic ? ' (systematic' + (f.recurs ? ' ×' + f.recurs : '') + ')' : ''} · host ${h}`;
   }
   if (p && p.kind === 'summary') {
     const st = p.stats || {};

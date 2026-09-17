@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // AI refinement for the Site Converter (the optional "AI companion").
 //
 // The WordPress plugin deterministically parses an export into a draft MAPPING (sections → elements

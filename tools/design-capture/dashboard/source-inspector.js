@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /* UnysonPlus dashboard — SOURCE-side inspector.
  * Injected by the dashboard's /source-view?slug=… route into the captured SOURCE DOM
  * (rendered.html, where every element carries data-sc-cs="prop:val;…" + its original classes).

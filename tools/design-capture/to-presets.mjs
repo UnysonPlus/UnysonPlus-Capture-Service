@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Color Presets generator — turns a capture into a `presets.json` (`theme_colors`) so the
 // converted site's Component Presets → Color Presets admin matches the captured /style-guide/.
 // Without this the plugin's DEFAULT palette (Primary #0d6efd, Accent #fd7e14, …) is left in
@@ -167,12 +169,14 @@ export function backgroundPatterns(capture) {
     const image = String(bp.image).trim();
     if (!image || image.length > 3000) continue;
     if (!seen.has(image)) {
-      seen.set(image, { image, repeat: bp.repeat || '', size: bp.size || '', opacity: (bp.opacity != null ? bp.opacity : 1), count: 0, preview_bg: sectionPreviewBg(s) });
+      seen.set(image, { image, repeat: bp.repeat || '', size: bp.size || '', opacity: (bp.opacity != null ? bp.opacity : 1), blend: bp.blend || '', count: 0, preview_bg: sectionPreviewBg(s) });
     }
     const e = seen.get(image);
     e.count++;
     if (!e.preview_bg) { e.preview_bg = sectionPreviewBg(s); } // first band that resolves a colour wins
   }
+  // …and the page-wide FIXED pattern layer (capture-extract pageFixedPattern) — the Site Background Pattern references it
+  { const fp = capture && capture.pageFixedPattern; if (fp && fp.image && !seen.has(String(fp.image).trim())) seen.set(String(fp.image).trim(), { image: String(fp.image).trim(), repeat: fp.repeat || '', size: fp.size || '', opacity: (fp.opacity != null ? fp.opacity : 1), count: 99, preview_bg: bodyBg }); }
   if (!seen.size) return []; // no captured pattern → emit nothing, so the saved default library is preserved
   const derived = [...seen.values()].sort((a, b) => b.count - a.count).slice(0, 5).map((g, i) => {
     const n = i + 1;
@@ -185,6 +189,7 @@ export function backgroundPatterns(capture) {
       (g.repeat && g.repeat !== 'repeat') ? `background-repeat:${g.repeat}` : '',
       (g.size && g.size !== 'auto') ? `background-size:${g.size}` : '',
       (g.opacity < 1) ? `opacity:${g.opacity}` : '',
+      g.blend ? `mix-blend-mode:${g.blend}` : '', // a colour-dodge dot grid keeps its blend (PHP pattern_preset_entry $extra)
     ].filter(Boolean).join(';');
     return {
       id,
@@ -217,7 +222,56 @@ const DEFAULT_PATTERNS = [
   _dp('confetti', 'Confetti', 'pat-confetti', 'background-image:radial-gradient(rgba(0,0,0,.15) 1.6px,transparent 1.7px),radial-gradient(rgba(0,0,0,.1) 1.6px,transparent 1.7px);background-size:30px 30px,30px 30px;background-position:0 0,15px 15px'),
 ];
 
-export function toPresets(designConfig, capture, iconBadgeSkins) {
+/**
+ * Table Presets from the skins the tables REGISTERED (to-pages tableSkinOf) — PHP build_table_presets twin. Each is an
+ * entry in the shape of unysonplus_default_table_presets(), named "Table <hash>" so its slug is the node's
+ * 'table-<hash>' → the front-end '.tbl-table-<hash>'. The built-in library rides along (the importer replaces the
+ * whole option). The long tail (header face / size / tracking / own padding, body weight / leading, a divide-y
+ * last-row rule) rides the preset's own Custom CSS ({{SELECTOR}}-scoped, descendant selectors — the field strips '>').
+ */
+export function buildTablePresets(skins) {
+  const seen = new Set(); const out = [];
+  const c = (v) => ({ predefined: '', custom: String(v || '').trim() });
+  const u = (v) => { const m = String(v || '').trim().match(/^(-?[0-9.]+)\s*(px|rem|em|%)?$/); return m ? { value: m[1], unit: m[2] || 'px' } : { value: '', unit: 'px' }; };
+  const noshadow = { x: 0, y: 0, blur: 0, spread: 0, color: '', inset: false };
+  const shadow = (sh) => { sh = String(sh || '').trim(); if (!sh || sh === 'none') return noshadow; const first = sh.split(/,(?![^(]*\))/)[0]; const inset = /inset/i.test(first); let col = ''; let rest = first; const cm = first.match(/(rgba?\([^)]*\)|#[0-9a-f]{3,8})/i); if (cm) { col = cm[1]; rest = first.replace(cm[1], ''); } const nums = (rest.match(/-?[0-9.]+(?=px)/g) || []); if (nums.length < 2) return noshadow; return { x: +nums[0], y: +nums[1], blur: +(nums[2] || 0), spread: +(nums[3] || 0), color: col, inset }; };
+  const line = (l) => { const p = String(l || '').split('|'); return p.length === 3 ? p : ['', '', '']; };
+  const imp = (decl) => Object.entries(decl).filter(([, v]) => String(v || '').trim()).map(([k, v]) => k + ':' + v + ' !important').join(';');
+  for (const sk of (skins || [])) {
+    if (!sk || !sk.slug || seen.has(sk.slug)) continue; seen.add(sk.slug);
+    const hd = sk.header || {}, bd = sk.body || {}, ft = sk.footer || {}, cp = sk.caption || {}, fr = sk.frame || {};
+    const [hw, hs, hc] = line(sk.hline), [vw, vs, vc] = line(sk.vline), [dw, ds, dc] = line(hd.line), [fw, fs, fc] = line(ft.line);
+    const grid = hw && vw ? 'both' : hw ? 'horizontal' : vw ? 'vertical' : 'none';
+    let ob = ['', '', '']; const om = String(fr.border || '').trim().match(/^([0-9.]+px)\s+(\w+)\s+(.+)$/); if (om) ob = [om[1], om[2], om[3]];
+    const hov = {}; for (const d of String(sk.hover || '').split(';')) { const i = d.indexOf(':'); if (i > 0) hov[d.slice(0, i).trim()] = d.slice(i + 1).trim(); }
+    const css = [];
+    const hx = imp({ 'font-family': hd.family, 'font-size': hd.size, 'letter-spacing': hd.tracking, 'line-height': hd.lh, padding: hd.pad }); if (hx) css.push('{{SELECTOR}} thead th,{{SELECTOR}} thead td{' + hx + ';}');
+    const bx = imp({ 'font-family': bd.family, 'font-weight': bd.weight, 'letter-spacing': bd.tracking, 'text-transform': bd.transform, 'line-height': bd.lh }); if (bx) css.push('{{SELECTOR}} tbody td{' + bx + ';}');
+    if (hw && !vw) css.push('{{SELECTOR}} tbody tr:last-child td{border-bottom:0 !important;}');
+    const hash = sk.slug.slice(6);
+    out.push({
+      id: 'tc' + createHash('md5').update(sk.slug).digest('hex').slice(0, 8), preset_name: 'Table ' + hash,
+      cell_padding_y: u(sk.pad_y), cell_padding_x: u(sk.pad_x),
+      grid_lines: grid, grid_style: hw ? hs : vs, grid_width: u(hw || vw), grid_color: c(hw ? hc : vc),
+      outer_border_style: ob[1], outer_border_width: u(ob[0]), outer_border_color: c(ob[2]),
+      border_radius: u(fr.radius), outer_shadow: shadow(fr.shadow), cell_font_size: u(bd.size),
+      transition: sk.transition || '150', custom_css: css.join('\n'),
+      sections: {
+        header: { bg_color: c(hd.bg), text_color: c(hd.color), font_weight: String(hd.weight || ''), text_transform: String(hd.transform || ''), border_style: ds, border_width: u(dw), border_color: c(dc) },
+        body: { bg_color: c(bd.bg), text_color: c(bd.color) },
+        striped: { enabled: sk.stripe_bg ? 'yes' : 'no', bg_color: c(sk.stripe_bg) },
+        hover: { bg_color: c(hov['background-color']), text_color: c(hov.color) },
+        footer: { bg_color: c(ft.bg), text_color: c(ft.color), font_weight: String(ft.weight || ''), border_style: fs, border_width: u(fw), border_color: c(fc) },
+        caption: { color: c(cp.color), font_size: u(cp.size), font_style: String(cp.style || '') },
+      },
+    });
+  }
+  // captured skins ONLY: the PHP engine (which overwrites presets.json on a bundle import) folds the built-in library in
+  // front of them (build_table_presets); the JS bundle is the report / parity view of the same presets.
+  return out;
+}
+
+export function toPresets(designConfig, capture, iconBadgeSkins, tableSkins) {
   const cfg = designConfig || {};
   const cap = capture || {};
   const colors = cfg.colors || {};
@@ -256,6 +310,7 @@ export function toPresets(designConfig, capture, iconBadgeSkins) {
   // tiles, so a plain site keeps the plugin's default Icon Badge library (the importer skips
   // absent keys). Rides the SAME presets bundle as theme_colors → same importer, same store.
   const icon_badge_presets = buildIconBadgePresets(iconBadgeSkins || []);
+  const table_presets = buildTablePresets(tableSkins || []);
 
   return {
     values: {
@@ -263,6 +318,7 @@ export function toPresets(designConfig, capture, iconBadgeSkins) {
       ...(section_style_presets && section_style_presets.length ? { section_style_presets } : {}),
       ...(background_patterns && background_patterns.length ? { background_patterns } : {}),
       ...(icon_badge_presets && icon_badge_presets.length ? { icon_badge_presets } : {}),
+      ...(table_presets && table_presets.length ? { table_presets } : {}),
     },
   };
 }

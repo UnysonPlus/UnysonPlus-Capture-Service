@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free fixtures: synthetic capture BLOCKS (the shape capture-extract's structured-widget
 // detectors now emit) fed through the real toPages() pipeline, asserting each maps to the right native
 // shortcode + payload — parity with the PHP Mapper n_* builders. Each surface has a NEGATIVE control

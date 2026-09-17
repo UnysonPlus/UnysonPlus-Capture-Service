@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Header/footer CHROME translation guard (browser-free). Feeds synthetic capture output through the
 // real toThemeSettings() and asserts each measured signal lands on the correct NATIVE option.
 //
@@ -121,6 +122,68 @@ console.log('\n=== NEGATIVE: an empty capture must not invent options ===');
     .filter((k) => v[k] !== undefined);
   ok(invented.length === 0, 'no header chrome options invented from an empty capture' + (invented.length ? ' (' + invented.join(',') + ')' : ''));
   ok(invented2.length === 0, 'no footer chrome options invented from an empty capture' + (invented2.length ? ' (' + invented2.join(',') + ')' : ''));
+}
+
+console.log('\n=== HEADER: two-row masthead → Bottom Bar · every CTA · chip → list_item (PHP twin: golden [H]) ===');
+{
+  const skin = { role: 'Outline', cls: '', bg: 'rgba(255, 255, 255, 0.2)', grad: '', fg: 'rgb(255, 255, 255)', bd: 'rgba(95, 73, 42, 0.08)', bw: '1px', shadow: '', radius: '999px', px: '18px', py: '0px', fs: '10px', lh: 'normal', height: '44px', ff: 'Inter', ls: '2.2px', tt: 'uppercase', fw: '400', hov: '', tr: '0.35s' };
+  const bs = { bg: 'rgba(255, 255, 255, 0.2)', fg: 'rgb(255, 255, 255)', bw: '1px', bds: 'solid', bd: 'rgba(95, 73, 42, 0.08)', grad: '' };
+  const home = {
+    buttonSkins: [skin, { ...skin }],
+    header: {
+      element: { position: 'fixed', backgroundColor: 'rgba(0, 0, 0, 0)', backdropFilter: 'blur(20px)', borderBottomWidth: '1px', borderBottomStyle: 'solid', borderBottomColor: 'rgba(95, 73, 42, 0.08)' },
+      bar: { maxWidth: 'none', padding: '18px 28px 14px' },
+      nav: [{ label: 'Alpha', href: '#a', computed: { color: 'rgb(255, 255, 255)', fontSize: '10px' }, hover: { color: 'rgb(172, 123, 63)' } }],
+      ctas: [
+        { label: 'Map', href: '', cls: '', bs, fs: '10px', pad: '0px 18px', height: '44px' },
+        { label: 'Visit', href: '', cls: '', bs, fs: '10px', pad: '0px 18px', height: '44px' },
+      ],
+      rows: { nav_pos: 'bottom', nav_cls: 'bottom', brand_height: 78, brand_pad_x: 28, nav_height: 38, border: { width: 1, style: 'solid', color: 'rgba(95, 73, 42, 0.08)', side: 'top' }, padding: '10px 28px 12px', align: 'center', gap: 28 },
+      chips: [{ text: 'Seasonal note · Second note', cls: 'chip', hide: ['hide-xs', 'hide-sm'], dot: { size: 7, color: 'rgb(215, 170, 97)', shadow: 'rgba(215, 170, 97, 0.55) 0px 0px 18px 0px' },
+        cs: { gap: '10px', padding: '10px 16px', borderRadius: '999px', backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'rgb(255, 255, 255)', fontSize: '10px', fontWeight: '400', letterSpacing: '2.4px', textTransform: 'uppercase', lineHeight: '15px', boxShadow: 'none', borderTopWidth: '1px', borderTopStyle: 'solid', borderTopColor: 'rgba(95, 73, 42, 0.08)' } }],
+    },
+    chrome: {},
+  };
+  const v = val(home);
+  const main = v.header_main || {};
+  const ctas = (main.main_right || []).filter((n) => n.element_type.element === 'cta_button').map((n) => n.element_type.cta_button);
+  ok(JSON.stringify(ctas.map((c) => c.cta_text)) === JSON.stringify(['Map', 'Visit']), 'every header action → a cta_button (two, DOM order)');
+  ok(ctas[0] && ctas[0].cta_style === 'btn-outline', 'header CTA style resolves to the preset matching its GLASS skin (translucent fill + hairline)');
+  ok(ctas[0] && ctas[0].cta_size === 'btn-md', 'header CTA size resolves to the size preset (single size → Default md)');
+  ok(!JSON.stringify(main).includes('menu_area'), 'no menu_area in the brand row (it moved to the Bottom Bar)');
+  const chip = (main.main_center || [])[0] || {};
+  ok(chip.element_type && chip.element_type.element === 'list_item', 'chip → list_item in the centre zone');
+  ok(chip.element_type && chip.element_type.list_item.li_text === 'Seasonal note · Second note', 'chip text');
+  const mk = (chip.element_type && chip.element_type.list_item.li_icon && chip.element_type.list_item.li_icon.markup) || '';
+  ok(mk.includes('<circle') && mk.includes('rgb(215, 170, 97)'), 'chip dot → inline SVG circle icon in the dot colour');
+  ok(JSON.stringify(chip.visibility) === JSON.stringify(['hide-xs', 'hide-sm']), 'chip hidden under 1100px → Hide On mobile + tablet');
+  ok(chip.element_css_class === 'sc-hdr-chip', 'chip carries its element CSS Class');
+  const bb = v.header_bottombar || {};
+  ok(bb.bottombar_center && bb.bottombar_center[0] && bb.bottombar_center[0].element_type.element === 'menu_area', 'Bottom Bar centre column = the primary menu');
+  ok((bb.bottombar_left || []).length === 0 && (bb.bottombar_right || []).length === 0, 'Bottom Bar left/right columns empty');
+  const bcs = (bb.bottombar_custom_styling && bb.bottombar_custom_styling.yes) || {};
+  ok(bb.bottombar_custom_styling && bb.bottombar_custom_styling.enabled === 'yes', 'Bottom Bar custom styling enabled');
+  ok(bcs.bottombar_border && bcs.bottombar_border.width.value === '1', "Bottom Bar border = the nav row's 1px rule");
+  ok(bcs.bottombar_border && bcs.bottombar_border.color.custom === 'rgba(95, 73, 42, 0.08)', 'Bottom Bar border colour keeps its alpha');
+  ok(JSON.stringify(bcs.bottombar_border_sides) === JSON.stringify(['top']), 'Bottom Bar border on the TOP edge (facing the brand row)');
+  const hl = v.header_layout || {};
+  ok(hl.min_height && hl.min_height.value === '78', 'header min_height = the BRAND row (78), not the stacked rows');
+  ok(hl.header_border === 'yes', "header_border from the header element's own border-bottom");
+  ok(v.header_menu && v.header_menu.menu_link_hover_color.custom === 'rgb(172, 123, 63)', 'menu hover colour = the captured a:hover colour');
+  const css = (v.misc_custom_css && v.misc_custom_css.custom_css) || '';
+  ok(css.includes('.site-header .sc-hdr-chip .list-item{') && css.includes('border-radius:999px') && css.includes('background-color:rgba(255, 255, 255, 0.2)'), 'chip pill skin as scoped CSS on the element class');
+  ok(css.includes('.sc-hdr-chip .list-item__icon{width:7px;height:7px') && css.includes('rgba(215, 170, 97, 0.55) 0px 0px 18px'), 'chip dot size + glow as scoped CSS');
+  ok(css.includes('.site-header .header-bottombar{padding:10px 28px 12px;'), 'nav row padding as a scoped Bottom Bar rule');
+  ok(css.includes('.header-bottombar .primary-menu{gap:28px;}'), 'nav link gap as a scoped Bottom Bar rule');
+  ok(css.includes('.site-header.site-header--border{box-shadow:none !important;border-bottom:1px solid rgba(95, 73, 42, 0.08) !important;}'), "header hairline in the source's own translucent colour");
+  // FULL-WIDTH bar: the inner bar has no max-width → Full Width, with the source row's own 28px side inset.
+  ok(hl.container === 'container-fluid', 'header with no capped bar → Full Width container');
+  ok(css.includes('.site-header .header-main .fw-container-fluid{padding-left:28px;padding-right:28px;}'), "full-width header keeps the source's 28px side inset");
+  ok(css.includes('.site-header .header-bottombar .fw-container-fluid,.site-header .header-topbar .fw-container-fluid{padding-left:0;padding-right:0;}'), 'Bottom Bar inner container goes flush');
+  // NEGATIVE — a one-row header keeps its menu in the main row and an EMPTY Bottom Bar.
+  const v1 = val({ header: { element: {}, bar: {} }, chrome: {} });
+  ok(JSON.stringify(v1.header_main || {}).includes('menu_area'), 'one-row header: menu_area stays in the main row');
+  ok(v1.header_bottombar && v1.header_bottombar.bottombar_center.length === 0 && !v1.header_bottombar.bottombar_custom_styling, 'one-row header: Bottom Bar stays empty');
 }
 
 console.log(fails ? `\n✗ ${fails} FAIL` : '\n✓ ALL PASS — header/footer chrome translations guarded');

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // refine-chrome.mjs — the self-verify → AI-fix loop, SCOPED TO THE HEADER (and, secondarily, the FOOTER).
 //
 // A sibling of refine-visual.mjs, but instead of the WHOLE page it crops to the site CHROME: the top

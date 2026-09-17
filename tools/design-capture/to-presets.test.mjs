@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // Browser-free fixture: a synthetic captured section list → section_style_presets. Guards the
 // Section Styles clustering in to-presets.mjs sectionStyles(): only DISTINCTIVE bands (own bg /
 // border / radius / shadow) become presets, near-identical bands cluster into one, colours are

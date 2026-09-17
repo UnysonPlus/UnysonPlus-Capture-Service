@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
  * masthead.mjs — resolve the element that is REALLY the site masthead.
  *
@@ -6,7 +7,7 @@
  * `document.querySelector('header')` is wrong often enough to corrupt a capture.
  * Measured across 180 live generated sites (UnysonPlus-AI-Dev-Kit/tools/chrome-survey):
  *
- *   • On the OpenHero corpus the masthead is a <nav> on 72% of pages, and <header>
+ *   • On the the AI-generated corpus corpus the masthead is a <nav> on 72% of pages, and <header>
  *     wraps the HERO (a min-h-screen band with a background video). So the naive
  *     selector returns the hero on 26% of pages and null on 48%.
  *   • ~15% of headers are DETACHED — floating 16-128px below the viewport top —

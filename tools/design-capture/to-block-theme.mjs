@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 // to-block-theme.mjs — generate a minimal, valid WordPress BLOCK THEME (FSE) from a capture.
 //
 // Tier C1 of the block-theme output roadmap. Pairs with to-blocks.mjs (which emits the page
