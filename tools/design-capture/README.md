@@ -163,7 +163,11 @@ node pull-findings.mjs [--since=<ISO>] [--json=<file>] [--fixtures=<dir>]       
 The sender refuses a finding without `region · property · got · expected · construct · path · twin · loss`, an
 unstamped fixture, a fixture without `twin_shows` (what the PHP twin emitted for it — the proof it reproduces), a
 `solution` that is a `#id{…}` site patch, a note that says "fixed per-site" without the general `solution`, or a
-POSITIVE row (it goes in the summary's `--positives`). `severity` (`layout | content-loss | style | cosmetic`) orders
+POSITIVE row (it goes in the summary's `--positives`), or a `systematic` finding without a `fixture` (or a
+`no_fixture_reason` saying why the construct cannot be cut). It WARNS when the fixture's stamps do not carry the
+`property` the finding names — that is a capture gap (`loss: not-captured`), not a converter drop. Read the builder
+node's PRESET references (a Box / Button / Text preset) before calling a skin dropped, and take `expected` from the
+source's computed value, never from a class. `severity` (`layout | content-loss | style | cosmetic`) orders
 the maintainer's batch; `computed` (what `getComputedStyle` returned on the built page, and which rule won) settles an
 `overridden` loss. `got` / `expected` are computed values read on the
 BUILT page (`twin: php` = the WordPress import) and the source at the same viewport; `construct` is the source

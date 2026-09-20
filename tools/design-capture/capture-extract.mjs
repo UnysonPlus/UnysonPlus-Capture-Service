@@ -2642,6 +2642,9 @@ export function extractDesign() {
       // 640px card) — PHP twin: Stitch::grid_px_tracks / cell_geometry.
       { const tw = c.getBoundingClientRect().width; if (tw > 0) cell.track = Math.round(tw * 10) / 10;
         const ccs0 = getComputedStyle(c); const mh = parseFloat(ccs0.minHeight); if (/px$/.test(ccs0.minHeight || '') && mh >= 120) { cell.minH = Math.round(mh); const smh = smOf(c)['min-height']; if (smh !== undefined) { const v = parseFloat(smh); cell.minHSm = (/px$/.test(smh) && v >= 120) ? Math.round(v) : 0; } const mdh = mdOf(c)['min-height']; if (mdh !== undefined) { const v = parseFloat(mdh); cell.minHMd = (/px$/.test(mdh) && v >= 120) ? Math.round(v) : 0; } } } // + the phone / tablet minimums (PHP: minh_sm / minh_md)
+        // …else the GRID's row minimum (`auto-rows-[minmax(320px,auto)]` → grid-auto-rows `minmax(320px, auto)` / a fixed
+        // `240px`) is the cell's minimum — a quote tile sat 96px short of its 320px row (PHP parity: cell_geometry).
+        if (!(cell.minH > 0) && c.parentElement) { const ar = getComputedStyle(c.parentElement).gridAutoRows || ''; const am = ar.match(/(?:minmax\(\s*)?([0-9.]+)px/); if (am && parseFloat(am[1]) >= 120) cell.minH = Math.round(parseFloat(am[1])); }
       // A DECORATIVE pseudo-layer on the cell (a blurred corner glow, `.card::before`): non-covering, absolute,
       // painted (gradient / colour), text-free. Geometry as % of the cell box so it scales with the card. PHP twin:
       // the capture.mjs data-sc-decor-pseudo stamp → Stitch::parse_decor_pseudo → Mapper::decor_pseudo_css.

@@ -199,3 +199,12 @@ When the page round-trips and reads like the source, the conversion is done. The
 Convert **structure + design system, not HTML**. Favor **editability over pixel-perfection**, with a
 `code_block` + scoped-CSS escape hatch for the part that doesn't map cleanly. Full rationale, format
 specs, and the gap log (G1–G12) are in **`conversion-contract.md`**.
+
+---
+
+## License
+
+**PolyForm Noncommercial 1.0.0** — see [`LICENSE`](LICENSE). Free to run locally and to convert sites for yourself
+or for clients (the sites you build are yours); not for resale, bundling into a paid product, or offering as a
+hosted service without a commercial license (jonmlas@gmail.com). The UnysonPlus plugin and theme this service
+feeds stay GPL-2.0-or-later.

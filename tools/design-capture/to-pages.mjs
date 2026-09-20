@@ -692,6 +692,25 @@ export function toPages(capture, opts = {}) {
   // Twin of PHP Mapper::cells_uniform_grid — do these flex cells form a UNIFORM, non-responsive 12-column
   // grid (every cell the SAME numeric base span, the spans summing to 12, no per-device width override, none
   // absolutely positioned)? Then flex-grow on the cells fills the row exactly (see the flush call site).
+  // A run of ≥ 2 cells with MIXED desktop spans (lg, else md, else base — 1–12) that tiles LINES of exactly 12 (a
+  // `grid-cols-12` bento: 8|4 then 5|7) → a native 12-track grid; a wrapping flex row ran one gap short per line, so
+  // the tiles sat 16px narrower than the source's tracks. PHP twin: Mapper::cells_span_lines.
+  const cellsSpanLines = (cells) => {
+    if (!Array.isArray(cells) || cells.length < 2) return false;
+    const spans = [];
+    for (const c of cells) {
+      if (!c || !c.atts || c.atts.element_position) return false;
+      const w = c.atts.width; if (!w) return false;
+      let d = '';
+      for (const t of ['lg', 'md', 'base']) { const v = String((w[t] && w[t].preset) || ''); if (/^\d+$/.test(v)) { d = v; break; } }
+      if (!d || +d < 1 || +d > 12) return false;
+      spans.push(+d);
+    }
+    if (new Set(spans).size < 2) return false;
+    let acc = 0;
+    for (const sp of spans) { acc += sp; if (acc > 12) return false; if (acc === 12) acc = 0; }
+    return acc === 0;
+  };
   const cellsUniformGrid = (cells) => {
     if (!Array.isArray(cells) || cells.length < 2) return false;
     let base = null, sum = 0;
@@ -798,6 +817,9 @@ export function toPages(capture, opts = {}) {
           over.display = 'grid';
           over.grid_columns = tl;
           for (const gc of cells) delete gc.atts.width;
+        } else if (cellsSpanLines(cells)) {
+          over.display = 'grid';
+          over.grid_columns = '12'; // (the cells keep their fw-span-N → grid-column:span N, responsive tiers included)
         } else if (cellsUniformGrid(cells)) {
           // UNIFORM NON-RESPONSIVE GRID → grow the cells to fill the row. A wrapping flex row sizes each span
           // cell width:calc(pct - gap), subtracting the FULL gap from every cell though only N-1 gaps sit between
@@ -2107,6 +2129,7 @@ export function toPages(capture, opts = {}) {
       // UNEQUAL source tracks → a native Grid with the exact track list (PHP twin: cells_track_list()).
       const tl = trackList(rcells);
       if (tl) { rowAtts.display = 'grid'; rowAtts.grid_columns = tl; for (const gc of rcells) delete gc.atts.width; }
+      else if (cellsSpanLines(rcells)) { rowAtts.display = 'grid'; rowAtts.grid_columns = '12'; } // mixed spans tiling lines of 12 → a 12-track grid (PHP twin: cells_span_lines)
       const rb2 = rcells[0] && rcells[0].atts && rcells[0].atts._row_box;
       if (rb2) rowAtts._box = rb2;
       // The row's own layout: align-items → native Align Items; space-between / center / end → native Justify with

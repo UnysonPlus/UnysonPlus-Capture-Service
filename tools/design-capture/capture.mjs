@@ -720,7 +720,10 @@ async function renderPage(p, target, retry = false) {
       '-webkit-text-stroke-width','-webkit-text-stroke-color','outline-width','outline-style','outline-color','outline-offset',
       'border-left-width','border-left-style','border-left-color','border-right-width','border-right-style','border-right-color',
       'border-image-source','border-image-slice','background-size','background-position','background-repeat','object-position',
-      'translate','rotate','scale','aspect-ratio','min-width','order','align-self'];
+      'translate','rotate','scale','aspect-ratio','min-width','order','align-self',
+      // grid-auto-rows — a grid's ROW minimum (`auto-rows-[minmax(320px,auto)]` → `minmax(320px, auto)`, or a fixed
+      // `240px`): every cell's minimum height when the cell declares none (the PHP cell_geometry reads it off the parent).
+      'grid-auto-rows'];
     // HEIGHT / MIN-HEIGHT — a source CTA frequently sizes itself by a FIXED height (`.btn-primary{height:58px}`)
     // + flex centring, NOT vertical padding. The JS URL path reads this from a LIVE measurement, but the PHP
     // import path only has data-sc-cs — so without stamping the height here, a 58px pill collapsed to text
@@ -731,7 +734,7 @@ async function renderPage(p, target, retry = false) {
       // 2-column grid, `400px 800px` = an asymmetric 1:2 split). This is what lets the deterministic converter
       // read a section's COLUMN STRUCTURE from computed CSS instead of guessing from `grid-cols-N` class names
       // (which miss responsive `lg:grid-cols-2` and arbitrary tracks). `none` = not a grid → carries no signal.
-      'grid-template-columns':v=>v==='none',
+      'grid-template-columns':v=>v==='none', 'grid-auto-rows':v=>v==='auto',
       // Drop the CSS initial values so only elements that actually declare a transition/transform carry one.
       'transition':v=>v===''||v==='all 0s ease 0s'||v==='none 0s ease 0s'||/(^|,)\s*all 0s /.test(v), 'transform':v=>v==='none',
       // Only stamp a NON-default position (absolute/fixed/sticky) — the deterministic engine needs it to detect a

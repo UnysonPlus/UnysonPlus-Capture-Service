@@ -105,11 +105,11 @@ const normc = (c) => {
   c = String(c == null ? '' : c).toLowerCase().trim();
   if (c === '' || c === 'transparent' || c === 'none') return '';
   let m = c.match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([0-9.]+))?/);
-  if (m) { const a = (m[4] !== undefined && m[4] !== '') ? parseFloat(m[4]) : 1; if (a <= 0.02) return ''; return a < 1 ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${a})` : `rgb(${m[1]}, ${m[2]}, ${m[3]})`; }
+  if (m) { const a = (m[4] !== undefined && m[4] !== '') ? parseFloat(m[4]) : 1; if (a <= 0) return ''; /* zero-only alpha gate: a 2 % glass tint is still a fill (PHP color_to_hex parity) */ return a < 1 ? `rgba(${m[1]}, ${m[2]}, ${m[3]}, ${a})` : `rgb(${m[1]}, ${m[2]}, ${m[3]})`; }
   if (/^#[0-9a-f]{3,8}$/.test(c)) return c;
   // oklch()/oklab()/hsl() → rgb() so a dark AI-page palette (canvas/text in oklch) isn't dropped to white.
   const rc = cssToRgb(c);
-  if (rc) { const a = rc[3]; if (a !== undefined && a <= 0.02) return ''; return (a !== undefined && a < 1) ? `rgba(${rc[0]}, ${rc[1]}, ${rc[2]}, ${a})` : `rgb(${rc[0]}, ${rc[1]}, ${rc[2]})`; }
+  if (rc) { const a = rc[3]; if (a !== undefined && a <= 0) return ''; return (a !== undefined && a < 1) ? `rgba(${rc[0]}, ${rc[1]}, ${rc[2]}, ${a})` : `rgb(${rc[0]}, ${rc[1]}, ${rc[2]})`; }
   return '';
 };
 // The FIRST visible (non-transparent) layer of a computed box-shadow → {x,y,blur,spread,color,inset}.

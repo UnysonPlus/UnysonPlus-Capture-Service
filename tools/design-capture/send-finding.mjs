@@ -87,6 +87,19 @@ if (has('summary')) {
     console.error('send-finding: REFUSED — a `fixture` needs `twin_shows`: run it through the PHP twin (FW_Site_Converter_Sources::build_from_html) and state the output that reproduces the miss (e.g. "code_block ×4, 0 gallery"). If the twin output differs from the page, the fixture does not reproduce it — re-cut (a grid needs ≥ 3 repeats; make-fixture keeps 3 per run).');
     process.exit(2);
   }
+  // A SYSTEMATIC finding ships a fixture: without one the maintainer cannot prove or golden the rule (contract item 19 —
+  // the fixture-less rows of a batch are the ones that wait). a `no_fixture_reason` field states why one cannot be cut.
+  if (finding && finding.systematic && !finding.fixture && !(finding.no_fixture_reason && String(finding.no_fixture_reason).trim() !== '')) {
+    console.error('send-finding: REFUSED — a `systematic` finding needs a `fixture` (node make-fixture.mjs capture-out/<site> "<selector>"), or `no_fixture_reason` stating why the construct cannot be cut.');
+    process.exit(2);
+  }
+  // `expected` names a property the fixture must CARRY (contract item 17): a fixture whose stamps lack it proves a capture gap, not a converter drop.
+  if (finding && finding.fixture && finding.property) {
+    const prop = String(finding.property).trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (!new RegExp('(?:^|[;"\\s])' + prop + '\\s*:', 'i').test(String(finding.fixture))) {
+      console.error('send-finding: WARNING — the fixture\'s stamps do not carry `' + finding.property + '`: if the source has it, this is a CAPTURE gap (loss: not-captured), not a converter drop.');
+    }
+  }
   if (finding && finding.severity && !SEVERITIES.includes(String(finding.severity))) {
     console.error('send-finding: REFUSED — `severity` must be one of: ' + SEVERITIES.join(' | '));
     process.exit(2);
