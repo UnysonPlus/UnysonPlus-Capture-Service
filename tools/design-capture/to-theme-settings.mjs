@@ -24,6 +24,16 @@ import { makeButtonResolver } from './button-match.mjs';
 // (the theme default), never a broken string the CSS generator swaps for the brand primary. PHP: clean_color_value.
 const cleanColor = (h) => { let v = String(h || '').trim(); if (!v) return ''; v = v.replace(/\s*\/\s*var\([^)]*\)/g, ''); if (/var\(/i.test(v)) return ''; while ((v.match(/\(/g) || []).length > (v.match(/\)/g) || []).length) v += ')'; if ((v.match(/\(/g) || []).length !== (v.match(/\)/g) || []).length) return ''; const m = v.match(/^rgba?\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/); if (m) v = 'rgb(' + m[1] + ', ' + m[2] + ', ' + m[3] + ')'; return v; };
 const hex = (h) => ({ predefined: '', custom: cleanColor(h) });
+// A utility colour token (`hover:text-<token>`) → the theme palette var it maps to, or '' when the theme defines no
+// such colour (`brand` → primary, `background` → bg; `emerald-400` → ''). Mirror of PHP palette_var_for_token():
+// an undefined `var(--color-brand)` silently resolved to the resting colour.
+const PALETTE_ALIAS = { brand: 'primary', background: 'bg', foreground: 'text', fg: 'text', body: 'text', inherit: '', current: '', transparent: '' };
+const PALETTE_KNOWN = new Set(['primary', 'secondary', 'accent', 'muted', 'ink', 'light', 'text', 'bg', 'border', 'white', 'black', 'gray', 'light-gray', 'blue-gray', 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'orange', 'deep-orange', 'brown']);
+export function paletteVarForToken(token) {
+  let t = String(token || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (Object.prototype.hasOwnProperty.call(PALETTE_ALIAS, t)) t = PALETTE_ALIAS[t];
+  return t && PALETTE_KNOWN.has(t) ? 'var(--color-' + t + ')' : '';
+}
 const el = (type, settings) => {
   const et = { element: type };
   if (settings && typeof settings === 'object') et[type] = settings;
@@ -527,8 +537,8 @@ export function toThemeSettings(config, home) {
     if (ls && ls !== 'normal' && ls !== '0px') baseDecls += 'letter-spacing:' + ls + ';';
     if (baseDecls) logoCss += '.site-title-text{' + baseDecls + '}';
     if (det.title_hover) {
-      const htok = String(det.title_hover).toLowerCase().replace(/[^a-z0-9-]/g, '');
-      if (htok) logoCss += '.site-title a:hover .site-title-text,.site-title a:hover{color:var(--color-' + htok + ')}';
+      const hvar = paletteVarForToken(det.title_hover);  // '' for a token the palette lacks
+      if (hvar) logoCss += '.site-title a:hover .site-title-text,.site-title a:hover{color:' + hvar + '}';
     }
     if (logoCss) logoCustom.logo_custom_css = logoCss;
   }
@@ -912,7 +922,11 @@ export function toThemeSettings(config, home) {
     if (/^(300|400|500|600|700|800|900)$/.test(fw)) d += 'font-weight:' + fw + ';';
     if (/^[0-9.]+px$/.test(String(fls.fontSize || '').trim())) d += 'font-size:' + String(fls.fontSize).trim() + ';';
     if (d) miscCssParts.push('.footer-menu a{' + d + '}');
-    if (fls.hover) { const t = String(fls.hover).toLowerCase().replace(/[^a-z0-9-]/g, ''); if (t) miscCssParts.push('.footer-menu a:hover{color:var(--color-' + t + ')}'); }
+    // Hover token → palette var ONLY when the hover was not MEASURED (home.footer.linkHoverColor → the native
+    // footer_link_hover_color option, which a scoped rule would out-rank and make un-editable) and only for a
+    // token the theme defines. Parity with PHP footer_link_css().
+    const measuredHover = !!(home && home.footer && home.footer.linkHoverColor);
+    if (fls.hover && !measuredHover) { const hv = paletteVarForToken(fls.hover); if (hv) miscCssParts.push('.footer-menu a:hover{color:' + hv + '}'); }
     // List-item vertical spacing — override the theme's 8px default so the source's own rhythm shows.
     // Parity with PHP footer_link_css()'s footer_list_gap_px() emit.
     const gap = parseInt(fls.gap, 10) || 0;

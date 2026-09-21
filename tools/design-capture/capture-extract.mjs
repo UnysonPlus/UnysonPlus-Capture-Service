@@ -1948,6 +1948,10 @@ export function extractDesign() {
     if ((m = cls.match(/(?:^|\s)opacity-(\d{1,3})(?:\s|$)/))) o.opacity = String((+m[1]) / 100); else if (+cs.opacity > 0 && +cs.opacity < 1) o.opacity = String(+cs.opacity);
     o.grayscale = (/\sgrayscale\s/.test(cls) || /grayscale/i.test(cs.filter || '')) ? 'yes' : 'no';
     const sp = el.querySelector('span'); if (sp) { const fs = parseFloat(getComputedStyle(sp).fontSize); if (fs > 0) o.iconSize = String(Math.round(fs * 1.2)); }
+    // an <img> strip: the mark height is the image's MEASURED height (`h-8` = 32px), not the 48px default (PHP: logo_strip_build)
+    if (!o.iconSize) { const im = el.querySelector('img'); if (im) { const ih = im.getBoundingClientRect().height; if (ih >= 12 && ih <= 96) o.iconSize = String(Math.round(ih)); } }
+    // the dim on each ITEM (`opacity-80` per child) when the strip itself carries none
+    if (!o.opacity) { const kids = [...el.children]; const dims = []; for (const k of kids) { const kc = ' ' + (k.getAttribute('class') || '') + ' '; let km; if ((km = kc.match(/(?:^|\s)opacity-(\d{1,3})(?:\s|$)/))) dims.push((+km[1]) / 100); else { const ko = parseFloat(getComputedStyle(k).opacity); if (ko > 0 && ko < 1) dims.push(ko); } } if (kids.length && dims.length >= Math.ceil(kids.length / 2)) o.opacity = String(Math.min(...dims)); }
     // the ITEM's own mark→label gap / padding + label typography (PHP: logo_strip_build item)
     const it = [...el.children].find((c) => txt(c).trim());
     if (it) { const ics = getComputedStyle(it); const item = {}; const g = parseFloat(ics.columnGap || ics.gap); if (g > 0) item.gap = Math.round(g); item.pad = /^[0-9.]+px(\s+[0-9.]+px){0,3}$/.test(ics.padding) ? ics.padding : '0px'; if (/^[0-9.]+px$/.test(ics.fontSize)) item.fs = ics.fontSize; if (/^[0-9]+$/.test(ics.fontWeight)) item.fw = ics.fontWeight; if (/^[0-9.]+px$/.test(ics.lineHeight)) item.lh = ics.lineHeight; o.item = item; }
