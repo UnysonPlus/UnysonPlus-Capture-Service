@@ -1570,6 +1570,9 @@ export function toPages(capture, opts = {}) {
     const wrap = ['position:relative'];
     if (b.aspect) { wrap.push(`aspect-ratio:${b.aspect}`, 'overflow:hidden'); decl.push('width:100%', 'height:100%'); if (!fit || fit === 'fill') fit = 'cover'; }
     if (fit && fit !== 'fill') decl.push(`object-fit:${fit}`);
+    // …the image's OWN pinned box (capture-extract imgSkin.pinnedH) when no wrapper frame gave it one.
+    // PHP twin: media_box_css_el()'s own-box fallback.
+    if (b.pinnedH && !b.aspect) { decl.push('width:100%', `height:${b.pinnedH}px`); if (!fit || fit === 'fill') decl.push('object-fit:cover'); }
     if (b.borderWidth && b.borderColor) decl.push(`border:${b.borderWidth} ${b.borderStyle || 'solid'} ${b.borderColor}`);
     if (b.outline) decl.push(`outline:${b.outline}`);
     if (b.shadow) decl.push(`box-shadow:${b.shadow}`);
@@ -2448,7 +2451,33 @@ export function toPages(capture, opts = {}) {
       if (b.t !== 'heading') { out.push(b); continue; }
       const h = { ...b };
       const prev = out[out.length - 1];
-      if (prev && (prev.t === 'overline' || (prev.t === 'text' && prev.text && prev.text.length <= 48 && prev.text === prev.text.toUpperCase()))) {
+      // A band header written as TWO headings — a small mono/tracked kicker over the real headline — is ONE heading:
+      // the SIZE decides which is which (the tag order h2→h3 says nothing). PHP twin: transform_kicker_headings().
+      const _px = (v) => { const m = String(v == null ? '' : v).match(/^([0-9.]+)px$/); return m ? parseFloat(m[1]) : 0; };
+      const _kicker = (p, cur) => {
+        if (!p || p.t !== 'heading') return false;
+        const a = _px(p.fontSize), z = _px(cur.fontSize);
+        if (!a || !z || a >= z) return false;
+        const txt = String(p.text || '').trim();
+        if (!txt || txt.length > 60) return false;
+        const upper = /uppercase/i.test(String(p.textTransform || '')) || /\buppercase\b/.test(String(p.cls || ''));
+        const track = parseFloat(String(p.letterSpacing || '0')) >= 1;
+        const diff = !!(p.fontFamily && cur.fontFamily && String(p.fontFamily) !== String(cur.fontFamily));
+        return a <= 0.6 * z || upper || track || diff;
+      };
+      if (_kicker(prev, b)) {
+        h.overline = prev.text || '';
+        h.overlineText = prev.text || '';
+        h.overlineCls = prev.cls || '';
+        h.overlineTransform = prev.textTransform || '';
+        if (prev.color) h.overlineColor = prev.color;
+        h.overlineFontSize = prev.fontSize || '';
+        h.overlineFontWeight = prev.fontWeight || '';
+        h.overlineLetterSpacing = (prev.letterSpacing && prev.letterSpacing !== 'normal') ? prev.letterSpacing : '';
+        h.overlineLineHeight = prev.lineHeight || '';
+        h.overlineMarginBottom = prev.marginBottom || '';
+        out.pop();
+      } else if (prev && (prev.t === 'overline' || (prev.t === 'text' && prev.text && prev.text.length <= 48 && prev.text === prev.text.toUpperCase()))) {
         h.overline = prev.html || prev.text || '';
         h.overlinePill = !!prev.pill || /rounded-full|pill/i.test(prev.cls || '');
         if (prev.color) h.overlineColor = prev.color; // the pill's text colour → native overline_color

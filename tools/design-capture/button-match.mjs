@@ -126,9 +126,16 @@ export function makeButtonResolver(bp) {
     // The source's OWN semantic button name (`btn-primary`, `button-secondary`, `cta-accent`, BEM `btn--outline`, a bare
     // `primary`) resolves to the preset carrying that role — the SAME regex the capture uses to NAME the preset.
     const semM = lc.match(/\s(?:(?:btn|button|cta)[-_]{1,2})?(primary|secondary|accent|outline|ghost|tertiary)(?:[-_][a-z0-9]+)?\s/);
-    const sem = semM ? semM[1] : '';
+    let sem = semM ? semM[1] : '';
+    // …but an ALPHA-TINTED fill is not the role's SOLID preset: `bg-primary` and `bg-primary/10` carry the same role
+    // word, so a solid hero CTA and a 10 % tinted button both resolved to the solid preset. When the COMPUTED fill is
+    // translucent, drop the class shortcut and let the computed match below decide. PHP twin: mapper button role (1b).
+    const _bgq = rgbaQuad(bs.bg);
+    const _tinted = !!(_bgq && _bgq[3] > 0 && _bgq[3] < 0.9);
+    if (_tinted) sem = '';
     const hasRole = (r) => colors.some((x) => x.role === r);
-    if (sem === 'primary' || /\s(?:bg-primary|bg-brand)\b/.test(lc)) role = 'primary';
+    if (_tinted) role = ''; // (the computed match below owns a translucent fill)
+    else if (sem === 'primary' || /\s(?:bg-primary|bg-brand)\b/.test(lc)) role = 'primary';
     else if ((sem === 'accent' || /\s(?:bg-accent|bg-cta)(?![a-z])/.test(lc)) && hasRole('accent')) role = 'accent';
     else if (sem === 'secondary' || sem === 'accent' || /\s(?:bg-secondary|bg-accent|bg-cta)\b/.test(lc)) role = 'secondary';
     else if (sem) role = 'outline'; // outline / ghost / tertiary

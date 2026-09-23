@@ -1874,6 +1874,13 @@ export function extractDesign() {
     }
     if ( fit ) o.objectFit = fit;
     if ( cs.boxShadow && cs.boxShadow !== 'none' ) o.shadow = cs.boxShadow;
+    // The image ITSELF is sometimes the frame (`class="w-full h-[740px] object-cover rounded-2xl"`, no wrapper
+    // class to read an aspect off): its PINNED height is the design. Without it the photo shipped `height:auto`,
+    // filled its column at the natural ratio and the band's height drifted. PHP twin: media_box_css_el()'s
+    // own-box fallback. Only for a CROPPING image — a contained one is already sized by its ratio.
+    { const ph = parseFloat(cs.height) || 0;
+      const pinned = /\bh-\[[0-9.]+px\]|\bh-\d{1,3}\b/.test(String(el.className || '')) || (el.style && /height/.test(el.style.cssText || ''));
+      if ( fit === 'cover' && ph >= 80 && ph <= 1600 && pinned ) o.pinnedH = Math.round(ph); }
     if ( cs.maxWidth && cs.maxWidth !== 'none' ) o.maxWidth = cs.maxWidth;
     // The image's OWN uniform border (a `border-4 border-white` photo frame) and outline / ring → the media_image builder's
     // `selector img` rule, so a framed / rounded photo stays a NATIVE element instead of a verbatim block. PHP: image_styles.
@@ -2936,8 +2943,36 @@ export function extractDesign() {
     const quote = q ? rawHtmlOf(q, true, true).replace(/\s+/g, ' ').trim() : '';
     const img = b.querySelector('img');
     const image = img ? abs(img.currentSrc || img.src || '') : '';
-    const nameEl = b.querySelector('h3,h4,h5,h6,.name,.author-name,.client-name,.author,cite')
+    let nameEl = b.querySelector('h3,h4,h5,h6,.name,.author-name,.client-name,.author,cite')
       || [...b.querySelectorAll('strong,b')].find((e) => (q ? !q.contains(e) : true)) || null;
+    // A 1-3 letter uppercase leaf INSIDE a round disc is an initials avatar, never the author ('S' had become the
+    // name and the real name slid into the role). Only inside the disc: an all-caps role like "CTO" is a role.
+    // PHP twin: author_candidates()'s disc guard.
+    const inDisc = (e) => {
+      for (let p = e && e.parentElement, d = 0; p && d < 2; p = p.parentElement, d++) {
+        if (/(9999px|50%)/.test(getComputedStyle(p).borderRadius || '')) return true;
+      }
+      return false;
+    };
+    const isMonogram = (e) => !!e && /^\p{Lu}{1,3}$/u.test(txt(e).trim()) && inDisc(e);
+    if (isMonogram(nameEl)) nameEl = null;
+    // …then the author lines: the HEAVIER line is the name, the lighter one the role (whatever the DOM order).
+    if (!nameEl) {
+      const cands = [];
+      for (const e of b.querySelectorAll('div,span,p,strong,b,cite,h3,h4,h5,h6')) {
+        if (e.children.length) continue;
+        if (q && q.contains(e)) continue;
+        const t2 = txt(e).replace(/\s+/g, ' ').trim();
+        if (!t2 || t2.length > 48 || !/\p{L}/u.test(t2)) continue;
+        if (isMonogram(e)) continue;
+        const ecs = getComputedStyle(e);
+        cands.push({ el: e, t: t2, w: parseInt(ecs.fontWeight, 10) || 400, fs: parseFloat(ecs.fontSize) || 0 });
+      }
+      if (cands.length) {
+        cands.sort((x, y) => (y.w - x.w) || (y.fs - x.fs));
+        nameEl = cands[0].el;
+      }
+    }
     const name = nameEl ? clip(txt(nameEl), 80) : '';
     let position = '';
     if (nameEl && nameEl.parentElement) {
@@ -2990,11 +3025,50 @@ export function extractDesign() {
     // attribution. Quote/rating signals keep it from matching plain feature/pricing card grids.
     if (blocks.length < 2) {
       const QUOTE_RE = /["“”«»‘’“”]/;
+      // An AUTHOR BLOCK is a testimonial hallmark in its own right: a flex ROW holding a round <= 80px avatar
+      // (an image or a 1-3 letter monogram disc) beside two short stacked lines whose first is heavier or larger
+      // (name over role). Plenty of sources quote without quotation marks, a rating or a dash — those grids used to
+      // fall through to plain text columns. Requiring the ROW keeps service cards and product tiles out.
+      // PHP twin: has_author_block().
+      const MONO_RE = /^\p{Lu}{1,3}$/u;
+      const hasAuthorBlock = (card) => {
+        for (const row of card.querySelectorAll('*')) {
+          const rcs = getComputedStyle(row);
+          if (!/^(flex|inline-flex)$/.test(rcs.display) || rcs.flexDirection === 'column') continue;
+          let avatar = null;
+          for (const d of row.querySelectorAll('*')) {
+            const dcs = getComputedStyle(d);
+            const round = /(9999px|50%)/.test(dcs.borderRadius || '') || /\brounded-full\b/.test(d.getAttribute('class') || '');
+            if (!round) continue;
+            const size = parseFloat(dcs.width) || parseFloat(dcs.height) || 0;
+            if (!size || size > 80) continue;
+            const dt = txt(d).trim();
+            if (d.tagName === 'IMG' || !dt || MONO_RE.test(dt)) { avatar = d; break; }
+          }
+          if (!avatar) continue;
+          const lines = [];
+          for (const e of row.querySelectorAll('*')) {
+            if (e.children.length) continue;
+            if (e === avatar || avatar.contains(e)) continue;
+            const t2 = txt(e).replace(/\s+/g, ' ').trim();
+            if (!t2 || t2.length > 48 || !/\p{L}/u.test(t2)) continue;
+            const ecs = getComputedStyle(e);
+            lines.push({ w: parseInt(ecs.fontWeight, 10) || 400, fs: parseFloat(ecs.fontSize) || 0 });
+          }
+          if (lines.length < 2 || lines.length > 3) continue;
+          for (let i = 0; i < lines.length - 1; i++) {
+            const x = lines[i], y = lines[i + 1];
+            if (x.w >= 500 && y.w < x.w) return true;
+            if (x.fs > 0 && y.fs > 0 && y.fs < x.fs && x.w >= y.w) return true;
+          }
+        }
+        return false;
+      };
       const looksQuote = (el) => {
         if (!el.querySelector('p,blockquote')) return false;
         const t = txt(el);
         if (t.length < 30) return false;
-        return QUOTE_RE.test(t) || !!ratingOf(el) || /(^|\s)[—–-]\s*[A-Z][a-z]+/.test(t);
+        return QUOTE_RE.test(t) || !!ratingOf(el) || /(^|\s)[—–-]\s*[A-Z][a-z]+/.test(t) || hasAuthorBlock(el);
       };
       for (const cont of [scope, ...scope.querySelectorAll('*')]) {
         const kids = [...cont.children].filter((k) => k.nodeType === 1 && visibleEl(k));
