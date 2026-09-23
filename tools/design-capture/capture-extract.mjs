@@ -418,6 +418,13 @@ export function extractDesign() {
       const hay = ' ' + ((el.getAttribute('class') || '') + ' ' + (el.id || '')).toLowerCase().trim() + ' ';
       if (hay.trim() === '') continue;
       const tag = el.tagName.toLowerCase();
+      // An ICON is CONTENT, never an ambient layer. Icon libraries name their glyphs exactly like these
+      // effects — `lucide-droplets`, `-snowflake`, `-sparkles`, `-leaf`, `-star` — and every one of them ships
+      // `aria-hidden="true"`, which on its own cleared the decor gate below. A barbershop's "Hot Towel Shave"
+      // card icon therefore rained on its whole services section (a real-site audit). A <canvas> is the
+      // genuine layer shape and stays. PHP twin: detect_section_bg_effects.
+      if (/^(?:svg|i|use|path|circle|rect|g|defs|symbol|img|iconify-icon)$/.test(tag)) continue;
+      if (/(?:^|\s)(?:lucide|fa[bsrl]?|fa-|bi|bi-|ti|ti-|ion|ion-|dashicons|glyphicon|material-icons|icon|icon-)/.test((el.getAttribute('class') || '').trim())) continue;
       let decor = tag === 'canvas'
         || String(el.getAttribute('aria-hidden') || '').toLowerCase() === 'true'
         || bgFxMarker.test(hay);
@@ -2212,7 +2219,7 @@ export function extractDesign() {
   // instead of one verbatim code_block. Returns null when the cell isn't a clean composite.
   const isTransparent = (v) => !v || /rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(v);
   const compositeOverlays = (cell) => {
-    const cards = [], blobs = [];
+    const cards = [], blobs = [], labels = [];
     for (const d of cell.querySelectorAll('div')) {
       const cs = getComputedStyle(d);
       if (cs.position !== 'absolute' && cs.position !== 'fixed') continue;
@@ -2226,9 +2233,39 @@ export function extractDesign() {
       }
       const rounded = (parseFloat(cs.borderTopLeftRadius) || 0) > 0;
       const shadow = cs.boxShadow && cs.boxShadow !== 'none';
-      if ((t || hasIcon) && (rounded || shadow || !isTransparent(cs.backgroundColor))) cards.push(d);
+      if ((t || hasIcon) && (rounded || shadow || !isTransparent(cs.backgroundColor))) { cards.push(d); continue; }
+      // A PINNED LABEL — a short unskinned line the source holds over the photo by a corner
+      // (`absolute top-6 left-6`: a terroir watermark, a video's caption bar). Neither a card nor a blob,
+      // so the frame stopped being a composite and the label fell into the FLOW, rendering far below the
+      // picture in the page body face. PHP twin: image_composite_overlays' `labels`.
+      const inset0 = /\binset-0\b/.test(String(d.className || '')) || cs.inset === '0px';
+      // …ONE LINE only: a pseudo-element's `content` is a single string, so a stacked lockup (a seal reading
+      // MAISON / 1923 / FRANCE on three lines) would be glued into "MAISON1923FRANCE". PHP twin: the same
+      // single-leaf test in image_composite_overlays.
+      const leaves = [...d.querySelectorAll('*')].filter((n) => !n.children.length && (n.textContent || '').trim()).length;
+      if (t && !hasIcon && leaves <= 1 && t.length <= 80 && !inset0 && labels.length < 2) labels.push(d);
     }
-    return { cards, blobs };
+    return { cards, blobs, labels };
+  };
+  // A pinned label, measured: the anchor is whichever computed edge is NEARER (so the rule holds for a
+  // source with no utility classes), and the face comes from the innermost text leaf. PHP: img_pinned_labels_css.
+  const pinnedLabelOf = (el) => {
+    const t = txt(el).replace(/\s+/g, ' ').trim();
+    if (!t) return null;
+    let leaf = el;
+    for (let i = 0; i < 2; i++) { const k = [...leaf.children].find((c) => txt(c).replace(/\s+/g, ' ').trim() === t); if (!k) break; leaf = k; }
+    const cs = getComputedStyle(el), ls = getComputedStyle(leaf);
+    const n = (v) => { const f = parseFloat(v); return Number.isFinite(f) ? f : null; };
+    const [top, bottom, left, right] = [n(cs.top), n(cs.bottom), n(cs.left), n(cs.right)];
+    return { text: t,
+      vAnchor: (top !== null && (bottom === null || top <= bottom)) ? ['top', Math.round(top)] : (bottom !== null ? ['bottom', Math.round(bottom)] : null),
+      hAnchor: (left !== null && (right === null || left <= right)) ? ['left', Math.round(left)] : (right !== null ? ['right', Math.round(right)] : null),
+      color: ls.color, fontFamily: ls.fontFamily, fontSize: ls.fontSize, fontWeight: ls.fontWeight,
+      lineHeight: ls.lineHeight, letterSpacing: ls.letterSpacing === 'normal' ? '' : ls.letterSpacing,
+      textTransform: ls.textTransform === 'none' ? '' : ls.textTransform,
+      opacity: cs.opacity === '1' ? '' : cs.opacity,
+      bg: isTransparent(cs.backgroundColor) ? '' : cs.backgroundColor,
+      padding: /^0px( 0px)*$/.test(String(cs.padding || '').trim()) ? '' : cs.padding };
   };
   // A floating badge/card overlay (icon chip + bold title + muted subtitle) → the icon_box card shape.
   const floatingCardOf = (card) => {
@@ -2300,7 +2337,7 @@ export function extractDesign() {
     const img = cell.querySelector('img');
     if (!img) return null;
     const ov = compositeOverlays(cell);
-    if (!ov.cards.length && !ov.blobs.length) return null;         // not a decomposable composite
+    if (!ov.cards.length && !ov.blobs.length && !ov.labels.length) return null;   // not a decomposable composite
     // IMAGE-DOMINANT guard (parity with PHP is_decomposable_image_composite): a composite is a photo FRAME,
     // not one cell of a wider `image | text` band. Heading/body/button content OUTSIDE the absolute overlays
     // means a band — bail so it stays split into real columns instead of dropping the text side.
@@ -2335,6 +2372,7 @@ export function extractDesign() {
       blob = { bg: bcs.backgroundColor, radius: bcs.borderRadius, scale: sm ? (parseInt(sm[1], 10) / 100) : 0,
         scrim, hoverClear, dur: (bcs.transitionDuration && bcs.transitionDuration !== '0s') ? bcs.transitionDuration : '' };
     }
+    image.labels = ov.labels.map(pinnedLabelOf).filter(Boolean);
     return { image, cards: ov.cards.map(floatingCardOf), blob };
   };
   // A single <a>/<button> styled as a button → the `button` block shape (same fields the block-level
@@ -3013,6 +3051,115 @@ export function extractDesign() {
     return { quote, image, name, position, siteName, siteUrl, rating: ratingOf(b), extra };
   };
   const TESTI_BLOCK_RE = /\b(testimonial|review|feedback|client[-_]?(say|review|quote)|quote[-_]?(item|block|card))\b/i;
+  /**
+   * A hero SCROLL CUE: out of flow (absolute / fixed), anchored to the BOTTOM of its band, holding at most a
+   * three-word label plus ONE glyph, and cue-ish by label (scroll / descend / explore / down) or by glyph
+   * (chevron-down, arrow-down, mouse, animate-bounce). PHP twin: scroll_cue_of().
+   */
+  const scrollCueOf = (el) => {
+    if (!el || el.nodeType !== 1 || !/^(DIV|A|BUTTON|SPAN)$/.test(el.tagName)) return null;
+    const cs = getComputedStyle(el);
+    if (!/^(absolute|fixed)$/.test(cs.position)) return null;
+    const t = parseFloat(cs.top), b = parseFloat(cs.bottom);
+    const bottomAnchored = (Number.isFinite(b) && (!Number.isFinite(t) || Math.abs(b) < Math.abs(t)))
+      || /\b-?bottom-(?:\d+|\[)/.test(String(el.className || ''));
+    if (!bottomAnchored) return null;
+    if (el.querySelector('img,video')) return null;
+    const svgs = el.querySelectorAll('svg');
+    let fa = '';
+    for (const i of el.querySelectorAll('i')) { const ic = String(i.className || ''); if (/(^|\s)(fa[srlbd]?|fa-[a-z0-9-]+|bi|bi-[a-z0-9-]+)(\s|$)/.test(ic)) { fa = ic; break; } }
+    if (svgs.length + (fa ? 1 : 0) !== 1) return null;
+    const label = txt(el).replace(/\s+/g, ' ').trim();
+    if (label.split(/\s+/).filter(Boolean).length > 3 || label.length > 32) return null;
+    const svg = svgs[0] || null;
+    const scls = svg ? String(svg.className.baseVal || svg.getAttribute('class') || '') : fa;
+    const cueish = /scroll|descend|explore|discover|down|more/i.test(label)
+      || /chevron-down|arrow-down|mouse|chevrons-down|angle-down|caret-down|animate-bounce/i.test(scls + ' ' + String(el.className || ''));
+    if (!cueish) return null;
+    // the glyph: markup / library id / measured size + its OWN ink (an svg is never the stamped element)
+    let markup = '', lucide = '', size = 0, color = '';
+    if (svg) {
+      markup = svg.outerHTML;
+      const lm = scls.match(/(?:^|\s)lucide-([a-z0-9-]+)(?:\s|$)/);
+      if (lm && lm[1] !== 'lucide') lucide = 'lucide/' + lm[1];
+      const scs = getComputedStyle(svg);
+      size = Math.round(parseFloat(scs.width) || 0);
+      color = scs.color || '';
+    }
+    // the label's own typography, off the deepest leaf holding it
+    let labelStyle = null;
+    if (label) {
+      for (const e of el.querySelectorAll('*')) {
+        if (e.tagName === 'svg' || e.children.length) continue;
+        if (txt(e).replace(/\s+/g, ' ').trim() !== label) continue;
+        const ecs = getComputedStyle(e);
+        labelStyle = { fontSize: ecs.fontSize, letterSpacing: ecs.letterSpacing, textTransform: ecs.textTransform, fontWeight: ecs.fontWeight, lineHeight: ecs.lineHeight, color: ecs.color };
+        break;
+      }
+    }
+    // layout: label above the glyph / glyph above the label / side by side / glyph only
+    let layout = 'icon-only';
+    if (label) {
+      const row = /^(flex|inline-flex)$/.test(cs.display) && cs.flexDirection !== 'column';
+      let glyphFirst = false;
+      for (const c of el.querySelectorAll('*')) {
+        if (c.tagName === 'svg' || c.tagName === 'I') { glyphFirst = true; break; }
+        if (txt(c).trim() && !c.querySelector('svg,i')) break;
+      }
+      layout = row ? 'inline' : (glyphFirst ? 'stacked-reverse' : 'stacked');
+    }
+    const a = el.tagName === 'A' ? el : el.querySelector('a[href]');
+    const href = a ? String(a.getAttribute('href') || '') : '';
+    return {
+      t: 'scroll_cue', abs: true, text: label, labelStyle, svg: markup, lucide, fa, size, color, layout,
+      target: /^#[a-z][\w-]*$/i.test(href) ? href : '',
+      pinCls: String(el.className || ''), pos: { position: cs.position, top: cs.top, right: cs.right, bottom: cs.bottom, left: cs.left, zIndex: cs.zIndex },
+      transform: cs.transform && cs.transform !== 'none' ? cs.transform : '',
+      gap: cs.gap && cs.gap !== 'normal' ? cs.gap : '',
+    };
+  };
+
+  /**
+   * A GRID OF PHOTOS: >= 3 sibling tiles that hold an image and no real text, laid out on a grid / flex row.
+   * Returns a `gallery` block with the images, the tiles' measured CORNER RADIUS (-> the Corners option), the
+   * column count, gap and the tile aspect. PHP twin: the image_grid recognizer -> n_gallery.
+   */
+  const galleryBlockOf = (el) => {
+    if (!el || el.nodeType !== 1) return null;
+    const cs = getComputedStyle(el);
+    if (!/^(grid|flex|inline-grid|inline-flex)$/.test(cs.display)) return null;
+    const kids = [...el.children].filter((k) => k.nodeType === 1 && visibleEl(k));
+    if (kids.length < 3) return null;
+    const images = [];
+    let radius = null, ratio = '';
+    for (const k of kids) {
+      const imgs = k.tagName === 'IMG' ? [k] : [...k.querySelectorAll('img')];
+      if (imgs.length !== 1) return null;
+      const label = txt(k).replace(/\s+/g, ' ').trim();
+      if (label.length > 40) return null;            // a captioned CARD is not a gallery tile
+      const src = abs(imgs[0].currentSrc || imgs[0].src || '');
+      if (!/^https?:/.test(src)) return null;
+      images.push({ url: src, alt: imgs[0].alt || '', caption: label });
+      if (radius === null) {
+        // the frame's corners: the tile, its clipping wrapper, or the image itself
+        for (const c of [k, ...k.querySelectorAll('*')].slice(0, 12)) {
+          const r = parseFloat(getComputedStyle(c).borderRadius);
+          if (Number.isFinite(r)) { radius = r; if (r > 0) break; }
+        }
+        const ar = getComputedStyle(k).aspectRatio;
+        if (ar && ar !== 'auto') ratio = String(ar).replace(/\s*\/\s*/, '-');
+      }
+    }
+    if (images.length < 3) return null;
+    const cols = (() => { const v = String(cs.gridTemplateColumns || '').trim(); return (!v || v === 'none') ? 0 : v.split(/\s+/).length; })();
+    return {
+      // `colCount`, not `cols`: a row block's `cols` is an ARRAY of columns and the pipeline iterates it.
+      t: 'gallery', images, tileRadius: radius == null ? '' : Math.round(radius),
+      colCount: cols || Math.min(6, images.length), gap: cs.gap || cs.columnGap || '', ratio,
+      captions: images.some((i) => i.caption) ? 'overlay' : 'none',
+    };
+  };
+
   const testimonialsOf = (scope) => {
     if (!scope || scope.nodeType !== 1) return null;
     let blocks = [...scope.querySelectorAll('[class]')].filter((e) =>
@@ -3843,6 +3990,46 @@ export function extractDesign() {
       for (const d of child.querySelectorAll('div')) { if (isBoxedEl(d)) return d; }
       return child;
     };
+    // Where the NUMERAL sits: inline at the START of each item (a `flex gap-4` row: chip, then the text
+    // stack). PHP twin: detect_steps_design's numInline / numBadge.
+    const firstKid = kids.find((k) => k && k.nodeType === 1);
+    if (firstKid) {
+      const fcs = getComputedStyle(firstKid);
+      const isRow = /flex/.test(fcs.display) && !/column/.test(fcs.flexDirection);
+      const lead = [...firstKid.children][0];
+      if (isRow && lead && /^\s*\d{1,2}\s*$/.test((lead.textContent || ''))) {
+        out.numInline = true;
+        // …and a numeral the source draws as a painted BADGE in its own leading cell is the step MARKER,
+        // which every design lays BESIDE the body. As a body row it stacked above the title and lost its
+        // circle. The capture stamps an unremarkable width as nothing, so a `w-8 h-8` chip gives only its
+        // height — the badge is square by construction.
+        const lcs = getComputedStyle(lead);
+        const lh = parseFloat(lcs.height) || 0;
+        const lw = parseFloat(lcs.width) || lh;
+        const paints = (parseFloat(lcs.borderTopWidth) || 0) >= 1
+          || (lcs.backgroundColor && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(lcs.backgroundColor));
+        if (paints && lw >= 20 && lw <= 96 && lh > 0 && Math.abs(lw - lh) <= 4) {
+          out.numBadge = true;
+          out.markerSize = Math.round(lw);
+          out.numBadgeCs = { bg: lcs.backgroundColor, bw: lcs.borderTopWidth, bc: lcs.borderTopColor,
+            color: lcs.color, fs: lcs.fontSize, fw: lcs.fontWeight, ff: lcs.fontFamily, ls: lcs.letterSpacing };
+          const rad = String(lcs.borderRadius || '').trim();
+          const rn = parseFloat(rad) || 0;
+          out.numShape = (/%$/.test(rad) || rn >= lw / 2 - 1) ? 'circle' : (rn > 0 ? 'rounded' : 'square');
+          // …and the SPINE is only drawn when the source draws one: a thin, tall painted element in the list.
+          let hasLine = false;
+          for (const ln of el.querySelectorAll('*')) {
+            if ((ln.textContent || '').trim()) continue;
+            const ncs = getComputedStyle(ln);
+            const nw = parseFloat(ncs.width) || 0, nh = parseFloat(ncs.height) || 0;
+            const np = (ncs.backgroundColor && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(ncs.backgroundColor))
+              || (parseFloat(ncs.borderLeftWidth) || 0) >= 1;
+            if (np && nw > 0 && nw <= 4 && nh >= 20) { hasLine = true; break; }
+          }
+          out.connector = hasLine ? 'solid' : 'none';
+        }
+      }
+    }
     let boxed = 0, n = 0; const cards = [];
     for (const k of kids) { n++; const card = cardOf(k); cards.push(card); if (isBoxedEl(card)) boxed++; }
     if (!vertical && n >= 2 && boxed >= n - 1) out.design = 'cards';
@@ -4372,6 +4559,13 @@ export function extractDesign() {
       { const _wblk = structuredWidgetOf(child); if (_wblk) { out.push(_wblk); continue; } }
       // A LONE GLYPH standing on its own as a block (a card header's mark, a section's emblem) — never one inside a link /
       // button / heading / label lockup (those own their icon) → the native icon shortcode. PHP: is_lone_icon / lone_icon_block.
+      // A hero SCROLL CUE (an out-of-flow, bottom-anchored label + chevron / arrow-down glyph) -> the native
+      // scroll_indicator, pinned where the source pinned it. Checked BEFORE the lone-icon branch, which would
+      // otherwise claim the glyph and leave the label as a stray text block in the flow. PHP twin: scroll_cue_of().
+      { const _sc = scrollCueOf(child); if (_sc) { out.push(_sc); continue; } }
+      // A GRID OF PHOTOS (>= 3 sibling tiles that are each nothing but an image) -> one gallery block. PHP twin: the
+      // image_grid recognizer + n_gallery; the tiles' measured corner radius decides the gallery's Corners option.
+      { const _gl = galleryBlockOf(child); if (_gl) { out.push(_gl); continue; } }
       { const _li = loneIconBlockOf(child, el); if (_li) { out.push(_li); continue; } }
       // An EMPTY PAINTED block IN FLOW (a product card's gradient frame, a swatch): no text / media, a fill / gradient / border
       // of its own, a measured height >= 40px → the native empty Div carrying the paint + its height (or growth). PHP: paint_block.

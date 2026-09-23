@@ -704,7 +704,7 @@ async function renderPage(p, target, retry = false) {
   await evalSafe(p, () => {
     // border-bottom-* — a bar's hairline (`.header{border-bottom:1px solid …}`) is a BOTTOM border; only the top
     // edge was stamped, so the PHP import path could never see it (it fell back to scanning the source sheet).
-    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-bottom-width','border-bottom-style','border-bottom-color','border-radius','box-shadow','backdrop-filter','max-width','height','min-height','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position','top','right','bottom','left','z-index',
+    const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-bottom-width','border-bottom-style','border-bottom-color','border-radius','box-shadow','backdrop-filter','max-width','max-height','height','min-height','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position','top','right','bottom','left','z-index',
       // object-fit (a cover-filled photo tile) + overflow (a rounded frame that clips its media) — read by the
       // PHP lone-image cell path (image_fills_cell / the box preset clip); only the non-default values stamp.
       'object-fit','overflow',
@@ -729,7 +729,7 @@ async function renderPage(p, target, retry = false) {
     // import path only has data-sc-cs — so without stamping the height here, a 58px pill collapsed to text
     // height (17px) on import (the size-preset min_height came back empty). Stamped for every element (the
     // button-preset builder gates it to a sane 28-80px button range with padding-Y≈0), skipping auto/0.
-    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'height':v=>v==='auto', 'min-height':v=>v==='auto'||v==='0px', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'border-bottom-width':v=>v==='0px', 'letter-spacing':v=>v==='normal', 'object-fit':v=>v==='fill', 'overflow':v=>v==='visible',
+    const skip = { 'background-color':v=>v==='rgba(0, 0, 0, 0)'||v==='transparent', 'background-image':v=>v==='none', 'box-shadow':v=>v==='none', 'backdrop-filter':v=>v==='none', 'max-width':v=>v==='none', 'max-height':v=>v==='none', 'height':v=>v==='auto', 'min-height':v=>v==='auto'||v==='0px', 'text-decoration-line':v=>v==='none', 'text-transform':v=>v==='none', 'gap':v=>v==='normal'||v==='0px', 'padding':v=>v==='0px', 'margin':v=>v==='0px', 'border-top-width':v=>v==='0px', 'border-bottom-width':v=>v==='0px', 'letter-spacing':v=>v==='normal', 'object-fit':v=>v==='fill', 'overflow':v=>v==='visible',
       // grid-template-columns — the actual TRACKS of a CSS grid (computed to px widths, e.g. `560px 560px` = a
       // 2-column grid, `400px 800px` = an asymmetric 1:2 split). This is what lets the deterministic converter
       // read a section's COLUMN STRUCTURE from computed CSS instead of guessing from `grid-cols-N` class names
@@ -1872,7 +1872,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     let dividersAppliedTotal = 0;
     const builderPages = captures.map((c) => {
       const trace = [];
-      const _tp = toPages(c.capture, { trace, fidelity: FIDELITY, hifiCss: HIFI_CSS, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes } });
+      const _tp = toPages(c.capture, { trace, fidelity: FIDELITY, hifiCss: HIFI_CSS, buttonPresets: { button_colors: themeSettings.values.button_colors, button_sizes: themeSettings.values.button_sizes }, palette: themeSettings.values.theme_colors });
       patternsAppliedTotal += (_tp.patternsApplied || 0);
       dividersAppliedTotal += (_tp.dividersApplied || 0);
       const pg = _tp.pages[0];

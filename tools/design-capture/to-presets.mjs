@@ -29,11 +29,35 @@ const DEFAULTS = [
 
 // hsl token like "217 91% 53%" → hsl() string; pass-through hex/rgb; '' → ''. Mirrors the
 // `col()` in to-styleguide.mjs so the presets and the style-guide swatches resolve identically.
+// An OPAQUE colour is normalised to hex; a translucent one keeps its rgba()/hsla() form.
+// Why hex: every other entry in the palette is hex, the Theme Settings colour PICKER round-trips hex,
+// and the de-dupe that stops one colour appearing twice compares STRINGS - so `rgb(245, 245, 245)` and
+// `#f5f5f5` read as two different colours and both survive. Alpha has no hex form the picker accepts,
+// so a translucent value passes through untouched. PHP twin: color_to_hex / norm_hex.
+const toHex = (v) => {
+  const clamp = (n) => Math.max(0, Math.min(255, Math.round(n)));
+  const hx = (r, g, b) => '#' + [r, g, b].map((n) => clamp(n).toString(16).padStart(2, '0')).join('');
+  const translucent = (a) => a != null && a !== '' && parseFloat(a) < (String(a).indexOf('%') >= 0 ? 100 : 1);
+  let m = /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+%?))?\s*\)$/i.exec(v);
+  if (m) return translucent(m[4]) ? v : hx(+m[1], +m[2], +m[3]);
+  m = /^hsla?\(\s*([\d.]+)(?:deg)?[,\s]+([\d.]+)%[,\s]+([\d.]+)%(?:[,\s/]+([\d.]+%?))?\s*\)$/i.exec(v);
+  if (m) {
+    if (translucent(m[4])) return v;
+    const h = ((((+m[1]) % 360) + 360) % 360) / 360, sat = (+m[2]) / 100, li = (+m[3]) / 100;
+    if (sat === 0) return hx(li * 255, li * 255, li * 255);
+    const q = li < 0.5 ? li * (1 + sat) : li + sat - li * sat, p = 2 * li - q;
+    const ch = (t) => { if (t < 0) t += 1; if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t; if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6; return p; };
+    return hx(ch(h + 1 / 3) * 255, ch(h) * 255, ch(h - 1 / 3) * 255);
+  }
+  return v;
+};
 const col = (v) => {
   v = String(v == null ? '' : v).trim();
   if (v === '') return '';
-  if (/^(#|rgb|hsl)/i.test(v)) return v;
-  if (/^\d+\s+[\d.]+%\s+[\d.]+%$/.test(v)) return `hsl(${v})`;
+  if (/^(#|rgb|hsl)/i.test(v)) return toHex(v);
+  if (/^\d+\s+[\d.]+%\s+[\d.]+%$/.test(v)) return toHex('hsl(' + v + ')');
   return v;
 };
 
@@ -288,7 +312,11 @@ export function toPresets(designConfig, capture, iconBadgeSkins, tableSkins) {
     'Green':      vars['--success'],
     'Amber':      vars['--warning'],
     'Cyan':       vars['--info'],
-    'Black':      vars['--dark'] || colors.ink,
+    // NOT the site's ink. On a DARK source the ink is near-white, so mapping it here left the preset
+    // named "Black" holding rgb(245,245,245) - and every `var(--color-black)` reference, in the theme
+    // or in a user's own CSS, then resolved to near-white (a real-site audit). The PHP path never did
+    // this: it gives the ink its own `Ink` role and leaves Black literal. Matched here.
+    'Black':      vars['--dark'],
     'White':      vars['--light'],
     'Gray':       vars['--gray'] || vars['--gray-600'] || vars['--gray-700'],
     'Light Gray': vars['--gray-400'] || vars['--gray-300'] || vars['--gray-200'],

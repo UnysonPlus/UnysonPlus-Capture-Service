@@ -288,6 +288,63 @@ const csFromFields = (f) => {
 // Named exports for parity tests (node --test). The pure Pass-1/Pass-2 twins + the spacing mapping.
 export { CS_APPEARANCE, csValueInert, hifiBaseCss, applyHifiBase, applyNativeMargin, spacingPxToSlug, csFromFields };
 
+/**
+ * Bind compact colour values to the palette the same conversion generated: an exact OPAQUE match becomes
+ * `{predefined:'text-<slug>'|'bg-<slug>', custom:''}`, so editing that preset in Theme Settings moves every
+ * element the source painted with it. MIRROR of PHP Stitch::bind_palette_colors.
+ *
+ * Guards (all four matter): the `predefined` half is a PREFIXED CLASS, so only keys of a known kind bind —
+ * a `bg-` class on a text field paints the wrong property; the halves are mutually exclusive, so `custom`
+ * is cleared; a translucent value has no preset to point at; and a colour with no palette entry stays a
+ * literal (the deliberately-unique colour).
+ */
+const BIND_TEXT_KEYS = new Set(['title_color','subtitle_color','overline_color','text_color','heading_color','link_color','color','font_color','label_color','menu_color','nav_color','scroll_link_color']);
+const BIND_BG_KEYS = new Set(['bg_color','background_color','scroll_bg_color','fill_color','header_bg_color','footer_bg_color','section_bg_color']);
+export function bindPaletteColors(node, palette) {
+  if (!Array.isArray(palette) || !palette.length) return node;
+  const map = new Map();
+  for (const e of palette) {
+    if (!e || !e.name || !e.color) continue;
+    const slug = String(e.name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    const hex = toHexOpaque(String(e.color));
+    if (slug && hex && !map.has(hex)) map.set(hex, slug); // first wins = the derived brand roles, which lead
+  }
+  if (!map.size) return node;
+  const walk = (n, key) => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { for (const v of n) walk(v, key); return; }
+    if ('predefined' in n && 'custom' in n && !String(n.predefined || '').trim() && String(n.custom || '').trim()) {
+      const kind = BIND_BG_KEYS.has(key) ? 'bg' : (BIND_TEXT_KEYS.has(key) ? 'text' : '');
+      if (kind) {
+        const lit = String(n.custom).trim();
+        if (!/rgba?\([^)]*[,/]\s*(?:0?\.\d+|0)\s*\)$/i.test(lit) && !/hsla\(/i.test(lit)) {
+          const hex = toHexOpaque(lit);
+          if (hex && map.has(hex)) { n.predefined = (kind === 'bg' ? 'bg-' : 'text-') + map.get(hex); n.custom = ''; }
+        }
+      }
+      return;
+    }
+    for (const k of Object.keys(n)) walk(n[k], k);
+  };
+  walk(node, '');
+  return node;
+}
+/** An OPAQUE colour as lowercase #rrggbb; '' for anything translucent or unparseable. */
+function toHexOpaque(v) {
+  const s = String(v || '').trim().toLowerCase();
+  if (!s) return '';
+  let m = /^#([0-9a-f]{3})$/.exec(s);
+  if (m) return '#' + m[1].split('').map((c) => c + c).join('');
+  m = /^#([0-9a-f]{6})$/.exec(s);
+  if (m) return '#' + m[1];
+  m = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)\s*(?:[,/]\s*([\d.]+%?)\s*)?\)$/.exec(s);
+  if (m) {
+    if (m[4] !== undefined) { const a = m[4].endsWith('%') ? parseFloat(m[4]) / 100 : parseFloat(m[4]); if (a < 0.995) return ''; }
+    return '#' + [m[1], m[2], m[3]].map((x) => Math.max(0, Math.min(255, parseInt(x, 10))).toString(16).padStart(2, '0')).join('');
+  }
+  return '';
+}
+
 export function toPages(capture, opts = {}) {
   const atoms = opts.atoms || defaultAtoms();
   // Hi-fi faithful base master switch — DEFAULT ON (parity with PHP build_bundle's `hifi_css` default).
@@ -1555,6 +1612,78 @@ export function toPages(capture, opts = {}) {
 
   // A standalone image → the native media_image element (NOT a gallery — that's for multiple
   // images — and NOT a code_block). Mirrors PHP Mapper::n_media_image(); the importer sideloads src.
+  /**
+   * A GRID OF PHOTOS (capture-extract galleryBlockOf) -> the native `gallery` shortcode: the source images, its
+   * column count / gap / tile ratio, and the CORNERS taken from the tiles' measured radius (0 -> square, <= 8px ->
+   * the 6px `rounded`, larger -> `rounded-lg`). PHP twin: n_gallery().
+   */
+  const galleryNode = (b) => {
+    const images = (b.images || []).filter((i) => i && i.url).map((i) => ({ attachment_id: '', url: i.url, alt: i.alt || '' }));
+    if (images.length < 3) return null;
+    const px = (v) => { const n = parseFloat(String(v == null ? '' : v)); return Number.isFinite(n) ? n : null; };
+    const tr = b.tileRadius === '' || b.tileRadius == null ? null : px(b.tileRadius);
+    const rounded = tr == null ? 'rounded-0' : (tr <= 0.5 ? 'rounded-0' : (tr <= 8 ? 'rounded' : 'rounded-lg'));
+    // the gap -> the shortcode's gap scale (its own 0-6 steps), the nearest step to the measured px
+    const gp = px(b.gap) || 0;
+    const gap = String([0, 8, 16, 24, 32, 48, 64].reduce((best, v, i, arr) => (Math.abs(v - gp) < Math.abs(arr[best] - gp) ? i : best), 0));
+    const RATIOS = { '1-1': 1, '4-3': 4 / 3, '3-2': 1.5, '16-9': 16 / 9, '3-4': 0.75, '2-3': 2 / 3 };
+    let ratio = '4-3';
+    { const m = String(b.ratio || '').match(/^([0-9.]+)-([0-9.]+)$/); if (m && +m[2]) { const r = +m[1] / +m[2]; let bd = Infinity; for (const [k, v] of Object.entries(RATIOS)) { const d = Math.abs(v - r); if (d < bd) { bd = d; ratio = k; } } } }
+    const cols = String(Math.max(2, Math.min(6, parseInt(b.colCount, 10) || 3)));
+    return { type: 'simple', shortcode: 'gallery', _items: [], atts: {
+      source: { kind: 'media', media: { images } },
+      design_settings: { design: 'grid', grid: { columns: { count: cols }, gap, ratio } },
+      container_type: '', click: { action: 'lightbox' },
+      captions: b.captions === 'overlay' ? 'overlay' : 'none', caption_source: 'caption',
+      hover_zoom: 'yes', rounded,
+      unique_id: uid(), css_id: '', css_class: '', custom_css: '', responsive_hide: [], custom_attrs: [],
+    } };
+  };
+
+  /**
+   * A hero SCROLL CUE (capture-extract scrollCueOf) -> the native `scroll_indicator`, pinned with the Position
+   * option the source's placement gives it, the label's measured type scoped on `.sc-scroll-cue__label`, and the
+   * utility's own half-width centring. PHP twin: n_scroll_cue().
+   */
+  const scrollCueNode = (b) => {
+    const icon = b.lucide && /^lucide\/[a-z0-9-]+$/.test(b.lucide)
+      ? { type: 'svg', 'svg-source': 'library', 'svg-id': b.lucide, markup: '' }
+      : (String(b.svg || '').trim() ? { type: 'svg', 'svg-source': 'inline', markup: b.svg, 'svg-id': '' }
+        : (b.fa ? { type: 'icon-font', 'icon-class': b.fa } : { type: 'none' }));
+    const atts = {
+      text: b.text || '', icon, target: b.target || '',
+      layout: ['stacked', 'stacked-reverse', 'inline', 'icon-only'].includes(b.layout) ? b.layout : 'stacked',
+      animation: 'bounce',
+      unique_id: uid(), css_id: '', css_class: '', custom_css: '', responsive_hide: [], custom_attrs: [],
+    };
+    const ls = b.labelStyle || {};
+    if (ls.color) atts.text_color = { predefined: '', custom: ls.color };
+    if (b.color) atts.icon_color = { predefined: '', custom: b.color };
+    if (b.size > 0) atts.icon_size = { value: String(Math.round(b.size)), unit: 'px' };
+    const css = ['selector{margin:0;}'];
+    { const d = []; for (const k of ['fontSize', 'letterSpacing', 'textTransform', 'fontWeight', 'lineHeight']) {
+        const v = ls[k]; if (!v || v === 'normal' || v === 'none') continue;
+        d.push(k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase()) + ':' + v);
+      }
+      if (d.length) css.push(`selector .sc-scroll-cue__label{${d.join(';')};}`); }
+    if (b.gap) css.push(`selector .sc-scroll-cue{gap:${b.gap};}`);
+    // the native Position option from the source's placement (the section is its containing block)
+    const p = b.pos || {};
+    if (/^(absolute|fixed)$/.test(p.position || '')) {
+      const off = (v) => { const n = parseFloat(String(v == null ? '' : v)); return Number.isFinite(n) ? { value: String(Math.round(n)), unit: 'px' } : { value: '', unit: 'auto' }; };
+      atts.element_position = { position: p.position, [p.position]: {
+        pos_offsets: { top: /^-?[\d.]+px$/.test(p.top || '') && !/^-?[\d.]+px$/.test(p.bottom || '') ? off(p.top) : { value: '', unit: 'auto' },
+          right: { value: '', unit: 'auto' },
+          bottom: /^-?[\d.]+px$/.test(p.bottom || '') ? off(p.bottom) : { value: '', unit: 'auto' },
+          left: /(^|\s)-?left-1\/2(\s|$)/.test(b.pinCls || '') ? { value: '50', unit: '%' } : off(p.left) },
+        element_zindex: p.zIndex && p.zIndex !== 'auto' && p.zIndex !== '0' ? String(p.zIndex) : '',
+      } };
+      if (/(^|\s)-translate-x-1\/2(\s|$)/.test(b.pinCls || '')) css.push('selector{transform:translateX(-50%);}');
+    }
+    atts.custom_css = css.join('\n');
+    return { type: 'simple', shortcode: 'scroll_indicator', _items: [], atts };
+  };
+
   const mediaImageNode = (b) => {
     // Reproduce the source image's own SKIN (an ORGANIC blob border-radius, object-fit, a soft
     // shadow) via the shortcode's Advanced Custom CSS — `selector` is replaced with the element's
@@ -1603,6 +1732,27 @@ export function toPages(capture, opts = {}) {
         before = `selector::before{${bd.join(';')};}` + (b.blob.hoverClear ? 'selector:hover::before{background:transparent;}' : '');
       }
       custom_css = `selector{${wrap.join(';')};}` + custom_css + before;
+    }
+    // PINNED LABELS over the photo (capture-extract pinnedLabelOf) → scoped pseudo-element rules, so the
+    // line stays where the source holds it and keeps its own face. Without this it rendered as an ordinary
+    // paragraph below the picture. PHP twin: img_pinned_labels_css.
+    const labels = Array.isArray(b.labels) ? b.labels : [];
+    if (labels.length) {
+      const slots = b.blob ? ['::after'] : ['::after', '::before'];
+      let pin = '';
+      labels.forEach((L, i) => {
+        if (!slots[i] || !L || !L.text) return;
+        const d = [`content:${JSON.stringify(L.text)}`, 'position:absolute', 'z-index:3', 'pointer-events:none', 'white-space:nowrap'];
+        if (L.vAnchor) d.push(`${L.vAnchor[0]}:${L.vAnchor[1]}px`);
+        if (L.hAnchor) d.push(`${L.hAnchor[0]}:${L.hAnchor[1]}px`);
+        for (const [p, v] of [['color', L.color], ['font-family', L.fontFamily], ['font-size', L.fontSize],
+          ['font-weight', L.fontWeight], ['line-height', L.lineHeight], ['letter-spacing', L.letterSpacing],
+          ['text-transform', L.textTransform], ['opacity', L.opacity], ['background', L.bg], ['padding', L.padding]]) {
+          if (v) d.push(`${p}:${v}`);
+        }
+        pin += `selector${slots[i]}{${d.join(';')};}`;
+      });
+      if (pin) custom_css = (`selector{position:relative;}` + custom_css + pin).trim();
     }
     return { type: 'simple', shortcode: 'media_image', _items: [], atts: {
       image: { attachment_id: '', url: b.src || '', alt: b.alt || '' },
@@ -2396,7 +2546,7 @@ export function toPages(capture, opts = {}) {
     return n;
   };
   const _blockToNode = (b) => carryWrapMargins(_blockToNode0(b), b);
-  const _blockToNode0 = (b) => (b.t === 'panel' ? panelNode(b) : b.decor ? decorNode(b.html, b.paint) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'chips' ? chipsNode(b) : b.t === 'lone_icon' ? (loneIconNode(b) || codeBlock(b.svg || '')) : b.t === 'paint' ? (paintNode(b) || codeBlock('')) : b.t === 'stack' ? stackNode(b) : b.t === 'floating_card' ? floatingCardNode(b.card || {}) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
+  const _blockToNode0 = (b) => (b.t === 'panel' ? panelNode(b) : b.decor ? decorNode(b.html, b.paint) : b.t === 'newsletter' ? newsletterNode(b) : b.t === 'heading' ? headingNode(b) : b.t === 'button' ? buttonBlockNode(b) : b.t === 'overline' ? textBlock(b.html, { ...b, textAlign: b.align || b.textAlign, textTransform: b.textTransform }) : b.t === 'text' ? textBlock(b.html, b) : b.t === 'chips' ? chipsNode(b) : b.t === 'lone_icon' ? (loneIconNode(b) || codeBlock(b.svg || '')) : b.t === 'paint' ? (paintNode(b) || codeBlock('')) : b.t === 'stack' ? stackNode(b) : b.t === 'floating_card' ? floatingCardNode(b.card || {}) : b.t === 'gallery' ? (galleryNode(b) || codeBlock('')) : b.t === 'scroll_cue' ? scrollCueNode(b) : b.t === 'image' ? mediaImageNode(b) : b.t === 'video' ? videoNode(b) : b.t === 'testimonials' ? testimonialsNode(b.items) : b.t === 'rating' ? ratingRowNode(b) : b.t === 'table' ? tableNode(b) : b.t === 'accordion' ? accordionNode(b) : b.t === 'card' ? iconBoxNode(b.card) : b.t === 'feature_list' ? featureListNode(b) : b.t === 'tabs' ? tabsNode(b) : b.t === 'steps' ? stepsNode(b) : b.t === 'timeline' ? timelineNode(b) : b.t === 'progress' ? progressNode(b) : b.t === 'pricing' ? pricingNode(b) : b.t === 'lottie' ? lottieNode(b) : b.t === 'svg_draw' ? svgDrawNode(b) : b.t === 'logo_grid' ? logoGridNode(b) : b.t === 'cta' ? ctaNode(b) : codeBlock(b.html));
 
   // Map a flat blocks array to nodes, grouping a flex-ROW button group (`sm:flex-row`) into ONE nested
   // row column (side-by-side, source gap) instead of stacked siblings. This is the same grouping the
@@ -2967,11 +3117,36 @@ export function toPages(capture, opts = {}) {
     const rows = [];
     if (hasIcon && hasNum) rows.push({ slots: ['icon', 'number'], direction: 'inline', justify: 'between', align: 'center' });
     else if (hasIcon) rows.push({ slots: ['icon'], direction: 'stack', justify: 'start', align: 'start' });
+    // a numeral the source sets INLINE at the item's start is LEFT-aligned; the end-aligned row is the
+    // "big faded number in the corner" convention, not a left chip list. PHP twin: n_steps.
+    else if (hasNum && dz.numBadge) { /* the badge rides the native marker — below */ }
+    else if (hasNum && dz.numInline) rows.push({ slots: ['number'], direction: 'stack', justify: 'start', align: 'start' });
     else if (hasNum) rows.push({ slots: ['number'], direction: 'stack', justify: 'end', align: 'end' });
     rows.push({ slots: ['title'], direction: 'stack', justify: 'start', align: 'start' });
     rows.push({ slots: ['content'], direction: 'stack', justify: 'start', align: 'start' });
     atts.card_rows = rows;
     atts.marker = 'none';
+    // A numeral drawn as a painted BADGE in its own leading cell is the native MARKER: the design lays it
+    // beside the body, which is the source's two-column step. Its measured shape, size and outlined skin ride
+    // with it — the shortcode's marker paints a solid accent fill with white text, rarely what the source drew.
+    // PHP twin: n_steps' numBadge branch.
+    if (hasNum && dz.numBadge) {
+      atts.marker = 'number';
+      if (dz.numShape) atts.marker_shape = String(dz.numShape);
+      if (dz.connector === 'solid' || dz.connector === 'none') atts.connector = String(dz.connector);
+      if (dz.markerSize) atts.custom_css = String(atts.custom_css || '') + `selector{--st-size:${Math.round(dz.markerSize)}px;}`;
+      const bcs = dz.numBadgeCs && typeof dz.numBadgeCs === 'object' ? dz.numBadgeCs : null;
+      if (bcs) {
+        const md = [];
+        const opaque = bcs.bg && !/rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/.test(bcs.bg);
+        md.push(opaque ? `background:${bcs.bg}` : 'background:transparent');
+        if ((parseFloat(bcs.bw) || 0) > 0 && bcs.bc) md.push(`border:${bcs.bw} solid ${bcs.bc}`);
+        for (const [p, v] of [['color', bcs.color], ['font-size', bcs.fs], ['font-weight', bcs.fw], ['font-family', bcs.ff], ['letter-spacing', bcs.ls]]) {
+          if (v && v !== 'normal') md.push(`${p}:${v}`);
+        }
+        atts.custom_css = String(atts.custom_css || '') + `selector .fw-steps__marker{${md.join(';')};}`;
+      }
+    }
     // Stash the step-card box skin for the Box-Preset census in capture.mjs (assigns box_style, then drops _box).
     if (dz.box && typeof dz.box === 'object') atts._box = dz.box;
     return widgetNode('steps', atts);
@@ -3537,7 +3712,9 @@ export function toPages(capture, opts = {}) {
     const hasMedia = (sec.assets || []).length > 0;
     // A `row` grid OR a `testimonials` collection is a CLEAN decomposition — don't force the whole
     // (media-bearing) section to verbatim just because it also carries avatars/images.
-    const hasRow = (sec.blocks || []).some((b) => b.t === 'row' || b.t === 'testimonials');
+    // …a `gallery` counts too: the photos ARE the gallery block, so decomposing drops nothing (before this a
+    // photo grid kept the whole band verbatim and the native Gallery element never appeared).
+    const hasRow = (sec.blocks || []).some((b) => b.t === 'row' || b.t === 'testimonials' || b.t === 'gallery');
     const preferVerbatim = hasRaw && (opts.fidelity === true || (hasMedia && !hasRow));
     if (sec.slider && sec.slider.slides && sec.slider.slides.length >= 2) {
       decision = 'carousel'; node = sliderSectionNode(sec, sIndex);     // editable carousel shortcode
@@ -3618,6 +3795,11 @@ export function toPages(capture, opts = {}) {
     for (const ch of items) anchorAbs(ch);
   };
   builder.forEach(anchorAbs);
+
+  // Bind every emitted colour to the PALETTE this conversion generated. MIRROR of PHP
+  // Stitch::bind_palette_colors — see its docblock for the reasoning and the four guards. The palette
+  // arrives through opts because it is built in to-presets, not here.
+  bindPaletteColors(builder, opts.palette);
 
   return {
     pages: [{ title: 'Home', slug: 'home', status: 'publish', front_page: true, builder,
