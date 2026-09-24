@@ -305,7 +305,28 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
           }
           items.push({ kind: 'text', key: t, ...rel, fs: cs.fontSize, ta: cs.textAlign, skin: sk });
         }
-        return { i, id: sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase(), tag: sec.tagName.toLowerCase(), y: Math.round(top), h: Math.round(sr.height), items };
+        // THE SHAPE OF A REPEATED GROUP — how many COLUMNS its children sit in.
+        // Element-level diffs describe leaves, so a 3-up card row collapsing to a 1-up stack registers only
+        // as leaves that moved, drowned in per-leaf churn (a real-site audit: 45 of a section's 57 findings
+        // were star glyphs, and the collapse itself was never named). Columns are a property of the
+        // CONTAINER, so they have to be measured on the container.
+        // The group = the element with the most same-size element children; its columns = the number of
+        // children sharing the first child's top edge.
+        let group = null;
+        for (const el of sec.querySelectorAll('*')) {
+          const kids = [...el.children].filter((k) => { const r = k.getBoundingClientRect(); return r.width > 40 && r.height > 40; });
+          if (kids.length < 2) continue;
+          const rs = kids.map((k) => k.getBoundingClientRect());
+          const wMed = rs.map((r) => r.width).sort((a, b) => a - b)[rs.length >> 1];
+          // "repeated" = children of roughly equal width (a card row), not a heading + a body + a button
+          const alike = rs.filter((r) => Math.abs(r.width - wMed) <= Math.max(12, wMed * 0.12)).length;
+          if (alike < 2) continue;
+          const top0 = Math.min(...rs.map((r) => r.top));
+          const cols = rs.filter((r) => Math.abs(r.top - top0) <= 12).length;
+          const cand = { n: kids.length, cols, w: Math.round(wMed), alike };
+          if (!group || cand.alike > group.alike || (cand.alike === group.alike && cand.n > group.n)) group = cand;
+        }
+        return { i, id: sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase(), tag: sec.tagName.toLowerCase(), y: Math.round(top), h: Math.round(sr.height), items, group };
       });
     }, maxLen);
     await page.close();
@@ -459,10 +480,53 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
     relocated++;
   }
 
+  // ---- the CONTAINER-level defect: a repeated group that changed its column count -----------------
+  // Reported per section and FIRST, because it explains the leaves: when a 3-up row becomes a 1-up stack
+  // every leaf inside it also "moved", and that churn buries the cause. `sections` is pairs.map(), so the
+  // two line up by index.
+  pairs.forEach(({ a, b }, i) => {
+    const sec = sections[i];
+    if (!sec || sec.missing || !a || !b || !a.group || !b.group) return;
+    if (a.group.cols === b.group.cols) return;
+    // …only when the two sides are describing the SAME group. The producer picks the container with the
+    // most equal-width children, which on a text column (heading + copy + button) can pick a different
+    // element than it picks on the converted side — comparing those two column counts is meaningless.
+    // Equal item counts is the cheap, honest test that both sides found the same repeated group.
+    // (A real audit: a hero reported "a 1-up group renders 2-up" from src{items:3} vs conv{items:2}.)
+    if (a.group.n !== b.group.n) return;
+    sec.findings.unshift({
+      kind: 'grid-cols', sec: sec.id,
+      source: { cols: a.group.cols, items: a.group.n, itemW: a.group.w },
+      converted: { cols: b.group.cols, items: b.group.n, itemW: b.group.w },
+      note: `a ${a.group.cols}-up group renders ${b.group.cols}-up`,
+    });
+  });
+
+  // ---- collapse repeated identical icon findings ---------------------------------------------------
+  // A star rating is five identical glyphs per card; three cards make fifteen findings that all say one
+  // thing. Roll each run of same-kind, same-key icon findings into ONE carrying a count, so a section's
+  // list describes its distinct defects rather than its element count.
+  for (const sec of sections) {
+    if (!sec.findings) continue;
+    const rolled = []; const seen = new Map();
+    for (const f of sec.findings) {
+      if (f.kind !== 'icon-missing' && f.kind !== 'extra-icon') { rolled.push(f); continue; }
+      const k = `${f.kind}|${f.key || f.text || ''}`;
+      if (seen.has(k)) { seen.get(k).count++; continue; }
+      f.count = 1; seen.set(k, f); rolled.push(f);
+    }
+    sec.findings = rolled;
+  }
+
   const total = sections.reduce((n, s2) => n + s2.findings.length, 0);
   const byKind = {};
   for (const s2 of sections) for (const f of s2.findings) byKind[f.kind] = (byKind[f.kind] || 0) + 1;
-  return { ok: total === 0, total, relocated, byKind, sections };
+  // A FLAT list beside the per-section one. The three lenses returned three different shapes (`bands`,
+  // `findings`, `sections[].findings`), and reading the wrong key reported a clean run on a page carrying
+  // 130 real findings. Every lens now answers `.findings`.
+  const findings = [];
+  for (const s2 of sections) for (const f of (s2.findings || [])) findings.push({ ...f, sec: f.sec || s2.id });
+  return { ok: total === 0, total, relocated, byKind, findings, sections };
 }
 
 /**

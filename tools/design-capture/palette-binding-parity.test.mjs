@@ -63,3 +63,24 @@ test('it reaches nested builder nodes, not just the top level', () => {
   bindPaletteColors(n, palette);
   assert.equal(n.items[0].children[0].atts.subtitle_color.predefined, 'text-muted');
 });
+
+test('NEG: a PRESET DEFINITION keeps its literal — it is what other values point at', () => {
+  // A button preset's own fill bound to `bg-primary` left the preset emitting NO background, because its
+  // CSS generator reads the literal. The header CTA then rendered as a small unstyled white box with its
+  // label invisible on it (a real-site audit).
+  const n = {
+    button_colors: [{
+      color_name: 'Primary',
+      states: { default: { bg_color: { predefined: '', custom: '#ffffff' }, text_color: { predefined: '', custom: '#000000' } } },
+    }],
+    theme_colors: [{ name: 'Primary', color: '#ffffff' }],
+    atts: { title_color: { predefined: '', custom: '#f5f5f5' } },
+  };
+  bindPaletteColors(n, palette);
+  assert.deepEqual(n.button_colors[0].states.default.bg_color, { predefined: '', custom: '#ffffff' },
+    'a button preset definition must keep its literal fill');
+  assert.deepEqual(n.theme_colors[0], { name: 'Primary', color: '#ffffff' },
+    'the palette must never be rewritten to reference itself');
+  assert.equal(n.atts.title_color.predefined, 'text-ink',
+    'values that POINT at a preset still bind');
+});

@@ -942,16 +942,39 @@ async function renderPage(p, target, retry = false) {
           // No calc() gutter rule: the gutter is the container's (or its section's) equal side PADDING — `mx-auto max-w-[1600px] px-8`
           // → 32px. The mode over the winning containers. Without it the theme's ~24px default shifted every band 8px (measured).
           if (!gutter) {
-            const tally = new Map();
+            // WHOSE padding the gutter is decides whether it sits INSIDE the measured width.
+            //  · the container's OWN padding is inside its border box, so the measured width includes it
+            //    (`max-w-7xl px-6` measures 1280 and holds 1232 of content) → subtract it;
+            //  · a padding inherited from the ANCESTOR SECTION is outside the content box — the measured
+            //    width is ALREADY inset by it (a full-width `section.lg:px-20` at 1440 leaves content
+            //    measuring 1280) → subtracting would double-count and narrow every band by 2x the gutter.
+            // Tally the two separately and remember which one won, instead of stamping `inside` for both.
+            const tally = new Map(); const tallyOuter = new Map();
             for (const el of measuredEls) {
-              const own = getComputedStyle(el); let pl = parseFloat(own.paddingLeft) || 0, pr = parseFloat(own.paddingRight) || 0;
-              if (!(pl > 0 && Math.abs(pl - pr) < 1)) { const sec = el.closest('section, header, footer, main > div'); if (sec && sec !== el) { const ss = getComputedStyle(sec); pl = parseFloat(ss.paddingLeft) || 0; pr = parseFloat(ss.paddingRight) || 0; } }
-              if (pl > 0 && pl <= 200 && Math.abs(pl - pr) < 1) { const k = Math.round(pl); tally.set(k, (tally.get(k) || 0) + 1); }
+              const own = getComputedStyle(el);
+              const pl = parseFloat(own.paddingLeft) || 0, pr = parseFloat(own.paddingRight) || 0;
+              if (pl > 0 && pl <= 200 && Math.abs(pl - pr) < 1) {
+                const k = Math.round(pl); tally.set(k, (tally.get(k) || 0) + 1); continue;
+              }
+              const sec = el.closest('section, header, footer, main > div');
+              if (sec && sec !== el) {
+                const ss = getComputedStyle(sec);
+                const sl = parseFloat(ss.paddingLeft) || 0, sr = parseFloat(ss.paddingRight) || 0;
+                if (sl > 0 && sl <= 200 && Math.abs(sl - sr) < 1) { const k = Math.round(sl); tallyOuter.set(k, (tallyOuter.get(k) || 0) + 1); }
+              }
             }
-            let bk = 0, bc = 0; for (const [k, c] of tally) { if (c > bc) { bc = c; bk = k; } }
-            // a PADDING gutter sits INSIDE the measured container (`max-w-7xl px-6`: 1280 outer, 1232 content) — stamped so the
-            // theme's Container Width (a CONTENT width, gutter outside) gets 1232, not 1280 (+48px on every band — RECURS x3 in the feed)
-            if (bk > 0) { gutter = bk; document.documentElement.setAttribute('data-sc-content-gutter-inside', '1'); }
+            const modeOf = (m) => { let bk = 0, bc = 0; for (const [k, c] of m) { if (c > bc) { bc = c; bk = k; } } return bk; };
+            const inner = modeOf(tally), outer = modeOf(tallyOuter);
+            let isInside = inner > 0;
+            let bk = inner > 0 ? inner : outer;
+            // Arithmetic cross-check, which needs no DOM opinion at all: when the measured width plus both
+            // gutters fills the viewport, the content is already inset by them, so they cannot ALSO be
+            // inside it. This catches a container whose own padding happens to equal the section's.
+            if (bk > 0 && Math.abs((best + 2 * bk) - window.innerWidth) <= 2) { isInside = false; }
+            if (bk > 0) {
+              gutter = bk;
+              if (isInside) { document.documentElement.setAttribute('data-sc-content-gutter-inside', '1'); }
+            }
           }
           // The container's declared side gutter → Theme Settings Container Gutter (to-theme-settings / PHP declared_container_gutter).
           if (gutter > 0 && gutter <= 200) document.documentElement.setAttribute('data-sc-content-gutter', String(gutter));

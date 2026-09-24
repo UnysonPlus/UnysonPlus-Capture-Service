@@ -300,6 +300,12 @@ export { CS_APPEARANCE, csValueInert, hifiBaseCss, applyHifiBase, applyNativeMar
  */
 const BIND_TEXT_KEYS = new Set(['title_color','subtitle_color','overline_color','text_color','heading_color','link_color','color','font_color','label_color','menu_color','nav_color','scroll_link_color']);
 const BIND_BG_KEYS = new Set(['bg_color','background_color','scroll_bg_color','fill_color','header_bg_color','footer_bg_color','section_bg_color']);
+// A PRESET DEFINITION holds a LITERAL — it is the thing other values point AT, so a reference inside one
+// is circular, and its consumer generates CSS from that literal (a class name yields no declaration at
+// all). A real-site audit: a button preset's `bg_color` bound to `bg-primary`, the preset emitted no
+// background, and the header CTA rendered as a small unstyled white box with its label invisible on it.
+// Values that POINT at these presets still bind; only the definitions are skipped. PHP twin: $preset_keys.
+const PRESET_DEF_KEYS = new Set(['theme_colors', 'button_colors', 'box_presets', 'table_presets', 'section_style_presets', 'container_width_presets', 'badge_presets', 'card_presets']);
 export function bindPaletteColors(node, palette) {
   if (!Array.isArray(palette) || !palette.length) return node;
   const map = new Map();
@@ -324,7 +330,7 @@ export function bindPaletteColors(node, palette) {
       }
       return;
     }
-    for (const k of Object.keys(n)) walk(n[k], k);
+    for (const k of Object.keys(n)) { if (PRESET_DEF_KEYS.has(k)) continue; walk(n[k], k); }
   };
   walk(node, '');
   return node;
