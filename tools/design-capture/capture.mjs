@@ -16,6 +16,7 @@
 //   parts you already accepted untouched.
 // • If a site fails (e.g. a flaky network), it writes <site>/error.txt and the queue CONTINUES.
 import { chromium } from 'playwright-core';
+import { normalizeVideos } from './normalize-media.mjs';
 import { writeFileSync, mkdirSync, readFileSync, appendFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { toDesignConfig } from './to-design-config.mjs';
@@ -2520,6 +2521,14 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       writeFileSync(`${outdir}/design-config.json`, JSON.stringify(config, null, 2));
       writeFileSync(`${outdir}/pages.json`, JSON.stringify(pages, null, 2));
       writeFileSync(`${outdir}/styleguide.json`, JSON.stringify(styleguide, null, 2));
+      // Normalise video HERE rather than leaving it to the importer. The WordPress host is the machine
+      // least likely to have ffmpeg, so a transcode+poster done there silently did nothing on exactly the
+      // shared hosts that need it most. Shipping the normalised file in the bundle means any host gets it.
+      // Failure is a no-op: the entry is omitted and the importer fetches that URL as before.
+      try {
+        const localMedia = await normalizeVideos(outdir, media.urls || [], (m) => step(m));
+        if (localMedia && Object.keys(localMedia).length) { media.local = localMedia; }
+      } catch (e) { step(`video normalisation skipped (${String(e).slice(0, 90)})`); }
       writeFileSync(`${outdir}/media.json`, JSON.stringify(media, null, 2));
       writeFileSync(`${outdir}/presets.json`, JSON.stringify(presets, null, 2));
       writeFileSync(`${outdir}/theme-settings.json`, JSON.stringify(themeSettings, null, 2));
