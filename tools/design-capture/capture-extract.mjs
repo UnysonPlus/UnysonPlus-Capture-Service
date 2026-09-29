@@ -4620,7 +4620,7 @@ export function extractDesign() {
         if (painted && tr.width > 0 && tr.width <= 200 && tr.height <= 200) {
           out.tile = { w: Math.round(tr.width), h: Math.round(tr.height), bg: ts.backgroundColor, borderW: parseFloat(ts.borderTopWidth) > 0 ? ts.borderTopWidth : '', borderColor: ts.borderTopColor, radius: ts.borderRadius, shadow: ts.boxShadow && ts.boxShadow !== 'none' ? ts.boxShadow : '' };
           out.mt = Math.round(parseFloat(ts.marginTop) || 0); out.mb = Math.round(parseFloat(ts.marginBottom) || 0);
-          if (ts.marginLeft === 'auto' || /mx-auto/.test(String(tile.className || ''))) out.align = 'center';
+          if (ts.marginLeft === 'auto' || /\bmx-auto\b/.test(String(tile.className || ''))) out.align = 'center';
         }
       }
       return out;
