@@ -236,6 +236,12 @@ button,input{font:inherit;color:inherit}
 .cmp-bar .seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .cmp-bar .seg button{background:var(--surface-2);border:0;color:var(--muted);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer}
 .cmp-bar .seg button.active{background:var(--accent);color:#04160e}
+/* .mini was scoped to .cmp-bar only, so the same class used anywhere else rendered as an UNSTYLED
+   button: the browser default rgb(240,240,240) background under this theme's near-white text, i.e.
+   invisible. Measured on the Fix tab's buttons. The look is the same everywhere -- make it a base
+   rule so the class means what it says. */
+.mini{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer;text-decoration:none}
+.mini:hover{border-color:color-mix(in oklch,var(--accent) 45%,var(--border))}
 .cmp-bar .mini{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);padding:5px 10px;font:inherit;font-size:11px;cursor:pointer;text-decoration:none}
 .cmp-pane{border-radius:12px;border:1px solid var(--border);overflow:auto;background:#fff;min-height:420px;position:relative}
 .cmp-pane img{display:block;width:100%}
@@ -450,6 +456,7 @@ td.txt{color:var(--muted);max-width:340px}
         <main class="panel" id="main">
           <div class="tabs" id="tabs">
             <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="fix">Fix</button>
             <button class="tab" data-tab="compare">Compare</button>
             <button class="tab" data-tab="tokens">Design tokens</button>
             <button class="tab" data-tab="report">Conversion report</button>
@@ -640,7 +647,8 @@ function fmtTime(t){if(!t)return'';const d=new Date(t);return d.toLocaleTimeStri
 function ago(t){if(!t)return'';const s=(Date.now()-t)/1000;if(s<60)return Math.round(s)+'s ago';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago';}
 
 async function loadSites(){
-  const {out,sites}=await api('/api/sites');
+  const {out,sites,active}=await api('/api/sites');
+  window._activeRun=active||null;   // the conversion happening right now, per <OUT>/_active.json
   $('#watchDir').textContent=out;
   window._siteUrls=window._siteUrls||{}; (sites||[]).forEach(s=>{ if(s.url) window._siteUrls[s.slug]=s.url; }); // source URL per site (for drift measure/refine)
   const h=$('#history');
@@ -653,7 +661,13 @@ async function loadSites(){
   // Follow the LIVE conversion: as soon as a conversion is running (the dev kit / capture service
   // started one), switch to monitoring it — unless the user pinned a site by clicking it. `sites`
   // is newest-first, so the first running one is the freshest.
-  const running=sites.find(s=>s.status==='running');
+  // THE LIVE RUN WINS. `active` comes from the pointer the capture writes the instant it starts, so the
+  // panes switch to the conversion in flight immediately instead of sitting on the last finished one
+  // while its artifacts are still being written. Scanning the list for status:'running' stays as the
+  // fallback for an older service that does not report `active`.
+  const running=(window._activeRun&&window._activeRun.slug&&sites.find(s=>s.slug===window._activeRun.slug))
+    ||(window._activeRun&&window._activeRun.slug?{slug:window._activeRun.slug,status:'running'}:null)
+    ||sites.find(s=>s.status==='running');
   // A conversion that is ACTIVELY RUNNING is always surfaced live — it also lifts any persisted Clear
   // (Clear only suppresses FINISHED runs; you can't "clear" a conversion that's still happening).
   if(running){ if(running.slug!==state.slug){ state.cleared=false;try{localStorage.removeItem('upw_pcleared');}catch(e){} select(running.slug,false); } }
@@ -673,6 +687,10 @@ async function select(slug,manual){
     const p=await api(`/api/site/${slug}/progress`);
     renderProgress(p);
     if(p.status!=='running'){clearInterval(state.polling);state.polling=null;await refresh();loadSites();}
+    // A live run writes its artifacts as it goes (rendered.html, the screenshot, the report), so the
+    // panes have to be re-rendered while it runs or they keep showing whatever existed when the run was
+    // selected — for the first seconds of a conversion, nothing. Throttled: a re-render every ~4s.
+    else if(!state._liveTick||Date.now()-state._liveTick>4000){ state._liveTick=Date.now(); try{await refresh();}catch(e){} }
   },900);
 }
 
@@ -767,10 +785,40 @@ $('#tabs').querySelectorAll('.tab').forEach(t=>t.onclick=()=>{state.tab=t.datase
 // Jump to a tab from anywhere (e.g. a clickable Overview stat card).
 window._goTab=function(t){ const btn=document.querySelector('#tabs .tab[data-tab="'+t+'"]'); if(btn) btn.click(); };
 
+/**
+ * Keep the Source URL box on the run you are looking at.
+ *
+ * The field was only ever READ -- on "Convert & install" -- so it sat on its placeholder while the rest of
+ * the page displayed that run: the brief, the Compare pane and the "Open source" link all knew the URL.
+ * Reconverting meant retyping something already on screen. (Destination WordPress has prefilled from the
+ * saved target all along; this is the same idea, per run.)
+ *
+ * It FOLLOWS the selection rather than filling once, because the dashboard lists many runs and a box still
+ * showing the first one's URL is worse than an empty box -- it is a wrong answer that looks like a right
+ * one. But it never overwrites typing: it only replaces a value it put there itself (or an empty box), so
+ * anything you have edited survives switching runs.
+ */
+let _srcAutoFilled = null;
+function prefillSourceUrl(){
+  try{
+    const el=document.getElementById('srcUrl'); if(!el) return;
+    const u=(state&&state.progress&&state.progress.url)||(state&&state.config&&(state.config.source_url||state.config.url))||'';
+    if(!u) return;
+    const untouched = (el.value==='' || el.value===_srcAutoFilled);
+    if(!untouched) return;
+    el.value=u; _srcAutoFilled=u;
+  }catch(e){}
+}
+
 function renderTab(){
+  prefillSourceUrl();
   const b=$('#tabBody');const c=state.config||{};const p=state.progress||{};
   if(!state.slug){return;}
-  const A=(slug,f)=>`/artifact/${slug}/${f}`;
+  // Artifact URLs carry the run's own timestamp. Re-converting the same source produces the same slug,
+  // so without this the browser serves the PREVIOUS run's cached screenshot and the panes show a site
+  // that is no longer what is being converted.
+  const _av=(p&&(p.updatedAt||p.startedAt))||0;
+  const A=(slug,f)=>`/artifact/${slug}/${f}`+(_av?`?v=${_av}`:'');
   if(state.tab==='overview'){
     const sm=p.summary||{};
     const tabName={report:'Conversion report',tokens:'Design tokens',compare:'Compare'};
@@ -853,6 +901,83 @@ function renderTab(){
       ${rows.map(r=>{const res=r.fallback?'<span class="tag fb">fallback</span>':(r.decision==='verbatim'?'<span class="tag mirror">mirror</span>':'<span class="tag ok">mapped</span>');
       return `<tr><td class="mono">${r.section??''}</td><td class="mono">${esc((r.s_class||'').slice(0,26))}</td><td>${esc(r.role||r.detected||'')} <span class="mono" style="color:var(--faint)">→ ${esc(r.mapped||'')}</span></td><td>${res}</td><td class="txt">${esc((r.text||'').slice(0,90))}</td></tr>`;}).join('')}
     </tbody></table></div>`;
+  }else if(state.tab==='fix'){
+    // THE FIX TAB — everything about closing the gap, in one place, ranked by what each route can reach.
+    //
+    // The refine button used to live alone in Compare labelled "Improve with AI", which promises to fix the
+    // site and delivers a CSS patcher. Every defect found on a real conversion this week was STRUCTURAL (a
+    // backdrop photo becoming a column, a hollow <picture> holding a track) and no CSS would have touched
+    // them. Saying what each route reaches is the difference between a tool that helps and one that gets
+    // blamed for not doing something it never could.
+    const conv=(function(){try{return (_wpTarget&&_wpTarget.url)||'';}catch(e){return '';}})()||demoUrlFor(c)||'';
+    const src=(state.progress&&state.progress.url)||'';
+    window._cmpConv=conv;
+    b.innerHTML=`<div class="fade">
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px">
+        A conversion gets the content and design system across and usually leaves layout to finish.
+        Measure first — it says <b>where</b> the gap is — then pick the route that can reach it.
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <h3 style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0">1 · Where is the gap?</h3>
+          <button class="mini" id="fixMeasure">📏 Measure drift</button>
+        </div>
+        <div style="font-size:12px;color:var(--faint);line-height:1.5;margin-bottom:8px">Renders the source and the converted page and compares them band by band, top to bottom. A tall bar is a region that does not match.</div>
+        <div id="fixDrift" style="font-size:12px;color:var(--muted);line-height:1.7"></div>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <h3 style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0">2 · Refine the styling</h3>
+          <button class="mini" id="fixRefine" style="border-color:color-mix(in oklch,var(--accent) 50%,transparent);color:var(--accent)">✨ Refine with ${improveAiName()}</button>
+        </div>
+        <div style="font-size:12px;color:var(--faint);line-height:1.5;margin-bottom:8px">
+          Aims at the <b>worst band</b> and asks ${improveAiName()} for CSS, then re-measures and keeps it
+          <b>only if the drift actually drops</b>. Reaches colour, spacing, type and sizing — <b>not</b>
+          structure: if a section's blocks are in the wrong order or a background became content, that is a
+          conversion fix, not a CSS one. Use route 3.
+        </div>
+        <div id="fixRefineOut" style="font-size:12px;color:var(--muted);line-height:1.7"></div>
+      </div>
+
+      <div style="border:1px solid var(--border);border-radius:10px;padding:14px">
+        <h3 style="font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 8px">3 · Structural work — hand it to an agent</h3>
+        <div style="font-size:12px;color:var(--faint);line-height:1.5;margin-bottom:8px">
+          For anything CSS cannot reach. An agent with a browser can measure both pages, change one thing,
+          and measure again — and with the site's AI Assistant connected it can write Theme Settings and edit
+          pages directly. Paste this as its brief.
+        </div>
+        <textarea id="fixBrief" readonly rows="9" style="width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:11px;padding:8px;line-height:1.5"></textarea>
+        <button class="mini" id="fixCopyBrief" style="margin-top:6px">Copy brief</button>
+      </div>
+    </div>`;
+
+    const brief=[
+      'Close the gap between a converted WordPress site and the source it was converted from.',
+      '',
+      '  SOURCE URL    : '+(src||'<the original site>'),
+      '  CONVERTED URL : '+(conv||'<the converted site>'),
+      '',
+      'Measure both pages in a real browser, change one thing, then MEASURE AGAIN. Clear the generated CSS',
+      'caches first (wp-content/uploads/unysonplus/asset-optimizer/*, .../unysonplus/css/*) or you will read',
+      'a stale stylesheet.',
+      '',
+      'Work one region at a time: header, then footer, then sections top to bottom. For each, check content',
+      'and ORDER, then type, spacing, layout, state, and the gap between regions.',
+      '',
+      'Fix through Theme Settings options first; scoped custom CSS only where no option can express it.',
+      'Never edit the Site Converter, the plugin or the parent theme - a plugin update erases it.',
+      '',
+      'If this site has the UnysonPlus AI Assistant, connect over MCP (Unyson+ -> AI Assistant -> Connect an',
+      'agent) and prefer its tools: describe-theme-settings / update-theme-settings, save-preset,',
+      'list-elements / update-element, render-check, undo. Ask the site owner for the connection details;',
+      'they are shown once and must never be pasted into a prompt, an issue or a chat.',
+    ].join('\n');
+    const ta=$('#fixBrief'); if(ta) ta.value=brief;
+    const cb=$('#fixCopyBrief'); if(cb) cb.onclick=()=>{ navigator.clipboard.writeText(brief).then(()=>toast('Brief copied.')); };
+    const fm=$('#fixMeasure'); if(fm) fm.onclick=()=>fixMeasure();
+    const fr=$('#fixRefine'); if(fr) fr.onclick=()=>fixRefine();
   }else if(state.tab==='compare'){
     const LOGICAL=1440, HEIGHT=5200; // source shots are captured at a 1440px viewport
     // Default the Compare "Converted site" to WHERE THE SITE WAS ACTUALLY INSTALLED — the destination
@@ -1209,6 +1334,59 @@ async function cmpMeasure(){
     out.innerHTML=`Overall drift: <b style="color:${driftColor(r.overall_drift_pct)}">${r.overall_drift_pct}%</b> <span style="color:var(--faint)">(lower = closer to source · height Δ ${r.height_delta_pct}%)</span><br><span style="color:var(--faint)">top→bottom:</span> ${bands}`;
   }catch(_){ out.innerHTML='<span style="color:var(--red)">Measure failed — is the capture service running?</span>'; }
 }
+/* ---- the Fix tab ------------------------------------------------------ *
+ * Measure, then refine, then hand the rest to an agent. Everything here is deliberately explicit about
+ * what it can reach: the refine pass writes CSS, so it cannot fix a section whose blocks are in the wrong
+ * place, and a user who is not told that concludes the tool is broken. */
+
+function fixBands(rows){
+  if(!rows||!rows.length) return '';
+  const max=Math.max.apply(null,rows.map(r=>r.drift_pct))||1;
+  return '<div style="display:flex;align-items:flex-end;gap:3px;height:56px;margin:6px 0">'+rows.map(r=>{
+    const h=Math.max(3,Math.round((r.drift_pct/max)*52));
+    return '<div title="band '+r.band+' (y '+r.y0+'-'+r.y1+'px): '+r.drift_pct+'% drift" style="flex:1;height:'+h+'px;border-radius:3px 3px 0 0;background:'+driftColor(r.drift_pct)+'"></div>';
+  }).join('')+'</div><div style="display:flex;justify-content:space-between;color:var(--faint);font-size:11px"><span>top of page</span><span>bottom</span></div>';
+}
+
+async function fixMeasure(){
+  const out=$('#fixDrift'); if(!out) return;
+  const src=(state.progress&&state.progress.url)||'', conv=window._cmpConv||'';
+  if(!src||!conv){ out.innerHTML='<span style="color:var(--amber)">Need the source run + a converted URL.</span>'; return; }
+  out.innerHTML='Measuring… <span style="color:var(--faint)">(rendering both pages)</span>';
+  try{
+    const r=await api2('/api/verify',{source_url:src,converted_url:conv,bands:12});
+    // The verifier now refuses to grade a page it could not load, rather than reporting the failure as
+    // drift — so an error here is information, not a glitch to swallow.
+    if(r.error){ out.innerHTML='<span style="color:var(--red)">'+esc(r.error)+'</span>'; return; }
+    const rows=r.bands||[];
+    const worst=rows.slice().sort((a,b)=>b.drift_pct-a.drift_pct)[0];
+    let h='Overall drift <b style="color:'+driftColor(r.overall_drift_pct)+'">'+r.overall_drift_pct+'%</b>';
+    h+=' <span style="color:var(--faint)">· page height differs by '+r.height_delta_pct+'%</span>';
+    h+=fixBands(rows);
+    if(worst){ h+='<div style="margin-top:6px">Worst region: <b>band '+worst.band+'</b> ('+worst.drift_pct+'%), '+worst.y0+'–'+worst.y1+'px down the page. The refine pass aims there first.</div>'; }
+    out.innerHTML=h;
+  }catch(_){ out.innerHTML='<span style="color:var(--red)">Measure failed — is the capture service running?</span>'; }
+}
+
+async function fixRefine(){
+  const out=$('#fixRefineOut'); if(!out) return;
+  const src=(state.progress&&state.progress.url)||'', conv=window._cmpConv||'';
+  if(!src||!conv){ out.innerHTML='<span style="color:var(--amber)">Need the source run + a converted URL.</span>'; return; }
+  out.innerHTML='✨ Refining… <span style="color:var(--faint)">(measures, asks for CSS on the worst band, re-measures — up to ~1 min)</span>';
+  try{
+    const r=await api2('/api/refine-visual',{source_url:src,converted_url:conv});
+    if(r.error){ out.innerHTML='<span style="color:var(--red)">'+esc(r.error)+'</span>'; return; }
+    let h='Drift <b style="color:'+driftColor(r.before_drift_pct)+'">'+r.before_drift_pct+'%</b> '+(r.improved?'↓':'→')+' <b style="color:'+driftColor(r.after_drift_pct)+'">'+r.after_drift_pct+'%</b> ';
+    h+= r.improved? '<span style="color:var(--accent)">✓ kept ('+r.rounds_run+' round'+(r.rounds_run===1?'':'s')+')</span>'
+                  : '<span style="color:var(--faint)">no measurable gain — nothing was kept</span>';
+    if(r.aimed_at&&r.aimed_at.length){ h+='<div style="margin-top:4px;color:var(--faint)">Aimed at band '+r.aimed_at.map(a=>a.band+' ('+a.drift_pct+'%)').join(', then ')+'</div>'; }
+    if(!r.improved){ h+='<div style="margin-top:6px">If the gap is structural — a background that became content, blocks in the wrong order — CSS cannot close it. Use route 3.</div>'; }
+    if(r.css){ h+='<div style="margin-top:8px"><b>CSS that helped</b> <span style="color:var(--faint)">(paste into the converted theme, or Customizer → Additional CSS)</span><textarea readonly style="width:100%;height:120px;margin-top:5px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:11px;padding:8px">'+esc(r.css)+'</textarea><button class="mini" id="fixCopyCss" style="margin-top:5px">Copy CSS</button></div>'; }
+    out.innerHTML=h;
+    const cp=$('#fixCopyCss'); if(cp) cp.onclick=()=>{ navigator.clipboard.writeText(r.css||'').then(()=>toast('CSS copied.')); };
+  }catch(_){ out.innerHTML='<span style="color:var(--red)">Refine failed — check that AI is configured (Enable AI / a pulled model).</span>'; }
+}
+
 // The "Improve with …" button reflects the ACTIVE backend (svc.aiBackend), so it's honest about which
 // AI it'll use: a selected local model → "Local AI"; Claude Code / API → "Claude"; none → generic "AI".
 function improveAiName(){ const s=window._svc||{}; if(!s.up||!s.aiReady) return 'AI'; return {ollama:'Local AI',api:'Claude','claude-code':'Claude'}[s.aiBackend]||'AI'; }
@@ -1405,9 +1583,13 @@ pollStatus(); setInterval(pollStatus,3000);
 
 // --- Experimental local-AI (Ollama) picker ---
 let _laiPulling=false;
+window._laiChecks=window._laiChecks||{}; // model → last Check result, kept across the periodic redraw
 async function loadLocalAi(){
   if(_laiPulling) return; // don't wipe the live pull progress on the periodic refresh
   const el=document.getElementById('localAiBody'); if(!el) return;
+  // Never redraw while someone is typing in this section (the 8s refresh would wipe the field).
+  const act=document.activeElement; if(act && el.contains(act) && /^(INPUT|TEXTAREA)$/.test(act.tagName)) return;
+  const keep={}; ['laiAddName','laiImpPath','laiImpName','laiTestPrompt'].forEach(id=>{ const i=document.getElementById(id); if(i&&i.value) keep[id]=i.value; });
   let s; try{ s=await api('/api/local-ai'); }catch(e){ el.innerHTML='<div style="color:#9aa3ad">Unavailable.</div>'; return; }
   window._laiSelected=s.selected||''; if($('#chatModel')&&state.view==='chat') chatRefreshModel();
   if(s.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure local AI.</div>'; return; }
@@ -1430,7 +1612,7 @@ async function loadLocalAi(){
   (s.shortlist||[]).forEach(m=>{
     const on=s.selected===m.tag, has=isPulled(m.tag);
     const foot = has
-      ? `<small style="color:oklch(0.74 0.17 158)">✓ pulled</small> <button class="lai-del" data-tag="${esc(m.tag)}" style="font-size:.78em;padding:.1em .5em;border-radius:5px;border:1px solid #ef444455;background:#ef444418;color:#f87171;cursor:pointer">🗑 Delete</button>`
+      ? `<small style="color:oklch(0.74 0.17 158)">✓ pulled</small> ${laiCheckBtn(m.tag)} <button class="lai-del" data-tag="${esc(m.tag)}" style="font-size:.78em;padding:.1em .5em;border-radius:5px;border:1px solid #ef444455;background:#ef444418;color:#f87171;cursor:pointer">🗑 Delete</button>${laiCheckOut(m.tag)}`
       : (s.up
           ? `<button class="lai-pull" data-tag="${esc(m.tag)}" style="font-size:.8em;padding:.15em .6em;border-radius:5px;border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;cursor:pointer">⤓ Pull ~${esc(m.ram.replace(/[~\s]/g,''))}</button>`
           : (s.installed
@@ -1441,7 +1623,35 @@ async function loadLocalAi(){
        `<br><small style="color:#9aa3ad">${esc(m.params)} · ${esc(m.ram)} · ${esc(m.note)}</small><br>`+foot+
        `</span></label>`;
   });
+  (s.custom||[]).forEach(t=>{
+    const on=s.selected===t;
+    h+=`<label style="${rowCss};cursor:pointer"><input type="radio" name="lai" value="${esc(t)}"${on?' checked':''}>`+
+       `<span><b>${esc(t)}</b> ${tag('custom','#f59e0b')}`+
+       `<br><small style="color:#9aa3ad">Added by you. Press Check to see whether it can do the converter's and the AI Assistant's tasks.</small><br>`+
+       `<small style="color:oklch(0.74 0.17 158)">✓ pulled</small> ${laiCheckBtn(t)} <button class="lai-del" data-tag="${esc(t)}" style="font-size:.78em;padding:.1em .5em;border-radius:5px;border:1px solid #ef444455;background:#ef444418;color:#f87171;cursor:pointer">🗑 Delete</button>${laiCheckOut(t)}`+
+       `</span></label>`;
+  });
   h+='</div><div id="laiPull" style="margin-top:.5em"></div>';
+  if(s.up){
+    const inCss='background:var(--surface-2);border:1px solid var(--border);border-radius:6px;color:var(--ink);padding:.4em .55em;font:inherit;font-size:.92em;min-width:0';
+    const btnCss='border:1px solid #a78bfa66;background:#7c3aed22;color:#a78bfa;border-radius:6px;padding:.4em .8em;cursor:pointer;font:inherit;font-weight:600;white-space:nowrap';
+    h+=`<div style="margin-top:.8em;padding-top:.7em;border-top:1px solid var(--border-soft)">
+      <div style="font-weight:600;margin-bottom:.15em">Add a model</div>
+      <div style="color:#9aa3ad;margin-bottom:.4em">Any model from <a href="https://ollama.com/library" target="_blank" rel="noopener" style="color:#a78bfa">ollama.com/library</a> by name, or a GGUF model on Hugging Face by its link. Quality varies a lot, so press <b>Check</b> once it has downloaded.</div>
+      <div style="display:flex;gap:.4em">
+        <input id="laiAddName" type="text" aria-label="Model name or Hugging Face link" placeholder="llama3.1:8b  or  https://huggingface.co/<user>/<model>-GGUF" style="${inCss};flex:1">
+        <button id="laiAddBtn" style="${btnCss}">⤓ Download</button>
+      </div>
+      <div style="font-weight:600;margin:.8em 0 .15em">Or import a .gguf file from this computer</div>
+      <div style="color:#9aa3ad;margin-bottom:.4em">Paste the file's full path. Ollama keeps its own copy in the kit's model folder, so you need that much free disk space; nothing leaves this computer.</div>
+      <div style="display:flex;gap:.4em;flex-wrap:wrap">
+        <input id="laiImpPath" type="text" aria-label="Path to a .gguf file" placeholder="C:\\Models\\my-model.Q4_K_M.gguf" style="${inCss};flex:2 1 16em">
+        <input id="laiImpName" type="text" aria-label="Name for the model (optional)" placeholder="Name (optional)" style="${inCss};flex:1 1 9em">
+        <button id="laiImpBtn" style="${btnCss}">Import</button>
+      </div>
+      <div id="laiAddOut" style="margin-top:.45em"></div>
+    </div>`;
+  }
   if(s.selected) h+=`<div style="margin-top:.5em;color:oklch(0.74 0.17 158)">Active: <b>${esc(s.selected)}</b>${isPulled(s.selected)?'':' <span style="color:#f59e0b">(pull it first)</span>'}</div>`;
   // "Test the model" — prove the selected local model is alive + command it directly.
   if(s.selected && isPulled(s.selected)){
@@ -1455,6 +1665,53 @@ async function loadLocalAi(){
     </div>`;
   }
   el.innerHTML=h;
+  Object.keys(keep).forEach(id=>{ const i=document.getElementById(id); if(i) i.value=keep[id]; });
+  const addOut=document.getElementById('laiAddOut');
+  const addErr=(msg)=>{ if(addOut) addOut.innerHTML=`<span style="color:#f87171">⚠ ${esc(msg)}</span>`; };
+  const addBtn=document.getElementById('laiAddBtn'), addIn=document.getElementById('laiAddName');
+  if(addBtn){
+    const add=async()=>{
+      const v=(addIn.value||'').trim(); if(!v){ addErr('Enter a model name or a Hugging Face link.'); return; }
+      addBtn.disabled=true;
+      try{
+        const r=await fetch('/api/local-ai/pull',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:v})});
+        const d=await r.json().catch(()=>({}));
+        if(!r.ok||d.error){ addErr(d.error||('HTTP '+r.status)); addBtn.disabled=false; return; }
+        addIn.value=''; _laiPulling=true; toast('Downloading '+(d.model||v)+'…'); pollPull();
+      }catch(_){ addErr('Could not reach the capture service.'); addBtn.disabled=false; }
+    };
+    addBtn.addEventListener('click',e=>{ e.preventDefault(); add(); });
+    addIn.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); add(); } });
+  }
+  const impBtn=document.getElementById('laiImpBtn');
+  if(impBtn){
+    impBtn.addEventListener('click',async e=>{
+      e.preventDefault();
+      const path=(document.getElementById('laiImpPath').value||'').trim(), name=(document.getElementById('laiImpName').value||'').trim();
+      if(!path){ addErr('Paste the full path to a .gguf file.'); return; }
+      impBtn.disabled=true;
+      try{
+        const r=await fetch('/api/local-ai/import',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({path,name})});
+        const d=await r.json().catch(()=>({}));
+        if(!r.ok||d.error){ addErr(d.error||('HTTP '+r.status)); impBtn.disabled=false; return; }
+        document.getElementById('laiImpPath').value=''; document.getElementById('laiImpName').value='';
+        _laiPulling=true; toast('Importing '+(d.model||'the model')+'…'); pollPull();
+      }catch(_){ addErr('Could not reach the capture service.'); impBtn.disabled=false; }
+    });
+  }
+  el.querySelectorAll('.lai-check').forEach(b=>b.addEventListener('click',async e=>{
+    e.preventDefault(); e.stopPropagation();
+    const t=b.getAttribute('data-tag');
+    window._laiChecks[t]={grade:'running'}; _laiPulling=true; // pause the redraw while it runs
+    const out=el.querySelector('.lai-check-out[data-for="'+CSS.escape(t)+'"]'); if(out) out.outerHTML=laiCheckOut(t);
+    b.disabled=true;
+    try{
+      const r=await fetch('/api/local-ai/check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:t})});
+      const d=await r.json().catch(()=>({}));
+      window._laiChecks[t]=(!r.ok||d.error)?{grade:'fail',note:d.error||('HTTP '+r.status)}:d;
+    }catch(_){ window._laiChecks[t]={grade:'fail',note:'Could not reach the capture service.'}; }
+    finally{ _laiPulling=false; b.disabled=false; loadLocalAi(); }
+  }));
   el.querySelectorAll('input[name=lai]').forEach(r=>r.addEventListener('change',async()=>{
     try{ await fetch('/api/local-ai/select',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:r.value})}); toast(r.value?('Local AI → '+r.value):'Local AI off'); loadLocalAi(); }
     catch(e){ toast('Could not set local AI'); }
@@ -1491,6 +1748,16 @@ async function loadLocalAi(){
     if(tIn) tIn.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); runTest(); } });
   }
 }
+function laiCheckBtn(t){
+  return `<button class="lai-check" data-tag="${esc(t)}" title="Check whether this model can do the converter's and the AI Assistant's tasks" style="font-size:.78em;padding:.1em .5em;border-radius:5px;border:1px solid #38bdf855;background:#38bdf818;color:#38bdf8;cursor:pointer">Check</button>`;
+}
+function laiCheckOut(t){
+  const c=(window._laiChecks||{})[t]; if(!c) return `<span class="lai-check-out" data-for="${esc(t)}"></span>`;
+  if(c.grade==='running') return `<div class="lai-check-out" data-for="${esc(t)}" style="margin-top:.3em;color:#9aa3ad">Checking… (a small task, up to a minute)</div>`;
+  const col=c.grade==='ready'?'oklch(0.74 0.17 158)':(c.grade==='weak'?'#f59e0b':'#f87171');
+  const label=c.grade==='ready'?'✓ Ready':(c.grade==='weak'?'⚠ Weak':'✗ Not suitable');
+  return `<div class="lai-check-out" data-for="${esc(t)}" role="status" style="margin-top:.3em;color:${col}">${label}${c.ms?` <span style="color:#9aa3ad">· ${(c.ms/1000).toFixed(1)}s</span>`:''} <span style="color:#c9d1d9">${esc(c.note||'')}</span></div>`;
+}
 async function pullModel(tag){
   _laiPulling=true;
   try{ await fetch('/api/local-ai/pull',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:tag})}); toast('Pulling '+tag+'…'); }
@@ -1502,8 +1769,8 @@ async function pollPull(){
   const el=document.getElementById('laiPull');
   if(el){
     if(s.error){ el.innerHTML=`<span style="color:#f59e0b">Pull failed: ${esc(s.error)}</span>`; }
-    else if(!s.done){ el.innerHTML=`Pulling <b>${esc(s.model)}</b> — ${esc(s.status)} ${s.percent||0}%<div style="height:7px;background:#0004;border-radius:4px;margin-top:.35em;overflow:hidden"><div style="height:100%;width:${s.percent||0}%;background:#a78bfa;border-radius:4px;transition:width .4s"></div></div>`; }
-    else{ el.innerHTML=`<span style="color:oklch(0.74 0.17 158)">✓ ${esc(s.model)} pulled</span>`; }
+    else if(!s.done){ el.innerHTML=`${s.kind==='import'?'Importing':'Pulling'} <b>${esc(s.model)}</b> — ${esc(s.status)} ${s.percent||0}%<div style="height:7px;background:#0004;border-radius:4px;margin-top:.35em;overflow:hidden"><div style="height:100%;width:${s.percent||0}%;background:#a78bfa;border-radius:4px;transition:width .4s"></div></div>`; }
+    else{ el.innerHTML=`<span style="color:oklch(0.74 0.17 158)">✓ ${esc(s.model)} ${s.kind==='import'?'imported':'pulled'} — press Check to see how well it works</span>`; }
   }
   if(!s.done){ setTimeout(pollPull,1000); }
   else{ _laiPulling=false; setTimeout(loadLocalAi,600); }

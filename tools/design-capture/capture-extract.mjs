@@ -20,6 +20,18 @@ export function extractDesign() {
 
   // --- structured-content helpers (for the body/footer "copy the whole thing" path) ---
   const txt = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+  // VISIBLE text, which is not the same string as textContent: textContent concatenates with no
+  // separator, so a wordmark stacked as `<span>NORTH RIDGE<small>HOME STUDIO</small></span>` reads
+  // back glued ("NORTH RIDGEHOME STUDIO") whenever the stacking comes from a computed display rather
+  // than the tag — `<small>` is inline by tag and display:block here. The PHP engine has to reconstruct
+  // that from its captured `display` stamps; in the browser innerText already honours layout, so the twin
+  // of that fix is simply to ask for innerText. Falls back to textContent where innerText is unavailable
+  // (a detached node), and keeps textContent's behaviour of returning something for a hidden element.
+  const vtxt = (el) => {
+    if (!el) return '';
+    const t = (el.innerText || '').replace(/\s+/g, ' ').trim();
+    return t || txt(el);
+  };
   const clip = (s, n) => (s && s.length > n ? s.slice(0, n).trim() : (s || ''));
   const escHtml = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   // Capture a heading's *formatting* (bold / italic / line-breaks) as safe semantic
@@ -582,11 +594,73 @@ export function extractDesign() {
       if (!a.textContent.trim()) return false;
       return hasBg(getComputedStyle(a).backgroundColor) || /\b(btn|button|cta)\b/i.test(c);
     });
-    const logoLink = links.find((a) => a !== cta && (a.querySelector('img') || a.textContent.trim()));
-    // Nav items may be <a> OR <button> (SPAs route via JS) — pull both from <nav> if present.
     const navEl = headerEl.querySelector('nav');
+    const _inNavEl = (el) => !!(navEl && el !== navEl && navEl.contains(el));
+    /** Does this link point at the site root? A brand mark almost always does. */
+    const _rootHref = (el) => {
+      const h = el.getAttribute && el.getAttribute('href');
+      if (!h) return false;
+      try { const u = new URL(h, location.href); return u.origin === location.origin && (u.pathname === '/' || u.pathname === ''); }
+      catch { return false; }
+    };
+    // THE LOGO IS NOT A NAV ITEM.
+    //
+    // This took the FIRST header link carrying any text. On a header whose brand is not a link — plenty
+    // render the wordmark as plain markup, e.g. "Mod" plus a <span>Fii</span> inside a div — the first text
+    // link is the first MENU item, so the brand became "Financing" and the nav silently lost its first
+    // entry. Two wrongs from one loose test. Candidates now exclude anything inside <nav>, and a root-href
+    // link wins, because that is what a brand mark is.
+    // A brand mark is not BUTTON-SHAPED. The CTA is normally excluded by name, but CTA detection needs a
+    // computed fill, and where that read empty the action link became the only candidate left outside the
+    // nav — so the logo came out as "Get Started". Padding plus a fill / border / rounding says action.
+    const _btnShaped = (el) => {
+      const s2 = getComputedStyle(el);
+      const bw = s2.borderTopWidth;
+      return parseFloat(s2.paddingLeft) > 0
+        && (hasBg(s2.backgroundColor) || (bw && bw !== '0px' && s2.borderTopStyle !== 'none') || parseFloat(s2.borderTopLeftRadius) > 0);
+    };
+    let logoCands = links.filter((a) => a !== cta && !_inNavEl(a) && (a.querySelector('img') || a.textContent.trim()));
+    const _notBtn = logoCands.filter((a) => !_btnShaped(a));
+    if (_notBtn.length) { logoCands = _notBtn; }
+    // Among what is left, the brand is the LARGEST type — that is what separates a 20px/700 wordmark from a
+    // 14px menu or action label — with DOM order breaking ties.
+    const logoLink = logoCands.find(_rootHref)
+      || logoCands.slice().sort((a, c) => (parseFloat(getComputedStyle(c).fontSize) || 0) - (parseFloat(getComputedStyle(a).fontSize) || 0))[0]
+      || null;
+    // Still nothing, and no logo image? Read the wordmark out of the markup: the largest-type text block in
+    // the header that is outside the nav, outside the CTA, and not itself a link. Type size is what
+    // distinguishes a 20px/700 brand from 14px/500 menu items, and it needs no class-name guessing.
+    let logoTextOnly = '';
+    if (!logoLink && !logoImg) {
+      let best = null;
+      for (const el of headerEl.querySelectorAll('*')) {
+        if (_inNavEl(el) || el.closest('a, button')) continue;
+        if (cta && (el === cta || cta.contains(el))) continue;
+        const t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!t || t.length > 40) continue;
+        // Prefer the innermost block that still holds the WHOLE wordmark (skip a wrapper whose single child
+        // carries the same text, so we do not report the outer div when the span is the real mark).
+        if ([...el.children].some((c) => (c.textContent || '').replace(/\s+/g, ' ').trim() === t)) continue;
+        const fs = parseFloat(getComputedStyle(el).fontSize) || 0;
+        if (!best || fs > best.fs) best = { el, t, fs };
+      }
+      if (best) logoTextOnly = best.t;
+    }
+    // Nav items may be <a> OR <button> (SPAs route via JS) — pull both from <nav> if present.
     const navLinks = [...(navEl || headerEl).querySelectorAll('a, button')]
       .filter((el) => el !== cta && el !== logoLink && !el.querySelector('img'))
+      // A DEAD END is not a destination. An overflow toggle ("More") is a <button> with no href, so it was
+      // captured as a menu item pointing at the site root — a nav entry that goes nowhere.
+      //
+      // The rule is deliberately about the DESTINATION, not the control: dropping every button carrying
+      // aria-haspopup would also drop a genuine "Products ▾" dropdown parent, and the PHP side keeps those
+      // on purpose. So an entry is dropped only when it has nothing to point at. A parent whose children
+      // were captured still earns its place; this one has neither an href nor children.
+      .filter((el) => {
+        if (el.tagName !== 'BUTTON') return true;
+        const h = (el.getAttribute('href') || '').trim();
+        return h !== '' && h !== '#';
+      })
       // Skip HIDDEN items — a responsive overflow toggle ("More") or a mobile-only duplicate menu is
       // display:none at desktop, so it must not leak into the captured nav. Mirror in PHP nav_is_hidden.
       .filter((el) => {
@@ -622,7 +696,8 @@ export function extractDesign() {
       element: pick(hcs, ['display', 'justifyContent', 'alignItems', 'backgroundColor', 'position', 'padding', 'backdropFilter', 'boxShadow', 'borderRadius', 'borderBottomWidth', 'borderBottomStyle', 'borderBottomColor']),
       bar: pick(inner, ['display', 'justifyContent', 'backgroundColor', 'borderRadius', 'border', 'padding', 'maxWidth', 'backdropFilter', 'boxShadow']),
       logo: logoImg ? { type: 'image', src: abs(logoImg.currentSrc || logoImg.src) }
-        : (logoLink ? { type: 'text', text: logoLink.textContent.trim(), icon: logoIcon(logoLink), computed: pick(getComputedStyle(logoLink), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) } : null),
+        : (logoLink ? { type: 'text', text: vtxt(logoLink), icon: logoIcon(logoLink), computed: pick(getComputedStyle(logoLink), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) }
+        : (logoTextOnly ? { type: 'text', text: logoTextOnly, icon: logoIcon(headerEl), computed: pick(getComputedStyle(headerEl), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'letterSpacing']) } : null)),
       // paddingLeft/Top: the link's own inset (PHP H3 menu_link_padding parity) — a padding-less, gap-spaced
       // row must pin the theme's default inset to 0 or every item box inflates.
       nav: navLinks.map((a) => ({ label: a.textContent.trim(), href: abs(a.getAttribute('href') || ''), computed: pick(getComputedStyle(a), ['fontFamily', 'fontSize', 'fontWeight', 'color', 'paddingLeft', 'paddingTop']), hover: hoverStyle(a) })),
@@ -884,7 +959,7 @@ export function extractDesign() {
     // BOXED BODY (PHP: detect_footer_shell / footer_box_values). A single-child chain from <footer> reaching a
     // PANEL: ≥ 2 content rows on an element that paints its own skin (border / fill / gradient / shadow) AND
     // carries padding. Its measures → Footer → Layout → Boxed Body; empty absolute decor children → pseudo rules.
-    const _isTransparent = (c) => !c || c === 'transparent' || /rgba?\([^)]*[,\/]\s*0\s*\)/.test(c);
+    const _isTransparent = (c) => !c || c === 'transparent' || /(?:rgba?\((?:\s*[0-9.]+%?\s*[,\s]\s*){3}0*(?:\.0+)?%?\s*\)|rgba?\(\s*[0-9.]+%?\s+[0-9.]+%?\s+[0-9.]+%?\s*\/\s*0*(?:\.0+)?%?\s*\))/.test(c);
     const _hasContent = (k) => (k.textContent || '').trim() !== '' || k.querySelector('img,svg');
     const _paintsPanel = (el) => {
       const cs = getComputedStyle(el);
@@ -3724,7 +3799,7 @@ export function extractDesign() {
   };
 
   // --- DIV-based icon+text list (PHP is_icon_text_list) → feature_list. A container whose EVERY child is an
-  // inline icon (svg / lucide) + a SHORT label (the modfii hero `flex items-center gap-2` [svg + span] rows:
+  // inline icon (svg / lucide) + a SHORT label (the fixture-01 hero `flex items-center gap-2` [svg + span] rows:
   // "No credit impact" · "0.5% closing fee" · "Green mortgage options"). The <ul>/<li> path can't see these,
   // so they were dumped as verbatim code_blocks. Excludes nav/menu/tab/social strips; cards (with headings)
   // fail the row test. ---
@@ -3972,7 +4047,16 @@ export function extractDesign() {
     const out = { design: 'horizontal' };
     const cls = ' ' + cn(el).toLowerCase() + ' ';
     const dir = getComputedStyle(el).flexDirection || '';
-    const vertical = (cls.includes(' flex-col ') && !cls.includes('md:flex-row')) || /column/.test(dir) || cls.includes(' grid-cols-1 ');
+    // A responsive column utility is read at the CAPTURED VIEWPORT, not at its mobile base step: `grid-cols-1`
+    // alone is stacked, but `grid-cols-1 md:grid-cols-4` resolves to FOUR tracks at 1440px. Prefer the live
+    // computed `grid-template-columns` track count; fall back to the class scan, guarding `grid-cols-1` with a
+    // larger-breakpoint override exactly as `flex-col` is guarded by `md:flex-row`. (PHP twin: detect_steps_design)
+    const gtc = (getComputedStyle(el).gridTemplateColumns || '').trim();
+    const tracks = (gtc && gtc !== 'none') ? gtc.split(/\s+/).filter(Boolean).length : 0;
+    const stackedGrid = tracks > 0
+      ? tracks === 1
+      : (cls.includes(' grid-cols-1 ') && !/(?:^|\s)(?:sm|md|lg|xl|2xl):grid-cols-(?:[2-9]|1[0-2])(?:\s|$)/.test(cls));
+    const vertical = (cls.includes(' flex-col ') && !cls.includes('md:flex-row')) || /column/.test(dir) || stackedGrid;
     if (vertical) out.design = 'vertical';
     const kids = [...el.children];
     const isBoxedEl = (elm) => {
@@ -5505,15 +5589,18 @@ export function extractDesign() {
       }
       return null;
     })(),
-    // Footer TAGLINE typography (first long non-copyright <p>): size / line-height / colour → scoped
-    // `.footer-tagline` CSS (never-drop). Parity with PHP footer_tagline_css().
+    // Footer TAGLINE typography (first long non-copyright <p>) → scoped `.footer-tagline` CSS (never-drop).
+    // Parity with PHP footer_tagline_css(), which carries the FACE as well as the size: the tagline has no
+    // native typography option, so whatever is not captured here is lost outright. This used to read only
+    // size / line-height / colour, so a tagline in a serif display face at a light weight rendered in the
+    // body sans at 400 — measured on a capture, and reported by the chrome never-drop gate.
     footer_tagline_style: (() => {
       if (!footerEl) return null;
       for (const p of footerEl.querySelectorAll('p')) {
         const t = (p.textContent || '').replace(/\s+/g, ' ').trim();
         if (t.length >= 40 && !/©|rights reserved|copyright/i.test(t)) {
           const cs = getComputedStyle(p);
-          return { fontSize: cs.fontSize, lineHeight: cs.lineHeight, color: cs.color };
+          return { fontSize: cs.fontSize, lineHeight: cs.lineHeight, color: cs.color, fontFamily: cs.fontFamily, fontWeight: cs.fontWeight, fontStyle: cs.fontStyle, textAlign: cs.textAlign };
         }
       }
       return null;
@@ -5731,9 +5818,9 @@ export function extractDesign() {
     return { x1, y1, x2, y2, stops };
   };
   const _mkAngle = (t) => { if (!t || t === 'none') return 0; const m = t.match(/matrix\(([^)]+)\)/); if (!m) return 0; const n = m[1].split(',').map(parseFloat); return Math.atan2(n[1], n[0]) * 180 / Math.PI; };
-  // The header's leftmost logo SLOT — used when there's no brand <a> (a link-less logo like ModFii's
+  // The header's leftmost logo SLOT — used when there's no brand <a> (a link-less logo like fixture-01's
   // `<div class="flex items-center gap-2">…</div>`). Without this the brand falls back to the WHOLE header, so
-  // the wordmark harvests the glued nav ("ModFiiFinancingResources…") and a random nav <svg> masquerades as the
+  // the wordmark harvests the glued nav ("BrandFinancingResources…") and a random nav <svg> masquerades as the
   // logo icon. Mirror of PHP header_brand_block(): descend single-child wrappers to the flex row, then the first
   // child slot that isn't the nav / a link cluster and has an <img> or short (≤24 char) text.
   const _mkElChildren = (el) => [...el.children].filter((n) => n.nodeType === 1);

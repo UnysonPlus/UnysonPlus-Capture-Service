@@ -36,7 +36,7 @@ import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-s
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { CANDIDATES, CAPTURED_PROPS, RESIDUE_FN, residueCsvRows, residueSummary } from './capture-residue.mjs';
-import { microBackend, selectedLocalModel, localSectionMicroTask, bgFxMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus } from './to-ai.mjs';
+import { microBackend, selectedLocalModel, localSectionMicroTask, bgFxMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus, setAiDeadline, aiBudgetLeft } from './to-ai.mjs';
 
 const SCRIPT_DIR = fileURLToPath(new URL('.', import.meta.url));
 
@@ -118,8 +118,47 @@ if (!urls.length) {
   process.exit(1);
 }
 
-const MULTIPAGE = false; // TEMP: home-only while we perfect the homepage. Flip to true to crawl the nav.
-const MAX_PAGES = 10;    // home + up to 9 nav pages (keeps the capture within a sane time budget)
+import { discoverPages } from './discover.mjs';
+
+// MULTI-PAGE: crawl the front page's nav and capture each internal page into ONE bundle.
+//
+// A site is one conversion, not one per page. Capturing pages separately makes every import re-derive the
+// site-level design — theme, chrome, menus, permalinks — from whichever page went last, so the last page
+// converted decided how the whole site looked. One bundle carries one design plus a snapshot per page, and
+// the importer runs the site phases once.
+//
+// Default ON; `--single-page` (or UPW_SINGLE_PAGE=1) captures only the URL given, which is what a targeted
+// re-convert of one page wants.
+const MULTIPAGE = !(_flags.includes('--single-page') || process.env.UPW_SINGLE_PAGE === '1');
+// home + up to N-1 discovered pages (keeps the capture within a sane time budget). `--max-pages=N` overrides.
+//
+// The old form matched `\d{1,2}` and clamped to 50, so `--max-pages=133` failed the pattern, fell through to
+// the default 10, and captured ten pages while the caller believed it had asked for 133 — a silent narrowing
+// with no message. Three digits are now accepted, the ceiling is explicit, and an unusable value SAYS so
+// instead of pretending the default was the request.
+const MAX_PAGES_CEILING = 500;
+const MAX_PAGES = (() => {
+  const raw = _flags.find((f) => f.startsWith('--max-pages='));
+  if (!raw) return 10;
+  const m = /^--max-pages=(\d{1,3})$/.exec(raw);
+  const n = m ? parseInt(m[1], 10) : 0;
+  if (n >= 1 && n <= MAX_PAGES_CEILING) return n;
+  console.error(`--max-pages: "${raw.split('=')[1]}" is not usable (1..${MAX_PAGES_CEILING}); using 10`);
+  return 10;
+})();
+// An EXPLICIT set of pages chosen upstream (the admin page picker): `--pages=url,url`. When present,
+// discovery is skipped — the user has already reviewed the list, and re-deriving it could only disagree
+// with what they were shown.
+const PICKED_PAGES = (() => {
+  const m = /^--pages=(.+)$/.exec(_flags.find((f) => f.startsWith('--pages=')) || '');
+  return m ? m[1].split(',').map((x) => x.trim()).filter((x) => /^https?:\/\//i.test(x)) : [];
+})();
+
+// Extra pages to capture that the nav does NOT link to (an orphan landing page): `--also=url,url`.
+const ALSO_PAGES = (() => {
+  const m = /^--also=(.+)$/.exec(_flags.find((f) => f.startsWith('--also=')) || '');
+  return m ? m[1].split(',').map((x) => x.trim()).filter((x) => /^https?:\/\//i.test(x)) : [];
+})();
 
 // --- Per-capture mutable state (set by captureOne, used by the helpers below) ---
 let origin = '';
@@ -184,6 +223,57 @@ function slugFromUrl(u) {
     seg = seg.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     return seg === '' || seg === 'index' ? 'home' : seg;
   } catch { return 'home'; }
+}
+
+/**
+ * A slug that is unique across the pages being captured, disambiguated by ANCESTRY when it has to be.
+ *
+ * `slugFromUrl` keeps only the last path segment, so two pages in different sections that end the same way
+ * collapse onto one slug and the second import silently OVERWRITES the first. Measured on a real 133-page
+ * conversion: `/construction-loans/fha` and `/modular-home-financing/loan-options/fha` both became `fha`
+ * (likewise `usda` and `va`), so three source pages were lost — and because a per-slug check finds a page
+ * for every path, the loss passed verification. 132 source paths had produced 129 distinct slugs.
+ *
+ * On a collision this walks UP the path, prepending one ancestor at a time (`construction-loans-fha`), which
+ * keeps the readable slug for whichever page claims it first and gives the other a slug that says where it
+ * came from. A numeric suffix is the last resort, for paths that differ only beyond what we can express.
+ */
+function uniqueSlugFromUrl(u, used) {
+  const base = slugFromUrl(u);
+  if (!used.has(base)) { used.add(base); return base; }
+  let segs = [];
+  try { segs = new URL(u, origin).pathname.split('/').filter(Boolean); } catch { segs = []; }
+  const clean = (x) => String(x).toLowerCase().replace(/\.(html?|php|aspx?)$/i, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  for (let take = 2; take <= segs.length; take++) {
+    const cand = segs.slice(-take).map(clean).filter(Boolean).join('-');
+    if (cand && !used.has(cand)) { used.add(cand); return cand; }
+  }
+  for (let n = 2; n < 500; n++) {
+    const cand = `${base}-${n}`;
+    if (!used.has(cand)) { used.add(cand); return cand; }
+  }
+  used.add(base);
+  return base;
+}
+
+/** The captured page's source path ('modular-home-financing/manufacturers'), or '' when it has no URL. */
+function sourcePathOf(c) {
+  const u = (c && c.capture && c.capture.url) || '';
+  try { return new URL(u, origin).pathname.replace(/^\/+|\/+$/g, ''); } catch { return ''; }
+}
+
+/**
+ * A snapshot directory name unique to the page's SOURCE PATH.
+ *
+ * Path segments are joined with '__' so one page never nests inside another's folder, and the whole thing is
+ * a single flat directory name — 'construction-loans__fha' beside 'modular-home-financing__loan-options__fha'.
+ * Falls back to the slug for a capture with no recorded URL.
+ */
+function snapshotDirFor(c) {
+  const p = sourcePathOf(c);
+  if (!p) return c.slug;
+  const name = p.split('/').filter(Boolean).map((x) => x.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')).filter(Boolean).join('__');
+  return name || c.slug;
 }
 
 // Run a page.evaluate, retrying if a late client re-render destroys the execution context.
@@ -701,7 +791,12 @@ async function renderPage(p, target, retry = false) {
   } catch { /* best-effort breakdown — never block the capture */ }
   // Stamp each meaningful element's RESOLVED computed styles onto a `data-sc-cs` attribute so the
   // deterministic PHP engine can reproduce the look of ANY site. Kept in a data-attr (not `style`).
-  await evalSafe(p, () => {
+  // The computed-style stamping pass, NAMED so it can be run again. Tab panels revealed by clicking are
+  // rendered AFTER this pass, so their elements carry no stamp and the converter drops them (measured: a menu
+  // page whose second panel was 5/301 stamped lost 3,780 characters — 120 of 216 phrases). `onlyUnstamped`
+  // confines the second run to elements the first never saw, so no existing capture output can change.
+  const stampComputedStyles = (opts) => {
+    const ONLY_UNSTAMPED = !!(opts && opts.onlyUnstamped);
     // border-bottom-* — a bar's hairline (`.header{border-bottom:1px solid …}`) is a BOTTOM border; only the top
     // edge was stamped, so the PHP import path could never see it (it fell back to scanning the source sheet).
     const PROPS = ['background-color','background-image','color','font-family','font-size','font-weight','line-height','letter-spacing','text-align','text-transform','text-decoration-line','padding','margin','border-top-width','border-top-style','border-top-color','border-bottom-width','border-bottom-style','border-bottom-color','border-radius','box-shadow','backdrop-filter','max-width','max-height','height','min-height','display','gap','grid-template-columns','justify-content','align-items','flex-direction','transition','transform','position','top','right','bottom','left','z-index',
@@ -754,7 +849,7 @@ async function renderPage(p, target, retry = false) {
       'border-image-source':v=>v==='none', 'border-image-slice':(v,cs)=>cs.getPropertyValue('border-image-source')==='none',
       'background-size':(v,cs)=>v==='auto'||v==='auto auto'||cs.getPropertyValue('background-image')==='none', 'background-position':(v,cs)=>v==='0% 0%'||v==='0px 0px'||cs.getPropertyValue('background-image')==='none', 'background-repeat':(v,cs)=>v==='repeat'||cs.getPropertyValue('background-image')==='none',
       'object-position':(v,cs)=>v==='50% 50%'||cs.getPropertyValue('object-fit')==='fill', 'translate':v=>v==='none', 'rotate':v=>v==='none', 'scale':v=>v==='none', 'aspect-ratio':v=>v==='auto', 'min-width':v=>v==='auto'||v==='0px', 'order':v=>v==='0', 'align-self':v=>v==='auto'||v==='normal' };
-    const els = document.querySelectorAll('body *');
+    const els = document.querySelectorAll(ONLY_UNSTAMPED ? 'body *:not([data-sc-cs])' : 'body *');
     for (let i = 0; i < els.length; i++) {
       const el = els[i], tag = el.tagName.toLowerCase();
       if (['script','style','noscript','svg','path','br','head','link','meta'].includes(tag)) continue;
@@ -982,7 +1077,8 @@ async function renderPage(p, target, retry = false) {
       }
       if (best >= 600) document.documentElement.setAttribute('data-sc-content-width', String(best));
     } catch (e) { /* best-effort */ }
-  });
+  };
+  await evalSafe(p, stampComputedStyles);
   // The extraction above ran BEFORE these stamps existed, so its `home.contentWidth` / gutter reads were 0 and the JS
   // twin's Container Width silently fell back to the header / footer box. Re-read the stamps into the data now.
   try {
@@ -1355,6 +1451,9 @@ async function renderPage(p, target, retry = false) {
   // React tab that renders only the ACTIVE panel (a menu's Main / Dessert lists, a product's Description /
   // Reviews) otherwise loses every inactive panel from rendered.html. See revealTabPanels().
   if (!retry) { try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ } }
+  // …then stamp what it revealed. The pass above ran while only the FIRST panel existed; every other panel is
+  // freshly-rendered DOM it never touched, and an unstamped subtree is invisible to the converter.
+  if (!retry) { try { await evalSafe(p, stampComputedStyles, { onlyUnstamped: true }); } catch { /* a re-stamp is a bonus, never a blocker */ } }
 
   // ROUTE SELF-CHECK (a second AI-page generator audit §8.51, remedy #3). If an interaction pass navigated the SPA away from the
   // route we loaded, the live DOM — and any rendered.html serialized from it — is the WRONG page. Re-capture
@@ -1754,13 +1853,19 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       }
     } catch (e) { step('brand-token sampling skipped: ' + e.message); }
 
-    step('tracing animations (libraries, hover, scroll motion)…');
     let anim = null;
+    // Motion is an ENHANCEMENT to a bundle. A conversion without animation findings is a working
+    // conversion; a conversion that spent its last minute tracing motion and then wrote nothing is not.
+    if (outOfTime()) {
+      step('⏳ animation tracing skipped — out of time budget, writing the bundle instead');
+    } else {
+    step('tracing animations (libraries, hover, scroll motion)…');
     try {
       anim = await traceAnimations(page, { log: (m) => step('  ' + m), knownImageUrls: _imgReqs, scriptBodies: _scriptBodies });
       step(`animations → ${((anim && anim.suggestions) || []).length} finding(s)` +
         (anim && anim.hijack && anim.hijack.virtualScroll ? ' · scroll-hijacked page detected' : ''));
     } catch (e) { step('animation tracer skipped: ' + e.message); }
+    }
     home.animations = anim;
 
     // Scroll-hijacked page → extract the fixed full-screen overlays as STORY SCENES, so the emit
@@ -1772,12 +1877,93 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       } catch (e) { step('scene extraction skipped: ' + e.message); }
     }
 
-    // 2) Optional nav crawl (disabled).
-    const extraUrls = MULTIPAGE ? navPageUrls(home, srcUrl) : [];
-    const captures = [{ capture: home, slug: 'home', front: true }];
+    // 2) Page discovery, then crawl.
+    //
+    // This used to be `navPageUrls(home, srcUrl)` — the header nav and nothing else. On a source whose
+    // sitemap lists 133 URLs it found 1, so the conversion produced 2 pages and reported success: when the
+    // nav is your only source, "the nav had one link" and "the site has one page" are the same observation.
+    // discoverPages() unions the sitemap (authoritative, one fetch, no render), the nav, the footer and the
+    // rendered page's own links. `--pages=` lets the caller pass an explicit set chosen in the UI, which is
+    // what the admin's page picker sends; discovery is then skipped entirely because the choice is made.
+    let extraUrls = [];
+    if (MULTIPAGE) {
+      if (PICKED_PAGES.length) {
+        // An EXPLICIT list is not capped. The cap exists to stop *discovery* running away; a caller that
+        // enumerated 132 URLs has already decided, and trimming it to MAX_PAGES-1 silently captured nine of
+        // them while reporting "9 chosen by the caller" — which reads as though nine were all that was asked
+        // for. If the list is long, that is the caller's budget to spend, and the watchdog scales to it.
+        extraUrls = PICKED_PAGES.slice();
+        step(`pages: ${extraUrls.length} chosen by the caller (explicit list — not capped)`);
+      } else {
+        let found = [];
+        try {
+          const d = await discoverPages({
+            url: srcUrl,
+            renderedHtml: await page.content().catch(() => ''),
+            nav: (home.header && home.header.nav) || [],
+          });
+          found = (d.pages || []).filter((p) => !p.home).map((p) => p.url);
+          step(`pages: ${d.total} discovered (${Object.entries(d.counts || {}).map(([k, v]) => k + '=' + v).join(', ')})`);
+        } catch (e) {
+          step('page discovery failed, falling back to the nav: ' + e.message);
+        }
+        // The nav still leads: those are the pages the site itself treats as primary, so when the cap bites
+        // it should bite on the long tail rather than on the main menu.
+        if (!found.length) found = navPageUrls(home, srcUrl);
+        extraUrls = [...new Set([...found, ...ALSO_PAGES])].slice(0, MAX_PAGES - 1);
+        if (found.length > extraUrls.length) {
+          step(`pages: capturing ${extraUrls.length} of ${found.length} (--max-pages=${MAX_PAGES}); the rest need another round`);
+        }
+      }
+    }
+    // THE FIRST CAPTURED URL IS NOT NECESSARILY THE HOME PAGE.
+    // It used to be labelled `home` + `front: true` unconditionally, so capturing a SUB-PAGE on its own
+    // (…/services) produced a bundle claiming to be the front page — and importing it REPLACED the site's
+    // home page instead of creating the sub-page. A real report: after converting /services, the home page
+    // held the services content and the original hero was gone.
+    // The path decides: only the site root is the front page; anything else takes its path-derived slug.
+    const isRoot = (() => {
+      try { return new URL(srcUrl, origin).pathname.replace(/\/+$/, '') === ''; } catch { return true; }
+    })();
+    // One set of slugs for the whole batch, so a later page can never silently take an earlier one's.
+    const usedSlugs = new Set();
+    const captures = [{ capture: home, slug: isRoot ? 'home' : uniqueSlugFromUrl(srcUrl, usedSlugs), front: isRoot }];
+    if (isRoot) { usedSlugs.add('home'); }
+    // Each extra page is optional relative to the bundle as a whole: a capture with four of six pages is
+    // useful, a capture that timed out on the fifth and wrote nothing is not. Stop taking on pages once
+    // only the write reserve is left, and SAY how many were dropped — a short bundle must never be
+    // mistaken for a complete one.
+    let _pagesDropped = 0;
+    // A SOURCE THAT DOES NOT SERVER-RENDER ITS INNER ROUTES SHOULD NOT COST A MINUTE PER PAGE.
+    //
+    // Each extra page costs a navigate, a hydration-race re-navigate, a scroll pass and an extract —
+    // about 34 seconds — whether or not it yields anything. Measured on a real run: 54 navigations for a
+    // single-page request, 12 blank renders, 12 hydration retries, every discovered page returning ZERO
+    // sections. That is five to seven minutes spent proving the same fact over and over.
+    //
+    // One blank page is bad luck; several in a row is the shape of the site. After BLANK_GIVE_UP
+    // consecutive empties the remaining discovered pages are abandoned and the reason is said out loud,
+    // so a short bundle is never mistaken for a complete one. A page that DOES render resets the run,
+    // because a single slow route must not end the crawl.
+    const BLANK_GIVE_UP = 2;
+    let _blankRun = 0, _gaveUp = 0;
     for (const u of extraUrls) {
-      try { captures.push({ capture: await renderPage(page, u), slug: slugFromUrl(u), front: false }); }
+      if (outOfTime()) { _pagesDropped++; continue; }
+      if (_blankRun >= BLANK_GIVE_UP) { _gaveUp++; continue; }
+      try {
+        const cap = await renderPage(page, u);
+        const empty = !((cap && cap.sections) || []).length;
+        _blankRun = empty ? _blankRun + 1 : 0;
+        if (empty) { step(`  ↳ ${u} rendered nothing (${_blankRun}/${BLANK_GIVE_UP} in a row)`); }
+        captures.push({ capture: cap, slug: uniqueSlugFromUrl(u, usedSlugs), front: false });
+      }
       catch (e) { console.log('  ! skipped', u, '-', e.message); }
+    }
+    if (_gaveUp) {
+      step(`⏭ ${_gaveUp} discovered page(s) skipped — the last ${BLANK_GIVE_UP} rendered empty, so this source does not server-render its inner routes. Only the pages that produced content were captured.`);
+    }
+    if (_pagesDropped) {
+      step(`⏳ ${_pagesDropped} page(s) dropped — out of time budget; writing the ${captures.length} captured so far. Raise Max pages' budget with CAPTURE_PER_PAGE_MS, or convert the rest in another round.`);
     }
 
     // 3) Link map + relink chrome + bodies.
@@ -1874,9 +2060,15 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     if ( ! hasFaithfulChrome && themeSettings && themeSettings.values && Object.keys(themeSettings.values).length ) {
       config.chrome_via_settings = true;
     }
-    const titleFor = (cap, slug) => {
-      const t = (cap.title || '').split(/\s+[|–—·-]\s+/)[0].trim();
-      return t || slug.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+    const titleFor = (cap, slug, front) => {
+      const human = slug.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
+      const segs = (cap.title || '').split(/\s+[|–—·-]\s+/).map((x) => x.trim()).filter(Boolean);
+      if (front) { return segs[0] || human; }
+      // A SUB-PAGE is not named after the site. Its <title> is usually "Brand — tagline" with the page
+      // name absent entirely, so taking the first segment titled every sub-page after the brand
+      // ("OBSIDIAN" for /services). Prefer a title segment that actually names the page, else the slug.
+      const key = (v) => v.toLowerCase().replace(/[^a-z0-9]+/g, '');
+      return segs.find((x) => key(x) === key(slug)) || human;
     };
     // AI-TIER AMBIENT BACKGROUNDS (pre-pass, best-effort): for sections with an UNNAMED animated backdrop
     // (a WebGL/particle canvas the deterministic keyword pass couldn't identify), let the local model / Claude
@@ -1899,7 +2091,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       patternsAppliedTotal += (_tp.patternsApplied || 0);
       dividersAppliedTotal += (_tp.dividersApplied || 0);
       const pg = _tp.pages[0];
-      pg.title = titleFor(c.capture, c.slug);
+      pg.title = titleFor(c.capture, c.slug, c.front);
       pg.slug = c.slug; pg.status = 'publish'; pg.front_page = c.front;
       // Targeted re-import: mark the page PARTIAL and list the original s_index of each builder section
       // (same order), so the importer merges these into the existing page instead of replacing it.
@@ -2251,6 +2443,32 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       step('writing files & bundle…');
       writeFileSync(`${outdir}/design-capture.json`, JSON.stringify(home, null, 2));
       if (home.renderedHtml) { writeFileSync(`${outdir}/rendered.html`, home.renderedHtml); }
+      // EVERY captured page gets its own DOM snapshot under `pages/<slug>/rendered.html`, and the bundle
+      // records the page list. The front page's snapshot stays at the bundle root, where it has always been,
+      // so an importer that knows nothing about this is unaffected.
+      //
+      // This is what makes a multi-page bundle convertible at all: the importer re-runs the PHP build on the
+      // captured DOM, and with a single root rendered.html it could only ever rebuild ONE page — every other
+      // page in pages.json was overwritten by that rebuild and lost.
+      const pageSnapshots = [];
+      for (const c of captures) {
+        const html = c.capture && c.capture.renderedHtml;
+        if (!html) continue;
+        // Keyed by the source PATH, not the slug. Keyed by slug, two pages whose paths end the same way
+        // (/construction-loans/fha and /modular-home-financing/loan-options/fha) wrote to one directory and
+        // the second DESTROYED the first's snapshot -- before any import ran, so nothing downstream could
+        // recover it, and the manifest still named the entry after the page whose HTML had been replaced.
+        const rel = `pages/${snapshotDirFor(c)}`;
+        try {
+          mkdirSync(`${outdir}/${rel}`, { recursive: true });
+          writeFileSync(`${outdir}/${rel}/rendered.html`, html);
+          pageSnapshots.push({ slug: c.slug, path: sourcePathOf(c), url: c.capture.url || '', front: !!c.front, rendered: `${rel}/rendered.html` });
+        } catch (e) { step(`! could not write ${rel}/rendered.html — ${e.message}`); }
+      }
+      if (pageSnapshots.length) {
+        writeFileSync(`${outdir}/pages-manifest.json`, JSON.stringify({ pages: pageSnapshots }, null, 2));
+        step(`multi-page bundle: ${pageSnapshots.length} page snapshot(s) → ${pageSnapshots.map((p) => p.slug).join(', ')}`);
+      }
       // BLOCK-THEME target — additionally emit a portable FSE block-theme bundle the plugin installs
       // via FW_Site_Converter_Blocks::install_block_theme(). Additive: never affects the classic bundle.
       if (TARGET === 'block-theme') {
@@ -2354,6 +2572,18 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       // The captured DOM with computed styles (data-sc-cs) — so WP can re-run the PHP build_from_html
       // deterministic converter on it (see bundle.json converter:'deterministic' above).
       if (home.renderedHtml) { bundleFiles.push({ name: 'rendered.html', data: home.renderedHtml }); }
+      // EVERY page's DOM rides in the bundle too, so a downloaded / uploaded convert-bundle.zip carries the
+      // whole SITE and not just its front page. Without this the zip was a single-page envelope even when the
+      // run had captured four pages, and importing it produced one page. The front page's copy stays at the
+      // zip root, where it has always been, so an older importer is unaffected.
+      if (pageSnapshots.length) {
+        for (const p of pageSnapshots) {
+          const cap = captures.find((c) => c.slug === p.slug);
+          const html = cap && cap.capture && cap.capture.renderedHtml;
+          if (html) { bundleFiles.push({ name: p.rendered, data: html }); }
+        }
+        bundleFiles.push({ name: 'pages-manifest.json', data: JSON.stringify({ pages: pageSnapshots }, null, 2) });
+      }
       if (screenshotBuf) { bundleFiles.push({ name: 'screenshot.png', data: screenshotBuf }); }
       if (Array.isArray(home.megaMenus) && home.megaMenus.length) { bundleFiles.push({ name: 'mega-menus.json', data: JSON.stringify({ menus: home.megaMenus }, null, 2) }); }
       const bundleZip = makeZip(bundleFiles);
@@ -2394,19 +2624,93 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
 console.log(`▶ capturing ${urls.length} site(s) → ${baseOutdir}/${REPORT_ONLY ? '  (--report-only)' : ''}`);
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const results = [];
+
+/* ---- THE SOFT DEADLINE --------------------------------------------------- *
+ * The hard watchdog guarantees a capture ENDS. It does not guarantee the capture produces anything, and
+ * on the run that prompted this it produced nothing at all: every output file is written in one block at
+ * the end, so aborting at 300s threw away 294 seconds of finished work — typography, presets, accordions,
+ * patterns — and left only an error.txt.
+ *
+ * A deadline that discards the work it was protecting is the wrong shape. So there are now two:
+ *   - the SOFT deadline (here), reached first, after which the capture stops TAKING ON new optional work
+ *     and heads for the write phase with what it already has;
+ *   - the HARD watchdog, unchanged, for a stage that genuinely hangs.
+ *
+ * `RESERVE_MS` is what the write phase needs: reports, manifests, rendered HTML, the bundle. Crossing the
+ * soft line is not an error and is not silent — the run says what it dropped, so a short bundle is never
+ * mistaken for a complete one.
+ */
+let _captureStartedAt = 0;
+let _captureBudgetMs = 0;
+const CAPTURE_RESERVE_MS = Math.max(10000, Number(process.env.CAPTURE_RESERVE_MS) || 45000);
+
+function beginCaptureClock(totalMs) {
+  _captureStartedAt = Date.now();
+  _captureBudgetMs = totalMs > 0 ? totalMs : 0;
+}
+
+/** Milliseconds until the HARD watchdog; Infinity when no clock was started. */
+function captureTimeLeft() {
+  if (!_captureBudgetMs) { return Infinity; }
+  return Math.max(0, _captureBudgetMs - (Date.now() - _captureStartedAt));
+}
+
+/** True once there is only enough time left to WRITE what we already have. */
+function outOfTime() {
+  const left = captureTimeLeft();
+  return left !== Infinity && left <= CAPTURE_RESERVE_MS;
+}
+
 // HARD CAP per capture. The queue's catch handles a stage that THROWS, but not one that HANGS (an await
 // that never resolves) — that would freeze `await captureOne` and leave the live progress stuck on its last
 // step forever. This watchdog guarantees every capture terminates: on timeout the race rejects, the catch
 // marks progress `error`, and the queue moves on. Generous so a legitimately slow real site still finishes;
 // overridable via CAPTURE_TIMEOUT_MS. As rules are added this is the single guarantee that a new stage can
 // never permanently break the live progress.
-const CAPTURE_TIMEOUT_MS = Math.max(60000, Number(process.env.CAPTURE_TIMEOUT_MS) || 300000);
+const CAPTURE_TIMEOUT_BASE_MS = Math.max(60000, Number(process.env.CAPTURE_TIMEOUT_MS) || 300000);
+// …and it has to SCALE WITH THE WORK. One watchdog covers a whole site capture — the design system plus
+// every page in the batch — so a flat 300s silently means "comfortable for one page, a coin flip for ten".
+// That only became visible once discovery started finding the pages a site really has (a source whose nav
+// yielded one link publishes 133 URLs); before that, a "multi-page" capture was usually one page.
+// The base covers the first page and the whole design-system pass; each extra page adds its own slice.
+const CAPTURE_PER_PAGE_MS = Math.max(15000, Number(process.env.CAPTURE_PER_PAGE_MS) || 60000);
+// The count the watchdog must cover is what will ACTUALLY be captured. An explicit `--pages=` list is not
+// capped, so sizing the budget off MAX_PAGES (still 10) gave a 132-page run a ten-page watchdog and aborted
+// it a tenth of the way through — the run would have died at the deadline with most pages never attempted.
+const PLANNED_PAGES = !MULTIPAGE ? 1 : (PICKED_PAGES.length ? PICKED_PAGES.length + 1 : MAX_PAGES);
+const CAPTURE_TIMEOUT_MS = CAPTURE_TIMEOUT_BASE_MS
+  + Math.max(0, PLANNED_PAGES - 1) * CAPTURE_PER_PAGE_MS;
 for (let i = 0; i < urls.length; i++) {
   const u = urls[i];
   console.log(`\n========== [${i + 1}/${urls.length}] ${u} ==========`);
+  // Say the budget out loud: a run that ends at a deadline should never leave someone guessing what the
+  // deadline was, or whether the AI passes were the thing that ate it.
+  console.log(`   budget: ${Math.round(CAPTURE_TIMEOUT_MS / 1000)}s watchdog for up to ${PLANNED_PAGES} page(s); AI passes share ${Math.round(Math.min(90000, CAPTURE_TIMEOUT_MS / 3) / 1000)}s`);
   try {
+    // Open this capture's AI budget BEFORE the watchdog starts, so the optional AI passes can never spend
+    // the time the capture itself needs. A third of the watchdog, capped at 90s: enough for the naming and
+    // verification passes on a normal site, never enough to reach the watchdog on a slow or unreachable
+    // model. Without it one pass took 120s of a 300s budget, failed, and the whole capture was discarded.
+    setAiDeadline(Math.min(90000, Math.round(CAPTURE_TIMEOUT_MS / 3)));
+    beginCaptureClock(CAPTURE_TIMEOUT_MS);
     let watchdog;
-    const timeout = new Promise((_, rej) => { watchdog = setTimeout(() => rej(new Error(`capture exceeded ${Math.round(CAPTURE_TIMEOUT_MS / 1000)}s watchdog — aborted so the live progress never hangs`)), CAPTURE_TIMEOUT_MS); if (watchdog && watchdog.unref) watchdog.unref(); });
+    // The message names the BUDGET, the STEP it died on and the LEVERS. The old one said only "exceeded
+    // 300s watchdog — aborted", which reads as "this site is too big" whatever the real cause was; the run
+    // that prompted this had been stalled by a single 120s AI naming call, and the obvious response
+    // (convert fewer pages) would not have helped at all.
+    const timeout = new Promise((_, rej) => {
+      watchdog = setTimeout(() => {
+        const at = (_progress && _progress.steps && _progress.steps.length)
+          ? ` Last step: ${String(_progress.steps[_progress.steps.length - 1].text || '').slice(0, 80)}.`
+          : '';
+        rej(new Error(
+          `capture exceeded its ${Math.round(CAPTURE_TIMEOUT_MS / 1000)}s budget `
+          + `(${MULTIPAGE ? MAX_PAGES : 1} page max) — aborted so the live progress never hangs.${at}`
+          + ` Levers: fewer pages (Max pages), CAPTURE_TIMEOUT_MS, CAPTURE_PER_PAGE_MS, or AI_CALL_MAX_MS if an AI pass is the slow part.`,
+        ));
+      }, CAPTURE_TIMEOUT_MS);
+      if (watchdog && watchdog.unref) watchdog.unref();
+    });
     let stats;
     try { stats = await Promise.race([captureOne(browser, u, baseOutdir, REPORT_ONLY), timeout]); }
     finally { clearTimeout(watchdog); }

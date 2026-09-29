@@ -50,6 +50,12 @@ const esc = (s) => String(s == null ? '' : s)
 // Flatten a decomposed section's CSS so wrapper-scoped rules map onto the rebuilt markup:
 // `.banner .block h1` → `.banner h1`. Recurses @media/@supports; leaves @font-face/@keyframes
 // and 1-2 token selectors untouched. (Mirrors FW_Site_Converter_Mapper::flatten_css.)
+/** The tag a fragment of markup opens with ('div', 'ul', 'figure'), or '' when it opens with bare text. */
+export const tagOf = (html) => {
+  const m = /^\s*<([a-zA-Z][a-zA-Z0-9-]*)/.exec(String(html == null ? '' : html));
+  return m ? m[1].toLowerCase() : '';
+};
+
 const flattenSelectors = (sel) => sel.split(',').map((p) => {
   p = p.trim();
   if (!p) return '';
@@ -1598,7 +1604,11 @@ export function toPages(capture, opts = {}) {
       self_hosted: {
         video_file: up(src), video_webm: up(webm), video_url: '', poster: up(mode === 'self_hosted' ? poster : ''),
         autoplay: b.autoplay || 'no', muted: b.muted || 'no', loop: b.loop || 'no',
-        controls: b.controls || 'yes', playsinline: b.playsinline || 'yes', preload: 'metadata',
+        controls: b.controls || 'yes', playsinline: b.playsinline || 'yes',
+        // An AUTOPLAYING clip starts the moment it can, so `metadata` buys nothing and costs the wait: the
+        // browser fetches the header, stops, then goes back for the media. Measured on a real conversion that
+        // was several seconds of empty backdrop. PHP twin: n_video() in the mapper.
+        preload: (b.autoplay === 'yes') ? 'auto' : 'metadata',
         // A cover-fill source (`object-cover`, e.g. a portrait reel) should FILL its ratio box, not letterbox
         // inside it — carry object-fit so it matches the source instead of showing black bars. PHP twin: n_video.
         object_fit: b.cover ? 'cover' : 'contain',
@@ -2156,9 +2166,23 @@ export function toPages(capture, opts = {}) {
         detected = 'html'; why = 'unrecognized cell → code_block'; cellItems = [codeBlock(c.html)];
       }
       const sc = (cellItems[0] && cellItems[0].shortcode) || (cellItems.length ? 'simple' : 'panel'); // a painted panel has no items
+      // WHAT fell back, not merely THAT something did.
+      //
+      // `src_tag` is a declared column of the conversion report and nothing ever wrote it — 0 of 50
+      // fallback rows on a real capture. Cells carry no tag of their own (containers and lines do), so it
+      // is read off the cell's own markup. Without it the report can say a cell went unrecognized but not
+      // what KIND of element it was, which is the one thing a new mapping rule has to be written against.
+      //
+      // And an unrecognized cell is the plainest opportunity there is: `opportunity` was hardcoded false
+      // here, so a capture with 50 verbatim fallbacks reported zero opportunities, and the single signal
+      // that points at the next rule to write read as "nothing to do". Only the genuinely unrecognized
+      // branch is flagged — a cell that fell back for a KNOWN reason (a nested grid, an undecomposable
+      // image composite) is deliberate, and flagging those would bury the real ones.
+      const cellFellBack = sc === 'code_block';
       rec({ kind: 'element', sIndex, role: 'row-cell', detected, shortcode: sc, why, width: c.width,
-            sourceClass: c.cls || '', text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
-            fallback: sc === 'code_block', opportunity: false });
+            sourceTag: tagOf(c.html), sourceClass: c.cls || c.fullCls || '',
+            text: snip(c.html), textFull: snipFull(c.html), html: rawCap(c.html),
+            fallback: cellFellBack, opportunity: cellFellBack && detected === 'html' });
       // a bento cell carries its MEASURED span (cw) in place of a slug (capture-extract bentoRowsOf; PHP: wResp desktop)
       if (!c.width && c.cw > 0) { const W12B = { 12: '1_1', 9: '3_4', 8: '2_3', 6: '1_2', 4: '1_3', 3: '1_4', 2: '1_6' }; c.width = W12B[c.cw] || c.width; }
       const col = column(c.width, cellItems);

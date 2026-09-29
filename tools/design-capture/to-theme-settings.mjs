@@ -936,12 +936,19 @@ export function toThemeSettings(config, home) {
     const flh = String(fls.lineHeight || '').trim();
     if (/^[0-9.]+(px|rem|em)$/.test(flh)) miscCssParts.push('.footer-column .footer-links-list>li,.footer-column .footer-links-list .list-item__text{line-height:' + flh + '}');
   }
-  // NEVER-DROP footer TAGLINE typography (size / line-height / colour). Parity with PHP footer_tagline_css().
+  // NEVER-DROP footer TAGLINE typography. Parity with PHP footer_tagline_css(), which carries the FACE
+  // (family / weight / style / alignment) alongside the size — the tagline has no native typography option,
+  // so anything omitted here is lost. A LIGHT weight counts: 100-300 is as deliberate as bold, and only the
+  // 400 default is skipped so nothing gains a redundant declaration.
   const fts = (home && home.chrome && home.chrome.footer_tagline_style) || null;
   if (fts) {
     let d = '';
+    if (fts.fontFamily) d += 'font-family:' + String(fts.fontFamily).trim() + ';';
     if (/^[0-9.]+px$/.test(String(fts.fontSize || '').trim())) d += 'font-size:' + String(fts.fontSize).trim() + ';';
     if (/^[0-9.]+px$/.test(String(fts.lineHeight || '').trim())) d += 'line-height:' + String(fts.lineHeight).trim() + ';';
+    if (/^[1-9]00$/.test(String(fts.fontWeight || '').trim()) && String(fts.fontWeight).trim() !== '400') d += 'font-weight:' + String(fts.fontWeight).trim() + ';';
+    if (String(fts.fontStyle || '').trim() === 'italic') d += 'font-style:italic;';
+    if (/^(right|center)$/.test(String(fts.textAlign || '').trim())) d += 'text-align:' + String(fts.textAlign).trim() + ';';
     if (fts.color) d += 'color:' + fts.color + ';';
     if (d) miscCssParts.push('.footer-tagline{' + d + '}');
   }
@@ -1190,10 +1197,14 @@ export function toThemeSettings(config, home) {
     if (cols.length === 2) mfc.main_footer_split = [{ w: 50, name: '' }, { w: 50, name: '' }];
     values.main_footer_columns = { count: String(cols.length), [String(cols.length)]: mfc };
     if (tg && tg.computed) {
+      // Same never-drop set as the branch above: the FACE rides with the size, or it is lost.
       const c = tg.computed, d = [];
       if (/^[0-9.]+px$/.test(String(c.maxWidth || ''))) d.push('max-width:' + c.maxWidth);
+      if (c.fontFamily) d.push('font-family:' + String(c.fontFamily).trim());
       if (/^[0-9.]+px$/.test(String(c.fontSize || ''))) d.push('font-size:' + c.fontSize);
       if (/^[0-9.]+px$/.test(String(c.lineHeight || ''))) d.push('line-height:' + c.lineHeight);
+      if (/^[1-9]00$/.test(String(c.fontWeight || '').trim()) && String(c.fontWeight).trim() !== '400') d.push('font-weight:' + String(c.fontWeight).trim());
+      if (String(c.fontStyle || '').trim() === 'italic') d.push('font-style:italic');
       if (/^(right|center)$/.test(String(c.textAlign || ''))) d.push('text-align:' + c.textAlign);
       if (/^rgba?\(/.test(String(c.color || ''))) d.push('color:' + c.color);
       if (d.length) miscCssParts.push('.footer-tagline{' + d.map((x) => x + ' !important').join(';') + ';}');
@@ -1235,7 +1246,7 @@ export function toThemeSettings(config, home) {
     if (pr !== null) f.footer_box_padding_x = _unit(Math.round(pr));
     const bgv = { color: { value: { predefined: '', custom: '' } } };
     const bgc = String(_fsh.backgroundColor || '');
-    if (bgc && bgc !== 'transparent' && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(bgc)) bgv.color.value.custom = keepAlpha(bgc);
+    if (bgc && bgc !== 'transparent' && !/(?:rgba?\((?:\s*[0-9.]+%?\s*[,\s]\s*){3}0*(?:\.0+)?%?\s*\)|rgba?\(\s*[0-9.]+%?\s+[0-9.]+%?\s+[0-9.]+%?\s*\/\s*0*(?:\.0+)?%?\s*\))/.test(bgc)) bgv.color.value.custom = keepAlpha(bgc);
     const bgi = String(_fsh.backgroundImage || '');
     if (bgi && /gradient/.test(bgi) && !/url\(/.test(bgi)) { const gv = parseLinearGradient(bgi); if (gv) bgv.gradient = { data: gv }; else miscCssParts.push('.footer--boxed .footer__body{background-image:' + bgi + ';}'); }
     if (bgv.color.value.custom || bgv.gradient) f.footer_box_background = bgv;
@@ -1296,7 +1307,7 @@ export function toThemeSettings(config, home) {
     for (let i = 0; i < n; i++) cols['copyright_col_' + (i + 1)] = [{ element_type: { element: 'text', text: { text_content: '<p>' + escHtml(_lbar.cells[i]) + '</p>' } } }];
     if (_lbar.display === 'flex' && /space-(between|around)|flex-start|flex-end|center/.test(String(_lbar.justifyContent || ''))) { cols.copyright_auto = 'yes'; cols.copyright_justify = String(_lbar.justifyContent).replace(/^space-|^flex-/, ''); }
     const cf = {};
-    if (parseFloat(_lbar.borderTopWidth) > 0 && _lbar.borderTopStyle !== 'none' && _lbar.borderTopColor && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(_lbar.borderTopColor)) {
+    if (parseFloat(_lbar.borderTopWidth) > 0 && _lbar.borderTopStyle !== 'none' && _lbar.borderTopColor && !/(?:rgba?\((?:\s*[0-9.]+%?\s*[,\s]\s*){3}0*(?:\.0+)?%?\s*\)|rgba?\(\s*[0-9.]+%?\s+[0-9.]+%?\s+[0-9.]+%?\s*\/\s*0*(?:\.0+)?%?\s*\))/.test(_lbar.borderTopColor)) {
       cf.copyright_border = { width: _unit(Math.max(1, Math.round(parseFloat(_lbar.borderTopWidth)))), style: _lbar.borderTopStyle, color: { predefined: '', custom: keepAlpha(_lbar.borderTopColor) } };
       cf.copyright_border_sides = ['top']; cf.copyright_border_extent = { mode: 'full' };
     }
@@ -1304,7 +1315,15 @@ export function toThemeSettings(config, home) {
     const fam = String(_lbar.fontFamily || '').split(',')[0].replace(/["']/g, '').trim(); if (fam) typo.family = fam;
     const fsz = parseFloat(_lbar.fontSize); if (isFinite(fsz)) typo.size = _unit(Math.round(fsz));
     if (/^\d{3}$/.test(String(_lbar.fontWeight || ''))) typo.weight = String(_lbar.fontWeight);
-    if (_lbar.color && !/rgba?\([^)]*[,\/]\s*0\s*\)/.test(_lbar.color)) typo.color = keepAlpha(_lbar.color);
+    // HEX ONLY, like the PHP twin. The typography control's colour field parses a hex and nothing else:
+    // handed an rgba it returns #000000, so keepAlpha() here turned the legal line BLACK on the first save of
+    // the Footer tab — the alpha was never expressible on this option. Flattening keeps the hue safe; the real
+    // translucent colour rides the scoped residual below, where alpha survives.
+    if (_lbar.color && !/(?:rgba?\((?:\s*[0-9.]+%?\s*[,\s]\s*){3}0*(?:\.0+)?%?\s*\)|rgba?\(\s*[0-9.]+%?\s+[0-9.]+%?\s+[0-9.]+%?\s*\/\s*0*(?:\.0+)?%?\s*\))/.test(_lbar.color)) {
+      const _cm = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/i.exec(String(_lbar.color).trim());
+      const _cx = _cm ? '#' + [_cm[1], _cm[2], _cm[3]].map((x) => Number(x).toString(16).padStart(2, '0')).join('') : (/^#[0-9a-f]{3,8}$/i.test(String(_lbar.color).trim()) ? String(_lbar.color).trim() : '');
+      if (_cx) typo.color = _cx;
+    }
     const lsp = parseFloat(_lbar.letterSpacing); if (isFinite(lsp) && lsp !== 0) typo['letter-spacing'] = lsp;
     if (Object.keys(typo).length) cf.copyright_typography = typo;
     _fcs('copyright', cf);
@@ -1315,6 +1334,14 @@ export function toThemeSettings(config, home) {
     if (/^-?[0-9.]+px$/.test(String(_lbar.letterSpacing || ''))) lb.push('letter-spacing:' + _lbar.letterSpacing);
     if (/^[0-9.]+px$/.test(String(_lbar.lineHeight || ''))) lb.push('line-height:' + _lbar.lineHeight);
     if (lb.length) miscCssParts.push('.footer .footer-section--copyright{' + lb.join(';') + ';}');
+    // SMALL PRINT IS TRANSLUCENT ON PURPOSE (PHP parity: copyright_alpha_css). The option above can only hold
+    // a hex, so a source that sets its legal line to ~60% of the footer text colour would render at full
+    // opacity — as loud as the body copy. Carry the real colour here, where alpha survives. Only a genuinely
+    // translucent colour qualifies: opaque is already expressible on the option, and 0 is hidden text.
+    const _lba = /rgba\(\s*[0-9.]+\s*,\s*[0-9.]+\s*,\s*[0-9.]+\s*,\s*(0?\.[0-9]+)\s*\)/i.exec(String(_lbar.color || ''));
+    if (_lba && parseFloat(_lba[1]) > 0 && parseFloat(_lba[1]) < 1) {
+      miscCssParts.push('.footer-section--copyright .builder-text-element,.footer-section--copyright .builder-text-element p{color:' + String(_lbar.color).trim() + ' !important;}');
+    }
     miscCssParts.push('.footer .footer-section--copyright .builder-text-element p{margin:0;}');
   } else {
   if (copy) { copy = copy.replace(/\b(19|20)\d{2}\b/, '{{current_year}}'); }

@@ -16,19 +16,182 @@ import pixelmatch from 'pixelmatch';
 const CHROME = process.env.CHROME || process.env.CHROME_PATH ||
   'C:/Program Files/Google/Chrome/Application/chrome.exe';
 
+/**
+ * Get past a cookie / consent wall before measuring anything.
+ *
+ * Not cosmetic. On a real source this verifier captured **101 characters, 0 images and a 900px page** --
+ * the consent screen alone -- and, because the navigation error path was silent, reported it as 97.6% drift
+ * against a 1273% height delta. It read as a catastrophic conversion and was a banner. Whether the wall
+ * merely covers the page or (as here) holds the content back entirely depends on the CMP and the browser:
+ * the same site shows its content behind the banner in bundled Chromium and shows nothing but the banner in
+ * installed Chrome, which is what this tool runs.
+ *
+ * Matching on visible text alone is not enough -- the buttons are frequently empty at the moment we look
+ * (animated in, or labelled by a child node), which is exactly how the first version of this silently did
+ * nothing. So: known CMP accept selectors first, then text / aria-label / value, then a short retry for
+ * banners that arrive late.
+ *
+ * Deliberately conservative about what it removes. We unlock scrolling, but we do not strip overlays
+ * wholesale -- a legitimate fixed header is also an overlay, and deleting page furniture to make a number
+ * look better is how a verifier starts lying in the other direction.
+ *
+ * @returns {Promise<boolean>} whether something was dismissed
+ */
+export async function dismissConsent(page) {
+  const KNOWN = [
+    '.cmplz-accept',                       // Complianz
+    '#onetrust-accept-btn-handler',        // OneTrust
+    '#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll', // Cookiebot
+    '.cc-allow', '.cc-dismiss',            // Cookie Consent
+    '[data-cc-action="accept"]',
+    '.js-accept-all-cookies',
+    '[aria-label*="accept" i]',
+    '[data-testid*="accept" i]',
+  ];
+
+  const tryOnce = (known) => page.evaluate((known) => {
+    const vis = (e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+
+    for (const sel of known) {
+      const el = [...document.querySelectorAll(sel)].find(vis);
+      if (el) { el.click(); return 'selector:' + sel; }
+    }
+
+    const CONSENT = /cookie|consent|gdpr|privacy|cmp|onetrust|cookiebot|usercentrics|didomi|klaro|termly|complianz/i;
+    const ACCEPT  = /^(accept|accept all|allow all|allow|agree|i agree|ok|okay|got it|understood|continue)/i;
+
+    const boxes = [...document.querySelectorAll('div,section,aside,dialog,[role="dialog"],[role="alertdialog"]')]
+      .filter((e) => {
+        const id = (e.id || '') + ' ' + (typeof e.className === 'string' ? e.className : '');
+        if (CONSENT.test(id)) return true;
+        const r = e.getBoundingClientRect();
+        if (r.width < 200 || r.height < 60) return false;
+        const pos = getComputedStyle(e).position;
+        return (pos === 'fixed' || pos === 'sticky') && CONSENT.test((e.innerText || '').slice(0, 400));
+      });
+
+    for (const box of boxes) {
+      const btns = [...box.querySelectorAll('button,a,[role="button"],input[type="button"],input[type="submit"]')].filter(vis);
+      // Label can live in innerText, aria-label, value, or title -- an empty innerText is normal here.
+      const label = (b) => ((b.innerText || '') + ' ' + (b.getAttribute('aria-label') || '') + ' ' +
+        (b.value || '') + ' ' + (b.title || '')).trim();
+      const hit = btns.find((b) => ACCEPT.test(label(b)));
+      if (hit) { hit.click(); return 'text:' + label(hit).slice(0, 24); }
+      // A single-button wall is an acknowledgement; clicking it is safe when the box is clearly consent.
+      if (btns.length === 1) { btns[0].click(); return 'sole-button'; }
+    }
+    return '';
+  }, known).catch(() => '');
+
+  let how = await tryOnce(KNOWN);
+  if (!how) {
+    // Banners animate in; one short retry costs a second and catches most of them.
+    await page.waitForTimeout(1200);
+    how = await tryOnce(KNOWN);
+  }
+
+  await page.evaluate(() => {
+    for (const el of [document.documentElement, document.body]) {
+      if (!el) continue;
+      const cs = getComputedStyle(el);
+      if (cs.overflow === 'hidden' || cs.overflowY === 'hidden') { el.style.setProperty('overflow', 'visible', 'important'); }
+      if (cs.position === 'fixed') { el.style.setProperty('position', 'static', 'important'); }
+    }
+  }).catch(() => {});
+  await page.waitForTimeout(400);
+  return !!how;
+}
+
+/**
+ * Stop the page moving before photographing it.
+ *
+ * Without this the comparison has a large, invisible noise floor: measured by diffing a page against
+ * ITSELF, the overall drift was 1.3% on one site and 3.3% on the other, and individual BANDS read as high
+ * as 15.1% and 20.5% -- on identical pages. Any band below roughly 20% was therefore indistinguishable
+ * from noise, while looking exactly like a finding. Two renders of a page with a hero video never agree,
+ * because the video is at a different frame each time; CSS animation, carousels and GIFs do the same.
+ *
+ * So: pause every video and pin it to its first frame, freeze CSS animation and transitions, and stop
+ * smooth scrolling. What remains is the difference between the two DESIGNS, which is what the number is
+ * supposed to mean.
+ */
+async function freezeMotion(page) {
+  await page.addStyleTag({ content: `*, *::before, *::after {
+    animation-play-state: paused !important;
+    animation-delay: -0.001s !important;
+    animation-duration: 0.001s !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+    caret-color: transparent !important;
+  }` }).catch(() => {});
+  await page.evaluate(() => {
+    for (const v of document.querySelectorAll('video')) {
+      try { v.pause(); v.autoplay = false; v.currentTime = 0; } catch (e) {}
+    }
+    // A GIF cannot be paused, but it can be pinned by replacing it with its first frame.
+    for (const img of document.querySelectorAll('img[src*=".gif" i]')) {
+      try {
+        const c = document.createElement('canvas');
+        c.width = img.naturalWidth || img.width; c.height = img.naturalHeight || img.height;
+        c.getContext('2d').drawImage(img, 0, 0);
+        img.src = c.toDataURL();
+      } catch (e) {}
+    }
+  }).catch(() => {});
+  await page.waitForTimeout(250);
+}
+
 async function shoot(browser, url, width) {
   const page = await browser.newPage({ viewport: { width, height: 900 } });
+  let navError = null;
   try {
-    await page.goto(url, { waitUntil: 'load', timeout: 60000 }).catch(() => {});
+    // `waitUntil: 'load'` waits for every asset; a heavy real source took 26s alone and longer when the
+    // two captures run concurrently, blowing the old 60s budget. DOM-ready plus the explicit settle below
+    // (scroll, image decode, networkidle) is both faster and what the shot actually needs.
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 })
+      .catch((e) => { navError = String(e && e.message || e).split(String.fromCharCode(10))[0]; });
+    await dismissConsent(page);
+    await freezeMotion(page);
     // let SPA / lazy content settle, then scroll to trigger lazy assets, then back to top
     await page.waitForTimeout(1500);
     await page.evaluate(async () => {
       await new Promise((r) => { let y = 0; const i = setInterval(() => { window.scrollTo(0, y); y += window.innerHeight; if (y > document.body.scrollHeight) { clearInterval(i); r(); } }, 60); });
     }).catch(() => {});
+    // WAIT FOR THE PIXELS, not just for the scroll. Scrolling only TRIGGERS a lazy image; the request is
+    // still in flight when the capture fires, so a band below the fold was photographed as empty placeholder
+    // boxes and diffed against a source that had loaded — pure phantom drift. Measured: a nine-image gallery
+    // reported 29.4% drift while the two pages were, on inspection, identical. Block on every image actually
+    // decoding (and on the network going quiet) before the shutter.
+    await page.evaluate(async () => {
+      const imgs = [...document.images];
+      await Promise.all(imgs.map((i) => (i.complete && i.naturalWidth > 0) ? null : new Promise((r) => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 8000); })));
+    }).catch(() => {});
+    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
     await page.evaluate(() => window.scrollTo(0, 0)).catch(() => {});
+    await freezeMotion(page);
     await page.waitForTimeout(400);
+
+    // WHAT DID WE ACTUALLY PHOTOGRAPH? The navigation error above used to be swallowed by `.catch(() => {})`,
+    // so a page that never loaded was screenshotted as a blank 900px viewport and diffed against a real one.
+    // That is not a small inaccuracy: it reported 97.6% drift and a 1273% height delta on a conversion whose
+    // real drift was unknown, and it looked exactly like a catastrophic conversion. A verifier that cannot
+    // tell "these pages differ" from "I failed to load one of them" is worse than no verifier, because its
+    // numbers get believed.
+    const seen = await page.evaluate(() => ({
+      h: document.documentElement.scrollHeight,
+      imgs: document.images.length,
+      chars: (document.body && document.body.innerText || '').trim().length,
+    })).catch(() => ({ h: 0, imgs: 0, chars: 0 }));
+
     const buf = await page.screenshot({ fullPage: true });
-    return PNG.sync.read(buf);
+    const png = PNG.sync.read(buf);
+    png.url = url;
+    png.navError = navError;
+    // A page with almost no text and no images is a failed load, not a short page.
+    png.blank = seen.chars < 200 && seen.imgs === 0;
+    png.ok = !navError && !png.blank;
+    png.seen = seen;
+    return png;
   } finally { await page.close(); }
 }
 
@@ -61,10 +224,35 @@ function bandDrift(aData, bData, w, y0, y1, threshold) {
  * Compare two live URLs. Returns overall drift % + per-band drift.
  * @param {{ sourceUrl:string, convertedUrl:string, width?:number, bands?:number, threshold?:number }} o
  */
-export async function verifyUrls({ sourceUrl, convertedUrl, width = 1440, bands = 8, threshold = 0.1 }) {
+/**
+ * `calibrate: true` also measures each page AGAINST ITSELF and returns the noise floor, so every number
+ * comes with its own error bar.
+ *
+ * This is not a nicety. Before motion was frozen, two renders of the SAME page differed by 1.3% and 3.3%
+ * overall and by as much as 15.1% and 20.5% on a single band -- so any band under about 20% was
+ * indistinguishable from noise while looking exactly like a finding. A reading without a floor is an
+ * opinion; a reading with one is a measurement. Costs one extra render per page, which is why it is opt-in.
+ */
+export async function verifyUrls({ sourceUrl, convertedUrl, width = 1440, bands = 8, threshold = 0.1, calibrate = false }) {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
   try {
-    const [src, conv] = await Promise.all([shoot(browser, sourceUrl, width), shoot(browser, convertedUrl, width)]);
+    // SEQUENTIAL, not Promise.all. Two heavy pages racing in one browser is what pushed the slower one past
+    // its navigation timeout in the first place; the comparison is not worth a failed capture.
+    const src = await shoot(browser, sourceUrl, width);
+    const conv = await shoot(browser, convertedUrl, width);
+
+    // Never report drift for a page we did not manage to load -- see the note in shoot().
+    for (const [role, shot] of [['source', src], ['converted', conv]]) {
+      if (!shot.ok) {
+        return {
+          ok: false,
+          error: `could not capture the ${role} page (${shot.url}): ` +
+            (shot.navError ? shot.navError : 'it rendered blank'),
+          [role]: { width: shot.width, height: shot.height, ...shot.seen },
+        };
+      }
+    }
+
     const w = Math.min(src.width, conv.width);
     const h = Math.min(src.height, conv.height);
     const a = crop(src, w, h), b = crop(conv, w, h);
@@ -78,8 +266,41 @@ export async function verifyUrls({ sourceUrl, convertedUrl, width = 1440, bands 
       const d = bandDrift(a.data, b.data, w, y0, y1, threshold);
       bandRows.push({ band: i + 1, y0, y1, drift_pct: d.pct });
     }
+    // The floor: the same page photographed twice. Anything at or under this is not evidence.
+    let noise = null;
+    if (calibrate) {
+      const src2 = await shoot(browser, sourceUrl, width);
+      const conv2 = await shoot(browser, convertedUrl, width);
+      const selfPct = (x, y) => {
+        if (!x.ok || !y.ok) { return null; }
+        const sw = Math.min(x.width, y.width), sh = Math.min(x.height, y.height);
+        const ca = crop(x, sw, sh), cb = crop(y, sw, sh);
+        const rows = [];
+        const st = Math.ceil(sh / bands);
+        for (let i = 0; i < bands; i++) {
+          const y0 = i * st, y1 = Math.min((i + 1) * st, sh);
+          if (y0 >= sh) break;
+          rows.push(bandDrift(ca.data, cb.data, sw, y0, y1, threshold).pct);
+        }
+        return {
+          overall_pct: Math.round((pixelmatch(ca.data, cb.data, null, sw, sh, { threshold }) / (sw * sh)) * 1000) / 10,
+          worst_band_pct: rows.length ? Math.max.apply(null, rows) : 0,
+        };
+      };
+      const sn = selfPct(src, src2), cn = selfPct(conv, conv2);
+      noise = {
+        source: sn,
+        converted: cn,
+        // Read every band against the WORSE of the two floors -- the comparison is only as clean as its
+        // noisier side.
+        floor_pct: Math.max(sn ? sn.worst_band_pct : 0, cn ? cn.worst_band_pct : 0),
+      };
+      for (const row of bandRows) { row.above_noise = row.drift_pct > noise.floor_pct; }
+    }
+
     return {
       ok: true,
+      noise_floor: noise,
       overall_drift_pct: overall,
       compared: { width: w, height: h },
       source: { width: src.width, height: src.height },
@@ -116,12 +337,27 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
   const read = async (url) => {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     await page.goto(url, { waitUntil: 'networkidle' });
+    await dismissConsent(page);
+    await freezeMotion(page);
     await page.waitForTimeout(1200);
     const els = await page.evaluate(({ scope, maxLen }) => {
+      // The masthead is not always a <header>: a Tailwind/AI-generated source routinely ships
+      // `<nav class="fixed top-0 …">` with no header landmark at all. Falling through to `return []`
+      // made every converted header item read as `extra` and hid four real header defects behind eight
+      // fabricated ones (a real-site audit). Fall back to the topmost fixed/sticky full-width bar, the
+      // same masthead the capture service itself detects.
       const roots = scope === 'header' ? ['header', '.site-header'] : scope === 'footer' ? ['footer', '.site-footer'] : ['body'];
       let root = null;
       for (const sel of roots) { root = document.querySelector(sel); if (root) break; }
-      if (!root) return [];
+      if (!root && scope === 'header') {
+        const bars = [...document.querySelectorAll('nav, div')].filter((e) => {
+          const cs = getComputedStyle(e); const r = e.getBoundingClientRect();
+          return /^(fixed|sticky)$/.test(cs.position) && r.top <= 8 && r.width >= innerWidth * 0.8 && r.height > 24 && r.height < 240;
+        });
+        root = bars.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0] || null;
+      }
+      if (!root && scope === 'footer') { root = document.querySelector('[class*="footer"]'); }
+      if (!root) return null;   // null = NO ROOT (distinct from an empty root), so the caller can say so
       const out = [];
       for (const e of root.querySelectorAll('*')) {
         if (e.children.length) continue;                       // leaves only
@@ -131,7 +367,12 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
         if (!r.width || !r.height) continue;
         const cs = getComputedStyle(e);
         if (cs.visibility === 'hidden' || cs.display === 'none' || parseFloat(cs.opacity) === 0) continue;
-        out.push({ t, x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), cy: Math.round(r.top + r.height / 2), fs: cs.fontSize, ls: cs.letterSpacing });
+        out.push({ t, x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), cy: Math.round(r.top + r.height / 2),
+        fs: cs.fontSize, ls: cs.letterSpacing,
+        // the rest of the FACE. Size alone missed a paragraph rendered in the wrong family, weight, slant or
+        // ink — which is exactly how a body paragraph came out as a large centred serif italic and no check said so.
+        ff: (cs.fontFamily || '').split(',')[0].replace(/["']/g, '').trim(), fw: cs.fontWeight, fst: cs.fontStyle,
+        col: cs.color, ta: cs.textAlign });
       }
       return out;
     }, { scope, maxLen });
@@ -141,24 +382,70 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
   const norm = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '');
   const [src, conv] = [await read(sourceUrl), await read(convertedUrl)];
   await browser.close();
+  // A side with no chrome root at all is a DETECTION failure, not a page full of findings. Reporting it as
+  // `extra`×N buried the real defects; name it and stop.
+  if (src === null || conv === null) {
+    return { ok: false, scope, counted: { source: src ? src.length : 0, converted: conv ? conv.length : 0 },
+      error: 'no-' + (src === null ? 'source' : 'converted') + '-' + scope + '-root', findings: [] };
+  }
 
   const used = new Set();
   const findings = [];
-  for (const a of src) {
+
+  // Pairing runs in TWO PASSES, and the order is the whole point.
+  //
+  // It used to be one pass per source leaf: exact match, else a converted leaf that CONTAINS the text
+  // (the converter often joins controls into one node), then `used.add(i)` either way. That made matching
+  // depend on the order the source happened to list its leaves, and the failure was not subtle. A source
+  // accordion renders `01` and `Complete home renovations` as two leaves; the converted accordion renders
+  // one node, `01 Complete home renovations`. The short ordinal came first, matched by containment, and
+  // CONSUMED the node — so all six real titles were then reported `missing`. The page was correct and the
+  // tool said six pieces of content had been lost, which is the most expensive kind of wrong an instrument
+  // can be: it sends someone to fix a bug that is not there.
+  //
+  // Pass 1 gives every EXACT match its partner first, so a loose substring can never outbid an exact one.
+  // Pass 2 then resolves the rest by containment WITHOUT consuming, because a join is many-to-one by
+  // nature: if two source leaves were merged into one converted node, both of them really are in it.
+  const pairIdx = new Array(src.length).fill(-1);
+  const pairJoined = new Array(src.length).fill(false);
+  for (let k = 0; k < src.length; k++) {
+    const key = norm(src[k].t);
+    if (!key) continue;
+    const i = conv.findIndex((b, j) => !used.has(j) && norm(b.t) === key);
+    if (i >= 0) { pairIdx[k] = i; used.add(i); }
+  }
+  for (let k = 0; k < src.length; k++) {
+    if (pairIdx[k] >= 0) continue;
+    const key = norm(src[k].t);
+    if (!key) continue;
+    const i = conv.findIndex((b) => norm(b.t).includes(key) && norm(b.t) !== key);
+    if (i >= 0) { pairIdx[k] = i; pairJoined[k] = true; }
+  }
+
+  for (let k = 0; k < src.length; k++) {
+    const a = src[k];
     const key = norm(a.t);
     if (!key) continue;
-    // exact text first, then a converted leaf that CONTAINS it (the converter often joins controls into one node)
-    let i = conv.findIndex((b, j) => !used.has(j) && norm(b.t) === key);
-    let joined = false;
-    if (i < 0) { i = conv.findIndex((b, j) => !used.has(j) && norm(b.t).includes(key) && norm(b.t) !== key); joined = i >= 0; }
+    const i = pairIdx[k];
+    const joined = pairJoined[k];
     if (i < 0) { findings.push({ kind: 'missing', text: a.t, source: { x: a.x, cy: a.cy } }); continue; }
-    used.add(i);
     const b = conv[i];
     const d = { dx: b.x - a.x, dy: b.cy - a.cy, dw: b.w - a.w };
     const off = Math.abs(d.dx) > dx || Math.abs(d.dy) > dy;
     if (joined) findings.push({ kind: 'joined', text: a.t, into: b.t, ...d });
     else if (off) findings.push({ kind: 'moved', text: a.t, ...d, source: { x: a.x, cy: a.cy }, converted: { x: b.x, cy: b.cy } });
-    else if (a.fs !== b.fs) findings.push({ kind: 'type', text: a.t, source: a.fs, converted: b.fs });
+    // WHERE something sits and WHAT IT LOOKS LIKE are independent, and this used to be an `else if` chain —
+    // so a shifted element could never report a type mismatch. Measured: a whole footer sat 45px high, every
+    // element reported `moved`, and the brand paragraph rendering 24px Playfair italic where the source sets
+    // 14px Plus Jakarta Sans at 400 was never mentioned at all. Report the type whether or not it also moved.
+    const typeDelta = [];
+    if (a.fs !== b.fs) typeDelta.push(`font-size ${a.fs} -> ${b.fs}`);
+    if (a.ff && b.ff && a.ff.toLowerCase() !== b.ff.toLowerCase()) typeDelta.push(`font-family ${a.ff} -> ${b.ff}`);
+    if (a.fst !== b.fst) typeDelta.push(`font-style ${a.fst} -> ${b.fst}`);
+    if (String(a.fw) !== String(b.fw)) typeDelta.push(`font-weight ${a.fw} -> ${b.fw}`);
+    if (a.ta !== b.ta) typeDelta.push(`text-align ${a.ta} -> ${b.ta}`);
+    if (a.col !== b.col) typeDelta.push(`color ${a.col} -> ${b.col}`);
+    if (typeDelta.length) findings.push({ kind: 'type', text: a.t, deltas: typeDelta });
   }
   for (let j = 0; j < conv.length; j++) {
     if (used.has(j)) continue;
@@ -199,17 +486,44 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
  * @param {number} [o.dsize=24]   px tolerance on width / height (media + controls)
  * @param {number} [o.maxLen=60]  ignore leaves longer than this (body copy, not layout)
  */
+/** A comparable key for a CSS colour: numeric components only, alpha normalised (1 when absent).
+ *  `rgb(255, 61, 0)` and `rgba(255,61,0,1)` are the same ink; anything else differs. */
+function rgbKey(c) {
+  const m = String(c || '').match(/-?[0-9.]+/g);
+  if (!m || m.length < 3) return String(c || '').trim().toLowerCase();
+  const a = m.length > 3 ? Number(m[3]) : 1;
+  return m.slice(0, 3).map((n) => Math.round(Number(n))).join(',') + '/' + (Math.round(a * 100) / 100);
+}
+
 export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx = 24, dy = 16, dsize = 24, maxLen = 60, skin = true, rhythm = true, dgap = 12 }) {
   const browser = await chromium.launch({ channel: 'chrome' });
   const read = async (url) => {
     const page = await browser.newPage({ viewport: { width, height: 1000 } });
     await page.goto(url, { waitUntil: 'networkidle' });
+    await dismissConsent(page);
+    await freezeMotion(page);
     for (let i = 0; i < 12; i++) { await page.mouse.wheel(0, 900); await page.waitForTimeout(200); }
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(900);
     const data = await page.evaluate((maxLen) => {
+      // Landmarks are CHROME on one side and a section on the other unless normalised. A source whose
+      // masthead is `<nav class="fixed top-0">` contributes no header entry while the converted `<header>`
+      // does, so the two lists ran one landmark out of step and every pairing after the first id-less
+      // section was wrong (a real-site audit: a present newsletter reported `section-missing`, then the
+      // source FOOTER diffed against it). Enumerate the masthead on BOTH sides under one canonical id.
+      const isMast = (e) => {
+        const cs = getComputedStyle(e); const r = e.getBoundingClientRect();
+        return /^(fixed|sticky)$/.test(cs.position) && (r.top + scrollY) <= 8 && r.width >= innerWidth * 0.8 && r.height > 24 && r.height < 240;
+      };
+      const mast = [...document.querySelectorAll('header, nav, div')].filter(isMast)
+        .sort((a2, b2) => a2.getBoundingClientRect().top - b2.getBoundingClientRect().top)[0] || null;
+      const cid = (sec) => (sec === mast) ? 'chrome:header'
+        : (sec.tagName.toLowerCase() === 'footer' ? 'chrome:footer'
+        : (sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase()));
       const all = [...document.querySelectorAll('header, section, footer, .fw-section')]
-        .filter((e) => { const r = e.getBoundingClientRect(); return r.height > 60 && r.width > 600; });
+        .filter((e) => { const r = e.getBoundingClientRect(); return r.height > 60 && r.width > 600; })
+        .filter((e) => e !== mast && !(mast && mast.contains(e)));
+      if (mast) all.unshift(mast);
       const secs = all.filter((e) => !all.some((o) => o !== e && o.contains(e)));
       const file = (u) => { try { return (new URL(u, location.href).pathname.split('/').pop() || '').split('?')[0].toLowerCase(); } catch { return ''; } };
       const paints = (cs) => {
@@ -269,7 +583,7 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
             let pt = '';
             try { if (pc[0] === '"') pt = String(JSON.parse(pc)).replace(/\s+/g, ' ').trim(); } catch { pt = ''; }
             if (!pt || pt.length > maxLen) continue;
-            items.push({ kind: 'text', key: pt, ...rel, pseudo: pe, fs: getComputedStyle(e, pe).fontSize, ta: 'start' });
+            items.push({ kind: 'text', key: pt, ...rel, pseudo: pe, fs: getComputedStyle(e, pe).fontSize, col: getComputedStyle(e, pe).color, ta: 'start' });
           }
           if (tag === 'img') {
             const key = file(e.currentSrc || e.src || '');
@@ -303,7 +617,7 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
               if (paints(pcs)) { sk = skinOf(p, pcs); break; }
             }
           }
-          items.push({ kind: 'text', key: t, ...rel, fs: cs.fontSize, ta: cs.textAlign, skin: sk });
+          items.push({ kind: 'text', key: t, ...rel, fs: cs.fontSize, col: cs.color, ta: cs.textAlign, skin: sk });
         }
         // THE SHAPE OF A REPEATED GROUP — how many COLUMNS its children sit in.
         // Element-level diffs describe leaves, so a 3-up card row collapsing to a 1-up stack registers only
@@ -326,7 +640,7 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
           const cand = { n: kids.length, cols, w: Math.round(wMed), alike };
           if (!group || cand.alike > group.alike || (cand.alike === group.alike && cand.n > group.n)) group = cand;
         }
-        return { i, id: sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase(), tag: sec.tagName.toLowerCase(), y: Math.round(top), h: Math.round(sr.height), items, group };
+        return { i, id: cid(sec), tag: sec.tagName.toLowerCase(), y: Math.round(top), h: Math.round(sr.height), items, group };
       });
     }, maxLen);
     await page.close();
@@ -343,11 +657,23 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
   // pair sections: by id when both sides carry one, else by order
   const pairs = [];
   const usedConv = new Set();
+  // Two passes. FIRST every id match, so an id pair can never be stolen by an order fallback; THEN order.
+  // And the order fallback takes the NEXT UNUSED converted section, not the one at the same absolute DOM
+  // index: the two sides rarely carry the same landmark count (a source whose masthead is a <nav> has one
+  // fewer), so absolute-index matching shifted everything after the first id-less section — it reported a
+  // present newsletter as `section-missing` and then diffed the source FOOTER against it, manufacturing 23
+  // findings about nothing (a real-site audit).
+  const byId = new Map();
   for (const a of src) {
-    let j = conv.findIndex((b, k) => !usedConv.has(k) && a.id && b.id && norm(a.id) === norm(b.id));
-    if (j < 0) j = conv.findIndex((b, k) => !usedConv.has(k) && b.i === a.i);
-    if (j < 0) { pairs.push({ a, b: null }); continue; }
-    usedConv.add(j); pairs.push({ a, b: conv[j] });
+    const j = conv.findIndex((b, k) => !usedConv.has(k) && a.id && b.id && norm(a.id) === norm(b.id));
+    if (j >= 0) { usedConv.add(j); byId.set(a, j); }
+  }
+  let cursor = 0;
+  for (const a of src) {
+    if (byId.has(a)) { pairs.push({ a, b: conv[byId.get(a)] }); continue; }
+    while (cursor < conv.length && usedConv.has(cursor)) cursor++;
+    if (cursor >= conv.length) { pairs.push({ a, b: null }); continue; }
+    usedConv.add(cursor); pairs.push({ a, b: conv[cursor] }); cursor++;
   }
 
   // what a difference in skin is worth saying out loud (a bare row that became a bordered button, a
@@ -376,15 +702,50 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
     const findings = [];
     const used = new Set();
     const matched = [];
-    for (const x of a.items) {
+    // Pairing runs in TWO PASSES, and the order is the whole point.
+    //
+    // It used to be one pass per source item — exact, then image-equivalence, then (for text) a converted
+    // item CONTAINING the source text — with `used.add(i)` after any of them. That made the result depend
+    // on the order the source happened to list its items, and the failure was not subtle. A source
+    // accordion renders `01` and `Complete home renovations` as two items; the converted accordion renders
+    // one, `01 Complete home renovations`. The short ordinal came first, matched by containment, CONSUMED
+    // that item — and all six real titles were then reported `missing`. The page was correct and the tool
+    // said six pieces of content had been lost, which is the most expensive way for an instrument to be
+    // wrong: it sends someone to fix a bug that is not there, and this one did.
+    //
+    // Pass 1 gives every EXACT (or image-equivalent) match its partner first, so a loose substring can
+    // never outbid an exact one. Pass 2 resolves the rest by containment WITHOUT consuming, because a join
+    // is many-to-one by nature: if two source items were merged into one converted item, both really are
+    // in it, and calling the second one missing is simply false.
+    const pairIdx = new Array(a.items.length).fill(-1);
+    const pairJoined = new Array(a.items.length).fill(false);
+    for (let n = 0; n < a.items.length; n++) {
+      const x = a.items[n];
       const key = norm(x.key);
       if (!key) continue;
       let i = b.items.findIndex((y, k) => !used.has(k) && y.kind === x.kind && norm(y.key) === key);
       if (i < 0 && x.kind === 'img') i = b.items.findIndex((y, k) => !used.has(k) && y.kind === 'img' && sameImg(y.key, x.key));
-      let joined = false;
-      if (i < 0 && x.kind === 'text') { i = b.items.findIndex((y, k) => !used.has(k) && y.kind === 'text' && norm(y.key).includes(key) && norm(y.key) !== key); joined = i >= 0; }
+      if (i >= 0) { pairIdx[n] = i; used.add(i); }
+    }
+    for (let n = 0; n < a.items.length; n++) {
+      if (pairIdx[n] >= 0) continue;
+      const x = a.items[n];
+      const key = norm(x.key);
+      if (!key || x.kind !== 'text') continue;
+      const i = b.items.findIndex((y) => y.kind === 'text' && norm(y.key).includes(key) && norm(y.key) !== key);
+      // Marked as used so the leftover sweep below does not then report the join TARGET as `extra` — it is
+      // matched, just many-to-one. Safe here because pass 1 has finished and this pass ignores `used`, so
+      // marking cannot stop a later source item from joining into the same node.
+      if (i >= 0) { pairIdx[n] = i; pairJoined[n] = true; used.add(i); }
+    }
+
+    for (let n = 0; n < a.items.length; n++) {
+      const x = a.items[n];
+      const key = norm(x.key);
+      if (!key) continue;
+      const i = pairIdx[n];
+      const joined = pairJoined[n];
       if (i < 0) { findings.push({ kind: x.kind === 'img' ? 'img-missing' : x.kind === 'icon' ? 'icon-missing' : x.kind === 'box' ? 'box-missing' : 'missing', text: String(x.key).slice(0, 40), source: { x: x.x, y: x.y, w: x.w, h: x.h }, sec: a.id }); continue; }
-      used.add(i);
       const y = b.items[i];
       matched.push({ x, y });
       const d = { dx: y.x - x.x, dy: y.y - x.y, dw: y.w - x.w, dh: y.h - x.h };
@@ -403,6 +764,9 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
       if (y.pseudo) { continue; }   // rendered as a pseudo-element: present, but its own box is unmeasurable
       if (Math.abs(d.dx) > dx || Math.abs(d.dy) > dy) { findings.push({ kind: 'moved', text: String(x.key).slice(0, 34), ...d }); continue; }
       if (x.fs !== y.fs) { findings.push({ kind: 'type', text: String(x.key).slice(0, 34), source: x.fs, converted: y.fs }); continue; }
+      // INK — a matched run whose measured colour differs. Position/size/pixel lenses all miss a
+      // recoloured heading run (same glyphs, same box); this is the only signal that names it.
+      if (x.col && y.col && rgbKey(x.col) !== rgbKey(y.col)) { findings.push({ kind: 'ink', text: String(x.key).slice(0, 34), source: x.col, converted: y.col }); continue; }
       if (skin) {
         const sd = skinDiff(x.skin, y.skin, String(x.key) === String(y.key));
         if (sd) findings.push({ kind: 'skin', text: String(x.key).slice(0, 34), diff: sd });
@@ -553,20 +917,48 @@ export async function verifySections({ sourceUrl, convertedUrl, width = 1440, dx
  * @param {number} [o.top=6]         how many worst cells to return per section
  * @param {number} [o.threshold=0.15] pixelmatch colour tolerance (anti-aliased pixels are excluded by default)
  */
-export async function verifyPixels({ sourceUrl, convertedUrl, width = 1440, cell = 48, minPct = 45, top = 6, threshold = 0.15 }) {
+export async function verifyPixels({ sourceUrl, convertedUrl, width = 1440, cell = 48, minPct = 45, top = 6, threshold = 0.15, heightPct = 12 }) {
   const browser = await chromium.launch({ channel: 'chrome' });
   const read = async (url) => {
     const page = await browser.newPage({ viewport: { width, height: 1000 } });
     await page.goto(url, { waitUntil: 'networkidle' });
+    await dismissConsent(page);
+    await freezeMotion(page);
     for (let i = 0; i < 12; i++) { await page.mouse.wheel(0, 900); await page.waitForTimeout(160); }
+    // WAIT FOR THE PIXELS, not just for the scroll. Scrolling only TRIGGERS a lazy image; the request is
+    // still in flight when the capture fires, so a band below the fold was photographed as empty placeholder
+    // boxes and diffed against a source that had loaded — pure phantom drift. Measured: a nine-image gallery
+    // reported 29.4% drift while the two pages were, on inspection, identical. Block on every image actually
+    // decoding (and on the network going quiet) before the shutter.
+    await page.evaluate(async () => {
+      const imgs = [...document.images];
+      await Promise.all(imgs.map((i) => (i.complete && i.naturalWidth > 0) ? null : new Promise((r) => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 8000); })));
+    }).catch(() => {});
+    await page.waitForLoadState('networkidle').catch(() => {});
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(800);
     const secs = await page.evaluate(() => {
+      // Landmarks are CHROME on one side and a section on the other unless normalised. A source whose
+      // masthead is `<nav class="fixed top-0">` contributes no header entry while the converted `<header>`
+      // does, so the two lists ran one landmark out of step and every pairing after the first id-less
+      // section was wrong (a real-site audit: a present newsletter reported `section-missing`, then the
+      // source FOOTER diffed against it). Enumerate the masthead on BOTH sides under one canonical id.
+      const isMast = (e) => {
+        const cs = getComputedStyle(e); const r = e.getBoundingClientRect();
+        return /^(fixed|sticky)$/.test(cs.position) && (r.top + scrollY) <= 8 && r.width >= innerWidth * 0.8 && r.height > 24 && r.height < 240;
+      };
+      const mast = [...document.querySelectorAll('header, nav, div')].filter(isMast)
+        .sort((a2, b2) => a2.getBoundingClientRect().top - b2.getBoundingClientRect().top)[0] || null;
+      const cid = (sec) => (sec === mast) ? 'chrome:header'
+        : (sec.tagName.toLowerCase() === 'footer' ? 'chrome:footer'
+        : (sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase()));
       const all = [...document.querySelectorAll('header, section, footer, .fw-section')]
-        .filter((e) => { const r = e.getBoundingClientRect(); return r.height > 60 && r.width > 600; });
+        .filter((e) => { const r = e.getBoundingClientRect(); return r.height > 60 && r.width > 600; })
+        .filter((e) => e !== mast && !(mast && mast.contains(e)));
+      if (mast) all.unshift(mast);
       return all.filter((e) => !all.some((o) => o !== e && o.contains(e))).map((sec, i) => {
         const r = sec.getBoundingClientRect();
-        return { i, id: sec.id || (sec.className || '').toString().split(' ')[0].slice(0, 24) || sec.tagName.toLowerCase(),
+        return { i, id: cid(sec),
           y: Math.round(r.top + scrollY), h: Math.round(r.height) };
       });
     });
@@ -652,12 +1044,29 @@ export async function verifyPixels({ sourceUrl, convertedUrl, width = 1440, cell
       clusters.push({ x: x0, y: y0, w: x1 - x0, h: y1 - y0, cells: n, pct: Math.round((sum / n) * 10) / 10, area: (x1 - x0) * (y1 - y0) });
     }
     clusters.sort((p, q) => (q.area * q.pct) - (p.area * p.pct));
+    // HEIGHT is its own verdict. Pixel drift is computed over the OVERLAP of the two sections, so a section
+    // that lost half its content scores near zero: a team grid whose three portrait panels vanished measured
+    // 681px against 360px and reported 2% drift — the lens compared what survived and called it a match.
+    // A section whose height moved materially is a finding regardless of how well the remnant lines up.
+    const dh = b.h - a.h;
+    const height_delta_pct = a.h ? Math.round((dh / a.h) * 1000) / 10 : 0;
     sections.push({
       id: a.id, srcH: a.h, convH: b.h,
       drift_pct: Math.round((mismatched / (w * h)) * 1000) / 10,
+      height_delta_px: dh,
+      height_delta_pct,
+      height_flag: Math.abs(height_delta_pct) >= heightPct,
       hotspots: clusters.slice(0, top),
     });
   }
   const worst = sections.slice().sort((p, q) => q.drift_pct - p.drift_pct)[0] || null;
-  return { ok: sections.every((s) => s.drift_pct < minPct), sections, worst };
+  // the section whose HEIGHT moved most — a separate worst, because the two rank differently and the
+  // height outlier is the one a pixel-ranked list buries
+  const worstHeight = sections.slice().sort((p, q) => Math.abs(q.height_delta_pct) - Math.abs(p.height_delta_pct))[0] || null;
+  const heightFindings = sections.filter((s) => s.height_flag)
+    .map((s) => ({ kind: 'height-delta', sec: s.id, source: s.srcH, converted: s.convH, delta_pct: s.height_delta_pct }));
+  return {
+    ok: sections.every((s) => s.drift_pct < minPct && !s.height_flag),
+    sections, worst, worstHeight, heightFindings,
+  };
 }

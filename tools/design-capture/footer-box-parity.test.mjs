@@ -76,7 +76,14 @@ ok(cc && cc['3'] && cc['3'].copyright_auto === 'yes' && cc['3'].copyright_justif
 ok(!/All rights reserved/.test(JSON.stringify(cs)), 'no fabricated © line');
 const ccs = cs && cs.yes && cs.yes.copyright_custom_styling && cs.yes.copyright_custom_styling.yes;
 ok(ccs && ccs.copyright_border && ccs.copyright_border.color.custom === 'rgba(255, 255, 255, 0.08)' && ccs.copyright_border_sides[0] === 'top', 'hairline top border with alpha');
-ok(ccs && ccs.copyright_typography && ccs.copyright_typography.size.value === '12' && ccs.copyright_typography.color === 'rgba(255, 255, 255, 0.52)' && ccs.copyright_typography['letter-spacing'] === 2.64, 'typography 12px / translucent colour / tracking');
+// The colour is a HEX on the option and keeps its ALPHA in the render. This used to assert the rgba ON THE
+// OPTION, which is the defect rather than the behaviour: the typography control's colour field parses a hex
+// and nothing else, so an rgba there returns #000000 and the legal line turns BLACK on the first save of the
+// Footer tab. Flattening keeps the hue; the translucency rides the scoped residual asserted just below, so
+// both properties now hold instead of trading one for the other. (The BORDER above is a compact colour field
+// — a different control, which really can hold alpha, so it still asserts the rgba.)
+ok(ccs && ccs.copyright_typography && ccs.copyright_typography.size.value === '12' && ccs.copyright_typography.color === '#ffffff' && ccs.copyright_typography['letter-spacing'] === 2.64, 'typography 12px / save-safe hex colour / tracking');
+ok(/\.footer-section--copyright \.builder-text-element[^{]*\{color:rgba\(255, 255, 255, 0\.52\) !important;\}/.test(css), 'the translucent small print keeps its alpha on the scoped residual');
 ok(ccs && ccs.copyright_container === 'container-fluid', 'copyright bar Full Width inside the panel');
 ok(/\.footer \.footer-section--copyright\{text-transform:uppercase;letter-spacing:2\.64px;line-height:18px;\}/.test(css), 'case / tracking / line-height as scoped CSS');
 

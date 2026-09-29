@@ -17,6 +17,10 @@
 //   GET  /capture?url=<url>   → convert-bundle.zip (application/zip)
 //   GET  /capture-screenshot?url=<url>  → screenshot.png (image/png) for the newest matching capture
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
+import { discoverPages } from './discover.mjs';
+import { verifySite } from './verify-site.mjs';
+import { runSiteFixAgent } from './to-ai.mjs';
+import { isLocalSite } from './local-site.mjs';
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync, readdirSync, statSync, appendFileSync } from 'node:fs';
@@ -24,14 +28,18 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
+import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, toolChatLocalModel, runAssistantAgent, normalizeModelRef, importGguf, checkModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
-import { verifyUrls } from './verify.mjs';
+import { verifyUrls, verifySections } from './verify.mjs';
+
+/** Background AI Assistant agent runs: id → { rid, status, started, ended?, out?, error? } (kept 30 min). */
+const AGENT_JOBS = new Map();
 import { refineVisual } from './refine-visual.mjs';
 import { refineChrome } from './refine-chrome.mjs';
 import { generatePenShortcode } from './pen-shortcode.mjs';
+import { makeZip } from './minimal-zip.mjs';
 
 // Run log — the Dev Kit launcher sets UPWK_LOG to one file per launch (kept: 5 newest). Mirror every
 // console line into it so a whole run (capture service + conversions + AI + errors) lands in ONE file
@@ -221,6 +229,38 @@ const findFile = (out, name) => {
  * missing (older builds, or an edge where the page's context died before content() was grabbed),
  * recovers it from design-capture.json's embedded renderedHtml. Returns '' when neither has usable HTML.
  */
+/**
+ * Every page a capture run produced: [{ slug, url, front, html }], newest run under `out`.
+ *
+ * A multi-page run writes one DOM snapshot per page (pages/<slug>/rendered.html) and lists them in
+ * pages-manifest.json. Returning them all lets WordPress convert a SITE in one pass — one capture, one
+ * design system, N pages — instead of one request per page, which would re-capture the home page and
+ * re-derive the design every time.
+ *
+ * Returns [] when the run wrote no manifest (a single-page capture), so callers fall back to the
+ * single-HTML response that has always been there.
+ */
+const readCapturedPages = (out) => {
+  const manifest = findFile(out, 'pages-manifest.json');
+  if (!manifest) return [];
+  let list;
+  try { list = JSON.parse(readFileSync(manifest, 'utf8')).pages; } catch { return []; }
+  if (!Array.isArray(list) || !list.length) return [];
+  const root = dirname(manifest);
+  const pages = [];
+  for (const p of list) {
+    if (!p || typeof p !== 'object') continue;
+    const rel = String(p.rendered || '').replace(/\\/g, '/');
+    // a manifest is data: never let a path in it escape the capture folder
+    if (!rel || rel.startsWith('/') || rel.includes('..') || /^[a-z]:/i.test(rel)) continue;
+    let html = '';
+    try { html = readFileSync(join(root, rel), 'utf8'); } catch { continue; }
+    if (!html || html.length < 100) continue;
+    pages.push({ slug: String(p.slug || ''), url: String(p.url || ''), front: !!p.front, html });
+  }
+  return pages;
+};
+
 const readRenderedHtml = (out) => {
   const htmlOut = findFile(out, 'rendered.html');
   if (htmlOut) { const b = readFileSync(htmlOut); if (b && b.length >= 100) return b; }
@@ -320,9 +360,100 @@ const __server = createServer((req, res) => {
 
   const u = new URL(req.url, `http://localhost:${PORT}`);
 
+  // PAGE DISCOVERY — what pages does this site have?
+  //
+  // Answers the admin's "Check Pages" button. It is deliberately a SEPARATE, cheap call rather than part
+  // of /capture: the point is to show the user the real list and let them choose BEFORE anything is
+  // captured. It costs a robots.txt + sitemap fetch in the common case and never launches a browser.
+  //
+  // This exists because discovery used to be the header nav alone, so a site with 133 sitemap URLs
+  // converted as 2 pages and said it had succeeded. Showing the list makes that failure impossible to
+  // miss, but only because the list is now honest — the button is worthless on top of nav-only discovery.
+  // THE SITE-FIX AGENT — hand one converted page to a tools-enabled agent.
+  //
+  // Unlike /refine-visual (one blind `--max-turns 1` completion with no tools, which can only guess from
+  // markup and is then measured and usually discarded), this runs the agent WITH tools in the kit
+  // directory, seeded with the project's own site-fixing prompt, so it can open both pages, measure them,
+  // change things and measure again.
+  if (u.pathname === '/refine-agent' && req.method === 'POST') {
+    readJson(req).then((b) => {
+      b = b || {};
+      const src = String(b.source_url || '').trim();
+      const conv = String(b.converted_url || '').trim();
+      if (!/^https?:\/\//i.test(src) || !/^https?:\/\//i.test(conv)) {
+        return json(res, 400, { error: 'source_url and converted_url are required' });
+      }
+      if (!isLocalSite(conv)) {
+        return json(res, 403, {
+          error: 'The site-fix agent only runs against a LOCAL site. It is given file and shell tools, '
+            + 'which must never be pointed at a live site from a button. Copy the prompt and run it yourself '
+            + 'against a staging copy instead.',
+          code: 'not-local',
+        });
+      }
+      runSiteFixAgent({
+        sourceUrl: src,
+        convertedUrl: conv,
+        captureDir: String(b.capture_dir || ''),
+        findings: String(b.findings || ''),
+        timeoutMs: Math.min(1800000, Math.max(60000, parseInt(b.timeout_ms, 10) || 0)) || undefined,
+        onLog: (m) => console.log('[refine-agent]', m),
+      })
+        .then((r) => json(res, 200, r))
+        .catch((e) => json(res, 500, { error: String((e && e.message) || e) }));
+    }).catch((e) => json(res, 400, { error: String((e && e.message) || e) }));
+    return;
+  }
+
+  // SITE-WIDE VERIFICATION — run the section lens across every page, not just the home page.
+  //
+  // The single-page lenses were never looped, so every layout claim about a conversion was a claim about
+  // its home page. On the first real site this ran against, the home page had 17 missing items and the
+  // site had 158 — the home page was about a tenth of the problem, and the two worst pages were ones
+  // nobody had opened. Each page is a pair of real renders, so `limit` is a budget, not a suggestion.
+  if (u.pathname === '/verify-site') {
+    const src = (u.searchParams.get('source') || '').trim();
+    const conv = (u.searchParams.get('converted') || '').trim();
+    if (!/^https?:\/\//i.test(src) || !/^https?:\/\//i.test(conv)) {
+      return json(res, 400, { error: 'source and converted origins are required' });
+    }
+    const paths = (u.searchParams.get('paths') || '').split(',').map((x) => x.trim()).filter(Boolean);
+    const limit = Math.min(24, Math.max(1, parseInt(u.searchParams.get('limit') || '', 10) || 8));
+    const width = Math.min(2560, Math.max(320, parseInt(u.searchParams.get('width') || '', 10) || 1440));
+    verifySite({
+      sourceOrigin: src, convertedOrigin: conv,
+      paths: paths.length ? paths : null, discover: !paths.length, limit, width,
+    })
+      .then((r) => json(res, 200, r))
+      .catch((e) => json(res, 500, { error: String((e && e.message) || e) }));
+    return;
+  }
+
+  if (u.pathname === '/pages') {
+    const target = (u.searchParams.get('url') || '').trim();
+    if (!/^https?:\/\//i.test(target)) { return json(res, 400, { error: 'url required' }); }
+    // The request handler is synchronous (every other route is), so resolve the promise here rather than
+    // making the whole handler async and changing how every route returns.
+    discoverPages({ url: target })
+      .then((d) => json(res, 200, d))
+      .catch((e) => json(res, 500, { error: String((e && e.message) || e) }));
+    return;
+  }
+
+
   if (u.pathname === '/health') {
     checkLatest(false); // background refresh (cached, hourly); never blocks the response
-    json(res, 200, { ok: true, service: 'unysonplus-design-capture', version: VERSION, latest: latestVersion, updateAvailable: updateAvailable(), aiReady: aiReady(), aiBackend: aiBackend() });
+    // aiModel names the ACTUAL model, so a caller can say "Local AI (qwen3:8b)" rather than the vaguer
+    // "local model". `aiTools` says whether the chosen backend can be given tools — the difference between
+    // an agent that measures its own work and a single blind completion, which is the difference a user
+    // most needs to see before pressing a button.
+    const _be = aiBackend();
+    json(res, 200, {
+      ok: true, service: 'unysonplus-design-capture', version: VERSION, latest: latestVersion,
+      updateAvailable: updateAvailable(), aiReady: aiReady(), aiBackend: _be,
+      aiModel: _be === 'ollama' ? selectedLocalModel() : ( _be ? ( process.env.ANTHROPIC_MODEL || 'claude' ) : '' ),
+      aiTools: _be === 'claude-code',
+    });
     return;
   }
 
@@ -476,7 +607,20 @@ const __server = createServer((req, res) => {
 
   // POST /local-ai/pull — download a model via Ollama (streamed in the background). GET .../pull-status polls it.
   if (u.pathname === '/local-ai/pull' && req.method === 'POST') {
-    readJson(req).then((b) => startPull(b.model)).then((s) => json(res, 200, s)).catch((e) => json(res, 500, { error: e.message }));
+    // Any model name / Hugging Face link is normalised + validated first (the dashboard's "Add a model").
+    readJson(req).then((b) => startPull(normalizeModelRef(b.model))).then((s) => json(res, 200, s)).catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+  // POST /local-ai/import — register a .gguf file on this computer with Ollama ({ path, name }). Progress via pull-status.
+  if (u.pathname === '/local-ai/import' && req.method === 'POST') {
+    readJson(req).then((b) => importGguf({ path: b.path, name: b.name })).then((s) => json(res, 200, s))
+      .catch((e) => json(res, [400, 409, 503].includes(e.code) ? e.code : 500, { error: e.message }));
+    return;
+  }
+  // POST /local-ai/check — is this model fit for the kit's JSON tasks? ({ model }) → { grade, ms, note, reply }
+  if (u.pathname === '/local-ai/check' && req.method === 'POST') {
+    readJson(req).then((b) => checkModel(b.model)).then((r) => json(res, 200, r))
+      .catch((e) => json(res, [400, 503].includes(e.code) ? e.code : 500, { error: e.message }));
     return;
   }
   if (u.pathname === '/local-ai/pull-status' && req.method === 'GET') {
@@ -516,6 +660,114 @@ const __server = createServer((req, res) => {
   }
   // POST /local-ai/chat — multi-turn chat on the active AI backend. Body: { messages:[{role,content}] }.
   // Runs the model, persists the sent turns + the reply, returns { ok, model, reply, ms }. 503 when AI off.
+  // POST /local-ai/tool-chat — one turn on the picked local model ({ messages, tools | format, num_ctx, model }).
+  // Used by the WordPress AI Assistant (Beta) "Local AI on this computer" mode: the assistant panel runs in
+  // the person's browser, which can reach this service on localhost even when the site is hosted elsewhere.
+  // POST /local-ai/agent — run Claude Code (this machine's subscription) as the WordPress AI Assistant's
+  // agent against the site's MCP endpoint ({ mcp: { url, headers }, prompt }). Used by the assistant panel
+  // when the kit reports aiBackend "claude-code"; the panel then shows "Claude" rather than a local model.
+  // POST /mcp-kit — a tiny MCP server (Streamable HTTP, JSON answers) the AI Assistant's agent gets NEXT TO the
+  // site's own MCP server. One tool, measure_pages: the page comparison run HERE, on the editor's computer —
+  // a live site's server cannot reach this machine, so its visual_check hands the request to the agent,
+  // which measures with this tool and passes the (trimmed) result back to visual_check as `measured`.
+  if (u.pathname === '/mcp-kit') {
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST JSON-RPC messages.' }); return; }
+    readJson(req).then(async (m) => {
+      const id = m && m.id;
+      const ok = (result) => json(res, 200, { jsonrpc: '2.0', id, result });
+      if (!m || typeof m.method !== 'string') { json(res, 400, { jsonrpc: '2.0', id: null, error: { code: -32600, message: 'Invalid request' } }); return; }
+      if (m.method.startsWith('notifications/')) { res.writeHead(202); res.end(); return; }
+      if (m.method === 'initialize') { ok({ protocolVersion: (m.params && m.params.protocolVersion) || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'unysonplus-kit', version: VERSION } }); return; }
+      if (m.method === 'ping') { ok({}); return; }
+      if (m.method === 'tools/list') {
+        ok({ tools: [{
+          name: 'measure_pages',
+          description: 'Compare two web pages in a real browser on this computer (the AI Dev Kit): how different they look per horizontal strip, and section by section what is missing, moved or restyled. Use it when visual_check (on the site) answers reason "service_unreachable": pass its verify_request.body fields, then call visual_check again with the same arguments plus measured = the result of this tool.',
+          inputSchema: { type: 'object', properties: { source_url: { type: 'string' }, converted_url: { type: 'string' }, width: { type: 'integer' }, lens: { type: 'string', enum: ['bands', 'sections', 'both'] } }, required: ['source_url', 'converted_url'] },
+          annotations: { readOnlyHint: true },
+        }] });
+        return;
+      }
+      if (m.method === 'tools/call' && m.params && m.params.name === 'measure_pages') {
+        const a = m.params.arguments || {};
+        const o = { sourceUrl: String(a.source_url || ''), convertedUrl: String(a.converted_url || ''), width: Number(a.width) || 1440 };
+        if (!/^https?:\/\//i.test(o.sourceUrl) || !/^https?:\/\//i.test(o.convertedUrl)) { ok({ content: [{ type: 'text', text: 'source_url and converted_url must be http(s) addresses.' }], isError: true }); return; }
+        try {
+          const bands = await verifyUrls({ ...o, bands: 8 });
+          const secs = await verifySections(o);
+          // Only what the site's summary reads — the full answer is large and the agent has to send it back.
+          const trimmed = {
+            ok: !!(bands.ok && secs.ok), lens: 'both',
+            bands: bands.ok === false ? bands : { ok: bands.ok, overall_drift_pct: bands.overall_drift_pct, height_delta_pct: bands.height_delta_pct, source: { height: bands.source && bands.source.height }, converted: { height: bands.converted && bands.converted.height }, bands: bands.bands },
+            sections: { ok: secs.ok, total: secs.total, byKind: secs.byKind, findings: [], sections: (secs.sections || []).map((x) => ({ id: x.id, srcH: x.srcH, convH: x.convH, missing: x.missing || undefined, findings: (x.findings || []).slice(0, 8).map((f) => Object.fromEntries(Object.entries(f).filter(([k]) => ['kind', 'text', 'note', 'key', 'to', 'count', 'delta_pct'].includes(k)))) })) },
+          };
+          ok({ content: [{ type: 'text', text: JSON.stringify(trimmed) }], structuredContent: trimmed, isError: false });
+        } catch (e) {
+          ok({ content: [{ type: 'text', text: 'Could not compare the pages: ' + e.message }], isError: true });
+        }
+        return;
+      }
+      json(res, 200, { jsonrpc: '2.0', id, error: { code: -32601, message: 'Method not found: ' + m.method } });
+    }).catch((e) => json(res, 400, { jsonrpc: '2.0', id: null, error: { code: -32700, message: e.message } }));
+    return;
+  }
+
+  // GET /local-ai/agent?job=<id> — the state of a background agent run (see the POST below).
+  if (u.pathname === '/local-ai/agent' && req.method === 'GET') {
+    const job = AGENT_JOBS.get(String(u.searchParams.get('job') || ''));
+    if (!job) { json(res, 404, { error: 'No such agent job (it may have finished more than 30 minutes ago).' }); return; }
+    json(res, 200, job.status === 'done' ? { status: 'done', ...job.out } : (job.status === 'error' ? { status: 'error', error: job.error } : { status: 'running', seconds: Math.round((Date.now() - job.started) / 1000) }));
+    return;
+  }
+
+  // POST /local-ai/agent — run the AI Assistant's agent. With `async: true` it answers at once with a job id
+  // the browser polls (GET above): a whole-page build takes minutes, and one HTTP request held open that long
+  // gets dropped — the browser then RETRIED the POST and the agent ran twice (two copies of the page). A
+  // `request_id` makes a retry return the same job instead of starting another. Without `async` it answers
+  // when done, as before.
+  if (u.pathname === '/local-ai/agent' && req.method === 'POST') {
+    const _aiStart = Date.now();
+    readJson(req)
+      .then((body) => {
+        const rid = String(body.request_id || '');
+        if (body.async) {
+          for (const [id, j] of AGENT_JOBS) { if (rid && j.rid === rid) { json(res, 200, { job: id, status: j.status }); return null; } }
+          const id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+          const job = { rid, status: 'running', started: _aiStart };
+          AGENT_JOBS.set(id, job);
+          markAi({ status: 'thinking', backend: 'claude-code', note: 'AI Assistant (WordPress) — Claude…', startedAt: _aiStart });
+          runAssistantAgent({ mcp: body.mcp, prompt: body.prompt })
+            .then((out) => { job.status = 'done'; job.out = out; markAi({ status: 'done', backend: 'claude-code', model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'AI Assistant: Claude reply' }); })
+            .catch((e) => { job.status = 'error'; job.error = e.message; markAi({ status: 'error', backend: 'claude-code', startedAt: _aiStart, error: e.message }); console.error('[local-ai/agent]', e.message); })
+            .finally(() => { job.ended = Date.now(); for (const [k, v] of AGENT_JOBS) { if (v.ended && Date.now() - v.ended > 30 * 60000) AGENT_JOBS.delete(k); } });
+          json(res, 202, { job: id, status: 'running' });
+          return null;
+        }
+        markAi({ status: 'thinking', backend: 'claude-code', note: 'AI Assistant (WordPress) — Claude…', startedAt: _aiStart });
+        return runAssistantAgent({ mcp: body.mcp, prompt: body.prompt }).then((out) => {
+          markAi({ status: 'done', backend: 'claude-code', model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'AI Assistant: Claude reply' });
+          json(res, 200, out);
+        });
+      })
+      .catch((e) => { const code = e.code === 503 ? 503 : (e.code === 400 ? 400 : 500); if (code === 500) markAi({ status: 'error', backend: 'claude-code', startedAt: _aiStart, error: e.message }); console.error('[local-ai/agent]', e.message); json(res, code, { error: e.message }); });
+    return;
+  }
+
+  if (u.pathname === '/local-ai/tool-chat' && req.method === 'POST') {
+    const _aiStart = Date.now();
+    readJson(req)
+      .then((body) => {
+        markAi({ status: 'thinking', backend: 'ollama', note: 'AI Assistant (WordPress)…', startedAt: _aiStart });
+        return toolChatLocalModel({ messages: body.messages, tools: body.tools, format: body.format, numCtx: body.num_ctx, model: body.model });
+      })
+      .then((out) => {
+        markAi({ status: 'done', backend: 'ollama', model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: out.message.tool_calls ? 'AI Assistant: tool call' : 'AI Assistant: reply' });
+        json(res, 200, out);
+      })
+      .catch((e) => { const code = e.code === 503 ? 503 : (e.code === 400 ? 400 : 500); if (code === 500) markAi({ status: 'error', backend: 'ollama', startedAt: _aiStart, error: e.message }); console.error('[local-ai/tool-chat]', e.message); json(res, code, { error: e.message }); });
+    return;
+  }
+
   if (u.pathname === '/local-ai/chat' && req.method === 'POST') {
     if (!aiReady()) { json(res, 503, { error: 'AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).' }); return; }
     const _aiStart = Date.now();
@@ -574,9 +826,18 @@ const __server = createServer((req, res) => {
       .then((body) => {
         if (!body.source_url || !body.converted_url) { throw new Error('Provide source_url and converted_url.'); }
         console.log('[verify]', body.source_url, 'vs', body.converted_url);
-        return verifyUrls({ sourceUrl: body.source_url, convertedUrl: body.converted_url, width: body.width || 1440, bands: body.bands || 8 });
+        // lens: 'bands' (default — the original answer, unchanged), 'sections' (per-section findings), or
+        // 'both' ({ bands, sections }). The AI Assistant's visual_check asks for 'both'.
+        const lens = String(body.lens || 'bands');
+        const o = { sourceUrl: body.source_url, convertedUrl: body.converted_url, width: body.width || 1440 };
+        if (lens === 'sections') { return verifySections(o); }
+        if (lens === 'both') {
+          return verifyUrls({ ...o, bands: body.bands || 8 })
+            .then((bands) => verifySections(o).then((sections) => ({ ok: !!(bands.ok && sections.ok), lens, bands, sections })));
+        }
+        return verifyUrls({ ...o, bands: body.bands || 8 });
       })
-      .then((out) => { console.log('[verify] overall drift', out.overall_drift_pct + '%'); json(res, 200, out); })
+      .then((out) => { console.log('[verify] overall drift', (out.overall_drift_pct ?? (out.bands && out.bands.overall_drift_pct)) + '%', out.total != null ? out.total + ' findings' : ''); json(res, 200, out); })
       .catch((e) => { console.error('[verify]', e.message); json(res, 500, { error: e.message }); });
     return;
   }
@@ -715,6 +976,24 @@ const __server = createServer((req, res) => {
     markActive(target, 'running'); // surface this service-driven run on the dashboard
     const args = [CAPTURE, target, out];
     if (outTarget === 'block-theme') { args.push('--target=block-theme', '--vocab=' + vocab); }
+    // PAGE SCOPE (Convert panel -> PAGES box). `single=1` captures only the URL given; `max` caps the nav
+    // crawl; `also` adds URLs the nav does not link to. Validated here rather than trusted — these become
+    // process arguments.
+    if (u.searchParams.get('single') === '1') { args.push('--single-page'); }
+    const maxPages = parseInt(u.searchParams.get('max') || '', 10);
+    if (Number.isFinite(maxPages) && maxPages >= 1 && maxPages <= 50) { args.push('--max-pages=' + maxPages); }
+    const alsoPages = (u.searchParams.get('also') || '').split(',')
+      .map((x) => x.trim()).filter((x) => /^https?:\/\//i.test(x)).slice(0, 25);
+    if (alsoPages.length) { args.push('--also=' + alsoPages.join(',')); }
+    // An explicit set chosen in the page picker. When present the capture skips discovery entirely — the
+    // user has already reviewed this list, and re-deriving it could only disagree with what they saw.
+    //
+    // Named `only`, NOT `pages`: `pages=all` already means "return every captured page in the response",
+    // so reusing that key for "capture exactly these URLs" would give one parameter two unrelated jobs.
+    // It happens to survive today because `pages=all` fails the https:// filter below, but that is luck.
+    const picked = (u.searchParams.get('only') || '').split(',')
+      .map((x) => x.trim()).filter((x) => /^https?:\/\//i.test(x)).slice(0, 50);
+    if (picked.length) { args.push('--pages=' + picked.join(',')); }
     const child = spawn(process.execPath, args, { stdio: 'inherit' });
 
     child.on('error', (e) => { markActive(target, 'error'); json(res, 500, { error: e.message }); });
@@ -732,6 +1011,20 @@ const __server = createServer((req, res) => {
           });
           res.end(buf);
         } else { json(res, 500, { error: 'Capture produced no block-bundle.json (the page may have failed to render).' }); }
+        return;
+      }
+      // ?pages=all → return EVERY captured page as JSON so WordPress converts the whole site in one
+      // pass. Falls back to the single-HTML response below when the run captured only one page, so an
+      // older plugin (or a --single-page capture) is unaffected.
+      if (u.searchParams.get('pages') === 'all') {
+        const pages = readCapturedPages(out);
+        if (pages.length) {
+          json(res, 200, { pages });
+        } else {
+          const html = readRenderedHtml(out);
+          if (html) { json(res, 200, { pages: [{ slug: '', url: target, front: true, html: html.toString('utf8') }] }); }
+          else { json(res, 500, { error: 'Render produced no HTML.' }); }
+        }
         return;
       }
       // ?html=1 → return the RENDERED HTML so WordPress can run it through the PHP styling engine.
@@ -778,6 +1071,25 @@ const __server = createServer((req, res) => {
       if (code !== 0) { json(res, 500, { error: 'Mirror failed (the page may not have loaded).' }); return; }
       let assets = 0;
       try { assets = readdirSync(join(dir, 'assets')).length; } catch { /* none */ }
+      // ?zip=1 — send the mirrored FILES (index.html + assets/ + manifest.json) as a .zip instead of a local
+      // folder path. A WordPress site hosted elsewhere cannot read this machine's disk: the Site Converter's
+      // browser fetches the zip and uploads it to the site.
+      if (u.searchParams.get('zip') === '1') {
+        try {
+          const files = [];
+          const walk = (d, rel) => {
+            for (const name of readdirSync(d)) {
+              const abs = join(d, name), r = rel ? rel + '/' + name : name;
+              if (statSync(abs).isDirectory()) walk(abs, r); else files.push({ name: r, data: readFileSync(abs) });
+            }
+          };
+          walk(dir, '');
+          const zip = makeZip(files);
+          res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename="mirror.zip"', 'Content-Length': zip.length, 'X-Mirror-Assets': String(assets) });
+          res.end(zip);
+        } catch (e) { json(res, 500, { error: 'Could not zip the mirror: ' + e.message }); }
+        return;
+      }
       json(res, 200, { ok: true, dir, assets, index: join(dir, 'index.html') });
     });
     return;

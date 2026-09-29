@@ -71,6 +71,28 @@ function saveWpTarget(t) { try { writeFileSync(WP_TARGET_FILE, JSON.stringify({ 
 // convert route 404s ("no route matching URL and request method"). The slash avoids the redirect.
 function wpRestUrl(base, route) { return String(base || '').replace(/\/+$/, '') + '/?rest_route=' + route; }
 
+/**
+ * The conversion happening RIGHT NOW, or null.
+ *
+ * capture.mjs writes <OUT>/_active.json the moment a capture begins — before the run's own
+ * progress.json exists — so this is the earliest and most reliable answer to "what is converting?".
+ *
+ * A run is only live while its heartbeat is warm. The capture beats every 3s specifically so a slow
+ * stage cannot look dead; a pointer that has gone cold means the process died without ever writing its
+ * 'done', and following it forever would pin the dashboard to a conversion that is not happening.
+ */
+const ACTIVE_STALE_MS = 90_000;
+function activeRun() {
+  const a = readJson(join(OUT, '_active.json'));
+  if (!a || !a.slug || a.status !== 'running') return null;
+  const dir = join(OUT, a.slug);
+  const prog = readJson(join(dir, 'progress.json'));
+  // Prefer the run's own heartbeat; fall back to the pointer's start time before it has written one.
+  const beat = (prog && prog.status === 'running' && prog.updatedAt) || a.startedAt || 0;
+  if (!beat || Date.now() - beat > ACTIVE_STALE_MS) return null;
+  return { slug: a.slug, url: a.url || '', startedAt: a.startedAt || 0, updatedAt: beat };
+}
+
 // A capture-out subdir is a "site" if it has any of our artifacts.
 function listSites() {
   if (!existsSync(OUT)) return [];
@@ -184,7 +206,12 @@ const server = createServer((req, res) => {
     catch { res.writeHead(500); res.end('index.html missing'); }
     return;
   }
-  if (path === '/api/sites') return json(res, { out: OUT, sites: listSites() });
+  // `active` is the run happening RIGHT NOW, read from the pointer capture.mjs writes the instant a
+  // capture starts (<OUT>/_active.json). Scanning the site list for status:'running' cannot answer this
+  // as reliably: a run's own progress.json lands a moment later, and a killed run leaves 'running' behind
+  // forever. The dashboard follows `active` so the panes show the conversion in flight rather than the
+  // last one that finished.
+  if (path === '/api/sites') return json(res, { out: OUT, sites: listSites(), active: activeRun() });
   // Run log — list the recent run-*.log files + return the tail of the active (or requested) one.
   if (path === '/api/logs') {
     const dir = resolveLogsDir();
@@ -291,6 +318,18 @@ const server = createServer((req, res) => {
       fetch(`http://localhost:${svcPort}/local-ai/pull`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(4000) })
         .then((r) => r.json()).then((s) => json(res, s))
         .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  // Import a .gguf file / check a model's fitness — proxied like pull (import returns at once; check may take a minute).
+  if ((path === '/api/local-ai/import' || path === '/api/local-ai/check') && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = '';
+    req.on('data', (c) => { body += c; if (body.length > 1e5) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}${path.replace('/api', '')}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(path.endsWith('check') ? 150000 : 8000) })
+        .then(async (r) => { res.writeHead(r.status, { 'content-type': 'application/json' }); res.end(await r.text()); })
+        .catch((e) => { res.writeHead(502, { 'content-type': 'application/json' }); res.end(JSON.stringify({ error: 'Capture service unreachable: ' + e.message })); });
     });
     return;
   }

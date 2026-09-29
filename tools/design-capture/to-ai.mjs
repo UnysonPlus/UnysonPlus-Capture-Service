@@ -19,9 +19,12 @@
 // Pick order: AI_BACKEND env override → ANTHROPIC_API_KEY (api) → `claude` on PATH (claude-code) → off.
 
 import { spawn, spawnSync } from 'node:child_process';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync, statSync, createReadStream } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { Readable } from 'node:stream';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const DEFAULT_MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
@@ -137,7 +140,11 @@ export async function localAiStatus() {
   } catch { /* server not running */ }
   _ollamaUp = up; // remember for the sync ollamaReady()/aiBackend() path
   const installed = up || ollamaBinaryAvailable();
-  return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, shortlist: LOCAL_AI_MODELS };
+  // CUSTOM = pulled models that are not on the shortlist (added by name, from Hugging Face, or imported).
+  const norm = (x) => { x = String(x || ''); return x.includes(':') ? x : x + ':latest'; };
+  const listed = new Set(LOCAL_AI_MODELS.map((m) => norm(m.tag)));
+  const custom = models.filter((m) => !listed.has(norm(m)));
+  return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, custom, shortlist: LOCAL_AI_MODELS };
 }
 
 /** The recommended default the auto-setup pulls/prefers (the shortlist's first `recommended` tag). */
@@ -226,7 +233,7 @@ export async function testLocalModel(prompt) {
     method: 'POST', headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: sys }, { role: 'user', content: p }] }),
     signal: AbortSignal.timeout(to),
-  }).catch((err) => { const e = new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${err.message}) — is it running?`); e.code = 503; throw e; });
+  }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
   if (!resp.ok) {
     const t = await resp.text().catch(() => '');
     const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
@@ -262,7 +269,7 @@ export async function chatLocalModel({ messages } = {}) {
       method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: CHAT_SYSTEM }, ...ctx] }),
       signal: AbortSignal.timeout(to),
-    }).catch((err) => { const e = new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${err.message}) — is it running?`); e.code = 503; throw e; });
+    }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
     if (!resp.ok) {
       const t = await resp.text().catch(() => '');
       const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
@@ -283,6 +290,193 @@ export async function chatLocalModel({ messages } = {}) {
   }
   const reply = stripReasoning(await askText({ system: CHAT_SYSTEM, user, maxTokens: 4000 }));
   return { ok: true, model, reply, ms: Date.now() - t0 };
+}
+
+/**
+ * One TOOL-CALLING turn on the picked local model — for the WordPress AI Assistant's "Local AI on this
+ * computer" mode. The caller (the assistant panel, in the person's browser) owns the loop: it sends the
+ * running messages + the tool definitions, runs any tool calls against its own site, and calls again.
+ * `format` (a JSON schema) constrains the reply — the panel's JSON-action protocol, sturdier for small
+ * models than native tool calls. Local models only (Claude backends are reached from WordPress directly). Returns
+ * { ok, model, message: { content, tool_calls? }, ms }. Errors carry `.code` (503 = no model / unreachable).
+ */
+const TOOL_CHAT_MAX_CTX = 65536;
+
+export async function toolChatLocalModel({ messages, tools, format, numCtx, model: wanted } = {}) {
+  // The model: the caller's pick, else the dashboard's pick — but only one that is actually pulled; else
+  // the best pulled tool-capable one (Qwen3 first), so a picked-but-not-downloaded model doesn't dead-end.
+  let pulled = [];
+  try { const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(5000) }); if (r.ok) pulled = ((await r.json()).models || []).map((m) => m.name); } catch { /* checked below */ }
+  const has = (t) => t && pulledHas(pulled, t);
+  let model = [String(wanted || '').trim(), selectedLocalModel()].find(has) || '';
+  if (!model) model = pulled.find((p) => /^qwen3(?!-vl)/i.test(p)) || pulled.find((p) => /mistral|granite|llama3\.[1-9]|qwen2\.5/i.test(p)) || '';
+  if (!model) { const e = new Error('No local model is picked — open the AI Dev Kit dashboard → Settings → Local AI models and pick one (Qwen3 8B is a good start).'); e.code = 503; throw e; }
+  const msgs = (Array.isArray(messages) ? messages : []).filter((m) => m && ['system', 'user', 'assistant', 'tool'].includes(m.role)).map((m) => {
+    const o = { role: m.role, content: String(m.content == null ? '' : m.content) };
+    if (m.role === 'assistant' && Array.isArray(m.tool_calls)) o.tool_calls = m.tool_calls;
+    if (m.role === 'tool' && m.tool_name) o.tool_name = String(m.tool_name);
+    return o;
+  });
+  if (!msgs.length) { const e = new Error('No message to send.'); e.code = 400; throw e; }
+  const ctx = Math.min(TOOL_CHAT_MAX_CTX, Math.max(4096, parseInt(numCtx, 10) || 16384));
+  const to = parseInt(process.env.AI_TOOL_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 300000;
+  const t0 = Date.now();
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0.2, num_ctx: ctx, num_predict: 3072 }, messages: msgs, ...(Array.isArray(tools) && tools.length ? { tools } : {}), ...(format && typeof format === 'object' ? { format } : {}) }),
+    signal: AbortSignal.timeout(to),
+  }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)}${/tools/i.test(t) ? ' — this model cannot call tools; pick Qwen3 (4B / 8B / 14B) or Mistral Small.' : ` — is \`${model}\` pulled?`}`);
+    e.code = resp.status === 404 || resp.status === 400 ? 503 : 500; throw e;
+  }
+  const data = await resp.json();
+  const m = data.message || {};
+  const message = { content: stripReasoning(m.content || '') };
+  if (Array.isArray(m.tool_calls) && m.tool_calls.length) message.tool_calls = m.tool_calls;
+  return { ok: true, model, message, ms: Date.now() - t0 };
+}
+
+/**
+ * Turn what a person pastes into an Ollama model reference, or throw a plain-language error. Accepts an
+ * Ollama library name (`llama3.1:8b`, `user/model:tag`), an ollama.com page URL, a Hugging Face GGUF repo
+ * (`hf.co/user/repo[:quant]`) or its huggingface.co URL. Anything else is refused before Ollama sees it.
+ */
+export function normalizeModelRef(input) {
+  let s = String(input || '').trim();
+  if (!s) { const e = new Error('Enter a model name, e.g. llama3.1:8b, or a Hugging Face link.'); e.code = 400; throw e; }
+  s = s.replace(/^https?:\/\/(www\.)?ollama\.com\/(library\/)?/i, '');
+  s = s.replace(/^https?:\/\/(www\.)?(huggingface\.co|hf\.co)\//i, 'hf.co/').replace(/^huggingface\.co\//i, 'hf.co/');
+  s = s.replace(/\/(tree|blob|resolve)\/.*$/i, '').replace(/\/+$/, '');
+  if (/^hf\.co\//i.test(s)) {
+    if (!/^hf\.co\/[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+(:[A-Za-z0-9._-]+)?$/.test(s)) {
+      const e = new Error('A Hugging Face model looks like hf.co/<user>/<repo> (a GGUF repository), optionally with :<quantization>, e.g. :Q4_K_M.'); e.code = 400; throw e;
+    }
+    return 'hf.co/' + s.slice(6);
+  }
+  if (!/^[a-z0-9][a-z0-9._-]*(\/[a-z0-9][a-z0-9._-]*)?(:[A-Za-z0-9._-]+)?$/.test(s)) {
+    const e = new Error('That does not look like a model name. Use a name from ollama.com/library, e.g. llama3.1:8b, or a Hugging Face link.'); e.code = 400; throw e;
+  }
+  return s;
+}
+
+/**
+ * Import a .gguf model file already on this computer, through Ollama's HTTP API (so it works whenever the
+ * Ollama server runs, whether or not the `ollama` program is on PATH): hash the file, hand it to Ollama as a
+ * blob (POST /api/blobs/sha256:…), then create the model from it (POST /api/create { files }). Runs in the
+ * background and reports through the same state as a download (pullStatus), so the dashboard's progress line
+ * works unchanged. The file is read where it is; it only goes to the local Ollama server.
+ */
+export async function importGguf({ path, name } = {}) {
+  const file = String(path || '').trim().replace(/^"(.*)"$/, '$1');
+  if (!/\.gguf$/i.test(file)) { const e = new Error('Choose a .gguf model file (other formats are not supported).'); e.code = 400; throw e; }
+  if (!existsSync(file) || !statSync(file).isFile()) { const e = new Error('No file at that path on this computer: ' + file); e.code = 400; throw e; }
+  const base = file.split(/[\\/]/).pop().replace(/\.gguf$/i, '').toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'my-model';
+  const model = String(name || '').trim().toLowerCase() || base;
+  if (!/^[a-z0-9][a-z0-9._-]{0,60}(:[a-z0-9._-]{1,30})?$/.test(model)) { const e = new Error('Name the model with lowercase letters, numbers, dots and dashes, e.g. my-model or my-model:q4.'); e.code = 400; throw e; }
+  if (!_pull.done) { const e = new Error('Wait for the current download or import to finish.'); e.code = 409; throw e; }
+  const up = await fetch(`${OLLAMA_HOST}/api/version`, { signal: AbortSignal.timeout(3000) }).then((r) => r.ok).catch(() => false);
+  if (!up) { const e = new Error('Ollama is not running. Restart the kit with start-converter.bat.'); e.code = 503; throw e; }
+
+  const size = statSync(file).size;
+  _pull = { model, status: 'reading the file', percent: 0, done: false, error: '', at: Date.now(), kind: 'import' };
+  (async () => {
+    try {
+      // 1. Hash (0-40%).
+      const hash = createHash('sha256');
+      let seen = 0;
+      await new Promise((resolve, reject) => {
+        createReadStream(file).on('data', (c) => { hash.update(c); seen += c.length; _pull = { ..._pull, percent: Math.round((seen / size) * 40) }; })
+          .on('end', resolve).on('error', reject);
+      });
+      const digest = 'sha256:' + hash.digest('hex');
+      // 2. Hand the file to Ollama as a blob (40-85%), unless it already has it.
+      const has = await fetch(`${OLLAMA_HOST}/api/blobs/${digest}`, { method: 'HEAD' }).then((r) => r.ok).catch(() => false);
+      if (!has) {
+        _pull = { ..._pull, status: 'copying to Ollama', percent: 40 };
+        let sent = 0;
+        const src = createReadStream(file);
+        src.on('data', (c) => { sent += c.length; _pull = { ..._pull, percent: 40 + Math.round((sent / size) * 45) }; });
+        const r = await fetch(`${OLLAMA_HOST}/api/blobs/${digest}`, { method: 'POST', body: Readable.toWeb(src), duplex: 'half' });
+        if (!r.ok) throw new Error('Ollama refused the file (' + r.status + '): ' + (await r.text().catch(() => '')).slice(0, 200));
+      }
+      // 3. Create the model from it (85-100%).
+      _pull = { ..._pull, status: 'creating the model', percent: 85 };
+      const fname = file.split(/[\\/]/).pop();
+      const r = await fetch(`${OLLAMA_HOST}/api/create`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ model, files: { [fname]: digest }, stream: false }),
+      });
+      const text = await r.text().catch(() => '');
+      let j = {}; try { j = JSON.parse(text); } catch { /* not JSON */ }
+      if (!r.ok || j.error) throw new Error(j.error || ('Ollama ' + r.status + ': ' + text.slice(0, 200)));
+      _pull = { ..._pull, status: 'success', percent: 100, done: true };
+    } catch (e) {
+      _pull = { ..._pull, status: 'error', error: 'Import failed: ' + e.message, done: true };
+    }
+  })();
+  return _pull;
+}
+
+/**
+ * Is a model fit for this kit's work? The converter and the WordPress AI Assistant both ask for ONE JSON
+ * object in a fixed shape, so that is what this checks: a tiny task with a schema-constrained reply,
+ * graded as 'ready' (right shape, right content), 'weak' (valid JSON, wrong content) or 'fail'.
+ */
+export async function checkModel(model) {
+  const m = String(model || '').trim() || selectedLocalModel();
+  if (!m) { const e = new Error('Pick a model to check.'); e.code = 400; throw e; }
+  // A small but real task: pick the right tool among three and fill a nested list with the exact content.
+  // (A one-field task is too easy: the JSON schema does most of the work and even toy models pass it.)
+  const format = { type: 'object', properties: { tool: { type: 'string', enum: ['add_heading', 'add_text', 'add_faq'] }, arguments: { type: 'object' } }, required: ['tool', 'arguments'] };
+  const messages = [
+    { role: 'system', content: [
+      'You edit a web page. Answer with ONE JSON object and nothing else.',
+      'Tools: add_heading {"text": "..."}; add_text {"text": "..."}; add_faq {"items": [{"question": "...", "answer": "..."}]}.',
+      'Shape: {"tool": "<name>", "arguments": { ... }}',
+    ].join('\n') + (/qwen3/i.test(m) ? '\n/no_think' : '') },
+    { role: 'user', content: 'Add a FAQ with two questions. "Do you deliver?" answered "Yes, within 10 miles." and "Are you open on Sundays?" answered "No, we are closed on Sundays."' },
+  ];
+  const t0 = Date.now();
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ model: m, stream: false, think: false, format, options: { temperature: 0, num_predict: 512 }, messages }),
+    signal: AbortSignal.timeout(parseInt(process.env.AI_TEST_TIMEOUT_MS || '', 10) || 120000),
+  }).catch((err) => { const e = new Error(`Could not reach Ollama (${err.message}).`); e.code = 503; throw e; });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    // Some models reject `think`; retry once without it.
+    if (/think/i.test(t)) {
+      return checkModelPlain(m, format, messages, t0);
+    }
+    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)}`); e.code = resp.status === 404 ? 400 : 500; throw e;
+  }
+  return gradeCheck(m, await resp.json(), t0);
+}
+
+async function checkModelPlain(m, format, messages, t0) {
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ model: m, stream: false, format, options: { temperature: 0, num_predict: 512 }, messages }),
+    signal: AbortSignal.timeout(120000),
+  });
+  if (!resp.ok) { const e = new Error(`Ollama ${resp.status}: ${(await resp.text().catch(() => '')).slice(0, 200)}`); e.code = 500; throw e; }
+  return gradeCheck(m, await resp.json(), t0);
+}
+
+function gradeCheck(model, data, t0) {
+  const raw = stripReasoning((data.message && data.message.content) || '');
+  let a = null;
+  try { a = JSON.parse(raw); } catch { /* graded below */ }
+  const ms = Date.now() - t0;
+  if (!a || typeof a !== 'object') return { model, grade: 'fail', ms, reply: raw.slice(0, 300), note: 'It did not answer with valid JSON, so the converter and the AI Assistant cannot use it.' };
+  const items = Array.isArray(a.arguments && a.arguments.items) ? a.arguments.items : [];
+  const flat = JSON.stringify(items).toLowerCase();
+  const right = a.tool === 'add_faq' && items.length === 2 && /deliver/.test(flat) && /10 miles/.test(flat) && /sunday/.test(flat) && /closed/.test(flat)
+    && items.every((it) => it && typeof it.question === 'string' && typeof it.answer === 'string');
+  if (right) return { model, grade: 'ready', ms, reply: raw.slice(0, 400), note: 'Picked the right tool and filled in every question and answer correctly. Good to use.' };
+  return { model, grade: 'weak', ms, reply: raw.slice(0, 400), note: 'Answered in the right format but got the task wrong (' + (a.tool !== 'add_faq' ? 'wrong tool' : 'missing or mixed-up questions and answers') + '). Expect poor results.' };
 }
 
 /* ---- Model download (dashboard "Pull" button) ------------------------- *
@@ -543,7 +737,7 @@ export async function refineSectionsLight({ sections }) {
   if (!model) throw new Error('No local model selected — pick one in the dashboard (Local AI).');
   const compact = (sections || []).map((s) => ({ index: s.index, css_id: s.css_id, heading: s.heading, blockKinds: s.blockKinds, textLen: s.textLen }));
   const user = `Sections (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "sections": [...] } JSON now.`;
-  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const to = aiTimeout(120000);
   const text = await askModel({ system: SECTIONS_LIGHT_SYSTEM, user, model, format: SECTIONS_LIGHT_SCHEMA, timeoutMs: to });
   const parsed = extractJson(text);
   if (!parsed || !Array.isArray(parsed.sections)) throw new Error('The local model returned no sections.');
@@ -674,7 +868,7 @@ export async function suggestSectionBackgrounds({ candidates, model }) {
   if (!Array.isArray(candidates) || !candidates.length) return { sections: [] };
   if (!model) throw new Error('No model for background suggestion.');
   const user = `Sections (${candidates.length}):\n${JSON.stringify(candidates)}\n\nReturn the { "sections": [...] } JSON now.`;
-  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const to = aiTimeout(120000);
   const text = await askModel({ system: BG_FX_SYSTEM, user, model, format: BG_FX_SCHEMA, timeoutMs: to });
   const parsed = extractJson(text);
   if (!parsed || !Array.isArray(parsed.sections)) throw new Error('The model returned no sections.');
@@ -744,7 +938,7 @@ export async function synthesizePreloaderJs({ html, css } = {}) {
   else if (claudeCliAvailable()) model = 'claude-code';
   if (!model) return { js: '', model: '', skipped: 'no-backend' };
   const user = `Overlay HTML:\n${String(html).slice(0, 4000)}\n\nOverlay CSS:\n${String(css || '').slice(0, 4000)}\n\nReturn the { "js": "..." } JSON now.`;
-  const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+  const to = aiTimeout(120000);
   const text = await askModel({ system: PRELOADER_JS_SYSTEM, user, model, format: PRELOADER_JS_SCHEMA, timeoutMs: to });
   const parsed = extractJson(text);
   return { js: sanitizePreloaderJs(parsed && parsed.js), model };
@@ -797,7 +991,7 @@ export async function verifyCoverage(gaps, { max = 40 } = {}) {
       const model = selectedLocalModel();
       const compact = sent.map((g) => ({ id: g.id, property: g.property, on_elements: g.uses, section: g.s_class || g.page }));
       const user = `Gaps (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "gaps": [...] } JSON now.`;
-      const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+      const to = aiTimeout(120000);
       const text = await askModel({ system: COVERAGE_VERIFY_SYSTEM, user, model, format: COVERAGE_VERIFY_SCHEMA, timeoutMs: to });
       const parsed = extractJson(text);
       if (parsed && Array.isArray(parsed.gaps)) { for (const v of parsed.gaps) { if (v && Number.isInteger(v.id)) verdicts[v.id] = v; } }
@@ -848,7 +1042,7 @@ export async function nameBoxPresets(derived) {
       return { id: p.id, fill: fill || 'none', border: !!d.border_width, radius: ((p.border_radius && p.border_radius.value) || '') + ((p.border_radius && p.border_radius.unit) || ''), glass: /backdrop-filter/.test(String(p.custom_css || '')), hover: !!(p.states && p.states.hover) };
     });
     const user = `Boxes (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "names": [...] } JSON now.`;
-    const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+    const to = aiTimeout(120000);
     const text = await askModel({ system: BOX_NAME_SYSTEM, user, model, format: BOX_NAME_SCHEMA, timeoutMs: to });
     const parsed = extractJson(text);
     let renamed = 0;
@@ -860,6 +1054,150 @@ export async function nameBoxPresets(derived) {
     }
     return { model, renamed };
   } catch (e) { console.error('[box-names] local naming skipped:', e.message); return { model: '', renamed: 0 }; }
+}
+
+
+
+/**
+ * Name the failure for what it ACTUALLY was.
+ *
+ * An `AbortSignal.timeout` rejection and a refused connection both landed on "Could not reach Ollama at
+ * … — is `ollama serve` running?". They are opposite problems with opposite fixes, and on a real run the
+ * wrong one was printed: Ollama was running and serving, the model was simply slower than the deadline.
+ * Anyone reading that log goes and checks a service that is already up.
+ */
+function localModelError(err, host, what) {
+  const m = String((err && err.message) || err);
+  const timedOut = /timeout|abort/i.test(m) || (err && (err.name === 'TimeoutError' || err.name === 'AbortError'));
+  if (timedOut) {
+    const e = new Error(`${what} timed out — Ollama is reachable but the model did not answer in time. Try a smaller model, or raise AI_CALL_MAX_MS.`);
+    e.code = 504;
+    return e;
+  }
+  const e = new Error(`Could not reach Ollama at ${host} (${m}) — is it running?`);
+  e.code = 503;
+  return e;
+}
+
+
+/* ---- THE SITE-FIX AGENT ------------------------------------------------- *
+ * Hand ONE converted page to a tools-enabled agent and let it close the gap itself.
+ *
+ * The difference from refineVisualCss() is the whole point. That function runs `claude -p --max-turns 1`
+ * with NO tools: the model is handed HTML as text and must guess, once, blind — it cannot open either
+ * page, cannot measure, and cannot check whether its own CSS helped. The harness re-measures afterwards
+ * and throws the guess away when it did not, which is honest but not much use: on a real page the guess
+ * was section backgrounds when the actual gap was line-height and element positions.
+ *
+ * This runs the agent WITH tools, in a working directory, seeded with the project's own site-fixing
+ * prompt — so it can look at both pages, measure them, change things, and measure again.
+ *
+ * WHICH PROMPT, AND WHY IT MATTERS: `converter-fix-my-site-prompt.md`, never the training prompt. The
+ * project's docs are explicit — the training prompt changes the SHARED converter algorithm and belongs to
+ * maintainers with the golden corpus; hand it to an agent pointed at one site and "it will edit plugin
+ * files, and the next plugin update will erase its work". The site prompt fixes the site through the
+ * theme's own options and scoped CSS, which survives.
+ */
+export async function runSiteFixAgent({
+  sourceUrl, convertedUrl, captureDir = '', findings = '', cwd = '', promptFile = '', timeoutMs = 0, onLog = null,
+} = {}) {
+  if (aiBackend() !== 'claude-code') {
+    throw new Error('The site-fix agent needs the Claude Code backend (it is the one that can be given tools).');
+  }
+  if (!/^https?:\/\//i.test(String(sourceUrl || '')) || !/^https?:\/\//i.test(String(convertedUrl || ''))) {
+    throw new Error('sourceUrl and convertedUrl are required');
+  }
+
+  // Load the project's own prompt and fill its four values. Reading it from disk rather than embedding a
+  // copy is deliberate: the prompt is documentation people edit, and a second copy would drift from it.
+  const file = promptFile || join(KIT_DOCS_DIR(), 'converter-fix-my-site-prompt.md');
+  let doc = '';
+  try { doc = readFileSync(file, 'utf8'); }
+  catch (e) { throw new Error('Could not read the site-fix prompt (' + file + '): ' + e.message); }
+  const m = doc.match(/```text\s*([\s\S]*?)```/);
+  if (!m) { throw new Error('The site-fix prompt file has no ```text block to run.'); }
+
+  const prompt = m[1]
+    .replace(/<the original site>/g, sourceUrl)
+    .replace(/<the WordPress site[^>]*>/g, convertedUrl)
+    .replace(/<path to capture-out\/<site>\/, if you have one — else "none">/g, captureDir || 'none')
+    .replace(/<paste the converter's result list, or "none">/g, findings || 'none');
+
+  const cmd = process.env.CLAUDE_CLI || 'claude';
+  // The tools the prompt actually asks for: read the capture, run the measurement scripts, write scoped
+  // CSS. Enumerated rather than left open so the grant is visible and reviewable in one line.
+  const tools = process.env.AI_AGENT_TOOLS || 'Read,Write,Edit,Glob,Grep,Bash';
+  const args = ['-p', '--output-format', 'json', '--permission-mode', 'acceptEdits', '--allowedTools', IS_WIN ? `"${tools}"` : tools];
+  const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, '');
+  if (model) { args.push('--model', model); }
+
+  if (onLog) { onLog(`site-fix agent → ${convertedUrl} (tools: ${tools})`); }
+  // Generous by default: this is an agent doing a multi-step job, not a single completion. A caller that
+  // wants a shorter leash passes its own.
+  const stdout = await runClaude(cmd, args, prompt, {
+    cwd: cwd || KIT_ROOT_DIR(),
+    timeoutMs: timeoutMs || parseInt(process.env.AI_AGENT_TIMEOUT_MS || '', 10) || 900000,
+  });
+
+  let text = String(stdout || '').trim();
+  try {
+    const j = JSON.parse(stdout);
+    if (j && j.is_error) { throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 300)); }
+    if (j && typeof j.result === 'string') { text = j.result; }
+  } catch (e) { if (e.message && e.message.startsWith('Claude Code error')) { throw e; } }
+  return { ok: true, report: text };
+}
+
+/** The kit's docs directory — the prompts live with the documentation, not in this file. */
+function KIT_DOCS_DIR() {
+  return process.env.UPW_KIT_DOCS || join(KIT_ROOT_DIR(), 'docs');
+}
+
+/** The kit root: the agent's working directory, and where its tools and prompts live. */
+function KIT_ROOT_DIR() {
+  if (process.env.UPW_KIT_PATH) { return process.env.UPW_KIT_PATH; }
+  // …/UnysonPlus-AI-Dev-Kit/assembled/UnysonPlus-Capture-Service/tools/design-capture → up five.
+  return resolve(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..');
+}
+
+/* ---- THE AI TIME BUDGET -------------------------------------------------- *
+ * Every AI pass in a capture draws from ONE shared deadline, and no single pass may take more than a
+ * short slice of it.
+ *
+ * Why: each pass used to read `AI_TIMEOUT_MS || 120000` on its own, while the whole capture has a 300s
+ * watchdog. So one OPTIONAL, cosmetic pass could spend 40% of the entire capture budget — and did. A real
+ * run: "naming box presets" started at 161.2s and failed at 281.2s with "Could not reach Ollama", having
+ * burned 120 seconds to accomplish nothing; "naming sections" then began at 294.1s, six seconds before the
+ * watchdog fired and threw away all 294 seconds of completed work. The conversion produced nothing, and
+ * the cause looked like "the site was too big" when it was really "a pretty-naming call hung".
+ *
+ * Two limits, both necessary:
+ *   - a TOTAL budget, so the AI passes collectively cannot push the capture into the watchdog;
+ *   - a PER-CALL cap, so the first pass cannot swallow the whole budget before the others run.
+ *
+ * When the budget is spent, `aiTimeout()` returns a 1ms deadline: the fetch aborts immediately and each
+ * call site's existing catch reports it as skipped. Skipping a naming pass costs a nicer preset label.
+ * Overrunning the watchdog costs the entire conversion.
+ */
+let _aiDeadline = 0;
+
+/** Open a budget for this capture. `ms <= 0` clears it (no budget — the old unbounded behaviour). */
+export function setAiDeadline(ms) {
+  _aiDeadline = ms > 0 ? Date.now() + ms : 0;
+}
+
+/** Milliseconds of shared budget left; Infinity when no budget was opened. */
+export function aiBudgetLeft() {
+  return _aiDeadline ? Math.max(0, _aiDeadline - Date.now()) : Infinity;
+}
+
+/** The deadline one AI pass may use: its own default, the per-call cap, and what the budget has left. */
+export function aiTimeout(def) {
+  const own = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || def;
+  const cap = parseInt(process.env.AI_CALL_MAX_MS || '', 10) || 30000;
+  const left = aiBudgetLeft();
+  const ms = Math.min(own, cap, left === Infinity ? own : left);
+  return Math.max(1, ms);   // 1ms => abort now => the caller's catch logs a skip
 }
 
 /* ---- Section-Style NAMING (local AI) — the coloured section BANDS ------- *
@@ -889,7 +1227,7 @@ export async function nameSectionStyles(presets) {
     };
     const compact = list.map((p, i) => ({ id: String(i), fill: fillOf(p) || 'none' }));
     const user = `Bands (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "names": [...] } JSON now.`;
-    const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+    const to = aiTimeout(120000);
     const text = await askModel({ system: SECTION_NAME_SYSTEM, user, model, format: SECTION_NAME_SCHEMA, timeoutMs: to });
     const parsed = extractJson(text);
     let renamed = 0;
@@ -939,7 +1277,7 @@ export async function verifyAccordionDesign(nodes) {
         return { id, icon: String(g.icon || '').slice(0, 160), count: g.count, gap: g.gap, radius: g.radius, hasBg: !!g.hasBg, itemBw: g.itemBw, guess_icon: h.icon_style, guess_style: h.accordion_style };
       });
       const user = `Accordions (${compact.length}):\n${JSON.stringify(compact)}\n\nReturn the { "items": [...] } JSON now.`;
-      const to = parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 120000;
+      const to = aiTimeout(120000);
       const text = await askModel({ system: ACCORDION_VERIFY_SYSTEM, user, model, format: ACCORDION_VERIFY_SCHEMA, timeoutMs: to });
       const parsed = extractJson(text);
       if (parsed && Array.isArray(parsed.items)) { for (const v of parsed.items) { if (v && Number.isInteger(v.id)) verdicts[v.id] = v; } }
@@ -1013,10 +1351,14 @@ RULES:
  * @param {{ sourceHtml:string, convertedHtml:string, drift:number }} o
  * @returns {Promise<string>} css (empty string if no AI backend)
  */
-export async function refineVisualCss({ sourceHtml, convertedHtml, drift }) {
+export async function refineVisualCss({ sourceHtml, convertedHtml, drift, region = '' }) {
   if (!aiBackend()) return '';
   const user =
-    `Overall visual drift (source vs converted): ${drift}%.\n\n` +
+    `Overall visual drift (source vs converted): ${drift}%.\n` +
+    // Naming the region matters: the caller now sends the markup for the WORST band rather than the
+    // top of the document, and without saying so the model reads a mid-page fragment as the whole page.
+    (region ? `You are looking at ONE REGION of the page: ${region}. Fix only what is wrong here.\n` : '') +
+    `\n` +
     `=== SOURCE HTML (the look to match) ===\n${String(sourceHtml || '').slice(0, 45000)}\n\n` +
     `=== CONVERTED HTML (target THESE real selectors) ===\n${String(convertedHtml || '').slice(0, 45000)}\n\n` +
     `Return CSS (scoped to the converted page's real selectors) that closes the gap.`;
@@ -1254,16 +1596,65 @@ async function refineViaClaudeCode({ html, mapping, source }) {
   return finishParse(text, process.env.ANTHROPIC_MODEL || 'claude-code', 'claude-code');
 }
 
+/**
+ * Run Claude Code as the WordPress AI Assistant's agent — for the assistant panel's "Local AI on this
+ * computer" mode when this machine has Claude Code signed in. The panel (in the person's browser) asks the
+ * site for a one-off session + temporary Application Password, then sends the site's MCP endpoint and the
+ * prompt here; Claude Code runs on THIS machine and talks to the site over HTTPS, which works even when the
+ * site is hosted elsewhere. Only that one MCP server's tools are allowed (--strict-mcp-config +
+ * --allowedTools), so the agent can change the site through its checked abilities and nothing else.
+ * Returns { ok, model, reply, ms }. Errors carry `.code` (503 = Claude Code not available).
+ */
+export async function runAssistantAgent({ mcp, prompt } = {}) {
+  if (!claudeCliAvailable()) { const e = new Error('Claude Code is not available on this computer (install it and run `claude` once to sign in).'); e.code = 503; throw e; }
+  const url = String((mcp && mcp.url) || '');
+  if (!/^https?:\/\/[^\s"]+$/i.test(url) || !String(prompt || '').trim()) { const e = new Error('An MCP url and a prompt are required.'); e.code = 400; throw e; }
+  const headers = {};
+  for (const [k, v] of Object.entries((mcp && mcp.headers) || {})) {
+    if (/^[A-Za-z0-9-]{1,64}$/.test(k) && typeof v === 'string' && v.length < 2048 && !/[\r\n]/.test(v)) headers[k] = v;
+  }
+  const dir = mkdtempSync(join(tmpdir(), 'upw-agent-'));
+  const cfg = join(dir, 'mcp.json');
+  // `kit` = this service's own /mcp-kit (measure_pages), so a live site's visual_check can be measured here.
+  const kitUrl = `http://127.0.0.1:${Number(process.env.PORT) || 8787}/mcp-kit`;
+  writeFileSync(cfg, JSON.stringify({ mcpServers: { unysonplus: { type: 'http', url, headers }, kit: { type: 'http', url: kitUrl } } }));
+  const cmd = process.env.CLAUDE_CLI || 'claude';
+  const args = ['-p', '--mcp-config', `"${cfg}"`, '--strict-mcp-config', '--allowedTools', '"mcp__unysonplus__*,mcp__kit__*"', '--output-format', 'json'];
+  const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, '');
+  if (model) { args.push('--model', model); }
+  const t0 = Date.now();
+  try {
+    // Run in the session's own temp folder, never the kit's: a working directory inside a project makes the
+    // agent load that project's CLAUDE.md, whose developer rules then leak into replies to site owners
+    // ("No project folder files were edited…").
+    const stdout = await runClaude(cmd, args, String(prompt), { cwd: dir });
+    let reply = stdout.trim();
+    try {
+      const j = JSON.parse(stdout);
+      if (j && j.is_error) { throw new Error('Claude Code reported an error: ' + String(j.result || j.subtype || '').slice(0, 300)); }
+      if (j && typeof j.result === 'string') { reply = j.result; }
+    } catch (e) {
+      if (e.message && e.message.startsWith('Claude Code reported')) throw e;
+    }
+    return { ok: true, model: model || 'claude-code', reply: reply.trim(), ms: Date.now() - t0 };
+  } finally {
+    try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ }
+  }
+}
+
 /** Spawn the Claude Code CLI, feed the prompt on stdin, resolve its stdout. */
-function runClaude(cmd, args, input) {
+function runClaude(cmd, args, input, opts = {}) {
   return new Promise((resolve, reject) => {
     let child;
+    // `cwd` matters once the agent has TOOLS: it is the directory its file reads and writes resolve
+    // against, so it decides what the run can reach. Callers that grant tools must pass one.
+    const spawnOpts = opts.cwd ? { cwd: opts.cwd } : {};
     try {
       // Windows: quoted command STRING under a shell (resolves the .cmd shim, no deprecation warning).
       // POSIX: spawn the binary directly with the args array.
       child = IS_WIN
-        ? spawn(`"${cmd}" ${args.join(' ')}`, { shell: true })
-        : spawn(cmd, args, { shell: false });
+        ? spawn(`"${cmd}" ${args.join(' ')}`, { shell: true, ...spawnOpts })
+        : spawn(cmd, args, { shell: false, ...spawnOpts });
     } catch (e) {
       reject(new Error('Could not run Claude Code (`claude`): ' + e.message));
       return;
@@ -1274,7 +1665,7 @@ function runClaude(cmd, args, input) {
     // run many minutes, so there is NO time limit by default — we simply wait for Claude Code to finish
     // (the earlier 3-minute cap timed out on design-heavy pages). Set AI_TIMEOUT_MS (milliseconds) to a
     // positive value only if you'd rather impose a cap, e.g. AI_TIMEOUT_MS=600000 for 10 minutes.
-    const timeoutMs = parseInt(process.env.AI_TIMEOUT_MS || '', 10);
+    const timeoutMs = opts.timeoutMs || parseInt(process.env.AI_TIMEOUT_MS || '', 10);
     const timer = timeoutMs > 0
       ? setTimeout(() => { try { child.kill(); } catch {} reject(new Error('Claude Code timed out (over ' + Math.round(timeoutMs / 60000) + ' minutes). Unset AI_TIMEOUT_MS to remove the cap.')); }, timeoutMs)
       : null;
@@ -1457,7 +1848,7 @@ export async function askModel({ system, user, model, json = true, format, timeo
   const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
     method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
     signal: AbortSignal.timeout(to),
-  }).catch((e) => { throw new Error(`Could not reach Ollama at ${OLLAMA_HOST} (${e.message}) — is \`ollama serve\` running?`); });
+  }).catch((e) => { throw localModelError(e, OLLAMA_HOST, 'the local model request'); });
   if (!resp.ok) { const t = await resp.text().catch(() => ''); throw new Error(`Ollama ${resp.status}: ${t.slice(0, 300)} — is \`${model}\` pulled?`); }
   const data = await resp.json();
   return String((data.message && data.message.content) || '').trim();
