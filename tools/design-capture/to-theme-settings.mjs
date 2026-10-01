@@ -111,6 +111,37 @@ const isFilled = (bg) => bg && bg !== 'rgba(0, 0, 0, 0)' && String(bg).toLowerCa
 
 // Normalize a computed colour (rgb/rgba/hex, incl. `R G B / a` spacing) → clean rgb()/rgba()/hex, or ''
 // for transparent. Mirror of build_button_presets()'s $normc so the emitted values match PHP exactly.
+// The 147 CSS NAMED COLOURS. Both twins returned '' for every one, so a hand-written rule
+// (`background:white` in a <style> block -- computed styles give rgb(), authored CSS does not) lost its
+// colour, and a gradient built from named stops vanished whole: a dropped stop leaves fewer than the two
+// gradient-v2 needs. Twin of the PHP color_to_hex() table.
+const CSS_NAMED = {
+  aliceblue:'f0f8ff', antiquewhite:'faebd7', aqua:'00ffff', aquamarine:'7fffd4', azure:'f0ffff', beige:'f5f5dc',
+  bisque:'ffe4c4', black:'000000', blanchedalmond:'ffebcd', blue:'0000ff', blueviolet:'8a2be2', brown:'a52a2a',
+  burlywood:'deb887', cadetblue:'5f9ea0', chartreuse:'7fff00', chocolate:'d2691e', coral:'ff7f50', cornflowerblue:'6495ed',
+  cornsilk:'fff8dc', crimson:'dc143c', cyan:'00ffff', darkblue:'00008b', darkcyan:'008b8b', darkgoldenrod:'b8860b',
+  darkgray:'a9a9a9', darkgreen:'006400', darkgrey:'a9a9a9', darkkhaki:'bdb76b', darkmagenta:'8b008b', darkolivegreen:'556b2f',
+  darkorange:'ff8c00', darkorchid:'9932cc', darkred:'8b0000', darksalmon:'e9967a', darkseagreen:'8fbc8f', darkslateblue:'483d8b',
+  darkslategray:'2f4f4f', darkslategrey:'2f4f4f', darkturquoise:'00ced1', darkviolet:'9400d3', deeppink:'ff1493', deepskyblue:'00bfff',
+  dimgray:'696969', dimgrey:'696969', dodgerblue:'1e90ff', firebrick:'b22222', floralwhite:'fffaf0', forestgreen:'228b22',
+  fuchsia:'ff00ff', gainsboro:'dcdcdc', ghostwhite:'f8f8ff', gold:'ffd700', goldenrod:'daa520', gray:'808080',
+  green:'008000', greenyellow:'adff2f', grey:'808080', honeydew:'f0fff0', hotpink:'ff69b4', indianred:'cd5c5c',
+  indigo:'4b0082', ivory:'fffff0', khaki:'f0e68c', lavender:'e6e6fa', lavenderblush:'fff0f5', lawngreen:'7cfc00',
+  lemonchiffon:'fffacd', lightblue:'add8e6', lightcoral:'f08080', lightcyan:'e0ffff', lightgoldenrodyellow:'fafad2', lightgray:'d3d3d3',
+  lightgreen:'90ee90', lightgrey:'d3d3d3', lightpink:'ffb6c1', lightsalmon:'ffa07a', lightseagreen:'20b2aa', lightskyblue:'87cefa',
+  lightslategray:'778899', lightslategrey:'778899', lightsteelblue:'b0c4de', lightyellow:'ffffe0', lime:'00ff00', limegreen:'32cd32',
+  linen:'faf0e6', magenta:'ff00ff', maroon:'800000', mediumaquamarine:'66cdaa', mediumblue:'0000cd', mediumorchid:'ba55d3',
+  mediumpurple:'9370db', mediumseagreen:'3cb371', mediumslateblue:'7b68ee', mediumspringgreen:'00fa9a', mediumturquoise:'48d1cc', mediumvioletred:'c71585',
+  midnightblue:'191970', mintcream:'f5fffa', mistyrose:'ffe4e1', moccasin:'ffe4b5', navajowhite:'ffdead', navy:'000080',
+  oldlace:'fdf5e6', olive:'808000', olivedrab:'6b8e23', orange:'ffa500', orangered:'ff4500', orchid:'da70d6',
+  palegoldenrod:'eee8aa', palegreen:'98fb98', paleturquoise:'afeeee', palevioletred:'db7093', papayawhip:'ffefd5', peachpuff:'ffdab9',
+  peru:'cd853f', pink:'ffc0cb', plum:'dda0dd', powderblue:'b0e0e6', purple:'800080', rebeccapurple:'663399',
+  red:'ff0000', rosybrown:'bc8f8f', royalblue:'4169e1', saddlebrown:'8b4513', salmon:'fa8072', sandybrown:'f4a460',
+  seagreen:'2e8b57', seashell:'fff5ee', sienna:'a0522d', silver:'c0c0c0', skyblue:'87ceeb', slateblue:'6a5acd',
+  slategray:'708090', slategrey:'708090', snow:'fffafa', springgreen:'00ff7f', steelblue:'4682b4', tan:'d2b48c',
+  teal:'008080', thistle:'d8bfd8', tomato:'ff6347', turquoise:'40e0d0', violet:'ee82ee', wheat:'f5deb3',
+  white:'ffffff', whitesmoke:'f5f5f5', yellow:'ffff00', yellowgreen:'9acd32'
+};
 const normc = (c) => {
   c = String(c == null ? '' : c).toLowerCase().trim();
   if (c === '' || c === 'transparent' || c === 'none') return '';
@@ -120,7 +151,69 @@ const normc = (c) => {
   // oklch()/oklab()/hsl() → rgb() so a dark AI-page palette (canvas/text in oklch) isn't dropped to white.
   const rc = cssToRgb(c);
   if (rc) { const a = rc[3]; if (a !== undefined && a <= 0) return ''; return (a !== undefined && a < 1) ? `rgba(${rc[0]}, ${rc[1]}, ${rc[2]}, ${a})` : `rgb(${rc[0]}, ${rc[1]}, ${rc[2]})`; }
+  if (Object.prototype.hasOwnProperty.call(CSS_NAMED, c)) return '#' + CSS_NAMED[c];
   return '';
+};
+// Split a comma-separated CSS argument list at TOP LEVEL only, so `oklch(.2 .04 265 / .5), oklab(...)`
+// is not cut inside a colour's own parens. Twin of PHP split_css_args().
+export const splitCssArgs = (str) => {
+  const out = []; let buf = '', depth = 0;
+  for (const ch of String(str || '')) {
+    if (ch === '(') depth++; else if (ch === ')') depth--;
+    if (ch === ',' && depth <= 0) { out.push(buf.trim()); buf = ''; continue; }
+    buf += ch;
+  }
+  if (buf.trim()) out.push(buf.trim());
+  return out;
+};
+// A CSS gradient string -> the gradient-v2 value { type, angle, stops:[{color,position}] } Theme Settings
+// stores, or null when it is not representable. Twin of PHP FW_Site_Converter_Stitch::gradient_css_to_v2().
+// Storing the VALUE rather than a CSS string is what keeps the result editable in Theme Settings.
+export const gradientToV2 = (css) => {
+  let str = String(css || '').trim();
+  if (!str) return null;
+  // A layered background-image can hold several; the first is painted on top.
+  for (const cand of splitCssArgs(str)) { if (/gradient\s*\(/i.test(cand)) { str = cand; break; } }
+  const m = str.match(/^(?:repeating-)?(linear|radial|conic)-gradient\s*\(([\s\S]*)\)$/i);
+  if (!m) return null;
+  const kind = m[1].toLowerCase();
+  if (kind === 'conic') return null;            // no gradient-v2 representation; faking it paints something the source never showed
+  let args = splitCssArgs(m[2]);
+  if (args.length < 2) return null;
+  let angle = kind === 'radial' ? 90 : 180;     // CSS default for linear-gradient is `to bottom` = 180deg
+  const head = args[0]; let ate = false; let a;
+  if ((a = head.match(/^(-?[0-9.]+)deg$/i))) { angle = Math.round(parseFloat(a[1])); ate = true; }
+  else if ((a = head.match(/^(-?[0-9.]+)(turn|rad|grad)$/i))) {
+    const n = parseFloat(a[1]), u = a[2].toLowerCase();
+    angle = Math.round(u === 'turn' ? n * 360 : u === 'rad' ? n * 180 / Math.PI : n * 0.9); ate = true;
+  } else if ((a = head.match(/^to\s+(.+)$/i))) {
+    const map = { top: 0, right: 90, bottom: 180, left: 270, 'right top': 45, 'bottom right': 135, 'bottom left': 225, 'left top': 315 };
+    const key = a[1].toLowerCase().trim().split(/\s+/).sort().join(' ');
+    if (key in map) angle = map[key];
+    ate = true;
+  } else if (kind === 'radial' && /^(circle|ellipse|closest|farthest|at\s)/i.test(head)) { ate = true; }
+  if (ate) args = args.slice(1);
+  if (args.length < 2) return null;
+  const stops = [];
+  for (let arg of args) {
+    let pos = null, pm;
+    // The position is a TRAILING percentage; the colour before it may contain spaces (`oklch(.2 .04 265)`),
+    // so peel from the end rather than splitting on whitespace.
+    if ((pm = arg.match(/^([\s\S]*?)\s+(-?[0-9.]+)%$/))) { arg = pm[1].trim(); pos = parseFloat(pm[2]); }
+    else if ((pm = arg.match(/^([\s\S]*?)\s+(-?[0-9.]+)(?:px|rem|em)$/i))) { arg = pm[1].trim(); }
+    // `transparent` is a legitimate gradient STOP (a fade-out) while normc() correctly returns '' for it
+    // everywhere else; dropping it deletes the fade and can leave fewer than the two stops required.
+    const col = arg.toLowerCase() === 'transparent' ? 'rgba(0, 0, 0, 0)' : normc(arg);
+    if (!col) continue;
+    stops.push({ color: col, position: pos });
+  }
+  if (stops.length < 2) return null;
+  const n = stops.length;
+  stops.forEach((st, i) => {
+    if (st.position === null) st.position = n === 1 ? 0 : Math.round(i * 100 / (n - 1) * 100) / 100;
+    st.position = Math.max(0, Math.min(100, st.position));
+  });
+  return { type: kind === 'radial' ? 'radial' : 'linear', angle: ((angle % 360) + 360) % 360, stops };
 };
 // The FIRST visible (non-transparent) layer of a computed box-shadow → {x,y,blur,spread,color,inset}.
 const shadow1 = (css) => {
@@ -991,6 +1084,17 @@ export function toThemeSettings(config, home) {
   // PAGE-WIDE fixed video backdrop → Site Background → video (FIXED): the theme prints it once behind every transparent
   // section (unysonplus_render_site_bg_video). PHP parity: tokens_to_theme_settings_chrome detect_page_fixed_video.
   if (home && typeof home.pageShellCss === 'string' && home.pageShellCss.trim()) miscCssParts.push('\n/* Source page shell (main) */\n' + home.pageShellCss.trim()); // PHP: page_shell_css
+  // PAGE CANVAS -> Site Background: the colour as the base layer, the gradient stacked over it (Background
+  // Pro paints colour under gradient under image). PHP parity: detect_body_background + detect_body_gradient.
+  if (home && home.canvas && (home.canvas.color || home.canvas.gradient)) {
+    const gl = Object.assign({}, values.general_layout);
+    const sb = Object.assign({}, gl.site_background || {});
+    const base = normc(home.canvas.color || '');
+    if (base) sb.color = { value: hex(base) };
+    const gv = gradientToV2(home.canvas.gradient || '');
+    if (gv) sb.gradient = Object.assign({}, sb.gradient || {}, { data: gv });   // a bare `gradient` key is ignored; the value lives under .data
+    if (sb.color || sb.gradient) { gl.site_background = sb; values.general_layout = gl; }
+  }
   if (home && home.pageFixedPattern && home.pageFixedPattern.image) {
     // the same deterministic id to-presets mints (djb2 of the image) — the pattern preset must exist for the option to resolve
     const id = 'captured-' + (() => { const s = String(home.pageFixedPattern.image).trim(); let h = 5381; for (let j = 0; j < s.length; j++) h = ((h << 5) + h + s.charCodeAt(j)) >>> 0; return h.toString(16).padStart(8, '0').slice(0, 8); })();

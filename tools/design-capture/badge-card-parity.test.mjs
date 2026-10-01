@@ -59,8 +59,8 @@ console.log('\n=== the badge card: relative frame + floating chip, padded growin
   const imgs = frame ? findAll(frame, (n) => n.shortcode === 'media_image') : []; const chips = frame ? findAll(frame, (n) => n.shortcode === 'icon_box') : [];
   ok(imgs.length === 1 && chips.length === 1, 'the frame holds the media image + ONE icon_box chip');
   const c = chips[0];
-  ok(c && c.atts.overline === 'JUN' && c.atts.title === '08', 'the chip: month as the overline, day as the title');
-  ok(c && /\.icon-box__overline\{[^}]*margin-bottom:4px/.test(css(c)), '…the overline takes the title\'s mt-1 as its gap');
+  ok(c && c.atts.title === '08' && !c.atts.overline, 'the chip: the day is the title; NEG: no overline — the option was removed from the element');
+  ok(c && !/icon-box__overline/.test(css(c)), 'NEG: …and no CSS scoped to a slot that no longer renders');
   ok(c && /font-size:18px;line-height:18px;margin-bottom:0px/.test(css(c)), '…the title keeps its 18px leading-none');
   ok(c && /min-width:64px/.test(css(c)) && /\.icon-box__inner\{gap:0;\}/.test(css(c)), '…the source min-width, no inner gap');
   const body = all.find((n) => /flex:1 1 auto;justify-content:space-between/.test(css(n)));

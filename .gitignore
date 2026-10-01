@@ -4,6 +4,15 @@ node_modules/
 # Capture / build output
 capture-out/
 **/capture-out/
+# ...and every sibling the runs produce (capture-out-full, -missing, -cl, -wegicW*, batch).
+# Only `capture-out/` was listed, so a sync into this push-only clone dragged in 600+ MB of
+# capture artefacts and GitHub rejected the push over a 155 MB bundle zip.
+capture-out*/
+**/capture-out*/
+batch/
+**/batch/
+logs/
+**/logs/
 *.log
 
 # Local report-sharing config (Google Form ids) — never committed; copy from share-config.example.json

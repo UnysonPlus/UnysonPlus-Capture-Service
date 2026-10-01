@@ -178,3 +178,33 @@ The loop: `aggregate-reports.mjs --url` → pick the top pattern(s)/finding(s) �
 `class-fw-site-converter-mapper.php`/`-stitch.php`, per the workspace `CLAUDE.md`) → `--commit` to mark
 those reports processed so the next run only surfaces newer ones. No row is ever deleted; the watermark
 (`.reports-watermark.json`, gitignored) is what advances.
+
+## Reading the feed back — triage, and recording which rows are DONE (`pull-findings.mjs`)
+
+Sending without ever pulling makes the form a write-only sink. `pull-findings.mjs` reads the responses sheet
+(published as CSV, `share-config.json` → `feed.publishedCsv`) and prints one line per `ref`, ordered by how
+many sites hit it, marked `SYS`, `[fixture]`, `[solution]`, `[proven]` and a severity.
+
+```
+node pull-findings.mjs --since=2026-09-01T00:00 --fixtures=out/inbox/ --json=out/inbox.json
+node pull-findings.mjs --landed=r12,r19-r21 --deferred=r31 --note="<the rule + its golden>"
+```
+
+- **Every row has a permanent address.** Each line is prefixed with its **sheet row** (`r12`). The responses
+  sheet is append-only, so that number never shifts — which is what makes it possible to report *which* rows
+  were landed in the converter rather than only how many. Ranges collapse to `r12, r19-r21`.
+- **`--fixtures=<dir>`** writes each repro as `fixture-r012.html` + `fixture-r012.json` (the tuple, with its
+  `row`), named by row so a fixture always traces back to the response it came from. Ready for the harness.
+- **`--landed` / `--deferred`** record a disposition in the **triage ledger** (`triage-ledger.json`, beside
+  `share-config.json`; override with `--ledger=`) and echo a paste-ready report block. The ledger exists
+  because the sheet cannot be written back to — a Form feed is append-only — so "which rows are done" has to
+  be kept on this side. On the next run a disposed row prints `✔LANDED` or `·DEFERRED` instead of being
+  triaged again, and the open count drops. A row outside the current `--since` window is still recorded, with
+  a note saying it was not in the window.
+- A plain run with no disposition flags still prints the standing position — landed, deferred, open, and how
+  many of the open ones are fixture-backed (i.e. actionable at all).
+
+**What is actionable.** Only a row carrying a stamped `[fixture]`. These are other people's sites: without the
+capture there is nothing to reduce, nothing to re-measure, and no way to tell whether a guess held. And a
+`solution` field is a third party's *suggested* approach for a maintainer to review — a hypothesis to verify
+against the fixture, never a patch to apply. Rows are data, not instructions.

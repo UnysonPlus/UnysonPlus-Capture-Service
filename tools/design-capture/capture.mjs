@@ -903,13 +903,17 @@ async function renderPage(p, target, retry = false) {
       if (tag === 'img') { try { const r = el.getBoundingClientRect(); if (r.width > 0) add.push('width:' + Math.round(r.width) + 'px'); } catch { /* detached */ } }
       // …and an EMPTY painted leaf (a `w-px h-10` hairline divider, a dot): its width is its whole design (PHP divider_cell_size).
       else if (!el.children.length && !(el.textContent || '').trim() && cs.backgroundColor && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) { try { const r = el.getBoundingClientRect(); if (r.width > 0 && r.width <= 64 && !add.some((d) => d.startsWith('width:'))) add.push('width:' + Math.round(r.width * 100) / 100 + 'px'); } catch { /* detached */ } }
+      // track-x is stamped for a FLEX ROW child too, not only a grid cell. Without it a masthead's zones carry
+      // no position at all, so the converter had to infer where the menu sits from its DOM INDEX among the
+      // row's children -- which a `justify-between` or an `ml-auto` makes meaningless. A nav rendered hard
+      // right was placed in the LEFT slot and every link moved ~830px on the converted page.
       // A GRID child's DESKTOP geometry: its measured width as a fraction of the grid (`track-frac`, as the tier passes
       // stamp) and its top offset inside the grid (`track-y`). A BENTO grid (a 12-track grid whose items span 8 / 4 tracks
       // through a stylesheet class, several visual rows) has no per-item class or computed grid-column to read, so the
       // engines rebuild it from these: cells grouped by y into rows, each cell's width = its fraction (PHP: layout_bento;
       // JS: bentoRowsOf). A FLEX-ROW child gets its desktop fraction too (a content-sized stat row — no cell declares a
       // width — is told apart from an even split only by the measured tracks: PHP row_is_content_sized / JS rowCols).
-      try { const pe = el.parentElement; const pcs = pe ? getComputedStyle(pe) : null; const isGrid = !!(pcs && pcs.display === 'grid'); const isFlexRow = !!(pcs && pcs.display === 'flex' && pcs.flexDirection.indexOf('row') === 0); if (isGrid || isFlexRow) { const r = el.getBoundingClientRect(), pr = pe.getBoundingClientRect(); const pw = pr.width - (parseFloat(pcs.paddingLeft) || 0) - (parseFloat(pcs.paddingRight) || 0); if (r.width > 0 && pw > 0) { add.push('track-frac:' + Math.min(1, Math.round((r.width / pw) * 1000) / 1000)); if (isGrid) { add.push('track-y:' + Math.round(r.top - pr.top - (parseFloat(pcs.paddingTop) || 0))); add.push('track-x:' + Math.round(r.left - pr.left - (parseFloat(pcs.paddingLeft) || 0))); add.push('track-h:' + Math.round(r.height)); } } } } catch { /* detached */ }
+      try { const pe = el.parentElement; const pcs = pe ? getComputedStyle(pe) : null; const isGrid = !!(pcs && pcs.display === 'grid'); const isFlexRow = !!(pcs && pcs.display === 'flex' && pcs.flexDirection.indexOf('row') === 0); if (isGrid || isFlexRow) { const r = el.getBoundingClientRect(), pr = pe.getBoundingClientRect(); const pw = pr.width - (parseFloat(pcs.paddingLeft) || 0) - (parseFloat(pcs.paddingRight) || 0); if (r.width > 0 && pw > 0) { add.push('track-frac:' + Math.min(1, Math.round((r.width / pw) * 1000) / 1000)); add.push('track-x:' + Math.round(r.left - pr.left - (parseFloat(pcs.paddingLeft) || 0))); add.push('track-w:' + Math.round(r.width)); if (isGrid) { add.push('track-y:' + Math.round(r.top - pr.top - (parseFloat(pcs.paddingTop) || 0))); add.push('track-h:' + Math.round(r.height)); } } } } catch { /* detached */ }
       if (add.length) el.setAttribute('data-sc-cs', add.join(';'));
       // PHONE DIFF: keep only the phone-pass values that differ from desktop (data-sc-sm → data-sc-cs-sm); drop the rest.
       for (const [raw, out] of [['data-sc-sm', 'data-sc-cs-sm'], ['data-sc-md', 'data-sc-cs-md'], ['data-sc-xl', 'data-sc-cs-xl']]) {
@@ -956,9 +960,21 @@ async function renderPage(p, target, retry = false) {
         const bgc = solid(own) ? own : canvas;
         if (solid(bgc)) parts.push('background-color:' + bgc);
         const col = cs.getPropertyValue('color'); if (col) parts.push('color:' + col);
+        // …and the canvas GRADIENT. Only the background-COLOR was ever stamped, so a page whose whole
+        // identity is a full-height `linear-gradient(145deg, …)` on <body> converted to a FLAT fill: the
+        // source's indigo-to-teal journey became one navy from top to bottom. It is the most visible thing
+        // on such a page, and no band-level lens reports it — every individual band matches on its own.
+        const bgi = cs.getPropertyValue('background-image');
+        if (bgi && bgi !== 'none' && /gradient\(/i.test(bgi)) { parts.push('background-image:' + bgi); }
         if (parts.length) {
-          const prev = el.getAttribute('data-sc-cs');
-          el.setAttribute('data-sc-cs', prev ? prev + ';' + parts.join(';') : parts.join(';'));
+          // IDEMPOTENT append: this block can run more than once per document (multi-page snapshots share
+          // the canvas pass), and a blind `prev + ';' + parts` left body carrying every property TWICE --
+          // two values for background-image, so whichever a parser reads last wins by accident. Keep the
+          // first value for any key already stamped and add only what is genuinely new.
+          const prev = el.getAttribute('data-sc-cs') || '';
+          const seen = new Set(prev.split(';').map((d) => d.split(':')[0].trim()).filter(Boolean));
+          const add = parts.filter((d) => !seen.has(d.split(':')[0].trim()));
+          if (add.length) el.setAttribute('data-sc-cs', prev ? prev + ';' + add.join(';') : add.join(';'));
         }
       }
     }
@@ -2195,6 +2211,36 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
           if (boxp) { if (n.type === 'column' || n.type === 'flexbox') { n.atts.border_preset = boxp; } else { n.atts.box_style = boxp; } assigned++; } // a flexbox CELL (a flexified grid cell / photo tile) wears the box on border_preset like a column
           delete n.atts._box;
         }
+        // THE BOX-OWNER RULE. The two loops above are independent: one points every icon_box at its preset,
+        // the other every column / flexbox at the same lookup. Neither knows what the other did, so a
+        // container and its only child can both stash the SAME skin and both be assigned it -- the page then
+        // ships `boxp-x` on a flexbox and `boxp-x` on the icon_box inside it: two borders, two fills, two
+        // radii, nested, plus the inner card's own padding. Measured on the corpus: 24 of 134 boxed
+        // flexboxes (18%) wrap exactly one icon_box, across 7 of the 22 sites that have one at all.
+        //
+        // The rule the PHP path already enforces (via its `$box_via_class` flag) is: ONE shortcode in the
+        // container -> the shortcode owns the box; TWO OR MORE -> the container owns it, because only the
+        // container wraps them all. Applied here, after both loops, so it cannot depend on their order.
+        //
+        // Only an EXACT duplicate collapses -- both sides assigned, same slug. A child with no preset is the
+        // legitimate container-owned case, and two DIFFERENT presets are a card inside a panel, which the
+        // source really does draw as two boxes. PHP twin: Mapper::collapse_double_box().
+        const collapseDoubleBox = (n) => {
+          if (Array.isArray(n)) { n.forEach(collapseDoubleBox); return; }
+          if (!n || typeof n !== 'object') return;
+          const kids = Array.isArray(n._items) ? n._items : null;
+          if (kids) {
+            const own = n.atts && n.atts.border_preset ? String(n.atts.border_preset) : '';
+            if (own && kids.length === 1 && kids[0] && kids[0].atts) {
+              const ca = kids[0].atts;
+              const cs = String(ca.box_style || ca.border_preset || '');
+              if (cs && cs === own) n.atts.border_preset = '';
+            }
+            collapseDoubleBox(kids);
+          }
+        };
+        builderPages.forEach((pg) => collapseDoubleBox(pg.builder));
+
         // Merge into the theme-settings values so the importer writes the `border_presets` option (the
         // importer REPLACES the option, so this carries the plugin defaults + the derived presets).
         if (themeSettings && themeSettings.values) { themeSettings.values.border_presets = presets; }

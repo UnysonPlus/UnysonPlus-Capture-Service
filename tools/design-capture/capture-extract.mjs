@@ -1179,6 +1179,68 @@ export function extractDesign() {
         }
         return c;
       })(),
+      // The section's own CONTENT BAND -- the width its content actually occupies. The JS twin read a cap
+      // only off the SECTION ITSELF (`sec.computed.maxWidth` / its own `max-w-*` class), but these sources
+      // put the cap on a centred child (`<section class="px-6 py-20"><div class="max-w-3xl mx-auto">`), so
+      // every section came back uncapped and inherited the site-wide container -- rendering wider than the
+      // source. Measured here in the browser rather than walked in the DOM: same rule as the PHP twin
+      // (section_content_max_width), but the rendered box needs no class-name guessing.
+      bandW: (() => {
+        try {
+          const vw = window.innerWidth, LEAF = new Set(['P','H1','H2','H3','H4','H5','H6','SPAN','A','LI','BLOCKQUOTE','FIGCAPTION','LABEL']);
+          const capOf = (el) => {
+            const cs = getComputedStyle(el), m = /^([0-9.]+)px$/.exec(String(cs.maxWidth || '').trim());
+            if (!m) return 0;
+            const px = parseFloat(m[1]) - ((parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0));
+            if (!(px >= 480 && px <= 1300)) return 0;
+            // CENTRED, measured -- not declared. getComputedStyle returns the USED margin in px for a
+            // laid-out element, so `marginLeft === 'auto'` is never true and this test found nothing at
+            // all. Compare the rendered gaps instead: a centred box sits with equal slack either side of
+            // its parent's content box.
+            const par = el.parentElement;
+            if (!par) return 0;
+            const r = el.getBoundingClientRect(), pr = par.getBoundingClientRect(), pcs = getComputedStyle(par);
+            const left = r.left - (pr.left + (parseFloat(pcs.paddingLeft) || 0));
+            const right = (pr.right - (parseFloat(pcs.paddingRight) || 0)) - r.right;
+            if (left < -1 || right < -1) return 0;
+            const slack = left + right;
+            // Equal within 2px, or nothing to centre in (the box already fills its parent's content box).
+            if (slack > 2 && Math.abs(left - right) > 2) return 0;
+            return Math.round(px);
+          };
+          const hasContent = (el) => (el.textContent || '').trim() !== '' || !!el.querySelector('img,video,svg');
+          let best = 0;
+          for (const el of sec.querySelectorAll('*')) {
+            if (LEAF.has(el.tagName)) continue;              // a cap on a text leaf is a reading measure, not the band
+            const px = capOf(el);
+            if (!px) continue;
+            const r = el.getBoundingClientRect();
+            if (r.width >= vw - 1) continue;                 // full-bleed is the section, not the band
+            // Inside a multi-column row this is a COLUMN width, not the band.
+            let inCol = false;
+            for (let p = el.parentElement; p && p !== sec.parentElement; p = p.parentElement) {
+              const pcs = getComputedStyle(p);
+              const tracks = String(pcs.gridTemplateColumns || 'none');
+              if (tracks !== 'none' && tracks.trim().split(/\s+/).length >= 2) { inCol = true; break; }
+              if (pcs.display === 'flex' && pcs.flexDirection === 'row' && p.children.length >= 2) { inCol = true; break; }
+              if (p === sec) break;
+            }
+            if (inCol) continue;
+            // A cap beside UNCAPPED content is that block's own measure, not the section's band -- but a
+            // sibling that is ITSELF a centred cap does not disqualify it (there is then no uncapped
+            // content a wider band could serve). Twin of the PHP capped-sibling refinement.
+            let blocked = false;
+            for (const sib of (el.parentElement ? el.parentElement.children : [])) {
+              if (sib === el || !hasContent(sib)) continue;
+              if (capOf(sib)) continue;
+              blocked = true; break;
+            }
+            if (blocked) continue;
+            if (px > best) best = px;                        // the band holds the section's WIDEST content
+          }
+          return best;
+        } catch { return 0; }
+      })(),
       bandOf: sec._scBandOf || '', // a band cut out of a section-less container (PHP: data-sc-band-of) — content-tall, never a forced 100vh
       computedSm: (() => { const m = smOf(sec); return (m.padding || m.margin) ? { padding: m.padding || '', margin: m.margin || '' } : null; })(), // the phone-pass padding / margin when they differ (PHP: sectionCsSm)
       computedXl: (() => { const m = xlOf(sec); return (m.padding || m.margin) ? { padding: m.padding || '', margin: m.margin || '' } : null; })(), // the wide-pass padding / margin when it differs (PHP: sectionCsXl)
@@ -6363,6 +6425,25 @@ export function extractDesign() {
         }
         return out;
       } catch { return ''; }
+    })(),
+    // The PAGE CANVAS: the body/html background COLOUR and, crucially, its GRADIENT. The PHP twin reads
+    // both (detect_body_background + detect_body_gradient -> general_layout.site_background); this side
+    // emitted NEITHER, so the option was one-sided -- a JS-path conversion left the canvas at the palette
+    // default. A page whose whole identity is a full-height gradient then became one flat fill, which no
+    // band-level lens reports because every band still matches its own counterpart.
+    canvas: (() => {
+      try {
+        for (const el of [document.body, document.documentElement]) {
+          if (!el) continue;
+          const cs = getComputedStyle(el);
+          const bgi = String(cs.backgroundImage || '').trim();
+          const grad = (bgi && bgi !== 'none' && /gradient\(/i.test(bgi)) ? bgi : '';
+          const col = String(cs.backgroundColor || '').trim();
+          const solid = col && col !== 'transparent' && !/^rgba?\([^)]*,\s*0(\.0+)?\)$/.test(col);
+          if (grad || solid) return { color: solid ? col : '', gradient: grad };
+        }
+        return null;
+      } catch { return null; }
     })(),
     // The page's FIXED decorative PATTERN layer: a body-level fixed full-viewport wrapper (no text / media) painting a gradient
     // grid or a data-URI tile → the Site Background Pattern (PHP: detect_page_fixed_pattern). A blurred glow blob is a fill, not a tile.

@@ -332,6 +332,16 @@ export async function verifyUrls({ sourceUrl, convertedUrl, width = 1440, bands 
  * @param {number} [o.dy=12]            px tolerance on the vertical centre (the row).
  * @param {number} [o.maxLen=40]        ignore leaves longer than this (body copy, not chrome).
  */
+/**
+ * A masthead sits at the TOP of the page and is SHORT. Exported (with its thresholds) because the rule
+ * is shared with the in-page lookup and is worth testing on its own: a <header> that fails it is not a
+ * masthead, whatever the tag says. One source ships <header> as its HERO and a separate sticky <nav> as
+ * the bar — measuring the hero made four real nav findings unreachable behind eight fabricated ones.
+ */
+export const MASTHEAD_MAX_TOP = 8;
+export const MASTHEAD_MAX_H = 240;
+export const looksLikeMasthead = (rect) => !!rect && rect.top <= MASTHEAD_MAX_TOP && rect.height <= MASTHEAD_MAX_H;
+
 export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', width = 1440, dx = 24, dy = 12, maxLen = 40 }) {
   const browser = await chromium.launch({ channel: 'chrome' }); // (playwright-core, like the band diff above)
   const read = async (url) => {
@@ -340,7 +350,7 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
     await dismissConsent(page);
     await freezeMotion(page);
     await page.waitForTimeout(1200);
-    const els = await page.evaluate(({ scope, maxLen }) => {
+    const els = await page.evaluate(({ scope, maxLen, MASTHEAD_MAX_TOP, MASTHEAD_MAX_H }) => {
       // The masthead is not always a <header>: a Tailwind/AI-generated source routinely ships
       // `<nav class="fixed top-0 …">` with no header landmark at all. Falling through to `return []`
       // made every converted header item read as `extra` and hid four real header defects behind eight
@@ -349,6 +359,15 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
       const roots = scope === 'header' ? ['header', '.site-header'] : scope === 'footer' ? ['footer', '.site-footer'] : ['body'];
       let root = null;
       for (const sel of roots) { root = document.querySelector(sel); if (root) break; }
+      // …and a <header> that is not a masthead does not make one. This source ships <header> as its HERO and a
+      // separate `<nav class="sticky top-0">` as the bar, so the lens compared the hero against the converted
+      // masthead: the four real nav links read as `extra`, the hero's words as `missing`, and the number could
+      // not move when the nav placement was actually fixed. The fallback below already knew how to find the bar;
+      // it never ran, because the <header> lookup had 'succeeded'. A masthead sits at the top and is short.
+      if (root && scope === 'header') {
+        const rr = root.getBoundingClientRect();
+        if (rr.top > MASTHEAD_MAX_TOP || rr.height > MASTHEAD_MAX_H) root = null;
+      }
       if (!root && scope === 'header') {
         const bars = [...document.querySelectorAll('nav, div')].filter((e) => {
           const cs = getComputedStyle(e); const r = e.getBoundingClientRect();
@@ -375,7 +394,7 @@ export async function verifyChrome({ sourceUrl, convertedUrl, scope = 'header', 
         col: cs.color, ta: cs.textAlign });
       }
       return out;
-    }, { scope, maxLen });
+    }, { scope, maxLen, MASTHEAD_MAX_TOP, MASTHEAD_MAX_H });
     await page.close();
     return els;
   };

@@ -921,6 +921,12 @@ export function toPages(capture, opts = {}) {
   //     and pushed onto a direct flexbox child's content_width (a flexbox escapes the section's
   //     .fw-container, so it needs its own cap to stay centred instead of going edge-to-edge). ---
   const sectionContentMaxPx = (sec) => {
+    // The MEASURED band first (capture-extract `bandW`): these sources cap on a centred CHILD
+    // (`<section class="px-6 py-20"><div class="max-w-3xl mx-auto">`), which neither the section's own
+    // computed max-width nor its class list can see -- so every such section came back uncapped and
+    // inherited the site-wide container, rendering wider than the source. Twin of PHP sectionBandW.
+    const measured = parseFloat((sec && sec.bandW) || 0);
+    if (measured >= 480) return measured;
     const cm = sec && sec.computed && sec.computed.maxWidth;
     if (cm && /^[0-9.]+px$/.test(String(cm))) return parseFloat(cm);
     const cls = String((sec && sec.sectionClass) || '');
@@ -938,10 +944,13 @@ export function toPages(capture, opts = {}) {
   const containerWidthPreset = (px) => {
     px = parseFloat(px) || 0;
     if (px <= 0) return null;
-    if (px <= 820) return { preset: 'narrow' };  // ~768 (3xl)
-    if (px <= 960) return { preset: 'medium' };  // ~896 (4xl)
-    if (px <= 1100) return { preset: 'wide' };   // ~1024 (5xl)
-    return null;                                  // 6xl/7xl → inherit the site-wide container
+    // Bucketing started at 768, so a measured band NARROWER than that (a `max-w-xl` 576 form panel) was
+    // rounded UP to narrow and rendered a third too wide. Match the PHP steps, which include the small
+    // end and mint a `content-NNN` preset for anything off-scale. Twin of PHP content_width_value().
+    const steps = [[640, 'small'], [672, 'prose'], [768, 'narrow'], [896, 'medium'], [1024, 'wide'], [1152, 'wide-l'], [1280, 'wide-xl'], [1440, 'wide-xxl']];
+    for (const [spx, key] of steps) { if (Math.abs(spx - px) <= 12) return { preset: key }; }
+    if (px > 1440) return null;                   // wider than the widest step → inherit the site container
+    return { preset: 'content-' + Math.round(px) };
   };
   // container_width value → its pixel cap (for pushing onto a flexbox content_width). Twin of PHP container_width_px.
   const containerWidthPx = (cw) => {
@@ -2734,17 +2743,6 @@ export function toPages(capture, opts = {}) {
     const n = stamp(clone('icon_box'));
     const a = n.atts;
     a.title = String(card.title || '');
-    // The card's EYEBROW → the native Overline; its captured type as scoped CSS (PHP parity: n_icon_box overline)
-    if (card.overline && String(card.overline.text || '').trim()) {
-      a.overline = String(card.overline.text).trim();
-      const o = card.overline, ol = [];
-      for (const [k, v] of [['font-size', o.fontSize], ['letter-spacing', o.letterSpacing], ['line-height', o.lineHeight], ['margin-bottom', o.marginBottom]]) if (/^-?[0-9.]+px$/.test(String(v || ''))) ol.push(k + ':' + v);
-      if (/^(uppercase|none|capitalize)$/.test(String(o.textTransform || ''))) ol.push('text-transform:' + o.textTransform);
-      if (/^[1-9]00$/.test(String(o.fontWeight || ''))) ol.push('font-weight:' + o.fontWeight);
-      if (/^[a-z0-9(),.\s#%\/]+$/i.test(String(o.color || ''))) ol.push('color:' + o.color + ';opacity:1');
-      if (/^[a-z0-9"',\s-]+$/i.test(String(o.fontFamily || ''))) ol.push('font-family:' + String(o.fontFamily).replace(/"/g, "'"));
-      if (ol.length) a.custom_css = ((a.custom_css || '') + '\nselector .icon-box__overline{' + ol.join(';') + ';}').trim();
-    }
     const tag = String(card.titleTag || 'h3').toLowerCase();
     a.title_tag = IB_TAGS.indexOf(tag) !== -1 ? tag : 'h3';
     let content = String(card.text || '');

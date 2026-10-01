@@ -42,9 +42,8 @@ const out = toPages({ url: 'http://x/', sections: [{ sectionClass: 'projects', c
 const boxes = []; const walk = (n) => { if (n.shortcode === 'icon_box') boxes.push(n); (n._items || []).forEach(walk); }; walk(out.pages[0].builder[0]);
 ok(boxes.length === 2, 'two tiles → two icon_boxes');
 const ib = boxes[0] || { atts: {} };
-ok(ib.atts.overline === 'Digital Architecture', 'the eyebrow → the native Overline option');
-ok(/selector \.icon-box__overline\{[^}]*font-size:10px[^}]*letter-spacing:3\.5px[^}]*text-transform:uppercase[^}]*color:rgba\(255, 255, 255, 0\.4\)/.test(String(ib.atts.custom_css || '')), '…its size / tracking / case / translucent colour as scoped CSS');
-ok(/selector \.icon-box__overline\{[^}]*font-family:'IBM Plex Mono', monospace/.test(String(ib.atts.custom_css || '')), '…and its mono family');
+ok(!ib.atts.overline, 'NEG: the eyebrow is not carried — the Overline option was removed from the element');
+ok(!/icon-box__overline/.test(String(ib.atts.custom_css || '')), 'NEG: …and no CSS scoped to a slot that no longer renders');
 ok(/selector \.icon-box__content\{max-width:333px;\}/.test(String(ib.atts.custom_css || '')), "the description's own measure → .icon-box__content{max-width}");
 ok(!/::before|:hover/.test(String(ib.atts.custom_css || '')), 'NEG: the states do NOT ride on the shortcode (they belong to the preset)');
 
