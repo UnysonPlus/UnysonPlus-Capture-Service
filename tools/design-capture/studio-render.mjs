@@ -9,7 +9,8 @@
 //
 // Jobs run one at a time in the background; the Studio polls for progress and downloads the file.
 import { spawn } from 'node:child_process';
-import { mkdirSync, statSync, existsSync, readdirSync, unlinkSync } from 'node:fs';
+import { mkdirSync, statSync, existsSync, readdirSync, unlinkSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
@@ -75,13 +76,93 @@ function pageHtml(scene, playerBase) {
 window.__ready = false;
 try {
   const sc = ${json};
-  window.P = UnysonPlusScene.mount(document.getElementById('h'), sc, { autoplay: false, editor: true, allowCode: true });
+  window.P = UnysonPlusScene.mount(document.getElementById('h'), sc, { autoplay: false, editor: true, allowCode: true, audio: false });
   P.seek(0);
   const models = (function count(ls){ return ls.reduce(function(n,l){ return n + (l.type === 'model' ? 1 : 0) + (l.layers ? count(l.layers) : 0); }, 0); })(sc.layers);
   // Ready once fonts are in and every 3D layer has its canvas.
   document.fonts.ready.then(function wait(){ if (document.querySelectorAll('.upw-3d canvas').length >= models) { setTimeout(function(){ window.__ready = true; }, 600); } else setTimeout(wait, 100); });
 } catch (e) { window.__error = String(e && e.message || e); }
 </script></body></html>`;
+}
+
+/** Length of an audio file in seconds (ffprobe), or null. */
+function probeDuration(file) {
+  return new Promise((resolve) => {
+    const p = spawn(process.env.FFPROBE || 'ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', file], { stdio: ['ignore', 'pipe', 'ignore'] });
+    let out = '';
+    p.stdout.on('data', (d) => { out += d; });
+    p.on('error', () => resolve(null));
+    p.on('exit', () => { const v = parseFloat(out); resolve(Number.isFinite(v) ? v : null); });
+  });
+}
+
+/**
+ * The scene's sound as ffmpeg inputs and one mix: each clip trimmed, faded, delayed to its start and
+ * mixed at its volume. Uploaded clips (data: URLs) are written to a temp folder; addresses downloaded.
+ * Built-in sounds ("sfx:<name>", on a track or attached to a clip) are synthesised by the scene's own
+ * player in the render page, so the video carries exactly what the Studio plays.
+ */
+async function audioMix(scene, tmp, firstInput, page) {
+  // The player works out the whole track (sound tracks plus clip sounds); older players only know tracks.
+  const track = await page.evaluate((sc) => (window.UnysonPlusScene.soundTrack ? window.UnysonPlusScene.soundTrack(sc) : null), scene).catch(() => null);
+  const list = Array.isArray(track) ? track : scene.audio;
+  const clips = Array.isArray(list) ? list.filter((a) => a && typeof a.src === 'string') : [];
+  if (!clips.length) return null;
+  const inputs = [];
+  const parts = [];
+  let k = 0;
+  for (const c of clips) {
+    let file = '';
+    try {
+      if (c.src.startsWith('data:')) {
+        const comma = c.src.indexOf(',');
+        const meta = c.src.slice(5, comma);
+        const ext = (/audio\/([a-z0-9]+)/i.exec(meta) || [])[1] || 'bin';
+        const body = c.src.slice(comma + 1);
+        file = join(tmp, `a${k}.${ext.replace('mpeg', 'mp3')}`);
+        writeFileSync(file, meta.includes(';base64') ? Buffer.from(body, 'base64') : Buffer.from(decodeURIComponent(body)));
+      } else if (c.src.startsWith('sfx:')) {
+        const b64 = await page.evaluate((src) => {
+          const api = window.UnysonPlusScene;
+          const bytes = api.sfxWav ? api.sfxWav(src) : null;
+          if (!bytes) return null;
+          let bin = '';
+          for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+          return btoa(bin);
+        }, c.src);
+        if (!b64) throw new Error(`unknown built-in sound ${c.src}`);
+        file = join(tmp, `a${k}.wav`);
+        writeFileSync(file, Buffer.from(b64, 'base64'));
+      } else if (/^https?:\/\//.test(c.src)) {
+        const r = await fetch(c.src);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        file = join(tmp, `a${k}.audio`);
+        writeFileSync(file, Buffer.from(await r.arrayBuffer()));
+      } else continue;
+    } catch (e) {
+      console.warn('[studio-render] skipped audio', c.id, String(e && e.message || e));
+      continue;
+    }
+    const fileLen = await probeDuration(file);
+    const trimIn = Math.max(0, +c.offset || 0);
+    const len = Math.max(0.05, Math.min(c.duration > 0 ? c.duration : Infinity, fileLen != null ? fileLen - trimIn : Infinity));
+    const finite = Number.isFinite(len);
+    const vol = Math.max(0, Math.min(2, c.volume ?? 1));
+    const fi = Math.max(0, +c.fadeIn || 0);
+    const fo = Math.max(0, +c.fadeOut || 0);
+    const delayMs = Math.round(Math.max(0, +c.start || 0) * 1000);
+    const idx = firstInput + inputs.length / 2; // inputs holds "-i", file pairs
+    inputs.push('-i', file);
+    let chain = `[${idx}:a]atrim=start=${trimIn.toFixed(3)}${finite ? `:duration=${len.toFixed(3)}` : ''},asetpts=PTS-STARTPTS,volume=${vol.toFixed(3)}`;
+    if (fi > 0) chain += `,afade=t=in:st=0:d=${fi.toFixed(3)}`;
+    if (fo > 0 && finite) chain += `,afade=t=out:st=${Math.max(0, len - fo).toFixed(3)}:d=${fo.toFixed(3)}`;
+    chain += `,aresample=48000,adelay=delays=${delayMs}:all=1[a${k}]`;
+    parts.push(chain);
+    k++;
+  }
+  if (!k) return null;
+  const mix = `${Array.from({ length: k }, (_, i) => `[a${i}]`).join('')}amix=inputs=${k}:normalize=0:duration=longest,apad[aout]`;
+  return { inputs, filter: `${parts.join(';')};${mix}` };
 }
 
 async function run(job, scene, playerBase) {
@@ -92,6 +173,7 @@ async function run(job, scene, playerBase) {
   job.state = 'rendering';
   let browser;
   let enc;
+  let tmp = '';
   try {
     browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars'] });
     const page = await browser.newPage({ viewport: { width: job.width, height: job.height }, deviceScaleFactor: 1 });
@@ -101,8 +183,14 @@ async function run(job, scene, playerBase) {
     if (err) throw new Error(`The scene could not be played: ${err}`);
 
     const args = ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(job.fps), '-c:v', 'mjpeg', '-i', '-'];
+    // Sound: the scene's audio clips, mixed and cut to the video's length.
+    tmp = join(tmpdir(), `upw-render-${job.id}`);
+    mkdirSync(tmp, { recursive: true });
+    const mix = await audioMix(scene, tmp, 1, page);
+    if (mix) args.push(...mix.inputs, '-filter_complex', mix.filter, '-map', '0:v', '-map', '[aout]');
     if (job.format === 'webm') args.push('-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '30', '-row-mt', '1', '-pix_fmt', 'yuv420p');
     else args.push('-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart');
+    if (mix) args.push(...(job.format === 'webm' ? ['-c:a', 'libopus', '-b:a', '160k'] : ['-c:a', 'aac', '-b:a', '192k']), '-t', (job.total / job.fps).toFixed(3));
     args.push(job.file);
     enc = spawn(ffmpeg, args, { stdio: ['pipe', 'ignore', 'pipe'] });
     let encErr = '';
@@ -132,6 +220,7 @@ async function run(job, scene, playerBase) {
     try { if (existsSync(job.file)) unlinkSync(job.file); } catch { /* best-effort */ }
   } finally {
     try { await browser?.close(); } catch { /* already closed */ }
+    if (tmp) try { rmSync(tmp, { recursive: true, force: true }); } catch { /* best-effort */ }
   }
 }
 
