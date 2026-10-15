@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unyson+ Site Converter</title>
+<title>Unyson+ AI Dev Kit</title>
 <style>
 :root{
   --bg:oklch(0.165 0.014 245); --surface:oklch(0.205 0.014 245); --surface-2:oklch(0.245 0.015 245);
@@ -146,7 +146,7 @@ button,input{font:inherit;color:inherit}
 .watching b{color:var(--muted);font-weight:500}
 
 /* ---------- layout ---------- */
-.wrap{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:20px;padding:20px 28px 60px;align-items:stretch}
+.wrap{display:grid;grid-template-columns:minmax(300px,360px) 1fr;gap:20px;align-items:stretch}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}}
 .panel{background:var(--surface);border:1px solid var(--border-soft);border-radius:16px;overflow:hidden}
 /* Main panel fills the row height AND at least the viewport, so it occupies the empty space beside/
@@ -291,6 +291,25 @@ td.txt{color:var(--muted);max-width:340px}
   padding:7px 24px;border-bottom:1px solid var(--border-soft);background:oklch(0.165 0.014 245 / .82);
   backdrop-filter:blur(12px);overflow-x:auto}
 .nav-toggle{display:none}
+/* ---- Home (hub) ---- */
+.hub{max-width:1100px;padding:6px 0 30px}
+.hub-head h1{margin:0 0 4px;font-size:22px;letter-spacing:-.01em}
+.hub-kit{margin:0 0 18px;color:var(--muted);font-size:13px}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.hub-card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.hub-card h2{margin:0;font-size:16px;display:flex;align-items:center;gap:8px}
+.hub-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.hub-state{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.hub-dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--faint)}
+.hub-state.ok .hub-dot{background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.hub-state.warn .hub-dot{background:oklch(0.80 0.16 85)}
+.hub-state.off{color:var(--muted)}
+.hub-facts{margin:0;padding:0;list-style:none;font-size:12.5px;color:var(--muted);display:grid;gap:3px}
+.hub-facts b{color:var(--ink);font-weight:600}
+.hub-actions{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
+.hub-actions a,.hub-actions button{text-decoration:none}
+.hub-actions .btn:not(.btn-primary){background:var(--surface-2);border-color:var(--border);color:var(--ink)}
+.hub-note{margin:16px 0 0;color:var(--faint);font-size:12px}
 .nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;border-radius:10px;border:1px solid transparent;
   background:none;color:var(--muted);cursor:pointer;font:inherit;font-weight:500;font-size:13px;white-space:nowrap;
   transition:background .12s,color .12s,border-color .12s;position:relative}
@@ -304,7 +323,7 @@ td.txt{color:var(--muted);max-width:340px}
   border:1px solid oklch(0.62 0.19 300 / .35);color:oklch(0.80 0.14 300);font-size:11px;font-weight:600;
   display:none;align-items:center;gap:8px;white-space:nowrap;flex:none}
 .nav-status.on{display:flex}
-.content{padding:20px 28px 60px;min-width:0}
+.content{padding:20px 24px 60px;min-width:0}
 .view{display:none}
 .view.active{display:block;animation:viewIn .28s cubic-bezier(.2,.8,.2,1) both}
 @keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -371,7 +390,7 @@ td.txt{color:var(--muted);max-width:340px}
 <header class="top">
   <div class="brand">
     <span class="mark"><svg viewBox="0 0 34 32" fill="#ffffff" aria-hidden="true"><path d="M23.375 0c5.875 0 10.625 4.688 10.625 10.438v19.563l-4.969 2-5.031-2v-21.063c-0.031-1.188-0.281-1.563-1.188-2.188-0.906 0.594-0.75 1.063-0.813 2.188v13.063c-0.25 5.531-3.656 10-11.375 10-5.875 0-10.625-2.75-10.625-10v-20.031l4.969-1.969 5.031 2v19.469s-0.281 3.938 1.188 3.938c1.094-1.125 0.813-3.938 0.813-3.938v-11.469c0.25-5.531 5.688-10 11.375-10zM2.469 3.188l2.5 1.5 2.219-1.313-2.219-1.219zM9.281 30.031c6.688 0 6.5-8.156 6.5-8.156-0.031-0.281 0.219-11.563 0.219-11.875 0-3.781 1.688-6.094 3.75-7.719-2.875 1.438-5.594 4.375-5.75 7.719v13.75c-0.219 2.563-2.156 4.25-4.781 4.25-2.875 0-5.063-2.531-5.219-5.5v-15.875l-2-1.375v16.75s-0.188 6.813 5.75 7.875c0.5 0.094 1.031 0.156 1.531 0.156zM32 28.625v-18.625c0-4-2.125-6.063-5.781-7.281-0.469-0.094-1-0.156-1.5-0.156-4.219 0-6.719 3.281-6.719 7.438v12.219c0 3.094-1.344 6.969-4 7.781 4.531-1.344 6-4.938 6-8v-13.375c0.219-2.563 2.125-4.25 4.781-4.25s5 1.688 5.219 4.25v20.875zM8.938 26l0.375-0.031c-0.75-0.406-1.281-1.188-1.313-2.75v-17.969l-2 1.375v14.844s0.313 4.531 2.938 4.531zM28 29.5v-20.563c-0.125-1.813-1.313-2.781-3.219-2.781l-0.375 0.031c0.875 0.875 1.563 1.438 1.594 2.75v19.688z"></path></svg></span>
-    <span>Unyson+ Site Converter <span class="beta-tag">Beta</span><small>Deterministic + AI conversion · Beta — still in testing</small></span>
+    <span>Unyson+ AI Dev Kit<small>Site Converter · AI Assistant · Animation Studio</small></span>
   </div>
   <div class="watching" style="margin-left:auto">watching <b id="watchDir">…</b></div>
   <a class="toplink" id="logsLink" title="Open the run log (what the tools printed this session)">
@@ -385,7 +404,10 @@ td.txt{color:var(--muted);max-width:340px}
     <button class="nav-toggle" id="navToggle" title="Collapse menu" aria-label="Toggle menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-    <button class="nav-item active" data-view="convert" aria-current="page" title="Convert">
+    <button class="nav-item" data-view="home" title="Home">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span><span class="lbl">Home</span>
+    </button>
+    <button class="nav-item" data-view="convert" title="Convert">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="lbl">Convert</span>
     </button>
     <button class="nav-item" data-view="pen" title="Pen → Shortcode (Alpha)">
@@ -404,8 +426,20 @@ td.txt{color:var(--muted);max-width:340px}
   </nav>
 
   <div class="content">
+    <!-- ===== HOME VIEW: the kit's jobs and whether each is connected ===== -->
+    <section class="view" id="view-home">
+      <div class="hub">
+        <div class="hub-head">
+          <h1>What this kit does</h1>
+          <p id="hubKit" class="hub-kit">Checking the kit…</p>
+        </div>
+        <div class="hub-grid" id="hubGrid"></div>
+        <p class="hub-note">"Last used" counts calls since the kit started. Close this window and the kit keeps running for WordPress and the Studio until you stop it.</p>
+      </div>
+    </section>
+
     <!-- ===== CONVERT VIEW ===== -->
-    <section class="view active" id="view-convert">
+    <section class="view" id="view-convert">
       <div class="wrap">
         <aside class="col-left">
           <!-- Convert a source URL and install it onto a destination WordPress (child theme). The old
@@ -1779,13 +1813,14 @@ loadLocalAi(); setInterval(loadLocalAi,8000);
 
 /* ================= App-shell view routing ================= */
 function showView(name){
-  const valid=['convert','pen','chat','benchmarks','settings'];
-  if(!valid.includes(name)) name='convert';
+  const valid=['home','convert','pen','chat','benchmarks','settings'];
+  if(!valid.includes(name)) name='home';
   state.view=name;
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>{const on=b.dataset.view===name;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
   try{localStorage.setItem('upw-view',name);}catch(_){}
   if(location.hash.slice(1)!==name){ try{history.replaceState(null,'',location.pathname+location.search+'#'+name);}catch(_){location.hash=name;} }
+  if(name==='home') renderHub();
   if(name==='benchmarks') renderBenchmarks($('#benchBody'));
   if(name==='chat') chatOpen();
   if(name==='settings'){ loadLocalAi(); renderService(); renderWpTarget(); }
@@ -1882,7 +1917,55 @@ async function chatClear(){
 })();
 
 // Land on the deep-linked / remembered view.
-showView((location.hash.slice(1))||(function(){try{const v=localStorage.getItem('upw-view');return v==='pen'?'':v;}catch(_){return '';}})()||'convert');
+// ---- Home: one card per job, refreshed while the page is open ----
+const STUDIO_URL='https://animation-studio.unysonplus.com/';
+function hubAgo(t,now){ if(!t) return ''; const s=Math.max(0,Math.round((now-t)/1000)); if(s<60) return 'just now'; const m=Math.round(s/60); if(m<60) return m+' min ago'; const h=Math.round(m/60); return h+' h ago'; }
+async function renderHub(){
+  const grid=document.getElementById('hubGrid'), kit=document.getElementById('hubKit'); if(!grid) return;
+  let h={up:false}; try{ h=await api('/api/hub'); }catch(_){ h={up:false,old:true}; } // no /api/hub: the dashboard server predates the Home page
+  const now=h.now||Date.now(), seen=h.seen||{}, ai=h.ai||{};
+  const aiName={'claude-code':'Claude (your subscription)','api':'Claude API','ollama':'local model'+(ai.model?' '+ai.model:'')}[ai.backend]||'';
+  if(!h.up){
+    kit.innerHTML=h.old?'Part of the kit is running an older version without the Home page. Restart the kit (start.bat or start.command) to finish updating it.':'The capture service is not running. Start the kit with <b>start.bat</b> (Windows) or <b>start.command</b> (Mac).';
+  } else {
+    kit.innerHTML='Capture service <b>'+esc(h.version||'')+'</b> on port '+esc(String(h.port))+' · AI: <b>'+(ai.ready?esc(aiName||'ready'):'off')+'</b>'+(h.updateAvailable&&h.latest?' · <b>update available ('+esc(h.latest)+')</b>':'');
+  }
+  const state=(cls,txt)=>'<div class="hub-state '+cls+'"><span class="hub-dot"></span>'+txt+'</div>';
+  const fact=(k,v)=>v?'<li>'+k+': <b>'+esc(v)+'</b></li>':'';
+  const used=(j)=>{ const x=seen[j]; if(!x||!(x.used||x.open)) return ''; const t=Math.max(x.used||0,x.open||0); return hubAgo(t,now)+(x.from?' · '+x.from:''); };
+  const recent=(j,mins)=>{ const x=seen[j]; const t=x?Math.max(x.used||0,x.open||0):0; return t && (now-t)<mins*60000; };
+
+  // Site Converter
+  const conv = !h.up ? state('off','Not running')
+    : recent('converter',60) ? state('ok','Connected') : state('ok','Ready');
+  // AI Assistant
+  const asst = !h.up ? state('off','Not running')
+    : !ai.ready ? state('warn','Running, but no AI is set up')
+    : recent('assistant',60) ? state('ok','Connected') : state('ok','Ready, waiting for WordPress');
+  // Animation Studio
+  const studioOpen = seen.studio && seen.studio.open && (now-seen.studio.open)<2*60000;
+  const stud = !h.up ? state('off','Not running')
+    : !ai.ready ? state('warn','Running, but no AI is set up')
+    : studioOpen ? state('ok','Connected (the Studio is open)') : state('ok','Ready');
+
+  grid.innerHTML=[
+    '<article class="hub-card"><h2>Site Converter</h2>'+conv+
+      '<p>Captures a site in a real browser and rebuilds it in WordPress as a Unyson+ child theme and pages.</p>'+
+      '<ul class="hub-facts">'+fact('Last used',used('converter'))+'</ul>'+
+      '<div class="hub-actions"><button class="btn btn-primary" type="button" onclick="showView(\'convert\')">Open the converter</button></div></article>',
+    '<article class="hub-card"><h2>AI Assistant</h2>'+asst+
+      '<p>The chat panel in WordPress uses this kit\'s AI and tools when it runs on the same computer as your browser.</p>'+
+      '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('assistant'))+'</ul>'+
+      '<div class="hub-actions"><button class="btn" type="button" onclick="showView(\'settings\')">AI settings</button></div></article>',
+    '<article class="hub-card"><h2>Animation Studio</h2>'+stud+
+      '<p>The Studio\'s AI tab sends your request here and gets a scene back. Allow the browser to reach this computer when it asks.</p>'+
+      '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('studio'))+'</ul>'+
+      '<div class="hub-actions"><a class="btn btn-primary" href="'+STUDIO_URL+'" target="_blank" rel="noopener">Open the Studio</a></div></article>',
+  ].join('');
+}
+setInterval(()=>{ if(state.view==='home') renderHub(); },5000);
+
+showView((location.hash.slice(1))||(function(){try{const v=localStorage.getItem('upw-view');return v==='pen'?'':v;}catch(_){return '';}})()||'home');
 // --- Run-log viewer ---
 async function loadLog(file){
   const body=$('#logBody');body.textContent='Loading…';

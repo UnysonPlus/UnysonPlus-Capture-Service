@@ -29,6 +29,7 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, toolChatLocalModel, runAssistantAgent, normalizeModelRef, importGguf, checkModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
+import { studioOriginAllowed, studioAiStatus, studioScene } from './studio-ai.mjs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
@@ -351,6 +352,33 @@ function unzip(buf) {
   return files;
 }
 
+// THE HUB'S "LAST USED" RECORD. The kit serves three jobs (the Site Converter, the AI Assistant in
+// WordPress, the Animation Studio); the dashboard's Home page shows each one's state. Being up says
+// little on its own, so we note when each job last called in, and from where (a browser's Origin, or the
+// site address WordPress puts in its User-Agent). Calls from the dashboard itself carry neither and are
+// not counted. In memory only: it resets when the kit restarts.
+const hubSeen = {};
+function hubCaller(req) {
+  const origin = String(req.headers.origin || '');
+  if (origin && origin !== 'null') { try { return new URL(origin).host; } catch { return origin; } }
+  const m = /^WordPress\/[^;]*;\s*(\S+)/.exec(String(req.headers['user-agent'] || ''));
+  if (m) { try { const w = new URL(m[1]); return (w.host + w.pathname).replace(/\/$/, ''); } catch { return m[1]; } }
+  return '';
+}
+function hubNote(req, path) {
+  if (req.method === 'OPTIONS' || path === '/health' || path.startsWith('/hub/')) return;
+  const from = hubCaller(req);
+  let job;
+  if (path.startsWith('/studio/')) { if (!studioOriginAllowed(req.headers.origin || '')) return; job = 'studio'; }
+  else if (!from) return;
+  else if (path === '/mcp-kit' || /^\/local-ai\/(chat|tool-chat|agent)$/.test(path) || path === '/local-ai') job = 'assistant';
+  else if (path.startsWith('/local-ai/')) return;
+  else job = 'converter';
+  // A Studio tab polls its status; that means "open", a scene request means "used".
+  const kind = path === '/studio/status' ? 'open' : 'used';
+  hubSeen[job] = { ...(hubSeen[job] || {}), [kind]: Date.now(), from: from || (hubSeen[job] && hubSeen[job].from) || '' };
+}
+
 if (maybeAutoUpdate()) {
   // Updated and re-exec'd into a fresh process — leave this one idle until the child exits.
 } else {
@@ -359,6 +387,20 @@ const __server = createServer((req, res) => {
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
   const u = new URL(req.url, `http://localhost:${PORT}`);
+  hubNote(req, u.pathname);
+
+  // GET /hub/status: everything the dashboard's Home page shows in one call.
+  if (u.pathname === '/hub/status') {
+    const _be = aiBackend();
+    json(res, 200, {
+      ok: true, version: VERSION, latest: latestVersion, updateAvailable: updateAvailable(),
+      ai: { ready: aiReady(), backend: _be, model: _be === 'ollama' ? selectedLocalModel() : (_be ? (process.env.ANTHROPIC_MODEL || 'claude') : '') },
+      seen: hubSeen,
+      now: Date.now(),
+    });
+    return;
+  }
+
 
   // PAGE DISCOVERY — what pages does this site have?
   //
@@ -440,6 +482,23 @@ const __server = createServer((req, res) => {
     return;
   }
 
+
+  // The Animation Studio (animation-studio.unysonplus.com): "AI" tab → a scene file from a request, made
+  // with this kit's AI. Only the Studio's own pages may call these (studio-ai.mjs → studioOriginAllowed).
+  if (u.pathname === '/studio/status' || u.pathname === '/studio/ai') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
+    if (u.pathname === '/studio/status') { json(res, 200, { ok: true, version: VERSION, ...studioAiStatus() }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    const _aiStart = Date.now();
+    readJson(req)
+      .then((body) => {
+        markAi({ status: 'thinking', backend: aiBackend(), note: 'Animation Studio: ' + (body.mode === 'create' ? 'making a scene…' : 'changing the scene…'), startedAt: _aiStart });
+        return studioScene(body);
+      })
+      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'Animation Studio scene' }); console.log('[studio-ai] scene via', out.model, 'in', Math.round((Date.now() - _aiStart) / 1000) + 's'); json(res, 200, { ok: true, ...out }); })
+      .catch((e) => { const code = e.code === 400 ? 400 : (e.code === 503 ? 503 : 500); if (code === 500) markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[studio-ai]', e.message); json(res, code, { error: e.message }); });
+    return;
+  }
 
   if (u.pathname === '/health') {
     checkLatest(false); // background refresh (cached, hourly); never blocks the response

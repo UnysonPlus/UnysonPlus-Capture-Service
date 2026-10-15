@@ -284,6 +284,15 @@ const server = createServer((req, res) => {
   if (path === '/api/active') return json(res, readJson(join(OUT, '_active.json')) || {});
   if (path === '/api/ai') return json(res, readJson(join(OUT, '_ai.json')) || {}); // what Claude is doing during an AI refine
   // Is the capture SERVICE (the converter tool WordPress talks to) up right now?
+  // The Home page: each job's state, from the capture service's hub record.
+  if (path === '/api/hub') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    fetch(`http://localhost:${svcPort}/hub/status`, { signal: AbortSignal.timeout(1500) })
+      .then((r) => { if (!r.ok) throw new Error('old service'); return r.json(); })
+      .then((h) => json(res, { up: true, port: svcPort, ...h }))
+      .catch((e) => json(res, { up: false, port: svcPort, old: String(e && e.message) === 'old service' }));
+    return;
+  }
   if (path === '/api/service-health') {
     const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
     fetch(`http://localhost:${svcPort}/health`, { signal: AbortSignal.timeout(900) })

@@ -213,7 +213,7 @@ export async function ensureLocalModelReady() {
 /** Strip a hybrid-reasoning model's chain-of-thought. Qwen3 etc. (even with think:false) may emit the
  * reasoning as plain text terminated by a stray `</think>` with NO opening tag — so keep only what follows
  * the LAST `</think>`, then remove any well-formed <think>…</think> blocks and stray tags, then trim. */
-function stripReasoning(content) {
+export function stripReasoning(content) {
   let s = String(content || '');
   const ci = s.lastIndexOf('</think>');
   if (ci !== -1) s = s.slice(ci + '</think>'.length);
@@ -1298,7 +1298,7 @@ export async function verifyAccordionDesign(nodes) {
 /* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *
  * A raw text→text call to whichever backend is active (used to generate CSS that closes the source-vs-
  * converted visual gap). Unlike refineMapping, this returns the model's raw text (not a parsed mapping). */
-async function askText({ system, user, maxTokens = 8000 }) {
+export async function askText({ system, user, maxTokens = 8000 }) {
   const backend = aiBackend();
   if (backend === 'api') {
     const key = (process.env.ANTHROPIC_API_KEY || '').trim();
