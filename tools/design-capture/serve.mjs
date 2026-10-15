@@ -30,6 +30,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, toolChatLocalModel, runAssistantAgent, normalizeModelRef, importGguf, checkModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
 import { studioOriginAllowed, studioAiStatus, studioScene } from './studio-ai.mjs';
+import { renderStatus, startRender, jobInfo, jobFile, cancelRender } from './studio-render.mjs';
+import { createReadStream } from 'node:fs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
@@ -482,6 +484,39 @@ const __server = createServer((req, res) => {
     return;
   }
 
+
+  // The Animation Studio's video export (studio-render.mjs): start a render, follow it, download it.
+  //   GET  /studio/render                 → { ffmpeg, busy }
+  //   POST /studio/render                 { scene, playerBase, width, height, fps, format } → { id }
+  //   GET  /studio/render/<id>            → { state, done, total, error, name, bytes }
+  //   GET  /studio/render/<id>/file       → the video
+  //   POST /studio/render/<id>/cancel
+  if (u.pathname === '/studio/render' || u.pathname.startsWith('/studio/render/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
+    const parts = u.pathname.split('/').filter(Boolean); // studio, render, id?, action?
+    const id = parts[2];
+    const action = parts[3];
+    if (!id) {
+      if (req.method === 'GET') { renderStatus().then((st) => json(res, 200, { ok: true, ...st })); return; }
+      if (req.method !== 'POST') { json(res, 405, { error: 'GET or POST.' }); return; }
+      readJson(req, 24 * 1024 * 1024)
+        .then((body) => { const j = startRender(body); console.log('[studio-render]', j.id, `${j.width}x${j.height} ${j.fps}fps ${j.format}, ${j.total} frames`); json(res, 200, { ok: true, id: j.id, total: j.total }); })
+        .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+      return;
+    }
+    if (action === 'cancel') { json(res, 200, { ok: cancelRender(id) }); return; }
+    if (action === 'file') {
+      const j = jobFile(id);
+      if (!j) { json(res, 404, { error: 'No finished video with that id.' }); return; }
+      res.writeHead(200, { 'content-type': j.format === 'webm' ? 'video/webm' : 'video/mp4', 'content-length': j.bytes, 'content-disposition': `attachment; filename="${j.name}"`, 'cache-control': 'no-store' });
+      createReadStream(j.file).pipe(res);
+      return;
+    }
+    const info = jobInfo(id);
+    if (!info) { json(res, 404, { error: 'No render with that id.' }); return; }
+    json(res, 200, { ok: true, ...info });
+    return;
+  }
 
   // The Animation Studio (animation-studio.unysonplus.com): "AI" tab → a scene file from a request, made
   // with this kit's AI. Only the Studio's own pages may call these (studio-ai.mjs → studioOriginAllowed).
