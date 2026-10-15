@@ -31,6 +31,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, toolChatLocalModel, runAssistantAgent, normalizeModelRef, importGguf, checkModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
 import { studioOriginAllowed, studioAiStatus, studioScene } from './studio-ai.mjs';
 import { renderStatus, startRender, jobInfo, jobFile, cancelRender } from './studio-render.mjs';
+import { transcribeStatus, startInstall, startTranscribe, transcribeJob } from './studio-transcribe.mjs';
 import { createReadStream } from 'node:fs';
 import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
@@ -514,6 +515,33 @@ const __server = createServer((req, res) => {
     }
     const info = jobInfo(id);
     if (!info) { json(res, 404, { error: 'No render with that id.' }); return; }
+    json(res, 200, { ok: true, ...info });
+    return;
+  }
+
+  // The Animation Studio's speech recognition (studio-transcribe.mjs): a voice-over's words, times and delivery.
+  //   GET  /studio/transcribe              → { program, models, install, busy, ... }
+  //   POST /studio/transcribe/install      { model } → install progress (poll GET /studio/transcribe)
+  //   POST /studio/transcribe              { src, model?, language? } → { id }
+  //   GET  /studio/transcribe/<id>         → { state, step, error, result }
+  if (u.pathname === '/studio/transcribe' || u.pathname.startsWith('/studio/transcribe/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    if (!part) {
+      if (req.method === 'GET') { transcribeStatus().then((st) => json(res, 200, { ok: true, ...st })); return; }
+      if (req.method !== 'POST') { json(res, 405, { error: 'GET or POST.' }); return; }
+      readJson(req, 32 * 1024 * 1024)
+        .then((body) => json(res, 200, { ok: true, ...startTranscribe(body) }))
+        .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+      return;
+    }
+    if (part === 'install') {
+      if (req.method !== 'POST') { json(res, 405, { error: 'POST.' }); return; }
+      readJson(req).then((body) => json(res, 200, { ok: true, install: startInstall(body) })).catch((e) => json(res, 500, { error: e.message }));
+      return;
+    }
+    const info = transcribeJob(part);
+    if (!info) { json(res, 404, { error: 'No transcription with that id.' }); return; }
     json(res, 200, { ok: true, ...info });
     return;
   }

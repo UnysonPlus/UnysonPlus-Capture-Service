@@ -98,8 +98,10 @@ layer, and everything must stay inside the safe area. If it no longer fits, move
 WHEN REPAIRING
 "errors" lists what the validator rejected. Return the corrected whole scene.`;
 
-function buildUser({ mode, prompt, scene, selection, catalog, errors }) {
+function buildUser({ mode, prompt, scene, selection, catalog, errors, context }) {
   const payload = { mode, request: prompt };
+  // Data the Studio adds to a request (a voice-over's timed words, for example); the rules say how to use it.
+  if (typeof context === 'string' && context.trim()) payload.context = context.slice(0, 30000);
   if (mode === 'create') {
     // Keep the author's stage set-up (breakpoints, height mode) so the new scene drops into their layout.
     payload.stage = scene && scene.stage
@@ -130,7 +132,7 @@ export async function studioScene(input) {
   const user = buildUser({ ...input, mode, prompt });
   // The Studio sends its own motion rules and named eases with each request (they ship with the Studio,
   // so the kit never holds a stale copy). Plain text, capped, appended to the instructions.
-  const rules = typeof input.rules === 'string' ? input.rules.slice(0, 8000).trim() : '';
+  const rules = typeof input.rules === 'string' ? input.rules.slice(0, 24000).trim() : '';
   const system = rules ? `${SYSTEM}\n\nMOTION RULES FROM THE STUDIO (follow them; they override any default above)\n${rules}` : SYSTEM;
   let raw;
   let model;
