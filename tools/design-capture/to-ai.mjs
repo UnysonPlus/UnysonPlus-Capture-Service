@@ -38,6 +38,401 @@ const IS_WIN = process.platform === 'win32';
 const OLLAMA_HOST = (process.env.OLLAMA_HOST || 'http://localhost:11434').replace(/\/+$/, '');
 const LOCAL_AI_CONFIG = join(dirname(fileURLToPath(import.meta.url)), 'local-ai.json');
 
+/* ---- Bring your own endpoint (OpenAI-compatible) ---------------------- *
+ * The non-Claude model tier can be served two ways, and the rest of this module does not care which:
+ *
+ *   • a LOCAL Ollama (the default) — private, free, limited by the person's own hardware;
+ *   • ANY OpenAI-compatible `/chat/completions` endpoint the person configures — a hosted model
+ *     catalogue, an aggregator, or an LM Studio / vLLM / llama.cpp server on their LAN.
+ *
+ * One endpoint covers all of those because they all copy OpenAI's request shape, so this is a single
+ * transport, not one integration per vendor. It exists because the local tier's ceiling is the user's
+ * own PC: ~8B is where a typical machine stops, while the same person can usually reach a far larger
+ * model through an endpoint they already have. Their key, their terms — nothing is recommended here.
+ *
+ * NOT a replacement for the local tier, and deliberately not folded into it: a hosted endpoint sends the
+ * page off the machine, so the "100% private" promise the local tier makes does not hold for it. The
+ * dashboard presents them as separate tiers for that reason.
+ *
+ * The key is read from the environment first (AI_ENDPOINT_KEY), else from `ai-endpoint.json` beside this
+ * file — which is gitignored, like local-ai.json, so it is never committed. It is still PLAIN TEXT on
+ * disk; the Settings panel says so rather than implying otherwise.
+ */
+// Overridable so a second instance (a verification run, a test, a sandbox) can keep its OWN config
+// instead of writing over the one the live launcher is using — they share a folder otherwise, and a
+// throwaway instance saving a base URL silently re-pointed the real one.
+const AI_ENDPOINT_CONFIG = (process.env.AI_ENDPOINT_CONFIG || '').trim()
+  || join(dirname(fileURLToPath(import.meta.url)), 'ai-endpoint.json');
+
+function readEndpointFile() {
+  try { if (existsSync(AI_ENDPOINT_CONFIG)) return JSON.parse(readFileSync(AI_ENDPOINT_CONFIG, 'utf8')) || {}; } catch { /* no/blank config */ }
+  return {};
+}
+
+/** The resolved endpoint config: env wins over the file. `source` says which, for the UI. */
+export function endpointConfig() {
+  const f = readEndpointFile();
+  const envUrl = (process.env.AI_ENDPOINT_URL || '').trim();
+  const envKey = (process.env.AI_ENDPOINT_KEY || '').trim();
+  const envModel = (process.env.AI_ENDPOINT_MODEL || '').trim();
+  const baseUrl = (envUrl || String(f.baseUrl || '')).trim().replace(/\/+$/, '');
+  const key = (envKey || String(f.key || '')).trim();
+  const model = (envModel || String(f.model || '')).trim();
+  const source = (envUrl || envKey || envModel) ? 'env' : (f.baseUrl ? 'file' : 'none');
+  return { baseUrl, key, model, source };
+}
+
+/**
+ * Known OpenAI-compatible base URLs, so the field is a CHOICE rather than a memory test.
+ *
+ * Three of these are irregular — `/openai/v1`, `/inference/v1`, `/v1/openai` — which is precisely why
+ * asking people to type it was the wrong design: no guess and no normaliser finds those. `key` says
+ * whether the service needs one, so a local server does not nag for a key it will ignore.
+ *
+ * This names the providers the kit INTEROPERATES with, which is a statement about what the software
+ * works with. Keep it to that: these are endpoints, not endorsements, and nothing here is presented as
+ * recommended. Verify a URL against the provider's own docs before changing it.
+ */
+export const ENDPOINT_PRESETS = [
+  { group: 'Hosted',           label: 'NVIDIA',           url: 'https://integrate.api.nvidia.com/v1', key: true },
+  { group: 'Hosted',           label: 'OpenRouter',       url: 'https://openrouter.ai/api/v1',        key: true },
+  { group: 'Hosted',           label: 'Groq',             url: 'https://api.groq.com/openai/v1',      key: true },
+  { group: 'Hosted',           label: 'Together AI',      url: 'https://api.together.xyz/v1',         key: true },
+  { group: 'Hosted',           label: 'Fireworks AI',     url: 'https://api.fireworks.ai/inference/v1', key: true },
+  { group: 'Hosted',           label: 'DeepInfra',        url: 'https://api.deepinfra.com/v1/openai',  key: true },
+  { group: 'Hosted',           label: 'Cerebras',         url: 'https://api.cerebras.ai/v1',          key: true },
+  { group: 'Hosted',           label: 'Hugging Face',     url: 'https://router.huggingface.co/v1',    key: true },
+  { group: 'Hosted',           label: 'Mistral',          url: 'https://api.mistral.ai/v1',           key: true },
+  { group: 'Hosted',           label: 'DeepSeek',         url: 'https://api.deepseek.com/v1',         key: true },
+  { group: 'Hosted',           label: 'xAI',              url: 'https://api.x.ai/v1',                 key: true },
+  { group: 'Hosted',           label: 'OpenAI',           url: 'https://api.openai.com/v1',           key: true },
+  { group: 'On this computer', label: 'LM Studio',        url: 'http://localhost:1234/v1',            key: false },
+  { group: 'On this computer', label: 'vLLM',             url: 'http://localhost:8000/v1',            key: false },
+  { group: 'On this computer', label: 'llama.cpp server', url: 'http://localhost:8080/v1',            key: false },
+  { group: 'On this computer', label: 'Ollama',           url: 'http://localhost:11434/v1',           key: false },
+];
+
+/**
+ * Turn what a person actually has into a usable base URL.
+ *
+ * WHY. Someone signing up for an API gets a KEY and a docs page; the "base URL" is a thing they are
+ * expected to already know, and the field demanded an exact `/v1` suffix. So the obvious inputs —
+ * pasting the host, or the full chat-completions URL out of a curl example — both failed with a 404
+ * that blamed the model. The endpoint is a fixed shape, so derive it instead of asking:
+ *
+ *   api.example.com                        -> https://api.example.com/v1
+ *   https://api.example.com/               -> https://api.example.com/v1
+ *   https://api.example.com/v1/chat/completions -> https://api.example.com/v1
+ *   https://api.example.com/openai/v1      -> https://api.example.com/openai/v1   (left alone)
+ *
+ * Only `https` is assumed for a bare host; a self-hosted server on the LAN is usually plain http and
+ * is typed with its scheme, so an explicit scheme is always respected.
+ */
+export function normalizeEndpointUrl(input) {
+  let u = String(input == null ? '' : input).trim();
+  if (!u) { return ''; }
+  if (!/^https?:\/\//i.test(u)) { u = 'https://' + u.replace(/^\/+/, ''); }
+  u = u.replace(/[?#].*$/, '').replace(/\/+$/, '');
+  // A pasted curl example ends at the operation, not the base.
+  u = u.replace(/\/(?:chat\/)?completions$/i, '').replace(/\/(?:models|embeddings|responses)$/i, '').replace(/\/+$/, '');
+  // No version segment ANYWHERE? Add the conventional one rather than 404 on every call. Anchoring
+  // this to the END would break the providers whose version is not last — one serves its OpenAI
+  // surface at `/v1/openai`, and appending another `/v1` to that produces a dead URL.
+  if (!/\/v\d/i.test(u)) { u += '/v1'; }
+  return u;
+}
+
+/**
+ * The last "which models can this key call" sweep, kept on disk.
+ *
+ * WHY IT IS PERSISTED. It was held in a page variable, so a refresh lost it and the picker silently
+ * went back to showing the provider's whole catalogue — indistinguishable from the filter breaking.
+ * Worse, the only way to get it back was to sweep again, and a second sweep of several dozen models
+ * is exactly what trips a free tier's rate limit, so the retry tended to return FEWER working models
+ * than the first run. Measuring once and remembering it is both kinder to the quota and the only way
+ * the answer survives a reload.
+ *
+ * Keyed by the base URL it was measured against: point the tier at a different provider and the old
+ * verdict is not evidence about the new one, so it is dropped rather than shown.
+ */
+export function endpointProbe() {
+  const f = readEndpointFile();
+  const p = f.probe;
+  if (!p || typeof p !== 'object') { return null; }
+  const cur = String(f.baseUrl || '').replace(/\/+$/, '');
+  if (!cur || String(p.baseUrl || '').replace(/\/+$/, '') !== cur) { return null; }
+  return { ok: Array.isArray(p.ok) ? p.ok : [], tested: Number(p.tested) || 0, aborted: !!p.aborted, at: Number(p.at) || 0 };
+}
+
+/** Remember a sweep (or forget it, with null). */
+export function setEndpointProbe(result) {
+  const cfg = readEndpointFile();
+  if (!result) { delete cfg.probe; }
+  else {
+    cfg.probe = { baseUrl: String(cfg.baseUrl || ''), ok: Array.isArray(result.ok) ? result.ok : [],
+      tested: Number(result.tested) || 0, aborted: !!result.aborted, at: Date.now() };
+  }
+  writeFileSync(AI_ENDPOINT_CONFIG, JSON.stringify(cfg, null, 2) + '\n');
+  return endpointProbe();
+}
+
+/** Configured enough to run? A KEY IS OPTIONAL — a local LM Studio / vLLM server needs none.
+ *
+ *  An explicit AI_BACKEND still wins, both ways: forcing `ollama`/`local` must keep using the local
+ *  transport even when an endpoint is saved (otherwise a saved config silently overrides the override,
+ *  and a developer's own config leaks into test runs), and forcing `endpoint` selects it outright. */
+export function endpointActive() {
+  const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-')
+    || String(readLocalAiConfig().backend || '').toLowerCase();
+  if (forced === 'ollama' || forced === 'local') return false;
+  const c = endpointConfig();
+  return !!(c.baseUrl && c.model);
+}
+
+/** Persist the endpoint config (the dashboard writes this). Empty baseUrl clears the whole tier.
+ *  An omitted `key` KEEPS the stored one, so re-picking a model does not wipe the key. */
+export function setEndpointConfig({ baseUrl, key, model } = {}) {
+  const cur = readEndpointFile();
+  const url = normalizeEndpointUrl(String(baseUrl == null ? (cur.baseUrl || '') : baseUrl));
+  if (!url) { writeFileSync(AI_ENDPOINT_CONFIG, JSON.stringify({}, null, 2) + '\n'); return endpointConfig(); }
+  const next = {
+    baseUrl: url,
+    key: key === undefined ? String(cur.key || '') : String(key || ''),
+    model: model === undefined ? String(cur.model || '') : String(model || '').trim(),
+  };
+  // A sweep measured against a DIFFERENT provider is not evidence about this one.
+  if (cur.probe && String(cur.probe.baseUrl || '').replace(/\/+$/, '') === url) { next.probe = cur.probe; }
+  writeFileSync(AI_ENDPOINT_CONFIG, JSON.stringify(next, null, 2) + '\n');
+  return endpointConfig();
+}
+
+/** Ollama's tool_calls carry `arguments` as an OBJECT; OpenAI's carry it as a JSON STRING. */
+function argsToObject(a) {
+  if (a && typeof a === 'object') return a;
+  try { return JSON.parse(String(a || '{}')); } catch { return {}; }
+}
+
+/**
+ * One OpenAI-compatible turn, taking an OLLAMA-shaped body and returning an OLLAMA-shaped reply, so
+ * every existing caller in this file is unchanged. The translation is small but not trivial:
+ *   • options.temperature / options.num_predict  ->  temperature / max_tokens
+ *   • format (a JSON schema, or the string 'json')  ->  response_format
+ *   • assistant tool_calls: arguments object  ->  JSON string, and an `id` is required
+ *   • tool results: Ollama's `tool_name`  ->  OpenAI's `tool_call_id`
+ *   • reply: choices[0].message  ->  message, arguments string  ->  object
+ */
+async function endpointChatRaw(body, timeoutMs) {
+  const cfg = endpointConfig();
+  const model = String(body.model || cfg.model || '').trim();
+  if (!cfg.baseUrl) { const e = new Error('No endpoint is configured.'); e.code = 503; throw e; }
+  if (!model) { const e = new Error('No endpoint model is picked.'); e.code = 503; throw e; }
+
+  // OpenAI requires every tool result to name the call it answers. Ollama identifies it by tool NAME, so
+  // map each name to the id we sent for it; without this the provider rejects the whole conversation.
+  const idByName = new Map();
+  const msgs = [];
+  for (const m of (Array.isArray(body.messages) ? body.messages : [])) {
+    if (!m || !['system', 'user', 'assistant', 'tool'].includes(m.role)) continue;
+    const o = { role: m.role, content: String(m.content == null ? '' : m.content) };
+    if (m.role === 'assistant' && Array.isArray(m.tool_calls) && m.tool_calls.length) {
+      o.tool_calls = m.tool_calls.map((tc, i) => {
+        const fn = tc.function || tc;
+        const name = String(fn.name || '');
+        const id = String(tc.id || `call_${msgs.length}_${i}`);
+        if (name) idByName.set(name, id);
+        const raw = fn.arguments;
+        return { id, type: 'function', function: { name, arguments: typeof raw === 'string' ? raw : JSON.stringify(raw == null ? {} : raw) } };
+      });
+    }
+    if (m.role === 'tool') {
+      const name = String(m.tool_name || m.name || '');
+      o.tool_call_id = String(m.tool_call_id || idByName.get(name) || (name ? `call_${name}` : 'call_0'));
+      if (name) o.name = name;
+    }
+    msgs.push(o);
+  }
+  if (!msgs.length) { const e = new Error('No message to send.'); e.code = 400; throw e; }
+
+  const payload = { model, messages: msgs, stream: false };
+  const opts = body.options || {};
+  if (typeof opts.temperature === 'number') payload.temperature = opts.temperature;
+  if (opts.num_predict) payload.max_tokens = opts.num_predict;
+  if (Array.isArray(body.tools) && body.tools.length) payload.tools = body.tools; // already the OpenAI schema
+  if (body.format && typeof body.format === 'object') {
+    payload.response_format = { type: 'json_schema', json_schema: { name: 'result', schema: body.format } };
+  } else if (body.format === 'json') {
+    payload.response_format = { type: 'json_object' };
+  }
+
+  const url = `${cfg.baseUrl}/chat/completions`;
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', ...(cfg.key ? { authorization: `Bearer ${cfg.key}` } : {}) },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(timeoutMs),
+  }).catch((err) => { const e = new Error(`Could not reach the endpoint at ${cfg.baseUrl} (${err.message}).`); e.code = 503; throw e; });
+
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    // The three failures worth naming, because the raw provider text rarely explains them.
+    let hint = '';
+    if (resp.status === 401 || resp.status === 403) hint = ' — the API key was rejected. Check it in Settings.';
+    else if (resp.status === 404) {
+      // A LISTED model is not necessarily a model YOU can call. A provider's catalogue covers its whole
+      // hub, while a key is entitled to a subset — so the common 404 here is "this account cannot invoke
+      // that one", which reads nothing like it in the raw payload (it names an internal function id and
+      // an account id). Blaming the base URL for it, as this used to, sends the person to re-check a
+      // setting that is demonstrably fine: /models answered, or there would be no model list to pick from.
+      hint = /not found for account|function '|no access|not authorized for/i.test(t)
+        ? ` — your account cannot call "${model}". The provider lists its whole catalogue, but a key is only entitled to some of it. Pick a different model and Check again.`
+        : ` — the provider does not know the model "${model}". If you typed the base URL by hand, confirm it is the one ending in /v1.`;
+    }
+    else if (resp.status === 429) hint = ' — the provider is rate-limiting you. Wait a moment, or use a plan with a higher limit.';
+    else if (/tool/i.test(t)) hint = ' — this model cannot call tools. Run Check on it and pick one that passes.';
+    const e = new Error(`Endpoint ${resp.status}: ${t.slice(0, 200)}${hint}`);
+    e.code = (resp.status === 401 || resp.status === 403 || resp.status === 404 || resp.status === 429) ? 503 : 500;
+    throw e;
+  }
+
+  const data = await resp.json().catch(() => ({}));
+  const choice = (Array.isArray(data.choices) && data.choices[0]) || {};
+  const cm = choice.message || {};
+  // Some providers answer a json_schema request with the object in `parsed`; fall back to it.
+  let content = cm.content;
+  if ((content == null || content === '') && cm.parsed && typeof cm.parsed === 'object') { content = JSON.stringify(cm.parsed); }
+  const out = { message: { role: 'assistant', content: String(content == null ? '' : content) } };
+  if (Array.isArray(cm.tool_calls) && cm.tool_calls.length) {
+    out.message.tool_calls = cm.tool_calls.map((tc) => ({
+      id: tc.id,
+      function: { name: String((tc.function || {}).name || ''), arguments: argsToObject((tc.function || {}).arguments) },
+    }));
+  }
+  return out;
+}
+
+/**
+ * THE ONE TRANSPORT for the non-Claude tier. Give it an Ollama-shaped body, get an Ollama-shaped reply,
+ * whichever transport the person configured. Every `/api/chat` caller in this file goes through here, so
+ * adding the endpoint tier did not mean touching each of them — and a future transport would not either.
+ */
+async function localChat(body, timeoutMs, what = 'the local model request') {
+  if (endpointActive()) return endpointChatRaw(body, timeoutMs);
+  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(timeoutMs),
+  }).catch((err) => { throw localModelError(err, OLLAMA_HOST, what); });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)}${/tools/i.test(t)
+      ? ' — this model cannot call tools; pick Qwen3 (4B / 8B / 14B) or Mistral Small.'
+      : ` — is \`${body.model}\` pulled?`}`);
+    e.code = (resp.status === 404 || resp.status === 400) ? 503 : 500;
+    e.bodyText = t;
+    throw e;
+  }
+  return await resp.json();
+}
+
+/**
+ * The models a configured endpoint actually offers (OpenAI's `GET /v1/models`), split into ones that can
+ * do this job and ones that cannot.
+ *
+ * WHY THE SPLIT. A provider's catalogue is not a list of chat models — it also holds embedders, rerankers,
+ * safety classifiers, speech and video detectors and image/diffusion models. Handing all of that to the
+ * person as a menu offers mostly entries that fail, with errors that do not say why. So the obviously
+ * wrong classes are separated out by id, and the rest are offered.
+ *
+ * What this CANNOT tell you is whether a model accepts `tools` — `/v1/models` carries no capability
+ * metadata at all. That is what the Check action is for: it measures rather than guesses.
+ */
+/**
+ * Ask the endpoint which of its listed models this KEY can actually call.
+ *
+ * WHY THIS EXISTS. `GET /v1/models` returns a provider's whole catalogue; a key is entitled to a
+ * subset of it. So the picker could offer 64 "usable" models of which most answer
+ * `404 … Not found for account`, and the only way to find a working one was to Check them one at a
+ * time. Neither the capability (does it take `tools`?) nor the entitlement is in the listing, so the
+ * only honest way to know is to ask — once, cheaply, for all of them.
+ *
+ * Cheap on purpose: one token, no tools, no schema. The point is the status code, not the answer.
+ * Concurrency is deliberately low and a run of 429s aborts the sweep, because a free tier's rate limit
+ * is the thing most likely to be hit by probing dozens of models at once — and a sweep that trips the
+ * limit would report working models as broken.
+ */
+export async function probeEndpointModels({ models, max = 80, concurrency = 4 } = {}) {
+  const cfg = endpointConfig();
+  if (!cfg.baseUrl) { const e = new Error('Set the endpoint URL first.'); e.code = 400; throw e; }
+  let list = Array.isArray(models) && models.length ? models : (await listEndpointModels()).models;
+  list = list.slice(0, Math.max(1, Math.min(200, max)));
+
+  const url = `${cfg.baseUrl}/chat/completions`;
+  const headers = { 'content-type': 'application/json', ...(cfg.key ? { authorization: `Bearer ${cfg.key}` } : {}) };
+  const results = [];
+  let rateLimited = 0, aborted = false;
+
+  const one = async (model) => {
+    if (aborted) { results.push({ model, ok: false, status: 0, reason: 'skipped' }); return; }
+    let r;
+    try {
+      r = await fetch(url, { method: 'POST', headers, signal: AbortSignal.timeout(25000),
+        body: JSON.stringify({ model, messages: [{ role: 'user', content: 'hi' }], max_tokens: 1, stream: false }) });
+    } catch (err) { results.push({ model, ok: false, status: 0, reason: String(err.message || err).slice(0, 80) }); return; }
+    if (r.ok) { results.push({ model, ok: true, status: 200, reason: '' }); return; }
+    const t = await r.text().catch(() => '');
+    let reason = `HTTP ${r.status}`;
+    if (r.status === 429) {
+      rateLimited++;
+      reason = 'rate limited — not a verdict on the model';
+      // Three in a row means the sweep itself is the problem; stop rather than mislabel the rest.
+      if (rateLimited >= 3) { aborted = true; }
+    } else if (/not found for account|function '|no access|not authorized for/i.test(t)) {
+      reason = 'not available to your key';
+    } else if (r.status === 404) { reason = 'unknown to the provider';
+    } else if (r.status === 401 || r.status === 403) { reason = 'key rejected';
+    } else if (t) { reason = `HTTP ${r.status}: ${t.replace(/\s+/g, ' ').slice(0, 70)}`; }
+    results.push({ model, ok: false, status: r.status, reason });
+  };
+
+  // A small worker pool — Promise.all over 64 models at once is exactly what trips a rate limit.
+  const queue = list.slice();
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(8, concurrency)) }, async () => {
+    for (;;) { const m = queue.shift(); if (!m) { break; } await one(m); }
+  }));
+
+  const ok = results.filter((r) => r.ok).map((r) => r.model).sort();
+  const out = { tested: results.length, ok, aborted, rateLimited,
+    failed: results.filter((r) => !r.ok).map((r) => ({ model: r.model, reason: r.reason })) };
+  // Remember it, EXCEPT when the sweep was cut short by rate limiting — a partial sweep says nothing
+  // reliable about the models it never reached, and saving it would pin a wrong answer until the next
+  // manual re-test.
+  if (!aborted) { try { setEndpointProbe(out); } catch { /* the sweep still stands */ } }
+  return out;
+}
+
+export async function listEndpointModels() {
+  const cfg = endpointConfig();
+  if (!cfg.baseUrl) { const e = new Error('Set the endpoint URL first.'); e.code = 400; throw e; }
+  const resp = await fetch(`${cfg.baseUrl}/models`, {
+    headers: { accept: 'application/json', ...(cfg.key ? { authorization: `Bearer ${cfg.key}` } : {}) },
+    signal: AbortSignal.timeout(20000),
+  }).catch((err) => { const e = new Error(`Could not reach ${cfg.baseUrl}/models (${err.message}).`); e.code = 503; throw e; });
+  if (!resp.ok) {
+    const t = await resp.text().catch(() => '');
+    const e = new Error(`Endpoint ${resp.status}: ${t.slice(0, 160)}${resp.status === 401 || resp.status === 403
+      ? ' — the API key was rejected.'
+      : ' — this provider may not list models; type the model id by hand instead.'}`);
+    e.code = 503; throw e;
+  }
+  const data = await resp.json().catch(() => ({}));
+  const rows = Array.isArray(data.data) ? data.data : (Array.isArray(data.models) ? data.models : []);
+  const ids = rows.map((r) => String((r && (r.id || r.name)) || '')).filter(Boolean);
+  const NON_CHAT = /(embed|embedding|rerank|retrieval|guard|safety|moderation|content-safety|speech|whisper|tts|audio|speaker|video|vision-ocr|ocr|diffusion|image-gen|stable-?diffusion|flux|sdxl|upscal|detector|classif|nemoretriever|parakeet|canary|riva)/i;
+  const usable = ids.filter((id) => !NON_CHAT.test(id)).sort();
+  const other = ids.filter((id) => NON_CHAT.test(id)).sort();
+  return { baseUrl: cfg.baseUrl, count: ids.length, models: usable, other };
+}
+
 // Curated shortlist shown in the dashboard picker (the user chooses by hardware). `tag` is the Ollama
 // model to `ollama pull`. Not exhaustive — the picker also accepts a custom tag.
 // NOTE on quality: these LOCAL models are the free/private tier and are all well below Claude. For the
@@ -81,8 +476,101 @@ function writeLocalAiConfig(obj) {
   writeFileSync(LOCAL_AI_CONFIG, JSON.stringify(obj || {}, null, 2) + '\n');
 }
 
+/* ---- Which AI runs: a PERSISTED choice, not just an env var ------------ *
+ * `AI_BACKEND` has always existed, but only as an environment variable — so choosing one meant setting
+ * a variable and restarting the launcher, and with nothing set the auto-order always picked Claude.
+ * Someone who wants to spend their own endpoint's quota for a while instead of Claude tokens had no
+ * way to say so. The choice is now saved in local-ai.json beside the picked model, and the environment
+ * variable still WINS over it, so scripts, CI and the test suite keep their override.
+ *
+ * Values: '' (automatic — the strongest available, unchanged), 'api', 'claude-code', 'endpoint',
+ * 'ollama', 'off'.
+ */
+const BACKEND_CHOICES = ['', 'api', 'claude-code', 'codex', 'cursor', 'endpoint', 'ollama', 'off'];
+
+/** The chosen backend: the env override first, then the saved choice, else '' = automatic. */
+export function preferredBackend() {
+  const env = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
+  if (env) { return env === 'cli' ? 'claude-code' : (env === 'local' ? 'ollama' : (env === 'none' ? 'off' : env)); }
+  const saved = String(readLocalAiConfig().backend || '').toLowerCase();
+  return BACKEND_CHOICES.includes(saved) ? saved : '';
+}
+
+/** Persist the choice. '' / 'auto' clears it (back to automatic). Throws on anything unknown. */
+export function setPreferredBackend(v) {
+  let b = String(v == null ? '' : v).toLowerCase().replace(/[_\s]/g, '-');
+  if (b === 'auto') { b = ''; }
+  if (b === 'cli') { b = 'claude-code'; }
+  if (b === 'local') { b = 'ollama'; }
+  if (b === 'none') { b = 'off'; }
+  if (!BACKEND_CHOICES.includes(b)) { const e = new Error(`Unknown backend "${v}".`); e.code = 400; throw e; }
+  const cfg = readLocalAiConfig();
+  if (b) { cfg.backend = b; } else { delete cfg.backend; }
+  writeLocalAiConfig(cfg);
+  return preferredBackend();
+}
+
+/**
+ * The NAME of whatever a base URL points at — "NVIDIA", not "My endpoint" and not a URL.
+ *
+ * People think of this as their provider, so the switcher should too. Matched against the shipped
+ * presets first (so the common ones read as themselves), then the bare host for anything hand-typed,
+ * and only then a generic label. A local server is called what it is rather than by `localhost:1234`,
+ * which tells the reader nothing about which of several local servers it is.
+ */
+export function endpointProviderLabel(url) {
+  const u = String(url || '').trim().replace(/\/+$/, '');
+  if (!u) { return ''; }
+  const hit = ENDPOINT_PRESETS.find((p) => p.url.replace(/\/+$/, '') === u);
+  if (hit) { return hit.label; }
+  try { return new URL(u).host.replace(/^www\./, ''); } catch { return 'Your own endpoint'; }
+}
+
+/**
+ * Every backend with whether it can actually run, so the switch can show the real state instead of
+ * offering a choice that silently falls back. `active` is the one a job would use right now.
+ */
+export function aiBackends() {
+  const ep = endpointConfig();
+  const rows = [
+    { id: '', label: 'Automatic', detail: 'Use the strongest one available', available: true },
+    { id: 'claude-code', label: 'Claude subscription', detail: 'Through the Claude Code CLI — no API key, no extra billing',
+      available: claudeCliAvailable(), why: 'The `claude` CLI is not on PATH.' },
+    { id: 'codex', label: 'ChatGPT subscription', detail: 'Through OpenAI’s codex CLI — no API key',
+      available: codexAvailable(), why: 'The `codex` CLI is not on PATH.' },
+    { id: 'cursor', label: 'Cursor subscription', detail: 'Through the cursor-agent CLI — no API key',
+      available: cursorAvailable(), why: 'The `cursor-agent` CLI is not on PATH.' },
+    { id: 'api', label: 'Claude API key', detail: 'Pay-per-use, billed by the API console',
+      available: !!(process.env.ANTHROPIC_API_KEY || '').trim(), why: 'No ANTHROPIC_API_KEY is set.' },
+    { id: 'endpoint', label: endpointProviderLabel(ep.baseUrl) || 'Your own endpoint',
+      detail: ep.baseUrl ? `${ep.model || '(no model picked)'} · ${ep.baseUrl}` : 'Any OpenAI-compatible API',
+      available: !!(ep.baseUrl && ep.model), why: 'Set a base URL and pick a model in “Bring your own endpoint”.' },
+    { id: 'ollama', label: selectedLocalModelRaw() ? `Local · ${selectedLocalModelRaw()}` : 'Local model',
+      detail: selectedLocalModelRaw() || 'A model on this computer',
+      available: (ollamaBinaryAvailable() || _ollamaUp) && selectedLocalModelRaw() !== '', why: 'No local model is picked, or the local runner is not running.' },
+    { id: 'off', label: 'No AI', detail: 'Deterministic conversion only — spends nothing', available: true },
+  ];
+  // `active: 'ollama'` is ambiguous on its own — the local tier and the endpoint share that internal
+  // id — so say which wire it is, or the status line would call an endpoint a local model.
+  // A reason only means something on a row that cannot run; carrying it on an available one invites
+  // a UI that shows "not available" text beside a working choice.
+  for (const r of rows) { if (r.available) { delete r.why; } }
+  return { chosen: preferredBackend(), fromEnv: !!(process.env.AI_BACKEND || '').trim(),
+    active: aiBackend() || 'off', endpointLive: endpointActive(), backends: rows };
+}
+
 /** The model the user picked (OLLAMA_MODEL env wins, else local-ai.json), or '' if none. */
+/** The LOCAL model only, never the endpoint's — what the local picker itself shows. */
+function selectedLocalModelRaw() {
+  const env = (process.env.OLLAMA_MODEL || '').trim();
+  if (env) return env;
+  return String(readLocalAiConfig().model || '').trim();
+}
+
 export function selectedLocalModel() {
+  // A configured endpoint IS the non-Claude tier while it is set, so its model is the picked one —
+  // otherwise every caller that reads this would send an Ollama tag to the endpoint.
+  if (endpointActive()) return endpointConfig().model;
   const env = (process.env.OLLAMA_MODEL || '').trim();
   if (env) return env;
   return String(readLocalAiConfig().model || '').trim();
@@ -124,8 +612,10 @@ export async function deleteModel(model) {
 // ollamaReady()/aiBackend() agree with the dashboard's "running" state instead of silently falling back.
 let _ollamaUp = false;
 
-/** Ollama is a usable backend when it's reachable (binary on PATH OR server answered) AND a model is picked. */
+/** The non-Claude tier is usable when EITHER transport is: a configured endpoint (nothing to install —
+ *  it is remote), or a reachable Ollama (binary on PATH OR server answered) with a model picked. */
 function ollamaReady() {
+  if (endpointActive()) return true;
   return (ollamaBinaryAvailable() || _ollamaUp) && selectedLocalModel() !== '';
 }
 
@@ -144,7 +634,12 @@ export async function localAiStatus() {
   const norm = (x) => { x = String(x || ''); return x.includes(':') ? x : x + ':latest'; };
   const listed = new Set(LOCAL_AI_MODELS.map((m) => norm(m.tag)));
   const custom = models.filter((m) => !listed.has(norm(m)));
-  return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, custom, shortlist: LOCAL_AI_MODELS };
+  // The endpoint tier rides alongside: the dashboard shows both, and `transport` says which one a
+  // conversion would actually use, so the two panels can never disagree about what is live.
+  const ep = endpointConfig();
+  const endpoint = { configured: endpointActive(), baseUrl: ep.baseUrl, model: ep.model, source: ep.source, hasKey: !!ep.key };
+  return { installed, up, host: OLLAMA_HOST, selected: selectedLocalModel(), pulled: models, custom, shortlist: LOCAL_AI_MODELS,
+    endpoint, transport: endpointActive() ? 'endpoint' : 'ollama' };
 }
 
 /** The recommended default the auto-setup pulls/prefers (the shortlist's first `recommended` tag). */
@@ -229,17 +724,7 @@ export async function testLocalModel(prompt) {
   // Keep the "is it alive?" reply CLEAN: a terse system rule + Qwen3's `/no_think` soft-switch suppress the
   // out-loud reasoning that `think:false` alone doesn't fully silence for hybrid-reasoning models.
   const sys = 'You are a concise assistant. Answer directly in one or two short sentences. Do NOT show your reasoning or any preamble.';
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: sys }, { role: 'user', content: p }] }),
-    signal: AbortSignal.timeout(to),
-  }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
-  if (!resp.ok) {
-    const t = await resp.text().catch(() => '');
-    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
-    e.code = resp.status === 404 ? 503 : 500; throw e;
-  }
-  const data = await resp.json();
+  const data = await localChat({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: sys }, { role: 'user', content: p }] }, to);
   return { ok: true, model, reply: stripReasoning((data.message && data.message.content) || ''), ms: Date.now() - t0 };
 }
 
@@ -248,7 +733,62 @@ export async function testLocalModel(prompt) {
  * Claude via the API / Claude Code CLI). Takes a messages array [{role:'user'|'assistant', content}] and
  * returns { ok, model, reply, ms }. Context is capped to the last ~12 turns so it stays fast; the caller
  * (serve.mjs) owns durable persistence. Throws with `.code = 503` when no AI backend is available. */
-const CHAT_SYSTEM = 'You are a helpful, concise assistant embedded in the Unyson+ Site Converter dashboard. Answer directly and clearly. Use fenced ``` code blocks for code. Do not show hidden reasoning or preambles.';
+/* THE CHAT'S BRIEF — why it is longer than one sentence.
+ *
+ * It used to be exactly that: "a helpful, concise assistant embedded in the dashboard". With nothing
+ * else to go on the model assumed it was a generic chatbot with no abilities, and said so — it denied
+ * knowing which model it was (the server returns that on every reply), denied that it could reach the
+ * Studio (whose bridge runs in this same process), and denied any way to look at a URL (this kit drives
+ * a real browser). Three refusals, none of them true of the product it is sitting inside.
+ *
+ * Phase 1 of the Kit Assistant plan is context only: no tools yet, so it still cannot fetch a page
+ * ITSELF. What changes is that it now knows what the kit around it can do, and can point at the thing
+ * that does it instead of refusing flatly. The honest line is "I can't fetch it from this panel — the
+ * Convert tab can", not "I have no network access".
+ *
+ * Plan: https://docs.unysonplus.com/ai-dev-kit/kit-assistant
+ */
+const KIT_BRIEF = [
+  'You are the assistant in the Unyson+ AI Dev Kit dashboard, running locally on the person\'s own computer.',
+  '',
+  'What runs beside you, in this same service:',
+  '- The Site Converter: captures a real site in a real browser (Playwright) and rebuilds it as Unyson+ pages and a child theme. The dashboard\'s Convert tab runs it; `node capture.mjs <url> capture-out/` is the CLI.',
+  '- A watched `capture-out/` folder holding every capture: rendered.html, pages.json, the design tokens, and a per-section conversion report.',
+  '- Kinetic Scenes: the Studio sends scene requests to this service and gets a scene back.',
+  '- The kit\'s own docs: section recipes, style directions, per-shortcode option references, and the build protocol.',
+  '',
+  'How to answer:',
+  '- Be direct and concise. Fenced ``` code blocks for code. No hidden reasoning, no preamble.',
+  "- You have READ-ONLY tools: look_at_url (opens a page in the kit's own browser — it renders JavaScript), conversion_report (a capture's per-section result), search_docs and read_doc (the kit's docs). Use them instead of guessing: a question about a site means look_at_url; a question about a capture means conversion_report; a how-to question about Unyson+ means search_docs first. Never say you have no network or browser access — you have the kit's.",
+  "- Two tools ACT: start_capture (capture a site into capture-out) and hand_to_studio (pass a scene request to Kinetic Scenes). You never run them yourself: each returns a proposal and the person presses Confirm under your message. Say what will happen and that it waits for their Confirm; never claim it has started or finished. capture_status reports a running capture.",
+  "- You cannot convert a site into WordPress, change a WordPress site, or write settings. Name the part of the kit that does it (the Convert tab, the site's own AI Assistant).",
+  '- Never invent what a capture or a report contains. If you have not been given it in this conversation, say so.',
+].join('\n');
+
+/* The answering model, stated plainly. The service knows it on every turn — it returns `out.model` with
+ * each reply and the dashboard header shows the provider — so "I don't have access to my underlying
+ * model name" was never a real limitation, just context nobody passed in. */
+function answeringModelLine() {
+  const b = aiBackend();
+  if (!b) { return ''; }
+  if (b === 'ollama' && endpointActive()) {
+    const cfg = endpointConfig();
+    const provider = endpointProviderLabel(cfg.baseUrl) || 'a custom endpoint';
+    return 'You are answering through ' + provider + (cfg.model ? ' (model: ' + cfg.model + ')' : '') + '.';
+  }
+  if (b === 'ollama') {
+    const m = selectedLocalModel();
+    return 'You are answering as a local model on this computer' + (m ? ' (model: ' + m + ')' : '') + '.';
+  }
+  if (b === 'claude-code') { return 'You are answering as Claude, through the Claude Code CLI on this computer.'; }
+  if (b === 'api') { return 'You are answering as Claude, through the Anthropic API (model: ' + DEFAULT_MODEL + ').'; }
+  return 'You are answering through the ' + b + ' backend.';
+}
+
+function chatSystem() {
+  const line = answeringModelLine();
+  return line ? (KIT_BRIEF + '\n\n' + line) : KIT_BRIEF;
+}
 const CHAT_CONTEXT_TURNS = 12;
 
 export async function chatLocalModel({ messages } = {}) {
@@ -265,17 +805,7 @@ export async function chatLocalModel({ messages } = {}) {
   if (backend === 'ollama') {
     const model = selectedLocalModel();
     const to = parseInt(process.env.AI_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 120000;
-    const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: CHAT_SYSTEM }, ...ctx] }),
-      signal: AbortSignal.timeout(to),
-    }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
-    if (!resp.ok) {
-      const t = await resp.text().catch(() => '');
-      const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)} — is \`${model}\` pulled?`);
-      e.code = resp.status === 404 ? 503 : 500; throw e;
-    }
-    const data = await resp.json();
+    const data = await localChat({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: chatSystem() }, ...ctx] }, to);
     return { ok: true, model, reply: stripReasoning((data.message && data.message.content) || ''), ms: Date.now() - t0 };
   }
 
@@ -288,8 +818,117 @@ export async function chatLocalModel({ messages } = {}) {
   } else {
     user = ctx[ctx.length - 1].content;
   }
-  const reply = stripReasoning(await askText({ system: CHAT_SYSTEM, user, maxTokens: 4000 }));
+  const reply = stripReasoning(await askText({ system: chatSystem(), user, maxTokens: 4000 }));
   return { ok: true, model, reply, ms: Date.now() - t0 };
+}
+
+/**
+ * The Kit Assistant's tool loop (dashboard Chat). Offers the tools, runs the ones the model asks for,
+ * feeds the results back, and repeats to a bounded depth — then answers.
+ *
+ * Two ways to call a tool, picked by backend:
+ *  - native tool calls on the Ollama / endpoint transport (the OpenAI-shaped `tool_calls` translation in
+ *    endpointChatRaw is reused as is);
+ *  - a one-line text protocol (`TOOL {"name":…,"arguments":…}`) for the single-shot text backends
+ *    (Claude Code CLI, Anthropic API) and for a model whose provider refuses native tools.
+ *
+ * @param {object} p
+ * @param {Array}    p.messages  user / assistant turns
+ * @param {Array}    p.tools     OpenAI-shaped function tools
+ * @param {Function} p.runTool   async (name, args) => { ok, text, result }
+ * @param {string}   p.context   extra system context (the capture summary)
+ * @returns {Promise<{ok, model, reply, ms, toolCalls}>}
+ */
+const CHAT_TOOL_ROUNDS = 6;
+
+export async function chatWithTools({ messages, tools = [], runTool, context = '', maxRounds = CHAT_TOOL_ROUNDS } = {}) {
+  const backend = aiBackend();
+  if (!backend) { const e = new Error('AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).'); e.code = 503; throw e; }
+  const ctx = (Array.isArray(messages) ? messages : [])
+    .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
+    .map((m) => ({ role: m.role, content: String(m.content) }))
+    .slice(-CHAT_CONTEXT_TURNS);
+  if (!ctx.length) { const e = new Error('No message to send.'); e.code = 400; throw e; }
+  const system = chatSystem() + (context ? '\n\n' + context : '');
+  const t0 = Date.now();
+  const toolCalls = [];
+  const call = async (name, args) => {
+    const r = await runTool(name, args);
+    toolCalls.push({ name, args, ok: r.ok, result: r.result });
+    return r.text;
+  };
+
+  if (backend === 'ollama') {
+    const model = endpointActive() ? endpointConfig().model : selectedLocalModel();
+    const to = parseInt(process.env.AI_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 180000;
+    const msgs = [{ role: 'system', content: system }, ...ctx];
+    try {
+      for (let round = 0; round <= maxRounds; round++) {
+        const last = round === maxRounds; // out of rounds: answer with what has been gathered
+        const data = await localChat({ model, stream: false, think: false, options: { temperature: 0.2, num_predict: 3072 }, messages: msgs, ...(last ? {} : { tools }) }, to);
+        const m = data.message || {};
+        const tcs = Array.isArray(m.tool_calls) ? m.tool_calls : [];
+        if (!tcs.length) return { ok: true, model, reply: stripReasoning(m.content || ''), ms: Date.now() - t0, toolCalls };
+        msgs.push({ role: 'assistant', content: m.content || '', tool_calls: tcs });
+        for (const tc of tcs) {
+          const fn = tc.function || tc;
+          let args = fn.arguments;
+          if (typeof args === 'string') { try { args = JSON.parse(args || '{}'); } catch { args = {}; } }
+          msgs.push({ role: 'tool', tool_name: String(fn.name || ''), content: await call(String(fn.name || ''), args) });
+        }
+      }
+    } catch (e) {
+      // A provider / model that refuses native tools still gets them, through the text protocol.
+      if (!/tool/i.test(String(e.message)) || toolCalls.length) throw e;
+      return textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls, to });
+    }
+  }
+  const model = backend === 'api' ? DEFAULT_MODEL : (process.env.ANTHROPIC_MODEL || 'claude-code');
+  return textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls });
+}
+
+/** The text-protocol loop (see chatWithTools). */
+async function textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls, to }) {
+  const list = tools.map((t) => {
+    const f = t.function; const props = Object.keys((f.parameters && f.parameters.properties) || {});
+    return `- ${f.name}(${props.join(', ')}): ${f.description}`;
+  }).join('\n');
+  const sys = system + '\n\nTOOLS — to use one, reply with ONLY this single line and nothing else:\nTOOL {"name":"<tool>","arguments":{…}}\nYou then receive the result and continue. One tool per reply. When you have what you need, answer normally.\n' + list;
+  const turns = ctx.slice();
+  for (let round = 0; round <= maxRounds; round++) {
+    const last = round === maxRounds;
+    const sysNow = last ? system + '\n\nAnswer now from what the tools returned; do not call another tool.' : sys;
+    let text;
+    if (backend === 'ollama') {
+      const data = await localChat({ model, stream: false, think: false, options: { temperature: 0.2, num_predict: 3072 }, messages: [{ role: 'system', content: sysNow }, ...turns] }, to || 180000);
+      text = stripReasoning((data.message && data.message.content) || '');
+    } else {
+      const convo = turns.map((m) => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`).join('\n\n');
+      const user = turns.length > 1 ? `Continue this conversation. Reply ONLY as the assistant to the LAST user message.\n\n${convo}\n\nAssistant:` : turns[0].content;
+      text = stripReasoning(await askText({ system: sysNow, user, maxTokens: 4000 }));
+    }
+    const req = last ? null : parseToolLine(text);
+    if (!req) return { ok: true, model, reply: text, ms: Date.now() - t0, toolCalls };
+    turns.push({ role: 'assistant', content: 'TOOL ' + JSON.stringify(req) });
+    turns.push({ role: 'user', content: `Result of ${req.name}:\n${await call(req.name, req.arguments)}` });
+  }
+  return { ok: true, model, reply: '', ms: Date.now() - t0, toolCalls };
+}
+
+/** `TOOL {…}` anywhere at the start of a line (a model may wrap it in a code fence) → { name, arguments }. */
+function parseToolLine(text) {
+  const i = String(text).search(/(^|\n)\s*`*\s*TOOL\s*\{/);
+  if (i < 0) return null;
+  const s = String(text).slice(String(text).indexOf('{', i));
+  let depth = 0, inStr = false, esc = false;
+  for (let k = 0; k < s.length; k++) {
+    const c = s[k];
+    if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue; }
+    if (c === '"') inStr = true; else if (c === '{') depth++; else if (c === '}' && --depth === 0) {
+      try { const o = JSON.parse(s.slice(0, k + 1)); return o && o.name ? { name: String(o.name), arguments: o.arguments || {} } : null; } catch { return null; }
+    }
+  }
+  return null;
 }
 
 /**
@@ -305,12 +944,21 @@ const TOOL_CHAT_MAX_CTX = 65536;
 export async function toolChatLocalModel({ messages, tools, format, numCtx, model: wanted } = {}) {
   // The model: the caller's pick, else the dashboard's pick — but only one that is actually pulled; else
   // the best pulled tool-capable one (Qwen3 first), so a picked-but-not-downloaded model doesn't dead-end.
-  let pulled = [];
-  try { const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(5000) }); if (r.ok) pulled = ((await r.json()).models || []).map((m) => m.name); } catch { /* checked below */ }
-  const has = (t) => t && pulledHas(pulled, t);
-  let model = [String(wanted || '').trim(), selectedLocalModel()].find(has) || '';
-  if (!model) model = pulled.find((p) => /^qwen3(?!-vl)/i.test(p)) || pulled.find((p) => /mistral|granite|llama3\.[1-9]|qwen2\.5/i.test(p)) || '';
-  if (!model) { const e = new Error('No local model is picked — open the AI Dev Kit dashboard → Settings → Local AI models and pick one (Qwen3 8B is a good start).'); e.code = 503; throw e; }
+  // On the ENDPOINT transport there is nothing pulled and nothing to fall back to: the configured model
+  // is the model. Probing Ollama's tag list here would find none and report "no model picked" on a tier
+  // that is perfectly well configured.
+  let model = '';
+  if (endpointActive()) {
+    model = String(wanted || '').trim() || endpointConfig().model;
+    if (!model) { const e = new Error('No endpoint model is picked — open the dashboard → Settings → Bring your own endpoint and choose one.'); e.code = 503; throw e; }
+  } else {
+    let pulled = [];
+    try { const r = await fetch(`${OLLAMA_HOST}/api/tags`, { signal: AbortSignal.timeout(5000) }); if (r.ok) pulled = ((await r.json()).models || []).map((m) => m.name); } catch { /* checked below */ }
+    const has = (t) => t && pulledHas(pulled, t);
+    model = [String(wanted || '').trim(), selectedLocalModel()].find(has) || '';
+    if (!model) model = pulled.find((p) => /^qwen3(?!-vl)/i.test(p)) || pulled.find((p) => /mistral|granite|llama3\.[1-9]|qwen2\.5/i.test(p)) || '';
+    if (!model) { const e = new Error('No local model is picked — open the AI Dev Kit dashboard → Settings → Local AI models and pick one (Qwen3 8B is a good start).'); e.code = 503; throw e; }
+  }
   const msgs = (Array.isArray(messages) ? messages : []).filter((m) => m && ['system', 'user', 'assistant', 'tool'].includes(m.role)).map((m) => {
     const o = { role: m.role, content: String(m.content == null ? '' : m.content) };
     if (m.role === 'assistant' && Array.isArray(m.tool_calls)) o.tool_calls = m.tool_calls;
@@ -321,17 +969,7 @@ export async function toolChatLocalModel({ messages, tools, format, numCtx, mode
   const ctx = Math.min(TOOL_CHAT_MAX_CTX, Math.max(4096, parseInt(numCtx, 10) || 16384));
   const to = parseInt(process.env.AI_TOOL_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 300000;
   const t0 = Date.now();
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0.2, num_ctx: ctx, num_predict: 3072 }, messages: msgs, ...(Array.isArray(tools) && tools.length ? { tools } : {}), ...(format && typeof format === 'object' ? { format } : {}) }),
-    signal: AbortSignal.timeout(to),
-  }).catch((err) => { throw localModelError(err, OLLAMA_HOST, 'the local model request'); });
-  if (!resp.ok) {
-    const t = await resp.text().catch(() => '');
-    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)}${/tools/i.test(t) ? ' — this model cannot call tools; pick Qwen3 (4B / 8B / 14B) or Mistral Small.' : ` — is \`${model}\` pulled?`}`);
-    e.code = resp.status === 404 || resp.status === 400 ? 503 : 500; throw e;
-  }
-  const data = await resp.json();
+  const data = await localChat({ model, stream: false, think: false, options: { temperature: 0.2, num_ctx: ctx, num_predict: 3072 }, messages: msgs, ...(Array.isArray(tools) && tools.length ? { tools } : {}), ...(format && typeof format === 'object' ? { format } : {}) }, to);
   const m = data.message || {};
   const message = { content: stripReasoning(m.content || '') };
   if (Array.isArray(m.tool_calls) && m.tool_calls.length) message.tool_calls = m.tool_calls;
@@ -377,7 +1015,7 @@ export async function importGguf({ path, name } = {}) {
   if (!/^[a-z0-9][a-z0-9._-]{0,60}(:[a-z0-9._-]{1,30})?$/.test(model)) { const e = new Error('Name the model with lowercase letters, numbers, dots and dashes, e.g. my-model or my-model:q4.'); e.code = 400; throw e; }
   if (!_pull.done) { const e = new Error('Wait for the current download or import to finish.'); e.code = 409; throw e; }
   const up = await fetch(`${OLLAMA_HOST}/api/version`, { signal: AbortSignal.timeout(3000) }).then((r) => r.ok).catch(() => false);
-  if (!up) { const e = new Error('Ollama is not running. Restart the kit with start-converter.bat.'); e.code = 503; throw e; }
+  if (!up) { const e = new Error('Ollama is not running. Restart the kit with start.bat.'); e.code = 503; throw e; }
 
   const size = statSync(file).size;
   _pull = { model, status: 'reading the file', percent: 0, done: false, error: '', at: Date.now(), kind: 'import' };
@@ -439,30 +1077,21 @@ export async function checkModel(model) {
     { role: 'user', content: 'Add a FAQ with two questions. "Do you deliver?" answered "Yes, within 10 miles." and "Are you open on Sundays?" answered "No, we are closed on Sundays."' },
   ];
   const t0 = Date.now();
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ model: m, stream: false, think: false, format, options: { temperature: 0, num_predict: 512 }, messages }),
-    signal: AbortSignal.timeout(parseInt(process.env.AI_TEST_TIMEOUT_MS || '', 10) || 120000),
-  }).catch((err) => { const e = new Error(`Could not reach Ollama (${err.message}).`); e.code = 503; throw e; });
-  if (!resp.ok) {
-    const t = await resp.text().catch(() => '');
-    // Some models reject `think`; retry once without it.
-    if (/think/i.test(t)) {
-      return checkModelPlain(m, format, messages, t0);
-    }
-    const e = new Error(`Ollama ${resp.status}: ${t.slice(0, 200)}`); e.code = resp.status === 404 ? 400 : 500; throw e;
+  // Some models reject `think`; retry once without it (the error text names it).
+  let data;
+  try {
+    data = await localChat({ model: m, stream: false, think: false, format, options: { temperature: 0, num_predict: 512 }, messages },
+      parseInt(process.env.AI_TEST_TIMEOUT_MS || '', 10) || 120000);
+  } catch (err) {
+    if (/think/i.test(String(err.bodyText || err.message || ''))) { return checkModelPlain(m, format, messages, t0); }
+    throw err;
   }
-  return gradeCheck(m, await resp.json(), t0);
+  return gradeCheck(m, data, t0);
 }
 
 async function checkModelPlain(m, format, messages, t0) {
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ model: m, stream: false, format, options: { temperature: 0, num_predict: 512 }, messages }),
-    signal: AbortSignal.timeout(120000),
-  });
-  if (!resp.ok) { const e = new Error(`Ollama ${resp.status}: ${(await resp.text().catch(() => '')).slice(0, 200)}`); e.code = 500; throw e; }
-  return gradeCheck(m, await resp.json(), t0);
+  const data = await localChat({ model: m, stream: false, format, options: { temperature: 0, num_predict: 512 }, messages }, 120000);
+  return gradeCheck(m, data, t0);
 }
 
 function gradeCheck(model, data, t0) {
@@ -563,6 +1192,43 @@ block has a "role"). Return ONE JSON object, no markdown fences, no commentary:
  * Backend detection
  * ---------------------------------------------------------------------- */
 
+/**
+ * Other AI subscriptions through their own command-line agents: ChatGPT through OpenAI's `codex` and Cursor
+ * through `cursor-agent`. Like Claude Code, they use the subscription the person already pays for: no API key.
+ * Found once, by running them with --version.
+ */
+const _agentFound = new Map();
+function agentAvailable(cmd) {
+  if (_agentFound.has(cmd)) return _agentFound.get(cmd);
+  let ok = false;
+  try {
+    const r = IS_WIN ? spawnSync(`"${cmd}" --version`, { shell: true, timeout: 12000, encoding: 'utf8' }) : spawnSync(cmd, ['--version'], { timeout: 12000, encoding: 'utf8' });
+    ok = r.status === 0;
+  } catch { ok = false; }
+  _agentFound.set(cmd, ok);
+  return ok;
+}
+const codexCmd = () => process.env.CODEX_CLI || 'codex';
+const cursorCmd = () => process.env.CURSOR_AGENT_CLI || 'cursor-agent';
+export const codexAvailable = () => agentAvailable(codexCmd());
+export const cursorAvailable = () => agentAvailable(cursorCmd());
+
+/** Runs a command-line agent with the prompt on its standard input; resolves with what it printed. */
+function runAgent(label, cmd, args, input, opts = {}) {
+  return new Promise((resolve, reject) => {
+    let child;
+    try {
+      child = IS_WIN ? spawn(`"${cmd}" ${args.join(' ')}`, { shell: true, cwd: opts.cwd }) : spawn(cmd, args, { shell: false, cwd: opts.cwd });
+    } catch (e) { reject(new Error(`Could not run ${label} (\`${cmd}\`): ${e.message}`)); return; }
+    let out = '', err = '';
+    child.stdout.on('data', (d) => { out += d; });
+    child.stderr.on('data', (d) => { err += d; });
+    child.on('error', (e) => reject(new Error(`Could not run ${label} (\`${cmd}\`): ${e.message} — is it installed and on PATH?`)));
+    child.on('close', (code) => (code === 0 ? resolve(out) : reject(new Error(`${label} exited (${code}). ${(err || out).slice(0, 400)} — make sure you have signed in to it once.`))));
+    try { child.stdin.write(input); child.stdin.end(); } catch { /* close reports it */ }
+  });
+}
+
 let _cliChecked = false;
 let _cliCmd = false; // false = not found, string = the command to run
 
@@ -586,10 +1252,17 @@ function claudeCliAvailable() {
 
 /** Which backend will run: 'api' | 'claude-code' | null. */
 export function aiBackend() {
-  const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
+  // The saved choice counts the same as the env override — see preferredBackend().
+  const forced = preferredBackend();
+  if (forced === 'off') return null; // chosen deliberately: spend nothing, convert deterministically
   if (forced === 'api') return (process.env.ANTHROPIC_API_KEY || '').trim() ? 'api' : null;
   if (forced === 'claude-code' || forced === 'cli') return claudeCliAvailable() ? 'claude-code' : null;
+  if (forced === 'codex') return codexAvailable() ? 'codex' : null;
+  if (forced === 'cursor') return cursorAvailable() ? 'cursor' : null;
   if (forced === 'ollama' || forced === 'local') return ollamaReady() ? 'ollama' : null;
+  // The endpoint rides the same internal id as the local tier — one transport, two sources — so forcing
+  // it picks the same branch everywhere; endpointActive() decides which wire the request goes down.
+  if (forced === 'endpoint') return endpointActive() ? 'ollama' : null;
   // HEAVY tasks (full mapping / chrome / visual refine — the opt-in "Use AI" path) want the STRONGEST
   // backend, so Claude comes FIRST. The small local model is only a last-resort fallback here: on a
   // whole-page judgement it can degrade a correct deterministic call. The local model instead earns its
@@ -598,6 +1271,10 @@ export function aiBackend() {
   if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
   if (claudeCliAvailable()) return 'claude-code';
   if (ollamaReady()) return 'ollama';
+  // Other subscriptions only when nothing above is set up (or when chosen): the conversion paths speak
+  // to Claude and local models; Kinetic Scenes' requests (askText) work with every one of them.
+  if (codexAvailable()) return 'codex';
+  if (cursorAvailable()) return 'cursor';
   return null;
 }
 
@@ -607,7 +1284,7 @@ export function aiBackend() {
  * AI_BACKEND override still wins (it applies to everything, heavy + micro alike).
  */
 export function microBackend() {
-  const forced = (process.env.AI_BACKEND || '').toLowerCase().replace(/[_\s]/g, '-');
+  const forced = preferredBackend();
   if (forced) return aiBackend();
   if (ollamaReady()) return 'ollama';
   if ((process.env.ANTHROPIC_API_KEY || '').trim()) return 'api';
@@ -1149,6 +1826,9 @@ export async function runSiteFixAgent({
 }
 
 /** The kit's docs directory — the prompts live with the documentation, not in this file. */
+/** The kit's docs folder (exported for the Kit Assistant's search_docs tool). */
+export function kitDocsDir() { return KIT_DOCS_DIR(); }
+
 function KIT_DOCS_DIR() {
   return process.env.UPW_KIT_DOCS || join(KIT_ROOT_DIR(), 'docs');
 }
@@ -1321,15 +2001,24 @@ export async function askText({ system, user, maxTokens = 8000 }) {
     catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
     return text;
   }
+  if (backend === 'codex') {
+    // codex exec reads the prompt from standard input ("-") and writes its final answer to a file, which
+    // keeps the answer apart from its progress log.
+    const dir = mkdtempSync(join(tmpdir(), 'upw-codex-'));
+    const last = join(dir, 'answer.txt');
+    try {
+      await runAgent('codex', codexCmd(), ['exec', '--skip-git-repo-check', '--sandbox', 'read-only', '--output-last-message', `"${last}"`, '-'], system + '\n\n' + user, { cwd: dir });
+      return readFileSync(last, 'utf8').trim();
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  }
+  if (backend === 'cursor') {
+    const out = await runAgent('cursor-agent', cursorCmd(), ['-p', '--output-format', 'text'], system + '\n\n' + user);
+    return out.trim();
+  }
   if (backend === 'ollama') {
     const model = selectedLocalModel();
-    const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }),
-      signal: AbortSignal.timeout(parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000),
-    });
-    if (!resp.ok) throw new Error('Ollama ' + resp.status + ' — is the model pulled?');
-    const data = await resp.json();
+    const data = await localChat({ model, stream: false, think: false, options: { temperature: 0 }, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] },
+      parseInt(process.env.AI_TIMEOUT_MS || '', 10) || 180000);
     // Strip any stray <think>…</think> (belt-and-suspenders for hybrid-reasoning models).
     return String((data.message && data.message.content) || '').replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
   }
@@ -1605,6 +2294,14 @@ async function refineViaClaudeCode({ html, mapping, source }) {
  * --allowedTools), so the agent can change the site through its checked abilities and nothing else.
  * Returns { ok, model, reply, ms }. Errors carry `.code` (503 = Claude Code not available).
  */
+/**
+ * The site each running AI Assistant agent works on: key → { url, headers } (its MCP endpoint + session
+ * headers), kept only while the agent runs. The kit's /mcp-kit reads it (by the ?site=<key> it hands the
+ * agent) so convert_site can send the rendered page straight to that site — 250 KB of HTML never passes
+ * through the model.
+ */
+export const AGENT_SITES = new Map();
+
 export async function runAssistantAgent({ mcp, prompt } = {}) {
   if (!claudeCliAvailable()) { const e = new Error('Claude Code is not available on this computer (install it and run `claude` once to sign in).'); e.code = 503; throw e; }
   const url = String((mcp && mcp.url) || '');
@@ -1616,7 +2313,9 @@ export async function runAssistantAgent({ mcp, prompt } = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'upw-agent-'));
   const cfg = join(dir, 'mcp.json');
   // `kit` = this service's own /mcp-kit (measure_pages), so a live site's visual_check can be measured here.
-  const kitUrl = `http://127.0.0.1:${Number(process.env.PORT) || 8787}/mcp-kit`;
+  const siteKey = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  AGENT_SITES.set(siteKey, { url, headers });
+  const kitUrl = `http://127.0.0.1:${Number(process.env.PORT) || 8787}/mcp-kit?site=${siteKey}`;
   writeFileSync(cfg, JSON.stringify({ mcpServers: { unysonplus: { type: 'http', url, headers }, kit: { type: 'http', url: kitUrl } } }));
   const cmd = process.env.CLAUDE_CLI || 'claude';
   const args = ['-p', '--mcp-config', `"${cfg}"`, '--strict-mcp-config', '--allowedTools', '"mcp__unysonplus__*,mcp__kit__*"', '--output-format', 'json'];
@@ -1638,6 +2337,7 @@ export async function runAssistantAgent({ mcp, prompt } = {}) {
     }
     return { ok: true, model: model || 'claude-code', reply: reply.trim(), ms: Date.now() - t0 };
   } finally {
+    AGENT_SITES.delete(siteKey);
     try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ }
   }
 }
@@ -1845,12 +2545,7 @@ export async function askModel({ system, user, model, json = true, format, timeo
   // valid JSON. `format` (a schema, ideally) wins; else fall back to plain "json" when json is wanted.
   if (format) body.format = format;
   else if (json) body.format = 'json';
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
-    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
-    signal: AbortSignal.timeout(to),
-  }).catch((e) => { throw localModelError(e, OLLAMA_HOST, 'the local model request'); });
-  if (!resp.ok) { const t = await resp.text().catch(() => ''); throw new Error(`Ollama ${resp.status}: ${t.slice(0, 300)} — is \`${model}\` pulled?`); }
-  const data = await resp.json();
+  const data = await localChat(body, to);
   return String((data.message && data.message.content) || '').trim();
 }
 
@@ -1875,4 +2570,52 @@ export function extractJson(text) {
     else if (ch === '}') { depth--; if (depth === 0) { try { return JSON.parse(s.slice(start, i + 1)); } catch { return null; } } }
   }
   return null;
+}
+
+/**
+ * Asks with pictures to look at (rendered frames of a scene): the API sends them inline; Claude Code reads
+ * the files itself (Read, in the folder that holds them, nothing else); codex attaches them. Cursor and local
+ * models get the text only, so the request still works there, without the looking.
+ * @param {{ system: string, user: string, images: string[], maxTokens?: number }} o images: file paths
+ * @returns {Promise<{ text: string, looked: boolean }>}
+ */
+export async function askWithImages({ system, user, images, maxTokens = 16000 }) {
+  const backend = aiBackend();
+  const files = (images || []).filter((f) => existsSync(f));
+  if (!files.length) return { text: await askText({ system, user, maxTokens }), looked: false };
+  if (backend === 'api') {
+    const key = (process.env.ANTHROPIC_API_KEY || '').trim();
+    const content = [{ type: 'text', text: user }, ...files.map((f) => ({ type: 'image', source: { type: 'base64', media_type: f.endsWith('.png') ? 'image/png' : 'image/jpeg', data: readFileSync(f).toString('base64') } }))];
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: DEFAULT_MODEL, max_tokens: maxTokens, system, messages: [{ role: 'user', content }] }),
+    });
+    if (!resp.ok) throw new Error('Anthropic API ' + resp.status + ': ' + (await resp.text().catch(() => '')).slice(0, 300));
+    const data = await resp.json();
+    return { text: (data.content || []).map((c) => c.text || '').join('').trim(), looked: true };
+  }
+  if (backend === 'claude-code') {
+    const dir = dirname(files[0]);
+    const names = files.map((f) => f.slice(dir.length + 1));
+    const cmd = process.env.CLAUDE_CLI || 'claude';
+    const args = ['-p', '--output-format', 'json', '--max-turns', String(names.length + 4), '--allowedTools', 'Read'];
+    const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, ''); if (model) { args.push('--model', model); }
+    const prompt = `${system}\n\nFirst look at each of these image files in the current folder with the Read tool: ${names.join(', ')}. Then answer.\n\n${user}`;
+    const stdout = await runClaude(cmd, args, prompt, { cwd: dir });
+    let text = stdout.trim();
+    try { const j = JSON.parse(stdout); if (j && j.is_error) throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 200)); if (j && typeof j.result === 'string') text = j.result; }
+    catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
+    return { text, looked: true };
+  }
+  if (backend === 'codex') {
+    const dir = mkdtempSync(join(tmpdir(), 'upw-codex-'));
+    const last = join(dir, 'answer.txt');
+    try {
+      const args = ['exec', '--skip-git-repo-check', '--sandbox', 'read-only', '--output-last-message', `"${last}"`, ...files.flatMap((f) => ['-i', `"${f}"`]), '-'];
+      await runAgent('codex', codexCmd(), args, system + '\n\n' + user, { cwd: dir });
+      return { text: readFileSync(last, 'utf8').trim(), looked: true };
+    } finally { rmSync(dir, { recursive: true, force: true }); }
+  }
+  return { text: await askText({ system, user, maxTokens }), looked: false };
 }

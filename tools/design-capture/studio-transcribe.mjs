@@ -1,4 +1,4 @@
-// The Animation Studio's speech recognition: a voice-over in, its words out, each with its time and how it
+// Kinetic Scenes' speech recognition: a voice-over in, its words out, each with its time and how it
 // is said. Runs whisper.cpp (MIT) on this computer: nothing is uploaded anywhere. The program and a speech
 // model are downloaded once, on request, into the kit (assembled/whisper, beside the local AI models) or,
 // for a standalone capture service, ~/.unysonplus/whisper. macOS has no ready-made program, so there the

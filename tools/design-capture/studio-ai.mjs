@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 /**
- * Animation Studio AI: turns a request into a scene file, using whichever AI this kit is set up with
+ * Kinetic Scenes AI: turns a request into a scene file, using whichever AI this kit is set up with
  * (a Claude subscription, an API key, or a local model).
  *
  * The Studio sends the preset catalogue with each request, so this file never needs updating when
@@ -14,7 +14,7 @@
 import { aiBackend, aiReady, askModel, askText, extractJson, selectedLocalModel, stripReasoning } from './to-ai.mjs';
 
 const ORIGINS = [
-  'https://animation-studio.unysonplus.com',
+  'https://kinetic-scenes.unysonplus.com',
   'http://localhost:4317', // the Studio's local preview build
   'http://localhost:5173', // the Studio's dev server
 ];
@@ -26,16 +26,23 @@ export function studioOriginAllowed(origin) {
   return ORIGINS.includes(origin) || extra.includes(origin);
 }
 
+const backendLabel = (backend) => backend === 'ollama' ? selectedLocalModel()
+  : backend === 'codex' ? 'ChatGPT (codex)'
+  : backend === 'cursor' ? 'Cursor (cursor-agent)'
+  : backend ? (process.env.ANTHROPIC_MODEL || (backend === 'api' ? 'claude' : 'claude-code')) : '';
+
 export function studioAiStatus() {
   const backend = aiBackend();
   return {
     ready: aiReady(),
     backend,
-    model: backend === 'ollama' ? selectedLocalModel() : backend ? (process.env.ANTHROPIC_MODEL || 'claude') : '',
+    model: backendLabel(backend),
+    // What this kit can do beyond the basics, so the Studio can use it (and fall back on older kits).
+    features: ['add', 'handoff', 'addon-browse', 'workspace'],
   };
 }
 
-const SYSTEM = `You design motion-graphics scenes for the Unyson+ Animation Studio: animated hero sections and
+const SYSTEM = `You design motion-graphics scenes for Unyson+ Kinetic Scenes: animated hero sections and
 banners for websites, made of text, shapes and (only when the request gives image addresses) images, animated by
 presets on a timeline. You answer with ONE JSON object and nothing else:
 
@@ -96,7 +103,15 @@ layer, and everything must stay inside the safe area. If it no longer fits, move
 "w" so long text wraps, or reduce the size to the largest that fits, and say so in the explanation.
 
 WHEN REPAIRING
-"errors" lists what the validator rejected. Return the corrected whole scene.`;
+"errors" lists what the validator rejected. Return the corrected whole scene.
+
+WHEN ADDING (mode "add")
+Do NOT return the scene. Return only what you add, as ONE JSON object:
+{ "add": [ <new layers, drawn in this order on top of the scene; give a layer "below": "<existing layer id>" to put it
+  just under that layer instead> ], "clips": [ { "layer": "<existing layer id>", "clip": <a new clip for it> } ],
+  "explanation": "<one or two plain sentences>" }
+Every id you add (layers and clips) must be new: not used anywhere in the scene. Never repeat or change existing
+layers; the scene is given so you can read its ids, timing and words.`;
 
 function buildUser({ mode, prompt, scene, selection, catalog, errors, context }) {
   const payload = { mode, request: prompt };
@@ -125,14 +140,14 @@ export async function studioScene(input) {
   if (!prompt) { const e = new Error('Describe the animation you want.'); e.code = 400; throw e; }
   if (prompt.length > 4000) { const e = new Error('That request is too long (4,000 characters at most).'); e.code = 400; throw e; }
   if (!Array.isArray(input.catalog) || !input.catalog.length) { const e = new Error('The preset catalogue is missing.'); e.code = 400; throw e; }
-  const mode = ['create', 'edit', 'repair'].includes(input.mode) ? input.mode : 'create';
+  const mode = ['create', 'edit', 'repair', 'add'].includes(input.mode) ? input.mode : 'create';
   const backend = aiBackend();
   if (!backend) { const e = new Error('AI is off in the AI Dev Kit. Pick a local model, or connect Claude, then try again.'); e.code = 503; throw e; }
 
   const user = buildUser({ ...input, mode, prompt });
   // The Studio sends its own motion rules and named eases with each request (they ship with the Studio,
   // so the kit never holds a stale copy). Plain text, capped, appended to the instructions.
-  const rules = typeof input.rules === 'string' ? input.rules.slice(0, 24000).trim() : '';
+  const rules = typeof input.rules === 'string' ? input.rules.slice(0, 60000).trim() : '';
   const system = rules ? `${SYSTEM}\n\nMOTION RULES FROM THE STUDIO (follow them; they override any default above)\n${rules}` : SYSTEM;
   let raw;
   let model;
@@ -140,11 +155,21 @@ export async function studioScene(input) {
     model = selectedLocalModel();
     raw = await askModel({ system, user, model, json: true, timeoutMs: 300000 });
   } else {
-    model = backend === 'api' ? (process.env.ANTHROPIC_MODEL || 'claude') : (process.env.ANTHROPIC_MODEL || 'claude-code');
-    raw = await askText({ system, user, maxTokens: 16000 });
+    model = backendLabel(backend);
+    raw = await askText({ system, user, maxTokens: mode === 'add' ? 8000 : 16000 });
   }
   const parsed = extractJson(stripReasoning(raw));
+  // Add mode: only the additions come back (the Studio merges them into the scene).
+  if (mode === 'add') {
+    if (!parsed || (!Array.isArray(parsed.add) && !Array.isArray(parsed.clips))) throw new Error('The AI did not return its additions. Try rephrasing the request.');
+    return { patch: { add: Array.isArray(parsed.add) ? parsed.add : [], clips: Array.isArray(parsed.clips) ? parsed.clips : [] }, explanation: String(parsed.explanation || ''), model };
+  }
   const scene = parsed && (parsed.scene || (parsed.format === 'unysonplus-scene' ? parsed : null));
-  if (!scene || typeof scene !== 'object') throw new Error('The AI did not return a scene. Try rephrasing the request.');
+  if (!scene || typeof scene !== 'object') {
+    // Kept for diagnosis: what the AI actually said.
+    try { (await import('node:fs')).writeFileSync((await import('node:path')).join((await import('node:os')).tmpdir(), 'upw-studio-last-answer.txt'), String(raw || '')); } catch { /* best effort */ }
+    console.warn(`[studio-ai] no scene in the answer (${String(raw || '').length} characters): ${String(raw || '').slice(0, 300).replace(/\s+/g, ' ')}`);
+    throw new Error('The AI did not return a scene. Try rephrasing the request.');
+  }
   return { scene, explanation: String((parsed && parsed.explanation) || ''), model };
 }

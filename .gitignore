@@ -37,3 +37,24 @@ batch/
 _active.json
 _ai.json
 *.local.txt
+
+# Local AI endpoint config — CONTAINS AN API KEY. Never commit.
+ai-endpoint.json
+**/ai-endpoint.json
+
+# Ad-hoc scratch scripts and URL lists from capture runs. They name the real
+# source sites that were captured, so they must never reach the repo.
+_*.txt
+**/_*.txt
+_bc*.mjs
+**/_bc*.mjs
+_check.mjs
+_final.mjs
+_run-verify.mjs
+**/_check.mjs
+**/_final.mjs
+**/_run-verify.mjs
+
+# Local triage state for findings (maintainer-side, regenerable)
+triage-ledger.json
+**/triage-ledger.json

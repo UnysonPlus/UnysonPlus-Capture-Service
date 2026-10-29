@@ -160,6 +160,44 @@ export function buildFindingPayload({ url, converterVersion, finding } = {}) {
     finding: sanitizeFindings([finding])[0] || null,
   };
 }
+/* ------------------------------------------------------------------ *
+ * MOTION GAPS - a different kind of report, deliberately not a finding.
+ *
+ * A converter finding says "the source had X and we produced Y": it is a LOSS, it has a PHP/JS twin
+ * that can be run, and its fixture is a stamped DOM construct the maintainer can replay. None of that
+ * is true of a motion gap, which says "the Animation Engine cannot express this motion at all":
+ *
+ *   - there is no twin to run, so `twin` / `twin_shows` are meaningless;
+ *   - nothing was dropped or overridden, so no LOSS_KIND fits - the engine simply has no such effect;
+ *   - the repro is the MOTION (trigger, properties, timing) plus the fallback written for it, not a
+ *     `data-sc-cs`-stamped fragment, so the stamped-fixture gate would refuse every one of them.
+ *
+ * Bending a motion gap into the finding tuple would have meant relaxing the very gates that exist
+ * because fixture-less rows were the ones that sat open. So it gets its own kind and its own gates.
+ * What carries over unchanged is the no-brand rule and the sanitiser: no source name, domain or copy.
+ * ------------------------------------------------------------------ */
+export const MOTION_SURFACES = ['element', 'gallery', 'page', 'cursor', 'background'];
+export const MOTION_OUTCOMES = ['fallback-written', 'no-fallback', 'partial'];
+const sanitizeMotionGap = (g) => ({
+  fixture:  _val(g && g.fixture, 40),      // the NEUTRAL id - fb_01 / fixture-04; never a word from the source
+  surface:  MOTION_SURFACES.includes(String(g && g.surface)) ? String(g.surface) : '',
+  motion:   _val(g && g.motion, 240),      // what the source does: trigger + properties + timing
+  tried:    _val(g && g.tried, 240),       // which native effects were consulted, and why none fits
+  outcome:  MOTION_OUTCOMES.includes(String(g && g.outcome)) ? String(g.outcome) : '',
+  fallback: _val(g && g.fallback, 240),    // the child-theme effect written (its key), or why none was
+  ...(g && g.region ? { region: _val(g.region, 40) } : {}),
+  ...(g && g.path   ? { path:   _val(g.path, 80) } : {}),
+  ...(g && g.recurs ? { recurs: _val(g.recurs, 20) } : {}),   // how often this motion has been met
+  note: sanitizeNote(g && g.note),
+});
+export function buildMotionGapPayload({ url, converterVersion, gap } = {}) {
+  return {
+    schema: SCHEMA, tool: 'unysonplus-site-capture', kind: 'motion-gap',
+    converterVersion: converterVersion || '',
+    site: { hostHash: hostHash(url) },
+    gap: sanitizeMotionGap(gap || {}),
+  };
+}
 export function buildStatsPayload({ url, converterVersion, stats, positives } = {}) {
   return {
     schema: SCHEMA, tool: 'unysonplus-site-capture', kind: 'summary',
@@ -183,6 +221,10 @@ export function oneLineSummary(p) {
   if (p && p.kind === 'finding' && p.finding) {
     const f = p.finding;
     return `converter ${v} · finding${f.region ? ' [' + f.region + (f.property ? ':' + f.property : '') + ']' : ''}: ${f.got || '?'} → ${f.expected || '?'}${f.twin ? ' · ' + f.twin : ''}${f.loss ? ' · ' + f.loss : ''}${f.systematic ? ' (systematic' + (f.recurs ? ' ×' + f.recurs : '') + ')' : ''} · host ${h}`;
+  }
+  if (p && p.kind === 'motion-gap' && p.gap) {
+    const g = p.gap;
+    return `engine ${v} \u00b7 motion-gap${g.region ? ' [' + g.region + ']' : ''}${g.surface ? ' \u00b7 ' + g.surface : ''}: ${g.motion || '?'}${g.outcome ? ' \u00b7 ' + g.outcome : ''}${g.fixture ? ' \u00b7 ' + g.fixture : ''} \u00b7 host ${h}`;
   }
   if (p && p.kind === 'summary') {
     const st = p.stats || {};

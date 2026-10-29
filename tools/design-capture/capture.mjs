@@ -403,10 +403,35 @@ async function revealTabPanels(p) {
     return gi;
   });
   if (!groups) return;
+  // PROBING A "TAB BAR" MUTATES THE PAGE, AND THE PROBE IS NOT ALWAYS RIGHT.
+  //
+  // The predicate below is deliberately loose — 2-5 button-ish children, short labels, nothing else in the
+  // bar — because real tabs are often plain <button>s with no ARIA at all (the tab-stamp fixture is exactly
+  // that shape, so tightening this to require role=tab / aria-selected / .active would lose genuine tabs).
+  // The cost of that looseness is that a CALL-TO-ACTION PAIR matches it too, and clicking a CTA does not
+  // toggle a panel — it changes the page for good.
+  //
+  // Measured on one captured source, both of its matches were false positives:
+  //     ["BOOK NOW", "VIEW SERVICES"]        -> clicking BOOK NOW mounted a booking MODAL
+  //     ["Monthly Billing", "AnnualSAVE 15%"] -> clicking Annual switched every membership price
+  // Neither carries a single tab marker, so there was no way to tell beforehand. The group was correctly
+  // REJECTED afterwards (its panels did not differ) and its markers stripped — which is why no data-sc-tab
+  // survived in the output — but THE CLICKS WERE NEVER UNDONE. The serialized rendered.html therefore held a
+  // modal the live page never shows and the annual prices instead of the monthly ones, and the converter
+  // faithfully turned both into a page: an invented 913px booking band (13% of the converted page's height)
+  // and three wrong headline prices.
+  //
+  // Clicking back to the originally-active index is NOT a safe undo here: on a CTA pair that just clicks the
+  // other call to action. Reloading is, so when the probe concludes that NOTHING was tabs, the pristine page
+  // is restored before anything is serialized. If a group WAS converted the markup now carries normalized
+  // sc-tabs that a reload would discard, so the reload is skipped and any residue is accepted knowingly.
+  let clickedAny = false;
+  let convertedAny = 0;
   for (let g = 0; g < groups; g++) {
     const n = await p.evaluate((g) => document.querySelectorAll('[data-sc-tab^="' + g + ':"]').length, g);
     const panels = [];
     for (let i = 0; i < n; i++) {
+      clickedAny = true;
       await p.evaluate(({ g, i }) => { const b = document.querySelector('[data-sc-tab="' + g + ':' + i + '"]'); if (b) b.click(); }, { g, i });
       await p.waitForTimeout(550);
       // NAV GUARD: if that click navigated the SPA, we are no longer on the page we set out to capture. Stop
@@ -459,7 +484,19 @@ async function revealTabPanels(p) {
       const box = document.createElement('div'); box.className = 'sc-tabs'; box.appendChild(list); box.appendChild(wrap);
       cont.replaceChildren(box);
     }, { g, panels });
+    convertedAny++;
   }
+  // Nothing turned out to be tabs, yet the page was clicked through. Report it so renderPage can re-capture
+  // from a clean load, exactly as it already does when an interaction pass navigates the SPA away.
+  //
+  // A bare `p.goto()` here is NOT enough, and that was tried first: by the time this runs, renderPage has
+  // already stamped the page — including the PHONE / TABLET / WIDE passes (data-sc-sm / -md / -xl) that
+  // carry every responsive value. Reloading in place threw all of that away, and the measured result was
+  // unambiguous: at 820px three bands collapsed to their desktop heights (schedule 2169 -> 1024, stylists
+  // 1711 -> 844, showreel 951 -> 526) because the build had no tablet data left to respond with. Fixing the
+  // modal cost the whole responsive tier. Re-running renderPage with retry=true replays navigate -> settle ->
+  // stamp from scratch and skips this pass the second time, so the page is both pristine AND fully stamped.
+  return clickedAny && 0 === convertedAny;
 }
 
 async function renderPage(p, target, retry = false) {
@@ -479,7 +516,32 @@ async function renderPage(p, target, retry = false) {
   // screenshot). Wait until the app root actually holds real content — a landmark/section, or substantial
   // text/children — before extracting. Generous timeout (heavy SPAs), and .catch so a genuinely-empty page
   // (or one needing interaction) still proceeds instead of hanging.
-  const hydrated = await p.waitForFunction(() => {
+  // ...but only when the page is ACTUALLY waiting on content. The predicate below answers "does this
+  // look like a finished page?", and a small STATIC page fails it for a reason that has nothing to do
+  // with hydration: it has no landmark element and under 200 characters of text. It then burned the
+  // full 20s window, reported "not hydrated", and triggered the re-navigation below — which repeated
+  // the entire 60s navigate + both waits to reach the identical result.
+  //
+  // Measured on a two-paragraph local test page: 0.2s to navigate, then 61.8s to decide it was not
+  // hydrated, then 61.7s doing it all again — 124 seconds of waiting on a page that renders instantly,
+  // after which the capture extracted 0 sections exactly as it would have at second one. That is what
+  // pushes the capture tests past their 240s child budget.
+  //
+  // So ask first whether the app root is EMPTY — which is the condition the hydration wait was written
+  // for ("`<div id=\"root\"></div>` -> 0 usable sections"). A root that already holds content is not
+  // mid-hydration; it is just a page, and neither the wait nor the retry can improve it.
+  const awaitingContent = await p.evaluate(() => {
+    // An app ROOT that is still empty is the shell this wait exists for.
+    const mount = document.querySelector('#root, #app, [data-reactroot]');
+    if (mount) { return mount.children.length === 0 || (mount.innerText || '').trim().length < 20; }
+    // No mount node at all: not a client-rendered app, so there is nothing to wait for — unless the
+    // body itself is empty, which is the one case left where content may still be on its way.
+    // (Judging this by TEXT LENGTH instead was the first attempt and was wrong: a small static page
+    // has little text too, so it kept failing the check and kept paying the full 124s.)
+    return !document.body || document.body.children.length === 0;
+  }).catch(() => true); // unreadable page: keep the old, patient behaviour
+
+  const hydrated = !awaitingContent ? true : await p.waitForFunction(() => {
     const root = document.querySelector('#root, #app, [data-reactroot], main') || document.body;
     if (!root) { return false; }
     if (root.querySelector('section, main, header, article, footer, [class*="section"], [data-sc-col]')) { return true; }
@@ -1467,7 +1529,11 @@ async function renderPage(p, target, retry = false) {
   // Reveal lazy-rendered TAB PANELS before serializing, so the static capture carries ALL tab content — a
   // React tab that renders only the ACTIVE panel (a menu's Main / Dessert lists, a product's Description /
   // Reviews) otherwise loses every inactive panel from rendered.html. See revealTabPanels().
-  if (!retry) { try { await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ } }
+  // `tabProbeDirty` = the probe clicked a bar that turned out NOT to be tabs, so the live DOM now carries
+  // whatever those clicks did (a mounted modal, a flipped price toggle). Handled by the route self-check
+  // below, which re-captures from a clean load.
+  let tabProbeDirty = false;
+  if (!retry) { try { tabProbeDirty = await revealTabPanels(p); } catch { /* never let tab-reveal break a capture */ } }
   // …then stamp what it revealed. The pass above ran while only the FIRST panel existed; every other panel is
   // freshly-rendered DOM it never touched, and an unstamped subtree is invisible to the converter.
   if (!retry) { try { await evalSafe(p, stampComputedStyles, { onlyUnstamped: true }); } catch { /* a re-stamp is a bonus, never a blocker */ } }
@@ -1476,8 +1542,12 @@ async function renderPage(p, target, retry = false) {
   // route we loaded, the live DOM — and any rendered.html serialized from it — is the WRONG page. Re-capture
   // ONCE with the navigating passes disabled (retry=true), which re-runs the full navigate→settle→tag pipeline
   // from a clean load and serializes the intended route. `retry` guards against any loop.
-  if (!retry && !samePath(p.url(), loadUrl)) {
-    step(`route drifted (${p.url()} ≠ ${loadUrl}) after interaction — re-capturing intended page`);
+  // The same remedy covers a probe that MUTATED the page without navigating: a CTA pair mistaken for a tab
+  // bar leaves a modal open or a toggle flipped, and serializing that produces a page the source never shows.
+  if (!retry && (tabProbeDirty || !samePath(p.url(), loadUrl))) {
+    step( tabProbeDirty
+      ? 'tab-reveal found no real tabs after clicking — re-capturing from a clean load to undo the probe'
+      : `route drifted (${p.url()} ≠ ${loadUrl}) after interaction — re-capturing intended page` );
     return await renderPage(p, target, true);
   }
 
@@ -1486,6 +1556,27 @@ async function renderPage(p, target, retry = false) {
   // to leave renderedHtml empty → no rendered.html written → the ?html=1 URL path 500'd even though the
   // bundle wrote fine. Retry, and fall back to serializing the live DOM via evaluate (survives cases
   // content() doesn't). The data-sc-cs / data-sc-col tags set just above are included either way.
+  // SERIALIZE A DOM THAT HAS STOPPED CHANGING.
+  //
+  // An auto-rotating carousel does not hold still for the snapshot, and a snapshot taken mid-rotation is
+  // not merely the wrong slide — it is NO slide. Measured on a captured source: rendered.html carried
+  // slide 3's quote and slide 3's caption alongside slide 1's NAME, because the parts update on slightly
+  // different ticks. The converted page then printed one traveller's words under another's name, which no
+  // size, spacing or colour lens can see and which a reader would read as a fabricated testimonial.
+  //
+  // So sample the page's text twice, a beat apart, and only serialize once two consecutive samples agree.
+  // Bounded, because a page with a live clock or an infinite ticker never settles and must still be
+  // captured — after the budget runs out the snapshot is taken anyway, which is no worse than before.
+  // This also covers counters caught mid-count and tickers caught mid-scroll.
+  {
+    let prev = null;
+    for (let i = 0; i < 10; i++) {
+      const now = await p.evaluate(() => (document.body ? document.body.innerText : '')).catch(() => '');
+      if (prev !== null && now === prev) break;
+      prev = now;
+      await p.waitForTimeout(600);
+    }
+  }
   let renderedHtml = '';
   for (let attempt = 0; attempt < 3 && (!renderedHtml || renderedHtml.length < 200); attempt++) {
     renderedHtml = await p.content().catch(() => '');
@@ -1903,6 +1994,18 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     // rendered page's own links. `--pages=` lets the caller pass an explicit set chosen in the UI, which is
     // what the admin's page picker sends; discovery is then skipped entirely because the choice is made.
     let extraUrls = [];
+    // WHAT EACH DISCOVERED URL *IS* -- page, post or archive -- carried through to the bundle manifest.
+    //
+    // discoverPages() classifies every URL (a post-sitemap / page-sitemap says so outright, else the path
+    // shape), and that was thrown away one line later by `.map((p) => p.url)`. WordPress then had no way to
+    // know an article was an article, so every converted URL landed as a PAGE: absent from the blog index,
+    // the feed, its category and its tag, and carrying a builder tree nobody wants to edit a paragraph in.
+    // The classification is the cheapest it will ever be right here, at the source that stated it.
+    const kindByUrl = new Map();
+    const kindKey = (u) => {
+      try { const x = new URL(u, origin); return (x.origin + x.pathname).replace(/\/+$/, '') || x.origin; }
+      catch { return String(u || '').replace(/\/+$/, ''); }
+    };
     if (MULTIPAGE) {
       if (PICKED_PAGES.length) {
         // An EXPLICIT list is not capped. The cap exists to stop *discovery* running away; a caller that
@@ -1919,6 +2022,9 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
             renderedHtml: await page.content().catch(() => ''),
             nav: (home.header && home.header.nav) || [],
           });
+          for (const p of d.pages || []) {
+            if (p && p.url) kindByUrl.set(kindKey(p.url), String(p.kind || 'page'));
+          }
           found = (d.pages || []).filter((p) => !p.home).map((p) => p.url);
           step(`pages: ${d.total} discovered (${Object.entries(d.counts || {}).map(([k, v]) => k + '=' + v).join(', ')})`);
         } catch (e) {
@@ -2509,7 +2615,10 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         try {
           mkdirSync(`${outdir}/${rel}`, { recursive: true });
           writeFileSync(`${outdir}/${rel}/rendered.html`, html);
-          pageSnapshots.push({ slug: c.slug, path: sourcePathOf(c), url: c.capture.url || '', front: !!c.front, rendered: `${rel}/rendered.html` });
+          // `kind` tells the importer which post type this page is. Default 'page': an unclassified URL is
+          // converted the way every URL used to be, which is the safe direction -- a page that should have
+          // been a post is a filing mistake, while a post invented from a listing is junk content.
+          pageSnapshots.push({ slug: c.slug, path: sourcePathOf(c), url: c.capture.url || '', front: !!c.front, kind: kindByUrl.get(kindKey(c.capture.url || '')) || 'page', rendered: `${rel}/rendered.html` });
         } catch (e) { step(`! could not write ${rel}/rendered.html — ${e.message}`); }
       }
       if (pageSnapshots.length) {
@@ -2791,3 +2900,20 @@ for (const r of results) {
     : `  ✖ ${r.url}  — ${r.err}`);
 }
 if (okCount < results.length) { process.exitCode = 1; }
+
+// LEAVE WHEN THE WORK IS DONE. Everything above has finished: the files are written and
+// `progress.json` says `done`. The process, however, has been observed sitting there afterwards —
+// one run wrote `full.png`, reported `status: done` with a full summary and no error, and was still
+// alive 36 minutes later. `browser.close()` does not always settle the Chrome transport, and the
+// script had no explicit exit, so node waited on a handle that never closed.
+//
+// That is invisible when a person runs it and reads the output, and fatal to anything that WAITS for
+// the child: the capture tests give it a 240s budget and kill it, so a capture that succeeded is
+// reported as "Command failed" with no clue that the work was actually complete.
+//
+// The timer is unref'd, so a healthy run is unaffected — node still exits on its own the moment the
+// loop drains, and this never fires. It only matters when something is left holding the loop open,
+// and then it leaves anyway, with the exit code the run actually earned. The delay gives stdout a
+// tick to flush first (an immediate process.exit() can truncate pending writes on Windows).
+const _leave = setTimeout(() => process.exit(process.exitCode || 0), 500);
+if (_leave && _leave.unref) { _leave.unref(); }

@@ -19,7 +19,9 @@
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
 import { discoverPages } from './discover.mjs';
 import { verifySite } from './verify-site.mjs';
-import { runSiteFixAgent } from './to-ai.mjs';
+import { runSiteFixAgent, AGENT_SITES, chatWithTools, kitDocsDir } from './to-ai.mjs';
+import { captureSummaryForChat } from './chat-tools.mjs';
+import { ALL_CHAT_TOOL_DEFS, runChatToolGated, decideProposal, takeHandoff } from './chat-actions.mjs';
 import { isLocalSite } from './local-site.mjs';
 import { createServer } from 'node:http';
 import { spawn, spawnSync } from 'node:child_process';
@@ -28,12 +30,13 @@ import { inflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { endpointConfig, setEndpointConfig, listEndpointModels, aiBackends, setPreferredBackend, ENDPOINT_PRESETS, probeEndpointModels, endpointProbe } from './to-ai.mjs';
 import { aiReady, aiBackend, refineMapping, localAiStatus, setLocalModel, startPull, pullStatus, deleteModel, selectedLocalModel, ensureLocalModelReady, testLocalModel, instructTweak, chatLocalModel, toolChatLocalModel, runAssistantAgent, normalizeModelRef, importGguf, checkModel, microBackend, localSectionMicroTask, refineAnimations, synthesizePreloaderJs } from './to-ai.mjs';
+import { translateHeader } from './header-translate.mjs';
 import { studioOriginAllowed, studioAiStatus, studioScene } from './studio-ai.mjs';
-import { renderStatus, startRender, jobInfo, jobFile, cancelRender } from './studio-render.mjs';
+import { renderStatus, startRender, jobInfo, jobFile, jobCover, cancelRender } from './studio-render.mjs';
 import { transcribeStatus, startInstall, startTranscribe, transcribeJob } from './studio-transcribe.mjs';
 import { createReadStream } from 'node:fs';
-import { translateHeader } from './header-translate.mjs';
 import { translateFooter } from './footer-translate.mjs';
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { verifyUrls, verifySections } from './verify.mjs';
@@ -84,6 +87,29 @@ function writeChatHistory(messages) {
   try { mkdirSync(CAPTURE_OUT, { recursive: true }); writeFileSync(CHAT_HISTORY_FILE, JSON.stringify({ version: 1, messages: arr }, null, 2)); } catch { /* best-effort */ }
   return arr;
 }
+/* ---- The Kit Assistant's environment (chat tools + Phase 3 actions) ---- */
+const KINETIC_SCENES_URL = process.env.KINETIC_SCENES_URL || 'https://kinetic-scenes.unysonplus.com/';
+const DASH_PORT = Number(process.env.DASHBOARD_PORT || 4600);
+function chatOriginOk(req) {
+  const o = String(req.headers.origin || '');
+  return o === '' || o === `http://localhost:${DASH_PORT}` || o === `http://127.0.0.1:${DASH_PORT}`;
+}
+/** A capture started from the chat (after the person's Confirm): the Convert tab's run, in the background. */
+function startChatCapture(url, o = {}) {
+  mkdirSync(CAPTURE_OUT, { recursive: true });
+  const args = [CAPTURE, url, CAPTURE_OUT];
+  if (o.single_page) args.push('--single-page');
+  if (o.max_pages) args.push('--max-pages=' + o.max_pages);
+  markActive(url, 'running');
+  console.log('[chat] capture confirmed:', url);
+  const child = spawn(process.execPath, args, { stdio: 'inherit' });
+  child.on('error', () => markActive(url, 'error'));
+  child.on('exit', (code) => markActive(url, code === 0 ? 'done' : 'error'));
+}
+function chatEnv() {
+  return { captureOut: CAPTURE_OUT, docsDir: kitDocsDir(), siteSlug, startCapture: startChatCapture, studioUrl: KINETIC_SCENES_URL };
+}
+
 function markActive(url, status) {
   try {
     mkdirSync(CAPTURE_OUT, { recursive: true });
@@ -356,7 +382,7 @@ function unzip(buf) {
 }
 
 // THE HUB'S "LAST USED" RECORD. The kit serves three jobs (the Site Converter, the AI Assistant in
-// WordPress, the Animation Studio); the dashboard's Home page shows each one's state. Being up says
+// WordPress, Kinetic Scenes); the dashboard's Home page shows each one's state. Being up says
 // little on its own, so we note when each job last called in, and from where (a browser's Origin, or the
 // site address WordPress puts in its User-Agent). Calls from the dashboard itself carry neither and are
 // not counted. In memory only: it resets when the kit restarts.
@@ -385,7 +411,7 @@ function hubNote(req, path) {
 if (maybeAutoUpdate()) {
   // Updated and re-exec'd into a fresh process — leave this one idle until the child exits.
 } else {
-const __server = createServer((req, res) => {
+const __handler = (req, res) => {
   setCors(res);
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
 
@@ -403,7 +429,6 @@ const __server = createServer((req, res) => {
     });
     return;
   }
-
 
   // PAGE DISCOVERY — what pages does this site have?
   //
@@ -486,30 +511,38 @@ const __server = createServer((req, res) => {
   }
 
 
-  // The Animation Studio's video export (studio-render.mjs): start a render, follow it, download it.
+  // Kinetic Scenes' video export (studio-render.mjs): start a render, follow it, download it.
   //   GET  /studio/render                 → { ffmpeg, busy }
-  //   POST /studio/render                 { scene, playerBase, width, height, fps, format } → { id }
+  //   POST /studio/render                 { scene, playerBase, width, height, fps, format (mp4|webm|mov), transparent?, composite?, cover? } → { id }
   //   GET  /studio/render/<id>            → { state, done, total, error, name, bytes }
   //   GET  /studio/render/<id>/file       → the video
+  //   GET  /studio/render/<id>/cover      → its cover image (PNG), when asked for
   //   POST /studio/render/<id>/cancel
   if (u.pathname === '/studio/render' || u.pathname.startsWith('/studio/render/')) {
-    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
     const parts = u.pathname.split('/').filter(Boolean); // studio, render, id?, action?
     const id = parts[2];
     const action = parts[3];
     if (!id) {
       if (req.method === 'GET') { renderStatus().then((st) => json(res, 200, { ok: true, ...st })); return; }
       if (req.method !== 'POST') { json(res, 405, { error: 'GET or POST.' }); return; }
-      readJson(req, 24 * 1024 * 1024)
+      readJson(req, 600 * 1024 * 1024)
         .then((body) => { const j = startRender(body); console.log('[studio-render]', j.id, `${j.width}x${j.height} ${j.fps}fps ${j.format}, ${j.total} frames`); json(res, 200, { ok: true, id: j.id, total: j.total }); })
         .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
       return;
     }
     if (action === 'cancel') { json(res, 200, { ok: cancelRender(id) }); return; }
+    if (action === 'cover') {
+      const f = jobCover(id);
+      if (!f) { json(res, 404, { error: 'No cover for that render.' }); return; }
+      res.writeHead(200, { 'content-type': 'image/png', 'cache-control': 'no-store' });
+      createReadStream(f).pipe(res);
+      return;
+    }
     if (action === 'file') {
       const j = jobFile(id);
       if (!j) { json(res, 404, { error: 'No finished video with that id.' }); return; }
-      res.writeHead(200, { 'content-type': j.format === 'webm' ? 'video/webm' : 'video/mp4', 'content-length': j.bytes, 'content-disposition': `attachment; filename="${j.name}"`, 'cache-control': 'no-store' });
+      res.writeHead(200, { 'content-type': j.format === 'webm' ? 'video/webm' : j.format === 'mov' ? 'video/quicktime' : 'video/mp4', 'content-length': j.bytes, 'content-disposition': `attachment; filename="${j.name}"`, 'cache-control': 'no-store' });
       createReadStream(j.file).pipe(res);
       return;
     }
@@ -519,13 +552,13 @@ const __server = createServer((req, res) => {
     return;
   }
 
-  // The Animation Studio's speech recognition (studio-transcribe.mjs): a voice-over's words, times and delivery.
+  // Kinetic Scenes' speech recognition (studio-transcribe.mjs): a voice-over's words, times and delivery.
   //   GET  /studio/transcribe              → { program, models, install, busy, ... }
   //   POST /studio/transcribe/install      { model } → install progress (poll GET /studio/transcribe)
   //   POST /studio/transcribe              { src, model?, language? } → { id }
   //   GET  /studio/transcribe/<id>         → { state, step, error, result }
   if (u.pathname === '/studio/transcribe' || u.pathname.startsWith('/studio/transcribe/')) {
-    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
     const part = u.pathname.split('/').filter(Boolean)[2];
     if (!part) {
       if (req.method === 'GET') { transcribeStatus().then((st) => json(res, 200, { ok: true, ...st })); return; }
@@ -546,19 +579,409 @@ const __server = createServer((req, res) => {
     return;
   }
 
-  // The Animation Studio (animation-studio.unysonplus.com): "AI" tab → a scene file from a request, made
+  // Kinetic Scenes' add-ons (studio-addons.mjs): what is connected or installed, and where a connector is.
+  //   GET  /studio/addons              → { addons: [{ id, kind, name, state, what, detail, location?, profiles? }] }
+  //   POST /studio/addons/<id>         { location, field? } → sets (or, with "", resets) where it is, then checks it
+  //   POST /studio/addons/<id>/find    → searches the usual install places, saves what it finds → { found }
+  //   POST /studio/addons/<id>/browse  { field? } → this computer's own file or folder picker → { chosen }
+  if (u.pathname === '/studio/doctor') {
+    // Check this computer: the kit's report, as data and as text ready to paste into a bug report.
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    import('./studio-doctor.mjs').then(async (d) => { const r = await d.checkComputer(); json(res, 200, { ok: true, report: r, text: d.doctorText(r) }); })
+      .catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+  if (u.pathname === '/studio/addons' || u.pathname.startsWith('/studio/addons/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-addons.mjs')
+      .then(async (a) => {
+        if (!part) return json(res, 200, { ok: true, addons: await a.listAddons() });
+        if (req.method !== 'POST') return json(res, 405, { error: 'POST.' });
+        const body = await readJson(req);
+        const action = u.pathname.split('/').filter(Boolean)[3];
+        if (action === 'find') return json(res, 200, { ok: true, ...(await a.findAddon(part)) });
+        if (action === 'browse') return json(res, 200, { ok: true, ...(await a.browseAddon(part, body.field)) });
+        return json(res, 200, { ok: true, status: await a.setAddonLocation(part, body.location ?? '', body.field) });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' workspace (studio-workspace.mjs): projects as folders on this computer, shared with AI agents.
+  //   GET  /studio/workspace                          → { root, projects: [{ id, title, duration, updated }] }
+  //   POST /studio/workspace                          { name, scene? } → { id, mtime }
+  //   GET  /studio/workspace/<id>                     → { id, scene, mtime }
+  //   POST /studio/workspace/<id>                     { scene, base } → { id, mtime }  (409 + { current } when it changed on disk)
+  //   POST /studio/workspace/<id>/media?name=…        raw file → { path: "media/…" }
+  //   GET  /studio/workspace/<id>/file/<path>         a project file (range requests)
+  //   GET/POST /studio/workspace/<id>/notes           notes.md: { notes, mtime } / { notes } or { add, section? }
+  //   GET  /studio/workspace/<id>/events              server-sent events: { kind: scene|notes|media, mtime? }
+  //   POST /studio/workspace/<id>/reveal, /studio/workspace/reveal   open the folder
+  // AI assist in steps (studio-agent.mjs): the request runs as an agent in the project's folder.
+  //   POST /studio/agent                   { project, prompt } → { id }
+  //   GET  /studio/agent/<id>              → { state: running|done|error|cancelled, steps: [{ t, text }], summary, error }
+  //   POST /studio/agent/<id>/cancel
+  if (u.pathname === '/studio/agent' || u.pathname.startsWith('/studio/agent/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const [, , , id, what] = u.pathname.split('/');
+    import('./studio-agent.mjs').then(async (g) => {
+      if (!id) {
+        if (req.method !== 'POST') return json(res, 405, { error: 'POST.' });
+        return json(res, 200, { ok: true, ...g.startAgent(await readJson(req)) });
+      }
+      if (what === 'cancel') return json(res, 200, { ok: g.cancelAgent(id) });
+      const info = g.agentJob(id);
+      return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No such job.' });
+    }).catch((e) => json(res, typeof e.code === 'number' ? e.code : 500, { error: e.message }));
+    return;
+  }
+  //   GET  /studio/workspace-root                     → { root, byEnv, isDefault, defaultRoot }
+  //   POST /studio/workspace-root                     { choose: true } opens the folder picker | { reset: true } → the same, plus { chosen }
+  if (u.pathname === '/studio/workspace-root') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    import('./studio-workspace.mjs')
+      .then(async (w) => json(res, 200, { ok: true, ...(req.method === 'POST' ? await w.setRoot(await readJson(req)) : await w.rootInfo()) }))
+      .catch((e) => json(res, typeof e.code === 'number' ? e.code : 500, { error: e.message }));
+    return;
+  }
+  if (u.pathname === '/studio/workspace' || u.pathname.startsWith('/studio/workspace/')) {
+    const parts = u.pathname.split('/').filter(Boolean).slice(2).map(decodeURIComponent);
+    const [id, what, ...rest] = parts;
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    import('./studio-workspace.mjs').then(async (w) => {
+      try {
+        if (!id) {
+          if (req.method === 'POST') { const b = await readJson(req, 200 * 1024 * 1024); return json(res, 200, { ok: true, ...w.createProject(b.name || 'Untitled', b.scene) }); }
+          return json(res, 200, { ok: true, ...(await w.listProjects()) });
+        }
+        if (id === 'reveal' && !what) return json(res, 200, { ok: true, ...w.reveal() });
+        if (!what) {
+          if (req.method === 'POST') { const b = await readJson(req, 200 * 1024 * 1024); return json(res, 200, { ok: true, ...w.writeProject(id, b.scene, { base: b.base }) }); }
+          return json(res, 200, { ok: true, ...w.readProject(id) });
+        }
+        if (what === 'reveal') return json(res, 200, { ok: true, ...w.reveal(id) });
+        if (what === 'notes') {
+          if (req.method === 'POST') { const b = await readJson(req); return json(res, 200, { ok: true, ...(b.add ? w.addNote(id, b.add, b.section) : w.writeNotes(id, b.notes)) }); }
+          return json(res, 200, { ok: true, ...w.readNotes(id) });
+        }
+        if (what === 'media' && req.method === 'POST') return json(res, 200, { ok: true, path: w.addMedia(id, u.searchParams.get('name') || 'media', await readBuffer(req, 2048 * 1024 * 1024)) });
+        if (what === 'file') return w.sendFile(id, rest.join('/'), req, res);
+        if (what === 'events') {
+          w.projectDir(id);
+          res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' });
+          res.write(': connected\n\n');
+          const stop = w.watch(id, (ev) => res.write(`data: ${JSON.stringify(ev)}\n\n`));
+          const ping = setInterval(() => res.write(': ping\n\n'), 25000);
+          req.on('close', () => { stop(); clearInterval(ping); });
+          return;
+        }
+        return json(res, 404, { error: 'Unknown workspace request.' });
+      } catch (e) {
+        if (res.headersSent) { res.end(); return; }
+        return json(res, typeof e.code === 'number' ? e.code : 500, { error: e.message, ...(e.current ? { current: e.current } : {}) });
+      }
+    }).catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' background music (studio-music.mjs, the ACE-Step add-on): an instrumental made on this computer.
+  //   POST /studio/music              { prompt, seconds, bpm? } → { id }   (starts ACE-Step from its folder if needed)
+  //   GET  /studio/music/<id>         → { state, step, error, result: { src, bpm, seconds } }
+  if (u.pathname === '/studio/music' || u.pathname.startsWith('/studio/music/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    Promise.all([import('./studio-music.mjs'), import('./studio-addons.mjs')])
+      .then(async ([m, a]) => {
+        if (!part) {
+          if (req.method !== 'POST') return json(res, 405, { error: 'POST.' });
+          return json(res, 200, { ok: true, ...m.startMusic(a.aceFolder(), await readJson(req)) });
+        }
+        const info = m.musicJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No music with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' voice and music separation (studio-separate.mjs): a clip's sound as two tracks.
+  //   GET  /studio/separate              → { runtime, model, mb, install, busy }
+  //   POST /studio/separate/install      → install progress (poll GET /studio/separate)
+  //   POST /studio/separate              { src } → { id }
+  //   GET  /studio/separate/<id>         → { state, step, done, total, error, result: { voice, music, seconds } }
+  if (u.pathname === '/studio/separate' || u.pathname.startsWith('/studio/separate/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-separate.mjs')
+      .then(async (s) => {
+        if (!part) {
+          if (req.method === 'GET') return json(res, 200, { ok: true, ...(await s.separateStatus()) });
+          if (req.method !== 'POST') return json(res, 405, { error: 'GET or POST.' });
+          return json(res, 200, { ok: true, ...s.startSeparate(await readJson(req, 256 * 1024 * 1024)) });
+        }
+        if (part === 'install') return json(res, 200, { ok: true, install: s.startSeparateInstall() });
+        const info = s.separateJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No separation with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' sound identification (studio-clap.mjs): the sounds in a clip and when each is heard.
+  //   GET  /studio/clap              → { installed, mb, install, labels }
+  //   POST /studio/clap/install      → install progress (poll GET /studio/clap)
+  //   POST /studio/clap              { src, labels? } → { id }
+  //   GET  /studio/clap/<id>         → { state, step, done, total, error, result: { seconds, overall, segments } }
+  if (u.pathname === '/studio/clap' || u.pathname.startsWith('/studio/clap/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-clap.mjs')
+      .then(async (c) => {
+        if (!part) {
+          if (req.method === 'GET') return json(res, 200, { ok: true, ...c.clapStatus() });
+          if (req.method !== 'POST') return json(res, 405, { error: 'GET or POST.' });
+          return json(res, 200, { ok: true, ...c.startIdentify(await readJson(req, 256 * 1024 * 1024)) });
+        }
+        if (part === 'install') return json(res, 200, { ok: true, install: c.startClapInstall() });
+        const info = c.identifyJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No identification with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' voice-over from a script (studio-voice.mjs): Piper speaks it, the kit times every word.
+  //   GET  /studio/voice              → { program, voices, transcription, install }
+  //   POST /studio/voice/install      { voice } → install progress (poll GET /studio/voice)
+  //   POST /studio/voice              { lines, voice?, gap? } → { id }
+  //   GET  /studio/voice/<id>         → { state, step, error, result }
+  if (u.pathname === '/studio/voice' || u.pathname.startsWith('/studio/voice/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-voice.mjs')
+      .then(async (v) => {
+        if (!part) {
+          if (req.method === 'GET') return json(res, 200, { ok: true, ...(await v.voiceStatus()) });
+          if (req.method !== 'POST') return json(res, 405, { error: 'GET or POST.' });
+          return json(res, 200, { ok: true, ...v.startVoice(await readJson(req)) });
+        }
+        if (part === 'install') return json(res, 200, { ok: true, install: v.startVoiceInstall(await readJson(req)) });
+        const info = v.voiceJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No voice-over with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' sound search and sound design (studio-sounds.mjs).
+  //   GET  /studio/sounds                 → { key, cached }
+  //   POST /studio/sounds/key             { key } → saves the person's Freesound key (checked first)
+  //   POST /studio/sounds/search          { q, page?, maxSeconds? } → public-domain results with previews
+  //   POST /studio/sounds/fetch           { id } → { src, name, seconds }
+  //   POST /studio/sounds/design          { prompt, seconds? } → { design } (a recipe) or { src } (with an ElevenLabs key)
+  if (u.pathname === '/studio/sounds' || u.pathname.startsWith('/studio/sounds/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-sounds.mjs')
+      .then(async (m) => {
+        if (!part) return json(res, 200, { ok: true, ...m.soundsStatus() });
+        if (req.method !== 'POST') return json(res, 405, { error: 'POST only.' });
+        const body = await readJson(req);
+        const fn = { key: m.saveSoundsKey, search: m.searchSounds, fetch: m.fetchSound, design: m.designSound }[part];
+        if (!fn) return json(res, 404, { error: 'Unknown sounds action.' });
+        return json(res, 200, { ok: true, ...(await fn(body)) });
+      })
+      .catch((e) => json(res, [400, 412, 503].includes(e.code) ? e.code : e.code === 502 ? 502 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' "3D objects from a description" (studio-object3d.mjs).
+  //   POST /studio/object3d              { prompt, playerBase? } → { src (GLB data: URL), name, parts, problems, looked, notes }
+  if (u.pathname === '/studio/object3d') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    (async () => {
+      const b = await readJson(req);
+      const pb = typeof b.playerBase === 'string' && /^https?:\/\/[^\s"'<>]+\/$/.test(b.playerBase) ? b.playerBase : await (await import('./studio-tools.mjs')).playerBase();
+      const r = await (await import('./studio-object3d.mjs')).objectFromDescription({ prompt: b.prompt, playerBase: pb, look: b.look !== false });
+      return json(res, 200, { ok: true, src: `data:model/gltf-binary;base64,${r.glb.toString('base64')}`, name: r.name, parts: r.parts, problems: r.problems, looked: r.looked, notes: r.notes });
+    })().catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' "Music composed to the scene" (studio-score.mjs): no add-on needed.
+  //   POST /studio/score                 { scene, mood?: bright|calm|dark|driving } → { src (MP3 data: URL), bpm, key, reveal, accents, seconds }
+  if (u.pathname === '/studio/score') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    (async () => {
+      const b = await readJson(req, 50 * 1024 * 1024);
+      if (!b.scene || typeof b.scene.duration !== 'number') return json(res, 400, { error: 'Send the scene.' });
+      const r = (await import('./studio-score.mjs')).composeScore(b.scene, { mood: b.mood });
+      const { mkdtempSync, writeFileSync, readFileSync, rmSync } = await import('node:fs');
+      const { tmpdir } = await import('node:os');
+      const { spawnSync } = await import('node:child_process');
+      const d = mkdtempSync(join(tmpdir(), 'upw-score-'));
+      try {
+        writeFileSync(join(d, 's.wav'), r.wav);
+        const enc = spawnSync(process.env.FFMPEG || 'ffmpeg', ['-v', 'error', '-y', '-i', join(d, 's.wav'), '-b:a', '192k', join(d, 's.mp3')]);
+        const mp3 = enc.status === 0 ? readFileSync(join(d, 's.mp3')) : null;
+        const src = mp3 ? `data:audio/mpeg;base64,${mp3.toString('base64')}` : `data:audio/wav;base64,${r.wav.toString('base64')}`;
+        return json(res, 200, { ok: true, src, bpm: r.bpm, key: r.key, reveal: r.reveal, accents: r.accents, seconds: r.seconds });
+      } finally { try { rmSync(d, { recursive: true, force: true }); } catch { /* best effort */ } }
+    })().catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' "Make one like this" (studio-likethis.mjs): a video the person likes, worked out into a brief.
+  //   POST /studio/like-this             { src (video data: URL), seconds? } → { brief, context, summary, duration }
+  if (u.pathname === '/studio/like-this') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    (async () => {
+      const b = await readJson(req, 600 * 1024 * 1024);
+      if (typeof b.src !== 'string' || !/^data:video\//.test(b.src)) return json(res, 400, { error: 'Send the video (a data: URL).' });
+      const { mkdtempSync, writeFileSync, rmSync } = await import('node:fs');
+      const { tmpdir } = await import('node:os');
+      const d = mkdtempSync(join(tmpdir(), 'upw-likein-'));
+      try {
+        const f = join(d, 'ref.mp4');
+        writeFileSync(f, Buffer.from(b.src.slice(b.src.indexOf(',') + 1), 'base64'));
+        const r = await (await import('./studio-likethis.mjs')).likeThis({ file: f, seconds: Number(b.seconds) || undefined });
+        return json(res, 200, { ok: true, brief: r.brief, context: r.context, summary: r.summary, duration: r.duration });
+      } finally { try { rmSync(d, { recursive: true, force: true }); } catch { /* best effort */ } }
+    })().catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' "Finish in another editor" (studio-interchange.mjs): a workspace project's cut as FCPXML,
+  // Premiere XML and SRT, written into the project's renders/edit/.
+  //   POST /studio/interchange           { project } → { dir, files, skipped, graphics, clips }
+  if (u.pathname === '/studio/interchange') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    (async () => {
+      const b = await readJson(req);
+      const w = await import('./studio-workspace.mjs');
+      const dir = w.projectDir(String(b.project || ''));
+      const { scene } = w.readProject(String(b.project || ''));
+      const m = await import('./studio-interchange.mjs');
+      return json(res, 200, { ok: true, ...m.writeInterchange({ scene, baseDir: dir, out: join(dir, 'renders', 'edit') }) });
+    })().catch((e) => json(res, e.code === 400 || e.code === 404 ? e.code : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' "Make a reel from this video" (studio-highlights.mjs).
+  //   POST /studio/highlights            { src (video data: URL), length?, part?, words?, beats? } → { parts, cuts, seconds, spoken }
+  if (u.pathname === '/studio/highlights') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    import('./studio-highlights.mjs')
+      .then(async (m) => json(res, 200, { ok: true, ...(await m.highlightsFromData(await readJson(req, 600 * 1024 * 1024))) }))
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' free stock search (studio-stock.mjs): Pexels, Pixabay (with the person's keys), NASA, Openverse.
+  //   GET  /studio/stock                 → { sources: { pexels: { on, needsKey, hasKey }, … } }
+  //   POST /studio/stock/sources         { off: [source…] } → the same, after saving which are switched off
+  //   POST /studio/stock/key             { source: pexels|pixabay, key } → the same, after saving the key
+  //   POST /studio/stock/search          { q, kind?: video|photo|audio, sources?, orient? } → { results, notes }
+  //   POST /studio/stock/get             { project, result } → { path, note, credit } (into media/, noted)
+  if (u.pathname === '/studio/stock' || u.pathname.startsWith('/studio/stock/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-stock.mjs')
+      .then(async (m) => {
+        if (!part) return json(res, 200, { ok: true, ...(await m.stockStatus()) });
+        if (req.method !== 'POST') return json(res, 405, { error: 'POST only.' });
+        const b = await readJson(req);
+        if (part === 'key') return json(res, 200, { ok: true, ...(await m.setStockKey(b.source, b.key)) });
+        if (part === 'sources') return json(res, 200, { ok: true, ...(await m.setStockSources(b)) });
+        if (part === 'search') return json(res, 200, { ok: true, ...(await m.stockSearch(b)) });
+        if (part === 'get') return json(res, 200, { ok: true, ...(await m.stockGet(b.project, b.result)) });
+        return json(res, 404, { error: 'Unknown stock action.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' footage tools (studio-matte.mjs): the person cut out, the face followed, the sound taken out.
+  //   POST /studio/matte              { src, cutout?, faces?, quality?: fine|fast|rvm } → { id }
+  //   GET  /studio/matte/methods      → { methods: { fast, fine, rvm, sam2: { ready, note, … } } }
+  //   GET  /studio/matte/<id>         → { state, step, done, total, error, result: { src?, track?, width, height, fps, seconds } }
+  //   POST /studio/footage-audio      { src } → { src (an MP3 data URL), seconds } (the footage's own sound)
+  if (u.pathname === '/studio/matte' || u.pathname.startsWith('/studio/matte/') || u.pathname === '/studio/footage-audio') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-matte.mjs')
+      .then(async (m) => {
+        if (u.pathname === '/studio/footage-audio') return json(res, 200, { ok: true, ...(await m.footageAudio(await readJson(req, 600 * 1024 * 1024))) });
+        if (!part) {
+          if (req.method !== 'POST') return json(res, 405, { error: 'POST only.' });
+          return json(res, 200, { ok: true, ...m.startMatte(await readJson(req, 600 * 1024 * 1024)) });
+        }
+        if (part === 'methods') return json(res, 200, { ok: true, methods: m.matteMethods() });
+        const info = m.matteJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No cut-out with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' AI director (studio-director.mjs): plan first, look-criticise-fix, quick scenes.
+  //   POST /studio/plan    { prompt, kind: storyboard|explainer|tutorial, rules, catalog, stage, context? } → { title, plan, segments? }
+  //   POST /studio/review  { scene, playerBase, rules, catalog, prompt?, times? } → { ok, notes } | { ok: false, scene, explanation }
+  //   POST /studio/quick   { url? , folder? } → { brief, context, shots: [data URLs] }
+  if (u.pathname === '/studio/plan' || u.pathname === '/studio/review' || u.pathname === '/studio/quick') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    const which = u.pathname.split('/')[2];
+    import('./studio-director.mjs')
+      .then(async (d) => {
+        const body = await readJson(req, 48 * 1024 * 1024);
+        markAi({ status: 'thinking', backend: aiBackend(), note: `Kinetic Scenes: ${which === 'plan' ? 'planning…' : which === 'review' ? 'looking at the frames…' : 'reading the website…'}`, startedAt: Date.now() });
+        const r = which === 'plan' ? await d.studioPlan(body) : which === 'review' ? await d.studioReview(body) : await d.studioQuick(body);
+        markAi({ status: 'idle' });
+        return json(res, 200, { ok: true, ...r });
+      })
+      .catch((e) => { markAi({ status: 'idle' }); json(res, e.code === 400 ? 400 : e.code === 503 ? 503 : 500, { error: e.message }); });
+    return;
+  }
+
+  // Kinetic Scenes' "Split into layers" (studio-split.mjs): a picture into stacked transparent layers.
+  //   GET  /studio/split  → { engine: 'fal' | 'local', fal, localModel }
+  //   POST /studio/split  { src, layers?, prompt? } → { engine, layers: [{ name, src }] } (bottom to top)
+  if (u.pathname === '/studio/split') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'GET' && req.method !== 'POST') { json(res, 405, { error: 'GET or POST.' }); return; }
+    import('./studio-split.mjs')
+      .then(async ({ splitImage, splitStatus }) => {
+        if (req.method === 'GET') return json(res, 200, { ok: true, ...splitStatus() });
+        const body = await readJson(req, 48 * 1024 * 1024);
+        return json(res, 200, { ok: true, ...(await splitImage(body)) });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes (kinetic-scenes.unysonplus.com): "AI" tab → a scene file from a request, made
   // with this kit's AI. Only the Studio's own pages may call these (studio-ai.mjs → studioOriginAllowed).
   if (u.pathname === '/studio/status' || u.pathname === '/studio/ai') {
-    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only the Unyson+ Animation Studio may use this.' }); return; }
-    if (u.pathname === '/studio/status') { json(res, 200, { ok: true, version: VERSION, ...studioAiStatus() }); return; }
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (u.pathname === '/studio/status') {
+      Promise.all([import('./studio-workspace.mjs').then((w) => w.lastAgent()).catch(() => null), import('./studio-agent.mjs').then((g) => g.agentAvailable()).catch(() => false)])
+        .then(([agent, steps]) => { const st = studioAiStatus(); json(res, 200, { ok: true, version: VERSION, ...st, features: steps ? [...st.features, 'agent'] : st.features, agent }); });
+      return;
+    }
     if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
     const _aiStart = Date.now();
     readJson(req)
       .then((body) => {
-        markAi({ status: 'thinking', backend: aiBackend(), note: 'Animation Studio: ' + (body.mode === 'create' ? 'making a scene…' : 'changing the scene…'), startedAt: _aiStart });
+        markAi({ status: 'thinking', backend: aiBackend(), note: 'Kinetic Scenes: ' + (body.mode === 'create' ? 'making a scene…' : 'changing the scene…'), startedAt: _aiStart });
         return studioScene(body);
       })
-      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'Animation Studio scene' }); console.log('[studio-ai] scene via', out.model, 'in', Math.round((Date.now() - _aiStart) / 1000) + 's'); json(res, 200, { ok: true, ...out }); })
+      .then((out) => { markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'Kinetic scene' }); console.log('[studio-ai] scene via', out.model, 'in', Math.round((Date.now() - _aiStart) / 1000) + 's'); json(res, 200, { ok: true, ...out }); })
       .catch((e) => { const code = e.code === 400 ? 400 : (e.code === 503 ? 503 : 500); if (code === 500) markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[studio-ai]', e.message); json(res, code, { error: e.message }); });
     return;
   }
@@ -727,6 +1150,57 @@ const __server = createServer((req, res) => {
     return;
   }
 
+  /* --- Which AI runs (the backend switch) ------------------------------------------------------ *
+   * GET  /local-ai/backend → every backend with whether it can run, the saved choice, and the active one.
+   * POST /local-ai/backend → { backend: '' | 'api' | 'claude-code' | 'endpoint' | 'ollama' | 'off' }.
+   * The AI_BACKEND environment variable still wins over the saved choice (see preferredBackend()).
+   */
+  if (u.pathname === '/local-ai/backend' && req.method === 'GET') { json(res, 200, aiBackends()); return; }
+  if (u.pathname === '/local-ai/backend' && req.method === 'POST') {
+    readJson(req)
+      .then((b) => { const v = setPreferredBackend(b && b.backend); console.log('[ai] backend →', v || 'automatic'); return aiBackends(); })
+      .then((st) => json(res, 200, st))
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  /* --- Bring your own endpoint (OpenAI-compatible) ------------------------------------------- *
+   * GET  /local-ai/endpoint         → the saved config, WITHOUT the key (the UI never needs it back).
+   * POST /local-ai/endpoint         → save { baseUrl, key?, model? }. Omitting `key` keeps the stored one,
+   *                                   so re-picking a model does not wipe it. An empty baseUrl clears the tier.
+   * GET  /local-ai/endpoint/models  → the provider's catalogue, split into usable / everything else.
+   */
+  if (u.pathname === '/local-ai/endpoint' && req.method === 'GET') {
+    const c = endpointConfig();
+    json(res, 200, { baseUrl: c.baseUrl, model: c.model, source: c.source, hasKey: !!c.key, presets: ENDPOINT_PRESETS, probe: endpointProbe() });
+    return;
+  }
+  if (u.pathname === '/local-ai/endpoint' && req.method === 'POST') {
+    readJson(req)
+      .then((b) => {
+        const c = setEndpointConfig(b || {});
+        console.log('[endpoint]', c.baseUrl ? `${c.baseUrl} · ${c.model || '(no model)'}` : '(cleared)');
+        return localAiStatus();
+      })
+      .then((st) => json(res, 200, st))
+      .catch((e) => { console.error('[endpoint]', e.message); json(res, e.code === 400 ? 400 : 500, { error: e.message }); });
+    return;
+  }
+  // POST /local-ai/endpoint/probe — ask the provider which listed models this key can actually call.
+  if (u.pathname === '/local-ai/endpoint/probe' && req.method === 'POST') {
+    readJson(req).catch(() => ({}))
+      .then((b) => probeEndpointModels(b || {}))
+      .then((out) => { console.log('[endpoint] probe:', out.ok.length, 'of', out.tested, 'usable'); json(res, 200, out); })
+      .catch((e) => json(res, e.code === 400 ? 400 : 503, { error: e.message }));
+    return;
+  }
+  if (u.pathname === '/local-ai/endpoint/models' && req.method === 'GET') {
+    listEndpointModels()
+      .then((r) => json(res, 200, r))
+      .catch((e) => json(res, e.code === 400 ? 400 : 503, { error: e.message }));
+    return;
+  }
+
   // POST /local-ai/pull — download a model via Ollama (streamed in the background). GET .../pull-status polls it.
   if (u.pathname === '/local-ai/pull' && req.method === 'POST') {
     // Any model name / Hugging Face link is normalised + validated first (the dashboard's "Add a model").
@@ -769,6 +1243,43 @@ const __server = createServer((req, res) => {
     return;
   }
 
+  // The Kit Assistant's endpoints answer the dashboard only. This service allows any origin (the converter
+  // endpoints are called from WordPress), so without this a web page open in the same browser could drive
+  // the chat's tools, or read a pending proposal's id from a reply and confirm it. The dashboard's server
+  // calls these from Node (no Origin header); a browser always sends one on a cross-site POST.
+  if (/^\/local-ai\/chat(-history|-clear|-confirm)?$/.test(u.pathname) && !chatOriginOk(req)) {
+    json(res, 403, { error: 'The Kit Assistant answers the AI Dev Kit dashboard only.' });
+    return;
+  }
+  // POST /local-ai/chat-confirm — the person's Confirm / Cancel on a proposal the chat made (Phase 3).
+  // Body: { id, decision: 'confirm'|'cancel' }. Runs it at most once, and records the outcome in the chat.
+  if (u.pathname === '/local-ai/chat-confirm' && req.method === 'POST') {
+    readJson(req)
+      .then((b) => decideProposal(chatEnv(), b && b.id, b && b.decision).then((out) => ({ out, id: b && b.id })))
+      .then(({ out, id }) => {
+        const hist = readChatHistory();
+        for (const m of hist) {
+          for (const t of (m.toolCalls || [])) {
+            if (t.result && t.result.id === id) t.result.state = out.cancelled ? 'cancelled' : (out.ok ? 'confirmed' : 'failed');
+          }
+        }
+        const text = out.ok ? (out.message + (out.link ? ' ' + out.link : '')) : ('Not done: ' + out.error);
+        hist.push({ role: 'assistant', content: text, action: true, at: Date.now() });
+        writeChatHistory(hist);
+        console.log('[local-ai/chat-confirm]', out.cancelled ? 'cancelled' : (out.ok ? 'ran' : 'failed: ' + out.error));
+        json(res, out.ok ? 200 : 409, { ...out, text });
+      })
+      .catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+  // GET /studio/handoff?id=… — Kinetic Scenes collects a scene request the chat handed over (once).
+  if (u.pathname === '/studio/handoff' && req.method === 'GET') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const h = takeHandoff(u.searchParams.get('id'));
+    if (!h) { json(res, 404, { error: 'This request was already opened, or has expired. Ask the Kit Assistant again.' }); return; }
+    json(res, 200, { ok: true, ...h });
+    return;
+  }
   // GET /local-ai/chat-history — the persisted multi-turn chat (survives restarts). { messages }.
   if (u.pathname === '/local-ai/chat-history' && req.method === 'GET') {
     json(res, 200, { ok: true, messages: readChatHistory() });
@@ -801,13 +1312,47 @@ const __server = createServer((req, res) => {
       if (m.method.startsWith('notifications/')) { res.writeHead(202); res.end(); return; }
       if (m.method === 'initialize') { ok({ protocolVersion: (m.params && m.params.protocolVersion) || '2025-06-18', capabilities: { tools: {} }, serverInfo: { name: 'unysonplus-kit', version: VERSION } }); return; }
       if (m.method === 'ping') { ok({}); return; }
+      const site = AGENT_SITES.get(String(u.searchParams.get('site') || ''));
       if (m.method === 'tools/list') {
-        ok({ tools: [{
+        const convertTool = site ? [{
+          name: 'convert_site',
+          description: 'Convert a website into the WordPress site you are working on, with the page rendered HERE in a real browser (the AI Dev Kit) — the way to convert on a live site, whose server cannot reach this computer. Without confirm it changes nothing and returns what the conversion would replace: tell the person and ask; call again with confirm: true only after they agree. Same result as the site tool convert_url with a rendered page.',
+          inputSchema: { type: 'object', properties: { url: { type: 'string' }, confirm: { type: 'boolean' }, dry_run: { type: 'boolean' } }, required: ['url'] },
+        }] : [];
+        ok({ tools: [...convertTool, {
           name: 'measure_pages',
           description: 'Compare two web pages in a real browser on this computer (the AI Dev Kit): how different they look per horizontal strip, and section by section what is missing, moved or restyled. Use it when visual_check (on the site) answers reason "service_unreachable": pass its verify_request.body fields, then call visual_check again with the same arguments plus measured = the result of this tool.',
           inputSchema: { type: 'object', properties: { source_url: { type: 'string' }, converted_url: { type: 'string' }, width: { type: 'integer' }, lens: { type: 'string', enum: ['bands', 'sections', 'both'] } }, required: ['source_url', 'converted_url'] },
           annotations: { readOnlyHint: true },
         }] });
+        return;
+      }
+      if (m.method === 'tools/call' && m.params && m.params.name === 'convert_site') {
+        const a = m.params.arguments || {};
+        const target = String(a.url || '');
+        if (!site) { ok({ content: [{ type: 'text', text: 'No site is attached to this session.' }], isError: true }); return; }
+        if (!/^https?:\/\//i.test(target)) { ok({ content: [{ type: 'text', text: 'url must be an http(s) address.' }], isError: true }); return; }
+        const callSite = (args) => fetch(site.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...site.headers },
+          body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'convert_url', arguments: args } }),
+        }).then((r) => r.json());
+        try {
+          const base = { url: target, confirm: !!a.confirm, dry_run: !!a.dry_run };
+          let rendered = '';
+          // Only render once the person has agreed (or for a dry run): the first call is the site's own
+          // "this is what it will replace" answer.
+          if (a.confirm || a.dry_run) {
+            const cap = await fetch(`http://127.0.0.1:${PORT}/capture?single=1&html=1&url=${encodeURIComponent(target)}`);
+            if (!cap.ok) { throw new Error('the capture failed (HTTP ' + cap.status + ')'); }
+            rendered = await cap.text();
+          }
+          const out = await callSite(rendered ? { ...base, rendered_html: rendered } : base);
+          const r = (out && out.result) || {};
+          ok({ content: r.content || [{ type: 'text', text: JSON.stringify(out && out.error ? out.error : out) }], structuredContent: r.structuredContent, isError: !!r.isError || !!(out && out.error) });
+        } catch (e) {
+          ok({ content: [{ type: 'text', text: 'Could not convert: ' + e.message }], isError: true });
+        }
         return;
       }
       if (m.method === 'tools/call' && m.params && m.params.name === 'measure_pages') {
@@ -899,13 +1444,27 @@ const __server = createServer((req, res) => {
           .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
           .map((m) => ({ role: m.role, content: String(m.content) }));
         markAi({ status: 'thinking', backend: aiBackend(), note: 'chatting…', startedAt: _aiStart });
-        return chatLocalModel({ messages: msgs }).then((out) => ({ out, msgs }));
+        // The Kit Assistant: the read-only tools (tool_look_at_url, tool_conversion_report,
+        // tool_search_docs + read_doc) and a summary of the captures as context.
+        const env = chatEnv();
+        const chatCaptureContext = captureSummaryForChat(CAPTURE_OUT);
+        return chatWithTools({
+          messages: msgs,
+          tools: ALL_CHAT_TOOL_DEFS,
+          context: chatCaptureContext,
+          runTool: (name, args) => {
+            markAi({ status: 'thinking', backend: aiBackend(), note: 'chat tool: ' + name, startedAt: _aiStart });
+            return runChatToolGated(env, name, args);
+          },
+        }).then((out) => ({ out, msgs }));
       })
       .then(({ out, msgs }) => {
-        writeChatHistory(msgs.concat([{ role: 'assistant', content: out.reply, model: out.model, at: Date.now() }]));
+        // Tool results are kept short in history (the panel shows them; the model gets them fresh).
+        const toolCalls = (out.toolCalls || []).map((t) => ({ name: t.name, args: t.args, ok: t.ok, result: JSON.parse(JSON.stringify(t.result || {}, (k, v) => (typeof v === 'string' && v.length > 1200 ? v.slice(0, 1200) + '…' : (Array.isArray(v) && v.length > 40 ? v.slice(0, 40) : v)))) }));
+        writeChatHistory(msgs.concat([{ role: 'assistant', content: out.reply, model: out.model, toolCalls, at: Date.now() }]));
         markAi({ status: 'done', backend: aiBackend(), model: out.model, startedAt: _aiStart, elapsed: Math.round((Date.now() - _aiStart) / 1000), note: 'chat reply' });
         console.log('[local-ai/chat] reply via', out.model);
-        json(res, 200, { ok: true, model: out.model, reply: out.reply, ms: out.ms });
+        json(res, 200, { ok: true, model: out.model, reply: out.reply, ms: out.ms, toolCalls });
       })
       .catch((e) => { const code = e.code === 503 ? 503 : (e.code === 400 ? 400 : 500); if (code === 500) markAi({ status: 'error', backend: aiBackend(), startedAt: _aiStart, error: e.message }); console.error('[local-ai/chat]', e.message); json(res, code, { error: e.message }); });
     return;
@@ -1218,9 +1777,10 @@ const __server = createServer((req, res) => {
   }
 
   json(res, 404, { error: 'not found' });
-});
+};
+const __server = createServer(__handler);
 // If an OLDER capture-service instance is still holding the port (the classic "I re-ran
-// start-converter.bat but the old window was still open, so the new process crashed on EADDRINUSE and the
+// the launcher (start.bat) but the old window was still open, so the new process crashed on EADDRINUSE and the
 // STALE routes kept serving" trap — which reads to the user as a feature that's "not found"), evict it and
 // take over, so a restart ACTUALLY loads the new code.
 let __evictTries = 0;
@@ -1242,6 +1802,8 @@ __server.on('error', (e) => {
   }
 });
 __server.listen(PORT, () => {
+  // The same service on a secure local address, for Safari (studio-https.mjs).
+  import('./studio-https.mjs').then((m) => m.startHttps(__handler)).catch(() => {});
   ensureDashboard(); // starting the capture service is "using the converter" → open the live dashboard (localhost:4600)
   console.log(`UnysonPlus capture service v${VERSION} → http://localhost:${PORT}`);
   console.log('  GET  /health');

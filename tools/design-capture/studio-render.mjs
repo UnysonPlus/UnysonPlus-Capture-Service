@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
-// The Animation Studio's video export: renders a scene to MP4 or WebM, frame by frame.
+// Kinetic Scenes' video export: renders a scene to MP4 or WebM, frame by frame.
 //
 // Studio scenes are seekable (every frame is a pure function of time, 3D included), so the render
 // is exact: headless Chrome shows the scene at the requested size, jumps to each frame in turn, takes a
@@ -8,9 +8,11 @@
 // (a vertical 1080x1920 render uses the mobile layout, as a phone would).
 //
 // Jobs run one at a time in the background; the Studio polls for progress and downloads the file.
-import { spawn } from 'node:child_process';
-import { mkdirSync, statSync, existsSync, readdirSync, unlinkSync, writeFileSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { spawn, spawnSync } from 'node:child_process';
+import { createReadStream, mkdirSync, renameSync, statSync, existsSync, readdirSync, unlinkSync, writeFileSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { createServer } from 'node:http';
+import { availableParallelism, tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
@@ -30,6 +32,143 @@ async function findFfmpeg() {
   return ffmpegBin;
 }
 
+/*
+ * The graphics card. Encoding: a hardware H.264 encoder when this computer has one that works (NVIDIA NVENC, AMD AMF,
+ * Intel Quick Sync, Apple VideoToolbox), tried once with a tiny test clip; the processor (libx264) otherwise.
+ * Drawing: Chrome on the graphics card, checked after launch (its WebGL renderer must not be the software one); the
+ * software renderer (SwiftShader) otherwise. STUDIO_RENDER_GPU=0 turns both off.
+ */
+const GPU_OFF = /^(0|off|false|no)$/i.test(process.env.STUDIO_RENDER_GPU || '');
+const ENCODERS = [
+  { name: 'h264_nvenc', label: 'NVIDIA NVENC', args: ['-c:v', 'h264_nvenc', '-preset', 'p5', '-rc', 'vbr', '-cq', '19', '-b:v', '0'] },
+  { name: 'h264_amf', label: 'AMD AMF', args: ['-c:v', 'h264_amf', '-quality', 'quality', '-rc', 'cqp', '-qp_i', '18', '-qp_p', '20'] },
+  { name: 'h264_qsv', label: 'Intel Quick Sync', args: ['-c:v', 'h264_qsv', '-global_quality', '20'] },
+  { name: 'h264_videotoolbox', label: 'Apple VideoToolbox', args: ['-c:v', 'h264_videotoolbox', '-q:v', '65'] },
+];
+let hwEncoder; // undefined = not tried yet, null = none works here
+function findHwEncoder(ffmpeg) {
+  if (hwEncoder !== undefined) return hwEncoder;
+  hwEncoder = null;
+  if (GPU_OFF) return hwEncoder;
+  const list = spawnSync(ffmpeg, ['-hide_banner', '-encoders'], { encoding: 'utf8', timeout: 15000, windowsHide: true }).stdout || '';
+  for (const e of ENCODERS) {
+    if (!list.includes(e.name)) continue;
+    // Listed is not working: the driver or the card must take a real (tiny) clip.
+    const t = spawnSync(ffmpeg, ['-hide_banner', '-loglevel', 'error', '-f', 'lavfi', '-i', 'color=c=black:s=320x240:d=0.2', ...e.args, '-pix_fmt', 'yuv420p', '-f', 'null', '-'],
+      { encoding: 'utf8', timeout: 20000, windowsHide: true });
+    if (t.status === 0) { hwEncoder = e; break; }
+  }
+  return hwEncoder;
+}
+
+/** Chrome on the graphics card when it really draws there; the software renderer otherwise. Returns { browser, gpu }. */
+async function launchRenderer() {
+  const channel = process.env.CAPTURE_CHANNEL || 'chrome';
+  const soft = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars'];
+  if (!GPU_OFF) {
+    const angle = process.platform === 'win32' ? 'd3d11' : process.platform === 'darwin' ? 'metal' : 'gl';
+    let browser;
+    try {
+      browser = await chromium.launch({ channel, headless: true, args: [`--use-angle=${angle}`, '--enable-gpu', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--force_high_performance_gpu', '--hide-scrollbars'] });
+      const p = await browser.newPage();
+      const gpu = await p.evaluate(() => {
+        const gl = document.createElement('canvas').getContext('webgl');
+        const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+        return gl ? String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) : '';
+      });
+      await p.close();
+      if (gpu && !/swiftshader|software|llvmpipe|basic render/i.test(gpu)) {
+        // "ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 Ti (0x00002191) Direct3D11 …)" → "NVIDIA GeForce GTX 1660 Ti"
+        const name = (/ANGLE \([^,]+, ([^(,]+)/.exec(gpu)?.[1] || gpu).trim();
+        return { browser, gpu: name };
+      }
+    } catch { /* no usable graphics card here: the software renderer below */ }
+    await browser?.close().catch(() => {});
+  }
+  return { browser: await chromium.launch({ channel, headless: true, args: soft }), gpu: null };
+}
+
+/**
+ * Frames are taken in several tabs at once (taking a screenshot, not drawing it, is what costs the time); the encoder
+ * still gets them in order. STUDIO_RENDER_WORKERS sets the number; by default a quarter of the processor's threads, 2-6.
+ */
+const WORKERS = Math.max(1, Math.min(8, +process.env.STUDIO_RENDER_WORKERS || Math.max(2, Math.min(6, Math.floor(availableParallelism() / 4)))));
+
+/*
+ * Footage made easy to seek. A camera-ready recording has a keyframe every few seconds, so each frame of the render
+ * (a seek) decodes from the last keyframe: with several workers that is most of the time. Before rendering, each MP4
+ * footage layer gets a copy with a keyframe on every frame, at full size (close-ups stay sharp), cached by source so a
+ * re-render skips it; the render plays the copies from a small local server. Sound still comes from the originals.
+ * STUDIO_RENDER_PROXY=0 turns it off. 35 s → 7.5 s for 10 s of a 3200x1800 screencast with 4 workers.
+ */
+const PROXIES = join(OUT, '..', 'studio-render-proxies');
+async function sourceStamp(src) {
+  try { const r = await fetch(src, { method: 'HEAD' }); return `${r.headers.get('content-length') || ''}:${r.headers.get('last-modified') || ''}`; } catch { return ''; }
+}
+async function videoProxies(scene, ffmpeg, job) {
+  const none = { scene, close: () => {} };
+  if (/^(0|off|false|no)$/i.test(process.env.STUDIO_RENDER_PROXY || '')) return none;
+  const copy = JSON.parse(JSON.stringify(scene));
+  const vids = [];
+  const walk = (list) => (list || []).forEach((l) => {
+    if (l.layers) walk(l.layers);
+    if (l.item) walk([l.item]);
+    // MP4 only: a WebM or MOV may carry transparency, which an H.264 copy would lose.
+    if (l.type === 'video' && typeof l.src === 'string' && (/^https?:/.test(l.src) ? /\.(mp4|m4v)(\?|$)/i.test(l.src) : /^data:video\/mp4/.test(l.src))) vids.push(l);
+  });
+  walk(copy.layers);
+  if (!vids.length) return none;
+  mkdirSync(PROXIES, { recursive: true });
+  try { for (const f of readdirSync(PROXIES)) { const p = join(PROXIES, f); if (Date.now() - statSync(p).mtimeMs > 7 * 24 * 3600 * 1000) unlinkSync(p); } } catch { /* best-effort */ }
+  const made = new Map();
+  for (const l of vids) {
+    if (!made.has(l.src)) {
+      let input = l.src;
+      const key = createHash('sha1').update(input.startsWith('data:') ? input : `${input}|${await sourceStamp(input)}`).digest('hex').slice(0, 16);
+      const out = join(PROXIES, `${key}.mp4`);
+      if (!existsSync(out)) {
+        job.step = 'Preparing footage';
+        if (input.startsWith('data:')) { input = join(PROXIES, `${key}.src.mp4`); writeFileSync(input, Buffer.from(l.src.slice(l.src.indexOf(',') + 1), 'base64')); }
+        const part = `${out}.part.mp4`;
+        // Not spawnSync: the footage may be served by this very process (the kit, or the CLI's local server).
+        const r = await new Promise((done) => {
+          const p = spawn(ffmpeg, ['-y', '-loglevel', 'error', '-i', input, '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '14', '-g', '1', '-pix_fmt', 'yuv420p', '-an', part],
+            { stdio: 'ignore', windowsHide: true });
+          p.on('error', () => done({ status: 1 }));
+          p.on('exit', (code) => done({ status: code }));
+        });
+        if (input !== l.src) try { unlinkSync(input); } catch { /* best-effort */ }
+        if (r.status !== 0) { try { unlinkSync(part); } catch { /* none */ } made.set(l.src, null); continue; } // render from the original
+        renameSync(part, out);
+      }
+      made.set(l.src, `${key}.mp4`);
+    }
+  }
+  if (![...made.values()].some(Boolean)) return none;
+  const server = createServer((req, res) => {
+    const name = decodeURIComponent((req.url || '').split('?')[0].replace(/^\/p\//, ''));
+    const file = join(PROXIES, name);
+    if (!/^[0-9a-f]{16}\.mp4$/.test(name) || !existsSync(file)) { res.writeHead(404); res.end(); return; }
+    const size = statSync(file).size;
+    const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Private-Network': 'true' };
+    const m = /bytes=(\d*)-(\d*)/.exec(req.headers.range || '');
+    if (m) {
+      const start = m[1] ? +m[1] : Math.max(0, size - +m[2]);
+      const end = m[1] && m[2] ? Math.min(+m[2], size - 1) : size - 1;
+      res.writeHead(206, { ...cors, 'Content-Type': 'video/mp4', 'Content-Length': end - start + 1, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Accept-Ranges': 'bytes' });
+      createReadStream(file, { start, end }).pipe(res);
+    } else {
+      res.writeHead(200, { ...cors, 'Content-Type': 'video/mp4', 'Content-Length': size, 'Accept-Ranges': 'bytes' });
+      createReadStream(file).pipe(res);
+    }
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  const port = server.address().port;
+  for (const l of vids) { const p = made.get(l.src); if (p) l.src = `http://127.0.0.1:${port}/p/${p}`; }
+  job.step = '';
+  return { scene: copy, close: () => server.close() };
+}
+
 /** What the Studio needs to know before offering video export. */
 export async function renderStatus() {
   return { ffmpeg: !!(await findFfmpeg()), busy: [...jobs.values()].some((j) => j.state === 'rendering' || j.state === 'queued') };
@@ -46,12 +185,20 @@ export function startRender(input) {
   const width = clampInt(input.width, 160, 3840, 1920) & ~1; // even sizes for yuv420p
   const height = clampInt(input.height, 160, 3840, 1080) & ~1;
   const fps = [24, 25, 30, 50, 60].includes(+input.fps) ? +input.fps : 30;
-  const format = input.format === 'webm' ? 'webm' : 'mp4';
+  const format = input.format === 'webm' ? 'webm' : input.format === 'mov' ? 'mov' : 'mp4';
+  // See-through (graphics to lay over footage): WebM with alpha or ProRes 4444; MP4 has no alpha.
+  const transparent = !!input.transparent && format !== 'mp4';
+  // A full composite shows reference footage; graphics-only leaves it out.
+  const composite = !!input.composite;
+  const cover = !!input.cover;
+  // Motion blur: sub-frames per frame (2-16), or off.
+  const blur = input.blur === true ? 8 : clampInt(input.blur, 0, 16, 0);
   const duration = Math.max(0.1, Math.min(600, +scene.duration || 1));
   const frames = Math.min(MAX_FRAMES, Math.round(duration * fps));
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   const slug = String(scene.title || 'scene').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'scene';
-  const job = { id, state: 'queued', done: 0, total: frames, width, height, fps, format, file: join(OUT, `${slug}-${width}x${height}-${id}.${format}`), name: `${slug}-${width}x${height}.${format}`, error: '', startedAt: Date.now(), cancel: false };
+  const tag = transparent ? '-alpha' : '';
+  const job = { id, state: 'queued', done: 0, total: frames, width, height, fps, format, transparent, composite, cover, blur, file: join(OUT, `${slug}-${width}x${height}${tag}-${id}.${format}`), name: `${slug}-${width}x${height}${tag}.${format}`, error: '', startedAt: Date.now(), cancel: false };
   jobs.set(id, job);
   queue = queue.then(() => run(job, scene, playerBase)).catch(() => {});
   return job;
@@ -60,27 +207,35 @@ export function startRender(input) {
 export function jobInfo(id) {
   const j = jobs.get(id);
   if (!j) return null;
-  return { id: j.id, state: j.state, done: j.done, total: j.total, error: j.error, name: j.name, bytes: j.bytes || 0, seconds: Math.round((Date.now() - j.startedAt) / 1000) };
+  return { id: j.id, state: j.state, done: j.done, total: j.total, error: j.error, name: j.name, bytes: j.bytes || 0, seconds: Math.round((Date.now() - j.startedAt) / 1000), warnings: j.warnings || [], step: j.step || '', workers: j.workers || 1, gpu: j.gpu || null, encoder: j.encoder || '', cover: j.coverFile && existsSync(j.coverFile) ? `${j.name.replace(/\.[a-z0-9]+$/, '')}-cover.png` : '' };
 }
 export const jobFile = (id) => { const j = jobs.get(id); return j && j.state === 'done' && existsSync(j.file) ? j : null; };
+/** The cover image a render made (its poster frame), if it made one. */
+export const jobCover = (id) => { const j = jobs.get(id); return j && j.coverFile && existsSync(j.coverFile) ? j.coverFile : null; };
 export function cancelRender(id) { const j = jobs.get(id); if (j) j.cancel = true; return !!j; }
 
-function pageHtml(scene, playerBase) {
+export function pageHtml(scene, playerBase, opts = {}) {
   // The stage fills the window exactly; the scene's own trigger is ignored (the render seeks it).
   const s = { ...scene, stage: { ...scene.stage, heightMode: 'fill', heightOffset: 0 }, playback: { ...scene.playback, trigger: 'manual' } };
   const json = JSON.stringify(s).replace(/</g, '\\u003c');
-  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000;overflow:hidden}</style>
+  const bg = opts.transparent ? 'transparent' : '#000';
+  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:${bg};overflow:hidden}</style>
 <script>window.UPW_SCENE_ASSET_BASE=${JSON.stringify(playerBase)}</script>
 <script src="${playerBase}scene-player.js" data-auto-mount="false"></script></head>
 <body><div id="h"></div><script>
 window.__ready = false;
 try {
   const sc = ${json};
-  window.P = UnysonPlusScene.mount(document.getElementById('h'), sc, { autoplay: false, editor: true, allowCode: true, audio: false });
+  window.P = UnysonPlusScene.mount(document.getElementById('h'), sc, { autoplay: false, editor: true, allowCode: true, audio: false, reference: ${opts.composite ? 'true' : 'false'} });
   P.seek(0);
   const models = (function count(ls){ return ls.reduce(function(n,l){ return n + (l.type === 'model' ? 1 : 0) + (l.layers ? count(l.layers) : 0); }, 0); })(sc.layers);
-  // Ready once fonts are in and every 3D layer has its canvas.
-  document.fonts.ready.then(function wait(){ if (document.querySelectorAll('.upw-3d canvas').length >= models) { setTimeout(function(){ window.__ready = true; }, 600); } else setTimeout(wait, 100); });
+  if (typeof P.whenReady === 'function') {
+    // Fonts, images (decoded), background images and every 3D model; what never arrived is reported.
+    P.whenReady(30000).then(function (r) { window.__missing = r.missing; P.seek(0); window.__ready = true; });
+  } else {
+    // Older players: ready once fonts are in and every 3D layer has its canvas.
+    document.fonts.ready.then(function wait(){ if (document.querySelectorAll('.upw-3d canvas').length >= models) { setTimeout(function(){ window.__ready = true; }, 600); } else setTimeout(wait, 100); });
+  }
 } catch (e) { window.__error = String(e && e.message || e); }
 </script></body></html>`;
 }
@@ -105,9 +260,11 @@ function probeDuration(file) {
 async function audioMix(scene, tmp, firstInput, page) {
   // The player works out the whole track (sound tracks plus clip sounds); older players only know tracks.
   const track = await page.evaluate((sc) => (window.UnysonPlusScene.soundTrack ? window.UnysonPlusScene.soundTrack(sc) : null), scene).catch(() => null);
-  const list = Array.isArray(track) ? track : scene.audio;
-  const clips = Array.isArray(list) ? list.filter((a) => a && typeof a.src === 'string') : [];
+  const list = [...(Array.isArray(track) ? track : (scene.audio || [])), ...footageSound(scene)];
+  const clips = list.filter((a) => a && typeof a.src === 'string');
   if (!clips.length) return null;
+  // When a voice is speaking (scene seconds): music is lowered under it, as the Studio plays it.
+  const spans = await page.evaluate((all) => (window.UnysonPlusScene.voiceSpans ? window.UnysonPlusScene.voiceSpans(all) : []), clips).catch(() => []);
   const inputs = [];
   const parts = [];
   let k = 0;
@@ -148,21 +305,51 @@ async function audioMix(scene, tmp, firstInput, page) {
     const len = Math.max(0.05, Math.min(c.duration > 0 ? c.duration : Infinity, fileLen != null ? fileLen - trimIn : Infinity));
     const finite = Number.isFinite(len);
     const vol = Math.max(0, Math.min(2, c.volume ?? 1));
-    const fi = Math.max(0, +c.fadeIn || 0);
-    const fo = Math.max(0, +c.fadeOut || 0);
+    // At least 12 ms of fade at each end: a clip cut mid-sound otherwise clicks (inaudible as a fade).
+    const fi = Math.max(0.012, +c.fadeIn || 0);
+    const fo = Math.max(0.012, +c.fadeOut || 0);
     const delayMs = Math.round(Math.max(0, +c.start || 0) * 1000);
     const idx = firstInput + inputs.length / 2; // inputs holds "-i", file pairs
     inputs.push('-i', file);
     let chain = `[${idx}:a]atrim=start=${trimIn.toFixed(3)}${finite ? `:duration=${len.toFixed(3)}` : ''},asetpts=PTS-STARTPTS,volume=${vol.toFixed(3)}`;
     if (fi > 0) chain += `,afade=t=in:st=0:d=${fi.toFixed(3)}`;
     if (fo > 0 && finite) chain += `,afade=t=out:st=${Math.max(0, len - fo).toFixed(3)}:d=${fo.toFixed(3)}`;
-    chain += `,aresample=48000,adelay=delays=${delayMs}:all=1[a${k}]`;
+    // Footage played faster or slower: its sound follows (atempo takes 0.5 to 2 per step).
+    let rate = Math.max(0.25, Math.min(4, +c.rate || 1));
+    while (Math.abs(rate - 1) > 1e-3) { const step = Math.max(0.5, Math.min(2, rate)); chain += `,atempo=${step.toFixed(4)}`; rate /= step; }
+    chain += `,aresample=48000,adelay=delays=${delayMs}:all=1`;
+    // Music ducks to 35% while the voice speaks (t is scene time once the clip has been delayed into place).
+    if (c.role === 'music' && Array.isArray(spans) && spans.length) {
+      const on = spans.map(([a, b]) => `between(t,${(a - 0.15).toFixed(2)},${(b + 0.25).toFixed(2)})`).join('+');
+      chain += `,volume='if(${on},0.35,1)':eval=frame`;
+    }
+    chain += `[a${k}]`;
     parts.push(chain);
     k++;
   }
   if (!k) return null;
-  const mix = `${Array.from({ length: k }, (_, i) => `[a${i}]`).join('')}amix=inputs=${k}:normalize=0:duration=longest,apad[aout]`;
+  // Mixed to the loudness platforms play at (-14 LUFS integrated, true peaks under -1 dB).
+  const mix = `${Array.from({ length: k }, (_, i) => `[a${i}]`).join('')}amix=inputs=${k}:normalize=0:duration=longest,loudnorm=I=-14:TP=-1:LRA=11,aresample=48000,apad[aout]`;
   return { inputs, filter: `${parts.join(';')};${mix}` };
+}
+
+/**
+ * Footage layers whose own sound is mixed in (layer.sound = its volume), as audio clips on the scene's clock:
+ * a layer inside groups starts at the sum of their starts; its length is cut at the layer's out point.
+ */
+function footageSound(scene) {
+  const out = [];
+  const walk = (list, offset) => {
+    for (const l of list || []) {
+      if (l.type === 'group') { walk(l.layers, offset + (l.start || 0)); continue; }
+      if (l.type !== 'video' || !(l.sound > 0) || l.reference || typeof l.src !== 'string') continue;
+      const start = offset + (l.start || 0);
+      const rate = l.rate || 1;
+      out.push({ id: l.id, src: l.src, start, offset: l.offset || 0, volume: l.sound, rate, ...(typeof l.end === 'number' ? { duration: (l.end - (l.start || 0)) * rate } : {}) });
+    }
+  };
+  walk(scene.layers, 0);
+  return out;
 }
 
 async function run(job, scene, playerBase) {
@@ -174,23 +361,44 @@ async function run(job, scene, playerBase) {
   let browser;
   let enc;
   let tmp = '';
+  let proxied = null;
   try {
-    browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars'] });
+    proxied = await videoProxies(scene, ffmpeg, job);
+    const shown = proxied.scene;
+    const launched = await launchRenderer();
+    browser = launched.browser;
+    job.gpu = launched.gpu; // the card drawing the frames, or null (software)
     const page = await browser.newPage({ viewport: { width: job.width, height: job.height }, deviceScaleFactor: 1 });
-    await page.setContent(pageHtml(scene, playerBase), { waitUntil: 'load', timeout: 60000 });
+    await page.setContent(pageHtml(shown, playerBase, { transparent: job.transparent, composite: job.composite }), { waitUntil: 'load', timeout: 60000 });
     await page.waitForFunction(() => window.__ready || window.__error, null, { timeout: 60000 });
     const err = await page.evaluate(() => window.__error);
     if (err) throw new Error(`The scene could not be played: ${err}`);
+    const missing = await page.evaluate(() => window.__missing || []);
+    if (missing.length) {
+      job.warnings = missing;
+      console.warn('[studio-render] rendering without:', missing.join(', '));
+    }
 
-    const args = ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(job.fps), '-c:v', 'mjpeg', '-i', '-'];
+    // See-through frames go as PNG (JPEG has no alpha).
+    // Motion blur: S sub-frames per frame, spread over half the frame's time (a 180-degree shutter, as a film camera
+    // exposes), averaged by ffmpeg into one frame. Off (1) by default; it multiplies the work by S.
+    const S = job.blur > 1 ? job.blur : 1;
+    const args = ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(job.fps * S), '-c:v', job.transparent ? 'png' : 'mjpeg', '-i', '-'];
     // Sound: the scene's audio clips, mixed and cut to the video's length.
     tmp = join(tmpdir(), `upw-render-${job.id}`);
     mkdirSync(tmp, { recursive: true });
     const mix = await audioMix(scene, tmp, 1, page);
     if (mix) args.push(...mix.inputs, '-filter_complex', mix.filter, '-map', '0:v', '-map', '[aout]');
-    if (job.format === 'webm') args.push('-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '30', '-row-mt', '1', '-pix_fmt', 'yuv420p');
-    else args.push('-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart');
-    if (mix) args.push(...(job.format === 'webm' ? ['-c:a', 'libopus', '-b:a', '160k'] : ['-c:a', 'aac', '-b:a', '192k']), '-t', (job.total / job.fps).toFixed(3));
+    // Each group of S sub-frames becomes the average of the group, kept once (the last of each group sees them all).
+    if (S > 1) args.push('-vf', `tmix=frames=${S},select='eq(mod(n\,${S})\,${S - 1})',setpts=N/(${job.fps}*TB)`, '-r', String(job.fps));
+    if (job.format === 'webm') args.push('-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '30', '-row-mt', '1', '-pix_fmt', job.transparent ? 'yuva420p' : 'yuv420p', ...(job.transparent ? ['-auto-alt-ref', '0'] : []));
+    else if (job.format === 'mov') args.push('-c:v', 'prores_ks', '-profile:v', job.transparent ? '4' : '3', '-pix_fmt', job.transparent ? 'yuva444p10le' : 'yuv422p10le', '-vendor', 'apl0');
+    else {
+      const hw = findHwEncoder(ffmpeg);
+      job.encoder = hw ? hw.label : 'processor';
+      args.push(...(hw ? hw.args : ['-c:v', 'libx264', '-preset', 'medium', '-crf', '18']), '-pix_fmt', 'yuv420p', '-movflags', '+faststart');
+    }
+    if (mix) args.push(...(job.format === 'webm' ? ['-c:a', 'libopus', '-b:a', '160k'] : job.format === 'mov' ? ['-c:a', 'pcm_s16le'] : ['-c:a', 'aac', '-b:a', '192k']), '-t', (job.total / job.fps).toFixed(3));
     args.push(job.file);
     enc = spawn(ffmpeg, args, { stdio: ['pipe', 'ignore', 'pipe'] });
     let encErr = '';
@@ -200,17 +408,58 @@ async function run(job, scene, playerBase) {
       enc.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`ffmpeg stopped (${code}): ${encErr.trim().slice(-300)}`))));
     });
 
-    for (let f = 0; f < job.total; f++) {
+    // More tabs with the same scene: frame f is taken by tab f % n, each tab moving forward through its own frames.
+    const pages = [page];
+    const extra = []; // each worker its own Chrome: tabs of one Chrome take their screenshots one at a time
+    const n = Math.min(WORKERS, Math.max(1, Math.floor((job.total * S) / 30)));
+    for (let i = 1; i < n; i++) {
+      const b = (await launchRenderer()).browser;
+      extra.push(b);
+      const p = await b.newPage({ viewport: { width: job.width, height: job.height }, deviceScaleFactor: 1 });
+      await p.setContent(pageHtml(shown, playerBase, { transparent: job.transparent, composite: job.composite }), { waitUntil: 'load', timeout: 60000 });
+      await p.waitForFunction(() => window.__ready || window.__error, null, { timeout: 60000 });
+      pages.push(p);
+    }
+    job.workers = pages.length;
+    job.closeExtra = () => Promise.all(extra.map((b) => b.close().catch(() => {})));
+    const t0 = Date.now();
+    const shoot = async (p, f) => {
+      // Frame times are rounded down to 0.1 ms so a cut lands on its own frame, with a tolerance far below
+      // that, so a time that floating point puts a hair under a boundary (0.29 * 10000 = 2899.9999...)
+      // still lands on it instead of one frame early.
+      // f counts sub-frames when blurring: frame floor(f / S), sub-frame f % S, half a frame's time apart at most.
+      const t = Math.floor(((Math.floor(f / S) + ((f % S) / S) * 0.5) / job.fps) * 10000 + 1e-6) / 10000;
+      await p.evaluate(async (s) => { window.P.seek(s); if (window.P.settle) await window.P.settle(); }, t);
+      return job.transparent ? p.screenshot({ type: 'png', omitBackground: true }) : p.screenshot({ type: 'jpeg', quality: 95 });
+    };
+    const chains = pages.map(() => Promise.resolve());
+    const pending = new Map();
+    let scheduled = 0;
+    const AHEAD = pages.length * 3; // frames waiting in memory at most
+    const shots = job.total * S;
+    for (let f = 0; f < shots; f++) {
       if (job.cancel) throw new Error('Cancelled.');
-      // Frame times are rounded down, so a cut lands on its own frame, never one late.
-      const t = Math.floor((f / job.fps) * 10000) / 10000;
-      await page.evaluate((s) => window.P.seek(s), t);
-      const jpg = await page.screenshot({ type: 'jpeg', quality: 95 });
+      while (scheduled < shots && scheduled < f + AHEAD) {
+        const w = scheduled % pages.length, k = scheduled;
+        chains[w] = chains[w].then(() => shoot(pages[w], k));
+        pending.set(k, chains[w]);
+        scheduled++;
+      }
+      const jpg = await pending.get(f);
+      pending.delete(f);
       if (!enc.stdin.write(jpg)) await new Promise((r) => enc.stdin.once('drain', r));
-      job.done = f + 1;
+      job.done = Math.floor((f + 1) / S);
     }
     enc.stdin.end();
     await finished;
+    if (process.env.STUDIO_RENDER_DEBUG) console.error(`[studio-render] ${job.total} frames in ${((Date.now() - t0) / 1000).toFixed(1)} s with ${pages.length} worker(s)`);
+    // The cover: the scene's still frame (its poster time, or the end), as a PNG beside the video.
+    if (job.cover) {
+      const t = Math.min(scene.duration, typeof scene.playback?.posterTime === 'number' ? scene.playback.posterTime : scene.duration - 0.01);
+      await page.evaluate(async (s) => { window.P.seek(s); if (window.P.settle) await window.P.settle(); }, t);
+      job.coverFile = job.file.replace(/\.[a-z0-9]+$/, '-cover.png');
+      await page.screenshot({ path: job.coverFile, type: 'png', omitBackground: !!job.transparent });
+    }
     job.bytes = statSync(job.file).size;
     job.state = 'done';
   } catch (e) {
@@ -220,6 +469,8 @@ async function run(job, scene, playerBase) {
     try { if (existsSync(job.file)) unlinkSync(job.file); } catch { /* best-effort */ }
   } finally {
     try { await browser?.close(); } catch { /* already closed */ }
+    await job.closeExtra?.();
+    proxied?.close();
     if (tmp) try { rmSync(tmp, { recursive: true, force: true }); } catch { /* best-effort */ }
   }
 }

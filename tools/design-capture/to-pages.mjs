@@ -3212,7 +3212,35 @@ export function toPages(capture, opts = {}) {
         button_label: String(p.btn_label || ''), button_url: localize(p.btn_url || ''), button_target: '_self' });
     }
     if (plans.length < 2) return codeBlock('');
-    return widgetNode('pricing_table', { plans, columns: String(Math.max(2, Math.min(5, plans.length))) });
+    /* STRUCTURE FROM THE SOURCE, NOT FROM THE PLAN COUNT.
+       `columns: plans.length` is why a four-item price LIST came out as a four-across card grid: the
+       count was the only signal, and the shortcode had only one shape anyway. It now has a `list`
+       layout, and the capture reads the source container's own geometry (pricingLayout /
+       pricingColCount in capture-extract), so the emitter just carries what was measured. Parity:
+       Mapper::n_pricing. A block with neither key — anything captured before the twin existed —
+       falls back to the old count rule and emits the grid it always did. */
+    const layout = (b.layout === 'list') ? 'list' : 'grid';
+    const srcCols = parseInt(b.ptCols, 10) || 0;   // see capture-extract: `cols` is taken (row cells)
+    const columns = String(srcCols >= 1 ? Math.min(5, srcCols) : Math.max(2, Math.min(5, plans.length)));
+    const atts = { plans, columns, design_settings: { layout } };
+    /* A LIST's row rhythm is the source's, not the shortcode's default: whether a rule separates the
+       rows, how far apart they sit, whether a row pads itself, and the price's own type. Defaulting
+       these made a flush, rule-less menu render with a hairline on every row and padding it never had. */
+    if (layout === 'list') {
+      const rows = (b.rows && typeof b.rows === 'object') ? b.rows : {};
+      atts.design_settings.list = { row_rule: rows.rule ? 'yes' : 'no' };
+      const decl = [];
+      if ((parseInt(rows.gap, 10) || 0) > 0) decl.push('--pt-row-gap:' + (parseInt(rows.gap, 10) || 0) + 'px');
+      if (rows.pad !== undefined) decl.push('--pt-row-pad:' + (parseInt(rows.pad, 10) || 0) + 'px');
+      if (parseInt(rows.price_size, 10) > 0) decl.push('--pt-row-amount:' + parseInt(rows.price_size, 10) + 'px');
+      if (parseInt(rows.price_weight, 10) > 0) decl.push('--pt-row-amount-weight:' + parseInt(rows.price_weight, 10));
+      // a font STACK from the capture ("Syncopate, sans-serif") — letters, digits, spaces, quotes,
+      // commas and hyphens only, so nothing from the source can break out into the CSS
+      const pf = String(rows.price_font || '');
+      if (pf && /^[a-z0-9 ",-]+$/i.test(pf)) decl.push("--pt-row-amount-font:" + pf.replace(/"/g, "'"));
+      if (decl.length) atts.custom_css = 'selector .fw-pt__list{' + decl.join(';') + ';}';
+    }
+    return widgetNode('pricing_table', atts);
   };
 
   // A Lottie/Bodymovin embed → native `lottie` (URL source, viewport trigger). Parity n_lottie.

@@ -873,6 +873,46 @@ export function extractDesign() {
       gseen.add(key);
       groups.push({ title: clip(h ? txt(h) : '', 60), links });
     });
+    // TEXT COLUMNS - the PHP twin (footer_text_column_head / detect_footer_columns).
+    //
+    // The loop above needs >= 2 LINKS, so a footer that lists its offices as plain text -
+    //   <div class="grid grid-cols-3"><div><p>New York</p><p>+1 ...</p><p>540 Madison Ave</p></div>...
+    // produced no column at all on this path, exactly as it produced none on the PHP one: the phone
+    // number is text, not a tel:, so there is no anchor anywhere to find. Nine runs went missing.
+    //
+    // The discriminator is the TRACK, not the text: an office column is one of several sibling tracks
+    // of an explicit grid, read straight off the parent's computed style. A BRAND block is the same
+    // shape from outside - a short wordmark over two lines of prose - and must stay the lead block, so
+    // it is excluded by having no grid parent rather than by guessing at what the words mean.
+    [...footerEl.querySelectorAll('div')].forEach((col) => {
+      if (groups.length >= 8) { return; }
+      if (col.querySelector('a, input, svg')) { return; }
+      const kids = [...col.children].filter((k) => !/^(SCRIPT|STYLE|BR|HR)$/.test(k.tagName));
+      if (kids.length < 3) { return; }
+      const head = kids[0];
+      if (!/^(P|SPAN|DIV|H[2-6])$/.test(head.tagName)) { return; }
+      // textContent, not innerText: innerText returns the RENDERED string, so a label uppercased by
+      // CSS would be stored as "NEW YORK" while the PHP twin stores the source's "New York" - the
+      // two engines would then disagree on the column title for no reason. The uppercase LOOK is
+      // still read, below, from the computed style where it belongs.
+      const title = (head.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!title || title.length > 24 || title.split(/\s+/).length > 3) { return; }
+      const hcs = getComputedStyle(head);
+      const upper = hcs.textTransform === 'uppercase' || (/[a-z]/i.test(title) && title === title.toUpperCase());
+      if (!upper) { return; }
+      const parent = col.parentElement;
+      if (!parent) { return; }
+      const pcs = getComputedStyle(parent);
+      if (pcs.display !== 'grid') { return; }
+      const tracks = String(pcs.gridTemplateColumns || '').trim().split(/\s+/).filter((t) => /^[0-9.]+px$/.test(t));
+      if (tracks.length < 2) { return; }
+      const lines = kids.slice(1).map((k) => (k.textContent || '').replace(/\s+/g, ' ').trim()).filter((t) => t && t.length <= 120).slice(0, 8);
+      if (lines.length < 2) { return; }
+      const key = title + '|' + lines.join('|');
+      if (gseen.has(key)) { return; }
+      gseen.add(key);
+      groups.push({ title: clip(title, 60), links: [], lines });
+    });
     const brandEl = footerEl.querySelector('.logo, [class*="brand"], h1, h2, h3, strong');
     const ci = allText.search(/©|\(c\)\s|copyright/i);
     // CONTACT column: a heading followed by <li> rows that are each a leading icon (svg) + text (address /
@@ -4326,9 +4366,33 @@ export function extractDesign() {
 
   // --- pricing_table (PHP is_pricing_table): >=2 plan columns and a currency+number price token in
   //     MOST columns (>=ceil(0.6n)) — a plain feature grid (no currency) is NOT claimed. ---
+  /* THE TIGHTEST NODE THAT CARRIES THE PRICE, not the whole cell's text.
+     txt() concatenates WITHOUT separators, so a plan cell reads
+         Basic$91 projectEmail support          <- <span>$9</span> then <li>1 project</li>
+     and the digit run swallows the leading digit of the NEXT element: $9 became $91 and $29
+     became $2910. Measured on a rendered conversion, three of four plan prices were wrong, and
+     wrong in the worst way, since 91 is a perfectly plausible price. Text alone cannot tell
+     '$9' + '1 project' from '$91', because a real price is written with no space either; only the
+     DOM can. So the amount is read from the smallest descendant whose own text holds a currency
+     sign and a digit - the amount span, or the parent of a split <span>$</span><span>29</span>
+     pair - and the whole-cell text stays the fallback. The PERIOD is still read from the cell,
+     because '/mo' routinely sits in a sibling element.
+     PHP twin: price_text() / cell_price_parts(). */
+  const priceText = (el) => {
+    let best = '';
+    for (const d of el.querySelectorAll('*')) {
+      const t = txt(d);
+      if (!t || !/[$€£¥₹]\s?\d/.test(t)) continue;
+      if (!best || t.length < best.length) best = t;
+    }
+    return best || txt(el);
+  };
   const cellPriceParts = (el) => {
     const t = txt(el); if (!t) return null;
-    const m = t.match(/([$€£¥₹])\s?(\d[\d.,]*)/); if (!m) return null;
+    const m = priceText(el).match(/([$€£¥₹])\s?(\d[\d.,]*)/); if (!m) return null;
+    // No second suffix check against the cell's whole text: txt() concatenates WITHOUT separators, so
+    // '$120' + 'monthly' reads '$120monthly' and such a guard rejects a real price as a stat. PHP twin
+    // carries the same note. The realistic '$4.2B' single token is already rejected by the match above.
     let period = ''; const pm = t.match(/\/\s*(mo|month|yr|year|wk|week|day|user|seat)s?\b/i); if (pm) period = '/' + pm[1].toLowerCase();
     return { currency: m[1], price: m[2].replace(/,/g, ''), period };
   };
@@ -4354,6 +4418,72 @@ export function extractDesign() {
     if (withList < maj && (withImg >= maj || withShop >= maj)) return false;
     return true;
   };
+  /* LAYOUT, COLUMNS and ROW METRICS — the JS twin of PHP pricing_layout / pricing_col_count /
+     pricing_row_metrics.
+     Why these exist at all: the plan count is not the layout. A four-item price LIST (name and
+     sub-label left, price right, a rule between rows) was emitted as a four-across card grid,
+     because `columns` came from `plans.length` and the pricing_table had no other shape to offer.
+     It now has a `list` layout, and list-shaped pricing is 43% of the priced groups a conversion
+     meets — so the structure is read off the SOURCE's own geometry instead of counted.
+     This path has an advantage over the PHP one: it runs in the page, so it reads the resolved
+     computed style rather than parsing a `data-sc-cs` stamp. `repeat()` is still handled because a
+     stamp-shaped value can reach here through an injected style. */
+  const ptPx = (v) => parseFloat(v) || 0;
+  const pricingColCount = (el) => {
+    let gtc = '';
+    try { gtc = String(getComputedStyle(el).gridTemplateColumns || ''); } catch { return 0; }
+    if (!gtc || gtc === 'none') return 0;
+    const rep = gtc.match(/repeat\(\s*(\d{1,2})/i);
+    if (rep) return parseInt(rep[1], 10);
+    // a 0px track is a COLLAPSED auto-fit slot, not a column
+    return gtc.trim().split(/\s+/).filter((t) => t && t !== 'none' && !/^0(?:px)?$/.test(t)).length;
+  };
+  const pricingLayout = (el) => {
+    let cs; try { cs = getComputedStyle(el); } catch { return 'grid'; }
+    const disp = String(cs.display || '').toLowerCase();
+    if (!disp) return 'grid';
+    if (disp === 'grid' || disp === 'inline-grid') return pricingColCount(el) >= 2 ? 'grid' : 'list';
+    if (disp === 'flex' || disp === 'inline-flex') return /column/.test(String(cs.flexDirection || '')) ? 'list' : 'grid';
+    return 'list'; // block / flow-root / list-item … — children are full-width rows
+  };
+  const pricingRowMetrics = (el) => {
+    const out = { rule: false, gap: 0, pad: 0, price_size: 0, price_weight: 0, price_font: '' };
+    const kids = wChildren(el);
+    if (!kids.length) return out;
+    // the SECOND cell carries the separating border / sibling margin (the first has nothing above it)
+    const probe = kids[1] || kids[0];
+    let pcs; try { pcs = getComputedStyle(probe); } catch { return out; }
+    for (const side of ['Top', 'Bottom']) {
+      if (ptPx(pcs['border' + side + 'Width']) <= 0) continue;
+      const st = String(pcs['border' + side + 'Style'] || '').toLowerCase();
+      if (!st || st === 'none' || st === 'hidden') continue;
+      if (hasBg(pcs['border' + side + 'Color'])) { out.rule = true; break; }
+    }
+    // spacing: the container's gap wins; otherwise the cell's own sibling margin
+    let ecs; try { ecs = getComputedStyle(el); } catch { ecs = null; }
+    const cgap = ecs ? ptPx(ecs.rowGap || ecs.gap) : 0;
+    out.gap = Math.round(cgap > 0 ? cgap : Math.max(0, ptPx(pcs.marginTop)));
+    out.pad = Math.round(ptPx(pcs.paddingTop));
+    /* The PRICE's own type. A menu often sets the amount in the heading face at its own size, and
+       imposing the stylesheet's default made every price bolder, and in the wrong family, than the
+       source's. A leaf with no currency sign is not the price; a display:none one is a responsive twin. */
+    for (const leaf of probe.querySelectorAll('*')) {
+      if (leaf.children.length > 0) continue;
+      const lt = txt(leaf);
+      if (!lt || !/[0-9]/.test(lt) || !/^[^0-9]{0,3}[0-9]/u.test(lt)) continue;
+      if (!/[\p{Sc}]/u.test(lt)) continue;
+      let lcs; try { lcs = getComputedStyle(leaf); } catch { continue; }
+      if (String(lcs.display || '') === 'none') continue;
+      out.price_size = Math.round(ptPx(lcs.fontSize));
+      const fw = parseInt(String(lcs.fontWeight || ''), 10);
+      if (fw >= 100 && fw <= 900) out.price_weight = fw;
+      // stored RAW (quotes and all), exactly as PHP pricing_row_metrics does — the emitter is the one
+      // that validates the stack and swaps the quote style, so both twins validate the same string.
+      out.price_font = String(lcs.fontFamily || '').trim();
+      break;
+    }
+    return out;
+  };
   const pricingBlockOf = (el) => {
     const plans = [];
     for (const k of wChildren(el)) {
@@ -4372,7 +4502,13 @@ export function extractDesign() {
       }
       plans.push({ title: title || '', currency: price ? price.currency : '$', price: price ? price.price : '', period: price ? price.period : '', features: features.join('\n'), featured, ribbon, btn_label: btnLabel, btn_url: btnUrl });
     }
-    return plans.length >= 2 ? { t: 'pricing', plans } : null;
+    if (plans.length < 2) return null;
+    const layout = pricingLayout(el);
+    // ptCols, NOT `cols`: a block's `cols` is already the ARRAY of column cells on a `row` block, and
+    // several walkers call .forEach / .some on `b.cols || []` for ANY block they meet. Handing them a
+    // NUMBER threw "(b.cols || []).forEach is not a function" and failed the whole capture — which the
+    // unit tests could not see, because they feed synthetic blocks straight to the emitter.
+    return { t: 'pricing', plans, layout, ptCols: pricingColCount(el), rows: pricingRowMetrics(el) };
   };
 
   // --- lottie (PHP is_lottie_embed): <lottie-player>/<dotlottie-player>, or a container carrying a
@@ -5611,7 +5747,14 @@ export function extractDesign() {
         const h = col.querySelector('h2,h3,h4,h5,h6');
         if (h && (h.textContent || '').trim()) {
           const cs = getComputedStyle(h);
-          return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, color: cs.color };
+          // A size stated in viewport units (`text-[18vw]`) — the computed px is only its value at the capture
+          // width. Parity with PHP footer_heading_css().
+          let vwSize = '';
+          for (let n = h, i = 0; n && n.getAttribute && i < 3 && !vwSize; n = n.parentElement, i++) {
+            const m = String(n.className || '').match(/(?:^|\s)text-\[([0-9.]+)(vw|vh|vmin|vmax)\](?:\s|$)/);
+            if (m) vwSize = m[1] + m[2];
+          }
+          return { transform: cs.textTransform, letterSpacing: cs.letterSpacing, fontWeight: cs.fontWeight, fontSize: cs.fontSize, vwSize, color: cs.color };
         }
       }
       return null;
@@ -6146,7 +6289,10 @@ export function extractDesign() {
   const typography = (() => {
     const firstFam = (stack) => {
       const one = String(stack || '').split(',')[0].trim().replace(/^["']|["']$/g, '');
-      const generic = ['inherit', 'initial', 'sans-serif', 'serif', 'monospace', 'system-ui', '-apple-system', 'ui-sans-serif', 'ui-serif'];
+      // Kept identical to GENERIC_FONTS in to-design-config.mjs and the PHP stitch's two copies: these
+      // lists had drifted apart, each missing different keywords, and a source whose text renders in the
+      // OS UI stack was recorded as using a named family called `-apple-system`.
+      const generic = ['inherit', 'initial', 'sans-serif', 'serif', 'monospace', 'system-ui', '-apple-system', 'blinkmacsystemfont', 'ui-sans-serif', 'ui-serif', 'ui-monospace', 'cursive', 'fantasy'];
       return (one === '' || generic.includes(one.toLowerCase())) ? '' : one;
     };
     const lhRatio = (lh, size) => {

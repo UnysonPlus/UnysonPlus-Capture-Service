@@ -81,7 +81,7 @@ function normOut(p) { return String(p || '').replace(/\\/g, '/').replace(/\/+$/,
  */
 export async function ensureDashboard({ open = true } = {}) {
   if (process.env.DASHBOARD_AUTO_OPEN === '0') { return; }
-  // Force a browser tab on this call regardless of reuse. The launchers (start-converter.*) set this so
+  // Force a browser tab on this call regardless of reuse. The launchers (the kit's start.*, the service's start-converter.*) set this so
   // starting the converter ALWAYS pops the dashboard open — better to get a fresh tab (even a duplicate)
   // than silently nothing when the previous tab was closed but the server is still up.
   const force = /^(1|true|yes)$/i.test(process.env.DASHBOARD_FORCE_OPEN || '');

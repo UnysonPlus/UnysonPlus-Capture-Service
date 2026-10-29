@@ -22,12 +22,22 @@
 // cannot be reproduced — 528 free-text findings were filed and four of them stayed open for exactly that.
 //   node send-finding.mjs --url=<src-url> --summary --stats=capture-out/<site>/share-stats.json
 //
+// MOTION GAPS use their own kind and their own tuple (fixture · surface · motion · tried · outcome ·
+// fallback) — the Animation Engine could not express a motion, which is a capability gap, not a
+// conversion loss, and has no twin to run:
+//   node send-finding.mjs --url=<src-url> --motion-gap --gap='{"fixture":"fb_01","surface":"element",
+//        "motion":"ribbon unfurls on scroll: clip-path 0->100% + 6deg skew, 700ms",
+//        "tried":"scroll-reveal (no clip-path), motion-path (wrong axis)","outcome":"fallback-written",
+//        "fallback":"upw-fb-01","region":"hero","path":"capture-out/<fixture-id>"}'
+//
+// --dry-run validates and PRINTS the payload without sending. Use it whenever you are testing the
+// tool rather than reporting a real finding: the configured form is the maintainer's live ledger.
 // Structural-only (sanitized in to-share.mjs): the note is auto-redacted of URLs/emails/quoted content.
 // Consent is the AGENT's responsibility — it invokes this only after the one "yes"; the tool just sends.
 import { readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join } from 'path';
-import { buildFindingPayload, buildStatsPayload, postToForm, buildMailto, loadShareConfig, oneLineSummary, LOSS_KINDS, SEVERITIES, FIXTURE_MAX } from './to-share.mjs';
+import { buildFindingPayload, buildStatsPayload, buildMotionGapPayload, postToForm, buildMailto, loadShareConfig, oneLineSummary, LOSS_KINDS, SEVERITIES, FIXTURE_MAX, MOTION_SURFACES, MOTION_OUTCOMES } from './to-share.mjs';
 import { fixtureIsStamped } from './fixture.mjs';
 
 const DIR = fileURLToPath(new URL('.', import.meta.url));
@@ -44,6 +54,46 @@ if (has('summary')) {
   try { stats = JSON.parse(readFileSync(flag('stats'), 'utf8')); } catch { /* empty summary is still valid */ }
   if (stats && stats.stats) stats = stats.stats;            // accept a full report/config or a bare stats object
   payload = buildStatsPayload({ url, converterVersion: VERSION, stats, positives: flag('positives') }); // --positives="one line of what was right" 
+} else if (has('motion-gap')) {
+  /* A MOTION GAP: "the Animation Engine cannot express this motion", not "the converter lost it".
+     It takes its own tuple because the converter gates cannot apply - there is no twin to run and the
+     repro is the motion plus the fallback, not a data-sc-cs fragment (see to-share.mjs for the why).
+     The tuple still forces the loop: `tried` is what makes step 1 (reach for a native effect first)
+     auditable rather than a claim, and `fixture` keys the row to a NEUTRAL id so the ledger can count
+     how often a motion recurs without ever naming a source. */
+  const inlineG = flag('gap');
+  const fileG = args.find((a) => !a.startsWith('--'));
+  let gap = null;
+  try { gap = inlineG ? JSON.parse(inlineG) : JSON.parse(readFileSync(fileG, 'utf8')); }
+  catch (e) { console.error("send-finding: pass a gap JSON via --gap='{…}' or a file path —", e.message); process.exit(1); }
+
+  const REQ_G = ['fixture', 'surface', 'motion', 'tried', 'outcome', 'fallback'];
+  const missG = REQ_G.filter((k) => !gap || gap[k] == null || String(gap[k]).trim() === '');
+  const badSurface = gap && gap.surface && !MOTION_SURFACES.includes(String(gap.surface));
+  const badOutcome = gap && gap.outcome && !MOTION_OUTCOMES.includes(String(gap.outcome));
+  if (missG.length || badSurface || badOutcome) {
+    console.error('send-finding: REFUSED — a motion gap needs every field of its own tuple.');
+    if (missG.length) console.error('  missing: ' + missG.join(', '));
+    if (badSurface) console.error('  surface must be one of: ' + MOTION_SURFACES.join(' | '));
+    if (badOutcome) console.error('  outcome must be one of: ' + MOTION_OUTCOMES.join(' | '));
+    console.error('  shape: {"fixture":"fb_01","surface":"element","motion":"ribbon unfurls on scroll: clip-path 0->100% + 6deg skew, 700ms","tried":"scroll-reveal (no clip-path), motion-path (wrong axis)","outcome":"fallback-written","fallback":"upw-fb-01","region":"hero","path":"capture-out/<fixture-id>","recurs":"3rd site"}');
+    console.error('  tried = the native effects you consulted and why none fits — a gap reported without it cannot be told from "did not look".');
+    process.exit(2);
+  }
+  // A NEUTRAL fixture id, never a word from the source: the no-brand rule is not satisfied by hashing
+  // the host, because the id is free text that goes in the ledger exactly as written.
+  if (/\.(com|net|org|io|art|co|shop|dev|app|site)\b|https?:/i.test(String(gap.fixture))) {
+    console.error('send-finding: REFUSED — `fixture` must be a NEUTRAL id (fb_01, fixture-04), never a site name or domain.');
+    process.exit(2);
+  }
+  if ('no-fallback' !== gap.outcome && !/[a-z0-9]/i.test(String(gap.fallback))) {
+    console.error('send-finding: REFUSED — name the fallback you wrote (its key, e.g. upw-fb-01), or set outcome to no-fallback and say why in `fallback`.');
+    process.exit(2);
+  }
+  if ('gallery' === gap.surface) {
+    console.error('send-finding: note — a gallery design registers through THREE PHP filters (design_groups + render_designs + design_assets) plus window.upwGallery3d.registerDesign; miss the render whitelist and it silently falls back to carousel_ring. See docs/animation-engine/child-theme-fallback-effect.md.');
+  }
+  payload = buildMotionGapPayload({ url, converterVersion: VERSION, gap });
 } else {
   const inline = flag('finding');
   const file = args.find((a) => !a.startsWith('--'));
@@ -135,6 +185,17 @@ try {
   if (wait > 0) { await new Promise((r) => setTimeout(r, wait)); }
 } catch { /* no prior send */ }
 
+/* --dry-run: everything up to the POST, then stop. Added the hard way - the gates of a new report kind
+   were exercised against the LIVE form and put two test rows in the shared ledger, because validating a
+   sender had no way to stop short of sending. A tool whose only mode is "send for real" will be tested
+   for real. */
+if (has('dry-run')) {
+  console.log('dry-run — nothing was sent. Payload that WOULD be posted:');
+  console.log(JSON.stringify(payload, null, 1));
+  console.log('summary: ' + oneLineSummary(payload));
+  process.exit(0);
+}
+
 const cfg = loadShareConfig(DIR);
 if (!cfg.form || !cfg.form.responseUrl) {
   console.log('share: no Google Form configured — email this instead:');
@@ -144,7 +205,9 @@ if (!cfg.form || !cfg.form.responseUrl) {
 try {
   const r = await postToForm(payload, cfg);
   try { writeFileSync(stampFile, String(Date.now())); } catch { /* best-effort */ }
-  console.log(r.ok ? '⚑ Converter improvement reported — ' + oneLineSummary(payload) : `share: POST failed (status ${r.status}); email instead:`);
+  const what = payload.kind === 'motion-gap' ? '⚑ Motion gap reported — '
+    : payload.kind === 'summary' ? '⚑ Site summary reported — ' : '⚑ Converter improvement reported — ';
+  console.log(r.ok ? what + oneLineSummary(payload) : `share: POST failed (status ${r.status}); email instead:`);
   if (!r.ok) console.log('   ', buildMailto(payload, cfg));
 } catch (e) {
   console.log('share: could not reach the Google Form (' + e.message + '); email instead:');

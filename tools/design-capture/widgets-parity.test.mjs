@@ -98,6 +98,54 @@ console.log('\n=== pricing_table ===');
   ok(neg.node && neg.node.shortcode === 'code_block', 'NEG: <2 plans → code_block');
 }
 
+/* LAYOUT COMES FROM THE SOURCE'S GEOMETRY, NOT THE PLAN COUNT.
+   A four-item price LIST used to emit as a four-across card grid, because `columns` was
+   `plans.length` and the shortcode had no other shape. Both halves are now asserted: the emitter
+   carries the measured layout and columns, and a block captured before the twin existed still
+   falls back to the old count rule so nothing already captured changes shape. */
+console.log('\n=== pricing_table — layout from the measured source ===');
+{
+  const four = [
+    { title: 'Regular Clean', currency: '$', price: '120', period: '', features: '', featured: 'no', ribbon: '', btn_label: '', btn_url: '' },
+    { title: 'Deep Clean',    currency: '$', price: '220', period: '', features: '', featured: 'no', ribbon: '', btn_label: '', btn_url: '' },
+    { title: 'Move Out',      currency: '$', price: '340', period: '', features: '', featured: 'no', ribbon: '', btn_label: '', btn_url: '' },
+    { title: 'Office',        currency: '$', price: '480', period: '', features: '', featured: 'no', ribbon: '', btn_label: '', btn_url: '' },
+  ];
+
+  // a LIST: four stacked rows, a rule between them, 28px apart, the price in the heading face
+  const list = nodeFor({ t: 'pricing', plans: four, layout: 'list', ptCols: 0,
+    rows: { rule: true, gap: 28, pad: 18, price_size: 22, price_weight: 600, price_font: '"Syncopate", sans-serif' } });
+  ok(list.node?.atts?.design_settings?.layout === 'list', 'a stacked source → design_settings.layout "list"');
+  ok(list.node?.atts?.design_settings?.list?.row_rule === 'yes', "the source's row rule → row_rule yes");
+  const css = String(list.node?.atts?.custom_css || '');
+  ok(css.includes('--pt-row-gap:28px'), "the source's row gap is carried, not defaulted");
+  ok(css.includes('--pt-row-pad:18px'), '…and its row padding');
+  ok(css.includes('--pt-row-amount:22px') && css.includes('--pt-row-amount-weight:600'), "…and the price's own size and weight");
+  ok(css.includes("--pt-row-amount-font:'Syncopate', sans-serif"), '…and its family, with the quote style swapped for CSS');
+  ok(css.startsWith('selector .fw-pt__list{') && css.endsWith(';}'), 'scoped to the list, closed properly (parity n_pricing)');
+
+  // a rule-less, flush menu must NOT acquire a hairline or padding it never had
+  const flush = nodeFor({ t: 'pricing', plans: four, layout: 'list', ptCols: 0, rows: { rule: false, gap: 0, pad: 0 } });
+  ok(flush.node?.atts?.design_settings?.list?.row_rule === 'no', 'NEG: a flush menu gets row_rule no, not the default hairline');
+  ok(!String(flush.node?.atts?.custom_css || '').includes('--pt-row-gap'), 'NEG: a 0 gap emits no gap var (the stylesheet decides)');
+
+  // a GRID of three tracks holding four plans keeps the SOURCE's three columns, not four
+  const grid = nodeFor({ t: 'pricing', plans: four, layout: 'grid', ptCols: 3 });
+  ok(grid.node?.atts?.design_settings?.layout === 'grid', 'a grid source → layout "grid"');
+  ok(grid.node?.atts?.columns === '3', "columns come from the source's tracks (3), not the plan count (4)");
+  ok(!grid.node?.atts?.design_settings?.list, 'NEG: a grid carries no list options');
+  ok(!String(grid.node?.atts?.custom_css || '').includes('--pt-row-'), 'NEG: …and no row-rhythm CSS');
+
+  // a source with more tracks than the shortcode offers is clamped, not passed through
+  const wide = nodeFor({ t: 'pricing', plans: four, layout: 'grid', ptCols: 7 });
+  ok(wide.node?.atts?.columns === '5', 'a 7-track source clamps to the 5 the option allows');
+
+  // BACK-COMPAT: a block captured before the twin existed has neither key
+  const legacy = nodeFor({ t: 'pricing', plans: four });
+  ok(legacy.node?.atts?.columns === '4', 'NEG: no measured geometry → the old plan-count rule (4)');
+  ok(legacy.node?.atts?.design_settings?.layout === 'grid', 'NEG: …and the grid it always emitted');
+}
+
 console.log('\n=== table ===');
 {
   const rows = [

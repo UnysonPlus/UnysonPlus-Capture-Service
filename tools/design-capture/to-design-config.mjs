@@ -4,7 +4,15 @@
 // FW_Site_Converter_Theme_Generator::from_capture so EITHER file feeds the generator
 // (the admin "Generate theme" tool auto-detects a raw capture too).
 
-const GENERIC_FONTS = new Set(['serif', 'sans-serif', 'monospace', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace', 'cursive', 'fantasy', 'inherit', 'initial']);
+// `-apple-system` and `blinkmacsystemfont` BELONG HERE. They are system keywords, not font names, and they
+// lead the stack every site shipping "the OS UI font" uses:
+//   -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+// Without them a measured source was recorded as having the named family `-apple-system`, so the converted
+// site asked for that one token with no fallbacks behind it, and the Theme Settings body font was set from
+// it. There were THREE copies of this list across the capture tools and the PHP stitch, each missing
+// different entries; this is the full set, and the PHP `detect_typography` / `first_family` lists must
+// match it (the PHP<->JS parity rule).
+const GENERIC_FONTS = new Set(['serif', 'sans-serif', 'monospace', 'system-ui', 'ui-sans-serif', 'ui-serif', 'ui-monospace', 'cursive', 'fantasy', 'inherit', 'initial', '-apple-system', 'blinkmacsystemfont']);
 
 // A heading font-family stack normalised — returned ONLY when it pairs the primary display face with a
 // SECOND NAMED (non-generic) fallback (a licensed `Neutraface Condensed Titling` backed by web-safe
@@ -44,7 +52,9 @@ export function toDesignConfig(cap) {
   const firstFamily = (stack) => {
     if (!stack) return '';
     const f = String(stack).split(',')[0].trim().replace(/^["']|["']$/g, '');
-    const generic = ['serif', 'sans-serif', 'monospace', 'system-ui', 'ui-sans-serif', 'ui-serif', 'inherit'];
+    // The fourth copy of the same list. Use the shared set rather than a third spelling of it -- the
+    // drift between these copies is what let `-apple-system` through as a named family.
+    const generic = [...GENERIC_FONTS];
     return generic.includes(f.toLowerCase()) ? '' : f;
   };
   const nz = (v) => {
@@ -168,7 +178,12 @@ export function toDesignConfig(cap) {
   if (foot.groups && foot.groups.length) {
     foot.groups.forEach((g) => {
       const title = (g.title || '').trim();
-      const links = (g.links || []).map((l) => ({ label: l.label || '', url: localizeHref(l.href) }));
+      // A TEXT column carries `lines` instead of links — carry them as children with NO url, so the
+      // emitter renders them as plain rows rather than inventing a link to '#'. (PHP twin: a text
+      // column's items emit with li_link_type 'none'.)
+      const links = (g.links || []).length
+        ? (g.links || []).map((l) => ({ label: l.label || '', url: localizeHref(l.href) }))
+        : (g.lines || []).map((t) => ({ label: String(t || ''), url: '' }));
       if (title) footerMenu.push({ label: title, url: '#', children: links });
       else footerMenu = footerMenu.concat(links);
     });

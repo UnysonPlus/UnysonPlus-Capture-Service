@@ -97,7 +97,8 @@ function activeRun() {
 function listSites() {
   if (!existsSync(OUT)) return [];
   return readdirSync(OUT, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
+    // "_" / "." folders are the service's own (the Chat's _chat screenshots), never a capture.
+    .filter((d) => d.isDirectory() && !/^[_.]/.test(d.name))
     .map((d) => {
       const dir = join(OUT, d.name);
       const prog = readJson(join(dir, 'progress.json'));
@@ -201,6 +202,16 @@ const server = createServer((req, res) => {
   const u = new URL(req.url, `http://localhost:${PORT}`);
   const path = decodeURIComponent(u.pathname);
 
+  // The Kit Assistant (chat, its tools, Confirm) is for this dashboard's own page only: refuse a request a
+  // different web page fires at localhost (a browser always names the page's origin on such a POST).
+  if (path.startsWith('/api/local-ai/chat')) {
+    const o = String(req.headers.origin || '');
+    if (o && o !== `http://localhost:${PORT}` && o !== `http://127.0.0.1:${PORT}`) {
+      res.writeHead(403, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'The Kit Assistant answers this dashboard only.' }));
+    }
+  }
+
   if (path === '/' || path === '/index.html') {
     try { res.writeHead(200, { 'content-type': MIME['.html'] }); res.end(readFileSync(join(HERE, 'index.html'))); }
     catch { res.writeHead(500); res.end('index.html missing'); }
@@ -215,7 +226,7 @@ const server = createServer((req, res) => {
   // Run log — list the recent run-*.log files + return the tail of the active (or requested) one.
   if (path === '/api/logs') {
     const dir = resolveLogsDir();
-    if (!dir) return json(res, { ok: false, error: 'No run-log directory found. Launch via start-converter (the Dev Kit launcher records each run to logs/).', files: [] });
+    if (!dir) return json(res, { ok: false, error: 'No run-log directory found. Launch via start.bat (the Dev Kit launcher records each run to logs/).', files: [] });
     const files = listLogFiles(dir);
     let name = (u.searchParams.get('file') || '').replace(/[^\w.-]/g, '');
     if (!/^run-[\w-]+\.log$/i.test(name) || !files.some((f) => f.name === name)) {
@@ -310,6 +321,61 @@ const server = createServer((req, res) => {
       .catch(() => json(res, { installed: false, up: false, selected: '', pulled: [], shortlist: [], serviceDown: true }));
     return;
   }
+  // --- Which AI runs: read the switch / set it. ---
+  if (path === '/api/local-ai/backend' && (req.method === 'GET' || req.method === 'POST')) {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    const url = `http://localhost:${svcPort}/local-ai/backend`;
+    if (req.method === 'GET') {
+      fetch(url, { signal: AbortSignal.timeout(5000) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch(() => json(res, { chosen: '', active: 'off', backends: [], serviceDown: true }));
+      return;
+    }
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e4) req.destroy(); });
+    req.on('end', () => {
+      fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(6000) })
+        .then(async (r) => json(res, await r.json(), r.ok ? 200 : 400))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  // --- Bring your own endpoint (OpenAI-compatible): read / save the config, list the catalogue. ---
+  if (path === '/api/local-ai/endpoint' && req.method === 'GET') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    fetch(`http://localhost:${svcPort}/local-ai/endpoint`, { signal: AbortSignal.timeout(3500) })
+      .then((r) => r.json()).then((s) => json(res, s))
+      .catch(() => json(res, { baseUrl: '', model: '', source: 'none', hasKey: false, serviceDown: true }));
+    return;
+  }
+  if (path === '/api/local-ai/endpoint' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e4) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}/local-ai/endpoint`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(8000) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  if (path === '/api/local-ai/endpoint/probe' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e5) req.destroy(); });
+    req.on('end', () => {
+      // Dozens of small requests, throttled on the service side — this needs a long window.
+      fetch(`http://localhost:${svcPort}/local-ai/endpoint/probe`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(300000) })
+        .then(async (r) => json(res, await r.json(), r.ok ? 200 : 503))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  if (path === '/api/local-ai/endpoint/models' && req.method === 'GET') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    // A provider catalogue can be slow on a cold connection — give it longer than the config calls.
+    fetch(`http://localhost:${svcPort}/local-ai/endpoint/models`, { signal: AbortSignal.timeout(25000) })
+      .then(async (r) => json(res, await r.json(), r.ok ? 200 : 503))
+      .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    return;
+  }
   if (path === '/api/local-ai/select' && req.method === 'POST') {
     const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
     let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e4) req.destroy(); });
@@ -379,6 +445,17 @@ const server = createServer((req, res) => {
       .catch(() => json(res, { ok: true, messages: [] }));
     return;
   }
+  // The person's Confirm / Cancel on something the Kit Assistant proposed (Phase 3).
+  if (path === '/api/local-ai/chat-confirm' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 4096) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}/local-ai/chat-confirm`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(30000) })
+        .then((r) => r.json()).then((s) => json(res, s))
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
   if (path === '/api/local-ai/chat-clear' && req.method === 'POST') {
     const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
     fetch(`http://localhost:${svcPort}/local-ai/chat-clear`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}', signal: AbortSignal.timeout(3500) })
@@ -390,7 +467,7 @@ const server = createServer((req, res) => {
     const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
     let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e6) req.destroy(); });
     req.on('end', () => {
-      fetch(`http://localhost:${svcPort}/local-ai/chat`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(180000) })
+      fetch(`http://localhost:${svcPort}/local-ai/chat`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(420000) })
         .then(async (r) => { const j = await r.json().catch(() => ({})); json(res, j, r.status); })
         .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
     });
@@ -559,7 +636,7 @@ const server = createServer((req, res) => {
           // A 404 "not found" means the RUNNING capture service predates the /pen-shortcode route — the
           // dashboard HTML hot-reloads from disk but the Node process keeps its old routes until restarted.
           if (r.status === 404 && j && /not found/i.test(String(j.error || ''))) {
-            return json(res, { error: 'The capture service is running an older version. Close and re-run start-converter.bat (restart the service), then try again — this feature needs the restarted process.' }, 409);
+            return json(res, { error: 'The capture service is running an older version. Close and re-run start.bat (restart the service), then try again — this feature needs the restarted process.' }, 409);
           }
           return json(res, j, r.status);
         })
@@ -657,11 +734,11 @@ const server = createServer((req, res) => {
       } else if (DASH_CODE_VERSION && shipped && DASH_CODE_VERSION !== shipped) {
         push('dashboard_code', 'Dashboard server', 'fail',
           `Dashboard server is STALE (running v${DASH_CODE_VERSION}, shipped v${shipped}).`,
-          'Restart it: kill the process on port 4600 and re-run start-converter.bat.');
+          'Restart it: kill the process on port 4600 and re-run start.bat.');
       } else {
         push('dashboard_code', 'Dashboard server', 'warn',
           `Could not compare versions (running v${DASH_CODE_VERSION || '?'}, shipped v${shipped || '?'}).`,
-          'If features look missing, restart the dashboard (kill port 4600, re-run start-converter.bat).');
+          'If features look missing, restart the dashboard (kill port 4600, re-run start.bat).');
       }
     } catch (e) { push('dashboard_code', 'Dashboard server', 'warn', 'Version check failed: ' + e.message); }
 
@@ -670,8 +747,8 @@ const server = createServer((req, res) => {
     try {
       svcCheck = fetch(`http://localhost:${svcPort}/health`, { signal: AbortSignal.timeout(1200) })
         .then((r) => { if (r.status === 200) { return r.json().catch(() => ({})).then((h) => push('capture_service', 'Capture service', 'ok', `Responding on :${svcPort}${h && h.version ? ' (v' + h.version + ')' : ''}.`)); }
-          return push('capture_service', 'Capture service', 'warn', `Capture service returned HTTP ${r.status} on :${svcPort}.`, 'Restart start-converter.bat — new captures need it.'); })
-        .catch(() => push('capture_service', 'Capture service', 'warn', `Capture service not responding on :${svcPort} — needed for new captures.`, 'Re-run start-converter.bat to bring it up.'));
+          return push('capture_service', 'Capture service', 'warn', `Capture service returned HTTP ${r.status} on :${svcPort}.`, 'Restart start.bat — new captures need it.'); })
+        .catch(() => push('capture_service', 'Capture service', 'warn', `Capture service not responding on :${svcPort} — needed for new captures.`, 'Re-run start.bat to bring it up.'));
     } catch (e) { push('capture_service', 'Capture service', 'warn', 'Health check failed: ' + e.message); svcCheck = Promise.resolve(); }
 
     // c. out_dir — the capture-out directory exists and is readable.

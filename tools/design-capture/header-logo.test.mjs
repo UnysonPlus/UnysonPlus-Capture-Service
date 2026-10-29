@@ -2,8 +2,8 @@
  * Guards for two header-extraction rules, both found by converting a real site whose menu came out wrong.
  *
  * 1. THE LOGO IS NOT A NAV ITEM. Logo detection took the first header link carrying any text. On a header
- *    whose brand is not a link — plenty render the wordmark as plain markup, e.g. "Mod" plus a
- *    <span>Fii</span> inside a div — the first text link is the first MENU item. So the brand came out as
+ *    whose brand is not a link — plenty render the wordmark as plain markup, e.g. "Nor" plus a
+ *    <span>wind</span> inside a div — the first text link is the first MENU item. So the brand came out as
  *    "Financing" AND the nav silently lost its first entry: two wrongs from one loose test.
  * 2. A DISCLOSURE CONTROL IS NOT A DESTINATION. An overflow toggle ("More") is a <button> carrying
  *    aria-haspopup / aria-expanded. It was captured as a menu item pointing at the site root, so the
@@ -31,9 +31,9 @@ const PAGE = `<!doctype html><html><head><meta charset="utf-8"><style>
   main{height:1200px}
 </style></head><body>
   <header>
-    <div class="brand">Mod<span>Fii</span></div>
+    <div class="brand">Nor<span>wind</span></div>
     <nav>
-      <a href="/modular-home-financing">Financing</a>
+      <a href="/financing">Financing</a>
       <a href="/resources">Resources</a>
       <a href="/#how-it-works">How It Works</a>
       <a href="/#faq">FAQ</a>
@@ -57,7 +57,7 @@ test('extract the fixture header once', async () => {
 
 test('the wordmark is the logo, even though it is not a link', () => {
   assert.equal(header.logo && header.logo.type, 'text');
-  assert.equal(header.logo.text.replace(/\s+/g, ''), 'ModFii');
+  assert.equal(header.logo.text.replace(/\s+/g, ''), 'Norwind');
 });
 
 test('NEGATIVE: the logo is never one of the nav labels', () => {

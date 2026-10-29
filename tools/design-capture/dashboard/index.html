@@ -91,6 +91,25 @@ button,input{font:inherit;color:inherit}
 .convert input:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
 .btn{border:1px solid transparent;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer;
   display:inline-flex;align-items:center;gap:8px;transition:transform .12s cubic-bezier(.2,.8,.2,1),background .15s,opacity .15s;white-space:nowrap}
+/* A bare .btn carried NO background or colour — only layout — so outside .hub-actions it fell back
+   to the browser default: rgb(240,240,240) under near-white text, i.e. invisible. The Pen tab’s
+   “Download .zip” had been shipping that way, unnoticed because it only appears after a conversion.
+   The secondary styling was scoped to .hub-actions; promoting it to the base class fixes every bare
+   .btn at once and stops the next one inheriting the trap. */
+.btn:not(.btn-primary){background:var(--surface-2);border-color:var(--border);color:var(--ink)}
+.btn:not(.btn-primary):hover{background:var(--surface)}
+/* CREATE is form-first, not results-first. The shared .wrap is a narrow 300-360px input rail beside a
+   big results panel, which is exactly right for Convert (inputs left, live output right) and wrong
+   here: until you press the button the right-hand side holds two paragraphs, so the form was squeezed
+   into a third of the window while two thirds sat empty. The form gets real width and lays its fields
+   out in two columns; the rows that need the full measure opt in with .fld--wide. */
+#view-create .wrap{grid-template-columns:minmax(0,1fr) minmax(0,440px)}
+#view-create .col-left{position:static}
+#view-create #createForm{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;align-items:start}
+#view-create #createForm > .fld--wide{grid-column:1/-1}
+@media(max-width:1180px){#view-create .wrap{grid-template-columns:1fr}
+  #view-create #createForm{grid-template-columns:1fr}
+  #view-create #createForm > .fld--wide{grid-column:auto}}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-primary:hover{background:oklch(0.78 0.17 158)}
@@ -99,6 +118,9 @@ button,input{font:inherit;color:inherit}
 .fld{display:flex;flex-direction:column;gap:5px}
 .fld-l{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .fld-i{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--ink);font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+.fld-prev{margin:1px 0 0;font-size:11.5px;line-height:1.4;color:var(--faint)}
+.fld-prev a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+.fld-prev a:hover,.fld-prev a:focus-visible{border-bottom-color:var(--accent)}
 .fld-i.mono{font-family:var(--mono)}
 .fld-i::placeholder{color:var(--faint)}
 .fld-i:focus{border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
@@ -295,7 +317,7 @@ td.txt{color:var(--muted);max-width:340px}
 .hub{max-width:1100px;padding:6px 0 30px}
 .hub-head h1{margin:0 0 4px;font-size:22px;letter-spacing:-.01em}
 .hub-kit{margin:0 0 18px;color:var(--muted);font-size:13px}
-.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .hub-card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .hub-card h2{margin:0;font-size:16px;display:flex;align-items:center;gap:8px}
 .hub-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
@@ -303,6 +325,8 @@ td.txt{color:var(--muted);max-width:340px}
 .hub-dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--faint)}
 .hub-state.ok .hub-dot{background:var(--accent);box-shadow:0 0 6px var(--accent)}
 .hub-state.warn .hub-dot{background:oklch(0.80 0.16 85)}
+.hub-state.soon .hub-dot{background:oklch(0.62 0.13 255)}
+.hub-state.soon{color:var(--muted)}
 .hub-state.off{color:var(--muted)}
 .hub-facts{margin:0;padding:0;list-style:none;font-size:12.5px;color:var(--muted);display:grid;gap:3px}
 .hub-facts b{color:var(--ink);font-weight:600}
@@ -351,6 +375,21 @@ td.txt{color:var(--muted);max-width:340px}
 .chat-msg.user{align-self:flex-end;background:var(--surface-2);border:1px solid var(--border);border-bottom-right-radius:5px}
 .chat-msg.assistant{align-self:flex-start;background:var(--surface);border:1px solid var(--border-soft);border-bottom-left-radius:5px}
 .chat-msg.thinking{color:var(--muted);display:flex;align-items:center;gap:9px}
+.chat-tools{align-self:flex-start;display:flex;flex-direction:column;gap:6px;max-width:70ch;width:100%}
+.chat-tool-call{border:1px solid var(--border-soft);border-radius:10px;background:var(--surface-2);font-size:12.5px}
+.chat-tool-call>summary{cursor:pointer;padding:7px 11px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;color:var(--muted)}
+.chat-tool-call .chat-tool-name{font-family:var(--mono);color:var(--accent);font-weight:600}
+.chat-tool-arg{font-family:var(--mono);color:var(--faint);word-break:break-all;font-size:11.5px}
+.chat-tool-state{margin-left:auto;font-size:11px;color:var(--faint)}
+.chat-tool-call.is-err .chat-tool-state{color:var(--amber)}
+.chat-tool-call .chat-code{margin:0 11px 11px;max-height:280px;overflow:auto;white-space:pre-wrap}
+.chat-proposal{align-self:flex-start;max-width:70ch;width:100%;border:1px solid var(--accent);border-radius:12px;background:var(--surface-2);padding:11px 14px;font-size:13px}
+.chat-proposal.is-cancelled,.chat-proposal.is-confirmed{border-color:var(--border-soft);opacity:.8}
+.chat-proposal.is-failed{border-color:var(--amber)}
+.chat-proposal-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.chat-proposal ul{margin:8px 0 8px 18px;color:var(--muted);line-height:1.55}
+.chat-proposal-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chat-tool-shot{display:block;max-width:calc(100% - 22px);margin:0 11px 8px;border:1px solid var(--border);border-radius:8px}
 .chat-code{font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px solid var(--border);border-radius:9px;
   padding:11px 13px;margin:8px 0;overflow-x:auto;white-space:pre;line-height:1.5}
 @keyframes msgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -390,13 +429,14 @@ td.txt{color:var(--muted);max-width:340px}
 <header class="top">
   <div class="brand">
     <span class="mark"><svg viewBox="0 0 34 32" fill="#ffffff" aria-hidden="true"><path d="M23.375 0c5.875 0 10.625 4.688 10.625 10.438v19.563l-4.969 2-5.031-2v-21.063c-0.031-1.188-0.281-1.563-1.188-2.188-0.906 0.594-0.75 1.063-0.813 2.188v13.063c-0.25 5.531-3.656 10-11.375 10-5.875 0-10.625-2.75-10.625-10v-20.031l4.969-1.969 5.031 2v19.469s-0.281 3.938 1.188 3.938c1.094-1.125 0.813-3.938 0.813-3.938v-11.469c0.25-5.531 5.688-10 11.375-10zM2.469 3.188l2.5 1.5 2.219-1.313-2.219-1.219zM9.281 30.031c6.688 0 6.5-8.156 6.5-8.156-0.031-0.281 0.219-11.563 0.219-11.875 0-3.781 1.688-6.094 3.75-7.719-2.875 1.438-5.594 4.375-5.75 7.719v13.75c-0.219 2.563-2.156 4.25-4.781 4.25-2.875 0-5.063-2.531-5.219-5.5v-15.875l-2-1.375v16.75s-0.188 6.813 5.75 7.875c0.5 0.094 1.031 0.156 1.531 0.156zM32 28.625v-18.625c0-4-2.125-6.063-5.781-7.281-0.469-0.094-1-0.156-1.5-0.156-4.219 0-6.719 3.281-6.719 7.438v12.219c0 3.094-1.344 6.969-4 7.781 4.531-1.344 6-4.938 6-8v-13.375c0.219-2.563 2.125-4.25 4.781-4.25s5 1.688 5.219 4.25v20.875zM8.938 26l0.375-0.031c-0.75-0.406-1.281-1.188-1.313-2.75v-17.969l-2 1.375v14.844s0.313 4.531 2.938 4.531zM28 29.5v-20.563c-0.125-1.813-1.313-2.781-3.219-2.781l-0.375 0.031c0.875 0.875 1.563 1.438 1.594 2.75v19.688z"></path></svg></span>
-    <span>Unyson+ AI Dev Kit<small>Site Converter · AI Assistant · Animation Studio</small></span>
+    <span>Unyson+ AI Dev Kit<small>Create a Site · Kinetic Scenes · Site Converter · AI Assistant</small></span>
   </div>
   <div class="watching" style="margin-left:auto">watching <b id="watchDir">…</b></div>
   <a class="toplink" id="logsLink" title="Open the run log (what the tools printed this session)">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>Logs</a>
   <a class="toplink" id="diagLink" title="Run a one-click health check">🩺 Diagnostics</a>
   <div id="upwStatus" class="watching" title="Converter tools — capture service + running conversions" style="display:flex;gap:.6em;align-items:center;white-space:nowrap"></div>
+  <div id="aiSwitch" title="Which AI does the work" style="display:flex;gap:.4em;align-items:center;white-space:nowrap;font-size:12px;color:var(--faint);font-family:var(--mono)"></div>
 </header>
 
 <div class="shell">
@@ -406,6 +446,9 @@ td.txt{color:var(--muted);max-width:340px}
     </button>
     <button class="nav-item" data-view="home" title="Home">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span><span class="lbl">Home</span>
+    </button>
+    <button class="nav-item" data-view="create" title="Create a Site">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="lbl">Create <span class="alpha-tag">Alpha</span></span>
     </button>
     <button class="nav-item" data-view="convert" title="Convert">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="lbl">Convert</span>
@@ -439,6 +482,152 @@ td.txt{color:var(--muted);max-width:340px}
     </section>
 
     <!-- ===== CONVERT VIEW ===== -->
+    <!-- ===== CREATE VIEW: gather a site spec, then hand it to an agent =====
+         Scope on purpose: this collects the SPEC and emits the prompt. It does not build the site.
+         The dashboard's AI is a chat model; the create-site skill assumes an agent with file access
+         and `wp eval-file`. A panel that claimed to build would be claiming the one thing it cannot do.
+         What it does do is the part a person actually finds hard: deciding the pages, the style, and
+         being asked straight out what real content exists — because everything unticked becomes
+         `missing[]`, and `missing[]` is what stops the build inventing testimonials. -->
+    <section class="view" id="view-create">
+      <div class="wrap">
+        <aside class="col-left">
+          <section class="panel" style="padding:16px 18px">
+            <form id="createForm" autocomplete="off">
+              <label class="fld">
+                <span class="fld-l">Business name</span>
+                <input id="cBiz" class="fld-i" type="text" placeholder="Willow &amp; Rose Hair Studio">
+              </label>
+<label class="fld">
+                <span class="fld-l">Town or city <span style="opacity:.6">(optional)</span></span>
+                <input id="cMarket" class="fld-i" type="text" placeholder="Brighton">
+              </label>
+              <label class="fld fld--wide">
+                <span class="fld-l">What it is, in a sentence</span>
+                <textarea id="cBrief" class="fld-i" rows="2" placeholder="A hair salon in Brighton — warm and dark, booking-led."></textarea>
+              </label>
+                            <div class="fld">
+                <label class="fld-l" for="cStyle">Design direction</label>
+                <select id="cStyle" class="fld-i">
+                  <option value="">Let the agent choose from the brief</option>
+                  <option value="monochrome">Monochrome editorial — black and white, serif hero</option>
+                  <option value="modern-dark">Modern dark — dark ground, one saturated accent</option>
+                  <option value="luxury">Luxury — warm stone, space as the material</option>
+                  <option value="swiss">Swiss grid — visible grid, three type sizes</option>
+                  <option value="newsprint">Newsprint — warm off-white, dense columns</option>
+                  <option value="terminal">Terminal — monospace, near-black, phosphor accent</option>
+                  <option value="bauhaus">Bauhaus — primary colour blocking, hard shadows</option>
+                  <option value="saas">Minimalist Modern — one electric blue, dual fonts</option>
+                  <option value="kinetic">Kinetic typography — viewport-scale type, marquees</option>
+                  <option value="flat-design">Flat design — colour blocking, zero shadows</option>
+                  <option value="art-deco">Art Deco — obsidian and gold, geometric ornament</option>
+                  <option value="material-design">Material You — tonal surfaces, pill buttons</option>
+                  <option value="neo-brutalism">Neo-brutalism — thick black borders, hard shadows</option>
+                  <option value="bold-typography">Bold typography — poster-scale type, one accent</option>
+                  <option value="academia">Academia — mahogany, brass, three serifs</option>
+                  <option value="cyberpunk">Cyberpunk — void ground, neon glow, chamfered edges</option>
+                  <option value="web3">Web3 — void ground, orange and gold glow</option>
+                  <option value="minimal-dark">Minimalist dark — layered slate, one warm amber</option>
+                  <option value="playful-geometric">Playful geometric — sticker shadows, confetti colour</option>
+                  <option value="claymorphism">Claymorphism — soft clay, tinted shadows, big radii</option>
+                  <option value="professional">Professional — ivory, hairlines, one burnished gold</option>
+                  <option value="botanical">Botanical — rice paper, forest and sage</option>
+                  <option value="vaporwave">Vaporwave — purple void, magenta and cyan tubes</option>
+                  <option value="enterprise">Enterprise SaaS — indigo gradient, blurred orbs</option>
+                  <option value="sketch">Sketchbook — pencil borders, wobbly corners</option>
+                  <option value="industrial">Industrial — moulded chassis, one alert red</option>
+                  <option value="neumorphism">Neumorphism — one surface, extruded by light</option>
+                  <option value="organic">Organic — moss, terracotta, highly rounded</option>
+                  <option value="maximalism">Maximalism — five accents, stacked hard shadows</option>
+                  <option value="retro">Retro desktop — silver chassis, 2px bevels</option>
+                  <option value="custom">Describe my own…</option>
+                </select>
+                <p class="fld-prev" id="cStylePreview" hidden></p>
+              </div>
+                            <label class="fld">
+                <span class="fld-l">The one action a visitor should take</span>
+                <select id="cAction" class="fld-i">
+                  <option value="book">Book an appointment</option>
+                  <option value="enquire">Send an enquiry</option>
+                  <option value="call">Call</option>
+                  <option value="buy">Buy</option>
+                  <option value="signup">Sign up / start a trial</option>
+                </select>
+              </label>
+<label class="fld fld--wide" id="cStyleNotesWrap" style="display:none">
+                <span class="fld-l">Describe the look</span>
+                <input id="cStyleNotes" class="fld-i" type="text" placeholder="Soft, botanical, lots of air…">
+              </label>
+
+              <div class="fld fld--wide">
+                <span class="fld-l">Pages</span>
+                <div id="cPages" style="display:flex;flex-wrap:wrap;gap:6px 14px;padding-top:2px">
+                  <label class="dry"><input type="checkbox" value="home" checked disabled><span>Home</span></label>
+                  <label class="dry"><input type="checkbox" value="about" checked><span>About</span></label>
+                  <label class="dry"><input type="checkbox" value="services" checked><span>Services</span></label>
+                  <label class="dry"><input type="checkbox" value="pricing"><span>Pricing</span></label>
+                  <label class="dry"><input type="checkbox" value="contact" checked><span>Contact</span></label>
+                  <label class="dry"><input type="checkbox" value="blog"><span>Blog</span></label>
+                </div>
+              </div>
+
+              <div class="fld fld--wide">
+                <span class="fld-l">What you already have</span>
+                <div id="cHave" style="display:flex;flex-wrap:wrap;gap:6px 14px;padding-top:2px">
+                  <label class="dry"><input type="checkbox" value="copy"><span>Written copy</span></label>
+                  <label class="dry"><input type="checkbox" value="photos"><span>Photos</span></label>
+                  <label class="dry"><input type="checkbox" value="logo"><span>A logo file</span></label>
+                  <label class="dry"><input type="checkbox" value="testimonials"><span>Testimonials</span></label>
+                  <label class="dry"><input type="checkbox" value="prices"><span>Prices</span></label>
+                  <label class="dry"><input type="checkbox" value="hours"><span>Opening hours</span></label>
+                </div>
+                <div class="ch-help">Anything left unticked is recorded as <b>missing</b>. The build omits those sections rather than inventing them — no invented testimonials, prices or hours.</div>
+              </div>
+
+              <label class="fld">
+                <span class="fld-l">Build into (WordPress)</span>
+                <input id="cTarget" class="fld-i mono" type="text" placeholder="http://localhost/testsite/">
+              </label>
+              <label class="dry"><input type="checkbox" id="cDraft" checked><span>Create pages as drafts — nothing is published until you ask</span></label>
+
+              <button class="btn btn-primary fld--wide" id="cBuildBtn" type="submit" style="justify-content:center">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                Build the spec &amp; prompt
+              </button>
+              <div class="ch-help fld--wide">Produces a <b>site spec</b> and the prompt to hand your agent. The agent does the building — this panel does not write to WordPress.</div>
+            </form>
+          </section>
+        </aside>
+        <main class="col-right">
+          <section class="panel" id="cOutPanel" style="padding:16px 18px;display:none">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+              <b id="cOutTitle">Your site spec</b>
+              <span style="flex:1"></span>
+              <button class="btn" type="button" id="cCopyPrompt">Copy the prompt</button>
+              <button class="btn" type="button" id="cCopySpec">Copy site-spec.json</button>
+              <button class="btn" type="button" id="cDownload">Download spec</button>
+            </div>
+            <div class="ch-help" id="cMissingNote" style="display:none;margin-bottom:10px"></div>
+            <textarea id="cOut" class="fld-i mono" rows="22" spellcheck="false" style="width:100%;resize:vertical"></textarea>
+          </section>
+          <section class="panel" id="cHelpPanel" style="padding:16px 18px">
+            <b>How this works</b>
+            <div class="ch-help" style="margin-top:8px">
+              Fill the form and this writes a <b>site spec</b> — the structured description the
+              create-site skill reads — plus a prompt to paste into your agent (Claude Code, Cursor).
+              The agent reads the kit's recipes, styles and composition rules and builds native Unyson+
+              pages you can keep editing.
+            </div>
+            <div class="ch-help" style="margin-top:8px">
+              It asks what content you already have because the build <b>will not invent any</b>. No
+              testimonials supplied means no testimonials section — which looks like less, and is the
+              difference between a site and a demo.
+            </div>
+          </section>
+        </main>
+      </div>
+    </section>
+
     <section class="view" id="view-convert">
       <div class="wrap">
         <aside class="col-left">
@@ -590,6 +779,10 @@ td.txt{color:var(--muted);max-width:340px}
           <div class="panel-h"><h2>Local AI models <span class="pill" style="background:#7c3aed22;color:#a78bfa;border-color:#7c3aed66">Experimental</span></h2></div>
           <div id="aiActivity" style="display:none;padding:.5em .8em 0"></div>
           <div id="localAiBody" style="padding:14px 18px;font-size:.9em;line-height:1.45">Loading…</div>
+        </section>
+        <section class="panel" id="endpointPanel">
+          <div class="panel-h"><h2>Bring your own endpoint <span class="pill" style="background:#0ea5e922;color:#38bdf8;border-color:#0ea5e966">Any OpenAI-compatible API</span></h2></div>
+          <div id="endpointBody" style="padding:14px 18px;font-size:.9em;line-height:1.45">Loading…</div>
         </section>
         <section class="panel" id="wpTargetPanel">
           <div class="panel-h"><h2>Destination WordPress</h2></div>
@@ -1569,8 +1762,9 @@ async function pollStatus(){
   window._svc=svc; updateImproveLabel(); if($('#chatModel')&&state.view==='chat') chatRefreshModel();
   try{act=await api('/api/active');}catch(e){}
   const dot=(c,t)=>`<span style="display:inline-flex;align-items:center;gap:.35em"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block;box-shadow:0 0 6px ${c}"></span>${t}</span>`;
-  const aiLbl={'claude-code':'Claude','api':'Claude API','ollama':'Local model'}[svc.aiBackend]||'AI';
-  const parts=[ svc.up ? dot('oklch(0.74 0.17 158)',`capture service${svc.aiReady?' · AI: '+aiLbl:' · AI off'}`) : dot('#9aa3ad','service off') ];
+  // The AI is named by the SWITCHER beside this (renderAiSwitch), so printing it here too would say it
+  // twice — and the copy here could disagree with the control, which is worse than saying nothing.
+  const parts=[ svc.up ? dot('oklch(0.74 0.17 158)','capture service') : dot('#9aa3ad','service off') ];
   const ts=act && (act.at||act.startedAt||0);
   const fresh=ts && (Date.now()-ts) < 10*60*1000; // ignore a stuck _active.json from a crashed run
   if(act && act.status==='running' && fresh){
@@ -1614,6 +1808,276 @@ function renderAiActivity(ai,aiFresh,aiSecs,aiModel){
   } else { box.style.display='none'; }
 }
 pollStatus(); setInterval(pollStatus,3000);
+
+// --- Which AI runs: the header switcher (top right) ---
+// A <select> rather than a panel, because the point is to change it mid-session without going
+// anywhere. Two rules keep a 2.5s-polling page from fighting the person using it: the control is
+// rebuilt ONLY when its content actually changes (signature compare), and never while it has focus.
+window._aiSwitchSig=window._aiSwitchSig||'';
+async function renderAiSwitch(){
+  const host=document.getElementById('aiSwitch'); if(!host) return;
+  let d; try{ d=await api('/api/local-ai/backend'); }catch(e){ host.innerHTML=''; return; }
+  if(!d || d.serviceDown || !Array.isArray(d.backends) || !d.backends.length){
+    // Old service process (the route is new) or the service is down — say which, rather than vanishing.
+    host.innerHTML='<span style="color:#6b7280">AI: '+(d&&d.serviceDown?'service off':'restart the launcher')+'</span>';
+    return;
+  }
+  const esc=(x)=>String(x==null?'':x).replace(/[&<>"']/g,(m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const short={'':'Automatic','claude-code':'Claude','api':'Claude API','endpoint':'My endpoint','ollama':'Local model','off':'No AI'};
+  // The endpoint row's label is the PROVIDER'S NAME, resolved service-side from the saved base URL
+  // (see endpointProviderLabel) — "My endpoint" does not say which endpoint, and the person picking
+  // already thinks of it as "NVIDIA", not as a URL. Local model carries its model tag the same way.
+  const rowOf=(id)=>d.backends.find((b)=>b.id===id)||{};
+  const named=(id)=>{
+    if(id==='endpoint'||id==='ollama'){ const r=rowOf(id); if(r.label) return r.label; }
+    return short[id]||rowOf(id).label||id;
+  };
+  const sig=JSON.stringify([d.chosen,d.active,d.fromEnv,d.endpointLive,d.backends.map((b)=>[b.id,b.available,b.detail])]);
+  const sel=document.getElementById('aiPick');
+  if(sel && sig===window._aiSwitchSig) return;                       // nothing changed
+  if(sel && document.activeElement===sel) return;                    // the dropdown is in use
+  window._aiSwitchSig=sig;
+
+  // What is ACTUALLY running, which Automatic resolves and a chosen-but-unavailable backend falls past.
+  const activeLbl = d.active==='off' ? 'none'
+    : (d.active==='ollama' ? (d.endpointLive?named('endpoint'):named('ollama')) : (named(d.active)));
+  let h='<label for="aiPick" style="cursor:pointer">AI:</label>'
+   + '<select id="aiPick" '+(d.fromEnv?'disabled ':'')
+   + 'style="background:transparent;color:'+(d.active==='off'?'#9aa3ad':'oklch(0.80 0.14 158)')
+   + ';border:1px solid var(--line,#2a2f36);border-radius:6px;padding:1px 6px;font:inherit;cursor:pointer;max-width:180px">';
+  for(const b of d.backends){
+    const lbl=named(b.id);
+    h+='<option value="'+esc(b.id)+'"'+((d.chosen||'')===b.id?' selected':'')+(b.available||b.id===''?'':' disabled')
+     + '>'+esc(lbl)+(b.available||b.id===''?'':' (unavailable)')+'</option>';
+  }
+  h+='</select>';
+  // Automatic hides which one it picked, so show it; and flag a chosen backend that is NOT running.
+  if((d.chosen||'')===''){ h+='<span style="color:#6b7280">→ '+esc(activeLbl)+'</span>'; }
+  else if(short[d.chosen]!==activeLbl && !(d.chosen==='endpoint'&&d.endpointLive)){
+    h+='<span style="color:#f59e0b" title="The chosen backend cannot run, so this is what a job uses">→ '+esc(activeLbl)+'</span>';
+  }
+  if(d.fromEnv){ h+='<span style="color:#f59e0b" title="Set by the AI_BACKEND environment variable, which overrides this control">env</span>'; }
+  host.innerHTML=h;
+
+  const pick=document.getElementById('aiPick');
+  if(pick) pick.onchange=async()=>{
+    const v=pick.value;
+    try{
+      const r=await fetch('/api/local-ai/backend',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({backend:v})});
+      const out=await r.json(); if(out&&out.error) throw new Error(out.error);
+      toast('AI → '+(named(v)||'Automatic'));
+    }catch(e){ toast('Could not switch: '+e.message); }
+    window._aiSwitchSig=''; renderAiSwitch();
+    if(typeof loadLocalAi==='function') loadLocalAi();
+    if(typeof loadEndpoint==='function') loadEndpoint();
+  };
+}
+renderAiSwitch(); setInterval(renderAiSwitch,5000);
+
+// --- Bring your own endpoint (any OpenAI-compatible API) ---
+// A SEPARATE tier from Local AI on purpose: this one sends the page to someone else's server, so it
+// cannot sit under a panel that promises "100% private". The two share a transport underneath, and the
+// status line below is what tells the person which of them a conversion would actually use.
+window._epModels=window._epModels||null;      // the provider's catalogue, once fetched
+window._epChecks=window._epChecks||{};        // model → last Check result, kept across redraws
+async function loadEndpoint(){
+  const el=document.getElementById('endpointBody'); if(!el) return;
+  // Never redraw while someone is typing in here — the periodic refresh would wipe the field.
+  const act=document.activeElement; if(act && el.contains(act) && /^(INPUT|TEXTAREA|SELECT)$/.test(act.tagName)) return;
+  let c,st; try{ c=await api('/api/local-ai/endpoint'); }catch(e){ el.innerHTML='<div style="color:#9aa3ad">Unavailable.</div>'; return; }
+  if(c.serviceDown){ el.innerHTML='<div style="color:#9aa3ad">Start the capture service to configure an endpoint.</div>'; return; }
+  try{ st=await api('/api/local-ai'); }catch(e){ st={}; }
+  const esc=(x)=>String(x==null?'':x).replace(/[&<>"']/g,(m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const live = st && st.transport==='endpoint';
+  const envLocked = c.source==='env';
+
+  let h='<div style="margin:0 0 .7em;color:#9aa3ad">Point the non-Claude tier at <b>any OpenAI-compatible API</b> — a hosted model catalogue, an aggregator, or an LM Studio / vLLM server on your network. Your key, your provider, your terms. Useful because a hosted model can be far larger than anything that fits on this PC.</div>';
+  h+='<div style="padding:.5em .7em;border:1px solid #f59e0b55;background:#f59e0b14;border-radius:8px;margin-bottom:.7em;color:#d6c08a">This is <b>not private</b>: the page being converted is sent to that provider. The key is stored in plain text in <code>ai-endpoint.json</code> beside the service (never committed). Check your provider’s terms before using it for client work.</div>';
+
+  h+='<div style="display:flex;flex-direction:column;gap:9px">';
+  // PICK a provider; the base URL fills itself. Three of the common endpoints are irregular
+  // (`/openai/v1`, `/inference/v1`, `/v1/openai`), so typing it was never a fair thing to ask.
+  const presets=Array.isArray(c.presets)?c.presets:[];
+  if(presets.length&&!envLocked){
+    const groups=[...new Set(presets.map((p)=>p.group))];
+    const match=presets.find((p)=>p.url===(c.baseUrl||''));
+    h+='<label class="fld"><span class="fld-l">Provider</span><select id="epPreset" class="fld-i">';
+    h+='<option value="">'+(match?'Change provider…':'Choose a provider…')+'</option>';
+    for(const g of groups){
+      h+='<optgroup label="'+esc(g)+'">';
+      for(const p of presets.filter((x)=>x.group===g)){
+        h+='<option value="'+esc(p.url)+'"'+(match&&match.url===p.url?' selected':'')+' data-key="'+(p.key?'1':'0')+'">'+esc(p.label)+'</option>';
+      }
+      h+='</optgroup>';
+    }
+    h+='<option value="__custom">Something else — I will paste the URL</option>';
+    h+='</select></label>';
+  }
+  h+='<label class="fld"><span class="fld-l">Base URL <span style="color:#6b7280">— paste the host or a curl example; the /v1 is added for you</span></span>'
+   + '<input id="epUrl" class="fld-i mono" type="url" spellcheck="false" autocomplete="off" placeholder="https://your-provider.example/v1" value="'+esc(c.baseUrl||'')+'"'+(envLocked?' disabled':'')+'></label>';
+  h+='<label class="fld"><span class="fld-l">API key <span style="color:#6b7280">— blank if the server needs none</span></span>'
+   + '<input id="epKey" class="fld-i mono" type="password" spellcheck="false" autocomplete="off" placeholder="'+(c.hasKey?'•••••••• saved — leave blank to keep it':'paste your key')+'"'+(envLocked?' disabled':'')+'></label>';
+  h+='</div>';
+  h+='<div style="margin:.45em 0 0;color:#6b7280">Your provider lists this on its API / docs page as the <b>base URL</b>, <b>API endpoint</b> or <b>OpenAI-compatible URL</b> — it is the address a <code>curl</code> example posts to, minus <code>/chat/completions</code>.</div>';
+
+  if(envLocked){ h+='<div style="margin:.6em 0 0;color:#9aa3ad">Set from the environment (<code>AI_ENDPOINT_URL</code> / <code>AI_ENDPOINT_KEY</code> / <code>AI_ENDPOINT_MODEL</code>), so these fields are read-only. Unset those variables to edit here.</div>'; }
+
+  h+='<div style="display:flex;gap:.5em;flex-wrap:wrap;margin:.7em 0 .2em">';
+  if(!envLocked) h+='<button class="mini" id="epSave">Save &amp; load models</button>';
+  if(c.baseUrl) h+='<button class="mini" id="epReload">Reload models</button>';
+  if(c.baseUrl&&!envLocked) h+='<button class="mini" id="epClear" style="color:#f87171">Clear</button>';
+  h+='</div>';
+
+  // The model picker. /v1/models carries NO capability metadata, so the obviously-wrong classes are
+  // filtered out by id and the rest are offered — "can it call tools?" is answered by Check, not guessed.
+  // Fetch the catalogue ONCE when an endpoint is already configured, so re-opening Settings shows the
+  // picker rather than an empty box the person has to press a button to fill. Guarded by the sentinel so
+  // the 8s refresh never re-fetches, and a failed listing is remembered instead of retried in a loop.
+  if(c.baseUrl && window._epModels===null && !window._epModelsLoading){
+    window._epModelsLoading=true;
+    fetch('/api/local-ai/endpoint/models').then((r)=>r.json())
+      .then((d)=>{ window._epModels = (d&&d.error)?{ error:d.error }:d; })
+      .catch((e)=>{ window._epModels={ error:e.message }; })
+      .finally(()=>{ window._epModelsLoading=false; loadEndpoint(); });
+  }
+  const M=window._epModels;
+  if(c.baseUrl){
+    h+='<div style="margin-top:.6em">';
+    // A probe result, once there is one, is better evidence than the catalogue: it says what this KEY
+    // can call. It comes from the SERVICE (persisted, so a refresh keeps it), falling back to the
+    // in-page copy of a sweep that has just finished.
+    //
+    // THE BUG THIS REPLACES: the old condition also required `ok.length`, so a sweep that found
+    // NOTHING fell through to the full catalogue — on screen, identical to the filter having stopped
+    // working. And that was the likely outcome of a SECOND sweep, because re-testing dozens of models
+    // trips the rate limit. A probe either happened or it did not; "it found none" is an answer and has
+    // to be shown as one. `_epShowAll` is the deliberate way back to the whole list.
+    const probed=window._epProbe||c.probe||null;
+    const haveProbe=!!(probed&&Array.isArray(probed.ok))&&!window._epShowAll;
+    const usable=haveProbe?probed.ok:((M&&M.models)||[]);
+    if(usable.length){
+      h+='<label class="fld"><span class="fld-l">Model</span><select id="epModel" class="fld-i mono">';
+      h+='<option value="">— pick a model —</option>';
+      for(const m of usable){ h+='<option value="'+esc(m)+'"'+(m===c.model?' selected':'')+'>'+esc(m)+'</option>'; }
+      // The saved model stays listed even when the probe says it does not work, so the picker still
+      // shows what is currently selected rather than silently appearing to have changed it.
+      if(c.model&&!usable.includes(c.model)) h+='<option value="'+esc(c.model)+'" selected>'+esc(c.model)+' — fails</option>';
+      h+='</select></label>';
+      h+='<div style="margin:.35em 0 0;color:#6b7280;font-size:.9em">'+(haveProbe?(probed.ok.length+' your key can call, of '+probed.tested+' tested'+(probed.aborted?' (stopped early — rate limited)':'')+' · <a href="#" id="epShowAllLink" style="color:var(--accent)">show all</a>'):(usable.length+' usable of '+M.count+' offered'))
+       + (M.other&&M.other.length?(' · '+M.other.length+' hidden (embedding, reranking, safety, speech, video, image — none can do this job)'):'')+'</div>';
+    } else if(haveProbe){
+      // A sweep ran and nothing answered. Naming the likeliest reason is the whole value here: a key
+      // with nothing enabled on it is a different fix from a rate limit.
+      h+='<div style="padding:.5em .7em;border:1px solid #f8717155;background:#f8717114;border-radius:8px;color:#f8a9a9">'
+       + '<b>None of the '+probed.tested+' models answered.</b> '
+       + (probed.aborted
+          ? 'The sweep stopped early because the provider rate-limited it — wait a minute and test again. That is not a verdict on the models.'
+          : 'Your key may have no models enabled for it yet. Check your provider&rsquo;s dashboard, or show the full list and test one directly.')
+       + '</div><button class="mini" id="epShowAll" style="margin-top:.5em">Show the full list anyway</button>';
+    } else if(M&&M.error){
+      h+='<div style="color:#f59e0b;margin-bottom:.4em">'+esc(M.error)+'</div>';
+      h+='<label class="fld"><span class="fld-l">Model <span style="color:#6b7280">— type the id by hand</span></span><input id="epModelText" class="fld-i mono" spellcheck="false" placeholder="vendor/model-name" value="'+esc(c.model||'')+'"></label>';
+    } else {
+      h+='<label class="fld"><span class="fld-l">Model</span><input id="epModelText" class="fld-i mono" spellcheck="false" placeholder="press “Save &amp; load models”, or type the id" value="'+esc(c.model||'')+'"></label>';
+    }
+    h+='<div style="display:flex;gap:.5em;flex-wrap:wrap;margin:.55em 0 0">';
+    h+='<button class="mini" id="epUse">Use this model</button>';
+    if(c.model) h+='<button class="mini" id="epCheck">Check</button>';
+    if(M&&M.models&&M.models.length) h+='<button class="mini" id="epProbe" title="Send a one-token request to each listed model and keep the ones your key can actually call">Test all models</button>';
+    h+='</div></div>';
+  }
+
+  const chk=c.model?window._epChecks[c.model]:null;
+  if(chk){
+    const col=chk.grade==='ready'?'#34d399':(chk.grade==='weak'?'#f59e0b':'#f87171');
+    h+='<div style="margin:.6em 0 0;padding:.5em .7em;border:1px solid '+col+'55;background:'+col+'14;border-radius:8px">'
+     + '<b style="color:'+col+'">'+esc(chk.grade==='ready'?'Ready':(chk.grade==='weak'?'Weak':'Not usable'))+'</b> — '+esc(chk.note||'')
+     + (chk.ms?(' <span style="color:#6b7280">('+Math.round(chk.ms/100)/10+'s)</span>'):'')+'</div>';
+  }
+
+  h+='<div style="margin:.8em 0 0;padding-top:.6em;border-top:1px solid var(--line,#2a2f36);color:#9aa3ad">'
+   + (live?((chk&&chk.grade==='fail')
+        // A green "In use" under a failed Check is the panel contradicting itself, and the conversion
+        // would then fail the same way with no warning. Say which it is.
+        ? ('<b style="color:#f87171">Selected, but not working</b> — <code>'+esc(c.model)+'</code> failed its check, so a conversion would fail too. Pick another model above.')
+        : ('<b style="color:#34d399">In use</b> — conversions and chat run on <code>'+esc(c.model)+'</code> at <code>'+esc(c.baseUrl)+'</code>.'))
+          :(c.baseUrl&&c.model?'Saved, but Claude takes priority when it is available.'
+                              :'Not configured — the non-Claude tier uses local Ollama models.'))
+   + '</div>';
+
+  el.innerHTML=h;
+
+  const val=(id)=>{ const i=document.getElementById(id); return i?i.value.trim():''; };
+  const save=async(extra={},note='Saved')=>{
+    const body=Object.assign({ baseUrl:val('epUrl') }, extra);
+    const k=val('epKey'); if(k) body.key=k;           // blank keeps the stored key
+    try{
+      const r=await fetch('/api/local-ai/endpoint',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+      const d=await r.json(); if(d&&d.error) throw new Error(d.error);
+      toast(note);
+    }catch(e){ toast('Could not save: '+e.message); }
+  };
+  const loadModels=async()=>{
+    window._epModels={};
+    try{
+      const r=await fetch('/api/local-ai/endpoint/models'); const d=await r.json();
+      window._epModels = d && d.error ? { error:d.error } : d;
+      if(d&&d.error) toast(d.error); else toast((d.models||[]).length+' models loaded');
+    }catch(e){ window._epModels={ error:e.message }; toast('Could not list models: '+e.message); }
+    loadEndpoint();
+  };
+  const preset=document.getElementById('epPreset');
+  if(preset) preset.onchange=()=>{
+    const v=preset.value; const u=document.getElementById('epUrl'); if(!u) return;
+    if(v==='__custom'){ u.value=''; u.focus(); return; }
+    if(v){ u.value=v; }
+    // A local server needs no key — say so instead of leaving an empty box that looks required.
+    const k=document.getElementById('epKey');
+    const needsKey=preset.selectedOptions[0]&&preset.selectedOptions[0].dataset.key==='1';
+    if(k&&!c.hasKey) k.placeholder=needsKey?'paste your key':'not needed for this one — leave blank';
+  };
+  const on=(id,fn)=>{ const b=document.getElementById(id); if(b) b.onclick=fn; };
+  on('epSave', async()=>{ await save({}, 'Endpoint saved'); await loadModels(); });
+  on('epReload', ()=>{ window._epProbe=null; window._epShowAll=false; loadModels(); });
+  // "Show all" is the deliberate escape from a probe's verdict — including an empty one. It is a
+  // per-page override, not a saved setting: the next sweep is what should decide the list again.
+  const showAll=()=>{ window._epShowAll=true; loadEndpoint(); return false; };
+  on('epShowAll', showAll);
+  const sal=document.getElementById('epShowAllLink'); if(sal) sal.onclick=showAll;
+  on('epProbe', async()=>{
+    const b=document.getElementById('epProbe'); if(b){ b.disabled=true; b.textContent='Testing…'; }
+    window._epShowAll=false; // a fresh sweep supersedes the show-all override
+    try{
+      const r=await fetch('/api/local-ai/endpoint/probe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({models:(window._epModels&&window._epModels.models)||[]})});
+      const d=await r.json(); if(d&&d.error) throw new Error(d.error);
+      window._epProbe=d;
+      // The reasons matter: "not available to your key" is a different problem from a rate limit, and
+      // a person staring at an empty list needs to know which one they hit.
+      const why={}; for(const f of (d.failed||[])){ why[f.reason]=(why[f.reason]||0)+1; }
+      const top=Object.entries(why).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k,v])=>v+' '+k).join(', ');
+      toast(d.ok.length?(d.ok.length+' of '+d.tested+' models work'):('none of the '+d.tested+' worked'+(top?' — '+top:'')));
+    }catch(e){ toast('Could not test: '+e.message); }
+    finally{ loadEndpoint(); }
+  });
+  on('epClear', async()=>{
+    try{ await fetch('/api/local-ai/endpoint',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({baseUrl:''})}); }catch(_){ }
+    window._epModels=null; window._epModelsLoading=false; toast('Endpoint cleared'); loadEndpoint();
+  });
+  on('epUse', async()=>{
+    const m=val('epModel')||val('epModelText');
+    if(!m){ toast('Pick a model first'); return; }
+    await save({ model:m }, 'Using '+m); loadEndpoint(); loadLocalAi();
+  });
+  on('epCheck', async()=>{
+    const b=document.getElementById('epCheck'); if(b){ b.disabled=true; b.textContent='Checking…'; }
+    try{
+      const r=await fetch('/api/local-ai/check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({model:c.model})});
+      const d=await r.json(); if(d&&d.error) throw new Error(d.error);
+      window._epChecks[c.model]=d;
+    }catch(e){ window._epChecks[c.model]={ grade:'fail', note:e.message }; }
+    finally{ loadEndpoint(); }
+  });
+}
 
 // --- Experimental local-AI (Ollama) picker ---
 let _laiPulling=false;
@@ -1810,10 +2274,11 @@ async function pollPull(){
   else{ _laiPulling=false; setTimeout(loadLocalAi,600); }
 }
 loadLocalAi(); setInterval(loadLocalAi,8000);
+loadEndpoint(); setInterval(loadEndpoint,8000);
 
 /* ================= App-shell view routing ================= */
 function showView(name){
-  const valid=['home','convert','pen','chat','benchmarks','settings'];
+  const valid=['home','create','convert','pen','chat','benchmarks','settings'];
   if(!valid.includes(name)) name='home';
   state.view=name;
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>{const on=b.dataset.view===name;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
@@ -1823,7 +2288,7 @@ function showView(name){
   if(name==='home') renderHub();
   if(name==='benchmarks') renderBenchmarks($('#benchBody'));
   if(name==='chat') chatOpen();
-  if(name==='settings'){ loadLocalAi(); renderService(); renderWpTarget(); }
+  if(name==='settings'){ loadLocalAi(); loadEndpoint(); renderService(); renderWpTarget(); }
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 window.addEventListener('hashchange',()=>{const h=location.hash.slice(1); if(h&&h!==state.view) showView(h);});
@@ -1861,7 +2326,41 @@ function chatModelLabel(){
 function chatRefreshModel(){ const el=$('#chatModel'); if(el) el.textContent=chatModelLabel(); }
 function chatContentHtml(text){
   const parts=String(text||'').split(/```/);
-  return parts.map((p,i)=> i%2 ? `<pre class="chat-code">${esc(p.replace(/^[a-z0-9]*\n/i,''))}</pre>` : esc(p).replace(/\n/g,'<br>')).join('');
+  const links=s=>s.replace(/https?:\/\/[^\s<"']+/g,u=>`<a href="${u}" target="_blank" rel="noopener" style="color:var(--accent)">${u}</a>`);
+  return parts.map((p,i)=> i%2 ? `<pre class="chat-code">${esc(p.replace(/^[a-z0-9]*\n/i,''))}</pre>` : links(esc(p)).replace(/\n/g,'<br>')).join('');
+}
+/* The person's Confirm / Cancel on a proposal. The service runs it (once) and records the outcome. */
+async function chatDecide(id,decision,btn){
+  const box=btn&&btn.closest('.chat-proposal'); if(box) box.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{
+    const r=await api2('/api/local-ai/chat-confirm',{id,decision});
+    if(r&&r.error&&!r.text){ chatState.error=r.error; }
+  }catch(_){ chatState.error='Request failed — is the capture service running?'; }
+  await chatLoadHistory();
+}
+/* Every tool the assistant called, as a collapsible row: what was read, from where, and what came back. */
+function chatToolCallsHtml(calls){
+  if(!Array.isArray(calls)||!calls.length) return '';
+  return calls.map(t=>{
+    let res=t.result; if(typeof res==='string'){ try{ res=JSON.parse(res); }catch(_){ } }
+    const a=t.args&&typeof t.args==='object'?t.args:{};
+    const what=a.url||a.site||a.query||a.path||'';
+    const err=res&&typeof res==='object'&&res.error;
+    const shot=res&&typeof res==='object'&&typeof res.screenshot==='string'&&/[\\/]_chat[\\/]([^\\/]+\.png)$/i.exec(res.screenshot);
+    const body=typeof res==='string'?res:JSON.stringify(res,null,2);
+    // A proposal (Phase 3): something that changes files waits for the person's Confirm. Never collapsed.
+    if(res&&typeof res==='object'&&res.proposal){
+      const st=res.state||'';
+      const stLbl={confirmed:'Confirmed',cancelled:'Cancelled',failed:'Failed'}[st]||'Waiting for you';
+      return `<div class="chat-proposal${st?' is-'+st:''}"><div class="chat-proposal-h"><span class="chat-tool-name">${esc(t.name)}</span> <b>${esc(res.action||'')}</b><span class="chat-tool-state">${stLbl}</span></div>`
+        +`<ul>${(res.details||[]).map(d=>`<li>${esc(d)}</li>`).join('')}</ul>`
+        +(st?'':`<div class="chat-proposal-btns"><button type="button" class="btn primary" onclick="chatDecide('${esc(res.id)}','confirm',this)">Confirm</button><button type="button" class="btn" onclick="chatDecide('${esc(res.id)}','cancel',this)">Cancel</button><span class="chat-tool-arg">Nothing runs until you press Confirm.</span></div>`)
+        +`</div>`;
+    }
+    return `<details class="chat-tool-call${err?' is-err':''}"><summary><span class="chat-tool-name">${esc(t.name)}</span>${what?` <span class="chat-tool-arg">${esc(String(what).slice(0,90))}</span>`:''} <span class="chat-tool-state">${err?'failed':'done'}</span></summary>`
+      +(shot?`<a href="/artifact/_chat/${encodeURIComponent(shot[1])}" target="_blank" rel="noopener"><img class="chat-tool-shot" src="/artifact/_chat/${encodeURIComponent(shot[1])}" alt="Screenshot of ${esc(String(what))}"></a>`:'')
+      +`<pre class="chat-code">${esc(String(body||'').slice(0,6000))}</pre></details>`;
+  }).join('');
 }
 function renderChat(){
   const sc=$('#chatScroll'); if(!sc) return;
@@ -1873,8 +2372,8 @@ function renderChat(){
       <p>Ask anything — it runs on <b>${esc(chatModelLabel())}</b> and stays on this machine. Pick or change the model in <a href="#settings" onclick="showView('settings');return false" style="color:var(--accent)">Settings</a>.</p>
     </div>`;
   } else {
-    h=chatState.messages.map(m=>`<div class="chat-msg ${m.role==='user'?'user':'assistant'}">${chatContentHtml(m.content)}</div>`).join('');
-    if(chatState.sending) h+=`<div class="chat-msg assistant thinking"><span class="ai-pulse"></span> thinking…</div>`;
+    h=chatState.messages.map(m=>(m.role!=='user'&&m.toolCalls&&m.toolCalls.length?`<div class="chat-tools">${chatToolCallsHtml(m.toolCalls)}</div>`:'')+`<div class="chat-msg ${m.role==='user'?'user':'assistant'}">${chatContentHtml(m.content)}</div>`).join('');
+    if(chatState.sending) h+=`<div class="chat-msg assistant thinking"><span class="ai-pulse"></span> thinking… <span class="chat-tool-arg">it may look at a page, a report or the docs first</span></div>`;
   }
   if(chatState.error){
     const off=/off|pick a local|no model|not reachable|service/i.test(chatState.error);
@@ -1902,7 +2401,7 @@ async function chatSend(){
     const r=await api2('/api/local-ai/chat',{messages:chatState.messages.map(m=>({role:m.role,content:m.content}))});
     chatState.sending=false;
     if(!r||r.error){ chatState.error=(r&&r.error)||'AI is off — pick a local model in Settings.'; renderChat(); return; }
-    chatState.messages.push({role:'assistant',content:r.reply||'(empty reply)',model:r.model,at:Date.now()});
+    chatState.messages.push({role:'assistant',content:r.reply||'(empty reply)',model:r.model,toolCalls:r.toolCalls||[],at:Date.now()});
     renderChat();
   }catch(_){ chatState.sending=false; chatState.error='Request failed — is the capture service running?'; renderChat(); }
 }
@@ -1918,7 +2417,7 @@ async function chatClear(){
 
 // Land on the deep-linked / remembered view.
 // ---- Home: one card per job, refreshed while the page is open ----
-const STUDIO_URL='https://animation-studio.unysonplus.com/';
+const STUDIO_URL='https://kinetic-scenes.unysonplus.com/';
 function hubAgo(t,now){ if(!t) return ''; const s=Math.max(0,Math.round((now-t)/1000)); if(s<60) return 'just now'; const m=Math.round(s/60); if(m<60) return m+' min ago'; const h=Math.round(m/60); return h+' h ago'; }
 async function renderHub(){
   const grid=document.getElementById('hubGrid'), kit=document.getElementById('hubKit'); if(!grid) return;
@@ -1942,13 +2441,31 @@ async function renderHub(){
   const asst = !h.up ? state('off','Not running')
     : !ai.ready ? state('warn','Running, but no AI is set up')
     : recent('assistant',60) ? state('ok','Connected') : state('ok','Ready, waiting for WordPress');
-  // Animation Studio
+  /* Create a Site. This card said 'builder in progress' long after it stopped being true: it was
+     hardcoded when only the recipes existed, and the skill, the styles, the composition guide, the
+     ship gate and the verticals landed after it. It still does not claim 'Ready' green, for one
+     honest reason — the flow has not been run end to end on a real build yet. 'Not run end to end'
+     is a thing a status card should say out loud, not round up. */
+  const CREATOR_RECIPES = 6;
+  const CREATOR_STYLES = 7;
+  const creat = !h.up ? state('off','Not running')
+    : state('soon','Skill ready · not yet run end to end');
+  // Kinetic Scenes
   const studioOpen = seen.studio && seen.studio.open && (now-seen.studio.open)<2*60000;
   const stud = !h.up ? state('off','Not running')
     : !ai.ready ? state('warn','Running, but no AI is set up')
     : studioOpen ? state('ok','Connected (the Studio is open)') : state('ok','Ready');
 
   grid.innerHTML=[
+    '<article class="hub-card"><h2>Create a Site</h2>'+creat+
+      '<p>Builds a site from a brief, a reference URL, a design reference or an industry template — composing pages from the kit\'s recipes and styles, so the result is native Unyson+ you can edit. <b>It runs in your AI agent, not in this window.</b></p>'+
+      '<ul class="hub-facts">'+fact('Recipes',CREATOR_RECIPES+' archetypes')+fact('Styles',CREATOR_STYLES+' directions')+fact('AI',ai.ready?aiName:'')+'</ul>'+
+      '<div class="hub-actions"><button class="btn btn-primary" type="button" onclick="showView(\'create\')">Open the creator</button>'+
+      '</div></article>',
+    '<article class="hub-card"><h2>Kinetic Scenes</h2>'+stud+
+      '<p>The Studio\'s AI tab sends your request here and gets a scene back. Allow the browser to reach this computer when it asks.</p>'+
+      '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('studio'))+'</ul>'+
+      '<div class="hub-actions"><a class="btn btn-primary" href="'+STUDIO_URL+'" target="_blank" rel="noopener">Open the Studio</a></div></article>',
     '<article class="hub-card"><h2>Site Converter</h2>'+conv+
       '<p>Captures a site in a real browser and rebuilds it in WordPress as a Unyson+ child theme and pages.</p>'+
       '<ul class="hub-facts">'+fact('Last used',used('converter'))+'</ul>'+
@@ -1957,20 +2474,229 @@ async function renderHub(){
       '<p>The chat panel in WordPress uses this kit\'s AI and tools when it runs on the same computer as your browser.</p>'+
       '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('assistant'))+'</ul>'+
       '<div class="hub-actions"><button class="btn" type="button" onclick="showView(\'settings\')">AI settings</button></div></article>',
-    '<article class="hub-card"><h2>Animation Studio</h2>'+stud+
-      '<p>The Studio\'s AI tab sends your request here and gets a scene back. Allow the browser to reach this computer when it asks.</p>'+
-      '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('studio'))+'</ul>'+
-      '<div class="hub-actions"><a class="btn btn-primary" href="'+STUDIO_URL+'" target="_blank" rel="noopener">Open the Studio</a></div></article>',
   ].join('');
+
 }
 setInterval(()=>{ if(state.view==='home') renderHub(); },5000);
 
 showView((location.hash.slice(1))||(function(){try{const v=localStorage.getItem('upw-view');return v==='pen'?'':v;}catch(_){return '';}})()||'home');
+/* ===== CREATE: form -> site spec -> prompt ==================================
+   The spec is the source of truth the create-site skill reads, so this builds the spec first and
+   writes the prompt around it. `missing` is the field that matters most: everything the person did
+   not tick is listed, and the prompt tells the agent to omit those sections rather than fill them.
+   That is the whole mechanism against invented testimonials, prices and hours.
+
+   Not here on purpose: anything that writes to WordPress. The agent builds; this panel briefs it. */
+(function(){
+  const $c = (id) => document.getElementById(id);
+  const boxes = (wrapId) => [...document.querySelectorAll('#'+wrapId+' input[type=checkbox]')];
+  const ticked = (wrapId) => boxes(wrapId).filter((b) => b.checked).map((b) => b.value);
+  const unticked = (wrapId) => boxes(wrapId).filter((b) => !b.checked).map((b) => b.value);
+
+  // A style can be SEEN before it is chosen. Only presets with a published preview page get a
+  // link; the rest say so plainly rather than offering a link that 404s, and 'let the agent
+  // choose' / 'describe my own' have nothing to preview at all.
+  const STYLE_PREVIEWS = {
+    monochrome: 'https://create.unysonplus.com/design-presets/monochrome/',
+    bauhaus: 'https://create.unysonplus.com/design-presets/bauhaus/',
+    'modern-dark': 'https://create.unysonplus.com/design-presets/modern-dark/',
+    newsprint: 'https://create.unysonplus.com/design-presets/newsprint/',
+    saas: 'https://create.unysonplus.com/design-presets/saas/',
+    luxury: 'https://create.unysonplus.com/design-presets/luxury/',
+    terminal: 'https://create.unysonplus.com/design-presets/terminal/',
+    swiss: 'https://create.unysonplus.com/design-presets/swiss/',
+    kinetic: 'https://create.unysonplus.com/design-presets/kinetic/',
+    'flat-design': 'https://create.unysonplus.com/design-presets/flat-design/',
+    'art-deco': 'https://create.unysonplus.com/design-presets/art-deco/',
+    'material-design': 'https://create.unysonplus.com/design-presets/material-design/',
+    'neo-brutalism': 'https://create.unysonplus.com/design-presets/neo-brutalism/',
+    'bold-typography': 'https://create.unysonplus.com/design-presets/bold-typography/',
+    'academia': 'https://create.unysonplus.com/design-presets/academia/',
+    'cyberpunk': 'https://create.unysonplus.com/design-presets/cyberpunk/',
+    'web3': 'https://create.unysonplus.com/design-presets/web3/',
+    'minimal-dark': 'https://create.unysonplus.com/design-presets/minimal-dark/',
+    'playful-geometric': 'https://create.unysonplus.com/design-presets/playful-geometric/',
+    'claymorphism': 'https://create.unysonplus.com/design-presets/claymorphism/',
+    'professional': 'https://create.unysonplus.com/design-presets/professional/',
+    'botanical': 'https://create.unysonplus.com/design-presets/botanical/',
+    'vaporwave': 'https://create.unysonplus.com/design-presets/vaporwave/',
+    'enterprise': 'https://create.unysonplus.com/design-presets/enterprise/',
+    'sketch': 'https://create.unysonplus.com/design-presets/sketch/',
+    'industrial': 'https://create.unysonplus.com/design-presets/industrial/',
+    'neumorphism': 'https://create.unysonplus.com/design-presets/neumorphism/',
+    'organic': 'https://create.unysonplus.com/design-presets/organic/',
+    'maximalism': 'https://create.unysonplus.com/design-presets/maximalism/',
+    'retro': 'https://create.unysonplus.com/design-presets/retro/',
+  };
+
+  const styleSel = $c('cStyle');
+
+  const paintStylePreview = () => {
+    const box = $c('cStylePreview');
+    if (!box || !styleSel) return;
+    const v = styleSel.value;
+    if (!v || v === 'custom') { box.hidden = true; box.textContent = ''; return; }
+    const href = STYLE_PREVIEWS[v];
+    box.hidden = false;
+    if (!href) { box.textContent = 'No preview page for this one yet.'; return; }
+    box.innerHTML = '';
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener';   // opens away from the dashboard, so the half-filled form survives
+    a.textContent = 'See this style as a full page ↗';
+    box.appendChild(a);
+  };
+
+  if (styleSel) {
+    styleSel.addEventListener('change', () => {
+      const w = $c('cStyleNotesWrap');
+      if (w) w.style.display = styleSel.value === 'custom' ? '' : 'none';
+      paintStylePreview();
+    });
+    paintStylePreview();   // the field can be pre-filled on load
+  }
+
+  const PURPOSE = {
+    home: 'What this is, who it is for, and the one next step.',
+    about: 'Who runs it and why it exists.',
+    services: 'What is offered, grouped, with prices where they are fixed.',
+    pricing: 'Plans or prices and what separates them.',
+    contact: 'Form, phone, email and where to find them.',
+    blog: 'Articles.',
+  };
+  const TITLE = { home:'Home', about:'About', services:'Services', pricing:'Pricing', contact:'Contact', blog:'Blog' };
+  const ACTION = { book:'book an appointment', enquire:'send an enquiry', call:'call', buy:'buy', signup:'sign up or start a trial' };
+
+  let lastSpec = null, lastPrompt = '';
+
+  function buildSpec(){
+    const have = ticked('cHave');
+    const missing = unticked('cHave');
+    const style = styleSel ? styleSel.value : '';
+    const spec = {
+      spec_version: 1,
+      source: 'brief',
+      vertical: null,
+      business: {
+        name: ($c('cBiz').value || '').trim(),
+        type: null,
+        tagline: null,
+        market: ($c('cMarket').value || '').trim() || null,
+        language: 'English',
+        phone: null, email: null, address: null,
+        hours: have.includes('hours') ? 'supplied by the owner' : null,
+      },
+      pages: ticked('cPages').map((id) => ({
+        slug: id === 'home' ? '' : id,
+        title: TITLE[id] || id,
+        purpose: PURPOSE[id] || '',
+        shape: ['home','about','services','pricing','contact'].includes(id) ? id : 'custom',
+        sections: null,
+      })),
+      brand: {
+        style: style === 'custom' ? 'custom' : (style || 'impeccable'),
+        style_notes: style === 'custom' ? (($c('cStyleNotes').value || '').trim() || null) : null,
+        primary: null, accent: null,
+        logo: have.includes('logo') ? 'supplied' : 'text',
+      },
+      content: have.includes('copy') ? { note: 'the owner has copy to supply' } : null,
+      proof: have.includes('testimonials') ? { note: 'the owner has testimonials to supply' } : null,
+      seo: { title_pattern: null, description: null, schema_type: null, local: !!($c('cMarket').value || '').trim() },
+      compliance: null,
+      build: {
+        target: ($c('cTarget').value || '').trim(),
+        publish: $c('cDraft').checked ? 'draft' : 'publish',
+        extensions: ['shortcodes','page-builder','seo'],
+        theme: null,
+      },
+      missing: missing,
+    };
+    // the brief is the person's own words; keep them verbatim rather than paraphrasing into fields
+    const brief = ($c('cBrief').value || '').trim();
+    if (brief) spec.business.tagline = brief;
+    return spec;
+  }
+
+  const HAVE_LABEL = { copy:'written copy', photos:'photos', logo:'a logo file',
+                       testimonials:'testimonials', prices:'prices', hours:'opening hours' };
+
+  function buildPrompt(spec){
+    const act = ACTION[$c('cAction').value] || 'get in touch';
+    const miss = (spec.missing || []).map((m) => HAVE_LABEL[m] || m);
+    const L = [];
+    L.push('Build a WordPress site with Unyson+, using the AI Dev Kit.');
+    L.push('');
+    L.push('Read these first, then follow them:');
+    L.push('- skills/create-site/SKILL.md \u2014 the flow');
+    L.push('- skills/create-site/build-rules.md \u2014 the non-negotiables');
+    L.push('- docs/site-creator/composition.md \u2014 the order and the page shapes');
+    L.push('- docs/site-creator/styles/README.md \u2014 the design directions');
+    L.push('- docs/site-creator/ship-gate.md \u2014 what it must pass before it is done');
+    L.push('');
+    L.push('The site spec is at the end of this message. It is the source of truth \u2014 build what it says.');
+    L.push('');
+    L.push('The visitor\u2019s one action is to ' + act + '. Every call to action points there.');
+    L.push('');
+    if (miss.length) {
+      L.push('NOT SUPPLIED \u2014 do not invent any of it: ' + miss.join(', ') + '.');
+      L.push('Omit the sections that depend on these rather than filling them with something plausible,');
+      L.push('then tell me what you left out and what to send you. An invented testimonial, price or');
+      L.push('opening time is a false claim about a real business, not a placeholder.');
+    } else {
+      L.push('I have copy, photos, a logo, testimonials, prices and hours \u2014 ask me for each as you need it.');
+    }
+    L.push('');
+    L.push('Pages are ' + (spec.build.publish === 'draft' ? 'DRAFTS until I ask otherwise' : 'to be published') + '.');
+    L.push('');
+    L.push('site-spec.json:');
+    L.push('```json');
+    L.push(JSON.stringify(spec, null, 2));
+    L.push('```');
+    return L.join('\n');
+  }
+
+  const form = $c('createForm');
+  if (form) form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = ($c('cBiz').value || '').trim();
+    const brief = ($c('cBrief').value || '').trim();
+    if (!name || !brief) { toast('A business name and a one-sentence description are the two things this cannot guess.'); return; }
+    lastSpec = buildSpec();
+    lastPrompt = buildPrompt(lastSpec);
+    $c('cOut').value = lastPrompt;
+    $c('cOutPanel').style.display = '';
+    $c('cHelpPanel').style.display = 'none';
+    const miss = (lastSpec.missing || []).map((m) => HAVE_LABEL[m] || m);
+    const note = $c('cMissingNote');
+    if (miss.length) {
+      note.innerHTML = '<b>Recorded as missing:</b> ' + miss.map((m) => esc(m)).join(', ') +
+        '. The build will omit those sections and tell you what to send \u2014 it will not make them up.';
+      note.style.display = '';
+    } else { note.style.display = 'none'; }
+  });
+
+  const copyTo = async (text, what) => {
+    try { await navigator.clipboard.writeText(text); toast(what + ' copied'); }
+    catch { $c('cOut').select(); toast('Press Ctrl+C to copy'); }
+  };
+  $c('cCopyPrompt') && $c('cCopyPrompt').addEventListener('click', () => lastPrompt && copyTo(lastPrompt, 'Prompt'));
+  $c('cCopySpec') && $c('cCopySpec').addEventListener('click', () => lastSpec && copyTo(JSON.stringify(lastSpec, null, 2), 'site-spec.json'));
+  $c('cDownload') && $c('cDownload').addEventListener('click', () => {
+    if (!lastSpec) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(lastSpec, null, 2)], { type: 'application/json' }));
+    a.download = 'site-spec.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+})();
+
 // --- Run-log viewer ---
 async function loadLog(file){
   const body=$('#logBody');body.textContent='Loading…';
   let d;try{d=await api('/api/logs'+(file?('?file='+encodeURIComponent(file)):''));}catch(e){body.textContent='Could not reach the dashboard server.';return;}
-  if(!d||!d.ok){body.textContent=(d&&d.error)||'No logs available. Launch via start-converter so runs are recorded.';$('#logFile').innerHTML='';$('#logPath').textContent='';return;}
+  if(!d||!d.ok){body.textContent=(d&&d.error)||'No logs available. Launch via the AI Dev Kit’s start.bat so runs are recorded.';$('#logFile').innerHTML='';$('#logPath').textContent='';return;}
   const sel=$('#logFile');sel.innerHTML=(d.files||[]).map(f=>`<option value="${f}"${f===d.active?' selected':''}>${f}</option>`).join('');
   body.textContent=d.content||'(the log is empty)';body.scrollTop=body.scrollHeight;
   $('#logPath').textContent=d.dir?(d.dir+'  ·  '+(d.active||'')):'';

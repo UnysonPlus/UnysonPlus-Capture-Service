@@ -1001,7 +1001,11 @@ export function toThemeSettings(config, home) {
     if (fhs.letterSpacing && fhs.letterSpacing !== 'normal' && fhs.letterSpacing !== '0px') d += 'letter-spacing:' + fhs.letterSpacing + ';';
     const fw = String(parseInt(fhs.fontWeight, 10) || '');
     if (/^(300|400|500|600|700|800|900)$/.test(fw)) d += 'font-weight:' + fw + ';';
-    if (/^[0-9.]+px$/.test(String(fhs.fontSize || '').trim())) d += 'font-size:' + String(fhs.fontSize).trim() + ';';
+    // displayFontSize (PHP display_font_size): a viewport-unit size stays one; a display size (>= 96px) scales
+    // below the 1440px capture width as min(px, vw); a text size stays its px.
+    const fpx = String(fhs.fontSize || '').trim();
+    if (fhs.vwSize) d += 'font-size:' + fhs.vwSize + ';';
+    else if (/^[0-9.]+px$/.test(fpx)) d += 'font-size:' + (parseFloat(fpx) >= 96 ? 'min(' + fpx + ',' + Math.round(parseFloat(fpx) / 14.4 * 100) / 100 + 'vw)' : fpx) + ';';
     if (fhs.color) d += 'color:' + fhs.color + ';';
     if (d) miscCssParts.push('.footer-links-title{' + d + '}');
   }
@@ -1239,7 +1243,11 @@ export function toThemeSettings(config, home) {
       (g.children || []).forEach((l) => {
         const label = String(l.label || '').trim();
         if (!label) return;
-        col.push({ element_type: { element: 'list_item', list_item: { li_text: label, li_link_type: 'url', li_link: (l.url && l.url !== '') ? l.url : '#', li_target: '_self' } } });
+        // A row with no url is a TEXT line (an office address, a phone number written as text), not a
+        // link — emitting it as one would invent a '#' destination the source never had.
+        col.push(String(l.url || '').trim()
+          ? { element_type: { element: 'list_item', list_item: { li_text: label, li_link_type: 'url', li_link: l.url, li_target: '_self' } } }
+          : { element_type: { element: 'list_item', list_item: { li_text: label, li_link_type: 'none' } } });
       });
       if (col.length) cols.push(col);
     });
