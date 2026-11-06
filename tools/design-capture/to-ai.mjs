@@ -234,6 +234,13 @@ async function endpointChatRaw(body, timeoutMs) {
   for (const m of (Array.isArray(body.messages) ? body.messages : [])) {
     if (!m || !['system', 'user', 'assistant', 'tool'].includes(m.role)) continue;
     const o = { role: m.role, content: String(m.content == null ? '' : m.content) };
+    // An attached image travels as an OpenAI content part. Only a user turn carries one, and only a
+    // vision model can read it — a text-only model is told so before the request is ever built.
+    if (m.role === 'user' && Array.isArray(m.images) && m.images.length) {
+      o.content = [{ type: 'text', text: o.content }].concat(
+        m.images.map((im) => ({ type: 'image_url', image_url: { url: `data:${im.mime || 'image/png'};base64,${im.b64}` } })),
+      );
+    }
     if (m.role === 'assistant' && Array.isArray(m.tool_calls) && m.tool_calls.length) {
       o.tool_calls = m.tool_calls.map((tc, i) => {
         const fn = tc.function || tc;
@@ -317,9 +324,14 @@ async function endpointChatRaw(body, timeoutMs) {
  */
 async function localChat(body, timeoutMs, what = 'the local model request') {
   if (endpointActive()) return endpointChatRaw(body, timeoutMs);
+  // Both transports are handed `images: [{ mime, b64 }]`; Ollama's own API wants bare base64 strings,
+  // so the shape is narrowed here, where the two paths part, rather than at every call site.
+  const sent = Array.isArray(body.messages) && body.messages.some((m) => m && Array.isArray(m.images))
+    ? { ...body, messages: body.messages.map((m) => (Array.isArray(m.images) && m.images.length ? { ...m, images: m.images.map((im) => (typeof im === 'string' ? im : im.b64)) } : m)) }
+    : body;
   const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
+    body: JSON.stringify(sent),
     signal: AbortSignal.timeout(timeoutMs),
   }).catch((err) => { throw localModelError(err, OLLAMA_HOST, what); });
   if (!resp.ok) {
@@ -449,6 +461,21 @@ export const LOCAL_AI_MODELS = [
   { tag: 'qwen3-vl:4b',         label: 'Qwen3-VL 4B',         params: '4B',            ram: '~4 GB',                      vision: true, note: 'Lighter vision option for mainstream PCs — same capability family, smaller footprint. Apache-2.0.' },
   { tag: 'gemma3:4b',           label: 'Gemma 3 4B',          params: '4B',            ram: '~4 GB',                      vision: true, note: 'Multimodal all-rounder; one small model for text + images. Custom Gemma Terms (permissive, not OSI).' },
 ];
+
+/**
+ * Can this model read an attached image? The catalog above is the authority for the models the kit
+ * offers; anything else (a pulled model we never listed, an endpoint's own id) is judged by the naming
+ * every vision family uses. Unknown means NO, so an attachment is refused with an explanation rather
+ * than silently dropped — a text-only model handed an image answers confidently about nothing.
+ */
+export function modelSeesImages(model) {
+  const tag = String(model || '').trim();
+  if (!tag) return false;
+  const base = tag.toLowerCase().split(':')[0];
+  const known = LOCAL_AI_MODELS.find((m) => m.tag.toLowerCase() === tag.toLowerCase() || m.tag.toLowerCase().split(':')[0] === base);
+  if (known) return !!known.vision;
+  return /(-vl\b|-vl[-:]|vision|llava|moondream|minicpm-v|bakllava|gemma3|pixtral|internvl|cogvlm|janus|phi-?[34].*vision)/i.test(tag);
+}
 
 let _ollamaBin; // cache
 /** Is the `ollama` binary installed? (sync, cached — mirrors claudeCliAvailable). */
@@ -760,7 +787,8 @@ const KIT_BRIEF = [
   'How to answer:',
   '- Be direct and concise. Fenced ``` code blocks for code. No hidden reasoning, no preamble.',
   "- You have READ-ONLY tools: look_at_url (opens a page in the kit's own browser — it renders JavaScript), conversion_report (a capture's per-section result), search_docs and read_doc (the kit's docs). Use them instead of guessing: a question about a site means look_at_url; a question about a capture means conversion_report; a how-to question about Unyson+ means search_docs first. Never say you have no network or browser access — you have the kit's.",
-  "- Two tools ACT: start_capture (capture a site into capture-out) and hand_to_studio (pass a scene request to Kinetic Scenes). You never run them yourself: each returns a proposal and the person presses Confirm under your message. Say what will happen and that it waits for their Confirm; never claim it has started or finished. capture_status reports a running capture.",
+  "- For Kinetic Scenes videos: list_projects shows the projects, and work_on_project has the Kinetic Scenes agent change one or build a new one (it edits the scene, looks at its frames and checks its work, and never renders). Prefer it to hand_to_studio whenever the person wants a video made or changed; use hand_to_studio only if work_on_project reports that Claude Code is missing.",
+  "- Three tools ACT: start_capture (capture a site into capture-out), work_on_project (above) and hand_to_studio (pass a scene request to Kinetic Scenes). You never run them yourself: each returns a proposal and the person presses Confirm under your message. Say what will happen and that it waits for their Confirm; never claim it has started or finished. capture_status reports a running capture.",
   "- You cannot convert a site into WordPress, change a WordPress site, or write settings. Name the part of the kit that does it (the Convert tab, the site's own AI Assistant).",
   '- Never invent what a capture or a report contains. If you have not been given it in this conversation, say so.',
 ].join('\n');
@@ -844,11 +872,19 @@ const CHAT_TOOL_ROUNDS = 6;
 export async function chatWithTools({ messages, tools = [], runTool, context = '', maxRounds = CHAT_TOOL_ROUNDS } = {}) {
   const backend = aiBackend();
   if (!backend) { const e = new Error('AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).'); e.code = 503; throw e; }
+  // A turn counts when it has words OR an attached image ("what is wrong with this?" plus a screenshot
+  // is a complete message). `images` rides alongside `content`, which stays a plain string throughout.
   const ctx = (Array.isArray(messages) ? messages : [])
-    .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
-    .map((m) => ({ role: m.role, content: String(m.content) }))
+    .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && (String(m.content || '').trim() || (m.role === 'user' && Array.isArray(m.images) && m.images.length)))
+    .map((m) => {
+      const o = { role: m.role, content: String(m.content == null ? '' : m.content) };
+      const ims = (m.role === 'user' && Array.isArray(m.images) ? m.images : []).filter((im) => im && im.b64);
+      if (ims.length) o.images = ims.map((im) => ({ mime: im.mime || 'image/png', b64: im.b64, name: im.name || 'image', path: im.path || '' }));
+      return o;
+    })
     .slice(-CHAT_CONTEXT_TURNS);
   if (!ctx.length) { const e = new Error('No message to send.'); e.code = 400; throw e; }
+  const hasImages = ctx.some((m) => m.images && m.images.length);
   const system = chatSystem() + (context ? '\n\n' + context : '');
   const t0 = Date.now();
   const toolCalls = [];
@@ -861,6 +897,12 @@ export async function chatWithTools({ messages, tools = [], runTool, context = '
   if (backend === 'ollama') {
     const model = endpointActive() ? endpointConfig().model : selectedLocalModel();
     const to = parseInt(process.env.AI_CHAT_TIMEOUT_MS || process.env.AI_TIMEOUT_MS || '', 10) || 180000;
+    // Ollama takes images as bare base64 on the message itself. Say so plainly when the picked model
+    // cannot see: a text-only model given an image answers confidently about nothing.
+    if (hasImages && !modelSeesImages(model)) {
+      const e = new Error(`${model} cannot read images — pick a vision model in Settings → Local AI models (Qwen3-VL 8B is the recommended one), or send your question without the attachment.`);
+      e.code = 400; throw e;
+    }
     const msgs = [{ role: 'system', content: system }, ...ctx];
     try {
       for (let round = 0; round <= maxRounds; round++) {
@@ -883,21 +925,98 @@ export async function chatWithTools({ messages, tools = [], runTool, context = '
       return textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls, to });
     }
   }
-  const model = backend === 'api' ? DEFAULT_MODEL : (process.env.ANTHROPIC_MODEL || 'claude-code');
-  return textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls });
+  // Claude's own API speaks tools and images natively — no need for the text protocol below, which
+  // exists for providers that refuse native tools and which cannot carry an image at all.
+  if (backend === 'api') return chatAnthropicNative({ system, ctx, tools, call, maxRounds, t0, toolCalls });
+
+  const model = process.env.ANTHROPIC_MODEL || 'claude-code';
+  // Claude Code reads its prompt as text, so an attachment is handed over as a path for it to open.
+  // The files sit under `<capture-out>/_chat/`, which the CLI can read; a turn without a saved path
+  // (an image held only in memory) says so rather than pretending the picture arrived.
+  const flat = ctx.map((m) => {
+    if (!m.images || !m.images.length) return m;
+    const paths = m.images.filter((im) => im.path).map((im) => im.path);
+    const note = paths.length
+      ? `\n\n[The person attached ${paths.length === 1 ? 'an image' : paths.length + ' images'}. Open with the Read tool:\n${paths.map((p) => '- ' + p).join('\n')}]`
+      : '\n\n[The person attached an image, but it could not be saved for you to open — ask them to send it again.]';
+    return { role: m.role, content: (m.content || '') + note };
+  });
+  // The brief tells the assistant its tools are read-only and lists them, so without this it reasons
+  // that it has no way to look at a picture and says so — even with the file sitting right there and
+  // `Read` granted for the turn. Say plainly that this turn is different.
+  const readsFiles = ctx.some((m) => m.images && m.images.length);
+  const tailNote = readsFiles
+    ? '\n\nATTACHED IMAGES — THIS TURN ONLY: `Read` is a NATIVE tool you call directly, NOT through the TOOL line above, and it opens image files. The person attached one or more images, already saved as files on this machine. Read every path listed in their message and look at it before answering. The list above is the kit\'s own tools; it is not the limit of what you have this turn, so do NOT reply that you cannot read images, and do not ask for a URL instead — the file is already on disk.'
+    : '';
+  return textToolLoop({ backend, model, system, ctx: flat, tools, call, maxRounds, t0, toolCalls, readsFiles, tailNote });
+}
+
+/** Anthropic media types for an attachment. Anything else is converted before it gets here. */
+const IMAGE_MIME_OK = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+
+/**
+ * The chat loop on Claude's own Messages API: real `tool_use` / `tool_result` blocks and real image
+ * blocks, instead of the `TOOL {…}`-in-prose protocol that `textToolLoop` uses for providers which
+ * refuse native tools. On the last round the tools are withheld so the model must answer with what it
+ * has gathered rather than asking for one more.
+ */
+async function chatAnthropicNative({ system, ctx, tools, call, maxRounds, t0, toolCalls }) {
+  const key = (process.env.ANTHROPIC_API_KEY || '').trim();
+  const model = DEFAULT_MODEL;
+  const defs = tools.map((t) => {
+    const f = t.function || t;
+    return { name: f.name, description: f.description, input_schema: f.parameters || { type: 'object', properties: {} } };
+  });
+  const msgs = ctx.map((m) => {
+    const ims = (m.role === 'user' && m.images ? m.images : []).filter((im) => IMAGE_MIME_OK.has(im.mime));
+    if (!ims.length) return { role: m.role, content: String(m.content || '') };
+    // The image goes first: Claude reads a picture better when the question follows it.
+    const blocks = ims.map((im) => ({ type: 'image', source: { type: 'base64', media_type: im.mime, data: im.b64 } }));
+    if (String(m.content || '').trim()) blocks.push({ type: 'text', text: String(m.content) });
+    return { role: 'user', content: blocks };
+  });
+
+  for (let round = 0; round <= maxRounds; round++) {
+    const last = round === maxRounds;
+    const body = { model, max_tokens: 4000, system, messages: msgs };
+    if (!last && defs.length) body.tools = defs;
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) {
+      const t = await resp.text().catch(() => '');
+      const e = new Error('Anthropic API ' + resp.status + ': ' + t.slice(0, 300));
+      e.code = resp.status === 401 ? 503 : 500;
+      throw e;
+    }
+    const data = await resp.json();
+    const content = Array.isArray(data.content) ? data.content : [];
+    const uses = content.filter((c) => c && c.type === 'tool_use');
+    const text = content.filter((c) => c && c.type === 'text').map((c) => c.text || '').join('').trim();
+    if (!uses.length) return { ok: true, model, reply: text, ms: Date.now() - t0, toolCalls };
+    msgs.push({ role: 'assistant', content });
+    const results = [];
+    for (const u of uses) results.push({ type: 'tool_result', tool_use_id: u.id, content: await call(String(u.name || ''), u.input || {}) });
+    msgs.push({ role: 'user', content: results });
+  }
+  return { ok: true, model, reply: '', ms: Date.now() - t0, toolCalls };
 }
 
 /** The text-protocol loop (see chatWithTools). */
-async function textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls, to }) {
+async function textToolLoop({ backend, model, system, ctx, tools, call, maxRounds, t0, toolCalls, to, readsFiles = false, tailNote = '' }) {
   const list = tools.map((t) => {
     const f = t.function; const props = Object.keys((f.parameters && f.parameters.properties) || {});
     return `- ${f.name}(${props.join(', ')}): ${f.description}`;
   }).join('\n');
-  const sys = system + '\n\nTOOLS — to use one, reply with ONLY this single line and nothing else:\nTOOL {"name":"<tool>","arguments":{…}}\nYou then receive the result and continue. One tool per reply. When you have what you need, answer normally.\n' + list;
+  // `tailNote` goes LAST, after the tool list: a note placed before it is read as describing the kit's
+  // tools rather than overriding them, which is how an attachment ended up being refused as impossible.
+  const sys = system + '\n\nTOOLS — to use one, reply with ONLY this single line and nothing else:\nTOOL {"name":"<tool>","arguments":{…}}\nYou then receive the result and continue. One tool per reply. When you have what you need, answer normally.\n' + list + tailNote;
   const turns = ctx.slice();
   for (let round = 0; round <= maxRounds; round++) {
     const last = round === maxRounds;
-    const sysNow = last ? system + '\n\nAnswer now from what the tools returned; do not call another tool.' : sys;
+    const sysNow = last ? system + '\n\nAnswer now from what the tools returned; do not call another tool.' + tailNote : sys;
     let text;
     if (backend === 'ollama') {
       const data = await localChat({ model, stream: false, think: false, options: { temperature: 0.2, num_predict: 3072 }, messages: [{ role: 'system', content: sysNow }, ...turns] }, to || 180000);
@@ -905,7 +1024,7 @@ async function textToolLoop({ backend, model, system, ctx, tools, call, maxRound
     } else {
       const convo = turns.map((m) => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`).join('\n\n');
       const user = turns.length > 1 ? `Continue this conversation. Reply ONLY as the assistant to the LAST user message.\n\n${convo}\n\nAssistant:` : turns[0].content;
-      text = stripReasoning(await askText({ system: sysNow, user, maxTokens: 4000 }));
+      text = stripReasoning(await askText({ system: sysNow, user, maxTokens: 4000, readsFiles }));
     }
     const req = last ? null : parseToolLine(text);
     if (!req) return { ok: true, model, reply: text, ms: Date.now() - t0, toolCalls };
@@ -1978,7 +2097,7 @@ export async function verifyAccordionDesign(nodes) {
 /* ---- Visual refinement (self-verify → AI-fix loop) --------------------- *
  * A raw text→text call to whichever backend is active (used to generate CSS that closes the source-vs-
  * converted visual gap). Unlike refineMapping, this returns the model's raw text (not a parsed mapping). */
-export async function askText({ system, user, maxTokens = 8000 }) {
+export async function askText({ system, user, maxTokens = 8000, readsFiles = false }) {
   const backend = aiBackend();
   if (backend === 'api') {
     const key = (process.env.ANTHROPIC_API_KEY || '').trim();
@@ -1993,9 +2112,13 @@ export async function askText({ system, user, maxTokens = 8000 }) {
   }
   if (backend === 'claude-code') {
     const cmd = process.env.CLAUDE_CLI || 'claude';
-    const args = ['-p', '--output-format', 'json', '--max-turns', '1'];
+    // One turn is enough to answer from the prompt alone. An attached image is a FILE the CLI has to
+    // open first, so that case is given the turns to read it — and `Read`, the ONE tool it is allowed,
+    // without which it asks for permission nobody can grant in a non-interactive run.
+    const args = ['-p', '--output-format', 'json', '--max-turns', readsFiles ? '4' : '1'];
+    if (readsFiles) args.push('--allowedTools', 'Read');
     const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, ''); if (model) { args.push('--model', model); }
-    const stdout = await runClaude(cmd, args, system + '\n\n' + user);
+    const stdout = await (readsFiles ? runClaude : runClaudeOneTurn)(cmd, args, system + '\n\n' + user);
     let text = stdout.trim();
     try { const j = JSON.parse(stdout); if (j && j.is_error) { throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 200)); } if (j && typeof j.result === 'string') { text = j.result; } }
     catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
@@ -2271,7 +2394,7 @@ async function refineViaClaudeCode({ html, mapping, source }) {
   const model = (process.env.ANTHROPIC_MODEL || '').replace(/[^a-zA-Z0-9._-]/g, ''); // sanitize (shell arg)
   if (model) { args.push('--model', model); }
 
-  const stdout = await runClaude(cmd, args, prompt);
+  const stdout = await runClaudeOneTurn(cmd, args, prompt);
   // `--output-format json` wraps the answer: { type, subtype, result, is_error, ... }. Pull `.result`.
   let text = stdout.trim();
   try {
@@ -2340,6 +2463,15 @@ export async function runAssistantAgent({ mcp, prompt } = {}) {
     AGENT_SITES.delete(siteKey);
     try { rmSync(dir, { recursive: true, force: true }); } catch { /* best effort */ }
   }
+}
+
+/**
+ * A one-turn answer needs no tools and must not be offered any: the model reached for one while writing a long scene,
+ * used up its single turn and the answer was lost (error_max_turns). An older Claude Code may not know the flag.
+ */
+async function runClaudeOneTurn(cmd, args, input, opts) {
+  try { return await runClaude(cmd, [...args, '--tools', IS_WIN ? '""' : '', '--strict-mcp-config'], input, opts); }
+  catch (e) { if (/unknown option|unrecognized/i.test(e.message)) return runClaude(cmd, args, input, opts); throw e; }
 }
 
 /** Spawn the Claude Code CLI, feed the prompt on stdin, resolve its stdout. */
@@ -2531,7 +2663,7 @@ export async function askModel({ system, user, model, json = true, format, timeo
   if (isClaudeModel(model)) {
     const cmd = process.env.CLAUDE_CLI || 'claude';
     const args = ['-p', '--output-format', 'json', '--max-turns', '1'];
-    const stdout = await runClaude(cmd, args, system + '\n\n' + user);
+    const stdout = await runClaudeOneTurn(cmd, args, system + '\n\n' + user);
     let text = stdout.trim();
     try { const j = JSON.parse(stdout); if (j && j.is_error) { throw new Error('Claude Code error: ' + String(j.result || '').slice(0, 200)); } if (j && typeof j.result === 'string') { text = j.result; } }
     catch (e) { if (e.message && e.message.startsWith('Claude Code error')) throw e; }
@@ -2547,6 +2679,77 @@ export async function askModel({ system, user, model, json = true, format, timeo
   else if (json) body.format = 'json';
   const data = await localChat(body, to);
   return String((data.message && data.message.content) || '').trim();
+}
+
+/**
+ * NAME the editable options of a generated shortcode — the judgment half of Create shortcode.
+ *
+ * The compiler finds the slots deterministically (a headless render, a real DOM) and will keep doing so.
+ * What it cannot do is NAME them: `labelFrom()` falls back to the text's own value, so a heading becomes
+ * an option labelled "Transform your business today" — the content, not a name. Deciding that a slot is
+ * a "Section heading", that a lone "→" is decoration nobody should edit, and what to call the shortcode
+ * is judgement under ambiguity, which is the one thing a model is reliably better at than a rule.
+ *
+ * Returns { title, texts: { KEY: { label, skip } }, images: { KEY: { label } } }, or null when AI is off
+ * or the answer cannot be used. null means the caller falls back to the deterministic labels — the
+ * package is always produced either way.
+ */
+export async function namePenOptions({ name, texts = [], images = [] } = {}) {
+  if (!aiBackend()) return null;
+  if (!texts.length && !images.length) return null;
+  // Cap what is sent: a long pen can have hundreds of slots, and the naming only needs a sample of each.
+  const t = texts.slice(0, 60).map((x) => ({ key: x.key, tag: x.tag, text: String(x.value || '').slice(0, 120) }));
+  const im = images.slice(0, 30).map((x) => ({ key: x.key, alt: String(x.alt || '').slice(0, 80) }));
+  const system = 'You name the editable options of a WordPress shortcode that was compiled from an HTML/CSS snippet. '
+    + 'You are given each editable slot with its current content. Reply with JSON only, no prose.';
+  const user = [
+    'The shortcode is currently called: ' + JSON.stringify(String(name || '').trim() || '(unnamed)'),
+    '',
+    'TEXT SLOTS (key, html tag, current text):',
+    JSON.stringify(t),
+    '',
+    'IMAGE SLOTS (key, alt text):',
+    JSON.stringify(im),
+    '',
+    'Return exactly this JSON shape:',
+    '{"title":"<a short Title Case name for the shortcode, 1-3 words>",',
+    ' "texts":{"TEXT_1":{"label":"<2-4 word Title Case name for what this slot IS>","skip":false}, ...},',
+    ' "images":{"IMG_1":{"label":"<2-4 word Title Case name>"}, ...}}',
+    '',
+    'Rules:',
+    '- A label names the ROLE of the slot ("Section Heading", "Primary Button Label", "Card One Title"),',
+    '  never the current words. Someone editing this later must know what they are changing.',
+    '- Set "skip": true ONLY for a slot that is decoration and nobody would ever want to edit:',
+    '  a lone arrow or bullet glyph, a counter the script overwrites, a single punctuation mark.',
+    '  When in doubt, keep it (skip: false). Skipping makes the text permanently fixed.',
+    '- Keep the existing title if it is already a good name; otherwise improve it.',
+    '- Include every key you were given.',
+  ].join('\n');
+
+  let raw;
+  try { raw = await askText({ system, user, maxTokens: 2000 }); }
+  catch { return null; }                                  // AI unavailable or failed — caller falls back
+  const j = extractJson(raw);
+  if (!j || typeof j !== 'object') return null;
+
+  // Trust nothing from the model: keep only keys that were actually sent, and bound every string.
+  const clean = (s, max) => String(s == null ? '' : s).replace(/\s+/g, ' ').trim().slice(0, max);
+  const okText = new Set(t.map((x) => x.key)), okImg = new Set(im.map((x) => x.key));
+  const outT = {}, outI = {};
+  for (const [k, v] of Object.entries(j.texts || {})) {
+    if (!okText.has(k) || !v || typeof v !== 'object') continue;
+    const label = clean(v.label, 48);
+    if (label) outT[k] = { label, skip: v.skip === true };
+    else if (v.skip === true) outT[k] = { label: '', skip: true };
+  }
+  for (const [k, v] of Object.entries(j.images || {})) {
+    if (!okImg.has(k) || !v || typeof v !== 'object') continue;
+    const label = clean(v.label, 48);
+    if (label) outI[k] = { label };
+  }
+  const title = clean(j.title, 60);
+  if (!title && !Object.keys(outT).length && !Object.keys(outI).length) return null;
+  return { title, texts: outT, images: outI };
 }
 
 /** Pull the first balanced JSON object out of a model response (tolerates stray prose / fences). */

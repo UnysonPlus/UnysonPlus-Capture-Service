@@ -93,6 +93,24 @@ function activeRun() {
   return { slug: a.slug, url: a.url || '', startedAt: a.startedAt || 0, updatedAt: beat };
 }
 
+/**
+ * Is the watched folder a sane place to write captures? Returns a warning, or '' when it is fine.
+ *
+ * The case this exists for: launching through Git Bash with a POSIX-looking `CAPTURE_OUT` (`/cap-out`)
+ * makes MSYS rewrite it to `C:\Program Files\Git\cap-out`. The dashboard then cheerfully printed that
+ * path in the header as though nothing were wrong, while captures went somewhere nobody would look and
+ * the Kit Assistant saw an empty folder. A wrong path should announce itself, not be displayed.
+ */
+function outDirWarning() {
+  const p = String(OUT || '');
+  if (!p) return 'No capture folder is set.';
+  if (/[\\/](Git|msys64|mingw(32|64)|cygwin)[\\/]/i.test(p) || /Program Files[\\/]Git/i.test(p)) {
+    return 'This path is inside your Git install — a sign the folder was passed in POSIX form (e.g. /cap-out) and rewritten by Git Bash. Set CAPTURE_OUT to a Windows path like D:/Web Dev/capture-out, or launch with start.bat.';
+  }
+  if (!existsSync(p)) return 'This folder does not exist yet — captures will be written here once one runs, but check the path is the one you meant.';
+  return '';
+}
+
 // A capture-out subdir is a "site" if it has any of our artifacts.
 function listSites() {
   if (!existsSync(OUT)) return [];
@@ -222,7 +240,7 @@ const server = createServer((req, res) => {
   // as reliably: a run's own progress.json lands a moment later, and a killed run leaves 'running' behind
   // forever. The dashboard follows `active` so the panes show the conversion in flight rather than the
   // last one that finished.
-  if (path === '/api/sites') return json(res, { out: OUT, sites: listSites(), active: activeRun() });
+  if (path === '/api/sites') return json(res, { out: OUT, outWarning: outDirWarning(), sites: listSites(), active: activeRun() });
   // Run log — list the recent run-*.log files + return the tail of the active (or requested) one.
   if (path === '/api/logs') {
     const dir = resolveLogsDir();
@@ -463,9 +481,32 @@ const server = createServer((req, res) => {
       .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
     return;
   }
+  // One typed /command → one tool, run directly by the service with no model in the loop.
+  if (path === '/api/local-ai/chat-command' && req.method === 'POST') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 64 * 1024) req.destroy(); });
+    req.on('end', () => {
+      fetch(`http://localhost:${svcPort}/local-ai/chat-command`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(180000) })
+        .then(async (r) => { const j = await r.json().catch(() => ({})); json(res, j, r.status); })
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
+  if (path === '/api/local-ai/chat-job') {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    const pass = (init) => fetch(`http://localhost:${svcPort}/local-ai/chat-job${u.search}`, { ...init, signal: AbortSignal.timeout(10000) })
+      .then(async (r) => { const j = await r.json().catch(() => ({})); json(res, j, r.status); })
+      .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    if (req.method === 'GET') { pass({}); return; }
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 64 * 1024) req.destroy(); });
+    req.on('end', () => pass({ method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}' }));
+    return;
+  }
   if (path === '/api/local-ai/chat' && req.method === 'POST') {
     const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
-    let body = ''; req.on('data', (c) => { body += c; if (body.length > 1e6) req.destroy(); });
+    // An attached image makes the body much larger than a text-only turn; the page downscales first,
+    // so this is the ceiling rather than the expected size.
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 64 * 1024 * 1024) req.destroy(); });
     req.on('end', () => {
       fetch(`http://localhost:${svcPort}/local-ai/chat`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body || '{}', signal: AbortSignal.timeout(420000) })
         .then(async (r) => { const j = await r.json().catch(() => ({})); json(res, j, r.status); })

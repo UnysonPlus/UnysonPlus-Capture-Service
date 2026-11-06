@@ -232,7 +232,7 @@ test('an unknown backend is refused rather than silently ignored', () => {
 test('the switch reports availability, so it cannot offer a choice that falls back', () => {
   const st = aiBackends();
   const ids = st.backends.map((b) => b.id);
-  assert.deepEqual(ids, ['', 'claude-code', 'api', 'endpoint', 'ollama', 'off']);
+  assert.deepEqual(ids, ['', 'claude-code', 'codex', 'cursor', 'api', 'endpoint', 'ollama', 'off']);
   // Automatic and Off are always possible; the rest depend on what is installed/configured.
   assert.equal(st.backends.find((b) => b.id === '').available, true);
   assert.equal(st.backends.find((b) => b.id === 'off').available, true);

@@ -346,6 +346,26 @@ ${g.note}`)];
     },
   },
   {
+    name: 'voice_over',
+    description: 'Speaks a script with the kit\'s voice engine and saves it as one sound file (out), plus its word times beside it (<out>.words.json). Give the lines in order; each stays a line with its own start and end, to land reveals on. The kit must be running, with a voice installed in the Studio (Add-ons). Write words as they should sound.',
+    inputSchema: { type: 'object', properties: { lines: { type: 'array', items: { type: 'string' } }, voice: { type: 'string', description: 'A voice id (default: the kit\'s default voice).' }, out: { type: 'string' } }, required: ['lines', 'out'] },
+    run: async (a) => {
+      const kit = `http://127.0.0.1:${Number(process.env.PORT) || 8787}/studio/voice`;
+      const start = await fetch(kit, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ lines: a.lines, voice: a.voice }) }).then((r) => r.json()).catch(() => null);
+      if (!start?.id) throw new Error(start?.error || 'The kit is not answering: start it first.');
+      for (;;) {
+        await new Promise((ok) => setTimeout(ok, 2000));
+        const j = await fetch(`${kit}/${start.id}`).then((r) => r.json());
+        if (j.state === 'error' || j.error) throw new Error(j.error || 'The voice-over failed.');
+        if (j.state !== 'done') continue;
+        const fs = await import('node:fs');
+        fs.writeFileSync(a.out, Buffer.from(j.result.src.split(',')[1], 'base64'));
+        fs.writeFileSync(`${a.out}.words.json`, JSON.stringify({ words: j.result.words, segments: j.result.segments }));
+        return [text(`${a.out}: ${j.result.duration} s. Lines: ${(j.result.segments || []).map((s) => `${s.start}-${s.end} s "${s.text}"`).join('; ')}. Word times: ${a.out}.words.json`)];
+      }
+    },
+  },
+  {
     name: 'voice_best_take',
     description: 'Ranks several takes of one spoken line (text) by the voice check: words that came out differently, and pauses inside a phrase that sound machine-made. Use it whenever you generate or record more than one take; keep the first that passes.',
     inputSchema: { type: 'object', properties: { files: { type: 'array', items: { type: 'string' } }, text: { type: 'string' } }, required: ['files', 'text'] },

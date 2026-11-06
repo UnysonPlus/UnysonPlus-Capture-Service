@@ -117,14 +117,40 @@ const PAGE_BUILDER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2
 /**
  * Build the whole shortcode package from a pen. Returns { zip: Buffer, slug, filename, texts, images }.
  */
-export async function generatePenShortcode({ title, html, css, js, externals }) {
-  const name = String(title || 'Pen').trim() || 'Pen';
+export async function generatePenShortcode({ title, html, css, js, externals, nameSlots = null }) {
+  const cleanHtml = stripDocTags(html);
+  const extracted = await extractSlots(cleanHtml, String(css || ''));
+  const { template } = extracted;
+  let { texts, images } = extracted;
+
+  // `nameSlots` is the OPTIONAL judgement layer, injected by the caller (serve.mjs passes the AI one).
+  // It is handed the slots this render found and may return better labels, a better shortcode name, and
+  // slots marked as decoration. It only renames and hides; it never writes code, and every slot keeps its
+  // original text as the rendered fallback. Without it, behaviour is exactly as before — which is also
+  // what happens when it throws or returns nothing, so the package is always produced.
+  let named = null;
+  if (typeof nameSlots === 'function') {
+    try {
+      const r = await nameSlots({ name: String(title || '').trim(), texts, images });
+      if (r && typeof r === 'object') named = r;
+    } catch { named = null; }
+  }
+  // A skipped slot stops being an option but still renders its original text — `skipped` keeps it in the
+  // substitution table, so the markup is identical either way.
+  const skipped = [];
+  if (named) {
+    texts = texts.filter((t) => {
+      if (named.texts && named.texts[t.key] && named.texts[t.key].skip) { skipped.push(t); return false; }
+      return true;
+    });
+    texts = texts.map((t) => ({ ...t, label: (named.texts && named.texts[t.key] && named.texts[t.key].label) || '' }));
+    images = images.map((x) => ({ ...x, label: (named.images && named.images[x.key] && named.images[x.key].label) || '' }));
+  }
+
+  const name = String((named && named.title) || title || 'Pen').trim() || 'Pen';
   const slug = slugify(name);                    // folder + base class + shortcode tag, from the name as-is
   const root = slug;                             // CSS root class
   const label = name;
-
-  const cleanHtml = stripDocTags(html);
-  const { template, texts, images } = await extractSlots(cleanHtml, String(css || ''));
   const scopedCss = scopeCss(String(css || ''), root);
 
   // ---- options.php ------------------------------------------------------------------------------------
@@ -135,7 +161,7 @@ export async function generatePenShortcode({ title, html, css, js, externals }) 
     optLines.push(
       `\t\t\t\t'${id}' => array(\n` +
       `\t\t\t\t\t'type'  => '${big ? 'textarea' : 'text'}',\n` +
-      `\t\t\t\t\t'label' => __( ${php(labelFrom(t.value, 'Text ' + (i + 1)))}, 'fw' ),\n` +
+      `\t\t\t\t\t'label' => __( ${php(t.label || labelFrom(t.value, 'Text ' + (i + 1)))}, 'fw' ),\n` +
       `\t\t\t\t\t'value' => ${php(t.value)},\n` +
       `\t\t\t\t),`
     );
@@ -145,7 +171,7 @@ export async function generatePenShortcode({ title, html, css, js, externals }) 
     optLines.push(
       `\t\t\t\t'${id}' => array(\n` +
       `\t\t\t\t\t'type'        => 'upload',\n` +
-      `\t\t\t\t\t'label'       => __( 'Image ${i + 1}', 'fw' ),\n` +
+      `\t\t\t\t\t'label'       => __( ${php(im.label || ('Image ' + (i + 1)))}, 'fw' ),\n` +
       `\t\t\t\t\t'desc'        => __( 'Swap in your own image (defaults to the original).', 'fw' ),\n` +
       `\t\t\t\t\t'images_only' => true,\n` +
       `\t\t\t\t),`
@@ -234,6 +260,11 @@ $cfg['page_builder'] = array(
     const id = 'image_' + (i + 1);
     subLines.push(`\t'{{${im.key}}}' => esc_url( ( isset( $atts['${id}']['url'] ) && $atts['${id}']['url'] !== '' ) ? $atts['${id}']['url'] : ${php(im.src)} ),`);
   });
+  // Slots judged to be decoration get no option, but their token still resolves to the original text —
+  // so the rendered markup is identical whether or not the naming pass ran.
+  skipped.forEach((t) => {
+    subLines.push(`\t'{{${t.key}}}' => esc_html( ${php(t.value)} ), // fixed: decoration, not an option`);
+  });
   const subsBlock = subLines.length ? subLines.join('\n') : "\t// no dynamic slots";
 
   const viewPhp =
@@ -312,5 +343,12 @@ ${String(js)}
   if (hasJs) files.push({ name: `${slug}/static/js/scripts.js`, data: scriptsJs });
 
   const zip = makeZip(files);
-  return { zip, slug, filename: slug + '.zip', texts: texts.length, images: images.length };
+  return {
+    zip, slug, filename: slug + '.zip', name,
+    texts: texts.length, images: images.length, skipped: skipped.length,
+    // What the options ended up called — the dashboard shows this so the naming is reviewable, not a
+    // black box the person only discovers after installing the shortcode.
+    labels: texts.map((t, i) => ({ id: 'text_' + (i + 1), label: t.label || labelFrom(t.value, 'Text ' + (i + 1)), sample: String(t.value).slice(0, 60) }))
+      .concat(images.map((im, i) => ({ id: 'image_' + (i + 1), label: im.label || ('Image ' + (i + 1)), sample: im.alt || im.src.slice(0, 60) }))),
+  };
 }

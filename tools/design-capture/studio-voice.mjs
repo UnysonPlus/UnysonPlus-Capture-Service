@@ -161,6 +161,24 @@ function wavSeconds(file) {
 }
 
 /**
+ * Recognition over a whole voice-over can run half a second late, but the kit knows exactly when each line was laid down.
+ * So each line's words are fitted into that line's own window. Left as they are when the word counts differ (a misheard
+ * name split in two), because the words can then not be shared out among the lines with any certainty.
+ */
+export function fitWordsToLines(words, segments) {
+  const counts = segments.map((s) => s.text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length);
+  if (counts.reduce((a, b) => a + b, 0) !== words.length) return words;
+  const r = (x) => Math.round(x * 1000) / 1000;
+  let i = 0;
+  return segments.flatMap((seg, k) => {
+    const line = words.slice(i, i += counts[k]);
+    const a = line[0].t, b = line[line.length - 1].t + line[line.length - 1].d;
+    const scale = b > a ? (seg.end - seg.start) / (b - a) : 1;
+    return line.map((w) => ({ ...w, t: r(seg.start + (w.t - a) * scale), d: r(w.d * scale) }));
+  });
+}
+
+/**
  * Speaks a script: { lines: string[], voice?, gap? (seconds between lines) } → a job. Its result:
  * { src (an MP3 data URL), duration, segments: [{ start, end, text }], words, speech } (words from the kit's
  * speech recognition, on the voice-over's own clock).
@@ -235,7 +253,7 @@ export function startVoice(body = {}) {
         const info = transcribeJob(tj.id);
         if (!info) throw new Error('The word timing was lost.');
         if (info.state === 'error') throw new Error(info.error);
-        if (info.state === 'done') { words = info.result.words; speech = info.result.speech; break; }
+        if (info.state === 'done') { words = fitWordsToLines(info.result.words, segments); speech = info.result.speech; break; }
       }
       job.result = { src, duration: Math.round(t * 1000) / 1000, segments, words, speech, voice: id };
       job.state = 'done';

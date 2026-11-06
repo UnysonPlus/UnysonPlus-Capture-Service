@@ -17,10 +17,13 @@
 //   GET  /capture?url=<url>   → convert-bundle.zip (application/zip)
 //   GET  /capture-screenshot?url=<url>  → screenshot.png (image/png) for the newest matching capture
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
+import { randomBytes } from 'node:crypto';
 import { discoverPages } from './discover.mjs';
 import { verifySite } from './verify-site.mjs';
 import { runSiteFixAgent, AGENT_SITES, chatWithTools, kitDocsDir } from './to-ai.mjs';
 import { captureSummaryForChat } from './chat-tools.mjs';
+import { agentAvailable, agentJob, cancelAgent, restoreSnapshot, startAgent } from './studio-agent.mjs';
+import { createProject, listProjects, projectDir, projectLink } from './studio-workspace.mjs';
 import { ALL_CHAT_TOOL_DEFS, runChatToolGated, decideProposal, takeHandoff } from './chat-actions.mjs';
 import { isLocalSite } from './local-site.mjs';
 import { createServer } from 'node:http';
@@ -46,6 +49,7 @@ const AGENT_JOBS = new Map();
 import { refineVisual } from './refine-visual.mjs';
 import { refineChrome } from './refine-chrome.mjs';
 import { generatePenShortcode } from './pen-shortcode.mjs';
+import { namePenOptions } from './to-ai.mjs';
 import { makeZip } from './minimal-zip.mjs';
 
 // Run log — the Dev Kit launcher sets UPWK_LOG to one file per launch (kept: 5 newest). Mirror every
@@ -87,6 +91,98 @@ function writeChatHistory(messages) {
   try { mkdirSync(CAPTURE_OUT, { recursive: true }); writeFileSync(CHAT_HISTORY_FILE, JSON.stringify({ version: 1, messages: arr }, null, 2)); } catch { /* best-effort */ }
   return arr;
 }
+/* ---- Attachments the person adds to a chat message ---- */
+// An image is sent as base64 in the request, but base64 is NOT what gets stored: the bytes are written
+// once to `<capture-out>/_chat/`, and the history keeps only a small `{ name, file, mime }` ref. Keeping
+// the data inline would blow the 200-message history up to hundreds of megabytes, and the dashboard
+// already serves that folder (`/artifact/_chat/<file>`), which is how a tool screenshot is shown too.
+const CHAT_IMAGE_MIME = { 'image/png': '.png', 'image/jpeg': '.jpg', 'image/gif': '.gif', 'image/webp': '.webp' };
+const CHAT_IMAGE_MAX = 8 * 1024 * 1024;   // per image, decoded
+const CHAT_IMAGES_PER_MSG = 4;
+
+/**
+ * Decode + store the images on one outgoing message. Returns { images, refs }: `images` carry the
+ * base64 for the model (plus the on-disk `path`, which Claude Code opens itself), `refs` are what the
+ * history keeps. An image that is malformed, too big or of an unsupported type is dropped with a note
+ * rather than failing the whole message.
+ */
+function storeChatImages(list) {
+  const images = [], refs = [], skipped = [];
+  for (const im of (Array.isArray(list) ? list : []).slice(0, CHAT_IMAGES_PER_MSG)) {
+    if (!im || typeof im !== 'object') continue;
+    const name = String(im.name || 'image').replace(/[^\w.-]+/g, '_').slice(0, 60) || 'image';
+    const mime = String(im.mime || '').toLowerCase();
+    const ext = CHAT_IMAGE_MIME[mime];
+    if (!ext) { skipped.push(`${name} (${mime || 'unknown type'} is not a supported image)`); continue; }
+    // Accept a data: URL as well as bare base64 — a paste gives the browser one of each.
+    const b64 = String(im.b64 || im.data || '').replace(/^data:[^;,]*;base64,/, '').replace(/\s+/g, '');
+    let buf;
+    try { buf = Buffer.from(b64, 'base64'); } catch { buf = null; }
+    if (!buf || !buf.length) { skipped.push(`${name} (could not be read)`); continue; }
+    if (buf.length > CHAT_IMAGE_MAX) { skipped.push(`${name} (over ${Math.round(CHAT_IMAGE_MAX / 1048576)} MB)`); continue; }
+    const file = `upload-${Date.now().toString(36)}-${randomBytes(4).toString('hex')}${ext}`;
+    const dir = join(CAPTURE_OUT, '_chat');
+    let path = '';
+    try { mkdirSync(dir, { recursive: true }); path = join(dir, file); writeFileSync(path, buf); }
+    catch { path = ''; }   // the model still gets the bytes; only the saved copy is lost
+    images.push({ mime, b64: buf.toString('base64'), name, path });
+    refs.push({ name, mime, file, bytes: buf.length });
+  }
+  return { images, refs, skipped };
+}
+
+/* ---- Typed `/commands` in the chat ---- */
+// Each one runs a single tool directly (see /local-ai/chat-command). `say` is the line shown above the
+// tool's own result panel in the chat, so it states what was done, not what the result was — the panel
+// already shows that. `/clear` and `/help` are handled in the dashboard and are not here.
+const CHAT_COMMANDS = {
+  look: {
+    tool: 'look_at_url', needs: 'a URL', example: '/look https://example.com',
+    args: (a) => ({ url: /^https?:\/\//i.test(a) ? a : 'https://' + a }),
+    say: (a) => `Opened ${a} in the kit's browser.`,
+  },
+  report: {
+    tool: 'conversion_report', needs: '', example: '/report latest',
+    args: (a) => ({ site: a || 'latest' }),
+    say: (a) => `Conversion report for ${a || 'the latest capture'}.`,
+  },
+  docs: {
+    tool: 'search_docs', needs: 'something to search for', example: '/docs accordion options',
+    args: (a) => ({ query: a }),
+    say: (a) => `Searched the kit docs for "${a}".`,
+  },
+  doc: {
+    tool: 'read_doc', needs: 'a doc path', example: '/doc shortcodes/accordion.md',
+    args: (a) => ({ path: a }),
+    say: (a) => `Read ${a}.`,
+  },
+  status: {
+    tool: 'capture_status', needs: '', example: '/status latest',
+    args: (a) => ({ site: a || 'latest' }),
+    say: (a) => `Capture status for ${a || 'the latest capture'}.`,
+  },
+  capture: {
+    tool: 'start_capture', needs: 'a URL', example: '/capture https://example.com',
+    args: (a) => ({ url: /^https?:\/\//i.test(a) ? a : 'https://' + a }),
+    say: (a) => `Capturing ${a} needs your Confirm — nothing has started yet.`,
+  },
+  studio: {
+    tool: 'hand_to_studio', needs: 'a description of the scene', example: '/studio a slow logo reveal, 6 seconds',
+    args: (a) => ({ request: a }),
+    say: () => 'Handing this to Kinetic Scenes needs your Confirm — nothing has been sent yet.',
+  },
+  projects: {
+    tool: 'list_projects', needs: '', example: '/projects',
+    args: () => ({}),
+    say: () => 'Your Kinetic Scenes projects.',
+  },
+  work: {
+    tool: 'work_on_project', needs: 'a project and a request', example: '/work My reel: make the hook punchier',
+    args: (a) => { const i = a.indexOf(':'); return i < 0 ? { project: a, request: '' } : { project: a.slice(0, i).trim(), request: a.slice(i + 1).trim() }; },
+    say: (a, r) => (r && r.error ? `Not started: ${r.error}` : `Working on ${a.split(':')[0].trim()} needs your Confirm — nothing has started yet.`),
+  },
+};
+
 /* ---- The Kit Assistant's environment (chat tools + Phase 3 actions) ---- */
 const KINETIC_SCENES_URL = process.env.KINETIC_SCENES_URL || 'https://kinetic-scenes.unysonplus.com/';
 const DASH_PORT = Number(process.env.DASHBOARD_PORT || 4600);
@@ -106,8 +202,31 @@ function startChatCapture(url, o = {}) {
   child.on('error', () => markActive(url, 'error'));
   child.on('exit', (code) => markActive(url, code === 0 ? 'done' : 'error'));
 }
+/** The Kinetic Scenes agent, for the chat. A finished run is written into the chat's history here, so it survives a closed tab. */
+const chatAgent = {
+  available: () => agentAvailable(),
+  exists: (name) => { try { projectDir(name); return true; } catch { return false; } },
+  list: async () => { const r = await listProjects(); return { projects: r.projects.map((p) => ({ name: p.id, title: p.title, seconds: p.duration, updated: new Date(p.updated).toISOString() })) }; },
+  start(a) {
+    const project = a.new_project ? createProject(a.project).id : a.project;
+    const { id, snapshot } = startAgent({ project, prompt: a.request, create: !!a.new_project, url: a.website, voice: a.voice, music: a.music });
+    const timer = setInterval(() => {
+      const j = agentJob(id);
+      if (j && j.state === 'running') return;
+      clearInterval(timer);
+      const hist = readChatHistory();
+      const m = hist.find((x) => x.agentJob && x.agentJob.id === id);
+      if (!m || !j) return;
+      m.agentJob = { ...m.agentJob, state: j.state, seconds: j.seconds, steps: j.steps.length };
+      m.content = j.state === 'done' ? (j.summary || 'Done.') : j.state === 'cancelled' ? 'Stopped. What was already saved stays.' : ('Not finished: ' + j.error);
+      writeChatHistory(hist);
+    }, 1500);
+    return { id, project, snapshot, fresh: !!a.new_project, link: projectLink(project) };
+  },
+};
+
 function chatEnv() {
-  return { captureOut: CAPTURE_OUT, docsDir: kitDocsDir(), siteSlug, startCapture: startChatCapture, studioUrl: KINETIC_SCENES_URL };
+  return { captureOut: CAPTURE_OUT, docsDir: kitDocsDir(), siteSlug, startCapture: startChatCapture, studioUrl: KINETIC_SCENES_URL, agent: chatAgent };
 }
 
 function markActive(url, status) {
@@ -971,7 +1090,7 @@ const __handler = (req, res) => {
     if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
     if (u.pathname === '/studio/status') {
       Promise.all([import('./studio-workspace.mjs').then((w) => w.lastAgent()).catch(() => null), import('./studio-agent.mjs').then((g) => g.agentAvailable()).catch(() => false)])
-        .then(([agent, steps]) => { const st = studioAiStatus(); json(res, 200, { ok: true, version: VERSION, ...st, features: steps ? [...st.features, 'agent'] : st.features, agent }); });
+        .then(([agent, steps]) => { const st = studioAiStatus(); json(res, 200, { ok: true, version: VERSION, ...st, features: steps ? [...st.features, 'agent', 'agent-create'] : st.features, agent }); });
       return;
     }
     if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
@@ -1247,7 +1366,7 @@ const __handler = (req, res) => {
   // endpoints are called from WordPress), so without this a web page open in the same browser could drive
   // the chat's tools, or read a pending proposal's id from a reply and confirm it. The dashboard's server
   // calls these from Node (no Origin header); a browser always sends one on a cross-site POST.
-  if (/^\/local-ai\/chat(-history|-clear|-confirm)?$/.test(u.pathname) && !chatOriginOk(req)) {
+  if (/^\/local-ai\/chat(-history|-clear|-confirm|-command|-job)?$/.test(u.pathname) && !chatOriginOk(req)) {
     json(res, 403, { error: 'The Kit Assistant answers the AI Dev Kit dashboard only.' });
     return;
   }
@@ -1264,12 +1383,31 @@ const __handler = (req, res) => {
           }
         }
         const text = out.ok ? (out.message + (out.link ? ' ' + out.link : '')) : ('Not done: ' + out.error);
-        hist.push({ role: 'assistant', content: text, action: true, at: Date.now() });
+        hist.push({ role: 'assistant', content: text, action: true, at: Date.now(), ...(out.job ? { agentJob: { ...out.job, state: 'running' } } : {}) });
         writeChatHistory(hist);
         console.log('[local-ai/chat-confirm]', out.cancelled ? 'cancelled' : (out.ok ? 'ran' : 'failed: ' + out.error));
         json(res, out.ok ? 200 : 409, { ...out, text });
       })
       .catch((e) => json(res, 500, { error: e.message }));
+    return;
+  }
+  // The agent run a Confirm started: GET ?id= → its steps; POST { id, action: 'stop' } | { project, snapshot, action: 'restore' }.
+  if (u.pathname === '/local-ai/chat-job') {
+    if (req.method === 'GET') {
+      const j = agentJob(u.searchParams.get('id'));
+      json(res, j ? 200 : 404, j || { error: 'The kit restarted, so this run stopped.' });
+      return;
+    }
+    readJson(req).then((b) => {
+      if (b.action === 'stop') return json(res, 200, { ok: cancelAgent(b.id) });
+      if (b.action !== 'restore') return json(res, 400, { error: 'stop or restore.' });
+      const r = restoreSnapshot(b.project, b.snapshot);
+      const hist = readChatHistory();
+      for (const m of hist) if (m.agentJob && m.agentJob.snapshot === b.snapshot) m.agentJob.restored = true;
+      hist.push({ role: 'assistant', content: `Put ${b.project} back as it was before that run.`, action: true, at: Date.now() });
+      writeChatHistory(hist);
+      return json(res, 200, { ok: true, ...r });
+    }).catch((e) => json(res, typeof e.code === 'number' ? e.code : 500, { error: e.message }));
     return;
   }
   // GET /studio/handoff?id=… — Kinetic Scenes collects a scene request the chat handed over (once).
@@ -1289,6 +1427,35 @@ const __handler = (req, res) => {
   if (u.pathname === '/local-ai/chat-clear' && req.method === 'POST') {
     writeChatHistory([]);
     json(res, 200, { ok: true, messages: [] });
+    return;
+  }
+  // POST /local-ai/chat-command — run ONE tool straight from a typed `/command`, with no model in the
+  // loop. Body: { command, arg }. The point is not typing speed: a command is deterministic and needs
+  // no AI at all, so `/report` is instant and exact where asking an 8B local model to choose
+  // `conversion_report` is neither. It goes through the SAME gate as a model's call, so a command that
+  // changes something still returns a proposal and still waits for Confirm.
+  if (u.pathname === '/local-ai/chat-command' && req.method === 'POST') {
+    readJson(req, 64 * 1024)
+      .then(async (b) => {
+        const cmd = String((b && b.command) || '').trim().toLowerCase().replace(/^\//, '');
+        const arg = String((b && b.arg) || '').trim();
+        const spec = CHAT_COMMANDS[cmd];
+        if (!spec) { const e = new Error('Unknown command /' + cmd + '. Type /help to see them.'); e.code = 400; throw e; }
+        if (spec.needs && !arg) { const e = new Error(`/${cmd} needs ${spec.needs} — e.g. ${spec.example}`); e.code = 400; throw e; }
+        const args = spec.args(arg);
+        const out = await runChatToolGated(chatEnv(), spec.tool, args);
+        const hist = readChatHistory();
+        hist.push({ role: 'user', content: '/' + cmd + (arg ? ' ' + arg : ''), command: true, at: Date.now() });
+        hist.push({
+          role: 'assistant', content: spec.say(arg, out.result), command: true, at: Date.now(),
+          toolCalls: [{ name: spec.tool, args, ok: out.ok, result: out.result }],
+        });
+        writeChatHistory(hist);
+        console.log('[local-ai/chat-command] /' + cmd, out.ok ? 'ok' : 'failed');
+        return { ok: out.ok, messages: readChatHistory() };
+      })
+      .then((o) => json(res, 200, o))
+      .catch((e) => { console.error('[local-ai/chat-command]', e.message); json(res, e.code === 400 ? 400 : 500, { error: e.message }); });
     return;
   }
   // POST /local-ai/chat — multi-turn chat on the active AI backend. Body: { messages:[{role,content}] }.
@@ -1438,18 +1605,40 @@ const __handler = (req, res) => {
   if (u.pathname === '/local-ai/chat' && req.method === 'POST') {
     if (!aiReady()) { json(res, 503, { error: 'AI is off — pick a local model in Settings, or enable Claude (Claude Code / an API key).' }); return; }
     const _aiStart = Date.now();
-    readJson(req)
+    // Images make a chat body far larger than a text one, so this route reads a bigger body than the
+    // 8 MB default. The dashboard downscales before sending; this is the backstop, not the budget.
+    readJson(req, 48 * 1024 * 1024)
       .then((body) => {
-        const msgs = (Array.isArray(body.messages) ? body.messages : [])
-          .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && String(m.content || '').trim())
-          .map((m) => ({ role: m.role, content: String(m.content) }));
+        // `sendMsgs` carry the base64 for the model; `msgs` (what the history keeps) carry only refs.
+        const sendMsgs = [], msgs = [];
+        let dropped = [];
+        for (const m of (Array.isArray(body.messages) ? body.messages : [])) {
+          if (!m || (m.role !== 'user' && m.role !== 'assistant')) continue;
+          const text = String(m.content == null ? '' : m.content);
+          // An image already in the history arrives as a ref (no base64) — reload it from disk so an
+          // earlier picture is still there on the next turn, instead of vanishing mid-conversation.
+          const incoming = Array.isArray(m.images) ? m.images : [];
+          const fresh = incoming.filter((im) => im && (im.b64 || im.data));
+          const stored = incoming.filter((im) => im && !im.b64 && !im.data && im.file);
+          const { images, refs, skipped } = storeChatImages(fresh);
+          dropped = dropped.concat(skipped);
+          for (const im of stored) {
+            const p = join(CAPTURE_OUT, '_chat', String(im.file).replace(/[\\/]/g, ''));
+            try { images.push({ mime: im.mime || 'image/png', b64: readFileSync(p).toString('base64'), name: im.name || 'image', path: p }); refs.push(im); }
+            catch { /* the file is gone — the turn keeps its words */ }
+          }
+          if (!text.trim() && !images.length) continue;
+          sendMsgs.push(images.length ? { role: m.role, content: text, images } : { role: m.role, content: text });
+          msgs.push(refs.length ? { role: m.role, content: text, images: refs } : { role: m.role, content: text });
+        }
+        if (dropped.length) { const e = new Error('Could not attach ' + dropped.join('; ') + '.'); e.code = 400; throw e; }
         markAi({ status: 'thinking', backend: aiBackend(), note: 'chatting…', startedAt: _aiStart });
         // The Kit Assistant: the read-only tools (tool_look_at_url, tool_conversion_report,
         // tool_search_docs + read_doc) and a summary of the captures as context.
         const env = chatEnv();
         const chatCaptureContext = captureSummaryForChat(CAPTURE_OUT);
         return chatWithTools({
-          messages: msgs,
+          messages: sendMsgs,
           tools: ALL_CHAT_TOOL_DEFS,
           context: chatCaptureContext,
           runTool: (name, args) => {
@@ -1531,20 +1720,33 @@ const __handler = (req, res) => {
     if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
     readBuffer(req, 8 * 1024 * 1024).then(async (buf) => {
       let b; try { b = JSON.parse(buf.toString('utf8') || '{}'); } catch { json(res, 400, { error: 'Bad request body.' }); return; }
-      const title = String(b.title || 'Pen').trim() || 'Pen';
+      const title = String(b.title || 'Snippet').trim() || 'Snippet';
       const html = stripPenHtml(b.html), css = String(b.css || ''), js = String(b.js || '');
       const externals = Array.isArray(b.externals) ? b.externals.map((x) => String(x).trim()).filter(Boolean) : [];
       if (html.trim() === '') { json(res, 400, { error: 'Paste the pen HTML first.' }); return; }
       markActive('pen: ' + title, 'running');
       try {
-        const out = await generatePenShortcode({ title, html, css, js, externals });
+        // AI assist NAMES the options; the compiler still finds them and still writes every line of
+        // code. It is injected as a callback so pen-shortcode.mjs has no idea AI exists, and so a
+        // failure there costs the labels, never the package.
+        let aiNamed = false;
+        const useAi = !!b.ai_assist && aiReady();
+        const nameSlots = useAi
+          ? async (slots) => { const r = await namePenOptions(slots); aiNamed = !!r; return r; }
+          : null;
+        const out = await generatePenShortcode({ title, html, css, js, externals, nameSlots });
         markActive('pen: ' + title, 'done');
         json(res, 200, {
           ok: true,
           filename: out.filename,
           slug: out.slug,
+          name: out.name,
           texts: out.texts,
           images: out.images,
+          skipped: out.skipped,
+          labels: out.labels,
+          ai_named: aiNamed,
+          ai_requested: useAi,
           zip_base64: out.zip.toString('base64'),
         });
       } catch (e) { markActive('pen', 'error'); json(res, 500, { error: e.message }); }

@@ -5,11 +5,17 @@
 //   node studio-cli.mjs shot shots.json [--out folder]
 //
 // shots.json: { site, login?, viewport?, scale?, hide?, shots: [{ name, path?, steps?, element?, full?, pad?,
-//   highlight?, arrow?: { to, from? }, blur?: [targets], callout?: { target, text, side? } }] }
+//   highlight?, arrow?: { to, from? }, blur?: [targets], callout?: { target, text, side? }, rows? }] }
 // Targets are the same as the recorder's (a selector string, { text }, { role, name }, { label }).
+//
+// rows (a selector matching every row, e.g. ".fw-backend-option"): beside the picture, <name>.rows.json measures
+// where each matching element sits in it, { width, height, empty, rows: [{ x, y, w, h, label, file }] } in % of the
+// picture, for Kinetic Scenes' Animate this screenshot (each row becomes its own layer and animates). Each row is also
+// saved as its own picture (<name>.row-N.png), and the screen with the rows hidden as <name>.empty.png, so a scene can
+// build the rows onto the real empty screen.
 
 import { chromium } from 'playwright-core';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const HIDE = '.notice,.update-nag,#wpfooter,#screen-meta-links,.primary-menu-notice{display:none!important}';
@@ -81,6 +87,7 @@ export async function shots(spec, outDir, onStep = () => {}) {
       }, { marks: marks.map((m) => ({ ...m, r: { x: m.r.x, y: m.r.y, width: m.r.width, height: m.r.height } })), accent });
 
       const file = join(out, `${s.name}.png`);
+      let rows = null;
       if (s.element) {
         // The element plus padding, widened to take in every annotation.
         const r = await rect(s.element);
@@ -91,11 +98,55 @@ export async function shots(spec, outDir, onStep = () => {}) {
         const clip = { x: Math.max(0, x0 - pad), y: Math.max(0, y0 - pad) };
         clip.width = Math.min(vw, x1 + pad) - clip.x; clip.height = Math.min(vh, y1 + pad) - clip.y;
         await p.screenshot({ path: file, clip });
-      } else await p.screenshot({ path: file, fullPage: !!s.full });
-      made.push({ name: s.name, file });
+        if (s.rows) rows = await measureRows(p, s.rows, file, clip, scale);
+      } else {
+        await p.screenshot({ path: file, fullPage: !!s.full });
+        if (s.rows) {
+          const size = await p.evaluate(() => ({ w: document.documentElement.scrollWidth, h: document.documentElement.scrollHeight, sx: scrollX, sy: scrollY }));
+          // A whole-page picture starts at the top of the page; a screen-sized one at what is on screen.
+          const clip = s.full ? { x: -size.sx, y: -size.sy, width: size.w, height: size.h } : { x: 0, y: 0, width: vw, height: vh };
+          rows = await measureRows(p, s.rows, file, clip, scale);
+        }
+      }
+      made.push({ name: s.name, file, ...(rows ? { rows } : {}) });
     }
     return made;
   } finally {
     await browser.close().catch(() => {});
   }
+}
+
+/** Where every element matching `selector` sits in the picture (clip, in page pixels): written beside it as <name>.rows.json. */
+async function measureRows(p, selector, file, clip, scale) {
+  // A row that holds other rows (a group of options) is left out: its rows are measured instead.
+  const boxes = await p.locator(selector).evaluateAll((els) => els.filter((e) => !els.some((o) => o !== e && e.contains(o))).map((e) => {
+    const b = e.getBoundingClientRect();
+    const label = (e.querySelector('label, .fw-backend-option-label, h2, h3, th') || e).textContent.replace(/\s+/g, ' ').trim().slice(0, 60);
+    return { x: b.left, y: b.top, w: b.width, h: b.height, label, shown: b.width > 0 && b.height > 0 && getComputedStyle(e).visibility !== 'hidden' };
+  }));
+  const pc = (v, of) => Math.round((v / of) * 10000) / 100;
+  const rows = [];
+  for (const b of boxes) {
+    if (!b.shown) continue;
+    // Only the part inside the picture.
+    const x0 = Math.max(b.x, clip.x), y0 = Math.max(b.y, clip.y), x1 = Math.min(b.x + b.w, clip.x + clip.width), y1 = Math.min(b.y + b.h, clip.y + clip.height);
+    // A row mostly outside the picture is left out (a sliver at the edge would only be a stray strip).
+    if (x1 - x0 < 4 || y1 - y0 < 4 || (x1 - x0) * (y1 - y0) < 0.5 * b.w * b.h) continue;
+    rows.push({ x: pc(x0 - clip.x, clip.width), y: pc(y0 - clip.y, clip.height), w: pc(x1 - x0, clip.width), h: pc(y1 - y0, clip.height), ...(b.label ? { label: b.label } : {}) });
+  }
+  // Each row as its own picture, and the screen with the rows hidden (the empty screen they build onto).
+  const pageClip = { x: clip.x + (await p.evaluate(() => scrollX)), y: clip.y + (await p.evaluate(() => scrollY)), width: clip.width, height: clip.height };
+  const base = file.replace(/\.png$/, '');
+  for (const [i, r] of rows.entries()) {
+    const c = { x: pageClip.x + (r.x / 100) * clip.width, y: pageClip.y + (r.y / 100) * clip.height, width: (r.w / 100) * clip.width, height: (r.h / 100) * clip.height };
+    r.file = `${base}.row-${i + 1}.png`;
+    await p.screenshot({ path: r.file, clip: c, fullPage: true });
+  }
+  await p.locator(selector).evaluateAll((els) => els.forEach((e) => { e.dataset.upwWas = e.style.visibility; e.style.visibility = 'hidden'; }));
+  const empty = `${base}.empty.png`;
+  await p.screenshot({ path: empty, clip: pageClip, fullPage: true });
+  await p.locator(selector).evaluateAll((els) => els.forEach((e) => { e.style.visibility = e.dataset.upwWas || ''; delete e.dataset.upwWas; }));
+  const out = `${base}.rows.json`;
+  writeFileSync(out, JSON.stringify({ width: Math.round(clip.width * scale), height: Math.round(clip.height * scale), empty, rows }, null, 2));
+  return out;
 }

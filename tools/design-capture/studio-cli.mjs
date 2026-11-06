@@ -89,6 +89,7 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
   beats <music file>        Tempo, beats, their strength and the strongest moments
   transcribe <voice file>   Every word with its time (needs the kit's speech recognition)
   voice-check <voice file>  A voice line against its script (--text): changed words, and pauses mid-phrase that sound machine-made
+  voice-review <lines.json> Every line of a script ({ lines, voice }), spoken and voice-checked on its own (the kit must be running)
   separate <sound or video> The voice and the music as two WAV files in --out (--stems: drums, bass, other, vocals too)
   sounds-in <sound or video> The sounds heard and when (speech, music, rain, a door slam…; --labels "a,b" for your own)
   clap-install              Install sound identification (about 560 MB, once)
@@ -406,6 +407,17 @@ ${g.note}`, g);
       if (!json && process.stderr.isTTY) process.stderr.write('\n');
       print(`${r.words.map((w) => `${w.t.toFixed(2)}  ${w.w}`).join('\n')}\n\n${r.speech?.wpm ?? '?'} words a minute${r.speech?.delivery?.length ? `, ${r.speech.delivery.join(', ')}` : ''}`, r);
       return 0;
+    }
+    case 'voice-review': {
+      // Every line of a script, spoken and checked on its own: a whole voice-over heard at once hides what one line alone shows.
+      const { readFileSync } = await import('node:fs');
+      const { voiceReview } = await import('./studio-tools.mjs');
+      const spec = JSON.parse(readFileSync(file, 'utf8'));
+      const r = await voiceReview(spec, { kit: typeof a.kit === 'string' ? a.kit : undefined, onStep: progress });
+      if (!json && process.stderr.isTTY) process.stderr.write('\n');
+      const rows = r.lines.map((l, i) => [`${i + 1}. ${l.ok ? 'OK' : 'PROBLEMS'}  ${l.text}`, ...(l.ok ? [] : [`     heard: ${l.heard}`]), ...l.problems.map((p) => `     - ${p.text}`)].join('\n'));
+      print(`${rows.join('\n')}\n\n${r.ok ? 'Every line passes.' : `${r.lines.filter((l) => !l.ok).length} of ${r.lines.length} lines need another look.`}`, r);
+      return r.ok ? 0 : 1;
     }
     case 'voice-check': {
       if (typeof a.text !== 'string') throw new Error('Give the script line: --text "…"');

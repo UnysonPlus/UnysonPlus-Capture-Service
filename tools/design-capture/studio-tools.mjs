@@ -7,6 +7,7 @@
 import { spawn } from 'node:child_process';
 import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { deflateRawSync } from 'node:zlib';
+import { tmpdir } from 'node:os';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { keyMoments, renderStills } from './studio-director.mjs';
 import { jobCover, jobFile, jobInfo, renderStatus, startRender } from './studio-render.mjs';
@@ -48,7 +49,14 @@ async function withLocalMedia(scene, fn) {
   const local = (src) => typeof src === 'string' && src && !/^(https?:|data:|blob:|sfx:|brand:)/i.test(src);
   const map = (src) => { const file = resolve(base, src); if (!existsSync(file)) return src; const key = `/m${files.size}/${basename(file)}`; files.set(key, file); return key; };
   const copy = JSON.parse(JSON.stringify(scene));
-  const walk = (list) => (list || []).forEach((l) => { if (local(l.src)) l.src = map(l.src); if (l.model && local(l.model.src)) l.model.src = map(l.model.src); if (l.layers) walk(l.layers); if (l.item) walk([l.item]); });
+  const walk = (list) => (list || []).forEach((l) => {
+    if (local(l.src)) l.src = map(l.src);
+    if (l.model && local(l.model.src)) l.model.src = map(l.model.src);
+    // A picture a clip brings in (Before and after's second screen) is a file too.
+    for (const k of l.clips || []) if (k.params && local(k.params.src)) k.params.src = map(k.params.src);
+    if (l.layers) walk(l.layers);
+    if (l.item) walk([l.item]);
+  });
   walk(copy.layers);
   (copy.audio || []).forEach((a) => { if (local(a.src)) a.src = map(a.src); });
   if (!files.size) return fn(scene);
@@ -73,7 +81,13 @@ async function withLocalMedia(scene, fn) {
   });
   await new Promise((ok) => server.listen(0, '127.0.0.1', ok));
   const origin = `http://127.0.0.1:${server.address().port}`;
-  const fix = (list) => (list || []).forEach((l) => { if (typeof l.src === 'string' && files.has(l.src)) l.src = origin + l.src; if (l.model && files.has(l.model.src)) l.model.src = origin + l.model.src; if (l.layers) fix(l.layers); if (l.item) fix([l.item]); });
+  const fix = (list) => (list || []).forEach((l) => {
+    if (typeof l.src === 'string' && files.has(l.src)) l.src = origin + l.src;
+    if (l.model && files.has(l.model.src)) l.model.src = origin + l.model.src;
+    for (const k of l.clips || []) if (k.params && files.has(k.params.src)) k.params.src = origin + k.params.src;
+    if (l.layers) fix(l.layers);
+    if (l.item) fix([l.item]);
+  });
   fix(copy.layers);
   (copy.audio || []).forEach((a) => { if (files.has(a.src)) a.src = origin + a.src; });
   try { return await fn(copy); } finally { server.close(); }
@@ -90,12 +104,30 @@ async function checkLocal(scene, opts) {
     const r = await renderStills({ scene, playerBase: await playerBase(opts.player), times: 'settled' });
     rmSync(r.dir, { recursive: true, force: true });
     const errors = r.issues.filter((i) => i.startsWith('error'));
-    return { ok: !errors.length, errors: [], issues: [...r.issues, ...(r.layout || []).map((l) => `layout ${l}`)] };
+    return { ok: !errors.length, errors: [], issues: [...r.issues, ...(r.layout || []).map((l) => `layout ${l}`), ...spokenCaptionIssues(scene)] };
   } catch (e) {
     const msg = String(e && e.message || e);
     const list = msg.split('\n').filter((l) => l.startsWith('- ')).map((l) => l.slice(2));
     return { ok: false, errors: list.length ? list : [msg], issues: [] };
   }
+}
+
+/** Text timed to the voice (the Spoken rhythm) must stay up until its last word has been seen: a late word never appears. */
+function spokenCaptionIssues(scene) {
+  const norm = (w) => String(w).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+  const said = (scene.audio || []).filter((a) => a.role === 'voice' && a.words?.length).flatMap((a) => a.words.map((w) => ({ n: norm(w.w), t: (a.start ?? 0) + w.t - (a.offset ?? 0) })));
+  const out = [];
+  for (const l of scene.layers || []) {
+    if (l.type !== 'text') continue;
+    const clip = (l.clips || []).find((c) => c.params?.rhythm === 'spoken' && c.params?.direction !== 'out');
+    if (!clip) continue;
+    const last = norm(String(l.text).replace(/\*/g, '').trim().split(/\s+/).pop());
+    const word = said.filter((w) => w.n === last && w.t >= clip.start && w.t <= clip.start + clip.duration + 3).pop();
+    if (!word) continue;
+    const gone = Math.min(l.end ?? Infinity, ...(l.clips || []).filter((c) => c.params?.direction === 'out' && c.start > clip.start).map((c) => c.start));
+    if (gone < word.t + 0.3) out.push(`warn: "${short(l.text, 28)}": its last word, "${last}", is said at ${word.t.toFixed(2)} s but the text leaves at ${gone.toFixed(2)} s, so it is barely seen or never appears. Keep the text up about 0.3 s past it.`);
+  }
+  return out;
 }
 
 const short = (s, n = 48) => { const t = String(s || '').replace(/\s+/g, ' ').trim(); return t.length > n ? `${t.slice(0, n - 1)}…` : t; };
@@ -364,6 +396,89 @@ export async function voiceCheck(file, script, { maxGap = 0.4, language } = {}) 
     const q = quiet.find((x) => x.start >= a.t0 && x.start < b.t0 + 0.05);
     if (q) problems.push({ kind: 'pause', t: q.start, text: `${(q.end - q.start).toFixed(2)} s pause between "${a.said}" and "${b.said}" (no punctuation there): sounds machine-made` });
   }
+  // A line written as a question should sound like one.
+  let intonation = null;
+  if (/\?["')\]]*\s*$/.test(String(script)) && words.length) {
+    const lastWord = words[words.length - 1];
+    intonation = await endPitch(file, lastWord.t + lastWord.d);
+    // The pitch decides. The recogniser adds "?" to anything worded like a question, however flatly it was said, so its
+    // punctuation only counts when the pitch could not be read, or for a "What…" question, which falls when said well.
+    const heardQuestion = /\?["')\]]*$/.test(lastWord.w);
+    const falls = /^\W*((so|and|but|then)\s+)?(what|why|how|when|where|who|which)/i.test(String(script).split(/[.!?]\s+/).pop());
+    if (intonation.change === null || falls ? !heardQuestion : !intonation.rises) problems.push({ kind: 'question', t: lastWord.t, text: `written as a question but sounds like a statement (the pitch ${intonation.change === null ? 'could not be read' : `moves ${intonation.change > 0 ? '+' : ''}${intonation.change}% at the end`}, and the transcript ends "${lastWord.w}")` });
+  }
   const inner = quiet.filter((q) => at.length && q.start > at[0].t0 && q.end < at[at.length - 1].t1);
-  return { ok: !problems.length, problems: problems.sort((x, y) => x.t - y.t), heard: words.map((w) => w.w).join(' '), longestGap: inner.length ? Math.max(...inner.map((q) => q.end - q.start)) : 0 };
+  return { ok: !problems.length, problems: problems.sort((x, y) => x.t - y.t), heard: words.map((w) => w.w).join(' '), longestGap: inner.length ? Math.max(...inner.map((q) => q.end - q.start)) : 0, intonation };
+}
+
+/**
+ * Reviews a whole script: { lines: [...], voice } is spoken through the running kit (lines already spoken come from its
+ * cache, so this is the same audio the voice-over uses) and each line goes through voiceCheck on its own. Heard alone, a
+ * line shows what a whole voice-over hides: the recogniser leans on the words around a slip and corrects it.
+ */
+export async function voiceReview(spec, { kit = 'http://127.0.0.1:8787', onStep = () => {} } = {}) {
+  const lines = (spec.lines || []).map((l) => String(l).trim()).filter(Boolean);
+  if (!lines.length) throw fail('Give the script: { "lines": [...], "voice": "..." }.');
+  const dir = join(tmpdir(), `upw-review-${Date.now()}`);
+  mkdirSync(dir, { recursive: true });
+  const out = [];
+  try {
+    for (const [i, text] of lines.entries()) {
+      onStep(`Line ${i + 1} of ${lines.length}`);
+      const start = await fetch(`${kit}/studio/voice`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lines: [text], voice: spec.voice }) }).catch(() => null);
+      if (!start?.ok) throw fail('The kit is not answering: start it first.');
+      const { id } = await start.json();
+      let job;
+      do {
+        await new Promise((ok) => setTimeout(ok, 1500));
+        job = await (await fetch(`${kit}/studio/voice/${id}`)).json();
+      } while (!['done', 'error', 'failed'].includes(job.state));
+      if (job.state !== 'done') { out.push({ text, ok: false, heard: '', problems: [{ t: 0, text: job.error || 'could not be spoken' }] }); continue; }
+      const f = join(dir, `line${i}.mp3`);
+      writeFileSync(f, Buffer.from(job.result.src.slice(job.result.src.indexOf(',') + 1), 'base64'));
+      const r = await voiceCheck(f, text);
+      out.push({ text, ok: r.ok, heard: r.heard, problems: r.problems, intonation: r.intonation });
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+  return { ok: out.every((l) => l.ok), lines: out };
+}
+
+/**
+ * How the pitch moves at the end of a spoken line: the last quarter second of voice against the half second before it.
+ * A question usually rises (rises: 6% or more). `change` is null when too little of the end is voiced to tell.
+ */
+export async function endPitch(file, end) {
+  const rate = 16000;
+  const pcm = await new Promise((ok, bad) => {
+    const p = spawn(process.env.FFMPEG || 'ffmpeg', ['-v', 'error', '-ss', String(Math.max(0, end - 1.2)), '-t', '1.4', '-i', file, '-ac', '1', '-ar', String(rate), '-f', 'f32le', '-']);
+    const parts = [];
+    p.stdout.on('data', (d) => parts.push(d));
+    p.on('error', bad);
+    p.on('close', () => ok(Buffer.concat(parts)));
+  });
+  const x = new Float32Array(pcm.buffer, pcm.byteOffset, Math.floor(pcm.length / 4));
+  const win = 640, hop = 160, lo = Math.floor(rate / 400), hi = Math.floor(rate / 70);
+  const track = [];
+  for (let s = 0; s + win + hi < x.length; s += hop) {
+    let e0 = 0;
+    for (let i = 0; i < win; i++) e0 += x[s + i] * x[s + i];
+    if (e0 / win < 2e-4) continue;
+    let best = 0, lag = 0;
+    for (let l = lo; l <= hi; l++) {
+      let c = 0, e1 = 0;
+      for (let i = 0; i < win; i++) { c += x[s + i] * x[s + i + l]; e1 += x[s + i + l] * x[s + i + l]; }
+      const r = c / Math.sqrt(e0 * e1 + 1e-12);
+      if (r > best) { best = r; lag = l; }
+    }
+    if (best > 0.6) track.push({ t: s / rate, f: rate / lag });
+  }
+  if (track.length < 12) return { change: null, rises: false };
+  const median = (a) => { const v = a.map((p) => p.f).sort((m, n) => m - n); return v[v.length >> 1]; };
+  const lastT = track[track.length - 1].t;
+  const tail = track.filter((p) => p.t > lastT - 0.25), before = track.filter((p) => p.t <= lastT - 0.25 && p.t > lastT - 0.75);
+  if (tail.length < 4 || before.length < 4) return { change: null, rises: false };
+  const change = Math.round((median(tail) / median(before) - 1) * 100);
+  return { change, rises: change >= 6 };
 }
