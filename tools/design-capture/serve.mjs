@@ -1025,6 +1025,27 @@ const __handler = (req, res) => {
     return;
   }
 
+  // The second listener (studio-listen.mjs): Gemini hears the scene's sound on the person's own key. Sending needs confirm: true.
+  //   GET  /studio/listen                → { hasKey, model, consent }
+  //   POST /studio/listen/key            { key } → the same, after saving the key (the key is never sent back)
+  //   POST /studio/listen/review         { scene, playerBase, question?, confirm: true } → { id }
+  //   GET  /studio/listen/job/<id>       → { state, step, error, result: { summary, notes, dropped, model, sent, warnings } }
+  if (u.pathname === '/studio/listen' || u.pathname.startsWith('/studio/listen/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const [, , part, id] = u.pathname.split('/').filter(Boolean);
+    import('./studio-listen.mjs')
+      .then(async (m) => {
+        if (!part) return json(res, 200, { ok: true, ...(await m.listenStatus()) });
+        if (part === 'job') { const j = m.listenJob(id); return j ? json(res, 200, { ok: true, ...j }) : json(res, 404, { error: 'That review has gone.' }); }
+        if (req.method !== 'POST') return json(res, 405, { error: 'POST only.' });
+        if (part === 'key') return json(res, 200, { ok: true, ...(await m.setListenKey((await readJson(req)).key)) });
+        if (part === 'review') { const b = await readJson(req, 600 * 1024 * 1024); return json(res, 200, { ok: true, id: m.startListen({ scene: b.scene, playerBase: b.playerBase, question: b.question, confirm: b.confirm }).id }); }
+        return json(res, 404, { error: 'Unknown listen action.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
   // Kinetic Scenes' footage tools (studio-matte.mjs): the person cut out, the face followed, the sound taken out.
   //   POST /studio/matte              { src, cutout?, faces?, quality?: fine|fast|rvm } → { id }
   //   GET  /studio/matte/methods      → { methods: { fast, fine, rvm, sam2: { ready, note, … } } }

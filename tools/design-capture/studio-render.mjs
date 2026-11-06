@@ -334,6 +334,38 @@ async function audioMix(scene, tmp, firstInput, page) {
 }
 
 /**
+ * The scene's sound on its own, mixed exactly as a render mixes it (the same clips, fades, ducking and loudness) with no
+ * frames drawn: seconds, not minutes. The page only needs the player for its sound track and built-in sounds. Returns
+ * false when the scene has no sound.
+ */
+export async function mixSound(scene, playerBase, out) {
+  const ffmpeg = await findFfmpeg();
+  if (!ffmpeg) throw new Error('ffmpeg is not installed.');
+  const tmp = join(tmpdir(), `upw-mix-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`);
+  mkdirSync(tmp, { recursive: true });
+  const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(`<!doctype html><script src="${playerBase}scene-player.js" data-auto-mount="false"></script>`, { waitUntil: 'load', timeout: 60000 });
+    if (!(await page.evaluate(() => !!window.UnysonPlusScene))) throw new Error(`The scene player did not load from ${playerBase}.`);
+    const mix = await audioMix(scene, tmp, 0, page);
+    if (!mix) return false;
+    const seconds = Math.max(0.1, Math.min(600, +scene.duration || 1));
+    await new Promise((ok, bad) => {
+      const p = spawn(ffmpeg, ['-y', '-loglevel', 'error', ...mix.inputs, '-filter_complex', mix.filter, '-map', '[aout]', '-t', String(seconds), '-c:a', 'libmp3lame', '-b:a', '128k', out], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
+      let err = '';
+      p.stderr.on('data', (d) => { err += d; });
+      p.on('error', bad);
+      p.on('exit', (c) => (c === 0 ? ok() : bad(new Error(`The sound could not be mixed: ${err.slice(-300)}`))));
+    });
+    return true;
+  } finally {
+    await browser.close().catch(() => {});
+    rmSync(tmp, { recursive: true, force: true });
+  }
+}
+
+/**
  * Footage layers whose own sound is mixed in (layer.sound = its volume), as audio clips on the scene's clock:
  * a layer inside groups starts at the sum of their starts; its length is cut at the layer's out point.
  */

@@ -171,6 +171,11 @@ export async function renderScene(scene, opts = {}) {
   if (!(await renderStatus()).ffmpeg) throw new Error('ffmpeg is not installed (Windows: winget install Gyan.FFmpeg; macOS: brew install ffmpeg).');
   return withLocalMedia(scene, (sc) => renderLocal(sc, opts));
 }
+/** The scene's sound alone, as a render would mix it, into out (an MP3). False when it has none. */
+export async function mixSceneSound(scene, out, opts = {}) {
+  const { mixSound } = await import('./studio-render.mjs');
+  return withLocalMedia(scene, async (sc) => mixSound(sc, await playerBase(opts.player), out));
+}
 async function renderLocal(scene, opts) {
   const job = startRender({ scene, playerBase: await playerBase(opts.player), width: opts.width, height: opts.height, fps: opts.fps, format: opts.format, transparent: opts.transparent, composite: opts.composite, cover: opts.cover, blur: opts.blur });
   for (;;) {

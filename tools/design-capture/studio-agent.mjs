@@ -68,6 +68,7 @@ const STEP = {
   mcp__kinetic_scenes__audio_transcribe: () => 'Listening to the voice-over',
   mcp__kinetic_scenes__voice_over: () => 'Recording the voice-over',
   mcp__kinetic_scenes__scene_compose: () => 'Composing the music',
+  mcp__kinetic_scenes__scene_physics: () => 'Dropping the layers with physics',
 };
 const stepOf = (name, input) => {
   const key = String(name).replace(/-/g, '_');
@@ -133,7 +134,8 @@ export function startAgent({ project, prompt, create = false, url = '', voice = 
     '--mcp-config', mcp, '--strict-mcp-config', '--permission-mode', 'acceptEdits',
     '--allowedTools', 'mcp__kinetic-scenes', 'Read', 'Edit', 'Write', 'Glob', 'ToolSearch',
     // Nothing that runs commands, reaches the web or starts other agents: it works on its own folder and nothing else.
-    '--disallowedTools', 'Bash', 'PowerShell', 'Monitor', 'Agent', 'Task', 'WebFetch', 'WebSearch', 'NotebookEdit',
+    // video_listen uploads to Google on the person's say-so, and nobody is here to ask.
+    '--disallowedTools', 'mcp__kinetic-scenes__video_listen', 'Bash', 'PowerShell', 'Monitor', 'Agent', 'Task', 'WebFetch', 'WebSearch', 'NotebookEdit',
     'mcp__kinetic-scenes__project_save', 'mcp__kinetic-scenes__scene_render', 'mcp__kinetic-scenes__scene_save'];
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const job = { id, project, state: 'running', steps: [], summary: '', error: '', snapshot, startedAt: Date.now(), child: null };

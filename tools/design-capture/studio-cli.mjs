@@ -89,6 +89,8 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
   beats <music file>        Tempo, beats, their strength and the strongest moments
   transcribe <voice file>   Every word with its time (needs the kit's speech recognition)
   voice-check <voice file>  A voice line against its script (--text): changed words, and pauses mid-phrase that sound machine-made
+  listen <video|sound|scene> A second opinion from Gemini, timed notes on how it sounds. Uploads to Google on your own key, so it
+                            needs --yes (--question "…"; --scene <file> adds the script to a video)
   voice-review <lines.json> Every line of a script ({ lines, voice }), spoken and voice-checked on its own (the kit must be running)
   separate <sound or video> The voice and the music as two WAV files in --out (--stems: drums, bass, other, vocals too)
   sounds-in <sound or video> The sounds heard and when (speech, music, rain, a door slam…; --labels "a,b" for your own)
@@ -406,6 +408,17 @@ ${g.note}`, g);
       const r = await transcribeFile(file, { language: a.language, onProgress: progress });
       if (!json && process.stderr.isTTY) process.stderr.write('\n');
       print(`${r.words.map((w) => `${w.t.toFixed(2)}  ${w.w}`).join('\n')}\n\n${r.speech?.wpm ?? '?'} words a minute${r.speech?.delivery?.length ? `, ${r.speech.delivery.join(', ')}` : ''}`, r);
+      return 0;
+    }
+    case 'listen': {
+      const { listen, CONSENT } = await import('./studio-listen.mjs');
+      const { mixSceneSound } = await import('./studio-tools.mjs');
+      if (a.yes !== true) throw new Error(`Add --yes to send it. ${CONSENT}`);
+      const isScene = /\.json$/i.test(file);
+      const r = await listen({ file: isScene ? undefined : file, scene: isScene ? loadScene(file) : typeof a.scene === 'string' ? loadScene(a.scene) : null, mix: (sc, out) => mixSceneSound(sc, out, { player: a.player }), question: a.question, confirm: true, onStep: progress });
+      if (!json && process.stderr.isTTY) process.stderr.write('\n');
+      const at = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+      print(`${r.summary}\n${r.notes.map((n) => `  ${at(n.t)}  [${n.level}, ${n.kind}] ${n.note}${n.fix ? ` Fix: ${n.fix}` : ''}`).join('\n') || '  No notes.'}${r.dropped ? `\n${r.dropped} note(s) dropped (timed past the end, or unreadable).` : ''}${r.warnings.map((w) => `\n${w}`).join('')}\n(${r.model}, heard: ${r.sent}. An opinion to weigh: it can mishear.)`, r);
       return 0;
     }
     case 'voice-review': {
