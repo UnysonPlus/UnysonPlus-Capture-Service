@@ -11,7 +11,10 @@
 
 for (const k of ['log', 'info', 'warn', 'debug']) console[k] = (...a) => process.stderr.write(`${a.join(' ')}\n`);
 
+const { installFfmpeg, requireFfmpeg } = await import('./studio-ffmpeg.mjs'); // first: it makes a copy the kit installed usable
 const tools = await import('./studio-tools.mjs');
+/** What can't work without FFmpeg: it says so before it starts. */
+const NEEDS_FFMPEG = new Set(['scene_render', 'scene_timeline', 'video_listen', 'video_check', 'footage_cleanup', 'video_like_this', 'video_highlights', 'video_reference', 'audio_transcribe', 'audio_separate']);
 const { readFileSync } = await import('node:fs');
 const VERSION = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
 
@@ -320,6 +323,12 @@ ${r.parts.map((p, i) => `${i + 1}. ${p.from}-${p.to} s (${p.why})${p.title ? `: 
     },
   },
   {
+    name: 'ffmpeg_install',
+    description: 'Install FFmpeg, the free tool video, audio and previews need, when a tool reports it is missing. A download of about 110-150 MB into the kit\'s own folder (Homebrew on macOS), checked against its published checksum. Ask the person first.',
+    inputSchema: { type: 'object', properties: {}, required: [] },
+    run: async () => { const r = await installFfmpeg(); return [text(`FFmpeg is ready: ${r.version}.`)]; },
+  },
+  {
     name: 'kit_doctor',
     description: 'Check this computer: what Kinetic Scenes has here (kit and Node versions, ffmpeg, the browser it renders with, the graphics card and its free memory, the AI it is connected to, Blender, the workspace folder and free disk, and every add-on with its state). Run it first when a render, a voice or an add-on fails, and quote it in a bug report.',
     inputSchema: { type: 'object', properties: {}, required: [] },
@@ -450,6 +459,7 @@ async function handle(m) {
         const t = TOOLS.find((x) => x.name === params.name);
         if (!t) return send({ id, error: { code: -32602, message: `Unknown tool: ${params.name}` } });
         try {
+          if (NEEDS_FFMPEG.has(t.name)) requireFfmpeg('This tool');
           return send({ id, result: { content: await t.run(params.arguments || {}) } });
         } catch (e) {
           return send({ id, result: { isError: true, content: [text(String(e && e.message || e))] } });

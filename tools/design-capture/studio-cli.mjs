@@ -32,6 +32,7 @@
 //
 // Add --json for machine-readable output, --player <address> to use a particular player version.
 
+import { installFfmpeg, ffmpegStatus, requireFfmpeg } from './studio-ffmpeg.mjs'; // first: it makes a copy the kit installed usable
 import { analyseBeats, checkScene, inspectScene, loadScene, renderScene, sceneStills, separateAudio, transcribeFile } from './studio-tools.mjs';
 
 const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
@@ -72,6 +73,7 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
   breakdown <reel.mp4>      "How this reel was made" (16:9): the finished reel beside its storyboard, a highlight on the
                             beat on screen and a progress bar; steps from --beats <reel.beats.json> with --scene, or the
                             --scene's markers, or --rhythm <video.reference.json>; --title, --accent, --out
+  ffmpeg [install]          Whether FFmpeg is here (video, audio and previews need it); install: the kit installs it itself
   doctor                    Check this computer: kit and Node versions, ffmpeg, the rendering browser, graphics card and free
                             memory, AI, Blender, the workspace and each add-on; ready to paste into a bug report
   blender model <script.py> Blender (in the background) runs an agent's bpy script; what it builds becomes a glTF model
@@ -121,6 +123,9 @@ function args(argv) {
   return out;
 }
 
+/** What can't work without FFmpeg: it says so before it starts. */
+const NEEDS_FFMPEG = new Set(['render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record']);
+
 const a = args(process.argv.slice(2));
 const [cmd, file] = a._;
 const json = !!a.json;
@@ -156,7 +161,19 @@ async function main() {
     print(head + tail, r);
     return 0;
   }
+  if (cmd === 'ffmpeg') {
+    const now = ffmpegStatus();
+    const ready = now.ffmpeg && now.ffprobe;
+    if (file === 'install') {
+      const r = ready ? now : await installFfmpeg((s) => process.stderr.write(`${s}\n`));
+      print(`FFmpeg is ready: ${r.version}.`, r);
+      return 0;
+    }
+    print(ready ? `FFmpeg is here (${now.source === 'kit' ? 'installed by the kit' : 'on this computer'}): ${now.version}.` : now.message, now);
+    return ready ? 0 : 1;
+  }
   if (!file && cmd !== 'stock' && cmd !== 'doctor' && cmd !== 'clap-install') throw new Error(`Give a file: studio-cli ${cmd} <file>`);
+  if (NEEDS_FFMPEG.has(cmd)) requireFfmpeg(`"${cmd}"`);
   switch (cmd) {
     case 'check': {
       const r = await checkScene(loadScene(file), { player: a.player });

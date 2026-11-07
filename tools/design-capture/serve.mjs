@@ -17,6 +17,7 @@
 //   GET  /capture?url=<url>   → convert-bundle.zip (application/zip)
 //   GET  /capture-screenshot?url=<url>  → screenshot.png (image/png) for the newest matching capture
 //   POST /ai-convert          → { ok, mapping, theme:{style_css,header_html,footer_html}, custom_css }  (Claude authors the child-theme design)
+import { ffmpegNeeded, ffmpegStatus, hasFfmpeg, startFfmpegInstall } from './studio-ffmpeg.mjs'; // first: it makes a copy the kit installed usable
 import { randomBytes } from 'node:crypto';
 import { discoverPages } from './discover.mjs';
 import { verifySite } from './verify-site.mjs';
@@ -668,6 +669,23 @@ const __handler = (req, res) => {
     const info = jobInfo(id);
     if (!info) { json(res, 404, { error: 'No render with that id.' }); return; }
     json(res, 200, { ok: true, ...info });
+    return;
+  }
+
+  // FFmpeg (studio-ffmpeg.mjs): whether it is here, and installing it.
+  //   GET  /studio/ffmpeg           → { ffmpeg, ffprobe, version, source, canInstall, by, mb, link, message, install }
+  //   POST /studio/ffmpeg/install   → install progress (poll GET /studio/ffmpeg)
+  if (u.pathname === '/studio/ffmpeg' || u.pathname === '/studio/ffmpeg/install') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (u.pathname === '/studio/ffmpeg') { json(res, 200, { ok: true, ...ffmpegStatus() }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST.' }); return; }
+    try { json(res, 200, { ok: true, install: startFfmpegInstall() }); } catch (e) { json(res, 500, { error: e.message, link: ffmpegStatus().link }); }
+    return;
+  }
+
+  // What can't start without FFmpeg says so before it starts, with what to do about it.
+  if (req.method === 'POST' && /^\/studio\/(transcribe|like-this|highlights|listen|separate)$/.test(u.pathname) && studioOriginAllowed(req.headers.origin || '') && !hasFfmpeg()) {
+    json(res, 424, { error: ffmpegNeeded('This'), needs: 'ffmpeg', link: ffmpegStatus().link });
     return;
   }
 

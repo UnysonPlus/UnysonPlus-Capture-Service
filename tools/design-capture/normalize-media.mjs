@@ -40,7 +40,7 @@ const VIDEO_RE = /\.(mp4|m4v|mov|webm|ogv)(\?|#|$)/i;
 /** Is an ffmpeg-family binary runnable here? Resolved once. */
 let _bins = null;
 async function bins() {
-  if (_bins) return _bins;
+  if (_bins?.ffmpeg && _bins.ffprobe) return _bins; // a missing one is asked for again: it may have been installed meanwhile
   const probe = async (name) => {
     try { await run(name, ['-version'], { timeout: 10000 }); return name; } catch { return ''; }
   };

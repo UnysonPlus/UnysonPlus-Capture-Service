@@ -4,6 +4,7 @@
 // card and its free memory, the AI the kit is connected to, Blender, the workspace folder and its free disk space, and
 // every add-on with its state and where it is. Nothing is sent anywhere; nothing personal beyond paths is included.
 
+import { ffmpegNeeded } from './studio-ffmpeg.mjs';
 import { execFile } from 'node:child_process';
 import { existsSync, readFileSync, statfsSync } from 'node:fs';
 import { arch, cpus, platform, release, totalmem } from 'node:os';
@@ -94,7 +95,7 @@ export function doctorText(r) {
     '',
     `Kit ${r.kit.kit ?? '(not inside the kit)'}, capture service ${r.kit.captureService}, Node ${r.kit.node}`,
     `System: ${r.system.os}, ${r.system.cpu}, ${r.system.memory} memory`,
-    `ffmpeg: ${r.ffmpeg ?? 'NOT FOUND (needed for video, audio and previews)'}`,
+    `ffmpeg: ${r.ffmpeg ?? `NOT FOUND (needed for video, audio and previews). ${ffmpegNeeded('Video export')}`}`,
     `ffprobe: ${r.ffprobe ?? 'NOT FOUND'}`,
     `Rendering browser: ${r.browser.ok ? `${r.browser.name} ${r.browser.version}` : `NONE: ${r.browser.note}`}`,
     `Graphics: ${r.gpu.name}${r.gpu.totalMb ? `, ${r.gpu.freeMb} MB free of ${r.gpu.totalMb} MB (driver ${r.gpu.driver})` : ''}`,

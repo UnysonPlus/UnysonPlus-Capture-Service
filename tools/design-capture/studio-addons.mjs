@@ -9,6 +9,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, wri
 import { homedir, tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ffmpegStatus } from './studio-ffmpeg.mjs';
 import { claimGpu, killTree, listenerPid, registerGpuApp } from './studio-gpu.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -179,6 +180,16 @@ export async function listAddons() {
       location: { kind: 'path', value: settings['ace-step']?.path || '', placeholder: 'D:\\AI\\ACE-Step-1.5', hint: 'The ACE-Step folder, the one with start_gradio_ui.bat.' },
       link: 'https://github.com/ace-step/ACE-Step-1.5',
     },
+    (() => {
+      const f = ffmpegStatus();
+      return {
+        id: 'ffmpeg', kind: 'download', name: 'FFmpeg', state: f.ffmpeg && f.ffprobe ? 'installed' : 'not-installed',
+        what: 'The free tool behind video export, footage, captions and audio.',
+        detail: f.ffmpeg && f.ffprobe ? `${f.source === 'kit' ? 'Installed by the kit' : 'Found on this computer'}: ${f.version}.`
+          : f.canInstall ? `Not on this computer yet. The kit can install it for you${f.mb ? ` (about ${f.mb} MB)` : ''}.` : 'Not on this computer yet. Install it yourself, then restart the kit.',
+        link: f.link, canInstall: f.canInstall,
+      };
+    })(),
     {
       id: 'speech', kind: 'download', name: 'Speech recognition', state: transcribe?.program && Object.values(transcribe.models || {}).some((m) => m.installed) ? 'installed' : 'not-installed',
       what: 'Every word of a voice-over with its time: captions, scenes timed to the voice.', detail: 'Whisper, on this computer (148 MB or more).',

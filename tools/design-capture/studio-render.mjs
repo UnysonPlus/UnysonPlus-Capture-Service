@@ -8,6 +8,7 @@
 // (a vertical 1080x1920 render uses the mobile layout, as a phone would).
 //
 // Jobs run one at a time in the background; the Studio polls for progress and downloads the file.
+import { ffmpegNeeded } from './studio-ffmpeg.mjs';
 import { spawn, spawnSync } from 'node:child_process';
 import { createReadStream, mkdirSync, renameSync, statSync, existsSync, readdirSync, unlinkSync, writeFileSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
@@ -23,7 +24,7 @@ let queue = Promise.resolve();
 
 let ffmpegBin = null;
 async function findFfmpeg() {
-  if (ffmpegBin !== null) return ffmpegBin;
+  if (ffmpegBin) return ffmpegBin; // a missing one is asked for again: it may have been installed meanwhile
   ffmpegBin = await new Promise((resolve) => {
     const p = spawn(process.env.FFMPEG || 'ffmpeg', ['-version'], { stdio: 'ignore' });
     p.on('error', () => resolve(''));
@@ -340,7 +341,7 @@ async function audioMix(scene, tmp, firstInput, page) {
  */
 export async function mixSound(scene, playerBase, out) {
   const ffmpeg = await findFfmpeg();
-  if (!ffmpeg) throw new Error('ffmpeg is not installed.');
+  if (!ffmpeg) throw new Error(ffmpegNeeded('Mixing the sound'));
   const tmp = join(tmpdir(), `upw-mix-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`);
   mkdirSync(tmp, { recursive: true });
   const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true });
@@ -386,7 +387,7 @@ function footageSound(scene) {
 
 async function run(job, scene, playerBase) {
   const ffmpeg = await findFfmpeg();
-  if (!ffmpeg) { job.state = 'error'; job.error = 'ffmpeg is not installed. Install it (Windows: winget install Gyan.FFmpeg; macOS: brew install ffmpeg), restart the kit and try again.'; return; }
+  if (!ffmpeg) { job.state = 'error'; job.error = ffmpegNeeded('Video export'); job.needs = 'ffmpeg'; return; }
   mkdirSync(OUT, { recursive: true });
   pruneOld();
   job.state = 'rendering';
