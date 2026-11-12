@@ -240,6 +240,24 @@ const server = createServer((req, res) => {
   // as reliably: a run's own progress.json lands a moment later, and a killed run leaves 'running' behind
   // forever. The dashboard follows `active` so the panes show the conversion in flight rather than the
   // last one that finished.
+  // SEO Check — every /api/seo-check… call goes straight to the capture service's /seo-check…, which runs
+  // seo-check.mjs. Nothing about the check lives in this server.
+  if (path === '/api/seo-check' || path.startsWith('/api/seo-check/')) {
+    const svcPort = Number(process.env.CAPTURE_SERVICE_PORT || 8787);
+    const target = `http://localhost:${svcPort}${req.url.replace(/^\/api/, '')}`;
+    let body = ''; req.on('data', (c) => { body += c; if (body.length > 65536) req.destroy(); });
+    req.on('end', () => {
+      fetch(target, { method: req.method, headers: { 'content-type': 'application/json' }, body: req.method === 'POST' ? (body || '{}') : undefined, signal: AbortSignal.timeout(20000) })
+        .then(async (r) => {
+          const type = r.headers.get('content-type') || 'application/json';
+          const buf = Buffer.from(await r.arrayBuffer());
+          const head = { 'content-type': type }; const cd = r.headers.get('content-disposition'); if (cd) head['content-disposition'] = cd;
+          res.writeHead(r.status, head); res.end(buf);
+        })
+        .catch((e) => json(res, { error: 'Capture service not reachable: ' + e.message }, 502));
+    });
+    return;
+  }
   if (path === '/api/sites') return json(res, { out: OUT, outWarning: outDirWarning(), sites: listSites(), active: activeRun() });
   // Run log — list the recent run-*.log files + return the tail of the active (or requested) one.
   if (path === '/api/logs') {

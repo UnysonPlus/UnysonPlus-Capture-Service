@@ -218,6 +218,56 @@ const TOOLS = [
     },
   },
   {
+    name: 'scene_swarm',
+    description: `Build with cursors: a team of coloured, named cursors builds the scene's opening in front of the viewer, like collaborators in a shared design file. Each takes the next free layer top to bottom, drags out its box (Build: draw: an outline with a live W x H badge over a grey placeholder, then the layer sweeps in) and types each text layer into its box with an I-beam; then they leave. The layers on the stage at "at" are built and their opening entrances replaced; everything from "at" on moves later by the build's length. Written as ordinary cursor layers and clips (ids start "swarm-"), so it scrubs, exports and can be edited; it refuses a scene already built (start from the scene before). Best on a designed layout (a page, a dashboard, a card grid). Saves the scene to scene_path.`,
+    inputSchema: { type: 'object', properties: { scene_path: sceneArg.scene_path, cursors: { type: 'number', description: '1 to 8 (default: 3 to 6 by how much there is to build).' }, speed: { type: 'number', description: '0.5 (slow) to 3 (fast), default 1.' }, at: { type: 'number', description: 'Seconds into the scene where the build starts (default 0).' }, names: { type: 'array', items: { type: 'string' }, description: 'Name tags in order; [] for none (default: short first names).' }, colors: { type: 'array', items: { type: 'string' }, description: 'Cursor colours in order.' }, sound: { type: 'boolean', description: 'Soft clicks and typing (default true).' }, maxLayers: { type: 'number', description: 'Build at most this many layers (default 30).' } }, required: ['scene_path'] },
+    run: async (a) => {
+      const { buildWithCursors } = await import('./studio-swarm.mjs');
+      const { scene_path, ...options } = a;
+      const r = buildWithCursors(sceneOf(a), options);
+      (await import('node:fs')).writeFileSync(scene_path, JSON.stringify(r.scene, null, 2));
+      return [text(`${r.cursors} cursors build ${r.layers} layer(s) in ${r.seconds} s; the scene is now ${r.scene.duration} s. Saved ${scene_path}. Check it with scene_stills across the build.`)];
+    },
+  },
+  {
+    name: 'video_join',
+    description: `A long video from chapters. One scene is at most 10 minutes, so a longer video is several scenes (intro, chapters, outro) rendered one by one and joined here, in order. Parts that match (the same size, frame rate and sound, as kit renders do) are joined without re-encoding; others are fitted to the first part's size and frame rate and encoded once. Also writes <out>-chapters.txt, the "0:00 Title" chapter list for the YouTube description (titles from the file names unless given). Render the parts only when the person asks for the video.`,
+    inputSchema: { type: 'object', properties: { files: { type: 'array', items: { type: 'string' }, description: 'The rendered parts, in order.' }, out: { type: 'string', description: 'The joined video (default joined.mp4).' }, fade: { type: 'number', description: 'Seconds of fade through black between chapters (default 0: straight cuts).' }, titles: { type: 'array', items: { type: 'string' }, description: 'Chapter titles in order.' } }, required: ['files'] },
+    run: async (a) => {
+      const r = await (await import('./studio-join.mjs')).joinVideos(a.files, a.out || 'joined.mp4', { fade: a.fade, titles: a.titles });
+      return [text(`${r.out}: ${r.parts} parts, ${r.seconds} s (parts add up to ${r.expected} s), ${r.reencoded ? 'encoded once' : 'joined without re-encoding'}.
+Chapters (${r.chaptersFile})${r.chapters.usable ? '' : ', not shown by YouTube until there are 3+ chapters of 10 s or more'}:
+${r.chapters.text}`)];
+    },
+  },
+  {
+    name: 'screencast_narrate',
+    description: `The voice-over of a screencast recording (a folder from studio-cli record: video.mp4 + actions.json), written from the recording: one line per step, timed to its action and short enough to be said before the next step (about 2.5 words a second; lines over budget are shortened in a second pass). The AI looks at a frame of each step and reads each step's label and "about" note. Writes narration.json ({ lines: [{ at, text, say }] }; "say" is what the voice reads, the brand respelt). Show the lines to the person and change them before voicing. lang writes them in another language (narration.<lang>.json).`,
+    inputSchema: { type: 'object', properties: { folder: { type: 'string', description: 'The recording folder.' }, lang: { type: 'string', description: 'Language code (default en).' }, audience: { type: 'string' }, context: { type: 'string', description: 'What the video is about.' }, intro: { type: 'string', description: 'What a line before the first step should say.' }, outro: { type: 'string', description: 'A closing line, said on the end card.' } }, required: ['folder'] },
+    run: async (a) => {
+      const r = await (await import('./studio-narrate.mjs')).narrate(a.folder, a);
+      return [text(`${r.file} (written by ${r.by}${r.looked ? ', looking at each step' : ''}):\n${r.lines.map((l) => `${typeof l.at === 'number' ? `${l.at} s` : l.at}  ${l.text}${l.long ? ` [${l.words} words, budget ${l.budget}]` : ''}`).join('\n')}`)];
+    },
+  },
+  {
+    name: 'screencast_voice',
+    description: `Speaks every line of a recording's narration.json on its own with the kit's voices (voice: a Piper or Kokoro id, or voicebox:<profile>), voice-checks each against its text (changed words, pauses mid-phrase, questions that do not rise) and writes voice.json for studio-cli screencast --voice. Reports lines that run into the next step: shorten them, never speed the voice up. Needs the kit running.`,
+    inputSchema: { type: 'object', properties: { folder: { type: 'string' }, voice: { type: 'string' }, file: { type: 'string', description: 'The narration file (default narration.json).' } }, required: ['folder'] },
+    run: async (a) => {
+      const r = await (await import('./studio-narrate.mjs')).voiceNarration(a.folder, { voice: a.voice, file: a.file });
+      return [text(`${r.file}: ${r.lines} lines.\n${r.checks.filter((c) => c.ok === false).map((c) => `line ${c.line} "${c.text}": ${c.problems.join('; ')}`).join('\n') || 'Every line passes the voice check.'}${r.overruns.map((o) => `\nline ${o.line} runs ${o.over} s into the next step`).join('')}`)];
+    },
+  },
+  {
+    name: 'screencast_guide',
+    description: `A written step-by-step guide from a screencast recording: guide/guide.md and a self-contained guide.html, one numbered step per action with a screenshot of the moment (its target ringed). Uses narration.json's lines as the step text when it exists. For help pages, docs and blog posts made from the same take as the video.`,
+    inputSchema: { type: 'object', properties: { folder: { type: 'string' }, title: { type: 'string' }, accent: { type: 'string', description: 'Ring and number colour (default #00B295).' } }, required: ['folder'] },
+    run: async (a) => {
+      const r = await (await import('./studio-narrate.mjs')).writeGuide(a.folder, { title: a.title, accent: a.accent });
+      return [text(`${r.steps} steps${r.narrated ? ' (narration as the text)' : ''}: ${r.markdown}, ${r.html}`)];
+    },
+  },
+  {
     name: 'scene_compose',
     description: `Music composed to the scene, with no add-on: a short score whose tempo fits when things land, with a chord change at each section (markers, else groups), accents on the big landings and a lift into the reveal (the still frame). Writes a WAV; add it to the scene as a music clip (role "music", volume about 0.25 under a voice). For a full produced track, use the ACE-Step add-on instead.`,
     inputSchema: { type: 'object', properties: { ...sceneArg, mood: { type: 'string', enum: ['bright', 'calm', 'dark', 'driving'] }, out: { type: 'string' } }, required: ['out'] },

@@ -4,6 +4,8 @@
 // (2x, from Chrome's own frame stream, carried across page loads, with the waiting cut out). Beside the video it writes
 // actions.json: when each step happened in the video and where its target was on screen, so a reel can zoom to it.
 //
+// A step may carry "about": a sentence on what it does and why, for the narration studio-narrate.mjs writes.
+//
 // Steps are plain ({ do: 'click', target }) or Unyson+ actions (wp.publish publishes; wp.view opens the published page;
 // le.* drive the Live Editor, whose page sits in a frame: target it with { frame: true, … }) ({ do: 'pb.add', element: 'special_heading' }) that
 // already know the WordPress admin and the page builder. A target is a Playwright selector string, { text }, { role,
@@ -137,13 +139,28 @@ export async function record(spec, outDir, onStep = () => {}) {
       if (t.pb === 'first-field') return p.locator('.fw-modal input[type=text]:visible, .fw-modal textarea:visible').first();
       throw new Error(`Unknown target ${JSON.stringify(t)}`);
     };
-    const box = async (loc) => { await loc.scrollIntoViewIfNeeded().catch(() => {}); const r = await loc.boundingBox(); if (!r) throw new Error('target is not on screen'); return r; };
+    const box = async (loc) => {
+      let why = '';
+      // Playwright waits for the target to hold still before scrolling; a page with a running animation (the
+      // Extensions screen) never does, so after a short try the target is scrolled to the middle directly.
+      await loc.scrollIntoViewIfNeeded({ timeout: 4000 }).catch(async (e) => {
+        why = String(e.message || e).split('\n')[0];
+        await loc.evaluate((el) => el.scrollIntoView({ block: 'center' })).then(() => sleep(400), () => {});
+      });
+      const r = await loc.boundingBox().catch(() => null);
+      if (!r) {
+        const seen = await loc.evaluate((el) => { const s = getComputedStyle(el); const q = el.getBoundingClientRect(); return `${el.tagName.toLowerCase()} ${Math.round(q.width)}x${Math.round(q.height)} at ${Math.round(q.y)}, display ${s.display}, visibility ${s.visibility}`; }).catch((e) => String(e.message || e).split('\n')[0]);
+        throw new Error(`target is not on screen: ${seen}${why ? ` (${why})` : ''}`);
+      }
+      return r;
+    };
     const dropZone = async () => p.evaluate(() => {
       const z = [...document.querySelectorAll('.builder-root-items .builder-items')].filter((e) => e.offsetParent && e.closest('.builder-item'));
       if (!z.length) return null;
       const r = z[z.length - 1].getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height };
     });
-    const log = (kind, label, r, a, extra = {}) => actions.push({ kind, label, t0: a, t1: now(), rect: r ? { x: r.x, y: r.y, w: r.width, h: r.height } : null, ...extra });
+    let about = ''; // the step's own note for the narration (steps.json "about"), carried on its actions
+    const log = (kind, label, r, a, extra = {}) => actions.push({ kind, label, t0: a, t1: now(), rect: r ? { x: r.x, y: r.y, w: r.width, h: r.height } : null, ...(about ? { about } : {}), ...extra });
     const click = async (loc, label, double = false) => {
       const r = await box(loc); const a = now();
       await moveTo(r.x + r.width / 2, r.y + r.height / 2); await sleep(120);
@@ -170,7 +187,9 @@ export async function record(spec, outDir, onStep = () => {}) {
     await sleep(700);
     for (const [i, s] of spec.steps.entries()) {
       const label = s.label || '';
+      about = typeof s.about === 'string' ? s.about : '';
       onStep(`Step ${i + 1} of ${spec.steps.length}: ${s.do}${label ? ` (${label})` : ''}`);
+      try {
       switch (s.do) {
         case 'click': await click(target(s.target), label); break;
         case 'dblclick': await click(target(s.target), label, true); break;
@@ -191,6 +210,26 @@ export async function record(spec, outDir, onStep = () => {}) {
         case 'drag': await drag(target(s.from), await box(target(s.to)), label); break;
         case 'scroll': { const a = now(); for (let k = 0, by = s.by || 300; k < Math.abs(by); k += 6) { await p.mouse.wheel(0, Math.sign(by) * 6); await sleep(16); } log('scroll', label, null, a); break; }
         case 'wait': await sleep(s.ms || 600); break;
+        case 'upload': {
+          // Choosing a file: the cursor goes to the file field (or its button: `click`) and the file is set, since a
+          // system file dialog does not show in a recording. `file` is a path on this computer.
+          const input = target(s.target || 'input[type=file]');
+          const shown = s.click ? target(s.click) : input;
+          const r = await box(shown).catch(() => null); const a = now();
+          if (r) await moveTo(r.x + r.width / 2, r.y + r.height / 2);
+          await input.setInputFiles(s.file);
+          log('click', label, r, a); break;
+        }
+        case 'waitFor': {
+          // Something slow (an AI building a page, an import): `keep` seconds of the wait stay in the video so the viewer
+          // sees it working, the rest is cut until the target reaches `state` (visible, hidden, attached, detached).
+          const a = now();
+          await sleep((s.keep ?? 2) * 1000);
+          const b = now(); await stopCast();
+          try { await target(s.target).waitFor({ state: s.state || 'visible', timeout: s.timeout || 600000 }); }
+          finally { await sleep(500); await startCast(); skips.push([b, now()]); }
+          log('wait', label, null, a); break;
+        }
         case 'goto': { const a = now(); await loading(() => p.goto(site + s.path, { waitUntil: 'load', timeout: 90000 })); log('page', label || s.path, null, a); break; }
         case 'mark': log('mark', label, null, now()); break;
         // Unyson+ actions.
@@ -215,8 +254,12 @@ export async function record(spec, outDir, onStep = () => {}) {
           // Publish (not a draft), wait for WordPress to confirm, so "see it live" really is live.
           await click(p.locator('#publish'), label || 'Publish');
           const a = now();
-          await loading(() => p.waitForLoadState('load'));
-          await p.locator('#message, .notice-success, .updated').first().waitFor({ timeout: 15000 }).catch(() => {});
+          // The confirmation is waited for off camera too (a styled admin can hide the notice: the wait then ran its
+          // whole 15 s on screen), and only while the page is still the editor.
+          await loading(async () => {
+            await p.waitForLoadState('load');
+            await p.locator('#message, .notice-success, .updated, #sample-permalink a').first().waitFor({ timeout: 15000 }).catch(() => {});
+          });
           log('page', 'Published', null, a); break;
         }
         case 'wp.view': {
@@ -234,6 +277,10 @@ export async function record(spec, outDir, onStep = () => {}) {
         }
         default: throw new Error(`Unknown step "${s.do}"`);
       }
+      } catch (e) {
+        // Which step failed, so a long take is fixed at the right place.
+        throw new Error(`Step ${i + 1} (${s.do}${label ? ` "${label}"` : ''}): ${e.message.split('\n')[0]}`);
+      }
       await sleep(s.pause ?? 350);
     }
     await sleep(spec.tail ?? 1500);
@@ -247,19 +294,23 @@ export async function record(spec, outDir, onStep = () => {}) {
     if (!kept.length) throw new Error('No frames were recorded.');
     const total = cut(t1);
     let list = '';
+    // Each frame lasts until the next one: Chrome sends no frames while the screen is still, so a cap here (it was 2 s)
+    // shortened every still stretch and the video ran shorter than actions.json, every later zoom landing late.
     kept.forEach((f, i) => {
       const next = kept[i + 1] ? cut(kept[i + 1].t) : total;
-      list += `file '${join(framesDir, f.name).replace(/\\/g, '/')}'\nduration ${Math.max(0.001, Math.min(2, next - cut(f.t))).toFixed(4)}\n`;
+      list += `file '${join(framesDir, f.name).replace(/\\/g, '/')}'\nduration ${Math.max(0.001, next - cut(f.t)).toFixed(4)}\n`;
     });
+    // The concat format needs the last image listed twice; the repeat would take the previous duration again (seconds
+    // too long), so the output is cut at the true length with -t below.
     list += `file '${join(framesDir, kept[kept.length - 1].name).replace(/\\/g, '/')}'\n`;
     writeFileSync(join(out, 'frames.txt'), list);
     const video = join(out, 'video.mp4');
     onStep('Making the video');
     await run(process.env.FFMPEG || 'ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', join(out, 'frames.txt'),
-      '-vf', `fps=30,scale=${vw * scale}:${vh * scale}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', video]);
+      '-vf', `fps=30,scale=${vw * scale}:${vh * scale}:flags=lanczos,format=yuv420p`, '-t', total.toFixed(3), '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', video]);
     const W = vw * scale, H = vh * scale;
     const acts = actions.map((x) => ({
-      kind: x.kind, label: x.label, t: +cut(x.t0).toFixed(2), end: +cut(x.t1).toFixed(2), ...(x.text ? { text: x.text } : {}),
+      kind: x.kind, label: x.label, t: +cut(x.t0).toFixed(2), end: +cut(x.t1).toFixed(2), ...(x.text ? { text: x.text } : {}), ...(x.about ? { about: x.about } : {}),
       // Where it happened, in the video's pixels.
       ...(x.rect ? { rect: { x: Math.round(x.rect.x * scale), y: Math.round(x.rect.y * scale), w: Math.round(x.rect.w * scale), h: Math.round(x.rect.h * scale) } } : {}),
     }));

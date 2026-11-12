@@ -21,6 +21,9 @@
 //   node studio-cli.mjs record <steps.json> [--out folder]
 //   node studio-cli.mjs shot <shots.json> [--out folder]
 //   node studio-cli.mjs screencast <recording folder> [--format 9x16|16x9] [--title "…"] [--end "…"] [--cta "…"] [--music file]
+//   node studio-cli.mjs narrate <recording folder> [--lang es] [--audience "…"] [--context "…"] [--intro "…"] [--outro "…"]
+//   node studio-cli.mjs voice <recording folder> [--voice <id>] [--file narration.json]
+//   node studio-cli.mjs guide <recording folder> [--title "…"] [--file narration.json] [--accent #hex]
 //   node studio-cli.mjs reference <video.mp4> [--fit 30] [--scene scene.json] [--sections-only] [--threshold 0.2]
 //   node studio-cli.mjs from-beats <reel.beats.json> [--duration 20] [--rhythm video.reference.json] [--music file] [--out scene.json]
 //   node studio-cli.mjs breakdown <reel.mp4> [--scene s.json --beats b.json | --rhythm r.json] [--title "…"] [--accent #hex] [--out f.json]
@@ -53,6 +56,12 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
   best-take <takes…>        The takes of one line (--text) ranked by the voice check: changed words, pauses mid-phrase
   object3d "<description>"  A 3D object built from a description as a GLB for a 3D layer: designed in parts, measured (parts
                             touch, none buried, sane sizes), fixed up to 3 times, looked at from four sides; --out object.glb
+  join <a.mp4> <b.mp4> …    A long video from chapters: joins rendered parts in order into --out (default joined.mp4), losslessly
+                            when they match (else fitted to the first and encoded once), and writes <out>-chapters.txt, the
+                            YouTube chapter list. --fade <seconds> fades through black between chapters, --titles "A|B|C"
+  swarm <scene.json>        Build with cursors: a team of coloured, named cursors draws every box and types every line of the
+                            scene's opening, then leaves and the rest plays on later; writes --out (default: the same file).
+                            --cursors 1-8 (default 3-6 by size), --speed 0.5-3, --at <seconds>, --no-names, --no-sound
   compose <scene.json>      A short score written to the scene's timing (tempo from when things land, chords per section,
                             accents, a lift into the reveal), no add-on: --mood bright|calm|dark|driving, --out score.wav
   like-this <video>         Works out how a video you like is made (structure, pacing, text style, cuts, use of music) as a
@@ -105,6 +114,15 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
                             the project open in the Studio updates at once
   notes "<project>"         The project's notes.md (the plan, what was decided, what is left); --add "…" [--section "Still to do"]
                             adds a dated line. Read them before working on a project, add to them when something is decided
+  narrate <folder>          The voice-over written from a recording: a line per step, timed to it and short enough to be said
+                            before the next step, written by the AI from the step labels, their "about" notes and a picture of
+                            each step (--lang es: in another language; --audience, --context, --intro, --outro). Writes
+                            narration.json: read it and change it before anything is spoken
+  voice <folder>            Speaks each line of narration.json on its own (--voice, the kit running), checks it against its
+                            text and writes voice.json for screencast --voice; lists lines that run into the next step
+  guide <folder>            A written step-by-step guide from the same recording: guide/guide.md and guide.html, a numbered
+                            step per action with a screenshot of it, the target ringed (--title, --accent; the narration's
+                            lines as the step text when narration.json exists)
   screencast <folder>       A recording as a scene that zooms to each action, with step captions (--format, --title, --end, --cta, --music, --intro, --accent, --bg, --title-bg, --end-bg, --voice)
 
   --json      print JSON
@@ -124,7 +142,7 @@ function args(argv) {
 }
 
 /** What can't work without FFmpeg: it says so before it starts. */
-const NEEDS_FFMPEG = new Set(['render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record']);
+const NEEDS_FFMPEG = new Set(['render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record', 'narrate', 'voice', 'guide']);
 
 const a = args(process.argv.slice(2));
 const [cmd, file] = a._;
@@ -239,6 +257,31 @@ Cover: ${r.cover}` : ''}${r.warnings?.length ? `\nRendered without: ${r.warnings
       const out = typeof a.out === 'string' ? a.out : 'object.glb';
       (await import('node:fs')).writeFileSync(out, r.glb);
       print(`${out}: "${r.name}", ${r.parts} parts, ${(r.glb.length / 1024).toFixed(0)} KB. ${r.problems.length ? `Still measured: ${r.problems.join(' ')}` : 'Measured: no problems.'} ${r.notes}`, { ...r, glb: undefined, out });
+      return 0;
+    }
+    case 'join': {
+      const { joinVideos } = await import('./studio-join.mjs');
+      let shown = -1;
+      const r = await joinVideos(a._.slice(1), typeof a.out === 'string' ? a.out : 'joined.mp4', {
+        fade: Number(a.fade) || 0,
+        titles: typeof a.titles === 'string' ? a.titles.split('|').map((t) => t.trim()) : [],
+        onProgress: (d, t) => { const pc = Math.floor((d / t) * 10) * 10; if (pc > shown) { shown = pc; process.stderr.write(`  ${pc}%
+`); } },
+      });
+      const off = Math.abs(r.seconds - r.expected) > 0.5 ? ` (the parts add up to ${r.expected} s: check the join)` : '';
+      print(`${r.out}: ${r.parts} parts, ${r.seconds} s${off}, ${r.reencoded ? 'encoded once' : 'joined without re-encoding'}. Chapters in ${r.chaptersFile}${r.chapters.usable ? '' : ' (YouTube shows chapters only with 3 or more, each 10 s or longer)'}:
+${r.chapters.text}`, r);
+      return 0;
+    }
+    case 'swarm': {
+      const { buildWithCursors } = await import('./studio-swarm.mjs');
+      const r = buildWithCursors(loadScene(file), {
+        cursors: Number(a.cursors) || 0, speed: Number(a.speed) || 1, at: Number(a.at) || 0,
+        ...(a['no-names'] === true ? { names: [] } : {}), sound: a['no-sound'] !== true,
+      });
+      const out = typeof a.out === 'string' ? a.out : file;
+      (await import('node:fs')).writeFileSync(out, JSON.stringify(r.scene, null, 2));
+      print(`${out}: ${r.cursors} cursors build ${r.layers} layer(s) in ${r.seconds} s; the scene is now ${r.scene.duration} s.`, { ...r, scene: undefined, out });
       return 0;
     }
     case 'compose': {
@@ -487,6 +530,35 @@ ${g.note}`, g);
       const { writeScreencastScene } = await import('./studio-screencast.mjs');
       const r = writeScreencastScene(file, { format: a.format, title: a.title, end: a.end, cta: a.cta, music: a.music, intro: a.intro, accent: a.accent, glow: a.glow, bg: a.bg, endBg: a['end-bg'], titleBg: a['title-bg'], voice: a.voice });
       print(`${r.file}: ${r.seconds} s, ${r.steps} step captions, ${r.stops} camera keys`, r);
+      return 0;
+    }
+    case 'narrate': {
+      const { narrate } = await import('./studio-narrate.mjs');
+      const r = await narrate(file, { lang: a.lang, audience: a.audience, context: a.context, intro: a.intro, outro: a.outro, out: a.out, ai: a['no-ai'] ? false : undefined });
+      print(`${r.file} (${r.lines.length} lines, written by ${r.by}${r.looked ? ', looking at each step' : ''}):
+${r.lines.map((l) => `  ${typeof l.at === 'number' ? `${l.at.toFixed(1)} s` : l.at}  ${l.text}${l.long ? `   [${l.words} words, budget ${l.budget}: shorten it, or give that step a longer pause]` : ''}`).join('\n')}
+Read it through and change any line, then: voice ${file}`, r);
+      return 0;
+    }
+    case 'voice': {
+      const { voiceNarration } = await import('./studio-narrate.mjs');
+      const r = await voiceNarration(file, { voice: typeof a.voice === 'string' ? a.voice : undefined, file: typeof a.file === 'string' ? a.file : undefined, kit: typeof a.kit === 'string' ? a.kit : undefined, onStep: progress });
+      if (!json && process.stderr.isTTY) process.stderr.write('\n');
+      const bad = r.checks.filter((c) => c.ok === false).map((c) => `
+  line ${c.line} "${c.text}": ${c.problems.join('; ')}`).join('');
+      const over = r.overruns.map((o) => `
+  line ${o.line} runs ${o.over} s into the next step: shorten it, or give that step a longer pause and record again`).join('');
+      print(`${r.file}: ${r.lines} line(s) spoken${bad ? `
+Voice check:${bad}` : ', every line passes the voice check'}${over}
+Then: screencast ${file} --voice ${r.file}`, r);
+      return r.failed || r.overruns.length ? 1 : 0;
+    }
+    case 'guide': {
+      const { writeGuide } = await import('./studio-narrate.mjs');
+      const r = await writeGuide(file, { title: a.title, file: typeof a.file === 'string' ? a.file : undefined, accent: a.accent, out: a.out });
+      print(`${r.steps} steps${r.narrated ? ' (with the narration as their text)' : ''}:
+  ${r.markdown}
+  ${r.html}`, r);
       return 0;
     }
     case 'notes': {

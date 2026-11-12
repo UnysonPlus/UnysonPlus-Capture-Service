@@ -348,11 +348,24 @@ td.txt{color:var(--muted);max-width:340px}
   backdrop-filter:blur(12px);overflow-x:auto}
 .nav-toggle{display:none}
 /* ---- Home (hub) ---- */
-.hub{max-width:1100px;padding:6px 0 30px}
+/* 1100px fitted exactly four 260px cards, so the fifth wrapped to a row of its own and left ~800px
+ * of empty desk to the right of it on a 1080p window.
+ *
+ * The cap that replaced it has to be CENTRED as well as wide. A max-width on its own leaves the
+ * block anchored left, so every pixel the cap holds back collects on the right-hand side and the
+ * grid sits lopsided inside the page gutter — 24px of air on the left against ~95px on the right.
+ * margin-inline:auto splits that remainder evenly, and the cap is set high enough that an ordinary
+ * 1080p or 1440p window never reaches it: there, the grid simply fills the gutter on both sides and
+ * the only limit is the page padding. The cap exists for ultrawides, where five cards would
+ * otherwise stretch to ~670px each. */
+.hub{max-width:2200px;margin-inline:auto;padding:6px 0 30px}
 .hub-head h1{margin:0 0 4px;font-size:22px;letter-spacing:-.01em}
 .hub-kit{margin:0 0 18px;color:var(--muted);font-size:13px}
 .hub-warn{display:inline-block;margin-top:6px;color:var(--amber);font-size:12.5px;line-height:1.5;max-width:86ch}
-.hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+/* auto-FIT, not auto-fill: auto-fill keeps the empty tracks at the end of the row, which is the
+ * other half of why the row looked short. auto-fit collapses them, so however many cards the hub
+ * has, the row they are on fills the width. */
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .hub-card{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .hub-card h2{margin:0;font-size:16px;display:flex;align-items:center;gap:8px}
 .hub-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
@@ -504,6 +517,90 @@ td.txt{color:var(--muted);max-width:340px}
   .top .watching{margin-left:0!important}
   #upwStatus{white-space:normal!important;flex-wrap:wrap}
 }
+/* ---------- SEO Check ---------- */
+#view-seo .wrap{grid-template-columns:minmax(300px,360px) minmax(0,1fr)}
+.seo-left{display:flex;flex-direction:column;gap:16px;min-width:0}
+.seo-form{display:flex;flex-direction:column;gap:12px;padding:16px 18px}
+.seo-modes{display:flex;gap:8px}
+.seo-mode{flex:1;display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer;background:var(--surface)}
+.seo-mode input{position:absolute;opacity:0;pointer-events:none}
+.seo-mode b{font-size:13px}
+.seo-mode span{font-size:11.5px;color:var(--faint);line-height:1.4}
+.seo-mode:has(input:checked){border-color:var(--accent-2);box-shadow:0 0 0 3px oklch(0.74 0.17 158 / .16)}
+.seo-mode:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.seo-opts{display:flex;flex-direction:column;gap:7px;font-size:12.5px;color:var(--muted)}
+.seo-opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;line-height:1.45}
+.seo-opts input{margin-top:3px;accent-color:var(--accent)}
+.seo-limit{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.seo-limit input{width:72px}
+.seo-progress{display:none;font-size:12.5px;color:var(--muted);line-height:1.5;border-top:1px solid var(--border-soft);padding-top:11px}
+.seo-progress.on{display:block}
+.seo-progress .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:seoSpin .8s linear infinite;vertical-align:-1px;margin-right:7px}
+@keyframes seoSpin{to{transform:rotate(360deg)}}
+.seo-err{color:var(--red)}
+.seo-sites{list-style:none;padding:6px 0;max-height:320px;overflow:auto}
+.seo-sites li button{width:100%;display:flex;align-items:center;gap:10px;padding:9px 18px;background:none;border:0;cursor:pointer;text-align:left;color:var(--ink)}
+.seo-sites li button:hover,.seo-sites li button[aria-current="true"]{background:var(--surface-2)}
+.seo-sites .host{flex:1;min-width:0;font-family:var(--mono);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.seo-sites .when{font-size:11px;color:var(--faint);white-space:nowrap}
+.seo-mini{font-weight:700;font-size:12px;min-width:30px;text-align:right}
+.seo-key{padding:14px 18px;display:flex;flex-direction:column;gap:9px;font-size:12.5px;color:var(--muted);line-height:1.5}
+.seo-key .row{display:flex;gap:8px}
+.seo-key a{color:var(--accent)}
+.seo-report{min-width:0}
+.seo-empty{padding:48px 28px;color:var(--muted);font-size:13px;line-height:1.7;max-width:620px}
+.seo-empty h2{color:var(--ink);font-size:15px;margin-bottom:6px}
+.seo-head{display:flex;gap:22px;align-items:center;flex-wrap:wrap;padding:20px 22px;border-bottom:1px solid var(--border-soft)}
+.seo-score{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:conic-gradient(var(--sc) calc(var(--v) * 1%),var(--surface-2) 0);position:relative}
+.seo-score::before{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--surface)}
+.seo-score b{position:relative;font-size:24px;font-weight:700;letter-spacing:-.02em}
+.seo-score small{position:absolute;bottom:17px;font-size:9.5px;color:var(--faint);letter-spacing:.04em}
+.seo-hmain{flex:1;min-width:220px}
+.seo-host{font-size:17px;font-weight:700;letter-spacing:-.01em;word-break:break-all}
+.seo-meta{font-size:12px;color:var(--faint);margin-top:2px}
+.seo-counts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.seo-sev{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.03em;border:1px solid}
+.seo-sev.critical{color:var(--red);border-color:color-mix(in oklch,var(--red) 50%,transparent);background:oklch(0.66 0.19 27 / .12)}
+.seo-sev.high{color:oklch(0.76 0.15 50);border-color:oklch(0.76 0.15 50 / .5);background:oklch(0.76 0.15 50 / .1)}
+.seo-sev.medium{color:var(--amber);border-color:oklch(0.80 0.14 78 / .45);background:oklch(0.80 0.14 78 / .09)}
+.seo-sev.low{color:var(--blue);border-color:oklch(0.72 0.12 240 / .45);background:oklch(0.72 0.12 240 / .09)}
+.seo-sev.info{color:var(--muted);border-color:var(--border);background:var(--surface-2)}
+.seo-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seo-actions .btn{padding:8px 13px;font-size:12.5px;text-decoration:none}
+.seo-actions select{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;color:var(--ink);padding:8px 10px;font-size:12.5px;max-width:230px}
+.seo-band{padding:14px 22px;border-bottom:1px solid var(--border-soft);font-size:13px;color:var(--muted);line-height:1.6;display:flex;flex-direction:column;gap:6px}
+.seo-band b{color:var(--ink)}
+.seo-lh{display:flex;gap:16px;flex-wrap:wrap}
+.seo-lh span{font-size:12.5px}
+.seo-lh b{font-family:var(--mono)}
+.seo-note{font-size:12.5px;color:var(--amber)}
+.seo-changes .fixed{color:var(--accent)} .seo-changes .new{color:var(--amber)}
+.seo-list{padding:8px 22px 22px}
+.seo-list h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px}
+.seo-f{border:1px solid var(--border-soft);border-radius:12px;margin-bottom:10px;background:var(--bg)}
+.seo-f>summary{list-style:none;display:flex;gap:11px;align-items:baseline;padding:13px 15px;cursor:pointer}
+.seo-f>summary::-webkit-details-marker{display:none}
+.seo-f>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:12px}
+.seo-f .n{font-family:var(--mono);font-size:12px;color:var(--faint);min-width:18px}
+.seo-f .t{flex:1;font-weight:600;font-size:13.5px;line-height:1.45}
+.seo-f .t small{display:block;font-weight:400;font-size:12px;color:var(--faint);margin-top:2px}
+.seo-f .pc{font-size:11.5px;color:var(--faint);white-space:nowrap}
+.seo-fb{padding:0 15px 14px 44px;font-size:13px;line-height:1.6;color:var(--muted);display:flex;flex-direction:column;gap:8px}
+.seo-fb b{color:var(--ink);font-weight:600}
+.seo-fb ul{padding-left:18px;font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:3px}
+.seo-fb ul a{color:var(--muted);text-decoration:none;word-break:break-all}
+.seo-fb ul a:hover{color:var(--accent)}
+.seo-fix{font-size:12px;color:var(--accent)}
+.seo-sugg{display:flex;flex-direction:column;gap:10px}
+.seo-sugg div{border:1px solid var(--border-soft);border-radius:10px;padding:10px 13px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.seo-sugg code{font-family:var(--mono);font-size:11.5px;color:var(--faint);word-break:break-all}
+.seo-pages{width:100%;border-collapse:collapse;font-size:12px}
+.seo-pages th{text-align:left;color:var(--faint);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border-soft)}
+.seo-pages td{padding:6px 8px;border-bottom:1px solid var(--border-soft);vertical-align:top;color:var(--muted)}
+.seo-pages td:first-child{font-family:var(--mono);word-break:break-all}
+@media(max-width:900px){#view-seo .wrap{grid-template-columns:1fr}.seo-fb{padding-left:15px}}
+@media(prefers-reduced-motion:reduce){.seo-progress .spin{animation:none}}
 </style>
 </head>
 <body>
@@ -536,6 +633,9 @@ td.txt{color:var(--muted);max-width:340px}
     </button>
     <button class="nav-item" data-view="convert" title="Convert an existing site into WordPress">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="lbl">Convert site</span>
+    </button>
+    <button class="nav-item" data-view="seo" title="Check a website's SEO (Alpha)">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11.5l2 2 4-4"/></svg></span><span class="lbl">SEO check</span>
     </button>
     <button class="nav-item" data-view="pen" title="Create a shortcode from a pen or any HTML/CSS/JS (Alpha)">
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 6-9 6-9-6 9-6zM3 16l9 6 9-6M3 12l9 6 9-6"/></svg></span><span class="lbl">Create shortcode</span>
@@ -762,6 +862,55 @@ td.txt{color:var(--muted);max-width:340px}
             <button class="btn btn-primary" id="chatSend" type="submit">Send</button>
           </form>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== SEO CHECK VIEW: seo-check.mjs through the capture service ===== -->
+    <section class="view" id="view-seo">
+      <div class="view-head">
+        <h1 class="view-h1">SEO Check <span class="alpha-tag alpha-tag-lg">Alpha</span></h1>
+        <p class="view-sub">Checks any website the way a search engine sees it: the HTML the server sends and the page a browser renders, robots.txt, the sitemap, redirects and structured data. Lighthouse and the kit's AI add speed scores and a read of the content. You get one plan, most important first, with how to fix each problem and how to check it worked. <b>It only reads public pages</b>: fixing happens in WordPress.</p>
+      </div>
+      <div class="wrap">
+        <aside class="seo-left">
+          <section class="panel">
+            <form class="seo-form" id="seoForm">
+              <label class="fld">
+                <span class="fld-l">Website</span>
+                <input id="seoUrl" class="fld-i mono" type="text" inputmode="url" placeholder="https://example.com" autocomplete="off" spellcheck="false" required>
+              </label>
+              <div class="seo-modes" role="radiogroup" aria-label="How much to check">
+                <label class="seo-mode"><input type="radio" name="seoMode" value="quick" checked><b>Quick</b><span>This page and the site-wide checks, about a minute</span></label>
+                <label class="seo-mode"><input type="radio" name="seoMode" value="full"><b>Full</b><span>The pages in the sitemap, a few minutes</span></label>
+              </div>
+              <label class="seo-limit" id="seoLimitRow" hidden>Check up to <input id="seoLimit" class="fld-i mono" type="number" min="1" max="100" value="25"> pages</label>
+              <div class="seo-opts">
+                <label><input type="checkbox" id="seoAi" checked><span>Read the content with the AI (quality, trust, whether AI answers would quote it)</span></label>
+                <label><input type="checkbox" id="seoLh" checked><span>Lighthouse scores from PageSpeed Insights (public sites only)</span></label>
+              </div>
+              <button class="btn btn-primary" id="seoGo" type="submit" style="justify-content:center">Check</button>
+              <div class="seo-progress" id="seoProgress" role="status" aria-live="polite"></div>
+            </form>
+          </section>
+          <section class="panel">
+            <div class="panel-h"><h2>Checked before</h2></div>
+            <ul class="seo-sites" id="seoSites"><li style="padding:10px 18px;color:var(--faint);font-size:12.5px">Nothing yet.</li></ul>
+          </section>
+          <section class="panel">
+            <div class="panel-h"><h2>PageSpeed Insights key</h2></div>
+            <div class="seo-key">
+              <span id="seoKeyState">Checking…</span>
+              <span>Without a key, Lighthouse shares one daily quota with everyone and often fails. A free key from <a href="https://developers.google.com/speed/docs/insights/v5/get-started" target="_blank" rel="noopener">Google's PageSpeed Insights page</a> gives you your own. It stays on this computer.</span>
+              <div class="row"><input id="seoKey" class="fld-i mono" type="password" placeholder="Paste the key" autocomplete="off" spellcheck="false"><button class="btn" id="seoKeySave" type="button">Save</button></div>
+            </div>
+          </section>
+        </aside>
+        <section class="panel seo-report" id="seoReport">
+          <div class="seo-empty">
+            <h2>No report open</h2>
+            <p>Type a website and press <b>Check</b>, or open a site you checked before. Each check is kept, so the next one shows what was fixed and what is new.</p>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -2303,9 +2452,159 @@ async function pollPull(){
 loadLocalAi(); setInterval(loadLocalAi,8000);
 loadEndpoint(); setInterval(loadEndpoint,8000);
 
+/* ================= SEO Check (seo-check.mjs, through /api/seo-check → the capture service) ================= */
+const seo={host:'',file:'',report:null,runs:[],job:'',inited:false};
+const seoEscA=(x)=>String(x==null?'':x).replace(/[&<>"']/g,(m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const seoPost=(p,b)=>fetch(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b||{})}).then(async r=>{const j=await r.json().catch(()=>({}));if(!r.ok&&!j.error)j.error='HTTP '+r.status;return Object.assign(j,{_status:r.status});});
+const SEO_SEV_LABEL={critical:'Critical',high:'High',medium:'Medium',low:'Low',info:'Info'};
+function seoScoreColor(v){return v>=90?'var(--accent)':v>=70?'var(--amber)':'var(--red)';}
+function seoWhen(iso){ if(!iso) return ''; const d=new Date(iso); const s=(Date.now()-d.getTime())/1000;
+  if(s<90) return 'just now'; if(s<3600) return Math.round(s/60)+' min ago'; if(s<86400) return Math.round(s/3600)+' h ago';
+  return d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:d.getFullYear()===new Date().getFullYear()?undefined:'numeric'}); }
+
+function seoInit(){
+  if(seo.inited) return; seo.inited=true;
+  document.querySelectorAll('input[name="seoMode"]').forEach(r=>r.addEventListener('change',()=>{ $('#seoLimitRow').hidden=seoMode()!=='full'; }));
+  $('#seoForm').addEventListener('submit',(e)=>{ e.preventDefault(); seoStart(); });
+  $('#seoKeySave').addEventListener('click',async()=>{
+    const v=$('#seoKey').value.trim();
+    const r=await seoPost('/api/seo-check/settings',{psi_key:v}).catch(()=>({error:'Capture service not reachable'}));
+    if(r.error){ toast(r.error); return; }
+    $('#seoKey').value=''; seoKeyState(r); toast(v?'Key saved':'Key removed');
+  });
+}
+function seoMode(){ const r=document.querySelector('input[name="seoMode"]:checked'); return r?r.value:'quick'; }
+function seoKeyState(s){
+  const el=$('#seoKeyState'); if(!el) return;
+  el.innerHTML=s&&s.psi_key_set?(s.psi_key_from==='environment'?'<b style="color:var(--accent)">Key set</b> (from the PSI_API_KEY environment variable).':'<b style="color:var(--accent)">Key saved.</b> Paste a new one to replace it, or save an empty box to remove it.'):'No key set.';
+}
+
+async function renderSeo(){
+  seoInit();
+  let st={}; try{ st=await api('/api/seo-check/sites'); }catch(_){ st={error:true}; }
+  try{ seoKeyState(await api('/api/seo-check/settings')); }catch(_){ seoKeyState(null); }
+  seoSites(st.sites||[], st.error);
+  if(st.running && !seo.job){ seo.job=st.running; seoFollow(); }
+  else if(!seo.report && st.sites && st.sites.length){ seoOpen(st.sites[0].host,''); }
+}
+function seoSites(list,err){
+  const ul=$('#seoSites'); if(!ul) return;
+  if(err){ ul.innerHTML='<li style="padding:10px 18px;color:var(--amber);font-size:12.5px">The capture service is not running. Start the kit to use SEO Check.</li>'; return; }
+  if(!list.length){ ul.innerHTML='<li style="padding:10px 18px;color:var(--faint);font-size:12.5px">Nothing yet.</li>'; return; }
+  ul.innerHTML=list.map(s=>'<li><button type="button" data-host="'+seoEscA(s.host)+'"'+(s.host===seo.host?' aria-current="true"':'')+'><span class="host">'+esc(s.host)+'</span><span class="when">'+esc(seoWhen(s.last.checked_at))+'</span><span class="seo-mini" style="color:'+seoScoreColor(s.last.score)+'">'+esc(String(s.last.score))+'</span></button></li>').join('');
+  ul.querySelectorAll('button[data-host]').forEach(b=>b.addEventListener('click',()=>seoOpen(b.dataset.host,'')));
+}
+
+async function seoStart(){
+  const url=$('#seoUrl').value.trim(); if(!url){ $('#seoUrl').focus(); return; }
+  const p=$('#seoProgress'); const go=$('#seoGo');
+  const r=await seoPost('/api/seo-check',{url,mode:seoMode(),limit:parseInt($('#seoLimit').value,10)||25,ai:$('#seoAi').checked,lighthouse:$('#seoLh').checked})
+    .catch(()=>({error:'The capture service is not running. Start the kit (start.bat or start.command).'}));
+  if(r._status===409&&r.id){ seo.job=r.id; seoFollow(); toast('A check is already running: following it'); return; }
+  if(r.error){ p.className='seo-progress on'; p.innerHTML='<span class="seo-err">'+esc(r.error)+'</span>'; return; }
+  seo.job=r.id; go.disabled=true; seoFollow();
+}
+async function seoFollow(){
+  const p=$('#seoProgress'); const go=$('#seoGo'); p.className='seo-progress on'; go.disabled=true;
+  let j; try{ j=await api('/api/seo-check/job/'+seo.job); }catch(_){ j={state:'error',error:'Lost the capture service.'}; }
+  if(j.state==='running'){
+    p.innerHTML='<span class="spin" aria-hidden="true"></span>'+esc(j.step||'Working')+' <span style="color:var(--faint)">· '+Math.round((j.elapsed||0)/1000)+' s</span>';
+    setTimeout(seoFollow,1500); return;
+  }
+  go.disabled=false; seo.job='';
+  if(j.state==='error'){ p.innerHTML='<span class="seo-err">The check failed: '+esc(j.error||'unknown error')+'</span>'; return; }
+  p.className='seo-progress'; p.innerHTML='';
+  const r=j.report; seo.host=r.host; seo.file='';
+  try{ seo.runs=(await api('/api/seo-check/history?host='+encodeURIComponent(r.host))).runs||[]; }catch(_){ seo.runs=[]; }
+  seo.file=(seo.runs[0]||{}).file||''; seoRender(r);
+  try{ const st=await api('/api/seo-check/sites'); seoSites(st.sites||[]); }catch(_){}
+}
+async function seoOpen(host,file){
+  let r; try{ r=await api('/api/seo-check/report?host='+encodeURIComponent(host)+(file?'&file='+encodeURIComponent(file):'')); }catch(_){ return; }
+  if(!r||r.error){ toast((r&&r.error)||'Could not open the report'); return; }
+  try{ seo.runs=(await api('/api/seo-check/history?host='+encodeURIComponent(host))).runs||[]; }catch(_){ seo.runs=[]; }
+  seo.host=host; seo.file=file||(seo.runs[0]||{}).file||''; seoRender(r);
+  document.querySelectorAll('#seoSites button[data-host]').forEach(b=>b.setAttribute('aria-current',b.dataset.host===host?'true':'false'));
+}
+
+function seoRender(r){
+  seo.report=r; const el=$('#seoReport'); if(!el) return;
+  const c=r.counts||{}; const v=r.score;
+  const sev=(s,n)=>n?'<span class="seo-sev '+s+'">'+n+' '+SEO_SEV_LABEL[s].toLowerCase()+'</span>':'';
+  const real=(r.findings||[]).filter(f=>f.severity!=='info'), info=(r.findings||[]).filter(f=>f.severity==='info');
+  const wp=r.site&&r.site.unysonplus;
+  const runOpts=seo.runs.map(x=>'<option value="'+seoEscA(x.file)+'"'+(x.file===seo.file?' selected':'')+'>'+esc(new Date(x.checked_at).toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'}))+' · '+x.score+'</option>').join('');
+  const lh=r.lighthouse&&r.lighthouse.scores?'<div class="seo-lh"><span style="color:var(--faint)">Lighthouse, mobile:</span>'+Object.entries(r.lighthouse.scores).map(([k,s])=>'<span>'+esc(k.replace('-',' '))+' <b style="color:'+seoScoreColor(s)+'">'+esc(String(s))+'</b></span>').join('')+'</div>':'';
+  const ch=r.changes?'<div class="seo-changes">Since the check on '+esc(new Date(r.changes.previous_at).toLocaleDateString())+' (score '+esc(String(r.changes.previous_score))+'): <b class="fixed">'+r.changes.fixed.length+' fixed</b>, <b class="new">'+r.changes.new.length+' new</b>.</div>':'';
+  const pageList=(f)=>f.pages.length?'<ul>'+f.pages.slice(0,40).map(p=>'<li><a href="'+seoEscA(p.url)+'" target="_blank" rel="noopener">'+esc(p.url)+'</a>'+(p.detail?' <span style="color:var(--faint)">('+esc(p.detail)+')</span>':'')+'</li>').join('')+(f.pages.length>40?'<li>… and '+(f.pages.length-40)+' more</li>':'')+'</ul>':'';
+  const item=(f,i)=>'<details class="seo-f"'+(i<3?' open':'')+'><summary><span class="n">'+(i+1)+'</span><span class="t">'+esc(f.title)+(f.detail?'<small>'+esc(f.detail)+'</small>':'')+'</span>'+(f.pages.length?'<span class="pc">'+f.pages.length+' page'+(f.pages.length>1?'s':'')+'</span>':'')+'<span class="seo-sev '+f.severity+'">'+SEO_SEV_LABEL[f.severity]+'</span></summary>'
+    +'<div class="seo-fb">'+(f.why?'<div><b>Why.</b> '+esc(f.why)+'</div>':'')+(f.fix?'<div><b>Fix.</b> '+esc(f.fix)+'</div>':'')+(f.verify?'<div><b>Check it worked.</b> '+esc(f.verify)+'</div>':'')
+    +(wp&&f.fixWith?'<div class="seo-fix">The AI Assistant in this site\'s WordPress can fix this with its SEO tools.</div>':'')+pageList(f)+'</div></details>';
+  const sugg=r.ai&&r.ai.suggestions&&r.ai.suggestions.length?'<h3>Suggested titles and descriptions</h3><div class="seo-sugg">'+r.ai.suggestions.map(s=>'<div><code>'+esc(s.url)+'</code>'+(s.title?'<br><b style="color:var(--ink)">Title:</b> '+esc(s.title):'')+(s.description?'<br><b style="color:var(--ink)">Description:</b> '+esc(s.description):'')+'</div>').join('')+'</div>':'';
+  el.innerHTML='<div class="seo-head">'
+    +'<div class="seo-score" style="--v:'+v+';--sc:'+seoScoreColor(v)+'" role="img" aria-label="Score '+v+' out of 100"><b>'+v+'</b><small>/100</small></div>'
+    +'<div class="seo-hmain"><div class="seo-host">'+esc(r.host)+'</div><div class="seo-meta">'+(r.mode==='full'?'Full check, '+(r.pages||[]).length+' pages':'Quick check')+' · '+esc(new Date(r.checked_at).toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'}))+(wp?' · built with Unyson+':(r.site&&r.site.wordpress?' · WordPress':''))+'</div>'
+    +'<div class="seo-counts">'+sev('critical',c.critical)+sev('high',c.high)+sev('medium',c.medium)+sev('low',c.low)+(real.length?'':'<span class="seo-sev info">Nothing to fix</span>')+'</div></div>'
+    +'<div class="seo-actions">'+(seo.runs.length>1?'<select id="seoRun" aria-label="Earlier checks">'+runOpts+'</select>':'')
+    +'<a class="btn" href="/api/seo-check/report?host='+encodeURIComponent(r.host)+(seo.file?'&file='+encodeURIComponent(seo.file):'')+'&format=md">Markdown</a>'
+    +'<button class="btn" type="button" id="seoPdf">PDF</button>'
+    +'<button class="btn" type="button" id="seoJson">JSON</button>'
+    +'<button class="btn btn-primary" type="button" id="seoFixReq" title="Copy a request for the AI Assistant in WordPress, or for your own agent">Copy fix request</button></div></div>'
+    +((lh||ch||(r.ai&&r.ai.summary)||(r.notes||[]).length)?'<div class="seo-band">'+lh+ch+(r.ai&&r.ai.summary?'<div><b>Content overall.</b> '+esc(r.ai.summary)+'</div>':'')+(r.notes||[]).map(n=>'<div class="seo-note">'+esc(n)+'</div>').join('')+'</div>':'')
+    +'<div class="seo-list"><h3>The plan'+(real.length?' · '+real.length+' to fix':'')+'</h3>'+(real.length?real.map(item).join(''):'<p style="color:var(--muted);font-size:13px">No problems found on the pages checked.</p>')
+    +(info.length?'<h3>For your information</h3>'+info.map((f,i)=>item(f,real.length+i)).join(''):'')
+    +sugg
+    +'<h3>Pages checked</h3><table class="seo-pages"><thead><tr><th>Page</th><th>Status</th><th>Words</th><th>Title</th></tr></thead><tbody>'
+    +(r.pages||[]).map(p=>'<tr><td>'+esc(p.url)+'</td><td>'+esc(String(p.status||'—'))+'</td><td>'+esc(String(p.words))+'</td><td>'+esc(p.title||p.error||'')+'</td></tr>').join('')+'</tbody></table></div>';
+  const sel=$('#seoRun'); if(sel) sel.addEventListener('change',()=>seoOpen(r.host,sel.value));
+  $('#seoJson').addEventListener('click',()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(r,null,2)],{type:'application/json'})); a.download='seo-check-'+r.host+'-'+String(r.checked_at).slice(0,10)+'.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); });
+  $('#seoPdf').addEventListener('click',()=>seoPrint(r));
+  $('#seoFixReq').addEventListener('click',()=>{ const t=seoFixRequest(r); navigator.clipboard.writeText(t).then(()=>toast('Copied. Paste it into the AI Assistant in WordPress, or into your agent.'),()=>toast('Could not copy')); });
+  if(!$('#seoUrl').value) $('#seoUrl').value=r.url||'';
+}
+
+/** A request an agent can act on: the problems the SEO tools fix, with pages, plus the suggested wording. */
+function seoFixRequest(r){
+  const L=['Fix these SEO problems on '+r.url+' (found by the Unyson+ SEO Check on '+String(r.checked_at).slice(0,10)+').','Use the SEO tools. Show me each change before saving it, and tell me what you could not fix.',''];
+  let i=0;
+  for(const f of (r.findings||[]).filter(f=>f.severity!=='info')){
+    L.push((++i)+'. '+f.title+(f.detail?' ('+f.detail+')':'')+'. Fix: '+f.fix);
+    for(const p of f.pages.slice(0,15)) L.push('   - '+p.url+(p.detail?' ('+p.detail+')':''));
+    if(f.pages.length>15) L.push('   - … and '+(f.pages.length-15)+' more');
+  }
+  if(r.ai&&r.ai.suggestions&&r.ai.suggestions.length){
+    L.push('','Suggested titles and descriptions (use them, or better ones):');
+    for(const s of r.ai.suggestions){ L.push('- '+s.url); if(s.title) L.push('  title: '+s.title); if(s.description) L.push('  description: '+s.description); }
+  }
+  return L.join('\n');
+}
+
+/** A clean, light copy of the report in a new window, for the browser's Save as PDF. */
+function seoPrint(r){
+  const e=seoEscA; const c=r.counts||{};
+  const rows=(r.findings||[]).filter(f=>f.severity!=='info').map((f,i)=>'<section><h2>'+(i+1)+'. '+e(f.title)+' <span class="s '+f.severity+'">'+f.severity+'</span></h2>'+(f.detail?'<p class="d">'+e(f.detail)+'</p>':'')
+    +(f.why?'<p><b>Why.</b> '+e(f.why)+'</p>':'')+(f.fix?'<p><b>Fix.</b> '+e(f.fix)+'</p>':'')+(f.verify?'<p><b>Check it worked.</b> '+e(f.verify)+'</p>':'')
+    +(f.pages.length?'<ul>'+f.pages.slice(0,25).map(p=>'<li>'+e(p.url)+(p.detail?' ('+e(p.detail)+')':'')+'</li>').join('')+(f.pages.length>25?'<li>… and '+(f.pages.length-25)+' more</li>':'')+'</ul>':'')+'</section>').join('');
+  const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><title>SEO check: '+e(r.host)+'</title><style>'
+    +'body{font:13px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:#1c1e22;max-width:760px;margin:32px auto;padding:0 24px}'
+    +'h1{font-size:22px;margin:0 0 4px}.m{color:#5f6266;margin:0 0 14px}.sc{font-size:30px;font-weight:700}'
+    +'h2{font-size:14px;margin:0 0 4px}section{border-top:1px solid #ddd;padding:12px 0;break-inside:avoid}.d{color:#5f6266;margin:0 0 4px}p{margin:4px 0}'
+    +'ul{margin:6px 0 0;padding-left:18px;font:11.5px/1.5 ui-monospace,Consolas,monospace;color:#444;word-break:break-all}'
+    +'.s{font-size:10px;text-transform:uppercase;letter-spacing:.05em;border:1px solid;border-radius:9px;padding:1px 7px;margin-left:6px;vertical-align:2px}'
+    +'.critical{color:#b42318}.high{color:#c4570c}.medium{color:#8a6116}.low{color:#2f5fa8}.box{background:#f4f6f7;padding:10px 12px;border-radius:8px;margin:0 0 14px}'
+    +'@page{margin:16mm}</style></head><body>'
+    +'<h1>SEO check: '+e(r.host)+'</h1><p class="m">'+e(new Date(r.checked_at).toLocaleString())+' · '+(r.mode==='full'?'full check, '+(r.pages||[]).length+' pages':'quick check')+'</p>'
+    +'<p><span class="sc">'+r.score+'/100</span> &nbsp; '+['critical','high','medium','low'].map(s=>(c[s]||0)+' '+s).join(' · ')+'</p>'
+    +(r.lighthouse&&r.lighthouse.scores?'<p>Lighthouse, mobile: '+Object.entries(r.lighthouse.scores).map(([k,v])=>e(k)+' '+v).join(', ')+'</p>':'')
+    +(r.ai&&r.ai.summary?'<div class="box"><b>Content overall.</b> '+e(r.ai.summary)+'</div>':'')
+    +rows+'<p class="m" style="margin-top:20px">Made with the Unyson+ AI Dev Kit · SEO Check</p></body></html>';
+  const w=window.open('','_blank'); if(!w){ toast('Allow pop-ups for this page to save a PDF'); return; }
+  w.document.open(); w.document.write(html); w.document.close(); w.focus(); setTimeout(()=>w.print(),300);
+}
+
 /* ================= App-shell view routing ================= */
 function showView(name){
-  const valid=['home','create','convert','pen','chat','benchmarks','settings'];
+  const valid=['home','create','convert','seo','pen','chat','benchmarks','settings'];
   if(!valid.includes(name)) name='home';
   state.view=name;
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>{const on=b.dataset.view===name;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
@@ -2317,6 +2616,7 @@ function showView(name){
   if(location.hash.slice(1)!==name){ try{history.replaceState(null,'',location.pathname+location.search+'#'+name);}catch(_){location.hash=name;} }
   if(name==='home') renderHub();
   if(name==='benchmarks') renderBenchmarks($('#benchBody'));
+  if(name==='seo') renderSeo();
   if(name==='chat') chatOpen();
   if(name==='settings'){ loadLocalAi(); loadEndpoint(); renderService(); renderWpTarget(); }
 }
@@ -2774,6 +3074,10 @@ async function renderHub(){
     : !ai.ready ? state('warn','Running, but no AI is set up')
     : studioOpen ? state('ok','Connected (the Studio is open)') : state('ok','Ready');
 
+  // SEO Check: the last site checked, from the check history (seo-check.mjs).
+  let seoLast=null; if(h.up){ try{ const st=await api('/api/seo-check/sites'); seoLast=(st.sites||[])[0]||null; }catch(_){} }
+  const seoState = !h.up ? state('off','Not running') : state('ok','Ready');
+
   grid.innerHTML=[
     '<article class="hub-card"><h2>Create a Site</h2>'+creat+
       '<p>Builds a site from a brief, a reference URL, a design reference or an industry template — composing pages from the kit\'s recipes and styles, so the result is native Unyson+ you can edit. <b>It runs in your AI agent, not in this window.</b></p>'+
@@ -2792,6 +3096,10 @@ async function renderHub(){
       '<p>The chat panel in WordPress uses this kit\'s AI and tools when it runs on the same computer as your browser.</p>'+
       '<ul class="hub-facts">'+fact('AI',ai.ready?aiName:'')+fact('Last used',used('assistant'))+'</ul>'+
       '<div class="hub-actions"><button class="btn" type="button" onclick="showView(\'settings\')">AI settings</button></div></article>',
+    '<article class="hub-card"><h2>SEO Check</h2>'+seoState+
+      '<p>Checks any website the way a search engine sees it and hands back one plan, most important first. The AI also reads the content. It only reads pages: fixes happen in WordPress.</p>'+
+      '<ul class="hub-facts">'+(seoLast?fact('Last check',seoLast.host+', '+seoLast.last.score+'/100'):'')+fact('AI',ai.ready?aiName:'')+'</ul>'+
+      '<div class="hub-actions"><button class="btn btn-primary" type="button" onclick="showView(&quot;seo&quot;)">Open the checker</button></div></article>',
   ].join('');
 
 }

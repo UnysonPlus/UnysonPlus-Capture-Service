@@ -18,7 +18,10 @@ import { join } from 'node:path';
 import { chromium } from 'playwright-core';
 
 const OUT = join(process.env.CAPTURE_OUT || join(process.cwd(), 'capture-out'), 'studio-renders');
-const MAX_FRAMES = 60 * 60 * 3; // three minutes at 60 fps
+// The longest scene the format allows (600 s), at the highest frame rate (60 fps): a scene is never cut short. A longer
+// video is made of chapters, rendered one by one and joined (studio-join.mjs, `studio-cli join`).
+const MAX_SECONDS = 600;
+const MAX_FRAMES = MAX_SECONDS * 60;
 const jobs = new Map();
 let queue = Promise.resolve();
 
@@ -194,7 +197,11 @@ export function startRender(input) {
   const cover = !!input.cover;
   // Motion blur: sub-frames per frame (2-16), or off.
   const blur = input.blur === true ? 8 : clampInt(input.blur, 0, 16, 0);
-  const duration = Math.max(0.1, Math.min(600, +scene.duration || 1));
+  if (+scene.duration > MAX_SECONDS) {
+    const e = new Error(`This scene is ${Math.round(+scene.duration)} seconds long; one scene can be at most ${MAX_SECONDS} (10 minutes). Split it into chapters, render each, then join them (studio-cli join).`);
+    e.code = 400; throw e;
+  }
+  const duration = Math.max(0.1, +scene.duration || 1);
   const frames = Math.min(MAX_FRAMES, Math.round(duration * fps));
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   const slug = String(scene.title || 'scene').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'scene';
@@ -303,7 +310,14 @@ async function audioMix(scene, tmp, firstInput, page) {
     }
     const fileLen = await probeDuration(file);
     const trimIn = Math.max(0, +c.offset || 0);
-    const len = Math.max(0.05, Math.min(c.duration > 0 ? c.duration : Infinity, fileLen != null ? fileLen - trimIn : Infinity));
+    const room = Math.max(0.05, (+scene.duration || 0) - Math.max(0, +c.start || 0));
+    // A looped clip repeats the file from its trim start until its own length (or the scene's end); the same rule as
+    // the player's audioClipLength.
+    const seg = fileLen != null ? fileLen - trimIn : 0;
+    const loop = !!c.loop && seg > 0.05 && !(c.rate && c.rate !== 1);
+    const len = loop
+      ? Math.max(0.05, Math.min(c.duration > 0 ? c.duration : Infinity, room))
+      : Math.max(0.05, Math.min(c.duration > 0 ? c.duration : Infinity, fileLen != null ? fileLen - trimIn : Infinity));
     const finite = Number.isFinite(len);
     const vol = Math.max(0, Math.min(2, c.volume ?? 1));
     // At least 12 ms of fade at each end: a clip cut mid-sound otherwise clicks (inaudible as a fade).
@@ -312,7 +326,9 @@ async function audioMix(scene, tmp, firstInput, page) {
     const delayMs = Math.round(Math.max(0, +c.start || 0) * 1000);
     const idx = firstInput + inputs.length / 2; // inputs holds "-i", file pairs
     inputs.push('-i', file);
-    let chain = `[${idx}:a]atrim=start=${trimIn.toFixed(3)}${finite ? `:duration=${len.toFixed(3)}` : ''},asetpts=PTS-STARTPTS,volume=${vol.toFixed(3)}`;
+    let chain = loop
+      ? `[${idx}:a]atrim=start=${trimIn.toFixed(3)},asetpts=PTS-STARTPTS,aresample=48000,aloop=loop=-1:size=${Math.round(seg * 48000)},atrim=duration=${len.toFixed(3)},asetpts=PTS-STARTPTS,volume=${vol.toFixed(3)}`
+      : `[${idx}:a]atrim=start=${trimIn.toFixed(3)}${finite ? `:duration=${len.toFixed(3)}` : ''},asetpts=PTS-STARTPTS,volume=${vol.toFixed(3)}`;
     if (fi > 0) chain += `,afade=t=in:st=0:d=${fi.toFixed(3)}`;
     if (fo > 0 && finite) chain += `,afade=t=out:st=${Math.max(0, len - fo).toFixed(3)}:d=${fo.toFixed(3)}`;
     // Footage played faster or slower: its sound follows (atempo takes 0.5 to 2 per step).

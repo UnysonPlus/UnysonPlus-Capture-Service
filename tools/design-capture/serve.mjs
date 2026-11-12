@@ -528,6 +528,64 @@ function hubNote(req, path) {
   hubSeen[job] = { ...(hubSeen[job] || {}), [kind]: Date.now(), from: from || (hubSeen[job] && hubSeen[job].from) || '' };
 }
 
+// SEO CHECK — the dashboard's SEO Check view. seo-check.mjs does all the work (and the kit's seo-check
+// skill runs the same file from the command line), so this is only the job wrapper: one check at a time,
+// because each one drives a real browser across the site.
+//   POST /seo-check                    { url, mode: quick|full, limit, ai, lighthouse } → { id }
+//   GET  /seo-check/job/<id>           → { state: running|done|error, step, report?, error? }
+//   GET  /seo-check/sites              → the sites checked before, newest first
+//   GET  /seo-check/history?host=      → that site's runs
+//   GET  /seo-check/report?host=&file=&format=json|md
+//   GET  /seo-check/settings · POST /seo-check/settings { psi_key }
+const seoJobs = new Map();
+let seoRunning = '';
+function handleSeoCheck(req, res, u) {
+  import('./seo-check.mjs').then(async (sc) => {
+    const p = u.pathname;
+    if (p === '/seo-check' && req.method === 'POST') {
+      const b = (await readJson(req, 64 * 1024).catch(() => null)) || {};
+      const url = String(b.url || '').trim();
+      if (!url) return json(res, 400, { error: 'Type the address of the site to check.' });
+      if (seoRunning && seoJobs.get(seoRunning) && seoJobs.get(seoRunning).state === 'running') {
+        return json(res, 409, { error: 'A check is already running. Wait for it to finish.', id: seoRunning });
+      }
+      const id = randomBytes(6).toString('hex');
+      const job = { id, url, state: 'running', step: 'Starting', started: Date.now() };
+      seoJobs.set(id, job); seoRunning = id;
+      sc.checkSite({
+        url, mode: b.mode === 'full' ? 'full' : 'quick',
+        limit: Math.min(100, Math.max(1, parseInt(b.limit, 10) || 25)),
+        ai: b.ai !== false, lighthouse: b.lighthouse !== false,
+        onProgress: (s) => { job.step = s; },
+      }).then((r) => { job.state = 'done'; job.report = r; job.step = 'Done'; })
+        .catch((e) => { job.state = 'error'; job.error = String((e && e.message) || e); });
+      return json(res, 200, { id });
+    }
+    let m;
+    if ((m = /^\/seo-check\/job\/([a-f0-9]+)$/.exec(p))) {
+      const j = seoJobs.get(m[1]);
+      if (!j) return json(res, 404, { error: 'No such check (the kit may have restarted).' });
+      return json(res, 200, { id: j.id, url: j.url, state: j.state, step: j.step, error: j.error || '', report: j.state === 'done' ? j.report : undefined, elapsed: Date.now() - j.started });
+    }
+    if (p === '/seo-check/sites') return json(res, 200, { sites: sc.listSitesChecked(), running: seoRunning && seoJobs.get(seoRunning) && seoJobs.get(seoRunning).state === 'running' ? seoRunning : '' });
+    if (p === '/seo-check/history') return json(res, 200, { runs: sc.listHistory(u.searchParams.get('host') || '') });
+    if (p === '/seo-check/report') {
+      const r = sc.readReport(u.searchParams.get('host') || '', u.searchParams.get('file') || '');
+      if (!r) return json(res, 404, { error: 'No such report.' });
+      if (u.searchParams.get('format') === 'md') {
+        res.writeHead(200, { 'content-type': 'text/markdown; charset=utf-8', 'content-disposition': 'attachment; filename="seo-check-' + r.host.replace(/[^a-z0-9.-]/gi, '_') + '-' + String(r.checked_at).slice(0, 10) + '.md"' });
+        res.end(sc.toMarkdown(r)); return;
+      }
+      return json(res, 200, r);
+    }
+    if (p === '/seo-check/settings') {
+      if (req.method === 'POST') { const b = (await readJson(req, 8 * 1024).catch(() => null)) || {}; return json(res, 200, sc.setSettings(b)); }
+      return json(res, 200, sc.publicSettings());
+    }
+    json(res, 404, { error: 'Unknown SEO check route.' });
+  }).catch((e) => { try { json(res, 500, { error: String((e && e.message) || e) }); } catch { /* */ } });
+}
+
 if (maybeAutoUpdate()) {
   // Updated and re-exec'd into a fresh process — leave this one idle until the child exits.
 } else {
@@ -618,6 +676,8 @@ const __handler = (req, res) => {
       .catch((e) => json(res, 500, { error: String((e && e.message) || e) }));
     return;
   }
+
+  if (u.pathname === '/seo-check' || u.pathname.startsWith('/seo-check/')) { handleSeoCheck(req, res, u); return; }
 
   if (u.pathname === '/pages') {
     const target = (u.searchParams.get('url') || '').trim();
