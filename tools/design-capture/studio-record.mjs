@@ -66,7 +66,9 @@ export async function record(spec, outDir, onStep = () => {}) {
   const [vw, vh] = spec.viewport || [1600, 900];
   const scale = spec.scale || 2;
   const site = String(spec.site || '').replace(/\/$/, '');
-  const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true, args: [`--force-device-scale-factor=${scale}`] });
+  // A page on the web may reach the kit on this computer (a Kinetic Scenes project, the AI Assistant): a person's browser
+  // asks for that once; the recording browser has no one to ask, so it allows it.
+  const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL || 'chrome', headless: true, args: [`--force-device-scale-factor=${scale}`, '--disable-features=LocalNetworkAccessChecks,PrivateNetworkAccessSendPreflights,PrivateNetworkAccessRespectPreflightResults'] });
   const actions = [];
   try {
     const ctx = await browser.newContext({ viewport: { width: vw, height: vh }, deviceScaleFactor: scale });

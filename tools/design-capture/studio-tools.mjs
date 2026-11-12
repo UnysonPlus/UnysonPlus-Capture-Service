@@ -366,9 +366,42 @@ function silences(file, { db = -38, min = 0.25 } = {}) {
  * builder … Pro plan"); the words still match and speech recognition stretches a word over the gap, so the pause is
  * measured in the sound itself and placed between the words around it. Such a pause sounds machine-made.
  */
+const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+const TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+/** A whole number in words, joined ("sevenhundredthirty"); `and` adds the British "and" after hundred. */
+function numberWords(n, and = false) {
+  if (n < 20) return ONES[n];
+  if (n < 100) return TENS[Math.floor(n / 10)] + (n % 10 ? ONES[n % 10] : '');
+  if (n < 1000) return ONES[Math.floor(n / 100)] + 'hundred' + (n % 100 ? (and ? 'and' : '') + numberWords(n % 100, and) : '');
+  if (n < 1e6) return numberWords(Math.floor(n / 1000), and) + 'thousand' + (n % 1000 ? (and && n % 1000 < 100 ? 'and' : '') + numberWords(n % 1000, and) : '');
+  return null;
+}
+const ORD = { one: 'first', two: 'second', three: 'third', five: 'fifth', eight: 'eighth', nine: 'ninth', twelve: 'twelfth' };
+/**
+ * The ways a number written in digits is spoken, each joined into one word, so "730" (or "7:30") matches "seven thirty"
+ * and "seven hundred thirty", "2026" matches "twenty twenty six", "705" "seven oh five", "1st" "first", "50%" "fifty
+ * percent". Speech recognition writes numbers as digits; scripts usually spell them out (or the other way round).
+ */
+function spokenForms(x) {
+  const m = /^(\d{1,6})(st|nd|rd|th|%)?$/.exec(x);
+  if (!m) return [];
+  const n = +m[1], out = new Set([numberWords(n), numberWords(n, true)]);
+  // Times and years are read in pairs: 730 "seven thirty", 1045 "ten forty five", 705 "seven oh five", 700 "seven hundred".
+  if (m[1].length >= 3 && m[1].length <= 4) {
+    const hi = Math.floor(n / 100), lo = n % 100;
+    out.add(numberWords(hi) + (lo === 0 ? 'hundred' : lo < 10 ? 'oh' + ONES[lo] : numberWords(lo)));
+    if (lo === 0) out.add(numberWords(hi) + "o'clock");
+  }
+  if (m[2] === '%') return [...out].map((w) => w + 'percent');
+  if (m[2]) return [...out].map((w) => { const last = Object.keys(ORD).find((k) => w.endsWith(k)); return last ? w.slice(0, -last.length) + ORD[last] : w.endsWith('y') ? w.slice(0, -1) + 'ieth' : w + 'th'; });
+  return [...out].filter(Boolean);
+}
+/** Two normalised words are the same: equal, or one is digits the other spells out. */
+const sameWord = (a, b) => a === b || spokenForms(a).includes(b) || spokenForms(b).includes(a);
+
 export async function voiceCheck(file, script, { maxGap = 0.4, language } = {}) {
   const { words } = await transcribeFile(file, { language });
-  const norm = (x) => String(x).toLowerCase().replace(/\+/g, 'plus').replace(/[^\p{L}\p{N}']+/gu, '');
+  const norm = (x) => String(x).toLowerCase().replace(/\+/g, 'plus').replace(/[^\p{L}\p{N}'%]+/gu, '');
   // Script tokens, each knowing whether punctuation follows it (a pause there is natural).
   const tokens = String(script).split(/\s+/).filter(Boolean).map((raw) => ({ w: norm(raw), stop: /[.,;:!?…—–-]["')\]]*$/.test(raw) })).filter((t) => t.w);
   const heard = words.map((w) => ({ ...w, n: norm(w.w) })).filter((w) => w.n);
@@ -381,10 +414,10 @@ export async function voiceCheck(file, script, { maxGap = 0.4, language } = {}) 
     let k = -1, used = 1, span = 1;
     for (let j = i; j < Math.min(tokens.length, i + 4) && k < 0; j++) {
       let joined = '';
-      for (let n = 0; n < 3 && h + n < heard.length; n++) { joined += heard[h + n].n; if (joined === tokens[j].w) { k = j; used = n + 1; break; } }
+      for (let n = 0; n < 3 && h + n < heard.length; n++) { joined += heard[h + n].n; if (sameWord(joined, tokens[j].w)) { k = j; used = n + 1; break; } }
       // …or one heard word for several script words ("ProPageBuilder" = "Pro page builder").
       let glued = '';
-      for (let n = 0; n < 4 && j + n < tokens.length && k < 0; n++) { glued += tokens[j + n].w; if (n && glued === heard[h].n) { k = j; span = n + 1; } }
+      for (let n = 0; n < 4 && j + n < tokens.length && k < 0; n++) { glued += tokens[j + n].w; if ((n || /\d/.test(heard[h].n)) && sameWord(glued, heard[h].n)) { k = j; span = n + 1; } }
     }
     if (k < 0) { problems.push({ kind: 'word', t: heard[h].t, text: `heard "${heard[h].w}" where the script has "${tokens[i]?.w ?? '(nothing)'}"` }); h++; continue; }
     if (k > i) problems.push({ kind: 'word', t: heard[h].t, text: `"${tokens.slice(i, k).map((x) => x.w).join(' ')}" not heard` });
@@ -406,11 +439,14 @@ export async function voiceCheck(file, script, { maxGap = 0.4, language } = {}) 
   if (/\?["')\]]*\s*$/.test(String(script)) && words.length) {
     const lastWord = words[words.length - 1];
     intonation = await endPitch(file, lastWord.t + lastWord.d);
-    // The pitch decides. The recogniser adds "?" to anything worded like a question, however flatly it was said, so its
-    // punctuation only counts when the pitch could not be read, or for a "What…" question, which falls when said well.
+    // A yes/no question should rise at the end; the pitch decides. A What / Why / How / When / Where / Who / Which
+    // question falls when said well, so its pitch proves nothing either way and it is not flagged (it used to be judged
+    // by the transcript's "?", which flagged well-said wh-questions whenever the recogniser left the "?" off). The
+    // recogniser adds "?" to anything worded like a question, however flatly said, so it only counts when the pitch of
+    // a yes/no question could not be read. A measured rise is evidence, not proof: see docs/making-videos.md.
     const heardQuestion = /\?["')\]]*$/.test(lastWord.w);
-    const falls = /^\W*((so|and|but|then)\s+)?(what|why|how|when|where|who|which)/i.test(String(script).split(/[.!?]\s+/).pop());
-    if (intonation.change === null || falls ? !heardQuestion : !intonation.rises) problems.push({ kind: 'question', t: lastWord.t, text: `written as a question but sounds like a statement (the pitch ${intonation.change === null ? 'could not be read' : `moves ${intonation.change > 0 ? '+' : ''}${intonation.change}% at the end`}, and the transcript ends "${lastWord.w}")` });
+    const falls = /^\W*((so|and|but|then)\s+)?(what|why|how|when|where|who|which)\b/i.test(String(script).split(/[.!?]\s+/).pop());
+    if (!falls && (intonation.change === null ? !heardQuestion : !intonation.rises)) problems.push({ kind: 'question', t: lastWord.t, text: `written as a question but sounds like a statement (the pitch ${intonation.change === null ? 'could not be read' : `moves ${intonation.change > 0 ? '+' : ''}${intonation.change}% at the end`}, and the transcript ends "${lastWord.w}")` });
   }
   const inner = quiet.filter((q) => at.length && q.start > at[0].t0 && q.end < at[at.length - 1].t1);
   return { ok: !problems.length, problems: problems.sort((x, y) => x.t - y.t), heard: words.map((w) => w.w).join(' '), longestGap: inner.length ? Math.max(...inner.map((q) => q.end - q.start)) : 0, intonation };
