@@ -3,7 +3,7 @@
 // a column per placeholder, rendered once per row (a reel for every product in a shop, from one design). The fill rule
 // is the same as the Studio's (apps/studio/src/lib/batch.ts): keep the two in step.
 
-import { readFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 
 /** CSV text → { columns, rows: [{ column: value }] }. Quotes, doubled quotes, commas and line breaks inside quotes. */
@@ -59,6 +59,45 @@ export function missingColumns(scene, columns) {
   return placeholders(scene).filter((p) => !have.has(key(p)));
 }
 
+/**
+ * Voice-overs per row: a voice clip whose script changes with the row ({{placeholders}} in it) is spoken again in the
+ * same voice (its voiceId, else `voice`, else the kit's default), timed, and everything pinned to its words follows
+ * (word pins, studio-pins.mjs). The kit keeps every spoken line, so only lines whose words changed are spoken. Files go
+ * in `dir`. Returns the scene (a copy) and the clips spoken again.
+ */
+export async function voiceRow(template, filled, { dir, voice, onStep = () => {} } = {}) {
+  const changed = (filled.audio || []).filter((a) => {
+    if (a.role !== 'voice' || !a.script) return false;
+    const was = (template.audio || []).find((t) => t.id === a.id);
+    return !was || was.script !== a.script;
+  });
+  if (!changed.length) return { scene: filled, spoken: [] };
+  const { startVoice, voiceJob } = await import('./studio-voice.mjs');
+  const { applyWordPins } = await import('./studio-pins.mjs');
+  const scene = JSON.parse(JSON.stringify(filled));
+  mkdirSync(dir, { recursive: true });
+  for (const clip of scene.audio.filter((a) => changed.some((c) => c.id === a.id))) {
+    const lines = clip.script.split(String.fromCharCode(10)).map((l) => l.trim()).filter(Boolean);
+    onStep(`Speaking "${clip.name || clip.id}"`);
+    const job = startVoice({ lines, voice: clip.voiceId || voice, ...(clip.lang ? { language: clip.lang } : {}) });
+    let res;
+    for (;;) {
+      await new Promise((ok) => setTimeout(ok, 700));
+      const j = voiceJob(job.id);
+      if (j?.state === 'error') throw new Error(`The voice-over "${clip.name || clip.id}": ${j.error}`);
+      if (j?.state === 'done') { res = j.result; break; }
+    }
+    const file = join(dir, `${clip.id}-${Date.now().toString(36)}.mp3`);
+    writeFileSync(file, Buffer.from(res.src.split(',')[1], 'base64'));
+    Object.assign(clip, { src: file, words: res.words, speech: res.speech, voiceId: res.voice });
+    delete clip.offset; delete clip.duration;
+  }
+  const pinned = applyWordPins(scene);
+  const end = Math.max(0, ...pinned.scene.audio.filter((a) => a.role === 'voice').map((a) => a.start + ((a.words || []).at(-1)?.t ?? 0) + ((a.words || []).at(-1)?.d ?? 0)));
+  if (end + 0.4 > pinned.scene.duration) pinned.scene.duration = Math.round((end + 0.4) * 100) / 100;
+  return { scene: pinned.scene, spoken: changed.map((c) => c.id), problems: pinned.problems };
+}
+
 const slug = (s) => String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 
 /**
@@ -81,7 +120,10 @@ export async function renderBatch({ scene, csvFile, outDir, name, rows: pick, on
     const file = join(dir, `${String(i + 1).padStart(2, '0')}-${slug(label) || 'video'}.mp4`);
     onRow?.(i + 1, rows.length, label);
     try {
-      const r = await renderScene(fillScene(scene, rows[i], { media: dirname(csvFile) }), { ...opts, out: file });
+      const filled = fillScene(scene, rows[i], { media: dirname(csvFile) });
+      const { scene: voiced } = await voiceRow(scene, filled, { dir: join(dir, '.voices'), voice: opts.voice, onStep: (st) => onRow?.(i + 1, rows.length, `${label}: ${st}`) });
+      if (scene.__base) Object.defineProperty(voiced, '__base', { value: scene.__base, enumerable: false });
+      const r = await renderScene(voiced, { ...opts, out: file });
       done.push({ row: i + 1, label, file: r.file });
     } catch (e) { done.push({ row: i + 1, label, file: null, error: e.message }); }
   }

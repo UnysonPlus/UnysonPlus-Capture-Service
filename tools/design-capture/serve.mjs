@@ -882,6 +882,55 @@ const __handler = (req, res) => {
     return;
   }
 
+  // Kinetic Scenes' translation (studio-translate.mjs): a copy of a workspace project in another language.
+  //   POST /studio/translate          { project, to, voice?, name? } → { id }
+  //   GET  /studio/translate/<id>     → { state, step, error, result: { id, link, warnings, … } }
+  if (u.pathname === '/studio/translate' || u.pathname.startsWith('/studio/translate/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-translate.mjs')
+      .then(async (m) => {
+        if (!part) {
+          if (req.method !== 'POST') return json(res, 405, { error: 'POST.' });
+          if (!hasFfmpeg()) return json(res, 400, { error: 'Translating needs FFmpeg. Install it from the kit (studio-cli ffmpeg install).' });
+          const b = await readJson(req);
+          if (!b.project || !b.to) return json(res, 400, { error: 'Which project, and into which language?' });
+          return json(res, 200, { ok: true, ...m.startTranslate(b) });
+        }
+        const info = m.translateJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No translation with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
+  // Kinetic Scenes' web export (studio-webexport.mjs): a workspace project's media cut to what a web page needs.
+  //   POST /studio/web-export          { project, base?, dpr? } → { id }
+  //   GET  /studio/web-export/<id>     → { state, step, error, result: { out, scene, code, before, after, files } }
+  if (u.pathname === '/studio/web-export' || u.pathname.startsWith('/studio/web-export/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-webexport.mjs')
+      .then(async (m) => {
+        if (!part) {
+          if (req.method !== 'POST') return json(res, 405, { error: 'POST.' });
+          if (!hasFfmpeg()) return json(res, 400, { error: 'The web export needs FFmpeg. Install it from the kit (studio-cli ffmpeg install).' });
+          const b = await readJson(req);
+          if (!b.project) return json(res, 400, { error: 'Which project? The web export works on a workspace project.' });
+          return json(res, 200, { ok: true, ...m.startWebExport(b) });
+        }
+        if (part === 'reveal') {
+          const b = await readJson(req);
+          const w = await import('./studio-workspace.mjs');
+          return json(res, 200, { ok: true, ...w.reveal(b.project, 'web') });
+        }
+        const info = m.webExportJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No web export with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
   // Kinetic Scenes' background music (studio-music.mjs, the ACE-Step add-on): an instrumental made on this computer.
   //   POST /studio/music              { prompt, seconds, bpm? } → { id }   (starts ACE-Step from its folder if needed)
   //   GET  /studio/music/<id>         → { state, step, error, result: { src, bpm, seconds } }

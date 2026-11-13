@@ -241,6 +241,28 @@ ${r.chapters.text}`)];
     },
   },
   {
+    name: 'scene_translate',
+    description: `A copy of a workspace project in another language (the original is not changed). Every word on screen is translated (text layers and their per-screen versions, alt text, link labels, diagram nodes, list items, the title), every voice-over that has a script (or words) is spoken again in a voice for that language and timed in it, captions follow the new words, and word pins (layers and clips pinned to a word of a voice, "at"/"until") move to the translated words, so they play on the new voice. Brand names, {{placeholders}}, URLs, numbers and *emphasis* are kept. to = a two-letter language code. voice: default the kit's free voice for the language (es fr de it pt nl pl sv tr ru uk zh vi id hi ar); voicebox:<profile> keeps a Voicebox voice (it speaks en zh ja ko de fr ru pt es it). Returns the new project's link and what to look at: lines that got longer and now run into the next voice-over, pins that lost their word. Needs the kit's AI backend and FFmpeg. Check and look at stills of the copy before handing it over.`,
+    inputSchema: { type: 'object', properties: { project: { type: 'string', description: 'The workspace project to translate.' }, to: { type: 'string', description: 'Two-letter language code, e.g. es.' }, voice: { type: 'string', description: 'Voice id for the new voice-overs (optional).' }, name: { type: 'string', description: 'Name of the new project (default "<title> (<Language>)").' } }, required: ['project', 'to'] },
+    run: async (a) => {
+      const r = await (await import('./studio-translate.mjs')).translateProject({ project: a.project, to: a.to, voice: a.voice, name: a.name });
+      const NL = String.fromCharCode(10);
+      return [text(`Made "${r.id}" in ${r.language}: ${r.texts} texts, ${r.voices} voice-overs, ${r.pins} word pins.${NL}Preview: ${r.link}${r.warnings.length ? `${NL}Look at:${NL}- ${r.warnings.join(`${NL}- `)}` : ''}`)];
+    },
+  },
+  {
+    name: 'scene_web_export',
+    description: `The scene made light for a web page, to play live (the Unyson+ Kinetic Scene element, an embed) instead of as a rendered video. Every picture and video layer is measured in a browser at every moment (camera and zoom presets included) and sized to the largest it is drawn (twice that for small ones, for HiDPI); stills become WebP encoded by Chrome (colour profiles kept right); videos are trimmed to the seconds the timeline plays, lose their sound track (the player keeps footage muted) and become H.264 with fast start; sounds are trimmed to the range their clips play, voice lines mono at 64 kbps; a file several layers share is made once. Writes a folder (default <project>/web): scene.json, media/, report.json (every file before and after). base = the address that folder will have on the site (e.g. https://example.com/wp-content/uploads/unysonplus/scenes/<name>/): the scene's media addresses become absolute, so its scene.json can be pasted into the Kinetic Scene element once the folder is uploaded there. Give project (a workspace project's name) or file (a scene.json).`,
+    inputSchema: { type: 'object', properties: { project: { type: 'string', description: 'A workspace project name.' }, file: { type: 'string', description: 'Or a scene.json path.' }, base: { type: 'string', description: 'The web address the output folder will have (ends with /).' }, out: { type: 'string', description: 'Output folder (default <project>/web).' }, dpr: { type: 'number', description: 'Sharpness for small pictures (default 2).' } } },
+    run: async (a) => {
+      const { webExport, webExportText } = await import('./studio-webexport.mjs');
+      let file = a.file;
+      if (!file) { if (!a.project) throw new Error('Give project or file.'); file = `${(await import('./studio-workspace.mjs')).projectDir(a.project)}/scene.json`; }
+      const r = await webExport(file, { base: a.base, out: a.out, dpr: a.dpr });
+      return [text(`${webExportText(r)}\n${r.base ? `Upload ${r.out}/media to ${r.base}media/, then use ${r.scene} as the scene.` : `Media addresses are relative (media/…). Give base for a WordPress page.`}`)];
+    },
+  },
+  {
     name: 'screencast_narrate',
     description: `The voice-over of a screencast recording (a folder from studio-cli record: video.mp4 + actions.json), written from the recording: one line per step, timed to its action and short enough to be said before the next step (about 2.5 words a second; lines over budget are shortened in a second pass). The AI looks at a frame of each step and reads each step's label and "about" note. Writes narration.json ({ lines: [{ at, text, say }] }; "say" is what the voice reads, the brand respelt). Show the lines to the person and change them before voicing. lang writes them in another language (narration.<lang>.json).`,
     inputSchema: { type: 'object', properties: { folder: { type: 'string', description: 'The recording folder.' }, lang: { type: 'string', description: 'Language code (default en).' }, audience: { type: 'string' }, context: { type: 'string', description: 'What the video is about.' }, intro: { type: 'string', description: 'What a line before the first step should say.' }, outro: { type: 'string', description: 'A closing line, said on the end card.' } }, required: ['folder'] },

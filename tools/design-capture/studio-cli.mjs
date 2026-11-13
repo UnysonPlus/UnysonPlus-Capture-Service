@@ -28,6 +28,8 @@
 //   node studio-cli.mjs from-beats <reel.beats.json> [--duration 20] [--rhythm video.reference.json] [--music file] [--out scene.json]
 //   node studio-cli.mjs breakdown <reel.mp4> [--scene s.json --beats b.json | --rhythm r.json] [--title "…"] [--accent #hex] [--out f.json]
 //   node studio-cli.mjs blender model|render <script.py> [--out file] [--project name] [--seconds 4 --fps 30 --width 1080 --height 1080]
+//   node studio-cli.mjs web-export <scene.json|project> [--base https://site/…/folder/] [--out folder] [--dpr 2]
+//   node studio-cli.mjs translate <project> --to es [--voice <voice id>] [--name "New project"]
 //   node studio-cli.mjs doctor
 //   node studio-cli.mjs projects
 //   node studio-cli.mjs project <scene.json> [--name "…"]
@@ -56,6 +58,14 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
   best-take <takes…>        The takes of one line (--text) ranked by the voice check: changed words, pauses mid-phrase
   object3d "<description>"  A 3D object built from a description as a GLB for a 3D layer: designed in parts, measured (parts
                             touch, none buried, sane sizes), fixed up to 3 times, looked at from four sides; --out object.glb
+  translate <project>       A copy of a workspace project in another language (--to es): every word on screen translated,
+                            every voice-over spoken again in a voice for it (the kit's free voice, or --voice voicebox:<profile>
+                            to keep a Voicebox voice: en zh ja ko de fr ru pt es it), captions and word pins following the new words
+  web-export <scene|project> The scene made light for a web page: every picture and video sized to the largest it is drawn
+                            (measured), stills as WebP, videos trimmed to the seconds they play without sound, sounds
+                            trimmed (voice mono), into --out (default <project>/web): scene.json, media/, report.json.
+                            --base <address of that folder on the site> makes the scene's addresses absolute (for the
+                            Kinetic Scene element); --dpr (2) sharpness for small pictures
   join <a.mp4> <b.mp4> …    A long video from chapters: joins rendered parts in order into --out (default joined.mp4), losslessly
                             when they match (else fitted to the first and encoded once), and writes <out>-chapters.txt, the
                             YouTube chapter list. --fade <seconds> fades through black between chapters, --titles "A|B|C"
@@ -142,7 +152,7 @@ function args(argv) {
 }
 
 /** What can't work without FFmpeg: it says so before it starts. */
-const NEEDS_FFMPEG = new Set(['render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record', 'narrate', 'voice', 'guide']);
+const NEEDS_FFMPEG = new Set(['translate', 'web-export', 'render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record', 'narrate', 'voice', 'guide']);
 
 const a = args(process.argv.slice(2));
 const [cmd, file] = a._;
@@ -257,6 +267,29 @@ Cover: ${r.cover}` : ''}${r.warnings?.length ? `\nRendered without: ${r.warnings
       const out = typeof a.out === 'string' ? a.out : 'object.glb';
       (await import('node:fs')).writeFileSync(out, r.glb);
       print(`${out}: "${r.name}", ${r.parts} parts, ${(r.glb.length / 1024).toFixed(0)} KB. ${r.problems.length ? `Still measured: ${r.problems.join(' ')}` : 'Measured: no problems.'} ${r.notes}`, { ...r, glb: undefined, out });
+      return 0;
+    }
+    case 'translate': {
+      if (typeof a.to !== 'string') { process.stderr.write('Give the language: --to es (a two-letter code).' + String.fromCharCode(10)); return 2; }
+      const { translateProject } = await import('./studio-translate.mjs');
+      const r = await translateProject({ project: file, to: a.to, voice: typeof a.voice === 'string' ? a.voice : undefined, name: typeof a.name === 'string' ? a.name : undefined, onStep: (st) => progress(st) });
+      if (!json && process.stderr.isTTY) process.stderr.write(String.fromCharCode(10));
+      const NL = String.fromCharCode(10);
+      print(`Made "${r.id}": ${r.texts} texts, ${r.voices} voice-overs and ${r.pins} word pins in ${r.language}.${NL}Preview: ${r.link}${r.warnings.length ? `${NL}Look at:${NL}- ${r.warnings.join(`${NL}- `)}` : ''}`, r);
+      return 0;
+    }
+    case 'web-export': {
+      const { webExport, webExportText } = await import('./studio-webexport.mjs');
+      const { existsSync } = await import('node:fs');
+      let sceneFile = file;
+      if (!/\.json$/i.test(file) || !existsSync(file)) {
+        const w = await import('./studio-workspace.mjs');
+        sceneFile = `${w.projectDir(file)}/scene.json`; // a workspace project by name
+      }
+      const r = await webExport(sceneFile, { out: typeof a.out === 'string' ? a.out : undefined, base: typeof a.base === 'string' ? a.base : undefined,
+        dpr: Number(a.dpr) || undefined, measure: a.measure !== false && a['no-measure'] !== true, onStep: (s) => progress(s) });
+      if (!json && process.stderr.isTTY) process.stderr.write(String.fromCharCode(10));
+      print(webExportText(r), r);
       return 0;
     }
     case 'join': {

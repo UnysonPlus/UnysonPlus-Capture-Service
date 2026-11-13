@@ -76,6 +76,9 @@ export async function record(spec, outDir, onStep = () => {}) {
     await ctx.addInitScript(CURSOR);
     const p = await ctx.newPage();
     p.setDefaultTimeout(20000);
+    // "Are you sure?" boxes (confirm, alert) are answered OK, as the person in the demo would. Playwright cancels them
+    // otherwise, so a step such as "Apply this preset?" silently did nothing. spec.dialogs: "dismiss" cancels instead.
+    p.on('dialog', (d) => (spec.dialogs === 'dismiss' ? d.dismiss() : d.accept()).catch(() => {}));
 
     // Off camera: log in and open the starting page.
     if (spec.login) {
@@ -307,9 +310,16 @@ export async function record(spec, outDir, onStep = () => {}) {
     list += `file '${join(framesDir, kept[kept.length - 1].name).replace(/\\/g, '/')}'\n`;
     writeFileSync(join(out, 'frames.txt'), list);
     const video = join(out, 'video.mp4');
+    // The frames are on disk: the browser (a page at 2× can hold over a gigabyte) is closed before encoding, so the
+    // encoder has the memory.
+    await browser.close().catch(() => {});
     onStep('Making the video');
-    await run(process.env.FFMPEG || 'ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', join(out, 'frames.txt'),
-      '-vf', `fps=30,scale=${vw * scale}:${vh * scale}:flags=lanczos,format=yuv420p`, '-t', total.toFixed(3), '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', video]);
+    const encode = (threads) => run(process.env.FFMPEG || 'ffmpeg', ['-v', 'error', '-y', ...(threads ? ['-threads', '1'] : []), '-f', 'concat', '-safe', '0', '-i', join(out, 'frames.txt'),
+      '-vf', `fps=30,scale=${vw * scale}:${vh * scale}:flags=lanczos,format=yuv420p`, '-t', total.toFixed(3), '-c:v', 'libx264', ...(threads ? ['-threads', String(threads)] : []),
+      '-crf', '18', '-preset', 'medium', '-movflags', '+faststart', video]);
+    // At 2× scale every thread holds full-size frames: on a busy computer the default thread count can run out of
+    // memory ("Cannot allocate memory"). Then the same encode runs again on a few threads (slower, same result).
+    await encode(0).catch((e) => { onStep(`Encoding again on fewer threads (${String(e.message).split('\n')[0].slice(0, 80)})`); return encode(2); });
     const W = vw * scale, H = vh * scale;
     const acts = actions.map((x) => ({
       kind: x.kind, label: x.label, t: +cut(x.t0).toFixed(2), end: +cut(x.t1).toFixed(2), ...(x.text ? { text: x.text } : {}), ...(x.about ? { about: x.about } : {}),

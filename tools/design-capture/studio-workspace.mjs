@@ -258,8 +258,10 @@ export function watch(id, onChange) {
 }
 
 /** Opens the project's folder in the file manager. */
-export function reveal(id) {
-  const dir = id ? projectDir(id) : workspaceRoot();
+export function reveal(id, sub) {
+  let dir = id ? projectDir(id) : workspaceRoot();
+  // A folder inside the project (web/, the web export), when it is there.
+  if (id && sub && /^[\w-]+$/.test(sub) && existsSync(join(dir, sub))) dir = join(dir, sub);
   const cmd = process.platform === 'win32' ? 'explorer.exe' : process.platform === 'darwin' ? 'open' : 'xdg-open';
   spawn(cmd, [dir], { detached: true, stdio: 'ignore' }).unref();
   return { dir };

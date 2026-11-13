@@ -33,7 +33,33 @@ export const VOICES = {
   'en_US-lessac-medium': { path: 'en/en_US/lessac/medium/', label: 'Clear (American English)', mb: 63 },
   'en_US-ryan-medium': { path: 'en/en_US/ryan/medium/', label: 'Warm (American English)', mb: 63 },
   'en_GB-alba-medium': { path: 'en/en_GB/alba/medium/', label: 'Bright (British English)', mb: 63 },
+  // One free voice for each common language, for a video translated into it (Translate a video). Only voices this Piper
+  // build can load (newer models with multi-letter phonemes fail on it), so a few languages have a basic-quality voice.
+  'es_MX-ald-medium': { path: 'es/es_MX/ald/medium/', label: 'Spanish (Mexico)', mb: 63, lang: 'es' },
+  'es_AR-daniela-high': { path: 'es/es_AR/daniela/high/', label: 'Spanish (Argentina)', mb: 114, lang: 'es' },
+  'fr_FR-tom-medium': { path: 'fr/fr_FR/tom/medium/', label: 'French', mb: 64, lang: 'fr' },
+  'de_DE-thorsten-high': { path: 'de/de_DE/thorsten/high/', label: 'German', mb: 114, lang: 'de' },
+  'it_IT-riccardo-x_low': { path: 'it/it_IT/riccardo/x_low/', label: 'Italian (basic quality)', mb: 28, lang: 'it' },
+  'pt_BR-edresson-low': { path: 'pt/pt_BR/edresson/low/', label: 'Portuguese (Brazil, basic quality)', mb: 63, lang: 'pt' },
+  'nl_NL-mls-medium': { path: 'nl/nl_NL/mls/medium/', label: 'Dutch', mb: 77, lang: 'nl' },
+  'pl_PL-gosia-medium': { path: 'pl/pl_PL/gosia/medium/', label: 'Polish', mb: 63, lang: 'pl' },
+  'sv_SE-nst-medium': { path: 'sv/sv_SE/nst/medium/', label: 'Swedish', mb: 63, lang: 'sv' },
+  'tr_TR-dfki-medium': { path: 'tr/tr_TR/dfki/medium/', label: 'Turkish', mb: 63, lang: 'tr' },
+  'ru_RU-irina-medium': { path: 'ru/ru_RU/irina/medium/', label: 'Russian', mb: 63, lang: 'ru' },
+  'uk_UA-ukrainian_tts-medium': { path: 'uk/uk_UA/ukrainian_tts/medium/', label: 'Ukrainian', mb: 77, lang: 'uk' },
+  'zh_CN-huayan-medium': { path: 'zh/zh_CN/huayan/medium/', label: 'Chinese (Mandarin)', mb: 63, lang: 'zh' },
+  'vi_VN-vais1000-medium': { path: 'vi/vi_VN/vais1000/medium/', label: 'Vietnamese', mb: 63, lang: 'vi' },
+  'id_ID-news_tts-medium': { path: 'id/id_ID/news_tts/medium/', label: 'Indonesian', mb: 63, lang: 'id' },
+  'hi_IN-pratham-medium': { path: 'hi/hi_IN/pratham/medium/', label: 'Hindi', mb: 64, lang: 'hi' },
+  'ar_JO-kareem-medium': { path: 'ar/ar_JO/kareem/medium/', label: 'Arabic', mb: 63, lang: 'ar' },
 };
+
+/** The language a voice speaks (a two-letter code): a Piper voice's own, else English. */
+export const voiceLanguage = (id) => (VOICES[id]?.lang) || (/^[a-z]{2}_[A-Z]{2}-/.test(String(id)) ? String(id).slice(0, 2) : 'en');
+/** Voicebox's voices (its Qwen3 model) speak these languages; a Voicebox voice can be asked to speak any of them. */
+export const VOICEBOX_LANGUAGES = ['en', 'zh', 'ja', 'ko', 'de', 'fr', 'ru', 'pt', 'es', 'it'];
+/** A free voice for a language (Piper), or null when the kit has none: the first listed for it. */
+export const voiceForLanguage = (lang) => Object.keys(VOICES).find((k) => voiceLanguage(k) === lang) || null;
 
 function voicesDir() {
   if (process.env.UPW_VOICES_DIR) return resolve(process.env.UPW_VOICES_DIR);
@@ -68,7 +94,7 @@ export async function voiceStatus() {
     program: !!program() || kokoroInstalled(voicesDir()),
     canInstall: !!PROGRAMS[platformKey()],
     voices: Object.fromEntries([
-      ...Object.entries(VOICES).map(([k, v]) => [k, { label: v.label, mb: v.mb, installed: hasVoice(k) }]),
+      ...Object.entries(VOICES).map(([k, v]) => [k, { label: v.label, mb: v.mb, installed: hasVoice(k), ...(v.lang ? { lang: v.lang } : {}) }]),
       // Kokoro: more natural voices, one download for all six.
       ...Object.entries(KOKORO_VOICES).map(([k, v]) => [k, { label: v.label, mb: KOKORO_MB, installed: kokoroInstalled(voicesDir()), engine: 'kokoro' }]),
     ]),
@@ -150,6 +176,19 @@ export function startVoiceInstall(body = {}) {
   return { ...install };
 }
 
+/** Installs a Piper voice (and the program) when missing, and waits for it. */
+export async function ensureVoice(id, onStep = () => {}) {
+  if (!VOICES[id] || (program() && hasVoice(id))) return;
+  startVoiceInstall({ voice: id });
+  for (;;) {
+    await new Promise((ok) => setTimeout(ok, 800));
+    if (!install || install.voice !== id) continue;
+    onStep(install.total ? `${install.step}: ${Math.round((install.done / install.total) * 100)}%` : install.step);
+    if (install.state === 'error') throw new Error(install.error);
+    if (install.state === 'done') return;
+  }
+}
+
 const jobs = new Map();
 let seq = 0;
 
@@ -165,6 +204,64 @@ function wavSeconds(file) {
  * So each line's words are fitted into that line's own window. Left as they are when the word counts differ (a misheard
  * name split in two), because the words can then not be shared out among the lines with any certainty.
  */
+const normW = (w) => String(w).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^\p{L}\p{N}]+/gu, '');
+function likeness(a, b) {
+  if (a === b) return 1;
+  if (!a.length || !b.length) return 0;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j++) row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = row;
+  }
+  return 1 - prev[b.length] / Math.max(a.length, b.length);
+}
+
+/**
+ * The script's own words on the heard timing. A voice the kit spoke from a script says exactly the script, but speech
+ * recognition can mishear it ("exceso" for "acceso", "frango work" for "framework", a brand name in another language):
+ * captions and word pins should read the script. The heard words are aligned to the script's words (one to one, two
+ * heard as one, one heard as two, a word not heard or heard extra), and each script word takes the time of what it
+ * matched. Returns the heard words unchanged when they are too unlike the script to trust the alignment.
+ */
+export function wordsFromScript(words, lines) {
+  const script = lines.join(' ').split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w));
+  const n = script.length, m = words.length;
+  if (!n || !m || n > 4000 || m > 4000) return words;
+  const S = script.map(normW), H = words.map((w) => normW(w.w));
+  const INF = 1e9;
+  const cost = Array.from({ length: n + 1 }, () => new Float64Array(m + 1).fill(INF));
+  const step = Array.from({ length: n + 1 }, () => new Int8Array(m + 1));
+  cost[0][0] = 0;
+  for (let i = 0; i <= n; i++) for (let j = 0; j <= m; j++) {
+    const c = cost[i][j];
+    if (c >= INF) continue;
+    const go = (di, dj, k, add) => { if (i + di <= n && j + dj <= m && c + add < cost[i + di][j + dj]) { cost[i + di][j + dj] = c + add; step[i + di][j + dj] = k; } };
+    if (i < n && j < m) go(1, 1, 1, 1 - likeness(S[i], H[j]));               // one script word, one heard word
+    if (i < n && j + 1 < m) go(1, 2, 2, 1.1 - likeness(S[i], H[j] + H[j + 1])); // heard as two
+    if (i + 1 < n && j < m) go(2, 1, 3, 1.1 - likeness(S[i] + S[i + 1], H[j])); // two heard as one
+    if (i < n) go(1, 0, 4, 0.9);                                                // not heard
+    if (j < m) go(0, 1, 5, 0.9);                                                // heard, not in the script
+  }
+  // Too unlike: the recognition is better than a forced alignment.
+  if (cost[n][m] / n > 0.55) return words;
+  const r = (x) => Math.round(x * 1000) / 1000;
+  const out = [];
+  let i = n, j = m;
+  const back = [];
+  while (i > 0 || j > 0) { const k = step[i][j]; back.push([k, i, j]); if (k === 1) { i--; j--; } else if (k === 2) { i--; j -= 2; } else if (k === 3) { i -= 2; j--; } else if (k === 4) i--; else j--; }
+  back.reverse();
+  let last = 0;
+  for (const [k, ii, jj] of back) {
+    if (k === 1) { const h = words[jj - 1]; out.push({ ...h, w: script[ii - 1] }); last = h.t + h.d; }
+    else if (k === 2) { const a = words[jj - 2], b = words[jj - 1]; out.push({ ...a, w: script[ii - 1], d: r(b.t + b.d - a.t) }); last = b.t + b.d; }
+    else if (k === 3) { const h = words[jj - 1]; const half = r(h.d / 2); out.push({ ...h, w: script[ii - 2], d: half }, { ...h, w: script[ii - 1], t: r(h.t + half), d: r(h.d - half), p: undefined }); last = h.t + h.d; }
+    else if (k === 4) out.push({ w: script[ii - 1], t: r(last), d: 0.05 });
+    // k === 5: a heard word the script does not have is left out.
+  }
+  return out.map((w) => { const x = { ...w }; if (x.p === undefined) delete x.p; return x; });
+}
+
 export function fitWordsToLines(words, segments) {
   const counts = segments.map((s) => s.text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length);
   if (counts.reduce((a, b) => a + b, 0) !== words.length) return words;
@@ -192,6 +289,11 @@ export function startVoice(body = {}) {
   const id = voicebox ? body.voice : kokoro || (VOICES[body.voice] ? body.voice : Object.keys(VOICES).find(hasVoice) || 'en_US-lessac-medium');
   if (kokoro && !kokoroInstalled(voicesDir())) throw Object.assign(new Error('Install the Kokoro voices first.'), { code: 400 });
   if (!voicebox && !kokoro && (!program() || !hasVoice(id))) throw Object.assign(new Error('Install the voice first.'), { code: 400 });
+  // The language spoken: given (Voicebox can speak several), else the Piper voice's own, else English. It is also the
+  // language the words are timed in.
+  const language = typeof body.language === 'string' && /^[a-z]{2}$/.test(body.language) ? body.language : voicebox ? 'en' : voiceLanguage(id);
+  if (kokoro && language !== 'en') throw Object.assign(new Error('The Kokoro voices speak English only: pick a voice for this language.'), { code: 400 });
+  if (voicebox && !VOICEBOX_LANGUAGES.includes(language)) throw Object.assign(new Error(`Voicebox voices do not speak "${language}": pick a free voice for it.`), { code: 400 });
   const gap = Math.max(0.1, Math.min(2, Number(body.gap) || 0.4));
   // Piper's own pace is brisk; 1.12 is a calmer, explainer-like pace (higher is slower).
   const pace = Math.max(0.7, Math.min(1.6, Number(body.pace) || 1.12));
@@ -207,13 +309,13 @@ export function startVoice(body = {}) {
       const files = [];
       for (let i = 0; i < lines.length; i++) {
         job.step = `Speaking line ${i + 1} of ${lines.length}`;
-        const key = createHash('sha1').update(`${id}|${voicebox ? '' : pace}|${lines[i]}`).digest('hex').slice(0, 16);
+        const key = createHash('sha1').update(`${id}|${voicebox ? '' : pace}|${language === 'en' ? '' : language}|${lines[i]}`).digest('hex').slice(0, 16);
         const wav = join(cache, `${key}.wav`);
         if (!existsSync(wav)) {
           if (voicebox) {
             // Voicebox's own WAV, brought to one format so the lines and pauses join cleanly.
             const raw = join(dir, `line${i}.wav`);
-            writeFileSync(raw, await voiceboxSpeak(voicebox, lines[i], { onWait: (s) => { job.step = `Speaking line ${i + 1} of ${lines.length} in Voicebox (${s} s${i === 0 && s > 20 ? '; the first line loads its model' : ''})`; } }));
+            writeFileSync(raw, await voiceboxSpeak(voicebox, lines[i], { language, onWait: (s) => { job.step = `Speaking line ${i + 1} of ${lines.length} in Voicebox (${s} s${i === 0 && s > 20 ? '; the first line loads its model' : ''})`; } }));
             await run(process.env.FFMPEG || 'ffmpeg', ['-y', '-loglevel', 'error', '-i', raw, '-ar', '24000', '-ac', '1', '-c:a', 'pcm_s16le', wav]);
           } else if (kokoro) {
             // Kokoro's speed is the inverse of Piper's length scale (higher is faster).
@@ -246,16 +348,16 @@ export function startVoice(body = {}) {
       const src = `data:audio/mpeg;base64,${readFileSync(mp3).toString('base64')}`;
       // Every word's time, from the kit's speech recognition (the same as for a recorded voice-over).
       job.step = 'Timing every word';
-      const tj = startTranscribe({ src, language: 'en' });
+      const tj = startTranscribe({ src, language });
       let words = [], speech = {};
       for (;;) {
         await new Promise((ok) => setTimeout(ok, 700));
         const info = transcribeJob(tj.id);
         if (!info) throw new Error('The word timing was lost.');
         if (info.state === 'error') throw new Error(info.error);
-        if (info.state === 'done') { words = fitWordsToLines(info.result.words, segments); speech = info.result.speech; break; }
+        if (info.state === 'done') { words = fitWordsToLines(wordsFromScript(info.result.words, lines), segments); speech = info.result.speech; break; }
       }
-      job.result = { src, duration: Math.round(t * 1000) / 1000, segments, words, speech, voice: id };
+      job.result = { src, duration: Math.round(t * 1000) / 1000, segments, words, speech, voice: id, language };
       job.state = 'done';
       job.step = 'Done';
     } catch (e) {

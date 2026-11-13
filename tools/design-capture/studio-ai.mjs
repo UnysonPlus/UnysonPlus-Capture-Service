@@ -38,7 +38,7 @@ export function studioAiStatus() {
     backend,
     model: backendLabel(backend),
     // What this kit can do beyond the basics, so the Studio can use it (and fall back on older kits).
-    features: ['add', 'handoff', 'addon-browse', 'ffmpeg-install', 'workspace', 'listen'],
+    features: ['add', 'handoff', 'addon-browse', 'ffmpeg-install', 'workspace', 'listen', 'translate', 'batch-voice'],
   };
 }
 
