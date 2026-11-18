@@ -1178,6 +1178,26 @@ const __handler = (req, res) => {
   //   GET  /studio/matte/methods      → { methods: { fast, fine, rvm, sam2: { ready, note, … } } }
   //   GET  /studio/matte/<id>         → { state, step, done, total, error, result: { src?, track?, width, height, fps, seconds } }
   //   POST /studio/footage-audio      { src } → { src (an MP3 data URL), seconds } (the footage's own sound)
+  // "Cut out the object" for pictures (studio-cutout.mjs): POST /studio/cutout { src: image data: URL, region?, fill?, shadow? }
+  // → { id }; GET /studio/cutout/<id> → { state, step, error, result: { png, shadowPng?, plateJpg?, box, cover, edges, sure, verdict, notes } };
+  // GET /studio/cutout/status → what is installed and what the first use downloads.
+  if (u.pathname === '/studio/cutout' || u.pathname.startsWith('/studio/cutout/')) {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    const part = u.pathname.split('/').filter(Boolean)[2];
+    import('./studio-cutout.mjs')
+      .then(async (m) => {
+        if (!part) {
+          if (req.method !== 'POST') return json(res, 405, { error: 'POST only.' });
+          return json(res, 200, { ok: true, ...m.startCutout(await readJson(req, 80 * 1024 * 1024)) });
+        }
+        if (part === 'status') return json(res, 200, { ok: true, ...m.cutoutStatus() });
+        const info = m.cutoutJob(part);
+        return info ? json(res, 200, { ok: true, ...info }) : json(res, 404, { error: 'No cut-out with that id.' });
+      })
+      .catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
   if (u.pathname === '/studio/matte' || u.pathname.startsWith('/studio/matte/') || u.pathname === '/studio/footage-audio') {
     if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
     const part = u.pathname.split('/').filter(Boolean)[2];
@@ -1217,14 +1237,14 @@ const __handler = (req, res) => {
   }
 
   // Kinetic Scenes' "Split into layers" (studio-split.mjs): a picture into stacked transparent layers.
-  //   GET  /studio/split  → { engine: 'fal' | 'local', fal, localModel }
+  //   GET  /studio/split  → { engine: 'fal' | 'local-hq' | 'local', fal, localModel, localHq }
   //   POST /studio/split  { src, layers?, prompt? } → { engine, layers: [{ name, src }] } (bottom to top)
   if (u.pathname === '/studio/split') {
     if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
     if (req.method !== 'GET' && req.method !== 'POST') { json(res, 405, { error: 'GET or POST.' }); return; }
     import('./studio-split.mjs')
       .then(async ({ splitImage, splitStatus }) => {
-        if (req.method === 'GET') return json(res, 200, { ok: true, ...splitStatus() });
+        if (req.method === 'GET') return json(res, 200, { ok: true, ...(await splitStatus()) });
         const body = await readJson(req, 48 * 1024 * 1024);
         return json(res, 200, { ok: true, ...(await splitImage(body)) });
       })

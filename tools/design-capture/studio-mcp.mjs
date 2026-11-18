@@ -125,8 +125,8 @@ const TOOLS = [
   },
   {
     name: 'scene_guide',
-    description: 'How to make a good Kinetic Scenes scene: read "workflow" first, then "format" (the scene file), "presets" (every animation and its settings), "rules" (timing and motion rules), "sounds" or "styles".',
-    inputSchema: { type: 'object', properties: { topic: { type: 'string', enum: ['workflow', 'format', 'presets', 'rules', 'sounds', 'styles'] } }, required: [] },
+    description: 'How to make a good Kinetic Scenes scene: read "workflow" first, then "format" (the scene file), "presets" (every animation and its settings), "rules" (timing and motion rules), "sounds" or "styles"; "cutouts" when the scene is made from photos (when and how to cut out the subject of a photo); "mascots" when the person has a mascot (a character that talks on the voice-over).',
+    inputSchema: { type: 'object', properties: { topic: { type: 'string', enum: ['workflow', 'format', 'presets', 'rules', 'sounds', 'styles', 'cutouts', 'mascots'] } }, required: [] },
     run: async (a) => [text(await tools.sceneGuide(a.topic))],
   },
   {
@@ -160,6 +160,33 @@ const TOOLS = [
     run: async (a) => {
       const r = (await import('./studio-workspace.mjs')).sceneIntoProject(a.scene_path, a.name);
       return [text(`Project "${r.id}" in ${r.dir} (${r.files} file(s) copied into media/). The person opens it at ${r.link}`)];
+    },
+  },
+  {
+    name: 'mascot_list',
+    description: 'The mascots in the workspace projects: characters the person made in the Studio (Insert > Mascot...) that talk on a voice-over, blink and change pose. For each: its project, layer id, name, poses (id, name, whether it talks and blinks), drawn mouths and main pose. Use one of theirs in a new video with mascot_copy, then mascot_direct; read scene_guide topic "mascots" first.',
+    inputSchema: { type: 'object', properties: {}, required: [] },
+    run: async () => {
+      const list = await (await import('./studio-mascots.mjs')).listMascots();
+      return [text(list.length ? list.map((m) => `- ${m.name}: project "${m.project}", layer "${m.layer}"; poses ${m.poses.map((p) => `${p.id}${p.talks ? '' : ' (no mouth)'}`).join(', ')}; main ${m.mainPose}; ${m.mouths ? `${m.mouths} drawn mouths` : 'its own mouth'}`).join(String.fromCharCode(10)) : 'No mascots yet. The person makes one in the Studio with Insert > Mascot... (or tries the sample, Pip).')];
+    },
+  },
+  {
+    name: 'mascot_copy',
+    description: 'Copies a mascot (a layer from mascot_list) with its pictures into another workspace project, placed at x / y (% of the stage) and height (% of the stage, default 70). Its old Pose clips are left behind (they belong to the old voice). Then add a voice-over to that project and direct the mascot with mascot_direct.',
+    inputSchema: { type: 'object', properties: { from: { type: 'string', description: 'The project it is in.' }, layer: { type: 'string', description: 'Its layer id.' }, to: { type: 'string', description: 'The project to copy it into (it must exist: project_save first).' }, x: { type: 'number' }, y: { type: 'number' }, height: { type: 'number' }, id: { type: 'string', description: 'A layer id for the copy.' } }, required: ['from', 'layer', 'to'] },
+    run: async (a) => {
+      const r = (await import('./studio-mascots.mjs')).copyMascot(a);
+      return [text(`Copied into "${r.project}" as layer "${r.layer}" (${r.pictures} pictures in media/). A Studio with the project open updates at once.`)];
+    },
+  },
+  {
+    name: 'mascot_direct',
+    description: 'Directs a mascot: pins a pose to words of the voice-over, so the mascot changes pose as the word is said (a wave on "hello", thumbs up on "free", thinking on a question) and follows a new take by itself. cues: [{ pose (id or name), word (a word or phrase the voice says), index (which time it is said, 1 = first, default 1), hold (seconds, default 1.6) }]. Between cues it goes back to its main pose. replace (default true) removes its earlier Pose clips. The mouth needs no directing: it follows the voice by itself.',
+    inputSchema: { type: 'object', properties: { project: { type: 'string' }, layer: { type: 'string', description: 'The mascot layer id.' }, cues: { type: 'array', items: { type: 'object', properties: { pose: { type: 'string' }, word: { type: 'string' }, index: { type: 'number' }, hold: { type: 'number' } }, required: ['pose', 'word'] } }, audio: { type: 'string', description: 'The voice clip id (default the one it talks on).' }, replace: { type: 'boolean' } }, required: ['project', 'layer', 'cues'] },
+    run: async (a) => {
+      const r = (await import('./studio-mascots.mjs')).directMascot(a);
+      return [text([`Directed "${r.layer}" in "${r.project}":`, ...r.report].join(String.fromCharCode(10)))];
     },
   },
   {
@@ -248,6 +275,15 @@ ${r.chapters.text}`)];
       const r = await (await import('./studio-translate.mjs')).translateProject({ project: a.project, to: a.to, voice: a.voice, name: a.name });
       const NL = String.fromCharCode(10);
       return [text(`Made "${r.id}" in ${r.language}: ${r.texts} texts, ${r.voices} voice-overs, ${r.pins} word pins.${NL}Preview: ${r.link}${r.warnings.length ? `${NL}Look at:${NL}- ${r.warnings.join(`${NL}- `)}` : ''}`)];
+    },
+  },
+  {
+    name: 'image_cutout',
+    description: `Cuts the main subject out of photos (a dish, a drink, a product, a bouquet, a pet, a person) as see-through PNGs, on this computer: the way to stop a reel made from photos looking like a slideshow (a new background behind the subject, words behind it, a drop with a shadow, the subject lifting off its own photo). Read scene_guide topic "cutouts" (the kit doc docs/photo-cutouts.md) for when to use it and the scene recipes; for a scene built from photos only (most small businesses), run it on every photo and use the good ones as hero shots. Each result says where the subject sat in the photo (box, fractions: place the cut-out exactly over its photo to lift it off), how much of the photo it fills (cover), which photo edges cut it off (edges: keep that side against the frame), how sure the matte is (sure) and a verdict (good / check / poor) with notes; LOOK at each check image (the cut-out on dark, white and a checkerboard) before using it. region = left,top,right,bottom fractions round one thing among several (one cut-out per call). shadow: also a copy with a soft drop shadow baked in (thumbnails, website images; in a scene use the layer's shadow). fill: also the photo with the subject painted out (a soft "plate", good dimmed or blurred behind the cut-out, not as a hero shot). First use downloads the model (224 MB; fill 208 MB more).`,
+    inputSchema: { type: 'object', properties: { files: { type: 'array', items: { type: 'string' }, description: 'Photo paths.' }, out: { type: 'string', description: 'Output folder (default cutouts/ beside each photo; use the project media/ folder for a scene).' }, region: { type: 'string', description: 'l,t,r,b fractions of the photo round the thing to cut out, when there are several.' }, shadow: { type: 'boolean' }, fill: { type: 'boolean' }, name: { type: 'string', description: 'File name stem (one photo only).' } }, required: ['files'] },
+    run: async (a) => {
+      const { cutoutImages } = await import('./studio-cutout.mjs');
+      return [text(JSON.stringify(await cutoutImages(a.files, { out: a.out, region: a.region, shadow: !!a.shadow, fill: !!a.fill, name: a.name })))];
     },
   },
   {

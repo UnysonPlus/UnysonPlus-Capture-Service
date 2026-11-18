@@ -9,6 +9,9 @@
 //     (Apache-2.0, 4.7 MB, downloaded once from the rembg project's releases) finds the subject in the
 //     kit's own headless browser, and the hole it leaves in the background is filled from its edges
 //     (a push-pull fill), so the background stands on its own. Two layers: background and subject.
+//   - Better, when the kit's photo cut-out models are downloaded (studio-cutout.mjs: BiRefNet lite for the subject's
+//     edges, LaMa to paint the background where the subject was; `studio-cli cutout --fill` once downloads both):
+//     the same two layers, in ONNX Runtime for Node. If it cannot run (not enough memory), the small model above.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
@@ -37,9 +40,34 @@ function falKey() {
   return '';
 }
 
-export function splitStatus() {
+async function hqReady() {
+  try { const st = (await import('./studio-cutout.mjs')).cutoutStatus(); return st.runtime && st.cutModel && st.fillModel; } catch { return false; }
+}
+
+export async function splitStatus() {
   const model = join(modelsDir(), 'u2netp.onnx');
-  return { engine: falKey() ? 'fal' : 'local', fal: !!falKey(), localModel: existsSync(model) };
+  const hq = await hqReady();
+  return { engine: falKey() ? 'fal' : hq ? 'local-hq' : 'local', fal: !!falKey(), localModel: existsSync(model), localHq: hq };
+}
+
+/** The better local split: BiRefNet's subject, in place, over LaMa's painted background. */
+async function viaCutout(src) {
+  const { cutoutImages } = await import('./studio-cutout.mjs');
+  const { mkdtempSync, rmSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const dir = mkdtempSync(join(tmpdir(), 'upw-split-'));
+  try {
+    const comma = src.indexOf(',');
+    const ext = (src.slice(11, comma).split(/[;+]/)[0] || 'png').replace('jpeg', 'jpg');
+    const input = join(dir, `picture.${ext}`);
+    writeFileSync(input, Buffer.from(src.slice(comma + 1), 'base64'));
+    const r = (await cutoutImages([input], { out: dir, fill: true, fullFrame: true })).results[0];
+    if (!r?.frame || !r.plate) return null;
+    const url = (f, type) => `data:${type};base64,${readFileSync(f).toString('base64')}`;
+    return { layers: [{ name: 'Background', src: url(r.plate, 'image/jpeg') }, { name: 'Subject', src: url(r.frame, 'image/png') }], verdict: r.verdict, notes: r.notes };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 }
 
 async function asDataUrl(src) {
@@ -187,6 +215,12 @@ export async function splitImage(body) {
   if (falKey()) {
     const layers = await viaFal(src, body.layers, body.prompt);
     return { engine: 'fal', layers: layers.map((l, i) => ({ name: `Layer ${i + 1}`, src: l.src })) };
+  }
+  if (await hqReady()) {
+    try {
+      const hq = await viaCutout(src);
+      if (hq) return { engine: 'local-hq', ...hq };
+    } catch (e) { console.warn('[studio-split] the photo cut-out could not run, using the small model:', e.message); }
   }
   return { engine: 'local', layers: await viaLocal(src) };
 }

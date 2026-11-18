@@ -296,6 +296,9 @@ export function sceneIntoProject(sceneFile, name) {
   const walk = (list) => (list || []).forEach((l) => {
     if (local(l.src)) l.src = map(l.src);
     if (l.model && local(l.model.src)) l.model.src = map(l.model.src);
+    // A mascot's pose pictures.
+    for (const p of l.poses || []) if (local(p.src)) p.src = map(p.src);
+    for (const k of Object.keys(l.mouths || {})) if (local(l.mouths[k])) l.mouths[k] = map(l.mouths[k]);
     for (const k of l.clips || []) if (k.params && local(k.params.src)) k.params.src = map(k.params.src);
     if (l.layers) walk(l.layers);
     if (l.item) walk([l.item]);

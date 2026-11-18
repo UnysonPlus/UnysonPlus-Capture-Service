@@ -17,6 +17,7 @@
 //   node studio-cli.mjs transcribe <voice.mp3> [--language en]
 //   node studio-cli.mjs voice-check <voice.wav> --text "the script line" [--max-gap 0.4]
 //   node studio-cli.mjs separate <clip.mp4> [--out folder] [--stems]
+//   node studio-cli.mjs cutout <photo> [<photo> …] [--out folder] [--region l,t,r,b] [--shadow] [--fill] [--name stem]
 //   node studio-cli.mjs music "<style>" [--seconds 30] [--bpm 120] [--out music.mp3]
 //   node studio-cli.mjs record <steps.json> [--out folder]
 //   node studio-cli.mjs shot <shots.json> [--out folder]
@@ -114,6 +115,10 @@ const HELP = `Kinetic Scenes tools (Unyson+ AI Dev Kit)
                             needs --yes (--question "…"; --scene <file> adds the script to a video)
   voice-review <lines.json> Every line of a script ({ lines, voice }), spoken and voice-checked on its own (the kit must be running)
   separate <sound or video> The voice and the music as two WAV files in --out (--stems: drums, bass, other, vocals too)
+  cutout <photo> [<photo>…] The main subject of each photo cut out as a see-through PNG (a dish, a product, a pet): for
+                            scenes and websites built from photos. --out folder (default cutouts/ beside the photo);
+                            --region l,t,r,b (fractions) to pick one thing among several; --shadow a copy with a soft
+                            drop shadow; --fill the photo with the subject painted out. Writes a check image to look at.
   sounds-in <sound or video> The sounds heard and when (speech, music, rain, a door slam…; --labels "a,b" for your own)
   clap-install              Install sound identification (about 560 MB, once)
   music "<style>"           An instrumental from the ACE-Step add-on (--seconds, --bpm, --out); the kit starts ACE-Step if needed
@@ -152,7 +157,7 @@ function args(argv) {
 }
 
 /** What can't work without FFmpeg: it says so before it starts. */
-const NEEDS_FFMPEG = new Set(['translate', 'web-export', 'render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record', 'narrate', 'voice', 'guide']);
+const NEEDS_FFMPEG = new Set(['cutout', 'translate', 'web-export', 'render', 'timeline', 'cut-check', 'cleanup', 'like-this', 'highlights', 'reference', 'transcribe', 'listen', 'separate', 'record', 'narrate', 'voice', 'guide']);
 
 const a = args(process.argv.slice(2));
 const [cmd, file] = a._;
@@ -606,6 +611,15 @@ Then: screencast ${file} --voice ${r.file}`, r);
       const r = sceneIntoProject(file, typeof a.name === 'string' ? a.name : undefined);
       print(`Project "${r.id}": ${r.dir} (${r.files} file(s) copied into media/)\nOpen it: ${r.link}`, r);
       return 0;
+    }
+    case 'cutout': {
+      const { cutoutImages, cutoutText } = await import('./studio-cutout.mjs');
+      const files = a._.slice(1).filter((f) => typeof f === 'string');
+      const r = await cutoutImages(files, { out: typeof a.out === 'string' ? a.out : undefined, region: typeof a.region === 'string' ? a.region : undefined,
+        name: typeof a.name === 'string' ? a.name : undefined, shadow: a.shadow === true, fill: a.fill === true, onStep: (st) => progress(st) });
+      if (!json && process.stderr.isTTY) process.stderr.write(String.fromCharCode(10));
+      print(cutoutText(r), r);
+      return r.results.some((x) => x.out) ? 0 : 1;
     }
     case 'separate': {
       const r = await separateAudio(file, { out: a.out, stems: !!a.stems, onProgress: (d, t) => progress(`Separating part ${d} of ${t}`) });

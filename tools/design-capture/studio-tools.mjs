@@ -9,13 +9,15 @@ import { copyFileSync, createReadStream, existsSync, mkdirSync, readFileSync, rm
 import { deflateRawSync } from 'node:zlib';
 import { tmpdir } from 'node:os';
 import { basename, dirname, extname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { keyMoments, renderStills } from './studio-director.mjs';
 import { jobCover, jobFile, jobInfo, renderStatus, startRender } from './studio-render.mjs';
 import { startTranscribe, transcribeJob, transcribeStatus } from './studio-transcribe.mjs';
 import { separateFile, separateStatus } from './studio-separate.mjs';
 
 const SITE = 'https://kinetic-scenes.unysonplus.com/';
-const HERE_TOOLS = dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
+// The real folder path (spaces decoded: "Web Dev", not "Web%20Dev"), so the kit finds its own copy of the skill.
+const HERE_TOOLS = dirname(fileURLToPath(import.meta.url));
 const FALLBACK_PLAYER = `${SITE}player/0.0.39/`;
 const sleep = (ms) => new Promise((ok) => setTimeout(ok, ms));
 const fail = (message) => Object.assign(new Error(message), { code: 400 });
@@ -52,6 +54,9 @@ async function withLocalMedia(scene, fn) {
   const walk = (list) => (list || []).forEach((l) => {
     if (local(l.src)) l.src = map(l.src);
     if (l.model && local(l.model.src)) l.model.src = map(l.model.src);
+    // A mascot's pose pictures.
+    for (const p of l.poses || []) if (local(p.src)) p.src = map(p.src);
+    for (const k of Object.keys(l.mouths || {})) if (local(l.mouths[k])) l.mouths[k] = map(l.mouths[k]);
     // A picture a clip brings in (Before and after's second screen) is a file too.
     for (const k of l.clips || []) if (k.params && local(k.params.src)) k.params.src = map(k.params.src);
     if (l.layers) walk(l.layers);
@@ -84,6 +89,8 @@ async function withLocalMedia(scene, fn) {
   const fix = (list) => (list || []).forEach((l) => {
     if (typeof l.src === 'string' && files.has(l.src)) l.src = origin + l.src;
     if (l.model && files.has(l.model.src)) l.model.src = origin + l.model.src;
+    for (const p of l.poses || []) if (files.has(p.src)) p.src = origin + p.src;
+    for (const k of Object.keys(l.mouths || {})) if (files.has(l.mouths[k])) l.mouths[k] = origin + l.mouths[k];
     for (const k of l.clips || []) if (k.params && files.has(k.params.src)) k.params.src = origin + k.params.src;
     if (l.layers) fix(l.layers);
     if (l.item) fix([l.item]);
@@ -334,7 +341,14 @@ const SKILL_DIRS = [resolve(HERE_TOOLS, '../../../../skills/kinetic-scenes'), re
 const GUIDE_TOPICS = { workflow: 'SKILL.md', format: 'reference/scene-format.md', presets: 'reference/presets.md', rules: 'reference/motion-rules.md', sounds: 'reference/sounds.md', styles: 'reference/styles.md' };
 
 /** The Kinetic Scenes skill (how to make a good scene, the format, every preset, the rules): the kit's copy, or the published one. */
+// Kit guides that live in the kit's docs (not in the published skill).
+const KIT_GUIDES = { cutouts: 'photo-cutouts.md', mascots: 'mascots.md' };
+
 export async function sceneGuide(topic = 'workflow') {
+  if (KIT_GUIDES[topic]) {
+    const here = HERE_TOOLS;
+    for (const p of [resolve(here, '../../../../docs', KIT_GUIDES[topic]), resolve(here, 'docs', KIT_GUIDES[topic])]) if (existsSync(p)) return readFileSync(p, 'utf8');
+  }
   const file = GUIDE_TOPICS[topic] ?? GUIDE_TOPICS.workflow;
   for (const dir of SKILL_DIRS) {
     const p = join(dir, file);
