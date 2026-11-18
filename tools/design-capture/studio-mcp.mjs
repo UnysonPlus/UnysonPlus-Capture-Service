@@ -164,19 +164,24 @@ const TOOLS = [
   },
   {
     name: 'mascot_list',
-    description: 'The mascots in the workspace projects: characters the person made in the Studio (Insert > Mascot...) that talk on a voice-over, blink and change pose. For each: its project, layer id, name, poses (id, name, whether it talks and blinks), drawn mouths and main pose. Use one of theirs in a new video with mascot_copy, then mascot_direct; read scene_guide topic "mascots" first.',
+    description: 'The mascots there are to use: the ones in the workspace projects (characters the person made in the Studio with Insert > Mascot...) and the sample mascots that come with the Studio (people: Daniel, Grace, Leo, Maya, Rosa; characters: Pip, Bolt, Miso, Drip, Hoot). All talk on a voice-over, blink and change pose (idle, explaining, wave, thinking, thumbs-up, cheer for the samples). Use one in a new video with mascot_copy (a sample: from "sample", layer = its name), then mascot_direct; read scene_guide topic "mascots" first. Prefer the person’s own mascot when they have one.',
     inputSchema: { type: 'object', properties: {}, required: [] },
     run: async () => {
-      const list = await (await import('./studio-mascots.mjs')).listMascots();
-      return [text(list.length ? list.map((m) => `- ${m.name}: project "${m.project}", layer "${m.layer}"; poses ${m.poses.map((p) => `${p.id}${p.talks ? '' : ' (no mouth)'}`).join(', ')}; main ${m.mainPose}; ${m.mouths ? `${m.mouths} drawn mouths` : 'its own mouth'}`).join(String.fromCharCode(10)) : 'No mascots yet. The person makes one in the Studio with Insert > Mascot... (or tries the sample, Pip).')];
+      const M = await import('./studio-mascots.mjs');
+      const list = await M.listMascots();
+      const nl = String.fromCharCode(10);
+      const own = list.length ? list.map((m) => `- ${m.name}: project "${m.project}", layer "${m.layer}"; poses ${m.poses.map((p) => `${p.id}${p.talks ? '' : ' (no mouth)'}`).join(', ')}; main ${m.mainPose}; ${m.mouths ? `${m.mouths} drawn mouths` : 'its own mouth'}`).join(nl) : 'None yet (the person makes one in the Studio with Insert > Mascot...).';
+      let samples;
+      try { samples = (await M.sampleMascots()).map((s) => `- ${s.name} (${s.group}): ${s.blurb}`).join(nl); } catch (e) { samples = e.message; }
+      return [text(`Your mascots:${nl}${own}${nl}${nl}Sample mascots (mascot_copy with from "sample", layer = the name; poses idle, explaining, wave, thinking, thumbs-up, cheer; drawn mouths):${nl}${samples}`)];
     },
   },
   {
     name: 'mascot_copy',
-    description: 'Copies a mascot (a layer from mascot_list) with its pictures into another workspace project, placed at x / y (% of the stage) and height (% of the stage, default 70). Its old Pose clips are left behind (they belong to the old voice). Then add a voice-over to that project and direct the mascot with mascot_direct.',
-    inputSchema: { type: 'object', properties: { from: { type: 'string', description: 'The project it is in.' }, layer: { type: 'string', description: 'Its layer id.' }, to: { type: 'string', description: 'The project to copy it into (it must exist: project_save first).' }, x: { type: 'number' }, y: { type: 'number' }, height: { type: 'number' }, id: { type: 'string', description: 'A layer id for the copy.' } }, required: ['from', 'layer', 'to'] },
+    description: 'Copies a mascot (one from mascot_list) into a workspace project, placed at x / y (% of the stage) and height (% of the stage, default 70): one of the person’s (with its pictures) or a sample (from "sample", layer = its name, e.g. "Grace"; its pictures stay on the Studio’s site). Its old Pose clips are left behind (they belong to the old voice). Then add a voice-over to that project and direct the mascot with mascot_direct.',
+    inputSchema: { type: 'object', properties: { from: { type: 'string', description: 'The project it is in, or "sample" for a sample mascot.' }, layer: { type: 'string', description: 'Its layer id (a sample: its name).' }, to: { type: 'string', description: 'The project to copy it into (it must exist: project_save first).' }, x: { type: 'number' }, y: { type: 'number' }, height: { type: 'number' }, id: { type: 'string', description: 'A layer id for the copy.' } }, required: ['from', 'layer', 'to'] },
     run: async (a) => {
-      const r = (await import('./studio-mascots.mjs')).copyMascot(a);
+      const r = await (await import('./studio-mascots.mjs')).copyMascot(a);
       return [text(`Copied into "${r.project}" as layer "${r.layer}" (${r.pictures} pictures in media/). A Studio with the project open updates at once.`)];
     },
   },

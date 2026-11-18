@@ -9,6 +9,29 @@ const bad = (m) => Object.assign(new Error(m), { code: 400 });
 const allLayers = (list, out = []) => { for (const l of list || []) { out.push(l); if (l.layers) allLayers(l.layers, out); } return out; };
 const normWord = (w) => String(w).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^\p{L}\p{N}]+/gu, '');
 
+// The sample mascots that come with the Studio (Pip, Daniel, Grace, Bolt…): the Studio publishes their list with their
+// pictures, and a sample is used by full address (nothing to copy).
+const STUDIO = process.env.KINETIC_STUDIO_URL || 'https://kinetic-scenes.unysonplus.com/';
+let samplesCache = null;
+export async function sampleMascots() {
+  if (samplesCache) return samplesCache;
+  const url = new URL('mascots/samples.json', STUDIO).href;
+  const r = await fetch(url, { signal: AbortSignal.timeout(15000) }).catch(() => null);
+  if (!r?.ok) throw Object.assign(new Error(`Could not read the sample mascots (${url}): check the internet connection.`), { code: 503 });
+  const j = await r.json();
+  samplesCache = (j.samples || []).map((s) => ({ ...s, base: new URL('mascots/', STUDIO).href }));
+  return samplesCache;
+}
+/** A sample as a mascot layer (pictures by full address). */
+function sampleLayer(s) {
+  const at = (f) => new URL(f, s.base).href;
+  return {
+    id: s.id, name: s.name, type: 'mascot', alt: s.alt, clips: [],
+    poses: s.poses.map((p) => ({ id: p.id, name: p.name, src: at(p.file), ratio: s.ratio, mouth: s.face.mouth, eyes: s.face.eyes })),
+    mouths: Object.fromEntries(Object.entries(s.mouths || {}).map(([k, f]) => [k, at(f)])),
+  };
+}
+
 /** Every mascot in every workspace project. */
 export async function listMascots() {
   const { projects } = await listProjects();
@@ -29,9 +52,17 @@ export async function listMascots() {
 }
 
 /** Copies a mascot layer and its pictures from one project into another (placed at x / y %, sized by height %). */
-export function copyMascot({ from, layer, to, x = 50, y = 58, height = 70, id }) {
-  const src = readProject(from).scene;
-  const m = allLayers(src.layers).find((l) => l.id === layer && l.type === 'mascot');
+export async function copyMascot({ from, layer, to, x = 50, y = 58, height = 70, id }) {
+  let m;
+  if (String(from).toLowerCase() === 'sample') {
+    const samples = await sampleMascots();
+    const s = samples.find((x) => x.id === String(layer).toLowerCase() || x.name.toLowerCase() === String(layer).toLowerCase());
+    if (!s) throw bad(`No sample mascot "${layer}" (samples: ${samples.map((x) => x.name).join(', ')}).`);
+    m = sampleLayer(s);
+  } else {
+    const src = readProject(from).scene;
+    m = allLayers(src.layers).find((l) => l.id === layer && l.type === 'mascot');
+  }
   if (!m) throw bad(`No mascot "${layer}" in project "${from}" (mascot_list shows them).`);
   const target = readProject(to);
   const scene = target.scene;
