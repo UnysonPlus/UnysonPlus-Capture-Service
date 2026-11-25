@@ -1055,6 +1055,21 @@ const __handler = (req, res) => {
     return;
   }
 
+  // Kinetic Scenes' path-traced stills (studio-still.mjs): a 3D layer's model rendered in Blender's Cycles for the still frame.
+  //   POST /studio/still                 { scene, layerId, playerBase?, glb? (base64 of the model, when the scene names a
+  //                                        browser-kept file), samples? } → { still (PNG data: URL), at, seconds, device, size }
+  if (u.pathname === '/studio/still') {
+    if (!studioOriginAllowed(req.headers.origin || '')) { json(res, 403, { error: 'Only Unyson+ Kinetic Scenes may use this.' }); return; }
+    if (req.method !== 'POST') { json(res, 405, { error: 'POST only.' }); return; }
+    (async () => {
+      const b = await readJson(req, 48 * 1024 * 1024);
+      const pb = typeof b.playerBase === 'string' && /^https?:\/\/[^\s"'<>]+\/$/.test(b.playerBase) ? b.playerBase : await (await import('./studio-tools.mjs')).playerBase();
+      const r = await (await import('./studio-still.mjs')).pathTracedStill({ scene: b.scene, layerId: b.layerId, playerBase: pb, samples: b.samples, glb: typeof b.glb === 'string' ? Buffer.from(b.glb, 'base64') : null });
+      return json(res, 200, { ok: true, still: r.still, at: r.at, seconds: r.seconds, device: r.device, size: r.size });
+    })().catch((e) => json(res, e.code === 400 ? 400 : 500, { error: e.message }));
+    return;
+  }
+
   // Kinetic Scenes' "Music composed to the scene" (studio-score.mjs): no add-on needed.
   //   POST /studio/score                 { scene, mood?: bright|calm|dark|driving } → { src (MP3 data: URL), bpm, key, reveal, accents, seconds }
   if (u.pathname === '/studio/score') {

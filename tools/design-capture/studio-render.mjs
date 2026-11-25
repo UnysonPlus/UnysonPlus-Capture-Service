@@ -26,7 +26,7 @@ const jobs = new Map();
 let queue = Promise.resolve();
 
 let ffmpegBin = null;
-async function findFfmpeg() {
+export async function findFfmpeg() {
   if (ffmpegBin) return ffmpegBin; // a missing one is asked for again: it may have been installed meanwhile
   ffmpegBin = await new Promise((resolve) => {
     const p = spawn(process.env.FFMPEG || 'ffmpeg', ['-version'], { stdio: 'ignore' });
@@ -66,7 +66,7 @@ function findHwEncoder(ffmpeg) {
 }
 
 /** Chrome on the graphics card when it really draws there; the software renderer otherwise. Returns { browser, gpu }. */
-async function launchRenderer() {
+export async function launchRenderer() {
   const channel = process.env.CAPTURE_CHANNEL || 'chrome';
   const soft = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--hide-scrollbars'];
   if (!GPU_OFF) {
@@ -505,7 +505,8 @@ async function run(job, scene, playerBase) {
     // The cover: the scene's still frame (its poster time, or the end), as a PNG beside the video.
     if (job.cover) {
       const t = Math.min(scene.duration, typeof scene.playback?.posterTime === 'number' ? scene.playback.posterTime : scene.duration - 0.01);
-      await page.evaluate(async (s) => { window.P.seek(s); if (window.P.settle) await window.P.settle(); }, t);
+      // 3D layers with a path-traced still show it for the cover (player 0.0.75+).
+      await page.evaluate(async (s) => { if (window.P.showStills) await window.P.showStills(true); window.P.seek(s); if (window.P.settle) await window.P.settle(); }, t);
       job.coverFile = job.file.replace(/\.[a-z0-9]+$/, '-cover.png');
       await page.screenshot({ path: job.coverFile, type: 'png', omitBackground: !!job.transparent });
     }

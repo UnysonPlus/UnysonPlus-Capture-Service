@@ -449,12 +449,42 @@ ${r.parts.map((p, i) => `${i + 1}. ${p.from}-${p.to} s (${p.why})${p.title ? `: 
   },
   {
     name: 'blender_model',
-    description: `Build an elaborate 3D object in Blender and bring it into a scene as a glTF model (a 3D layer that turns, lights and moves live on web pages). Write Blender Python (bpy) that builds the object in an empty scene: meshes, modifiers (bevel, subdivision, solidify, array...), Principled BSDF materials (use hex_color('#00B295') for exact colours; it is defined for you), shade_smooth. Do not add a camera or lights, and do not save or export: the kit centres the object, sizes it to a 2-unit cube, applies modifiers, exports a GLB and renders four views. LOOK at the returned views and fix the script if anything reads wrong. With project, the GLB goes into that workspace project's media/. For simple objects made of a few boxes, spheres and rings, a hand-built 3D layer is quicker; this is for everything else. Needs Blender 4.2+ installed.`,
+    description: `Build an elaborate 3D object in Blender and bring it into a scene as a glTF model (a 3D layer that turns, lights and moves live on web pages). Write Blender Python (bpy) that builds the object in an empty scene: meshes, modifiers (bevel, subdivision, solidify, array...), Principled BSDF materials (use hex_color('#00B295') for exact colours; it is defined for you), shade_smooth. Do not add a camera or lights, and do not save or export: the kit centres the object, sizes it to a 2-unit cube, applies modifiers, exports a GLB and renders four views. Make it look made, not computer-made: real proportions in metres; silhouette first (run it once after the main forms, before detail); a Bevel modifier on hard edges (about 1% of the size, 2-3 segments, limit by angle); shade_smooth (or smooth by angle at 30-40 degrees for hard surfaces); closed parts (faces are one-sided on the web; Solidify thin sheets, delete a vessel's top then Solidify). Materials: plain Principled values (Base Color, Metallic, Roughness, Transmission, Clearcoat, Sheen) or image textures; procedural nodes (Noise, Voronoi, Color Ramp...) are dropped from the GLB, so vary colour with separate parts or vertex colours. Stay under 100,000 triangles. The tool also returns model checks (holes, inside-out parts, missing materials, dropped procedural textures, no bevels): fix them. LOOK at the returned views and fix the script if anything reads wrong, one thing at a time. With project, the GLB goes into that workspace project's media/. For simple objects made of a few boxes, spheres and rings, a hand-built 3D layer is quicker; this is for everything else. Needs Blender 4.2+ installed.`,
     inputSchema: { type: 'object', properties: { script: { type: 'string', description: 'The bpy Python that builds the object.' }, script_path: { type: 'string', description: 'Or a .py file with it.' }, out: { type: 'string', description: 'Where to write the .glb.' }, project: { type: 'string', description: 'A workspace project to put it in.' }, name: { type: 'string' } }, required: [] },
     run: async (a) => {
       const fs = await import('node:fs');
       const r = await (await import('./studio-blender.mjs')).blenderModel({ script: a.script || fs.readFileSync(a.script_path, 'utf8'), out: a.out, project: a.project || null, name: a.name });
       return [text(`${r.glb}: ${r.stats.tris} triangles, ${r.stats.objects} object(s), ${r.stats.materials} material(s), ${(r.stats.bytes / 1e3).toFixed(0)} KB.${r.warnings.map((w) => `\n- ${w}`).join('')}\nA 3D layer for the scene:\n${JSON.stringify(r.layer)}`), text('Four views (front, three-quarter, side, above):'), { type: 'image', mimeType: 'image/png', data: fs.readFileSync(r.preview).toString('base64') }];
+    },
+  },
+  {
+    name: 'blender_import',
+    description: `Bring a model made elsewhere into a scene through the same pipeline as blender_model: a .blend saved from a live Blender session (for hands-on work in an open Blender with Blender's own MCP connector: save the file there with bpy.ops.wm.save_as_mainfile, then pass its path), or a GLB, glTF, FBX, OBJ, STL, PLY or USD file. The kit centres and sizes it, runs the model checks (holes, inside-out parts, missing materials, procedural textures the GLB drops, no bevels), exports a web GLB, renders four views and returns a 3D layer. objects: keep only these object names (their children come along); objects hidden from render, cameras and lights are left out. LOOK at the views. With project, the GLB goes into that workspace project's media/. Needs Blender 4.2+.`,
+    inputSchema: { type: 'object', properties: { file: { type: 'string', description: 'The .blend, .glb, .gltf, .fbx, .obj, .stl, .ply or .usd file.' }, objects: { type: 'array', items: { type: 'string' }, description: 'Only these objects (by name).' }, out: { type: 'string', description: 'Where to write the .glb.' }, project: { type: 'string', description: 'A workspace project to put it in.' }, name: { type: 'string' } }, required: ['file'] },
+    run: async (a) => {
+      const fs = await import('node:fs');
+      const r = await (await import('./studio-blender.mjs')).blenderImport({ file: a.file, objects: a.objects, out: a.out, project: a.project || null, name: a.name });
+      return [text(`${r.glb}: ${r.stats.tris} triangles, ${r.stats.objects} object(s), ${r.stats.materials} material(s), ${(r.stats.bytes / 1e3).toFixed(0)} KB.${r.warnings.map((w) => `
+- ${w}`).join('')}
+A 3D layer for the scene:
+${JSON.stringify(r.layer)}`), text('Four views (front, three-quarter, side, above):'), { type: 'image', mimeType: 'image/png', data: fs.readFileSync(r.preview).toString('base64') }];
+    },
+  },
+  {
+    name: 'blender_still',
+    description: `Render a path-traced still for a 3D layer (a glTF / GLB model): the model in Blender's Cycles at the scene's still frame (playback.posterTime), at exactly the pose and camera the player shows it with, with soft shadows and real reflections. It is saved on the layer (still, stillAt) and the player shows it instead of the live 3D for the cover image and for visitors who turn motion off; the scene still plays live. With project, the picture goes into the project's media/ and the project's scene is updated; otherwise the PNG is written beside the scene file and the file is updated. Re-run it after changing the model, its pose, its motion or the still frame. Seconds on a free graphics card; about a minute when a browser is drawing live 3D on the same card (it stops at 45 s and denoises). Needs Blender 4.2+.`,
+    inputSchema: { type: 'object', properties: { scene_path: { type: 'string', description: 'The scene file.' }, layer_id: { type: 'string', description: 'The 3D layer.' }, project: { type: 'string', description: 'The workspace project the scene is in.' }, samples: { type: 'number', description: 'Cycles samples (default 48, denoised).' } }, required: ['scene_path', 'layer_id'] },
+    run: async (a) => {
+      const fs = await import('node:fs'); const path = await import('node:path');
+      const scene = JSON.parse(fs.readFileSync(a.scene_path, 'utf8'));
+      const pb = await (await import('./studio-tools.mjs')).playerBase();
+      const r = await (await import('./studio-still.mjs')).pathTracedStill({ scene, layerId: a.layer_id, playerBase: pb, project: a.project || null, samples: a.samples });
+      let still = r.still;
+      if (!a.project) { const out = path.join(path.dirname(a.scene_path), `${a.layer_id}-still${path.extname(r.file)}`); fs.copyFileSync(r.file, out); still = path.basename(out); }
+      const set = (list) => list.forEach((l) => { if (l.id === a.layer_id) { l.still = still; l.stillAt = r.at; } if (l.layers) set(l.layers); });
+      set(scene.layers);
+      fs.writeFileSync(a.scene_path, JSON.stringify(scene, null, 1));
+      return [text(`Path-traced still for "${a.layer_id}" at ${r.at} s (${r.size.w} × ${r.size.h} px) in ${r.seconds} s on ${r.device}: ${still}. Saved on the layer in ${a.scene_path}.`), { type: 'image', mimeType: r.file.endsWith('.webp') ? 'image/webp' : 'image/png', data: fs.readFileSync(r.file).toString('base64') }];
     },
   },
   {

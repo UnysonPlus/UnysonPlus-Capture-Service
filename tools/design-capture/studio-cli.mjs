@@ -419,8 +419,31 @@ ${r.chapters.text}`, r);
     case 'blender': {
       // blender model <script.py> | blender render <script.py>: Blender in the background, its result for a scene.
       const what = file, script = a._[2];
-      if (!['model', 'render'].includes(what) || typeof script !== 'string') { print('Use: blender model <script.py> [--out x.glb] [--project p] [--name "..."], or blender render <script.py> [--seconds 4 --fps 30 --width 1080 --height 1080] [--out x.webm] [--project p]', {}); return 1; }
+      if (what === 'still' && typeof script === 'string') {
+        // blender still <scene.json> --layer <id> [--project p] [--samples 48]: a path-traced still for a 3D layer.
+        const fs = await import('node:fs'); const path = await import('node:path');
+        const scene = JSON.parse(fs.readFileSync(script, 'utf8'));
+        const layerId = String(a.layer || '');
+        const r = await (await import('./studio-still.mjs')).pathTracedStill({ scene, layerId, playerBase: await (await import('./studio-tools.mjs')).playerBase(a.player), project: typeof a.project === 'string' ? a.project : null, samples: Number(a.samples) || 48 });
+        let still = r.still;
+        if (typeof a.project !== 'string') { const out = path.join(path.dirname(script), `${layerId}-still${path.extname(r.file)}`); fs.copyFileSync(r.file, out); still = path.basename(out); }
+        const set = (list) => list.forEach((l) => { if (l.id === layerId) { l.still = still; l.stillAt = r.at; } if (l.layers) set(l.layers); });
+        set(scene.layers);
+        fs.writeFileSync(script, JSON.stringify(scene, null, 1));
+        print(`Path-traced still for "${layerId}" at ${r.at} s, ${r.size.w} x ${r.size.h} px, in ${r.seconds} s on ${r.device}: ${still} (saved on the layer).`, r);
+        return 0;
+      }
+      if (!['model', 'render', 'import'].includes(what) || typeof script !== 'string') { print('Use: blender model <script.py> [--out x.glb] [--project p] [--name "..."], blender render <script.py> [--seconds 4 --fps 30 --width 1080 --height 1080] [--out x.webm] [--project p], or blender import <file.blend|.glb|.fbx|.obj|.stl|.usd> [--objects "Lamp,Shade"] [--out x.glb] [--project p]', {}); return 1; }
       const bl = await import('./studio-blender.mjs');
+      if (what === 'import') {
+        // A model made in a live Blender session (saved .blend) or another tool, through the same checks and export.
+        const r = await bl.blenderImport({ file: script, objects: typeof a.objects === 'string' ? a.objects.split(',').map((x) => x.trim()).filter(Boolean) : null, out: typeof a.out === 'string' ? a.out : undefined, project: typeof a.project === 'string' ? a.project : null, name: typeof a.name === 'string' ? a.name : undefined });
+        print(`${r.glb}: ${r.stats.tris} triangles, ${r.stats.objects} object(s), ${r.stats.materials} material(s), ${(r.stats.bytes / 1e3).toFixed(0)} KB
+Preview (4 views): ${r.preview}
+In a scene: { "type": "model", "model": { "kind": "gltf", "src": ${JSON.stringify(r.src)} } }${r.warnings.map((w) => `
+- ${w}`).join('')}`, r);
+        return 0;
+      }
       const code = (await import('node:fs')).readFileSync(script, 'utf8');
       const opts = { script: code, out: typeof a.out === 'string' ? a.out : undefined, project: typeof a.project === 'string' ? a.project : null, name: typeof a.name === 'string' ? a.name : undefined };
       if (what === 'model') {
