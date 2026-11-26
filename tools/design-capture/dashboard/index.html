@@ -3059,15 +3059,16 @@ async function renderHub(){
   const asst = !h.up ? state('off','Not running')
     : !ai.ready ? state('warn','Running, but no AI is set up')
     : recent('assistant',60) ? state('ok','Connected') : state('ok','Ready, waiting for WordPress');
-  /* Create a Site. This card said 'builder in progress' long after it stopped being true: it was
-     hardcoded when only the recipes existed, and the skill, the styles, the composition guide, the
-     ship gate and the verticals landed after it. It still does not claim 'Ready' green, for one
-     honest reason — the flow has not been run end to end on a real build yet. 'Not run end to end'
-     is a thing a status card should say out loud, not round up. */
+  /* Create a Site. This card said 'builder in progress' long after it stopped being true, then
+     'not yet run end to end' until that was no longer true either. It has now been run — one brief,
+     Site Creator → spec → agent → a fresh WordPress → the ship gate — and the run FAILED the design
+     jury at 5.5 against a 7.0 floor. The corrections from it are in; the re-run is not. So the card
+     still does not claim Ready: it says what is true, which is the whole point of it.
+     Update this line when the corrected path is re-run and scores above the floor. */
   const CREATOR_RECIPES = 6;
   const CREATOR_STYLES = 7;
   const creat = !h.up ? state('off','Not running')
-    : state('soon','Skill ready · not yet run end to end');
+    : state('soon','Run end to end · scored 5.5, corrections applied, not re-scored');
   // Kinetic Scenes
   const studioOpen = seen.studio && seen.studio.open && (now-seen.studio.open)<2*60000;
   const stud = !h.up ? state('off','Not running')
