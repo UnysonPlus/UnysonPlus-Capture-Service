@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Motion fixture</title>
+<style>
+body{margin:0;font:18px/1.5 system-ui,sans-serif;color:#1c1e22}
+section{padding:80px 8vw;min-height:80vh;box-sizing:border-box}
+.hero{background:#e9fff6}
+.hero h1{font-size:56px;margin:0 0 16px;animation:rise .8s cubic-bezier(.22,1,.36,1) .2s both}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.hero p{max-width:640px;opacity:0;transform:translateX(-60px);transition:opacity .6s ease-out,transform .6s ease-out}
+.hero.ready p{opacity:1;transform:none}
+.hero .cta{display:inline-block;padding:14px 26px;background:#00b295;color:#fff;border-radius:6px;text-decoration:none}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:#f4f5f7;border-radius:12px;padding:32px;opacity:0;transform:translateY(50px) scale(.95);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.card.in{opacity:1;transform:none}
+.card:nth-child(2){transition-delay:.15s}.card:nth-child(3){transition-delay:.3s}
+.feature img{width:420px;height:260px;object-fit:cover;border-radius:12px;display:block;background:#2ad38b}
+</style></head><body>
+<section class="hero">
+  <h1>Motion that converts</h1>
+  <p>This paragraph slides in from the left with a CSS transition when the page has loaded.</p>
+  <a class="cta" href="#more">See more</a>
+</section>
+<section class="feature" id="more">
+  <h2>Hand-written JavaScript motion</h2>
+  <div class="ph" style="width:420px;height:260px;border-radius:12px;background:#2ad38b"></div>
+  <p class="js-in">This line fades in with a requestAnimationFrame tween when it scrolls into view.</p>
+</section>
+<section>
+  <h2>Three cards, staggered</h2>
+  <div class="cards">
+    <div class="card"><h3>One</h3><p>First card rises in.</p></div>
+    <div class="card"><h3>Two</h3><p>Then the second.</p></div>
+    <div class="card"><h3>Three</h3><p>And the third.</p></div>
+  </div>
+</section>
+<script>
+// Load: the paragraph transition, and a Web Animations call on the button (scale + fade, 0.5s, delay 0.6s).
+window.addEventListener('load',function(){
+  document.querySelector('.hero').classList.add('ready');
+  document.querySelector('.cta').animate([{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'scale(1)'}],{duration:500,delay:600,easing:'cubic-bezier(.34,1.56,.64,1)',fill:'backwards'});
+});
+// In view: cards get .in (CSS transition with stagger); the .js-in line runs a hand-written rAF tween (0.9s ease-in-out, from y 30px).
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;io.unobserve(e.target);
+  if(e.target.classList.contains('card')){e.target.classList.add('in');return;}
+  var el=e.target,t0=performance.now();(function f(now){var p=Math.min(1,(now-t0)/900),k=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;el.style.opacity=k;el.style.transform='translateY('+(30*(1-k))+'px)';if(p<1)requestAnimationFrame(f);})(t0);
+});},{threshold:.2});
+document.querySelectorAll('.card,.js-in').forEach(function(el){if(el.classList.contains('js-in')){el.style.opacity=0;el.style.transform='translateY(30px)';}io.observe(el);});
+</script></body></html>

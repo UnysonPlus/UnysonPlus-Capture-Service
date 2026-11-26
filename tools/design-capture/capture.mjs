@@ -35,6 +35,10 @@ import { contrastReview, contrastReviewCsv } from './contrast.mjs';
 import { toStyleReport } from './to-style-report.mjs';
 import { sanitizeReport, postToForm, buildMailto, loadShareConfig } from './to-share.mjs';
 import { traceAnimations, animationReport, extractStoryScenes, stageSectionNode, applyMotionToPage, extractBrandTokens } from './to-animations.mjs';
+import { recordMotion, stampInPage, stampItems, applyRecordedMotion } from './motion-record.mjs';
+// The home page's recorded motion, stamped onto the live DOM by renderPage before anything is extracted (so both the JS
+// extraction and every rendered.html snapshot carry data-sc-motion).
+let _pendingMotion = null;
 import { ensureDashboard } from './dashboard/ensure-open.mjs';
 import { CANDIDATES, CAPTURED_PROPS, RESIDUE_FN, residueCsvRows, residueSummary } from './capture-residue.mjs';
 import { microBackend, selectedLocalModel, localSectionMicroTask, bgFxMicroTask, verifyCoverage, nameBoxPresets, nameSectionStyles, verifyAccordionDesign, localAiStatus, setAiDeadline, aiBudgetLeft } from './to-ai.mjs';
@@ -62,6 +66,9 @@ const _flags = _args.filter((a) => a.startsWith('--'));
 const _pos = _args.filter((a) => !a.startsWith('--'));
 const isUrl = (s) => /^(https?|file):\/\//i.test(s); // accept local file:// sources too
 const REPORT_ONLY = _flags.includes('--report-only') || process.env.REPORT_ONLY === '1';
+// Motion capture (roadmap 10a): record the home page's load and in-view motion on a virtual clock and stamp it on
+// rendered.html (data-sc-motion) for the converter to turn into native Interactions. On by default; --no-motion skips.
+const NO_MOTION = _flags.includes('--no-motion') || process.env.UPW_NO_MOTION === '1';
 // --fidelity: prefer VERBATIM mirroring for every section (max design fidelity, less granular
 // editing) instead of decomposing into shortcodes — for design-heavy / Tailwind / SPA sources.
 const FIDELITY = _flags.includes('--fidelity') || process.env.FIDELITY === '1';
@@ -724,6 +731,12 @@ async function renderPage(p, target, retry = false) {
     await p.waitForTimeout(450);
     await evalSafe(p, () => document.documentElement.setAttribute('data-sc-phone-pass', '1')); // "no data-sc-cs-sm" now means "same as desktop", not "unknown"
   } catch { /* best-effort */ }
+  // RECORDED MOTION (10a): the frame-by-frame recording of this page (made before it was rendered here) is stamped on the
+  // live elements as data-sc-motion, ahead of the class-pair reveal guess below. Both engines read it (motion_of / motionOf).
+  if (_pendingMotion && _pendingMotion.elements && _pendingMotion.elements.length) {
+    const st = await evalSafe(p, stampInPage, stampItems(_pendingMotion));
+    if (st) { _pendingMotion.stamped = st.stamped; _pendingMotion.missed = st.missed; }
+  }
   // CSS-CLASS REVEALS (entrance animations without a library). The pattern behind most hand-authored / AI pages:
   // a rule that HIDES an element at rest (opacity:0 + a translate / scale, with a transition on opacity/transform) and a
   // compound rule that SHOWS it (.reveal.active / .reveal.is-visible / .in-view .reveal), toggled by an
@@ -1673,8 +1686,23 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     } catch (e) { /* body unavailable (redirect/abort) — ignore */ }
   });
   try {
+    // 0) Motion (10a): record the home page's load and in-view motion on a virtual clock, on its own page, before the
+    // home page is rendered here, so renderPage can stamp it before extraction.
+    let _motion = null;
+    if (!NO_MOTION && !reportOnly) {
+      try {
+        step('recording motion frame by frame (load + in view)…');
+        _motion = await recordMotion({ browser, url: srcUrl, log: (m) => step('  ' + m) });
+        _pendingMotion = _motion;
+      } catch (e) { step('motion recording skipped: ' + e.message); }
+    }
     // 1) Home.
     const home = await renderPage(page, srcUrl);
+    _pendingMotion = null;
+    if (_motion) {
+      home.motion = _motion;
+      step(`motion → ${_motion.elements.length} moving element(s), ${_motion.stamped || 0} stamped, ${_motion.unmatched.length} not expressible`);
+    }
 
     // 1a) Sticky-header SCROLL STATE. A fixed header commonly swaps its look on scroll (transparent →
     // a solid/blurred bar, often with a shadow + tighter padding) via a JS scroll listener toggling a
@@ -1975,6 +2003,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
     } catch (e) { step('animation tracer skipped: ' + e.message); }
     }
     home.animations = anim;
+
 
     // Scroll-hijacked page → extract the fixed full-screen overlays as STORY SCENES, so the emit
     // phase can produce one editable scrollytelling STAGE section instead of an empty page.
@@ -2511,6 +2540,7 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
       writeFileSync(`${outdir}/animation-report.csv`, animRep.csv);
       writeFileSync(`${outdir}/animation-report.html`, animRep.html);
     }
+    if (home.motion) { writeFileSync(`${outdir}/motion.json`, JSON.stringify(home.motion, null, 1)); }
     step('reports → conversion-report + style-coverage + animation-report (csv/html)');
 
     // CLASS-COVERAGE VERIFICATION (local AI as QA, not author): review the style-coverage GAPS — source
@@ -2674,6 +2704,25 @@ async function captureOne(browser, srcUrl, baseDir, reportOnly) {
         if (bv && bv.matches && bv.matches.length) { config.fonts.body_visual = bv.matches[0].name; config.fonts.body_visual_top = bv.matches.map((m) => m.name); }
       } catch { /* leave visual fields absent */ }
       writeFileSync(`${outdir}/design-config.json`, JSON.stringify(config, null, 2));
+      // Recorded motion the build did not carry → native Interactions by text, on the home page (10b; PHP twin:
+      // FW_Site_Converter_Motion). The report goes to motion-report.json beside motion.json.
+      if (home.motion) {
+        try {
+          const list = Array.isArray(pages) ? pages : (pages && pages.pages) || [];
+          const hp = list.find((x) => x && x.front_page) || list[0];
+          if (hp) {
+            let tree = hp.builder, asString = typeof tree === 'string';
+            if (asString) { try { tree = JSON.parse(tree); } catch { tree = null; } }
+            if (Array.isArray(tree)) {
+              const rep = applyRecordedMotion(tree, home.motion);
+              if (asString) { hp.builder = JSON.stringify(tree); }
+              home.motionReport = { stamped: home.motion.stamped || 0, ...rep };
+              writeFileSync(`${outdir}/motion-report.json`, JSON.stringify(home.motionReport, null, 1));
+              step(`motion → ${rep.applied} added by text, ${rep.already} already on their elements, ${rep.unplaced.length} not placed`);
+            }
+          }
+        } catch (e) { step('motion pass skipped: ' + e.message); }
+      }
       writeFileSync(`${outdir}/pages.json`, JSON.stringify(pages, null, 2));
       writeFileSync(`${outdir}/styleguide.json`, JSON.stringify(styleguide, null, 2));
       // Normalise video HERE rather than leaving it to the importer. The WordPress host is the machine

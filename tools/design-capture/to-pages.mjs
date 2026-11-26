@@ -2014,8 +2014,38 @@ export function toPages(capture, opts = {}) {
     if (node && b && b.anim && node.atts && node.atts.animation && typeof node.atts.animation === 'object' && 'enable' in node.atts.animation) {
       node.atts.animation = { ...node.atts.animation, enable: 'yes', yes: { ...(node.atts.animation.yes || {}), effect: b.anim } };
     }
+    applyMotion(node, b && b.motion);
     applyReveal(node, b && b.reveal);
     applyLoopAnim(node, b && b.loopAnim);
+    return node;
+  };
+  // RECORDED motion (capture data-sc-motion → b.motion / c.motion, roadmap 10b) → a native Interaction on the node: "On
+  // page load" or "In view" (plays once), step 1 FROM the recorded start state with the measured duration, delay and the
+  // closest Animation Engine easing. PHP twin: motion_interaction / apply_motion.
+  const motionInteraction = (m) => {
+    if (!m || !m.ph) return null;
+    const mode = m.ph === 'view' ? 'view' : 'load';
+    const c = (v, lo, hi) => Math.max(lo, Math.min(hi, +v));
+    const r = (v, n) => Math.round(v * Math.pow(10, n)) / Math.pow(10, n);
+    const step = {
+      target: 'self', selector: '', action: 'animate', direction: 'from',
+      x: Math.round(c(m.x ?? 0, -600, 600)), y: Math.round(c(m.y ?? 0, -600, 600)),
+      scale: r(c(m.s ?? 1, 0, 3), 3), rotate: Math.round(c(m.r ?? 0, -360, 360)),
+      opacity: r(c(m.o ?? 1, 0, 1), 2), blur: r(c(m.b ?? 0, 0, 30), 1),
+      duration: r(c(m.du ?? 0.6, 0.05, 4), 3), delay: r(c(m.d ?? 0, 0, 4), 3),
+      ease: String(m.e || 'soft_land'), stagger: 0, start: 'after',
+    };
+    const unused = { target: 'none' };
+    const val = { steps: { s1: step, s2: unused, s3: unused } };
+    if (mode === 'view') val.leave = 'keep';
+    return { mode, [mode]: val };
+  };
+  const applyMotion = (node, m) => {
+    if (!node || !m || !node.atts || node.type === 'section') return node;
+    const cur = node.atts.upw_interactions;
+    if (cur && cur.mode && cur.mode !== 'off') return node;
+    const ix = motionInteraction(m);
+    if (ix) node.atts.upw_interactions = ix;
     return node;
   };
   // The element's own running class animation ({ css, kf }) → the node's Custom CSS (the shorthand on the node, its
@@ -2033,6 +2063,7 @@ export function toPages(capture, opts = {}) {
   const applyReveal = (node, rv) => {
     if (!node || !rv || !node.atts || node.type === 'section') return node; // every shortcode carries the Scroll Motion stack (the JS atom templates omit the default)
     if (node.atts.gsap_motion && node.atts.gsap_motion.effect && node.atts.gsap_motion.effect !== 'none' && node.atts.gsap_motion.effect !== '') return node;
+    if (node.atts.upw_interactions && (node.atts.upw_interactions.mode === 'load' || node.atts.upw_interactions.mode === 'view')) return node; // a recorded motion is the measured truth (PHP: apply_reveal)
     const dir = /^(up|down|left|right|none)$/.test(rv.dir) ? rv.dir : 'up';
     const style = rv.scale < 0.95 ? 'dramatic' : (rv.scale < 1 ? 'standard' : 'subtle');
     const ease = gsapEaseOf(rv.ease);
@@ -2210,6 +2241,7 @@ export function toPages(capture, opts = {}) {
         if (c.nowrapText) col.atts.custom_css = (col.atts.custom_css ? col.atts.custom_css + '\n' : '') + 'selector{white-space:nowrap;}'; // a one-line pill leaf (PHP: nowrapText)
         if (col.atts.spacing && col.atts.spacing.margin) { if (c.mt > 0 && !col.atts.spacing.margin.top) col.atts.spacing.margin.top = spacingToken('mt', c.mt); if (c.mb > 0 && !col.atts.spacing.margin.bottom) col.atts.spacing.margin.bottom = spacingToken('mb', c.mb); } // the cell's own vertical margin (PHP: carry_cell_geometry mt / mb)
         if (c.hideSm) col.atts.responsive_hide = { 'hide-xs': true, 'hide-sm': true }; // PHONE PASS: a cell hidden on phones (PHP: hide_sm)
+        if (c.motion) applyMotion(col, c.motion); // the cell's RECORDED motion → the column's Interaction (PHP: apply_motion)
         if (c.reveal) applyReveal(col, c.reveal); // the cell's own CSS-class reveal (a staggered card) → the column's Scroll Motion
         if (c.loopAnim) applyLoopAnim(col, c.loopAnim); // the cell's own running animation
         if (c.hide && typeof c.hide === 'object') { const rh = {}; for (const k of Object.keys(c.hide)) if (c.hide[k]) rh[k] = true; col.atts.responsive_hide = rh; } // …and per tier (md:hidden / lg:hidden)

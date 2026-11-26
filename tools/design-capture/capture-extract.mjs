@@ -2899,6 +2899,7 @@ export function extractDesign() {
         { let ccs; try { ccs = getComputedStyle(c); } catch { ccs = null; } if (ccs) { const mt = parseFloat(ccs.marginTop) || 0, mb = parseFloat(ccs.marginBottom) || 0; if (mt > 0) cell.mt = Math.round(mt); if (mb > 0) cell.mb = Math.round(mb); } } // the cell's own vertical margin (PHP: cell_geometry mt / mb)
         if (smOf(c).display === 'none') cell.hideSm = true; // PHONE PASS: the cell is hidden on phones (PHP: hide_sm)
         { const _rv = revealOf(c); if (_rv) cell.reveal = _rv; }
+        { const _mo = motionOf(c); if (_mo) cell.motion = _mo; } // the cell's RECORDED motion → the column's Interaction (PHP: cell_geometry motion)
         { const _la = loopAnimOf(c); if (_la) cell.loopAnim = _la; } // the cell's own running animation (a drifting shell) // the cell's own CSS-class reveal (a staggered card) → the column's Scroll Motion (PHP: cell_geometry reveal)
         { const fm = parseFloat(mdOf(c)['track-frac']), fs = parseFloat(smOf(c)['track-frac']); if (fm > 0 && fm <= 1.001) cell.fracMd = Math.min(1, fm); if (fs > 0 && fs <= 1.001) cell.fracSm = Math.min(1, fs); } // the cell's measured tablet / phone fraction (PHP: cell_geometry frac)
         // …and per tier: display at 1440 / 820 / 390 (the diffs inherit the desktop value) → a md:hidden phone-only card
@@ -4592,6 +4593,17 @@ export function extractDesign() {
       return { css: a, kf };
     } catch { return null; }
   };
+  // The capture's RECORDED motion (motion-record.mjs data-sc-motion, roadmap 10a) → { ph, d, du, e, o, x, y, s, r, b, src }
+  // or null. Measured frame by frame, so it wins over the class-pair reveal guess. PHP twin: motion_of.
+  const motionOf = (el) => {
+    if (!el || !el.getAttribute) return null;
+    const v = el.getAttribute('data-sc-motion'); if (!v) return null;
+    const o = {}; for (const part of v.split(';')) { const i = part.indexOf('='); if (i > 0) o[part.slice(0, i)] = part.slice(i + 1); }
+    if (o.ph !== 'load' && o.ph !== 'view') return null;
+    const num = (k, d) => (o[k] !== undefined && o[k] !== '' && isFinite(+o[k])) ? +o[k] : d;
+    const e = /^(?:[a-z0-9_]+|cubic-bezier\([0-9.,\s-]+\))$/i.test(o.e || '') ? o.e : 'soft_land';
+    return { ph: o.ph, d: num('d', 0), du: num('du', 0.6), e, o: num('o', 1), x: num('x', 0), y: num('y', 0), s: num('s', 1), r: num('r', 0), b: num('b', 0), src: String(o.src || '').replace(/[^a-z-]/g, '') };
+  };
   const revealOf = (el) => {
     if (!el || !el.getAttribute) return null;
     const v = el.getAttribute('data-sc-reveal'); if (!v) return null;
@@ -5210,6 +5222,7 @@ export function extractDesign() {
       // html (decor/undecomposed) so a decorative backdrop doesn't get false motion.
       if (cAnim) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && _b.t !== 'html' && !_b.anim) _b.anim = cAnim; } }
       // …and the CSS-class reveal (a measured entrance: direction / distance / duration / per-element delay) → Scroll Motion.
+      { const _mo = motionOf(child); if (_mo) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && _b.t !== 'html' && !_b.motion) _b.motion = _mo; } } } // RECORDED motion → a native Interaction (PHP: motion_of)
       { const _rv = revealOf(child); if (_rv) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && _b.t !== 'html' && !_b.reveal) _b.reveal = _rv; } } }
       { const _la = loopAnimOf(child); if (_la) { for (let _i = _animStart; _i < out.length; _i++) { const _b = out[_i]; if (_b && !_b.loopAnim) _b.loopAnim = _la; } } } // the element's own running class animation (PHP: loop_anim_of)
       // PHONE PASS: the element is display:none at 390px → every block it produced is hidden on phones (PHP: hideSm).
